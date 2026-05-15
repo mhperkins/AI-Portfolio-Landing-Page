@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MH Perkins — Vibe Coder</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50:  '#f0fdf4',
+              100: '#dcfce7',
+              400: '#4ade80',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              900: '#14532d',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    html { scroll-behavior: smooth; }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #22c55e 0%, #4ade80 50%, #86efac 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .card-hover {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 10px;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .status-live    { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+    .status-mvp     { background: rgba(234,179,8,0.15);  color: #facc15; border: 1px solid rgba(250,204,21,0.3); }
+    .status-wip     { background: rgba(99,102,241,0.15); color: #a5b4fc; border: 1px solid rgba(165,180,252,0.3); }
+
+    .tech-tag { background: rgba(255,255,255,0.06); color: #94a3b8; border: 1px solid rgba(255,255,255,0.1); }
+
+    .nav-link {
+      color: #94a3b8;
+      font-size: 0.875rem;
+      transition: color 0.15s;
+    }
+    .nav-link:hover { color: #f1f5f9; }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #4ade80;
+    }
+
+    /* screenshot placeholder */
+    .screenshot-placeholder {
+      background: linear-gradient(135deg, #0f1a0f 0%, #1a2e1a 100%);
+      border: 1px solid rgba(74,222,128,0.15);
+      aspect-ratio: 16/9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: #4ade80;
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    .screenshot-placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 20px,
+        rgba(74,222,128,0.02) 20px,
+        rgba(74,222,128,0.02) 40px
+      );
+    }
+
+    .loom-placeholder {
+      background: linear-gradient(135deg, #0f1118 0%, #1a1528 100%);
+      border: 1px solid rgba(165,180,252,0.2);
+      aspect-ratio: 16/9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    .play-btn {
+      width: 56px; height: 56px;
+      background: rgba(165,180,252,0.15);
+      border: 2px solid rgba(165,180,252,0.4);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: #a5b4fc;
+    }
+  </style>
+</head>
+<body class="bg-[#080d08] text-slate-200 font-sans antialiased">
+
+  <!-- NAV -->
+  <nav class="fixed top-0 inset-x-0 z-50 border-b border-white/5 bg-[#080d08]/80 backdrop-blur-md">
+    <div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+      <span class="font-mono text-sm text-brand-400 font-medium">mhperkins<span class="text-slate-500">.dev</span></span>
+      <div class="flex items-center gap-6">
+        <a href="#sprout" class="nav-link">Sprout Suite</a>
+        <a href="#qr" class="nav-link">QR Tracker</a>
+        <a href="#experiments" class="nav-link">Experiments</a>
+        <a href="#stack" class="nav-link">Stack</a>
+        <a href="#contact" class="nav-link hidden sm:block">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="min-h-screen flex flex-col justify-center pt-14">
+    <div class="max-w-5xl mx-auto px-6 py-24">
+      <p class="section-label mb-6">Portfolio — 2025</p>
+      <h1 class="text-5xl sm:text-6xl lg:text-7xl font-semibold leading-tight tracking-tight mb-6">
+        I build tools<br/>
+        <span class="gradient-text">people actually use.</span>
+      </h1>
+      <p class="text-lg sm:text-xl text-slate-400 max-w-2xl leading-relaxed mb-10">
+        Vibe coder &amp; low-code developer focused on AI-powered internal tools.
+        I take real problems — the kind that live in spreadsheets and email threads —
+        and turn them into fast, functional software.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <a href="#sprout" class="px-6 py-3 bg-brand-600 hover:bg-brand-500 text-white font-medium rounded-lg transition-colors text-sm">
+          See the work
+        </a>
+        <a href="#contact" class="px-6 py-3 border border-white/10 hover:border-white/20 text-slate-300 hover:text-white font-medium rounded-lg transition-colors text-sm">
+          Get in touch
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPROUT SUITE -->
+  <section id="sprout" class="py-24 border-t border-white/5">
+    <div class="max-w-5xl mx-auto px-6">
+
+      <p class="section-label mb-4">Featured Project</p>
+      <h2 class="text-3xl sm:text-4xl font-semibold mb-4">The Sprout Suite</h2>
+      <p class="text-slate-400 max-w-2xl mb-3 leading-relaxed">
+        A full internal toolset built for a non-profit arts organization — replacing
+        scattered spreadsheets and manual workflows with purpose-built, AI-assisted software.
+        Three tools, one Supabase backend, all deployed and actively used.
+      </p>
+      <div class="flex flex-wrap gap-2 mb-16">
+        <span class="tag tech-tag">Next.js</span>
+        <span class="tag tech-tag">Supabase</span>
+        <span class="tag tech-tag">Claude API</span>
+        <span class="tag tech-tag">Vercel</span>
+        <span class="tag tech-tag">Canva MCP</span>
+      </div>
+
+      <!-- Tool 1: CRM -->
+      <div class="mb-20">
+        <div class="flex flex-wrap items-center gap-3 mb-3">
+          <h3 class="text-xl font-semibold">Sprout CRM</h3>
+          <span class="tag status-live">Live · Actively Used</span>
+        </div>
+        <p class="text-slate-400 max-w-2xl mb-6 leading-relaxed">
+          A relationship management tool built for a non-profit that runs and partners on
+          community events. Tracks contacts, events, and communication workflows — with
+          Claude integration to research and generate contact profiles that import directly
+          into the tool via JSON upload.
+        </p>
+
+        <!-- Loom placeholder -->
+        <div class="loom-placeholder mb-4">
+          <div class="play-btn">
+            <svg class="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
+            </svg>
+          </div>
+          <p class="text-slate-500 text-sm font-mono">[ loom demo coming soon ]</p>
+        </div>
+
+        <!-- Screenshots placeholder grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="screenshot-placeholder">
+            <svg class="w-8 h-8 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/>
+              <path d="M3 9h18M9 21V9" stroke-width="1.5"/>
+            </svg>
+            <span class="text-xs font-mono opacity-40">contacts list</span>
+          </div>
+          <div class="screenshot-placeholder">
+            <svg class="w-8 h-8 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/>
+              <path d="M3 9h18M9 21V9" stroke-width="1.5"/>
+            </svg>
+            <span class="text-xs font-mono opacity-40">claude profile import</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tool 2: Grant Tool -->
+      <div class="mb-20">
+        <div class="flex flex-wrap items-center gap-3 mb-3">
+          <h3 class="text-xl font-semibold">Grant Finder &amp; Writer</h3>
+          <span class="tag status-mvp">MVP</span>
+        </div>
+        <p class="text-slate-400 max-w-2xl mb-6 leading-relaxed">
+          A workspace for tracking grant applications end-to-end — from discovery to
+          submission. Uses Claude externally to research opportunities and generate structured
+          grant profiles that upload into the tool, then provides a writing workspace to
+          complete each application.
+        </p>
+
+        <div class="loom-placeholder mb-4">
+          <div class="play-btn">
+            <svg class="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
+            </svg>
+          </div>
+          <p class="text-slate-500 text-sm font-mono">[ loom demo coming soon ]</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="screenshot-placeholder">
+            <svg class="w-8 h-8 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/>
+              <path d="M3 9h18M9 21V9" stroke-width="1.5"/>
+            </svg>
+            <span class="text-xs font-mono opacity-40">grant tracker</span>
+          </div>
+          <div class="screenshot-placeholder">
+            <svg class="w-8 h-8 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/>
+              <path d="M3 9h18M9 21V9" stroke-width="1.5"/>
+            </svg>
+            <span class="text-xs font-mono opacity-40">writing workspace</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tool 3: Social Planner -->
+      <div class="mb-4">
+        <div class="flex flex-wrap items-center gap-3 mb-3">
+          <h3 class="text-xl font-semibold">Social Content Planner</h3>
+          <span class="tag status-mvp">Near MVP</span>
+        </div>
+        <p class="text-slate-400 max-w-2xl mb-6 leading-relaxed">
+          A content calendar and social media management tool with direct posting via
+          platform APIs. Claude assists with planning and copy, while a Canva MCP
+          integration handles visual design — all within the same workflow.
+        </p>
+
+        <div class="loom-placeholder mb-4">
+          <div class="play-btn">
+            <svg class="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
+            </svg>
+          </div>
+          <p class="text-slate-500 text-sm font-mono">[ loom demo coming soon ]</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="screenshot-placeholder">
+            <svg class="w-8 h-8 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/>
+              <path d="M3 9h18M9 21V9" stroke-width="1.5"/>
+            </svg>
+            <span class="text-xs font-mono opacity-40">content calendar</span>
+          </div>
+          <div class="screenshot-placeholder">
+            <svg class="w-8 h-8 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/>
+              <path d="M3 9h18M9 21V9" stroke-width="1.5"/>
+            </svg>
+            <span class="text-xs font-mono opacity-40">canva + post workflow</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- QR TRACKER -->
+  <section id="qr" class="py-24 border-t border-white/5">
+    <div class="max-w-5xl mx-auto px-6">
+
+      <p class="section-label mb-4">Other Projects</p>
+      <h2 class="text-3xl sm:text-4xl font-semibold mb-4">QR Scan Tracker</h2>
+      <p class="text-slate-400 max-w-2xl mb-3 leading-relaxed">
+        A lightweight tool for creating dynamic QR codes and tracking scan data in real time.
+        Used for RSVP links on concert flyers and non-profit event marketing — letting you
+        see which flyers, in which locations, drive the most engagement.
+      </p>
+      <div class="flex flex-wrap gap-2 mb-10">
+        <span class="tag tech-tag">Cloudflare Workers</span>
+        <span class="tag tech-tag">Plain HTML</span>
+        <span class="tag tech-tag">Dynamic QR</span>
+        <span class="tag tech-tag">Analytics</span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-6">
+        <div>
+          <p class="text-sm text-slate-500 font-mono mb-3 uppercase tracking-widest">Personal use</p>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Concert flyers with per-show RSVP QR codes — scan data shows how many people
+            engaged with each flyer run.
+          </p>
+        </div>
+        <div>
+          <p class="text-sm text-slate-500 font-mono mb-3 uppercase tracking-widest">Non-profit use</p>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Event marketing across multiple locations — compare scan rates by neighborhood
+            to optimize where flyers get posted.
+          </p>
+        </div>
+      </div>
+
+      <div class="loom-placeholder mb-4">
+        <div class="play-btn">
+          <svg class="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
+          </svg>
+        </div>
+        <p class="text-slate-500 text-sm font-mono">[ loom demo coming soon ]</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div class="screenshot-placeholder">
+          <svg class="w-8 h-8 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/>
+            <path d="M3 9h18M9 21V9" stroke-width="1.5"/>
+          </svg>
+          <span class="text-xs font-mono opacity-40">qr dashboard</span>
+        </div>
+        <div class="screenshot-placeholder">
+          <svg class="w-8 h-8 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <rect x="3" y="3" width="18" height="18" rx="2" stroke-width="1.5"/>
+            <path d="M3 9h18M9 21V9" stroke-width="1.5"/>
+          </svg>
+          <span class="text-xs font-mono opacity-40">scan analytics</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EXPERIMENTS -->
+  <section id="experiments" class="py-24 border-t border-white/5">
+    <div class="max-w-5xl mx-auto px-6">
+
+      <p class="section-label mb-4">In the Lab</p>
+      <h2 class="text-3xl sm:text-4xl font-semibold mb-4">Experiments</h2>
+      <p class="text-slate-400 max-w-2xl mb-12 leading-relaxed">
+        Not everything is finished. Here's what I'm actively building and learning from.
+      </p>
+
+      <div class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02]">
+        <div class="flex flex-wrap items-center gap-3 mb-3">
+          <h3 class="text-xl font-semibold">Music Composition Assistant</h3>
+          <span class="tag status-wip">In Development</span>
+        </div>
+        <p class="text-slate-400 max-w-2xl mb-6 leading-relaxed">
+          An AI agent for planning, researching, and tracking the music composition process.
+          The goal is a tool that's genuinely useful at a creative workbench — not just a
+          chatbot wrapper. Currently running structured experiments to find what actually helps
+          composers think better.
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span class="tag tech-tag">Claude API</span>
+          <span class="tag tech-tag">Agent Architecture</span>
+          <span class="tag tech-tag">Active Research</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STACK -->
+  <section id="stack" class="py-24 border-t border-white/5">
+    <div class="max-w-5xl mx-auto px-6">
+
+      <p class="section-label mb-4">Tools &amp; Stack</p>
+      <h2 class="text-3xl sm:text-4xl font-semibold mb-12">How I build</h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+
+        <div class="p-6 rounded-xl border border-white/8 bg-white/[0.02]">
+          <p class="text-sm font-mono text-brand-400 mb-3">AI &amp; Agents</p>
+          <ul class="space-y-2 text-slate-400 text-sm">
+            <li>Claude API</li>
+            <li>Claude Code (MCP)</li>
+            <li>Canva MCP</li>
+            <li>JSON profile workflows</li>
+          </ul>
+        </div>
+
+        <div class="p-6 rounded-xl border border-white/8 bg-white/[0.02]">
+          <p class="text-sm font-mono text-brand-400 mb-3">Frontend &amp; Deploy</p>
+          <ul class="space-y-2 text-slate-400 text-sm">
+            <li>Next.js</li>
+            <li>Tailwind CSS</li>
+            <li>Vercel</li>
+            <li>Cloudflare Workers</li>
+          </ul>
+        </div>
+
+        <div class="p-6 rounded-xl border border-white/8 bg-white/[0.02]">
+          <p class="text-sm font-mono text-brand-400 mb-3">Data &amp; Backend</p>
+          <ul class="space-y-2 text-slate-400 text-sm">
+            <li>Supabase (PostgreSQL)</li>
+            <li>Social platform APIs</li>
+            <li>REST / JSON</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="py-24 border-t border-white/5">
+    <div class="max-w-5xl mx-auto px-6">
+      <p class="section-label mb-4">Let's work together</p>
+      <h2 class="text-3xl sm:text-4xl font-semibold mb-4">Get in touch</h2>
+      <p class="text-slate-400 max-w-xl mb-8 leading-relaxed">
+        I'm looking for vibe coding and low-code development roles.
+        If you're building internal tools, AI workflows, or anything that solves
+        a real problem for a real team — let's talk.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <!-- Replace with real links -->
+        <a href="mailto:your@email.com" class="px-6 py-3 bg-brand-600 hover:bg-brand-500 text-white font-medium rounded-lg transition-colors text-sm">
+          Email me
+        </a>
+        <a href="https://github.com/mhperkins" target="_blank" rel="noopener" class="px-6 py-3 border border-white/10 hover:border-white/20 text-slate-300 hover:text-white font-medium rounded-lg transition-colors text-sm">
+          GitHub
+        </a>
+        <a href="https://linkedin.com/in/placeholder" target="_blank" rel="noopener" class="px-6 py-3 border border-white/10 hover:border-white/20 text-slate-300 hover:text-white font-medium rounded-lg transition-colors text-sm">
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-8 border-t border-white/5">
+    <div class="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <span class="font-mono text-xs text-slate-600">mhperkins · 2025</span>
+      <span class="font-mono text-xs text-slate-600">built with Claude Code</span>
+    </div>
+  </footer>
+
+</body>
+</html>
