@@ -108,6 +108,10 @@
       );
     }
 
+    .tab-btn { color: #94a3b8; padding-bottom: 10px; border-bottom: 2px solid transparent; }
+    .tab-btn:hover { color: #e2e8f0; }
+    .tab-active { color: #4ade80 !important; border-bottom-color: #4ade80 !important; }
+
     .loom-placeholder {
       background: linear-gradient(135deg, #0f1118 0%, #1a1528 100%);
       border: 1px solid rgba(165,180,252,0.2);
@@ -136,299 +140,233 @@
   <!-- NAV -->
   <nav class="fixed top-0 inset-x-0 z-50 border-b border-white/5 bg-[#080d08]/80 backdrop-blur-md">
     <div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-      <span class="font-mono text-sm text-brand-400 font-medium">mhperkins<span class="text-slate-500">.dev</span></span>
+      <a href="#" class="font-mono text-sm text-brand-400 font-medium">mhperkins<span class="text-slate-500">.dev</span></a>
       <div class="flex items-center gap-6">
-        <a href="#sprout" class="nav-link">Sprout Suite</a>
-        <a href="#qr" class="nav-link">QR Tracker</a>
-        <a href="#experiments" class="nav-link">Experiments</a>
-        <a href="#stack" class="nav-link">Stack</a>
-        <a href="#contact" class="nav-link hidden sm:block">Contact</a>
+        <button onclick="switchTab('tab-sprout')" class="nav-link text-sm">Sprout Society Suite</button>
+        <button onclick="switchTab('tab-progress')" class="nav-link text-sm">In Progress</button>
+        <button onclick="switchTab('tab-experiments')" class="nav-link text-sm">Experiments</button>
+        <a href="resume.html" class="nav-link text-sm">Resume</a>
+        <a href="#contact" class="nav-link text-sm">Contact</a>
       </div>
     </div>
   </nav>
 
   <!-- HERO -->
-  <section class="min-h-screen flex flex-col justify-center pt-14">
-    <div class="max-w-5xl mx-auto px-6 py-24">
-      <p class="section-label mb-6">Portfolio — 2025</p>
-      <h1 class="text-5xl sm:text-6xl lg:text-7xl font-semibold leading-tight tracking-tight mb-6">
-        I build tools<br/>
-        <span class="gradient-text">people actually use.</span>
-      </h1>
-      <p class="text-lg sm:text-xl text-slate-400 max-w-2xl leading-relaxed mb-10">
-        Vibe coder &amp; low-code developer focused on AI-powered internal tools.
-        I take real problems — the kind that live in spreadsheets and email threads —
-        and turn them into fast, functional software.
+  <section class="pt-14">
+    <div class="max-w-5xl mx-auto px-6 pt-8 pb-4 text-center">
+      <p class="text-lg text-slate-400 mb-2">Maxwell Perkins</p>
+      <h1 class="text-4xl sm:text-5xl font-semibold tracking-tight mb-3 gradient-text">Apps and Tools Portfolio</h1>
+      <p class="text-lg text-slate-400 max-w-2xl leading-relaxed mb-6 mx-auto">
+        Vibe coder &amp; low-code developer focused on AI-assisted internal tools. I take real problems and turn them into fast, functional software.
       </p>
-      <div class="flex flex-wrap gap-4">
-        <a href="#sprout" class="px-6 py-3 bg-brand-600 hover:bg-brand-500 text-white font-medium rounded-lg transition-colors text-sm">
-          See the work
-        </a>
-        <a href="#contact" class="px-6 py-3 border border-white/10 hover:border-white/20 text-slate-300 hover:text-white font-medium rounded-lg transition-colors text-sm">
-          Get in touch
-        </a>
+      <div class="grid grid-cols-5 gap-2 max-w-xl mx-auto mb-6">
+        <span class="tag tech-tag justify-center">Claude API</span>
+        <span class="tag tech-tag justify-center">Claude Code</span>
+        <span class="tag tech-tag justify-center">Next.js</span>
+        <span class="tag tech-tag justify-center">Supabase</span>
+        <span class="tag tech-tag justify-center">Vercel</span>
+        <span class="tag tech-tag justify-center">Canva API</span>
+        <span class="tag tech-tag justify-center">Composio</span>
+        <span class="tag tech-tag justify-center">Instagram API</span>
+        <span class="tag tech-tag justify-center">Cloudflare</span>
+        <span class="tag tech-tag justify-center">Tailwind CSS</span>
       </div>
     </div>
-  </section>
 
-  <!-- SPROUT SUITE -->
-  <section id="sprout" class="py-24 border-t border-white/5">
+    <!-- TABS -->
     <div class="max-w-5xl mx-auto px-6">
-
-      <p class="section-label mb-4">Featured Project</p>
-      <h2 class="text-3xl sm:text-4xl font-semibold mb-4">The Sprout Suite</h2>
-      <p class="text-slate-400 max-w-2xl mb-3 leading-relaxed">
-        A full internal toolset built for a non-profit arts organization — replacing
-        scattered spreadsheets and manual workflows with purpose-built, AI-assisted software.
-        Three tools, one Supabase backend, all deployed and actively used.
-      </p>
-      <div class="flex flex-wrap gap-2 mb-16">
-        <span class="tag tech-tag">Next.js</span>
-        <span class="tag tech-tag">Supabase</span>
-        <span class="tag tech-tag">Claude API</span>
-        <span class="tag tech-tag">Vercel</span>
-        <span class="tag tech-tag">Canva MCP</span>
+      <div class="flex justify-center gap-6 border-b border-white/10 mb-10">
+        <button data-target="tab-sprout" class="tab-btn tab-active text-sm font-medium">Sprout Society Suite</button>
+        <button data-target="tab-progress" class="tab-btn text-sm font-medium">In Progress</button>
+        <button data-target="tab-experiments" class="tab-btn text-sm font-medium">Experiments</button>
       </div>
 
-      <!-- Tool 1: CRM -->
-      <div class="mb-20">
-        <div class="flex flex-wrap items-center gap-3 mb-3">
-          <h3 class="text-xl font-semibold">Sprout CRM</h3>
-          <span class="tag status-live">Live · Actively Used</span>
-        </div>
-        <p class="text-slate-400 max-w-2xl mb-6 leading-relaxed">
-          A relationship management tool built for a non-profit that runs and partners on
-          community events. Tracks contacts, events, and communication workflows — with
-          Claude integration to research and generate contact profiles that import directly
-          into the tool via JSON upload.
+      <!-- Tab: Sprout Society Suite -->
+      <div id="tab-sprout" class="tab-panel pb-24">
+        <p class="text-slate-400 max-w-2xl mb-3 leading-relaxed text-center mx-auto">
+          A full internal toolset built for Sprout Society — replacing scattered spreadsheets and manual workflows with purpose-built, AI-assisted software. Three tools, one Supabase backend, all deployed and actively used.
         </p>
-
-        <!-- Loom embed -->
-        <div class="relative mb-4" style="padding-bottom:56.25%">
-          <iframe src="https://www.loom.com/embed/d5c0f4d1409041d0ba7897f4d03cf943"
-            frameborder="0" allowfullscreen
-            class="absolute inset-0 w-full h-full rounded-lg"></iframe>
-        </div>
-
-        <div data-carousel>
-          <div class="overflow-hidden -mx-1.5">
-            <div class="carousel-track flex transition-transform duration-300 ease-in-out">
-              <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5">
-                <img src="images/CRM_Dashboard.png" alt="CRM dashboard" class="w-full rounded-lg" />
-              </div>
-              <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5">
-                <img src="images/CRM_ContactList.png" alt="Contacts list" class="w-full rounded-lg" />
-              </div>
-              <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5">
-                <img src="images/CRM_EditContact.png" alt="Edit contact" class="w-full rounded-lg" />
-              </div>
-              <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5">
-                <img src="images/CRM_EventPage.png" alt="Event page" class="w-full rounded-lg" />
-              </div>
-              <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5">
-                <img src="images/CRM_Import.png" alt="Claude profile import" class="w-full rounded-lg" />
-              </div>
-            </div>
-          </div>
-          <div class="carousel-controls flex items-center justify-center gap-4 mt-3">
-            <button class="carousel-prev w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-            </button>
-            <div class="carousel-dots flex gap-2"></div>
-            <button class="carousel-next w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tool 2: Grant Tool -->
-      <div class="mb-0">
-        <div class="flex flex-wrap items-center gap-3 mb-3">
-          <h3 class="text-xl font-semibold">Grant Finder &amp; Writer</h3>
-          <span class="tag status-mvp">MVP</span>
-        </div>
-        <p class="text-slate-400 max-w-2xl mb-6 leading-relaxed">
-          A workspace for tracking grant applications end-to-end — from discovery to
-          submission. Uses Claude externally to research opportunities and generate structured
-          grant profiles that upload into the tool, then provides a writing workspace to
-          complete each application.
-        </p>
-
-        <div class="relative mb-4" style="padding-bottom:56.25%">
-          <iframe src="https://www.loom.com/embed/477728dafa8b4a4e9fb732da7618169f"
-            frameborder="0" allowfullscreen
-            class="absolute inset-0 w-full h-full rounded-lg"></iframe>
-        </div>
-
-        <div data-carousel>
-          <div class="overflow-hidden -mx-1.5">
-            <div class="carousel-track flex transition-transform duration-300 ease-in-out">
-              <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5">
-                <img src="images/Grant_Pipeline.png" alt="Grant pipeline" class="w-full rounded-lg" />
-              </div>
-              <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5">
-                <img src="images/Grant_Tasks.png" alt="Grant tasks" class="w-full rounded-lg" />
-              </div>
-              <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5">
-                <img src="images/Grant_Workspace.png" alt="Writing workspace" class="w-full rounded-lg" />
-              </div>
-              <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5">
-                <img src="images/Grant_Import.png" alt="Grant import" class="w-full rounded-lg" />
-              </div>
-            </div>
-          </div>
-          <div class="carousel-controls flex items-center justify-center gap-4 mt-3">
-            <button class="carousel-prev w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-            </button>
-            <div class="carousel-dots flex gap-2"></div>
-            <button class="carousel-next w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-            </button>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- QR TRACKER -->
-  <section id="qr" class="py-24 border-t border-white/5">
-    <div class="max-w-5xl mx-auto px-6">
-
-      <p class="section-label mb-4">Other Projects</p>
-      <h2 class="text-3xl sm:text-4xl font-semibold mb-4">QR Scan Tracker</h2>
-      <p class="text-slate-400 max-w-2xl mb-3 leading-relaxed">
-        A lightweight tool for creating dynamic QR codes and tracking scan data in real time.
-        Used for RSVP links on concert flyers and non-profit event marketing — letting you
-        see which flyers, in which locations, drive the most engagement.
-      </p>
-      <div class="flex flex-wrap gap-2 mb-10">
-        <span class="tag tech-tag">Cloudflare Workers</span>
-        <span class="tag tech-tag">Plain HTML</span>
-        <span class="tag tech-tag">Dynamic QR</span>
-        <span class="tag tech-tag">Analytics</span>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-6">
-        <div>
-          <p class="text-sm text-slate-500 font-mono mb-3 uppercase tracking-widest">Personal use</p>
-          <p class="text-slate-400 text-sm leading-relaxed">
-            Concert flyers with per-show RSVP QR codes — scan data shows how many people
-            engaged with each flyer run.
-          </p>
-        </div>
-        <div>
-          <p class="text-sm text-slate-500 font-mono mb-3 uppercase tracking-widest">Non-profit use</p>
-          <p class="text-slate-400 text-sm leading-relaxed">
-            Event marketing across multiple locations — compare scan rates by neighborhood
-            to optimize where flyers get posted.
-          </p>
-        </div>
-      </div>
-
-      <div class="relative mb-4" style="padding-bottom:56.25%">
-        <iframe src="https://www.loom.com/embed/8627c0e470e4482da119622f43efab95"
-          frameborder="0" allowfullscreen
-          class="absolute inset-0 w-full h-full rounded-lg"></iframe>
-      </div>
-
-      <div data-carousel>
-        <div class="overflow-hidden -mx-1.5">
-          <div class="carousel-track flex transition-transform duration-300 ease-in-out">
-            <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5">
-              <img src="images/QR_Dashboard.png" alt="QR dashboard" class="w-full rounded-lg" />
-            </div>
-            <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5">
-              <img src="images/QR_Create.png" alt="Create QR code" class="w-full rounded-lg" />
-            </div>
-          </div>
-        </div>
-        <div class="carousel-controls flex items-center justify-center gap-4 mt-3">
-          <button class="carousel-prev w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-          </button>
-          <div class="carousel-dots flex gap-2"></div>
-          <button class="carousel-next w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- EXPERIMENTS -->
-  <section id="experiments" class="py-24 border-t border-white/5">
-    <div class="max-w-5xl mx-auto px-6">
-
-      <p class="section-label mb-4">In the Lab</p>
-      <h2 class="text-3xl sm:text-4xl font-semibold mb-4">Experiments</h2>
-      <p class="text-slate-400 max-w-2xl mb-12 leading-relaxed">
-        Not everything is finished. Here's what I'm actively building and learning from.
-      </p>
-
-      <div class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02]">
-        <div class="flex flex-wrap items-center gap-3 mb-3">
-          <h3 class="text-xl font-semibold">Music Composition Assistant</h3>
-          <span class="tag status-wip">In Development</span>
-        </div>
-        <p class="text-slate-400 max-w-2xl mb-6 leading-relaxed">
-          An AI agent for planning, researching, and tracking the music composition process.
-          The goal is a tool that's genuinely useful at a creative workbench — not just a
-          chatbot wrapper. Currently running structured experiments to find what actually helps
-          composers think better.
-        </p>
-        <div class="flex flex-wrap gap-2">
+        <div class="flex flex-wrap justify-center gap-2 mb-16">
+          <span class="tag tech-tag">Next.js</span>
+          <span class="tag tech-tag">Supabase</span>
           <span class="tag tech-tag">Claude API</span>
-          <span class="tag tech-tag">Agent Architecture</span>
-          <span class="tag tech-tag">Active Research</span>
+          <span class="tag tech-tag">Vercel</span>
+          <span class="tag tech-tag">Canva MCP</span>
+        </div>
+
+        <!-- CRM -->
+        <div class="mb-20">
+          <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
+            <h3 class="text-xl font-semibold">Sprout CRM</h3>
+            <span class="tag status-live">Live · Actively Used</span>
+          </div>
+          <p class="text-slate-400 max-w-2xl mb-6 leading-relaxed text-center mx-auto">
+            A relationship management tool built for a non-profit that runs and partners on community events. Tracks contacts, events, and communication workflows — with Claude integration to research and generate contact profiles that import directly into the tool via JSON upload.
+          </p>
+          <div class="relative mb-4" style="padding-bottom:56.25%">
+            <iframe src="https://www.loom.com/embed/d5c0f4d1409041d0ba7897f4d03cf943" frameborder="0" allowfullscreen class="absolute inset-0 w-full h-full rounded-lg"></iframe>
+          </div>
+          <div data-carousel>
+            <div class="overflow-hidden -mx-1.5">
+              <div class="carousel-track flex transition-transform duration-300 ease-in-out">
+                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><img src="images/CRM_Dashboard.png" alt="CRM dashboard" class="w-full rounded-lg" /></div>
+                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><img src="images/CRM_ContactList.png" alt="Contacts list" class="w-full rounded-lg" /></div>
+                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><img src="images/CRM_EditContact.png" alt="Edit contact" class="w-full rounded-lg" /></div>
+                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><img src="images/CRM_EventPage.png" alt="Event page" class="w-full rounded-lg" /></div>
+                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><img src="images/CRM_Import.png" alt="Claude profile import" class="w-full rounded-lg" /></div>
+              </div>
+            </div>
+            <div class="carousel-controls flex items-center justify-center gap-4 mt-3">
+              <button class="carousel-prev w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
+              <div class="carousel-dots flex gap-2"></div>
+              <button class="carousel-next w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grant Finder -->
+        <div class="mb-20">
+          <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
+            <h3 class="text-xl font-semibold">Grant Finder &amp; Writer</h3>
+            <span class="tag status-mvp">MVP</span>
+          </div>
+          <p class="text-slate-400 max-w-2xl mb-6 leading-relaxed text-center mx-auto">
+            A workspace for tracking grant applications end-to-end — from discovery to submission. Uses Claude externally to research opportunities and generate structured grant profiles that upload into the tool, then provides a writing workspace to complete each application.
+          </p>
+          <div class="relative mb-4" style="padding-bottom:56.25%">
+            <iframe src="https://www.loom.com/embed/477728dafa8b4a4e9fb732da7618169f" frameborder="0" allowfullscreen class="absolute inset-0 w-full h-full rounded-lg"></iframe>
+          </div>
+          <div data-carousel>
+            <div class="overflow-hidden -mx-1.5">
+              <div class="carousel-track flex transition-transform duration-300 ease-in-out">
+                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><img src="images/Grant_Pipeline.png" alt="Grant pipeline" class="w-full rounded-lg" /></div>
+                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><img src="images/Grant_Tasks.png" alt="Grant tasks" class="w-full rounded-lg" /></div>
+                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><img src="images/Grant_Workspace.png" alt="Writing workspace" class="w-full rounded-lg" /></div>
+                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><img src="images/Grant_Import.png" alt="Grant import" class="w-full rounded-lg" /></div>
+              </div>
+            </div>
+            <div class="carousel-controls flex items-center justify-center gap-4 mt-3">
+              <button class="carousel-prev w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
+              <div class="carousel-dots flex gap-2"></div>
+              <button class="carousel-next w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- QR Tracker -->
+        <div class="mb-0">
+          <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
+            <h3 class="text-xl font-semibold">QR Scan Tracker</h3>
+            <span class="tag status-mvp">MVP</span>
+          </div>
+          <p class="text-slate-400 max-w-2xl mb-3 leading-relaxed text-center mx-auto">
+            A lightweight tool for creating dynamic QR codes and tracking scan data in real time. Used for RSVP links on concert flyers and non-profit event marketing — letting you see which flyers, in which locations, drive the most engagement.
+          </p>
+          <div class="flex flex-wrap justify-center gap-2 mb-8">
+            <span class="tag tech-tag">Cloudflare Workers</span>
+            <span class="tag tech-tag">Plain HTML</span>
+            <span class="tag tech-tag">Dynamic QR</span>
+            <span class="tag tech-tag">Analytics</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-6">
+            <div>
+              <p class="text-sm text-slate-500 font-mono mb-3 uppercase tracking-widest">Personal use</p>
+              <p class="text-slate-400 text-sm leading-relaxed">Concert flyers with per-show RSVP QR codes — scan data shows how many people engaged with each flyer run.</p>
+            </div>
+            <div>
+              <p class="text-sm text-slate-500 font-mono mb-3 uppercase tracking-widest">Non-profit use</p>
+              <p class="text-slate-400 text-sm leading-relaxed">Event marketing across multiple locations — compare scan rates by neighborhood to optimize where flyers get posted.</p>
+            </div>
+          </div>
+          <div class="relative mb-4" style="padding-bottom:56.25%">
+            <iframe src="https://www.loom.com/embed/8627c0e470e4482da119622f43efab95" frameborder="0" allowfullscreen class="absolute inset-0 w-full h-full rounded-lg"></iframe>
+          </div>
+          <div data-carousel>
+            <div class="overflow-hidden -mx-1.5">
+              <div class="carousel-track flex transition-transform duration-300 ease-in-out">
+                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><img src="images/QR_Dashboard.png" alt="QR dashboard" class="w-full rounded-lg" /></div>
+                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><img src="images/QR_Create.png" alt="Create QR code" class="w-full rounded-lg" /></div>
+              </div>
+            </div>
+            <div class="carousel-controls flex items-center justify-center gap-4 mt-3">
+              <button class="carousel-prev w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
+              <div class="carousel-dots flex gap-2"></div>
+              <button class="carousel-next w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+            </div>
+          </div>
         </div>
       </div>
 
-    </div>
-  </section>
-
-  <!-- STACK -->
-  <section id="stack" class="py-24 border-t border-white/5">
-    <div class="max-w-5xl mx-auto px-6">
-
-      <p class="section-label mb-4">Tools &amp; Stack</p>
-      <h2 class="text-3xl sm:text-4xl font-semibold mb-12">How I build</h2>
-
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-
-        <div class="p-6 rounded-xl border border-white/8 bg-white/[0.02]">
-          <p class="text-sm font-mono text-brand-400 mb-3">AI &amp; Agents</p>
-          <ul class="space-y-2 text-slate-400 text-sm">
-            <li>Claude API</li>
-            <li>Claude Code (MCP)</li>
-            <li>Canva MCP</li>
-            <li>JSON profile workflows</li>
-          </ul>
+      <!-- Tab: In Progress -->
+      <div id="tab-progress" class="tab-panel pb-24" style="display:none">
+        <div class="max-w-2xl mx-auto mb-8">
+          <div class="flex flex-wrap items-center gap-3 mb-3">
+            <h3 class="text-xl font-semibold">Social Content Planner</h3>
+            <span class="tag status-wip">In Development</span>
+          </div>
+          <div class="text-slate-400 mb-6 leading-relaxed space-y-3">
+            <p><span class="text-slate-300 font-medium">Problem:</span> Managing social content for Sprout Society means juggling multiple paid tools — design, scheduling, approvals — with no unified workflow.</p>
+            <p><span class="text-slate-300 font-medium">Solution:</span> A single social media manager hub that includes:</p>
+            <ul class="list-disc list-inside space-y-1 pl-2">
+              <li>Canva API integration for design</li>
+              <li>Composio-connected platform APIs for direct publishing to Instagram</li>
+              <li>Instagram Analytics pulled in via API for clearer performance tracking</li>
+              <li>A built-in human approval step before anything goes live</li>
+            </ul>
+            <p><span class="text-slate-300 font-medium">Goal:</span> Replace paid scheduling software entirely — draft, design, approve, and publish from one place, with a human initiating every final post.</p>
+            <p class="text-slate-500 text-sm font-mono">Core architecture complete — full publishing pipeline in progress.</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag tech-tag">Canva API</span>
+            <span class="tag tech-tag">Composio</span>
+            <span class="tag tech-tag">Instagram API</span>
+            <span class="tag tech-tag">Next.js</span>
+          </div>
         </div>
-
-        <div class="p-6 rounded-xl border border-white/8 bg-white/[0.02]">
-          <p class="text-sm font-mono text-brand-400 mb-3">Frontend &amp; Deploy</p>
-          <ul class="space-y-2 text-slate-400 text-sm">
-            <li>Next.js</li>
-            <li>Tailwind CSS</li>
-            <li>Vercel</li>
-            <li>Cloudflare Workers</li>
-          </ul>
+        <div data-carousel>
+          <div class="overflow-hidden -mx-1.5">
+            <div class="carousel-track flex transition-transform duration-300 ease-in-out">
+              <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><img src="images/Social_Dashboard.png" alt="Social dashboard" class="w-full rounded-lg" /></div>
+              <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><img src="images/Social_Calendar.png" alt="Content calendar" class="w-full rounded-lg" /></div>
+              <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><img src="images/Social_Analytics.png" alt="Instagram analytics" class="w-full rounded-lg" /></div>
+              <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><img src="images/Social_Brand.png" alt="Brand assets" class="w-full rounded-lg" /></div>
+            </div>
+          </div>
+          <div class="carousel-controls flex items-center justify-center gap-4 mt-3">
+            <button class="carousel-prev w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
+            <div class="carousel-dots flex gap-2"></div>
+            <button class="carousel-next w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+          </div>
         </div>
-
-        <div class="p-6 rounded-xl border border-white/8 bg-white/[0.02]">
-          <p class="text-sm font-mono text-brand-400 mb-3">Data &amp; Backend</p>
-          <ul class="space-y-2 text-slate-400 text-sm">
-            <li>Supabase (PostgreSQL)</li>
-            <li>Social platform APIs</li>
-            <li>REST / JSON</li>
-          </ul>
-        </div>
-
       </div>
+
+      <!-- Tab: Experiments -->
+      <div id="tab-experiments" class="tab-panel pb-24" style="display:none">
+        <div class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02]">
+          <div class="flex flex-wrap items-center gap-3 mb-3">
+            <h3 class="text-xl font-semibold">Music Composition Assistant</h3>
+            <span class="tag status-wip">In Development</span>
+          </div>
+          <div class="text-slate-400 mb-6 leading-relaxed space-y-3">
+            <p><span class="text-slate-300 font-medium">Problem:</span> AI music generation is largely unhelpful for serious composers, but with the right training and instructions there's a way for AI to become a genuinely useful part of the creation process.</p>
+            <p><span class="text-slate-300 font-medium">Solution:</span> An agent that doesn't generate music, but rather assists in each phase of the writing process:</p>
+            <ul class="list-disc list-inside space-y-1 pl-2">
+              <li>Research and planning</li>
+              <li>Proposing ideas and analysis from small or incomplete musical fragments (rhythms, melody, harmony, and other parameters you feed it)</li>
+              <li>Analyzing works in progress and functioning as a brainstorm partner</li>
+              <li>Assisting in the engraving process as an editor</li>
+            </ul>
+            <p><span class="text-slate-300 font-medium">Goal:</span> Seamlessly integrate into the writing process in a way that genuinely helps, without detracting from or slowing down the creative work.</p>
+            <p class="text-slate-500 text-sm font-mono">Currently in the experiment phase.</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag tech-tag">Claude API</span>
+            <span class="tag tech-tag">Agent Architecture</span>
+            <span class="tag tech-tag">Rubric Design</span>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -466,6 +404,18 @@
   </footer>
 
   <script>
+    function switchTab(id) {
+      document.querySelectorAll('.tab-panel').forEach(function(p) { p.style.display = 'none'; });
+      document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('tab-active'); });
+      document.getElementById(id).style.display = 'block';
+      var btn = document.querySelector('[data-target="' + id + '"]');
+      if (btn) btn.classList.add('tab-active');
+    }
+
+    document.querySelectorAll('.tab-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() { switchTab(btn.getAttribute('data-target')); });
+    });
+
     document.querySelectorAll('[data-carousel]').forEach(function(el) {
       var track = el.querySelector('.carousel-track');
       var slides = el.querySelectorAll('.carousel-slide');

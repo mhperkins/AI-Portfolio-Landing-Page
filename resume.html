@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resume — MH Perkins</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              400: '#4ade80',
+              500: '#22c55e',
+              600: '#16a34a',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    .nav-link { color: #94a3b8; font-size: 0.875rem; transition: color 0.15s; }
+    .nav-link:hover { color: #f1f5f9; }
+    .gradient-text {
+      background: linear-gradient(135deg, #22c55e 0%, #4ade80 50%, #86efac 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  </style>
+</head>
+<body class="bg-[#080d08] text-slate-200 font-sans antialiased">
+
+  <!-- NAV -->
+  <nav class="fixed top-0 inset-x-0 z-50 border-b border-white/5 bg-[#080d08]/80 backdrop-blur-md">
+    <div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+      <a href="index.html" class="font-mono text-sm text-brand-400 font-medium">mhperkins<span class="text-slate-500">.dev</span></a>
+      <div class="flex items-center gap-6">
+        <a href="index.html" class="nav-link text-sm">Sprout Society Suite</a>
+        <a href="index.html" class="nav-link text-sm">In Progress</a>
+        <a href="index.html" class="nav-link text-sm">Experiments</a>
+        <a href="resume.html" class="nav-link text-sm">Resume</a>
+        <a href="#contact" class="nav-link text-sm">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <section class="pt-14">
+    <div class="max-w-5xl mx-auto px-6 pt-14 pb-8 text-center">
+      <h1 class="text-4xl sm:text-5xl font-semibold tracking-tight mb-4 gradient-text">Resume</h1>
+      <p class="text-lg text-slate-400 max-w-xl leading-relaxed mb-8 mx-auto">
+        Max Perkins — Vibe Coder &amp; Low-Code Developer
+      </p>
+    </div>
+  </section>
+
+  <!-- PDF VIEWER -->
+  <section class="pb-24">
+    <div class="max-w-4xl mx-auto px-6">
+      <!-- Placeholder: replace src with your actual PDF path e.g. "resume.pdf" -->
+      <div class="border border-white/10 rounded-xl overflow-hidden bg-white/[0.02] flex flex-col items-center justify-center" style="min-height: 700px;">
+        <div class="text-center space-y-4 py-24 px-8">
+          <div class="w-16 h-16 mx-auto rounded-xl border border-white/10 bg-white/5 flex items-center justify-center">
+            <svg class="w-8 h-8 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+          </div>
+          <p class="text-slate-400 font-mono text-sm">resume.pdf — placeholder</p>
+          <p class="text-slate-600 text-sm max-w-xs mx-auto">Drop your PDF in the project folder and update the <code class="text-slate-500">src</code> attribute in this page to display it here.</p>
+        </div>
+      </div>
+      <!-- Once you have a PDF, replace the div above with:
+      <iframe src="resume.pdf" class="w-full rounded-xl border border-white/10" style="height: 85vh;"></iframe>
+      -->
+      <div class="flex justify-center mt-6">
+        <a href="#" class="px-6 py-3 bg-brand-600 hover:bg-brand-500 text-white font-medium rounded-lg transition-colors text-sm opacity-40 cursor-not-allowed">
+          Download PDF
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="py-24 border-t border-white/5">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-semibold mb-4">Get in touch</h2>
+      <p class="text-slate-400 max-w-xl mb-8 leading-relaxed mx-auto">
+        I'm looking for vibe coding and low-code development roles. If you're building internal tools, AI workflows, or anything that solves a real problem — let's talk.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="mailto:your@email.com" class="px-6 py-3 bg-brand-600 hover:bg-brand-500 text-white font-medium rounded-lg transition-colors text-sm">Email me</a>
+        <a href="https://github.com/mhperkins" target="_blank" rel="noopener" class="px-6 py-3 border border-white/10 hover:border-white/20 text-slate-300 hover:text-white font-medium rounded-lg transition-colors text-sm">GitHub</a>
+        <a href="https://linkedin.com/in/placeholder" target="_blank" rel="noopener" class="px-6 py-3 border border-white/10 hover:border-white/20 text-slate-300 hover:text-white font-medium rounded-lg transition-colors text-sm">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-8 border-t border-white/5">
+    <div class="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <span class="font-mono text-xs text-slate-600">mhperkins · 2025</span>
+      <span class="font-mono text-xs text-slate-600">built with Claude Code</span>
+    </div>
+  </footer>
+
+</body>
+</html>
