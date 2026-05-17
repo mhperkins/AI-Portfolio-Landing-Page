@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MH Perkins — Vibe Coder</title>
+  <title>MH Perkins: Vibe Coder</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -145,6 +145,7 @@
         <button onclick="switchTab('tab-sprout')" class="nav-link text-sm">In Use</button>
         <button onclick="switchTab('tab-progress')" class="nav-link text-sm">In Progress</button>
         <button onclick="switchTab('tab-experiments')" class="nav-link text-sm">In Development</button>
+        <button onclick="switchTab('tab-workflow')" class="nav-link text-sm">Workflow</button>
         <a href="resume.html" class="nav-link text-sm">Resume</a>
         <a href="#contact" class="nav-link text-sm">Contact</a>
       </div>
@@ -180,6 +181,7 @@
           <button data-target="tab-sprout" class="tab-btn tab-active text-sm font-medium">In Use</button>
           <button data-target="tab-progress" class="tab-btn text-sm font-medium">In Progress</button>
           <button data-target="tab-experiments" class="tab-btn text-sm font-medium">In Development</button>
+          <button data-target="tab-workflow" class="tab-btn text-sm font-medium">Workflow</button>
         </div>
       </div>
     </div>
@@ -372,6 +374,30 @@
         </div>
       </div>
 
+      <!-- Tab: Workflow -->
+      <div id="tab-workflow" class="tab-panel pb-24" style="display:none">
+        <div class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02]">
+          <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
+            <h3 class="text-xl font-semibold">How I Work with Claude</h3>
+          </div>
+          <div class="text-slate-400 mb-6 leading-relaxed space-y-3">
+            <p><span class="text-slate-300 font-medium">Problem:</span> Early on, Claude would hallucinate, lose context between conversations, and make changes that broke unrelated parts of the codebase.</p>
+            <p><span class="text-slate-300 font-medium">Solution:</span> Built structured MD files covering project instructions, backend architecture docs, and workflow protocols to give Claude consistent context so every prompt could be short and focused. Then integrated Claude Code directly into VS Code, which eliminated nearly all hallucinations.</p>
+            <p><span class="text-slate-300 font-medium">Result:</span> A workflow where I can move fast without breaking things, with tight prompts, live diffs, and a clear audit trail before any change is accepted.</p>
+            <p><span class="text-slate-300 font-medium">Next step:</span> Building custom Claude Code skills to automate repetitive workflow steps and further refine my development process.</p>
+          </div>
+          <div class="relative mb-4" style="padding-bottom:56.25%">
+            <iframe src="https://www.loom.com/embed/bc843a16ff894a209c63b2f07c9bfbe5" frameborder="0" allowfullscreen class="absolute inset-0 w-full h-full rounded-lg"></iframe>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="tag tech-tag">Claude Code</span>
+            <span class="tag tech-tag">Claude Projects</span>
+            <span class="tag tech-tag">Markdown Files</span>
+            <span class="tag tech-tag">VS Code</span>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -380,8 +406,8 @@
     <div class="max-w-5xl mx-auto px-6">
       <p class="section-label mb-4">Let's work together</p>
       <h2 class="text-3xl sm:text-4xl font-semibold mb-4">Get in touch</h2>
-      <p class="text-slate-400 max-w-xl mb-8 leading-relaxed">
-        I'm looking for vibe coding and low-code development roles. If you're building internal tools, AI workflows, and solving creative problems... let's connect.
+      <p class="text-slate-400 max-w-3xl mb-8 leading-relaxed">
+        I'm looking for vibe coding and low-code development roles.<br>Let's connect if you're building internal tools, AI workflows, and solving creative problems.
       </p>
       <div class="flex flex-wrap gap-4">
         <!-- Replace with real links -->
@@ -408,6 +434,7 @@
 
   <script>
     function switchTab(id) {
+      document.querySelectorAll('.tab-panel iframe').forEach(function(iframe) { iframe.src = iframe.src; });
       document.querySelectorAll('.tab-panel').forEach(function(p) { p.style.display = 'none'; });
       document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('tab-active'); });
       document.getElementById(id).style.display = 'block';
