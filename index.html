@@ -425,7 +425,10 @@
     });
 
     var hash = window.location.hash.replace('#', '');
-    if (hash && document.getElementById(hash)) { switchTab(hash); }
+    if (hash && document.getElementById(hash)) {
+      history.replaceState(null, '', window.location.pathname);
+      setTimeout(function() { switchTab(hash); }, 50);
+    }
 
     document.querySelectorAll('[data-carousel]').forEach(function(el) {
       var track = el.querySelector('.carousel-track');
