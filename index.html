@@ -424,6 +424,9 @@
       btn.addEventListener('click', function() { switchTab(btn.getAttribute('data-target')); });
     });
 
+    var hash = window.location.hash.replace('#', '');
+    if (hash && document.getElementById(hash)) { switchTab(hash); }
+
     document.querySelectorAll('[data-carousel]').forEach(function(el) {
       var track = el.querySelector('.carousel-track');
       var slides = el.querySelectorAll('.carousel-slide');
