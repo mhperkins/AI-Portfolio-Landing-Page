@@ -174,18 +174,19 @@
     </div>
 
     <!-- TABS -->
-    <div class="max-w-5xl mx-auto px-6">
-      <div class="flex justify-center gap-6 border-b border-white/10 mb-10">
-        <button data-target="tab-sprout" class="tab-btn tab-active text-sm font-medium">In Use</button>
-        <button data-target="tab-progress" class="tab-btn text-sm font-medium">In Progress</button>
-        <button data-target="tab-experiments" class="tab-btn text-sm font-medium">In Development</button>
+    <div class="sticky top-14 z-40 bg-[#080d08]/90 backdrop-blur-md border-b border-white/10 mb-10">
+      <div class="max-w-5xl mx-auto px-6">
+        <div class="flex justify-center gap-6 py-3">
+          <button data-target="tab-sprout" class="tab-btn tab-active text-sm font-medium">In Use</button>
+          <button data-target="tab-progress" class="tab-btn text-sm font-medium">In Progress</button>
+          <button data-target="tab-experiments" class="tab-btn text-sm font-medium">In Development</button>
+        </div>
       </div>
+    </div>
+    <div class="max-w-5xl mx-auto px-6">
 
       <!-- Tab: Sprout Society Suite -->
       <div id="tab-sprout" class="tab-panel pb-24">
-        <p class="text-lg text-slate-400 max-w-2xl mb-10 leading-relaxed text-center mx-auto">
-          A full internal toolset built for Sprout Society: replacing scattered spreadsheets and manual workflows with purpose-built, AI-assisted software. Three tools, one Supabase backend, all deployed and actively used.
-        </p>
         <!-- CRM -->
         <div class="mb-20">
           <div class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02] mb-6">
@@ -193,8 +194,8 @@
               <h3 class="text-xl font-semibold">Sprout Society CRM</h3>
               <span class="tag status-live">Live · Actively Used</span>
             </div>
-            <p class="text-slate-400 max-w-2xl mb-4 leading-relaxed text-center mx-auto">
-              A relationship management tool built for a non-profit that runs and partners on community events. Tracks contacts, events, and communication workflows with Claude integration to research and generate contact profiles that import directly into the tool via JSON upload.
+            <p class="text-slate-400 mb-4 leading-relaxed text-center">
+              Built for the non-profit Sprout Society, this relationship management tool tracks contacts,<br>communications, and events while integrating Claude to generate and import new contact profiles via JSON.
             </p>
             <div class="flex flex-wrap justify-center gap-2">
               <span class="tag tech-tag">Next.js</span>
@@ -212,9 +213,8 @@
             <div class="overflow-hidden -mx-1.5">
               <div class="carousel-track flex transition-transform duration-300 ease-in-out">
                 <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5 aspect-video overflow-hidden rounded-lg"><img src="images/CRM_Dashboard.png" alt="CRM dashboard" class="w-full h-full object-cover" /></div>
-                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5 aspect-video overflow-hidden rounded-lg"><img src="images/CRM_ContactList.png" alt="Contacts list" class="w-full h-full object-cover" /></div>
-                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5 aspect-video overflow-hidden rounded-lg"><img src="images/CRM_EditContact.png" alt="Edit contact" class="w-full h-full object-cover" /></div>
-                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5 aspect-video overflow-hidden rounded-lg"><img src="images/CRM_EventPage.png" alt="Event page" class="w-full h-full object-cover" /></div>
+                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5 aspect-video overflow-hidden rounded-lg"><img src="images/CRM_Contacts.png" alt="Contacts list" class="w-full h-full object-cover" /></div>
+                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5 aspect-video overflow-hidden rounded-lg"><img src="images/CRM_Events.png" alt="Events page" class="w-full h-full object-cover" /></div>
                 <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5 aspect-video overflow-hidden rounded-lg"><img src="images/CRM_Import.png" alt="Claude profile import" class="w-full h-full object-cover" /></div>
               </div>
             </div>
@@ -234,7 +234,7 @@
               <span class="tag status-mvp">MVP</span>
             </div>
             <p class="text-slate-400 max-w-2xl mb-4 leading-relaxed text-center mx-auto">
-              A tool for researching, tracking, and writing grant applications. Uses Claude externally to research opportunities and generate structured grant profiles that upload into the tool, then provides a writing workspace to complete each application correctly and efficiently.
+              A tool designed to research, track, and draft grant applications. It utilizes Claude to identify opportunities and generate structured profiles for import, providing a centralized workspace to complete each application with speed and precision.
             </p>
             <div class="flex flex-wrap justify-center gap-2">
               <span class="tag tech-tag">Next.js</span>
@@ -272,7 +272,7 @@
               <span class="tag status-mvp">MVP</span>
             </div>
             <p class="text-slate-400 max-w-2xl mb-4 leading-relaxed text-center mx-auto">
-              A lightweight tool for creating dynamic QR codes and tracking scan data in real time. Used for RSVP links on concert flyers and non-profit event marketing, letting you see which flyers, in which locations, drive the most engagement.
+              A lightweight tool for creating dynamic QR codes and tracking scan data in real time. Used for RSVP links on concert flyers and non-profit event marketing,<br>letting you see which flyers, in which locations, drive the most engagement.
             </p>
             <div class="flex flex-wrap justify-center gap-2">
               <span class="tag tech-tag">Cloudflare Workers</span>
@@ -288,7 +288,7 @@
             <div class="overflow-hidden -mx-1.5">
               <div class="carousel-track flex transition-transform duration-300 ease-in-out">
                 <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5 aspect-video overflow-hidden rounded-lg"><img src="images/QR_Dashboard.png" alt="QR dashboard" class="w-full h-full object-cover" /></div>
-                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5 aspect-video overflow-hidden rounded-lg"><img src="images/QR_Create.png" alt="Create QR code" class="w-full h-full object-cover" /></div>
+                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5 aspect-video overflow-hidden rounded-lg"><img src="images/QR_Manage.png" alt="Manage QR codes" class="w-full h-full object-cover" /></div>
               </div>
             </div>
             <div class="carousel-controls flex items-center justify-center gap-4 mt-3">
@@ -411,6 +411,13 @@
       document.getElementById(id).style.display = 'block';
       var btn = document.querySelector('[data-target="' + id + '"]');
       if (btn) btn.classList.add('tab-active');
+
+      var panel = document.getElementById(id);
+      var nav = document.querySelector('nav');
+      var tabBar = document.querySelector('.sticky.top-14');
+      var offset = (nav ? nav.offsetHeight : 0) + (tabBar ? tabBar.offsetHeight : 0) + 16;
+      var top = panel.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top: top, behavior: 'smooth' });
     }
 
     document.querySelectorAll('.tab-btn').forEach(function(btn) {
