@@ -477,13 +477,15 @@
       if (cardToTab[hash]) {
         switchTab(cardToTab[hash]);
         setTimeout(function() {
-          var card = document.getElementById(hash);
-          var nav = document.querySelector('nav');
-          var tabBar = document.querySelector('.sticky.top-14');
-          var offset = (nav ? nav.offsetHeight : 0) + (tabBar ? tabBar.offsetHeight : 0) + 48;
-          var top = card.getBoundingClientRect().top + window.scrollY - offset;
-          window.scrollTo({ top: top, behavior: 'smooth' });
-        }, 100);
+          requestAnimationFrame(function() {
+            var card = document.getElementById(hash);
+            var nav = document.querySelector('nav');
+            var tabBar = document.querySelector('.sticky.top-14');
+            var offset = (nav ? nav.offsetHeight : 0) + (tabBar ? tabBar.offsetHeight : 0) + 32;
+            var top = card.getBoundingClientRect().top + window.scrollY - offset;
+            window.scrollTo({ top: top, behavior: 'smooth' });
+          });
+        }, 150);
       } else {
         setTimeout(function() { switchTab(hash); }, 50);
       }
