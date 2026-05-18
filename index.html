@@ -29,7 +29,7 @@
     }
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Barlow+Condensed:wght@900&display=swap" rel="stylesheet" />
   <style>
     html { scroll-behavior: smooth; }
 
@@ -142,10 +142,6 @@
     <div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
       <a href="#" class="font-mono text-sm text-brand-400 font-medium">mhperkins<span class="text-slate-500">.dev</span></a>
       <div class="flex items-center gap-6">
-        <button onclick="switchTab('tab-sprout')" class="nav-link text-sm">In Use</button>
-        <button onclick="switchTab('tab-progress')" class="nav-link text-sm">In Progress</button>
-        <button onclick="switchTab('tab-experiments')" class="nav-link text-sm">In Development</button>
-        <button onclick="switchTab('tab-workflow')" class="nav-link text-sm">Workflow</button>
         <a href="resume.html" class="nav-link text-sm">Resume</a>
         <a href="#contact" class="nav-link text-sm">Contact</a>
       </div>
@@ -154,12 +150,17 @@
 
   <!-- HERO -->
   <section class="pt-14">
-    <div class="max-w-5xl mx-auto px-6 pt-8 pb-4 text-center">
-      <p class="text-lg text-slate-400 mb-2 uppercase">Maxwell Perkins</p>
-      <h1 class="text-5xl sm:text-6xl font-semibold tracking-tight mb-3 gradient-text uppercase">Apps and Tools Portfolio</h1>
-      <p class="text-lg text-slate-400 max-w-2xl leading-relaxed mb-6 mx-auto">
+    <div class="max-w-5xl mx-auto px-6 pt-12 pb-3 text-center">
+      <div style="display: inline-block; text-align: left;">
+      <p class="text-lg text-slate-400 uppercase tracking-widest" style="margin-bottom: -0.3em;">Maxwell Perkins</p>
+      <h1 class="mb-3 uppercase" style="font-family: 'Barlow Condensed', sans-serif; font-weight: 900; letter-spacing: 0.16em; line-height: 0.95;">
+        <span style="color: #cbd5e1; font-size: clamp(3.5rem, 8vw, 6rem); display: block; text-align: left;">Development</span>
+        <span class="gradient-text" style="font-size: clamp(5rem, 11vw, 8.5rem); display: block; text-align: left; padding-left: calc(0.6em + 0.2cm);">Portfolio</span>
+      </h1>
+      <p class="text-lg text-slate-400 leading-relaxed mb-6 text-right">
         Vibe coder &amp; low-code developer focused on AI-assisted internal tools.<br>I take real problems and turn them into fast, functional software.
       </p>
+      </div>
       <div class="grid grid-cols-5 gap-2 max-w-2xl mx-auto mb-6">
         <span class="tag tech-tag justify-center w-full whitespace-nowrap">Claude API</span>
         <span class="tag tech-tag justify-center w-full whitespace-nowrap">Claude Code</span>
@@ -190,8 +191,8 @@
       <!-- Tab: Sprout Society Suite -->
       <div id="tab-sprout" class="tab-panel pb-24">
         <!-- CRM -->
-        <div class="mb-20">
-          <div class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02] mb-6">
+        <div class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02] mb-20">
+          <div class="mb-6">
             <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
               <h3 class="text-xl font-semibold">Sprout Society CRM</h3>
               <span class="tag status-live">Live · Actively Used</span>
@@ -229,8 +230,8 @@
         </div>
 
         <!-- Grant Finder -->
-        <div class="mb-20">
-          <div class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02] mb-6">
+        <div class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02] mb-20">
+          <div class="mb-6">
             <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
               <h3 class="text-xl font-semibold">Grant Finder &amp; Writer</h3>
               <span class="tag status-mvp">MVP</span>
@@ -267,8 +268,8 @@
         </div>
 
         <!-- QR Tracker -->
-        <div class="mb-0">
-          <div class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02] mb-6">
+        <div class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02] mb-0">
+          <div class="mb-6">
             <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
               <h3 class="text-xl font-semibold">QR Scan Tracker</h3>
               <span class="tag status-mvp">MVP</span>
@@ -327,8 +328,7 @@
             <span class="tag tech-tag">Instagram API</span>
             <span class="tag tech-tag">Next.js</span>
           </div>
-        </div>
-        <div data-carousel>
+        <div data-carousel class="mt-6">
           <div class="overflow-hidden -mx-1.5">
             <div class="carousel-track flex transition-transform duration-300 ease-in-out">
               <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/Social_Dashboard.png" alt="Social dashboard" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Dashboard: contacts, upcoming events, next actions, and overdue follow-ups</p></div>
@@ -344,6 +344,7 @@
             <div class="carousel-dots flex gap-2"></div>
             <button class="carousel-next w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
           </div>
+        </div>
         </div>
       </div>
 

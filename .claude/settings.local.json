@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.onhires.com)",
+      "WebFetch(domain:www.bushburgproperties.com)"
+    ]
+  }
+}
