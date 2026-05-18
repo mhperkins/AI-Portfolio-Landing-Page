@@ -13,10 +13,10 @@
             brand: {
               50:  '#f0fdf4',
               100: '#dcfce7',
-              400: '#4ade80',
-              500: '#22c55e',
-              600: '#16a34a',
-              700: '#15803d',
+              400: '#348a58',
+              500: '#2d7a4f',
+              600: '#2d7a4f',
+              700: '#235e3d',
               900: '#14532d',
             }
           },
@@ -29,12 +29,13 @@
     }
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Barlow+Condensed:wght@900&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Barlow+Condensed:wght@300;900&display=block" rel="stylesheet" />
   <style>
     html { scroll-behavior: smooth; }
 
     .gradient-text {
-      background: linear-gradient(135deg, #22c55e 0%, #4ade80 50%, #86efac 100%);
+      background: linear-gradient(to right, #4a9e6b 0%, #2d7a4f 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -77,7 +78,7 @@
       font-size: 0.75rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: #4ade80;
+      color: #348a58;
     }
 
     /* screenshot placeholder */
@@ -90,7 +91,7 @@
       align-items: center;
       justify-content: center;
       gap: 12px;
-      color: #4ade80;
+      color: #348a58;
       border-radius: 8px;
       position: relative;
       overflow: hidden;
@@ -108,9 +109,15 @@
       );
     }
 
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+    .scroll-indicator { animation: bounce 1.8s ease-in-out infinite; cursor: pointer; }
+
     .tab-btn { color: #94a3b8; padding-bottom: 10px; border-bottom: 2px solid transparent; }
     .tab-btn:hover { color: #e2e8f0; }
-    .tab-active { color: #4ade80 !important; border-bottom-color: #4ade80 !important; }
+    .tab-active { color: #348a58 !important; border-bottom-color: #348a58 !important; }
 
     .loom-placeholder {
       background: linear-gradient(135deg, #0f1118 0%, #1a1528 100%);
@@ -135,7 +142,7 @@
     }
   </style>
 </head>
-<body class="bg-[#080d08] text-slate-200 font-sans antialiased">
+<body class="font-sans antialiased" style="color: #c4d4de; background: radial-gradient(ellipse 120% 60% at 50% 0%, #0f1f10 0%, #080d08 65%) #080d08;">
 
   <!-- NAV -->
   <nav class="fixed top-0 inset-x-0 z-50 border-b border-white/5 bg-[#080d08]/80 backdrop-blur-md">
@@ -155,7 +162,7 @@
       <p class="text-lg text-slate-400 uppercase tracking-widest" style="margin-bottom: -0.3em;">Maxwell Perkins</p>
       <h1 class="mb-3 uppercase" style="font-family: 'Barlow Condensed', sans-serif; font-weight: 900; letter-spacing: 0.16em; line-height: 0.95;">
         <span style="color: #cbd5e1; font-size: clamp(3.5rem, 8vw, 6rem); display: block; text-align: left;">Development</span>
-        <span class="gradient-text" style="font-size: clamp(5rem, 11vw, 8.5rem); display: block; text-align: left; padding-left: calc(0.6em + 0.2cm);">Portfolio</span>
+        <span style="color: #348a58; font-size: clamp(5rem, 11vw, 8.5rem); display: block; text-align: left; padding-left: calc(0.6em + 0.2cm);">Portfolio</span>
       </h1>
       <p class="text-lg text-slate-400 leading-relaxed mb-6 text-right">
         Vibe coder &amp; low-code developer focused on AI-assisted internal tools.<br>I take real problems and turn them into fast, functional software.
@@ -180,8 +187,8 @@
       <div class="max-w-5xl mx-auto px-6">
         <div class="flex justify-center gap-6 py-3">
           <button data-target="tab-sprout" class="tab-btn tab-active text-sm font-medium">In Use</button>
-          <button data-target="tab-progress" class="tab-btn text-sm font-medium">In Progress</button>
-          <button data-target="tab-experiments" class="tab-btn text-sm font-medium">In Development</button>
+          <button data-target="tab-progress" class="tab-btn text-sm font-medium">Building</button>
+          <button data-target="tab-experiments" class="tab-btn text-sm font-medium">Experiments</button>
           <button data-target="tab-workflow" class="tab-btn text-sm font-medium">Workflow</button>
         </div>
       </div>
@@ -191,7 +198,7 @@
       <!-- Tab: Sprout Society Suite -->
       <div id="tab-sprout" class="tab-panel pb-24">
         <!-- CRM -->
-        <div class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02] mb-20">
+        <div id="first-card" class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02] mb-20">
           <div class="mb-6">
             <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
               <h3 class="text-xl font-semibold">Sprout Society CRM</h3>
@@ -234,7 +241,7 @@
           <div class="mb-6">
             <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
               <h3 class="text-xl font-semibold">Grant Finder &amp; Writer</h3>
-              <span class="tag status-mvp">MVP</span>
+              <span class="tag status-live">Live · Actively Used</span>
             </div>
             <p class="text-slate-400 max-w-2xl mb-4 leading-relaxed text-center mx-auto">
               A tool designed to research, track, and draft grant applications. It utilizes Claude to identify opportunities and generate structured profiles for import, providing a centralized workspace to complete each application with speed and precision.
@@ -272,7 +279,7 @@
           <div class="mb-6">
             <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
               <h3 class="text-xl font-semibold">QR Scan Tracker</h3>
-              <span class="tag status-mvp">MVP</span>
+              <span class="tag status-live">Live · Actively Used</span>
             </div>
             <p class="text-slate-400 max-w-2xl mb-4 leading-relaxed text-center mx-auto">
               A lightweight tool for creating dynamic QR codes and tracking scan data in real time. Used for RSVP links on concert flyers and non-profit event marketing,<br>letting you see which flyers, in which locations, drive the most engagement.
@@ -303,12 +310,12 @@
         </div>
       </div>
 
-      <!-- Tab: In Progress -->
+      <!-- Tab: Building -->
       <div id="tab-progress" class="tab-panel pb-24" style="display:none">
         <div class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02] mb-8">
           <div class="flex flex-wrap items-center gap-3 mb-3">
             <h3 class="text-xl font-semibold">Social Content Planner</h3>
-            <span class="tag status-wip">In Development</span>
+            <span class="tag status-wip">In Progress</span>
           </div>
           <div class="text-slate-400 mb-6 leading-relaxed space-y-3">
             <p><span class="text-slate-300 font-medium">Problem:</span> Managing social content for Sprout Society means juggling multiple paid tools for design, scheduling, approvals with no unified workflow.</p>
@@ -353,7 +360,7 @@
         <div class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02]">
           <div class="flex flex-wrap items-center gap-3 mb-3">
             <h3 class="text-xl font-semibold">Music Composition Assistant</h3>
-            <span class="tag status-wip">In Development</span>
+            <span class="tag status-mvp">In Development</span>
           </div>
           <div class="text-slate-400 mb-6 leading-relaxed space-y-3">
             <p><span class="text-slate-300 font-medium">Problem:</span> AI music generation is largely unhelpful for serious composers, but with the right training and instructions there's a way for AI to become a genuinely useful part of the creation process.</p>
@@ -434,6 +441,14 @@
   </footer>
 
   <script>
+    function scrollToContent() {
+      var activePanel = document.querySelector('.tab-panel[style*="block"]');
+      var el = activePanel ? activePanel.querySelector('[class*="border"]') : document.getElementById('first-card');
+      if (!el) el = document.getElementById('first-card');
+      var offset = el.getBoundingClientRect().top + window.scrollY - 112;
+      window.scrollTo({ top: offset, behavior: 'smooth' });
+    }
+
     function switchTab(id) {
       document.querySelectorAll('.tab-panel iframe').forEach(function(iframe) { iframe.src = iframe.src; });
       document.querySelectorAll('.tab-panel').forEach(function(p) { p.style.display = 'none'; });
@@ -441,6 +456,7 @@
       document.getElementById(id).style.display = 'block';
       var btn = document.querySelector('[data-target="' + id + '"]');
       if (btn) btn.classList.add('tab-active');
+      scrollToContent();
 
       var panel = document.getElementById(id);
       var nav = document.querySelector('nav');
@@ -483,7 +499,7 @@
       function go(p) {
         cur = Math.max(0, Math.min(p, pages - 1));
         track.style.transform = 'translateX(-' + (cur * 100) + '%)';
-        dots.forEach(function(d, i) { d.style.background = i === cur ? '#4ade80' : '#334155'; });
+        dots.forEach(function(d, i) { d.style.background = i === cur ? '#348a58' : '#334155'; });
         prev.disabled = cur === 0;
         next.disabled = cur === pages - 1;
       }
@@ -491,6 +507,18 @@
       prev.addEventListener('click', function() { go(cur - 1); });
       next.addEventListener('click', function() { go(cur + 1); });
       go(0);
+    });
+  </script>
+  <div id="scroll-btn" class="scroll-indicator" onclick="scrollToContent()" style="position:fixed; bottom:2rem; left:50%; transform:translateX(-50%); z-index:50; width:48px; height:48px; border-radius:50%; background:rgba(8,13,8,0.9); border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; backdrop-filter:blur(8px); transition:opacity 0.3s;">
+    <svg width="22" height="22" fill="none" stroke="#348a58" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+      <path d="M6 9l6 6 6-6"/>
+    </svg>
+  </div>
+  <script>
+    var scrollBtn = document.getElementById('scroll-btn');
+    window.addEventListener('scroll', function() {
+      scrollBtn.style.opacity = window.scrollY < 50 ? '1' : '0';
+      scrollBtn.style.pointerEvents = window.scrollY < 50 ? 'auto' : 'none';
     });
   </script>
 </body>

@@ -25,7 +25,7 @@
     }
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Barlow+Condensed:wght@900&display=block" rel="stylesheet" />
   <style>
     .nav-link { color: #94a3b8; font-size: 0.875rem; transition: color 0.15s; }
     .nav-link:hover { color: #f1f5f9; }
@@ -42,12 +42,8 @@
   <!-- NAV -->
   <nav class="fixed top-0 inset-x-0 z-50 border-b border-white/5 bg-[#080d08]/80 backdrop-blur-md">
     <div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-      <a href="index.html" class="font-mono text-sm text-brand-400 font-medium">mhperkins<span class="text-slate-500">.dev</span></a>
+      <a href="index.html" class="font-mono text-sm font-medium" style="color: #348a58;">mhperkins<span style="color: #64748b;">.dev</span></a>
       <div class="flex items-center gap-6">
-        <a href="index.html#tab-sprout" class="nav-link text-sm">In Use</a>
-        <a href="index.html#tab-progress" class="nav-link text-sm">In Progress</a>
-        <a href="index.html#tab-experiments" class="nav-link text-sm">In Development</a>
-        <a href="index.html#tab-workflow" class="nav-link text-sm">Workflow</a>
         <a href="resume.html" class="nav-link text-sm">Resume</a>
         <a href="#contact" class="nav-link text-sm">Contact</a>
       </div>
@@ -55,14 +51,9 @@
   </nav>
 
   <!-- HEADER -->
-  <section class="pt-14">
-    <div class="max-w-5xl mx-auto px-6 pt-8 pb-4 text-center">
-      <h1 class="text-4xl sm:text-5xl font-semibold tracking-tight mb-8 gradient-text uppercase">Resume</h1>
-    </div>
-  </section>
 
   <!-- PDF VIEWER -->
-  <section class="pb-24">
+  <section class="pt-20 pb-24">
     <div class="max-w-4xl mx-auto px-6">
       <iframe src="Software Developer Resume.pdf" class="w-full rounded-xl border border-white/10" style="height: 85vh;"></iframe>
       <div class="flex justify-center mt-6">
