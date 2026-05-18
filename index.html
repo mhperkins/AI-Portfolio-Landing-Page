@@ -471,8 +471,9 @@
     });
 
     var cardToTab = { crm: 'tab-sprout', grant: 'tab-sprout', qr: 'tab-sprout', social: 'tab-progress', composition: 'tab-experiments' };
-    var hash = window.location.hash.replace('#', '');
-    if (hash && document.getElementById(hash)) {
+
+    function navigateToHash(hash) {
+      if (!hash || !document.getElementById(hash)) return;
       history.replaceState(null, '', window.location.pathname);
       if (cardToTab[hash]) {
         switchTab(cardToTab[hash]);
@@ -481,7 +482,7 @@
             var card = document.getElementById(hash);
             var nav = document.querySelector('nav');
             var tabBar = document.querySelector('.sticky.top-14');
-            var offset = (nav ? nav.offsetHeight : 0) + (tabBar ? tabBar.offsetHeight : 0) + 32;
+            var offset = (nav ? nav.offsetHeight : 0) + (tabBar ? tabBar.offsetHeight : 0) + 80;
             var top = card.getBoundingClientRect().top + window.scrollY - offset;
             window.scrollTo({ top: top, behavior: 'smooth' });
           });
@@ -490,6 +491,12 @@
         setTimeout(function() { switchTab(hash); }, 50);
       }
     }
+
+    navigateToHash(window.location.hash.replace('#', ''));
+
+    window.addEventListener('hashchange', function() {
+      navigateToHash(window.location.hash.replace('#', ''));
+    });
 
     document.querySelectorAll('[data-carousel]').forEach(function(el) {
       var track = el.querySelector('.carousel-track');
