@@ -198,7 +198,7 @@
       <!-- Tab: Sprout Society Suite -->
       <div id="tab-sprout" class="tab-panel pb-24">
         <!-- CRM -->
-        <div id="first-card" class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02] mb-20">
+        <div id="crm" class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02] mb-20">
           <div class="mb-6">
             <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
               <h3 class="text-xl font-semibold">Sprout Society CRM</h3>
@@ -237,7 +237,7 @@
         </div>
 
         <!-- Grant Finder -->
-        <div class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02] mb-20">
+        <div id="grant" class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02] mb-20">
           <div class="mb-6">
             <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
               <h3 class="text-xl font-semibold">Grant Finder &amp; Writer</h3>
@@ -275,7 +275,7 @@
         </div>
 
         <!-- QR Tracker -->
-        <div class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02] mb-0">
+        <div id="qr" class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02] mb-0">
           <div class="mb-6">
             <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
               <h3 class="text-xl font-semibold">QR Scan Tracker</h3>
@@ -312,7 +312,7 @@
 
       <!-- Tab: Building -->
       <div id="tab-progress" class="tab-panel pb-24" style="display:none">
-        <div class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02] mb-8">
+        <div id="social" class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02] mb-8">
           <div class="flex flex-wrap items-center gap-3 mb-3">
             <h3 class="text-xl font-semibold">Social Content Planner</h3>
             <span class="tag status-wip">In Progress</span>
@@ -357,7 +357,7 @@
 
       <!-- Tab: Experiments -->
       <div id="tab-experiments" class="tab-panel pb-24" style="display:none">
-        <div class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02]">
+        <div id="composition" class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02]">
           <div class="flex flex-wrap items-center gap-3 mb-3">
             <h3 class="text-xl font-semibold">Music Composition Assistant</h3>
             <span class="tag status-mvp">In Development</span>
@@ -470,10 +470,23 @@
       btn.addEventListener('click', function() { switchTab(btn.getAttribute('data-target')); });
     });
 
+    var cardToTab = { crm: 'tab-sprout', grant: 'tab-sprout', qr: 'tab-sprout', social: 'tab-progress', composition: 'tab-experiments' };
     var hash = window.location.hash.replace('#', '');
     if (hash && document.getElementById(hash)) {
       history.replaceState(null, '', window.location.pathname);
-      setTimeout(function() { switchTab(hash); }, 50);
+      if (cardToTab[hash]) {
+        switchTab(cardToTab[hash]);
+        setTimeout(function() {
+          var card = document.getElementById(hash);
+          var nav = document.querySelector('nav');
+          var tabBar = document.querySelector('.sticky.top-14');
+          var offset = (nav ? nav.offsetHeight : 0) + (tabBar ? tabBar.offsetHeight : 0) + 16;
+          var top = card.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top: top, behavior: 'smooth' });
+        }, 100);
+      } else {
+        setTimeout(function() { switchTab(hash); }, 50);
+      }
     }
 
     document.querySelectorAll('[data-carousel]').forEach(function(el) {
