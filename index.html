@@ -171,13 +171,13 @@
   <section class="pt-14">
     <div class="max-w-5xl mx-auto px-6 pt-12 pb-3 text-center">
       <div style="display: inline-block; text-align: left;">
-      <p class="text-lg text-slate-400 uppercase tracking-widest" style="margin-bottom: -0.3em;">Maxwell Perkins</p>
-      <h1 class="mb-3 uppercase" style="font-family: 'Barlow Condensed', sans-serif; font-weight: 900; letter-spacing: 0.16em; line-height: 0.95;">
+      <p class="text-2xl uppercase tracking-widest" style="margin-bottom: -0.3em; color: #cbd5e1;">Maxwell Perkins</p>
+      <h1 class="mb-1 uppercase" style="font-family: 'Barlow Condensed', sans-serif; font-weight: 900; letter-spacing: 0.16em; line-height: 0.85;">
         <span style="color: #cbd5e1; font-size: clamp(3.5rem, 8vw, 6rem); display: block; text-align: left;">Development</span>
         <span style="color: #348a58; font-size: clamp(5rem, 11vw, 8.5rem); display: block; text-align: left; padding-left: calc(0.6em + 0.2cm);">Portfolio</span>
       </h1>
-      <p class="text-lg text-slate-400 leading-relaxed mb-6 text-right">
-        AI-assisted developer building internal tools that solve real operational problems.<br>Fast, functional software. Actively used in production.
+      <p class="text-lg text-slate-400 leading-relaxed mb-3 mt-0 text-right">
+        I build AI-assisted tools, not prototypes.
       </p>
       </div>
       <div class="grid grid-cols-5 gap-2 max-w-2xl mx-auto mb-6">
@@ -193,6 +193,7 @@
         <span class="tag tech-tag justify-center w-full whitespace-nowrap">MCP Protocol</span>
       </div>
     </div>
+  </section>
 
     <!-- TABS -->
     <div class="sticky top-14 z-40 bg-[#080d08]/90 backdrop-blur-md border-b border-white/10 mb-10">
@@ -446,19 +447,21 @@
       <div id="tab-progress" class="tab-panel pb-24" style="display:none">
         <div id="composition" class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02]">
           <div class="flex flex-wrap items-center gap-3 mb-3">
-            <h3 class="text-xl font-semibold">Music Composition Assistant</h3>
+            <h3 class="text-xl font-semibold">Composer's Compass</h3>
             <span class="tag status-wip">In Development</span>
           </div>
           <div class="text-slate-400 mb-6 leading-relaxed space-y-3">
-            <p><span class="text-slate-300 font-medium">Problem:</span> AI music tools are built for non-musicians. They generate output rather than assisting the creative process, which makes them largely useless for a working composer. What's useful is a collaborator that can engage with incomplete material, ask good questions, and help think through decisions.</p>
-            <p><span class="text-slate-300 font-medium">Approach:</span> Building a multi-phase agent that doesn't generate music, but assists at each stage of the writing process: research and planning, analysis of musical fragments, brainstorming and critique of works in progress, and editing support during engraving. Each phase has a defined prompt architecture and a rubric for evaluating response quality.</p>
-            <p><span class="text-slate-300 font-medium">Current phase:</span> Running structured prompting experiments across each composition stage, grading responses against a rubric, and using emerging patterns to refine the agent's system prompt and tool design. The goal is an agent that integrates into the actual writing process without getting in the way of it.</p>
+            <p><span class="text-slate-300 font-medium">Problem:</span> AI music tools are built for non-musicians. They generate output rather than assisting the creative process, which makes them largely useless for a working composer. What's useful is a collaborator that can engage with incomplete material, ask good questions, and help think through decisions at each stage of writing.</p>
+            <p><span class="text-slate-300 font-medium">What's built:</span> A Next.js composition studio with a structured workflow — Pre-Composition planning, Lo-Res material development, Hi-Res writing advisor, and Engraving guidance. A server-side Anthropic API route handles model calls. An MCP server is planned to expose the agent's protocol documents as live resources in Claude Desktop.</p>
+            <p><span class="text-slate-300 font-medium">Agent training:</span> Before deploying the agent, the underlying prompt is being evaluated systematically. A structured intake form feeds an analysis agent, and each output is scored against a five-dimension rubric across six model configurations (Sonnet, Haiku, and Opus with and without extended thinking). The rubric evaluates factual accuracy, specificity, cross-parameter integration, reference utility, and synthesis. Results determine which model and settings get used in production.</p>
+            <p><span class="text-slate-300 font-medium">Current phase:</span> First scoring session complete. Runs 2–6 pending cold evaluation.</p>
           </div>
           <div class="flex flex-wrap gap-2">
             <span class="tag tech-tag">Claude API</span>
+            <span class="tag tech-tag">Next.js</span>
             <span class="tag tech-tag">Agent Architecture</span>
-            <span class="tag tech-tag">Tool Use</span>
-            <span class="tag tech-tag">Rubric Design</span>
+            <span class="tag tech-tag">Rubric Evaluation</span>
+            <span class="tag tech-tag">MCP</span>
             <span class="tag tech-tag">Prompt Engineering</span>
           </div>
         </div>
@@ -468,27 +471,27 @@
            Tab: Workflow
       ═══════════════════════════════════════════════════ -->
       <div id="tab-workflow" class="tab-panel pb-24" style="display:none">
-        <div class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02]">
+        <div class="border border-white/8 rounded-xl p-3 sm:p-4 card-hover bg-white/[0.02]">
           <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
             <h3 class="text-xl font-semibold">How I Work with Claude</h3>
           </div>
           <div class="text-slate-400 mb-6 leading-relaxed space-y-3">
-            <p><span class="text-slate-300 font-medium">The problem with most AI-assisted development:</span> Without structure, Claude loses context between sessions, makes changes that break unrelated parts of the codebase, and produces output that's hard to verify. The solution is better architecture around the prompts, not better prompts.</p>
-            <p><span class="text-slate-300 font-medium">What I built:</span> A documentation system with structured MD files covering project instructions, backend architecture, schema rules, and workflow protocols. Every project has a CLAUDE.md that gives Claude the full picture before any prompt is written. This keeps each prompt short, focused, and grounded in the actual system.</p>
-            <p><span class="text-slate-300 font-medium">How I work:</span> Claude Code runs directly in VS Code. Every change is a diff I review before accepting. I keep the browser open to test changes live. I read every line that gets written, not to catch errors but to understand what's being built and why. That habit is what's building my technical depth.</p>
-            <p><span class="text-slate-300 font-medium">The result:</span> A workflow that moves fast without breaking things, produces auditable output, and has shipped four production tools for a real client in active daily use.</p>
+            <p><span class="text-slate-300 font-medium">How I build tools:</span> A documentation system with structured MD files covering project instructions, backend architecture, schema rules, and workflow protocols. Every project has a CLAUDE.md that gives Claude the full picture before any prompt is written. Claude Code runs directly in VS Code. Every change is a diff I review before accepting. I keep the browser open to test changes live and read every line that gets written — not to catch errors, but to understand what's being built and why.</p>
+            <p><span class="text-slate-300 font-medium">How I build agents:</span> The same structured methodology applied before deploying any AI. For Composer's Compass, this means a designed intake form, a versioned system prompt, and a five-dimension evaluation rubric that scores output quality across six model configurations before any production decision is made. One variable changes per experiment run. Evaluation happens cold, the next day. Prompt changes require a pattern across at least two runs before they're implemented. The agent doesn't ship until the prompt is stable.</p>
+            <p><span class="text-slate-300 font-medium">The result:</span> A workflow that moves fast without breaking things, produces auditable output, and treats AI as a system to be designed — not a tool to be prompted and hoped at.</p>
           </div>
           <div class="flex flex-wrap gap-2">
             <span class="tag tech-tag">Claude Code</span>
             <span class="tag tech-tag">Structured Documentation</span>
             <span class="tag tech-tag">VS Code</span>
             <span class="tag tech-tag">Diff Review</span>
+            <span class="tag tech-tag">Rubric Evaluation</span>
+            <span class="tag tech-tag">Experiment Protocol</span>
           </div>
         </div>
       </div>
 
     </div>
-  </section>
 
   <!-- CONTACT -->
   <section id="contact" class="pt-5 pb-12 border-t border-white/5">
@@ -522,7 +525,6 @@
         <p>As AI tools became more accessible, I adopted them into my music and business work, then studied them more seriously through prompt engineering and data annotation at an AI lab. That work deepened a passion. Building became a hobby. When I started freelancing for Sprout Society, a Brooklyn nonprofit focused on mental wellness and community connection, I realized the hobby could become a profession.</p>
         <p>The suite of tools I built for them is in active daily use. Since shipping, I have been deepening my technical foundation to take the work further. That foundation is growing fast.</p>
       </div>
-      <a href="about.html" class="inline-block mt-6 text-sm text-brand-400 hover:text-brand-500 font-mono transition-colors">about.html →</a>
     </div>
   </section>
 

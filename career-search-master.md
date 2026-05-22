@@ -52,7 +52,7 @@ You are a self-taught developer who transitioned from music, entrepreneurship, a
 | Social Media Manager | /#social | Live, actively used | Canva API, Instagram API, Composio API, Next.js |
 | Campaign Tracker | /#qr | Live, actively used | Cloudflare Workers, HTML |
 | CRM MCP Server | — | Shipped | Node.js, MCP Protocol, Supabase, stdio |
-| Music Composition Assistant | /#composition | Building | Claude API, Agent Architecture, Tool Use |
+| Composer's Compass | /#composition | Building | Next.js, Anthropic SDK, Claude API, Agent Architecture, Rubric Evaluation |
 | Workflow Walkthrough | /#tab-workflow | Loom needs to be redone | Claude Code process |
 
 ### Shipped Builds (May 2026)
@@ -60,6 +60,8 @@ You are a self-taught developer who transitioned from music, entrepreneurship, a
 |---|---|---|
 | n8n weekly digest automation | Scheduled email pulling live data from all Sprout tools, Claude analysis layer, delivers to inbox every Monday | Live |
 | CRM MCP Server | Exposes live CRM data as Claude tools. Claude queries contacts, relationship health, and upcoming actions mid-conversation via stdio transport connected to Claude Desktop. | Live |
+| Composer's Compass — Tool | Next.js composition studio with Pre-Comp, Lo-Res, Hi-Res, Engraving workflow. Server-side Anthropic API proxy. MCP server integration planned. | Scaffolded |
+| Composer's Compass — Training Protocol | Structured experiment system: 8-section intake form → analysis agent → 5-dimension rubric evaluation across 6 model runs. First scoring session complete. | Active |
 
 ### The Sprout Suite Framing (use this narrative)
 The CRM, Grant Assistant, Social Media Manager, and Campaign Tracker are not four separate projects. They share one Supabase backend, one org profile, and one set of contacts. Together they are a production internal toolset built for a real Brooklyn nonprofit, the equivalent of a lightweight operations system. Frame it as a system in applications and interviews, not a list of side projects.
@@ -295,13 +297,16 @@ Answer: "That's why I built the MD files the way I did. When Claude gets somethi
 - [ ] Continue applying 3-5 roles per week
 
 ### Short Term (2-4 weeks)
+- [ ] Score Runs 2–6 for Composer's Compass (one per day, cold evaluation)
+- [ ] Complete experiment log and model assessment after all 6 runs scored
 - [ ] Record new Loom for Social Media Manager V2 showing the full publish pipeline
-- [ ] Redo Workflow tab Loom — current one makes it look like blind Claude use, needs to reflect actual technical understanding
+- [ ] Redo Workflow tab Loom — use composition training protocol as the concrete methodology example
+- [ ] Update Workflow tab copy in portfolio to include agent training approach
 - [ ] Build unified Sprout Society Suite app (hub with navigation between all 4 tools, one deployment)
 - [ ] Start reading own code — one component per day, explain each function out loud
-- [ ] Begin Music Composition Assistant agent build
 
 ### Medium Term (1-2 months)
+- [ ] Build Composer's Compass MCP server (system prompt, intake form, rubric as resources; log_session and get_piece_history tools)
 - [ ] Convert n8n workflow to native Vercel cron jobs (no subscription needed)
 - [ ] Learn Python basics
 - [ ] Connect real Sprout Society Instagram account
