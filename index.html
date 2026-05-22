@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MH Perkins: Vibe Coder</title>
+  <title>Maxwell Perkins | AI Developer</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -81,34 +81,6 @@
       color: #348a58;
     }
 
-    /* screenshot placeholder */
-    .screenshot-placeholder {
-      background: linear-gradient(135deg, #0f1a0f 0%, #1a2e1a 100%);
-      border: 1px solid rgba(74,222,128,0.15);
-      aspect-ratio: 16/9;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      color: #348a58;
-      border-radius: 8px;
-      position: relative;
-      overflow: hidden;
-    }
-    .screenshot-placeholder::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 20px,
-        rgba(74,222,128,0.02) 20px,
-        rgba(74,222,128,0.02) 40px
-      );
-    }
-
     @keyframes bounce {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(6px); }
@@ -119,6 +91,28 @@
     .tab-btn:hover { color: #e2e8f0; }
     .tab-active { color: #348a58 !important; border-bottom-color: #348a58 !important; }
 
+    /* Tool sub-tabs */
+    .tool-btn {
+      padding: 6px 16px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 500;
+      color: #64748b;
+      border: 1px solid rgba(255,255,255,0.07);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .tool-btn:hover { color: #cbd5e1; border-color: rgba(255,255,255,0.15); }
+    .tool-btn-active {
+      color: #4ade80 !important;
+      border-color: rgba(74,222,128,0.35) !important;
+      background: rgba(34,197,94,0.07) !important;
+    }
+
+    /* Screenshot carousel */
     .loom-placeholder {
       background: linear-gradient(135deg, #0f1118 0%, #1a1528 100%);
       border: 1px solid rgba(165,180,252,0.2);
@@ -140,6 +134,23 @@
       display: flex; align-items: center; justify-content: center;
       color: #a5b4fc;
     }
+
+    /* Suite banner */
+    .suite-banner {
+      background: linear-gradient(135deg, rgba(52,138,88,0.08) 0%, rgba(45,122,79,0.04) 100%);
+      border: 1px solid rgba(74,222,128,0.12);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+    }
+
+    /* Infra cards */
+    .infra-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 10px;
+      padding: 16px 20px;
+    }
   </style>
 </head>
 <body class="font-sans antialiased" style="color: #c4d4de; background: radial-gradient(ellipse 120% 60% at 50% 0%, #0f1f10 0%, #080d08 65%) #080d08;">
@@ -149,6 +160,7 @@
     <div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
       <a href="#" class="font-mono text-sm text-brand-400 font-medium">mhperkins<span class="text-slate-500">.dev</span></a>
       <div class="flex items-center gap-6">
+        <a href="about.html" class="nav-link text-sm">About</a>
         <a href="resume.html" class="nav-link text-sm">Resume</a>
         <a href="#contact" class="nav-link text-sm">Contact</a>
       </div>
@@ -165,7 +177,7 @@
         <span style="color: #348a58; font-size: clamp(5rem, 11vw, 8.5rem); display: block; text-align: left; padding-left: calc(0.6em + 0.2cm);">Portfolio</span>
       </h1>
       <p class="text-lg text-slate-400 leading-relaxed mb-6 text-right">
-        Vibe coder &amp; low-code developer focused on AI-assisted internal tools.<br>I take real problems and turn them into fast, functional software.
+        AI-assisted developer building internal tools that solve real operational problems.<br>Fast, functional software. Actively used in production.
       </p>
       </div>
       <div class="grid grid-cols-5 gap-2 max-w-2xl mx-auto mb-6">
@@ -178,7 +190,7 @@
         <span class="tag tech-tag justify-center w-full whitespace-nowrap">Composio API</span>
         <span class="tag tech-tag justify-center w-full whitespace-nowrap">Instagram API</span>
         <span class="tag tech-tag justify-center w-full whitespace-nowrap">Cloudflare</span>
-        <span class="tag tech-tag justify-center w-full whitespace-nowrap">Tailwind CSS</span>
+        <span class="tag tech-tag justify-center w-full whitespace-nowrap">MCP Protocol</span>
       </div>
     </div>
 
@@ -186,222 +198,331 @@
     <div class="sticky top-14 z-40 bg-[#080d08]/90 backdrop-blur-md border-b border-white/10 mb-10">
       <div class="max-w-5xl mx-auto px-6">
         <div class="flex justify-center gap-6 py-3">
-          <button data-target="tab-sprout" class="tab-btn tab-active text-sm font-medium">In Use</button>
+          <button data-target="tab-sprout" class="tab-btn tab-active text-sm font-medium">Shipped</button>
           <button data-target="tab-progress" class="tab-btn text-sm font-medium">Building</button>
-          <button data-target="tab-experiments" class="tab-btn text-sm font-medium">Experiments</button>
           <button data-target="tab-workflow" class="tab-btn text-sm font-medium">Workflow</button>
         </div>
       </div>
     </div>
+
     <div class="max-w-5xl mx-auto px-6">
 
-      <!-- Tab: Sprout Society Suite -->
+      <!-- ═══════════════════════════════════════════════════
+           Tab: Shipped — Sprout Society Suite
+      ═══════════════════════════════════════════════════ -->
       <div id="tab-sprout" class="tab-panel pb-24">
-        <!-- CRM -->
-        <div id="crm" class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02] mb-20">
-          <div class="mb-6">
-            <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
-              <h3 class="text-xl font-semibold">Sprout Society CRM</h3>
-              <span class="tag status-live">Live · Actively Used</span>
+
+        <!-- Suite banner -->
+        <div class="suite-banner mb-6">
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <p class="section-label mb-1">The Sprout Society Suite</p>
+              <p class="text-slate-300 font-medium text-base">Four tools. One organization. One backend. In production.</p>
             </div>
-            <p class="text-slate-400 mb-4 leading-relaxed text-center">
-              Built for the non-profit Sprout Society, this relationship management tool tracks contacts,<br>communications, and events while integrating Claude to generate and import new contact profiles via JSON.
-            </p>
-            <div class="flex flex-wrap justify-center gap-2">
-              <span class="tag tech-tag">Next.js</span>
-              <span class="tag tech-tag">Supabase</span>
-              <span class="tag tech-tag">Claude API</span>
-              <span class="tag tech-tag">Vercel</span>
-              <span class="tag tech-tag">Canva MCP</span>
-              <span class="tag tech-tag">JSON</span>
+            <div class="flex gap-2 flex-wrap">
+              <span class="tag status-live">4 Tools Live</span>
+              <span class="tag tech-tag">Shared Supabase</span>
+              <span class="tag tech-tag">Sprout Society NYC</span>
             </div>
           </div>
-          <div class="relative mb-4" style="padding-bottom:56.25%">
-            <iframe src="https://www.loom.com/embed/d5c0f4d1409041d0ba7897f4d03cf943" frameborder="0" allowfullscreen class="absolute inset-0 w-full h-full rounded-lg"></iframe>
-          </div>
-          <div data-carousel>
-            <div class="overflow-hidden -mx-1.5">
-              <div class="carousel-track flex transition-transform duration-300 ease-in-out">
-                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/CRM_Dashboard.png" alt="CRM dashboard" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Dashboard: contacts, upcoming events, next actions, and overdue follow-ups</p></div>
-                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/CRM_ContactsV2.png" alt="Contacts list" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Contact list with relationship status, next actions, and communications</p></div>
-                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/CRM_Events.png" alt="Events page" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Event detail page with linked contacts, tasks, and a full calendar view</p></div>
-                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/CRM_Import.png" alt="Claude profile import" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Claude-generated JSON profiles pasted and imported directly into the CRM</p></div>
+          <p class="text-slate-400 text-sm mt-3 leading-relaxed max-w-3xl">
+            Built for a Brooklyn nonprofit focused on mental wellness and community connection. The CRM, Grant Manager, Social Planner, and Campaign Tracker share a single database, a single org profile, and a single set of contacts. Together they form a lightweight operations system, not a collection of side projects.
+          </p>
+        </div>
+
+        <!-- Tool sub-tabs -->
+        <div class="flex gap-2 mb-6 flex-wrap">
+          <button class="tool-btn tool-btn-active" data-tool="crm">CRM</button>
+          <button class="tool-btn" data-tool="grant">Grant Finder</button>
+          <button class="tool-btn" data-tool="social">Social Planner</button>
+          <button class="tool-btn" data-tool="qr">Campaign Tracker</button>
+        </div>
+
+        <!-- ── Tool: CRM ── -->
+        <div id="tool-crm" class="tool-panel">
+          <div id="crm" class="border border-white/8 rounded-xl p-6 sm:p-8 bg-white/[0.02]">
+            <div class="mb-6">
+              <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
+                <h3 class="text-xl font-semibold">Sprout Society CRM</h3>
+                <span class="tag status-live">Live · Actively Used</span>
+              </div>
+              <div class="flex flex-wrap justify-center gap-2 mb-6">
+                <span class="tag tech-tag">Next.js</span>
+                <span class="tag tech-tag">Supabase</span>
+                <span class="tag tech-tag">Claude API</span>
+                <span class="tag tech-tag">Vercel</span>
+                <span class="tag tech-tag">Zod</span>
+                <span class="tag tech-tag">MCP Server</span>
+                <span class="tag tech-tag">JSON</span>
+              </div>
+              <div class="grid sm:grid-cols-3 gap-4 text-sm mb-6">
+                <div>
+                  <p class="text-slate-300 font-medium mb-1">Problem</p>
+                  <p class="text-slate-400 leading-relaxed">Sprout Society had no system for their growing community network. Relationships were tracked in a spreadsheet, follow-ups were forgotten, and events had no central coordination.</p>
+                </div>
+                <div>
+                  <p class="text-slate-300 font-medium mb-1">Solution</p>
+                  <p class="text-slate-400 leading-relaxed">A full relationship management tool with contact status tracking, touchpoint history, next-action queues, and event management. Claude generates and imports new contact profiles via structured JSON.</p>
+                </div>
+                <div>
+                  <p class="text-slate-300 font-medium mb-1">Outcome</p>
+                  <p class="text-slate-400 leading-relaxed">Actively used daily to manage 200+ community relationships. Also shipped an MCP server so Claude can query the live database mid-conversation, identifying overdue relationships and generating research briefs without copy-pasting.</p>
+                </div>
               </div>
             </div>
-            <div class="carousel-controls flex items-center justify-center gap-4 mt-3">
-              <button class="carousel-prev w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
-              <div class="carousel-dots flex gap-2"></div>
-              <button class="carousel-next w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+            <div class="relative mb-4" style="padding-bottom:56.25%">
+              <iframe src="https://www.loom.com/embed/d5c0f4d1409041d0ba7897f4d03cf943" frameborder="0" allowfullscreen class="absolute inset-0 w-full h-full rounded-lg"></iframe>
+            </div>
+            <div data-carousel>
+              <div class="overflow-hidden -mx-1.5">
+                <div class="carousel-track flex transition-transform duration-300 ease-in-out">
+                  <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/CRM_Dashboard.png" alt="CRM dashboard" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Dashboard: contacts, upcoming events, next actions, and overdue follow-ups</p></div>
+                  <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/CRM_ContactsV2.png" alt="Contacts list" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Contact list with relationship status, next actions, and communications history</p></div>
+                  <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/CRM_Events.png" alt="Events page" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Event detail page with linked contacts, tasks, and a full calendar view</p></div>
+                  <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/CRM_Import.png" alt="Claude profile import" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Claude-generated JSON profiles pasted and imported directly into the CRM</p></div>
+                </div>
+              </div>
+              <div class="carousel-controls flex items-center justify-center gap-4 mt-3">
+                <button class="carousel-prev w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
+                <div class="carousel-dots flex gap-2"></div>
+                <button class="carousel-next w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Grant Finder -->
-        <div id="grant" class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02] mb-20">
-          <div class="mb-6">
-            <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
-              <h3 class="text-xl font-semibold">Grant Finder &amp; Writer</h3>
-              <span class="tag status-live">Live · Actively Used</span>
-            </div>
-            <p class="text-slate-400 max-w-2xl mb-4 leading-relaxed text-center mx-auto">
-              A tool designed to research, track, and draft grant applications. It utilizes Claude to identify opportunities and generate structured profiles for import, providing a centralized workspace to complete each application with speed and precision.
-            </p>
-            <div class="flex flex-wrap justify-center gap-2">
-              <span class="tag tech-tag">Next.js</span>
-              <span class="tag tech-tag">Supabase</span>
-              <span class="tag tech-tag">Claude API</span>
-              <span class="tag tech-tag">Vercel</span>
-              <span class="tag tech-tag">JSON</span>
-            </div>
-          </div>
-          <div class="relative mb-4" style="padding-bottom:56.25%">
-            <iframe src="https://www.loom.com/embed/477728dafa8b4a4e9fb732da7618169f" frameborder="0" allowfullscreen class="absolute inset-0 w-full h-full rounded-lg"></iframe>
-          </div>
-          <div data-carousel>
-            <div class="overflow-hidden -mx-1.5">
-              <div class="carousel-track flex transition-transform duration-300 ease-in-out">
-                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/Grant_Pipeline.png" alt="Grant pipeline" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Full pipeline view of active grants and high-level information</p></div>
-                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/Grant_Tasks.png" alt="Grant tasks" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Per-grant task list with Claude-generated research notes and action items</p></div>
-                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/Grant_Workspace.png" alt="Writing workspace" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Application workspace with framing notes, Q&amp;A fields, and org profile auto-fill</p></div>
-                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/Grant_Import.png" alt="Grant import" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Claude-generated grant profiles imported via JSON directly into the tool</p></div>
+        <!-- ── Tool: Grant Finder ── -->
+        <div id="tool-grant" class="tool-panel" style="display:none">
+          <div id="grant" class="border border-white/8 rounded-xl p-6 sm:p-8 bg-white/[0.02]">
+            <div class="mb-6">
+              <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
+                <h3 class="text-xl font-semibold">Grant Finder &amp; Writer</h3>
+                <span class="tag status-live">Live · Actively Used</span>
+              </div>
+              <div class="flex flex-wrap justify-center gap-2 mb-6">
+                <span class="tag tech-tag">Next.js</span>
+                <span class="tag tech-tag">Supabase</span>
+                <span class="tag tech-tag">Claude API</span>
+                <span class="tag tech-tag">Vercel</span>
+                <span class="tag tech-tag">JSON</span>
+              </div>
+              <div class="grid sm:grid-cols-3 gap-4 text-sm mb-6">
+                <div>
+                  <p class="text-slate-300 font-medium mb-1">Problem</p>
+                  <p class="text-slate-400 leading-relaxed">Grant research was slow and scattered across tabs, emails, and documents. No system to track the pipeline, document positioning, or manage the application lifecycle end to end.</p>
+                </div>
+                <div>
+                  <p class="text-slate-300 font-medium mb-1">Solution</p>
+                  <p class="text-slate-400 leading-relaxed">A research and writing workspace where Claude identifies opportunities and generates structured grant profiles for direct import. The tool manages the full pipeline from discovery through submission, with an application workspace that auto-fills org context.</p>
+                </div>
+                <div>
+                  <p class="text-slate-300 font-medium mb-1">Outcome</p>
+                  <p class="text-slate-400 leading-relaxed">Actively used as the primary grant management system. Research time per grant is significantly reduced, and the active, submitted, and awarded pipeline is all visible in one place.</p>
+                </div>
               </div>
             </div>
-            <div class="carousel-controls flex items-center justify-center gap-4 mt-3">
-              <button class="carousel-prev w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
-              <div class="carousel-dots flex gap-2"></div>
-              <button class="carousel-next w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+            <div class="relative mb-4" style="padding-bottom:56.25%">
+              <iframe src="https://www.loom.com/embed/477728dafa8b4a4e9fb732da7618169f" frameborder="0" allowfullscreen class="absolute inset-0 w-full h-full rounded-lg"></iframe>
+            </div>
+            <div data-carousel>
+              <div class="overflow-hidden -mx-1.5">
+                <div class="carousel-track flex transition-transform duration-300 ease-in-out">
+                  <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/Grant_Pipeline.png" alt="Grant pipeline" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Full pipeline view of active grants and high-level information</p></div>
+                  <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/Grant_Tasks.png" alt="Grant tasks" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Per-grant task list with Claude-generated research notes and action items</p></div>
+                  <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/Grant_Workspace.png" alt="Writing workspace" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Application workspace with framing notes, Q&amp;A fields, and org profile auto-fill</p></div>
+                  <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/Grant_Import.png" alt="Grant import" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Claude-generated grant profiles imported via JSON directly into the tool</p></div>
+                </div>
+              </div>
+              <div class="carousel-controls flex items-center justify-center gap-4 mt-3">
+                <button class="carousel-prev w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
+                <div class="carousel-dots flex gap-2"></div>
+                <button class="carousel-next w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- QR Tracker -->
-        <div id="qr" class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02] mb-0">
-          <div class="mb-6">
-            <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
-              <h3 class="text-xl font-semibold">QR Scan Tracker</h3>
-              <span class="tag status-live">Live · Actively Used</span>
-            </div>
-            <p class="text-slate-400 max-w-2xl mb-4 leading-relaxed text-center mx-auto">
-              A lightweight tool for creating dynamic QR codes and tracking scan data in real time. Used for RSVP links on concert flyers and non-profit event marketing,<br>letting you see which flyers, in which locations, drive the most engagement.
-            </p>
-            <div class="flex flex-wrap justify-center gap-2">
-              <span class="tag tech-tag">Cloudflare Workers</span>
-              <span class="tag tech-tag">Plain HTML</span>
-              <span class="tag tech-tag">Dynamic QR</span>
-              <span class="tag tech-tag">Analytics</span>
-            </div>
-          </div>
-          <div class="relative mb-4" style="padding-bottom:56.25%">
-            <iframe src="https://www.loom.com/embed/8627c0e470e4482da119622f43efab95" frameborder="0" allowfullscreen class="absolute inset-0 w-full h-full rounded-lg"></iframe>
-          </div>
-          <div data-carousel>
-            <div class="overflow-hidden -mx-1.5">
-              <div class="carousel-track flex transition-transform duration-300 ease-in-out">
-                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/QR_Dashboard.png" alt="QR dashboard" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Live scan tracking dashboard with QR codes and Cloudflare Worker integration</p></div>
-                <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/QR_Manage.png" alt="Manage QR codes" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Event and QR code manager for creating and organizing codes by event</p></div>
+        <!-- ── Tool: Social Planner ── -->
+        <div id="tool-social" class="tool-panel" style="display:none">
+          <div id="social" class="border border-white/8 rounded-xl p-6 sm:p-8 bg-white/[0.02]">
+            <div class="mb-6">
+              <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
+                <h3 class="text-xl font-semibold">Social Content Planner</h3>
+                <span class="tag status-live">Live · Functional V2</span>
+              </div>
+              <div class="flex flex-wrap justify-center gap-2 mb-6">
+                <span class="tag tech-tag">Next.js</span>
+                <span class="tag tech-tag">Supabase</span>
+                <span class="tag tech-tag">Canva API</span>
+                <span class="tag tech-tag">Composio API</span>
+                <span class="tag tech-tag">Instagram API</span>
+                <span class="tag tech-tag">Vercel</span>
+              </div>
+              <div class="grid sm:grid-cols-3 gap-4 text-sm mb-6">
+                <div>
+                  <p class="text-slate-300 font-medium mb-1">Problem</p>
+                  <p class="text-slate-400 leading-relaxed">Managing Sprout Society's social content meant juggling Canva for design, a separate scheduling tool, and a manual approval process, with no unified workflow and no visibility into what was going live.</p>
+                </div>
+                <div>
+                  <p class="text-slate-300 font-medium mb-1">Solution</p>
+                  <p class="text-slate-400 leading-relaxed">A single content manager that handles the full pipeline: Canva API for in-tool design, direct Instagram publishing via API, and a built-in human approval step before anything goes live. Every post requires a human decision.</p>
+                </div>
+                <div>
+                  <p class="text-slate-300 font-medium mb-1">Outcome</p>
+                  <p class="text-slate-400 leading-relaxed">Fully functional V2, deployed and in use. The human-in-the-loop approval design was an intentional product decision, not a workaround. Replaces multiple paid tools with one owned workflow.</p>
+                </div>
               </div>
             </div>
-            <div class="carousel-controls flex items-center justify-center gap-4 mt-3">
-              <button class="carousel-prev w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
-              <div class="carousel-dots flex gap-2"></div>
-              <button class="carousel-next w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+            <div data-carousel>
+              <div class="overflow-hidden -mx-1.5">
+                <div class="carousel-track flex transition-transform duration-300 ease-in-out">
+                  <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/Social_Dashboard.png" alt="Social dashboard" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Content dashboard with pipeline summary and upcoming scheduled posts</p></div>
+                  <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/Social_Calendar.png" alt="Content calendar" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Content calendar with scheduled posts and publishing status</p></div>
+                  <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/Social_Analytics.png" alt="Instagram analytics" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Instagram analytics pulled in via API for performance tracking</p></div>
+                  <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/Social_Brand.png" alt="Brand assets" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Brand asset library for consistent design across content</p></div>
+                  <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/Social_ContentOverview.png" alt="Content overview" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Content overview with task progress, metadata, and media preview</p></div>
+                  <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/Social_ContentCreate.png" alt="Content creator" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Caption and media editor with hashtag management and publish method selection</p></div>
+                </div>
+              </div>
+              <div class="carousel-controls flex items-center justify-center gap-4 mt-3">
+                <button class="carousel-prev w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
+                <div class="carousel-dots flex gap-2"></div>
+                <button class="carousel-next w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- ── Tool: Campaign Tracker ── -->
+        <div id="tool-qr" class="tool-panel" style="display:none">
+          <div id="qr" class="border border-white/8 rounded-xl p-6 sm:p-8 bg-white/[0.02]">
+            <div class="mb-6">
+              <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
+                <h3 class="text-xl font-semibold">Campaign Tracker</h3>
+                <span class="tag status-live">Live · Actively Used</span>
+              </div>
+              <div class="flex flex-wrap justify-center gap-2 mb-6">
+                <span class="tag tech-tag">Cloudflare Workers</span>
+                <span class="tag tech-tag">Plain HTML</span>
+                <span class="tag tech-tag">Dynamic QR</span>
+                <span class="tag tech-tag">Analytics</span>
+              </div>
+              <div class="grid sm:grid-cols-3 gap-4 text-sm mb-6">
+                <div>
+                  <p class="text-slate-300 font-medium mb-1">Problem</p>
+                  <p class="text-slate-400 leading-relaxed">Sprout Society was printing and distributing event flyers across Brooklyn with no way to know which locations or formats actually drove RSVPs. Marketing ROI was invisible.</p>
+                </div>
+                <div>
+                  <p class="text-slate-300 font-medium mb-1">Solution</p>
+                  <p class="text-slate-400 leading-relaxed">A lightweight tool that generates dynamic QR codes tied to specific flyers and locations. Real-time scan tracking runs serverless via Cloudflare Workers with a live analytics dashboard.</p>
+                </div>
+                <div>
+                  <p class="text-slate-300 font-medium mb-1">Outcome</p>
+                  <p class="text-slate-400 leading-relaxed">Actively used for every Sprout Society event. Replaced guesswork with data. The team now knows which placements actually drive engagement and can allocate print budget accordingly.</p>
+                </div>
+              </div>
+            </div>
+            <div class="relative mb-4" style="padding-bottom:56.25%">
+              <iframe src="https://www.loom.com/embed/8627c0e470e4482da119622f43efab95" frameborder="0" allowfullscreen class="absolute inset-0 w-full h-full rounded-lg"></iframe>
+            </div>
+            <div data-carousel>
+              <div class="overflow-hidden -mx-1.5">
+                <div class="carousel-track flex transition-transform duration-300 ease-in-out">
+                  <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/QR_Dashboard.png" alt="QR dashboard" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Live scan tracking dashboard with QR codes and Cloudflare Worker integration</p></div>
+                  <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/QR_Manage.png" alt="Manage QR codes" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Event and QR code manager for creating and organizing codes by event</p></div>
+                </div>
+              </div>
+              <div class="carousel-controls flex items-center justify-center gap-4 mt-3">
+                <button class="carousel-prev w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
+                <div class="carousel-dots flex gap-2"></div>
+                <button class="carousel-next w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Infrastructure callout -->
+        <div class="mt-8">
+          <p class="section-label mb-4">What connects it all</p>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div class="infra-card">
+              <div class="flex items-start gap-3">
+                <span class="text-brand-400 mt-0.5 text-lg">⬡</span>
+                <div>
+                  <p class="text-slate-300 font-medium text-sm mb-1">CRM MCP Server</p>
+                  <p class="text-slate-400 text-sm leading-relaxed">An MCP server that exposes live CRM data as tools Claude can call mid-conversation. Claude queries contacts, relationship health, and upcoming actions directly from the database without any copy-pasting. Built on the Model Context Protocol with custom cadence logic ported from the app.</p>
+                  <div class="flex flex-wrap gap-1 mt-2">
+                    <span class="tag tech-tag" style="font-size:0.7rem">MCP Protocol</span>
+                    <span class="tag tech-tag" style="font-size:0.7rem">Node.js</span>
+                    <span class="tag tech-tag" style="font-size:0.7rem">Supabase</span>
+                    <span class="tag tech-tag" style="font-size:0.7rem">stdio transport</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="infra-card">
+              <div class="flex items-start gap-3">
+                <span class="text-brand-400 mt-0.5 text-lg">⬡</span>
+                <div>
+                  <p class="text-slate-300 font-medium text-sm mb-1">Weekly Digest Automation</p>
+                  <p class="text-slate-400 text-sm leading-relaxed">A scheduled workflow that pulls live data from all three Sprout tools every Monday morning, runs it through Claude for gap analysis and prioritization, and delivers a plain-English operational summary to the inbox. Built with n8n.</p>
+                  <div class="flex flex-wrap gap-1 mt-2">
+                    <span class="tag tech-tag" style="font-size:0.7rem">n8n</span>
+                    <span class="tag tech-tag" style="font-size:0.7rem">Claude API</span>
+                    <span class="tag tech-tag" style="font-size:0.7rem">Supabase</span>
+                    <span class="tag tech-tag" style="font-size:0.7rem">Scheduled</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
-      <!-- Tab: Building -->
+      <!-- ═══════════════════════════════════════════════════
+           Tab: Building
+      ═══════════════════════════════════════════════════ -->
       <div id="tab-progress" class="tab-panel pb-24" style="display:none">
-        <div id="social" class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02] mb-8">
-          <div class="flex flex-wrap items-center gap-3 mb-3">
-            <h3 class="text-xl font-semibold">Social Content Planner</h3>
-            <span class="tag status-wip">In Progress</span>
-          </div>
-          <div class="text-slate-400 mb-6 leading-relaxed space-y-3">
-            <p><span class="text-slate-300 font-medium">Problem:</span> Managing social content for Sprout Society means juggling multiple paid tools for design, scheduling, approvals with no unified workflow.</p>
-            <p><span class="text-slate-300 font-medium">Solution:</span> A single social media manager hub that includes:</p>
-            <ul class="list-disc list-inside space-y-1 pl-2">
-              <li>Canva API integration for design</li>
-              <li>Composio API-connected platform APIs for direct publishing to Instagram</li>
-              <li>Instagram Analytics pulled in via API for clearer performance tracking</li>
-              <li>A built-in human approval step before anything goes live</li>
-            </ul>
-            <p><span class="text-slate-300 font-medium">Goal:</span> Replace paid scheduling software entirely: draft, design, approve, and publish from one place, with a human initiating every final post.</p>
-            <p><span class="text-slate-300 font-medium">Current phase:</span> Streamlining the interface, cutting unnecessary features, and stress-testing the automation pipelines to determine where human verification steps belong.</p>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <span class="tag tech-tag">Canva API</span>
-            <span class="tag tech-tag">Composio API</span>
-            <span class="tag tech-tag">Instagram API</span>
-            <span class="tag tech-tag">Next.js</span>
-          </div>
-        <div data-carousel class="mt-6">
-          <div class="overflow-hidden -mx-1.5">
-            <div class="carousel-track flex transition-transform duration-300 ease-in-out">
-              <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/Social_Dashboard.png" alt="Social dashboard" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Dashboard: contacts, upcoming events, next actions, and overdue follow-ups</p></div>
-              <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/Social_Calendar.png" alt="Content calendar" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Content calendar with scheduled posts and publishing status</p></div>
-              <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/Social_Analytics.png" alt="Instagram analytics" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Instagram analytics pulled in via API for performance tracking</p></div>
-              <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/Social_Brand.png" alt="Brand assets" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Brand asset library for consistent design across content</p></div>
-              <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/Social_ContentOverview.png" alt="Content overview" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Content overview with task progress, metadata, and media preview</p></div>
-              <div class="carousel-slide w-1/2 flex-shrink-0 px-1.5"><div class="aspect-video overflow-hidden rounded-lg mb-2"><img src="images/Social_ContentCreate.png" alt="Content creator" class="w-full h-full object-cover" /></div><p class="text-xs text-slate-500 text-center">Caption and media editor with hashtag management and publish method selection</p></div>
-            </div>
-          </div>
-          <div class="carousel-controls flex items-center justify-center gap-4 mt-3">
-            <button class="carousel-prev w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
-            <div class="carousel-dots flex gap-2"></div>
-            <button class="carousel-next w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
-          </div>
-        </div>
-        </div>
-      </div>
-
-      <!-- Tab: Experiments -->
-      <div id="tab-experiments" class="tab-panel pb-24" style="display:none">
         <div id="composition" class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02]">
           <div class="flex flex-wrap items-center gap-3 mb-3">
             <h3 class="text-xl font-semibold">Music Composition Assistant</h3>
-            <span class="tag status-mvp">In Development</span>
+            <span class="tag status-wip">In Development</span>
           </div>
           <div class="text-slate-400 mb-6 leading-relaxed space-y-3">
-            <p><span class="text-slate-300 font-medium">Problem:</span> AI music generation is largely unhelpful for serious composers, but with the right training and instructions there's a way for AI to become a genuinely useful part of the creation process.</p>
-            <p><span class="text-slate-300 font-medium">Solution:</span> An agent that doesn't generate music, but rather assists in each phase of the writing process:</p>
-            <ul class="list-disc list-inside space-y-1 pl-2">
-              <li>Research and planning</li>
-              <li>Proposing ideas and analysis from small or incomplete musical fragments (rhythms, melody, harmony)</li>
-              <li>Analyzing works in progress and functioning as a brainstorm partner</li>
-              <li>Assisting in the engraving process as an editor</li>
-            </ul>
-            <p><span class="text-slate-300 font-medium">Goal:</span> Seamlessly integrate into the writing process in a way that genuinely helps, without detracting from or slowing down the creative work.</p>
-            <p><span class="text-slate-300 font-medium">Current phase:</span> Prompting across each stage of the composition process, grading responses against a rubric, and using the patterns that emerge to train the agent toward better synthesis and analysis.</p>
+            <p><span class="text-slate-300 font-medium">Problem:</span> AI music tools are built for non-musicians. They generate output rather than assisting the creative process, which makes them largely useless for a working composer. What's useful is a collaborator that can engage with incomplete material, ask good questions, and help think through decisions.</p>
+            <p><span class="text-slate-300 font-medium">Approach:</span> Building a multi-phase agent that doesn't generate music, but assists at each stage of the writing process: research and planning, analysis of musical fragments, brainstorming and critique of works in progress, and editing support during engraving. Each phase has a defined prompt architecture and a rubric for evaluating response quality.</p>
+            <p><span class="text-slate-300 font-medium">Current phase:</span> Running structured prompting experiments across each composition stage, grading responses against a rubric, and using emerging patterns to refine the agent's system prompt and tool design. The goal is an agent that integrates into the actual writing process without getting in the way of it.</p>
           </div>
           <div class="flex flex-wrap gap-2">
             <span class="tag tech-tag">Claude API</span>
             <span class="tag tech-tag">Agent Architecture</span>
+            <span class="tag tech-tag">Tool Use</span>
             <span class="tag tech-tag">Rubric Design</span>
+            <span class="tag tech-tag">Prompt Engineering</span>
           </div>
         </div>
       </div>
 
-      <!-- Tab: Workflow -->
+      <!-- ═══════════════════════════════════════════════════
+           Tab: Workflow
+      ═══════════════════════════════════════════════════ -->
       <div id="tab-workflow" class="tab-panel pb-24" style="display:none">
         <div class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02]">
           <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
             <h3 class="text-xl font-semibold">How I Work with Claude</h3>
           </div>
           <div class="text-slate-400 mb-6 leading-relaxed space-y-3">
-            <p><span class="text-slate-300 font-medium">Problem:</span> Early on, Claude would hallucinate, lose context between conversations, and make changes that broke unrelated parts of the codebase.</p>
-            <p><span class="text-slate-300 font-medium">Solution:</span> Built structured MD files covering project instructions, backend architecture docs, and workflow protocols to give Claude consistent context so every prompt could be short and focused. Then integrated Claude Code directly into VS Code, which eliminated nearly all hallucinations.</p>
-            <p><span class="text-slate-300 font-medium">Result:</span> A workflow where I can move fast without breaking things, with tight prompts, live diffs, and a clear audit trail before any change is accepted.</p>
-            <p><span class="text-slate-300 font-medium">Next step:</span> Building custom Claude Code skills to automate repetitive workflow steps and further refine my development process.</p>
-          </div>
-          <div class="relative mb-4" style="padding-bottom:56.25%">
-            <iframe src="https://www.loom.com/embed/bc843a16ff894a209c63b2f07c9bfbe5" frameborder="0" allowfullscreen class="absolute inset-0 w-full h-full rounded-lg"></iframe>
+            <p><span class="text-slate-300 font-medium">The problem with most AI-assisted development:</span> Without structure, Claude loses context between sessions, makes changes that break unrelated parts of the codebase, and produces output that's hard to verify. The solution is better architecture around the prompts, not better prompts.</p>
+            <p><span class="text-slate-300 font-medium">What I built:</span> A documentation system with structured MD files covering project instructions, backend architecture, schema rules, and workflow protocols. Every project has a CLAUDE.md that gives Claude the full picture before any prompt is written. This keeps each prompt short, focused, and grounded in the actual system.</p>
+            <p><span class="text-slate-300 font-medium">How I work:</span> Claude Code runs directly in VS Code. Every change is a diff I review before accepting. I keep the browser open to test changes live. I read every line that gets written, not to catch errors but to understand what's being built and why. That habit is what's building my technical depth.</p>
+            <p><span class="text-slate-300 font-medium">The result:</span> A workflow that moves fast without breaking things, produces auditable output, and has shipped four production tools for a real client in active daily use.</p>
           </div>
           <div class="flex flex-wrap gap-2">
             <span class="tag tech-tag">Claude Code</span>
-            <span class="tag tech-tag">Claude Projects</span>
-            <span class="tag tech-tag">Markdown Files</span>
+            <span class="tag tech-tag">Structured Documentation</span>
             <span class="tag tech-tag">VS Code</span>
+            <span class="tag tech-tag">Diff Review</span>
           </div>
         </div>
       </div>
@@ -415,10 +536,9 @@
       <p class="section-label mb-4">Let's work together</p>
       <h2 class="text-3xl sm:text-4xl font-semibold mb-4">Get in touch</h2>
       <p class="text-slate-400 max-w-3xl mb-8 leading-relaxed">
-        I'm looking for vibe coding and low-code development roles.<br>Let's connect if you're building internal tools, AI workflows, and solving creative problems.
+        I'm looking for AI developer and full-stack engineering roles, especially teams building internal tools, AI workflows, and products that solve real operational problems. Remote preferred, NYC hybrid welcome.
       </p>
       <div class="flex flex-wrap gap-4">
-        <!-- Replace with real links -->
         <a href="mailto:maxwellhperkins@gmail.com" class="px-6 py-3 bg-brand-600 hover:bg-brand-500 text-white font-medium rounded-lg transition-colors text-sm">
           Email me
         </a>
@@ -432,116 +552,167 @@
     </div>
   </section>
 
+  <!-- ABOUT -->
+  <section class="py-24 border-t border-white/5">
+    <div class="max-w-5xl mx-auto px-6">
+      <p class="section-label mb-4">About</p>
+      <div class="space-y-4 text-slate-400 leading-relaxed">
+        <p>Music and software development have more in common than most people think. Both are languages. Both are puzzles. You start with a problem or an idea, build a structure toward a solution, adjust as new information surfaces, and end with something that works and feels right.</p>
+        <p>I spent years as a composer and entrepreneur building that way of thinking. Running a business taught me to solve real problems for real people, not the problems I assumed they had. That discipline carried into everything I built next.</p>
+        <p>As AI tools became more accessible, I adopted them into my music and business work, then studied them more seriously through prompt engineering and data annotation at an AI lab. That work deepened a passion. Building became a hobby. When I started freelancing for Sprout Society, a Brooklyn nonprofit focused on mental wellness and community connection, I realized the hobby could become a profession.</p>
+        <p>The suite of tools I built for them is in active daily use. Since shipping, I have been deepening my technical foundation to take the work further. That foundation is growing fast.</p>
+      </div>
+      <a href="about.html" class="inline-block mt-6 text-sm text-brand-400 hover:text-brand-500 font-mono transition-colors">about.html →</a>
+    </div>
+  </section>
+
   <!-- FOOTER -->
   <footer class="py-8 border-t border-white/5">
     <div class="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <span class="font-mono text-xs text-slate-600">mhperkins · 2025</span>
+      <span class="font-mono text-xs text-slate-600">mhperkins · 2026</span>
       <span class="font-mono text-xs text-slate-600">built with Claude Code</span>
     </div>
   </footer>
 
   <script>
-    function scrollToContent() {
-      var activePanel = document.querySelector('.tab-panel[style*="block"]');
-      var el = activePanel ? activePanel.querySelector('[class*="border"]') : document.getElementById('first-card');
-      if (!el) el = document.getElementById('first-card');
-      var offset = el.getBoundingClientRect().top + window.scrollY - 112;
-      window.scrollTo({ top: offset, behavior: 'smooth' });
-    }
-
+    // ── Main tab switching ──────────────────────────────────────────────────
     function switchTab(id) {
       document.querySelectorAll('.tab-panel iframe').forEach(function(iframe) { iframe.src = iframe.src; });
       document.querySelectorAll('.tab-panel').forEach(function(p) { p.style.display = 'none'; });
       document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('tab-active'); });
-      document.getElementById(id).style.display = 'block';
+      var panel = document.getElementById(id);
+      if (panel) panel.style.display = 'block';
       var btn = document.querySelector('[data-target="' + id + '"]');
       if (btn) btn.classList.add('tab-active');
-      scrollToContent();
-
-      var panel = document.getElementById(id);
       var nav = document.querySelector('nav');
       var tabBar = document.querySelector('.sticky.top-14');
       var offset = (nav ? nav.offsetHeight : 0) + (tabBar ? tabBar.offsetHeight : 0) + 16;
-      var top = panel.getBoundingClientRect().top + window.scrollY - offset;
+      var top = (panel ? panel.getBoundingClientRect().top + window.scrollY : 0) - offset;
       window.scrollTo({ top: top, behavior: 'smooth' });
+      initCarousels();
     }
 
     document.querySelectorAll('.tab-btn').forEach(function(btn) {
       btn.addEventListener('click', function() { switchTab(btn.getAttribute('data-target')); });
     });
 
-    var cardToTab = { crm: 'tab-sprout', grant: 'tab-sprout', qr: 'tab-sprout', social: 'tab-progress', composition: 'tab-experiments' };
+    // ── Tool sub-tab switching ──────────────────────────────────────────────
+    function switchTool(id) {
+      document.querySelectorAll('.tool-panel').forEach(function(p) { p.style.display = 'none'; });
+      document.querySelectorAll('.tool-btn').forEach(function(b) { b.classList.remove('tool-btn-active'); });
+      var panel = document.getElementById('tool-' + id);
+      if (panel) panel.style.display = 'block';
+      var btn = document.querySelector('[data-tool="' + id + '"]');
+      if (btn) btn.classList.add('tool-btn-active');
+      initCarousels();
+    }
+
+    document.querySelectorAll('.tool-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() { switchTool(btn.getAttribute('data-tool')); });
+    });
+
+    // ── Hash navigation ─────────────────────────────────────────────────────
+    var cardToTab = {
+      crm: 'tab-sprout', grant: 'tab-sprout', social: 'tab-sprout', qr: 'tab-sprout',
+      composition: 'tab-progress',
+      'tab-sprout': 'tab-sprout', 'tab-progress': 'tab-progress', 'tab-workflow': 'tab-workflow'
+    };
+    var cardToTool = { crm: 'crm', grant: 'grant', social: 'social', qr: 'qr' };
+    var directTabs = { 'tab-sprout': true, 'tab-progress': true, 'tab-workflow': true };
 
     function navigateToHash(hash) {
-      if (!hash || !document.getElementById(hash)) return;
+      if (!hash) return;
+      var tabId = cardToTab[hash];
+      if (!tabId) return;
       history.replaceState(null, '', window.location.pathname);
-      if (cardToTab[hash]) {
-        switchTab(cardToTab[hash]);
-        setTimeout(function() {
-          requestAnimationFrame(function() {
-            var card = document.getElementById(hash);
-            var nav = document.querySelector('nav');
-            var tabBar = document.querySelector('.sticky.top-14');
-            var offset = (nav ? nav.offsetHeight : 0) + (tabBar ? tabBar.offsetHeight : 0) + 80;
-            var top = card.getBoundingClientRect().top + window.scrollY - offset;
-            window.scrollTo({ top: top, behavior: 'smooth' });
-          });
-        }, 150);
-      } else {
-        setTimeout(function() { switchTab(hash); }, 50);
+      switchTab(tabId);
+      if (directTabs[hash]) return;
+      if (cardToTool[hash]) {
+        setTimeout(function() { switchTool(cardToTool[hash]); }, 50);
       }
+      setTimeout(function() {
+        requestAnimationFrame(function() {
+          var card = document.getElementById(hash);
+          if (!card) return;
+          var nav = document.querySelector('nav');
+          var tabBar = document.querySelector('.sticky.top-14');
+          var offset = (nav ? nav.offsetHeight : 0) + (tabBar ? tabBar.offsetHeight : 0) + 80;
+          var top = card.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top: top, behavior: 'smooth' });
+        });
+      }, 150);
     }
 
     navigateToHash(window.location.hash.replace('#', ''));
-
     window.addEventListener('hashchange', function() {
       navigateToHash(window.location.hash.replace('#', ''));
     });
 
-    document.querySelectorAll('[data-carousel]').forEach(function(el) {
-      var track = el.querySelector('.carousel-track');
-      var slides = el.querySelectorAll('.carousel-slide');
-      var prev = el.querySelector('.carousel-prev');
-      var next = el.querySelector('.carousel-next');
-      var dotsWrap = el.querySelector('.carousel-dots');
-      var perPage = 2, cur = 0;
-      var pages = Math.ceil(slides.length / perPage);
+    // ── Screenshot carousels ────────────────────────────────────────────────
+    function initCarousels() {
+      document.querySelectorAll('[data-carousel]').forEach(function(el) {
+        if (el._carouselInit) return;
+        el._carouselInit = true;
+        var track = el.querySelector('.carousel-track');
+        var slides = el.querySelectorAll('.carousel-slide');
+        var prev = el.querySelector('.carousel-prev');
+        var next = el.querySelector('.carousel-next');
+        var dotsWrap = el.querySelector('.carousel-dots');
+        var perPage = 2, cur = 0;
+        var pages = Math.ceil(slides.length / perPage);
 
-      var dots = Array.from({ length: pages }, function(_, i) {
-        var d = document.createElement('button');
-        d.style.cssText = 'width:8px;height:8px;border-radius:50%;border:none;padding:0;cursor:pointer;transition:background .2s;background:#334155';
-        d.setAttribute('aria-label', 'Page ' + (i + 1));
-        d.addEventListener('click', function() { go(i); });
-        dotsWrap.appendChild(d);
-        return d;
+        var dots = Array.from({ length: pages }, function(_, i) {
+          var d = document.createElement('button');
+          d.style.cssText = 'width:8px;height:8px;border-radius:50%;border:none;padding:0;cursor:pointer;transition:background .2s;background:#334155';
+          d.setAttribute('aria-label', 'Page ' + (i + 1));
+          d.addEventListener('click', function() { go(i); });
+          dotsWrap.appendChild(d);
+          return d;
+        });
+
+        if (pages <= 1) {
+          var controls = el.querySelector('.carousel-controls');
+          if (controls) controls.style.display = 'none';
+        }
+
+        function go(p) {
+          cur = Math.max(0, Math.min(p, pages - 1));
+          track.style.transform = 'translateX(-' + (cur * 100) + '%)';
+          dots.forEach(function(d, i) { d.style.background = i === cur ? '#348a58' : '#334155'; });
+          prev.disabled = cur === 0;
+          next.disabled = cur === pages - 1;
+        }
+
+        prev.addEventListener('click', function() { go(cur - 1); });
+        next.addEventListener('click', function() { go(cur + 1); });
+        go(0);
       });
+    }
 
-      if (pages <= 1) el.querySelector('.carousel-controls').style.display = 'none';
+    initCarousels();
 
-      function go(p) {
-        cur = Math.max(0, Math.min(p, pages - 1));
-        track.style.transform = 'translateX(-' + (cur * 100) + '%)';
-        dots.forEach(function(d, i) { d.style.background = i === cur ? '#348a58' : '#334155'; });
-        prev.disabled = cur === 0;
-        next.disabled = cur === pages - 1;
-      }
-
-      prev.addEventListener('click', function() { go(cur - 1); });
-      next.addEventListener('click', function() { go(cur + 1); });
-      go(0);
-    });
-  </script>
-  <div id="scroll-btn" class="scroll-indicator" onclick="scrollToContent()" style="position:fixed; bottom:2rem; left:50%; transform:translateX(-50%); z-index:50; width:48px; height:48px; border-radius:50%; background:rgba(8,13,8,0.9); border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; backdrop-filter:blur(8px); transition:opacity 0.3s;">
-    <svg width="22" height="22" fill="none" stroke="#348a58" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-      <path d="M6 9l6 6 6-6"/>
-    </svg>
-  </div>
-  <script>
+    // ── Scroll button ───────────────────────────────────────────────────────
     var scrollBtn = document.getElementById('scroll-btn');
     window.addEventListener('scroll', function() {
       scrollBtn.style.opacity = window.scrollY < 50 ? '1' : '0';
       scrollBtn.style.pointerEvents = window.scrollY < 50 ? 'auto' : 'none';
     });
+    scrollBtn.addEventListener('click', function() {
+      var activePanel = document.querySelector('.tab-panel:not([style*="none"])');
+      if (!activePanel) return;
+      var nav = document.querySelector('nav');
+      var tabBar = document.querySelector('.sticky.top-14');
+      var offset = (nav ? nav.offsetHeight : 0) + (tabBar ? tabBar.offsetHeight : 0) + 16;
+      var top = activePanel.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    });
   </script>
+
+  <div id="scroll-btn" style="position:fixed; bottom:2rem; left:50%; transform:translateX(-50%); z-index:50; width:48px; height:48px; border-radius:50%; background:rgba(8,13,8,0.9); border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; backdrop-filter:blur(8px); transition:opacity 0.3s; cursor:pointer;">
+    <svg width="22" height="22" fill="none" stroke="#348a58" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+      <path d="M6 9l6 6 6-6"/>
+    </svg>
+  </div>
+
 </body>
 </html>
