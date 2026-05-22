@@ -213,25 +213,20 @@
       <div id="tab-sprout" class="tab-panel pb-24">
 
         <!-- Suite banner -->
-        <div class="suite-banner mb-6">
-          <div class="flex flex-wrap items-center justify-between gap-4">
-            <div>
-              <p class="section-label mb-1">The Sprout Society Suite</p>
-              <p class="text-slate-300 font-medium text-base">Four tools. One organization. One backend. In production.</p>
-            </div>
-            <div class="flex gap-2 flex-wrap">
-              <span class="tag status-live">4 Tools Live</span>
-              <span class="tag tech-tag">Shared Supabase</span>
-              <span class="tag tech-tag">Sprout Society NYC</span>
-            </div>
+        <div class="suite-banner mb-6 text-center">
+          <div class="flex flex-col items-center gap-3 mb-4">
+            <p class="section-label">The Sprout Society Suite</p>
+            <p class="text-slate-300 font-medium text-base">CRM &nbsp;|&nbsp; Grant Assistant &nbsp;|&nbsp; Social Media Manager &nbsp;|&nbsp; Campaign Tracker</p>
           </div>
-          <p class="text-slate-400 text-sm mt-3 leading-relaxed max-w-3xl">
-            Built for a Brooklyn nonprofit focused on mental wellness and community connection. The CRM, Grant Manager, Social Planner, and Campaign Tracker share a single database, a single org profile, and a single set of contacts. Together they form a lightweight operations system, not a collection of side projects.
-          </p>
+          <ul class="text-slate-400 text-sm leading-relaxed space-y-1 w-full text-left max-w-2xl mx-auto list-disc list-inside">
+            <li>Internal tools built to replace paid software and streamline daily operations</li>
+            <li>Four tools on one shared backend with contacts, grants, content, and campaigns all connected</li>
+            <li>Lean, functional, and efficient</li>
+          </ul>
         </div>
 
         <!-- Tool sub-tabs -->
-        <div class="flex gap-2 mb-6 flex-wrap">
+        <div class="flex gap-2 mb-6 flex-wrap justify-center">
           <button class="tool-btn tool-btn-active" data-tool="crm">CRM</button>
           <button class="tool-btn" data-tool="grant">Grant Finder</button>
           <button class="tool-btn" data-tool="social">Social Planner</button>
@@ -252,21 +247,22 @@
                 <span class="tag tech-tag">Claude API</span>
                 <span class="tag tech-tag">Vercel</span>
                 <span class="tag tech-tag">Zod</span>
+                <span class="tag tech-tag">n8n</span>
                 <span class="tag tech-tag">MCP Server</span>
                 <span class="tag tech-tag">JSON</span>
               </div>
               <div class="grid sm:grid-cols-3 gap-4 text-sm mb-6">
                 <div>
                   <p class="text-slate-300 font-medium mb-1">Problem</p>
-                  <p class="text-slate-400 leading-relaxed">Sprout Society had no system for their growing community network. Relationships were tracked in a spreadsheet, follow-ups were forgotten, and events had no central coordination.</p>
+                  <p class="text-slate-400 leading-relaxed">Relationships were tracked in a spreadsheet, follow-ups were forgotten, and events had no central coordination.</p>
                 </div>
                 <div>
                   <p class="text-slate-300 font-medium mb-1">Solution</p>
-                  <p class="text-slate-400 leading-relaxed">A full relationship management tool with contact status tracking, touchpoint history, next-action queues, and event management. Claude generates and imports new contact profiles via structured JSON.</p>
+                  <p class="text-slate-400 leading-relaxed">A full relationship and events management tool with automated assistance.</p>
                 </div>
                 <div>
                   <p class="text-slate-300 font-medium mb-1">Outcome</p>
-                  <p class="text-slate-400 leading-relaxed">Actively used daily to manage 200+ community relationships. Also shipped an MCP server so Claude can query the live database mid-conversation, identifying overdue relationships and generating research briefs without copy-pasting.</p>
+                  <p class="text-slate-400 leading-relaxed">Everything tracked and supported by a custom MCP server that uses Claude as a CRM assistant and n8n automations.</p>
                 </div>
               </div>
             </div>
@@ -309,15 +305,15 @@
               <div class="grid sm:grid-cols-3 gap-4 text-sm mb-6">
                 <div>
                   <p class="text-slate-300 font-medium mb-1">Problem</p>
-                  <p class="text-slate-400 leading-relaxed">Grant research was slow and scattered across tabs, emails, and documents. No system to track the pipeline, document positioning, or manage the application lifecycle end to end.</p>
+                  <p class="text-slate-400 leading-relaxed">No system to track the pipeline, document positioning, or manage the application lifecycle end to end.</p>
                 </div>
                 <div>
                   <p class="text-slate-300 font-medium mb-1">Solution</p>
-                  <p class="text-slate-400 leading-relaxed">A research and writing workspace where Claude identifies opportunities and generates structured grant profiles for direct import. The tool manages the full pipeline from discovery through submission, with an application workspace that auto-fills org context.</p>
+                  <p class="text-slate-400 leading-relaxed">A research and writing workspace where Claude identifies opportunities and tracks application process end-to-end.</p>
                 </div>
                 <div>
                   <p class="text-slate-300 font-medium mb-1">Outcome</p>
-                  <p class="text-slate-400 leading-relaxed">Actively used as the primary grant management system. Research time per grant is significantly reduced, and the active, submitted, and awarded pipeline is all visible in one place.</p>
+                  <p class="text-slate-400 leading-relaxed">Find, research, and complete more grant applications in significantly less time.</p>
                 </div>
               </div>
             </div>
@@ -361,15 +357,15 @@
               <div class="grid sm:grid-cols-3 gap-4 text-sm mb-6">
                 <div>
                   <p class="text-slate-300 font-medium mb-1">Problem</p>
-                  <p class="text-slate-400 leading-relaxed">Managing Sprout Society's social content meant juggling Canva for design, a separate scheduling tool, and a manual approval process, with no unified workflow and no visibility into what was going live.</p>
+                  <p class="text-slate-400 leading-relaxed">Planning, designing, and publishing content directly from phone to platform was cumbersome and inefficient.</p>
                 </div>
                 <div>
                   <p class="text-slate-300 font-medium mb-1">Solution</p>
-                  <p class="text-slate-400 leading-relaxed">A single content manager that handles the full pipeline: Canva API for in-tool design, direct Instagram publishing via API, and a built-in human approval step before anything goes live. Every post requires a human decision.</p>
+                  <p class="text-slate-400 leading-relaxed">Canva API for in-tool design, direct Instagram publishing via API, with a human-in-the-loop.</p>
                 </div>
                 <div>
                   <p class="text-slate-300 font-medium mb-1">Outcome</p>
-                  <p class="text-slate-400 leading-relaxed">Fully functional V2, deployed and in use. The human-in-the-loop approval design was an intentional product decision, not a workaround. Replaces multiple paid tools with one owned workflow.</p>
+                  <p class="text-slate-400 leading-relaxed">Replaced paid tools with one owned workflow.</p>
                 </div>
               </div>
             </div>
@@ -410,15 +406,15 @@
               <div class="grid sm:grid-cols-3 gap-4 text-sm mb-6">
                 <div>
                   <p class="text-slate-300 font-medium mb-1">Problem</p>
-                  <p class="text-slate-400 leading-relaxed">Sprout Society was printing and distributing event flyers across Brooklyn with no way to know which locations or formats actually drove RSVPs. Marketing ROI was invisible.</p>
+                  <p class="text-slate-400 leading-relaxed">No way to know which marketing materials produced the greatest ROI.</p>
                 </div>
                 <div>
                   <p class="text-slate-300 font-medium mb-1">Solution</p>
-                  <p class="text-slate-400 leading-relaxed">A lightweight tool that generates dynamic QR codes tied to specific flyers and locations. Real-time scan tracking runs serverless via Cloudflare Workers with a live analytics dashboard.</p>
+                  <p class="text-slate-400 leading-relaxed">Real-time scan tracking runs serverless via Cloudflare Workers with a live analytics dashboard.</p>
                 </div>
                 <div>
                   <p class="text-slate-300 font-medium mb-1">Outcome</p>
-                  <p class="text-slate-400 leading-relaxed">Actively used for every Sprout Society event. Replaced guesswork with data. The team now knows which placements actually drive engagement and can allocate print budget accordingly.</p>
+                  <p class="text-slate-400 leading-relaxed">The team now knows which placements actually drive engagement and can allocate print budget accordingly.</p>
                 </div>
               </div>
             </div>
@@ -441,42 +437,6 @@
           </div>
         </div>
 
-        <!-- Infrastructure callout -->
-        <div class="mt-8">
-          <p class="section-label mb-4">What connects it all</p>
-          <div class="grid sm:grid-cols-2 gap-4">
-            <div class="infra-card">
-              <div class="flex items-start gap-3">
-                <span class="text-brand-400 mt-0.5 text-lg">⬡</span>
-                <div>
-                  <p class="text-slate-300 font-medium text-sm mb-1">CRM MCP Server</p>
-                  <p class="text-slate-400 text-sm leading-relaxed">An MCP server that exposes live CRM data as tools Claude can call mid-conversation. Claude queries contacts, relationship health, and upcoming actions directly from the database without any copy-pasting. Built on the Model Context Protocol with custom cadence logic ported from the app.</p>
-                  <div class="flex flex-wrap gap-1 mt-2">
-                    <span class="tag tech-tag" style="font-size:0.7rem">MCP Protocol</span>
-                    <span class="tag tech-tag" style="font-size:0.7rem">Node.js</span>
-                    <span class="tag tech-tag" style="font-size:0.7rem">Supabase</span>
-                    <span class="tag tech-tag" style="font-size:0.7rem">stdio transport</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="infra-card">
-              <div class="flex items-start gap-3">
-                <span class="text-brand-400 mt-0.5 text-lg">⬡</span>
-                <div>
-                  <p class="text-slate-300 font-medium text-sm mb-1">Weekly Digest Automation</p>
-                  <p class="text-slate-400 text-sm leading-relaxed">A scheduled workflow that pulls live data from all three Sprout tools every Monday morning, runs it through Claude for gap analysis and prioritization, and delivers a plain-English operational summary to the inbox. Built with n8n.</p>
-                  <div class="flex flex-wrap gap-1 mt-2">
-                    <span class="tag tech-tag" style="font-size:0.7rem">n8n</span>
-                    <span class="tag tech-tag" style="font-size:0.7rem">Claude API</span>
-                    <span class="tag tech-tag" style="font-size:0.7rem">Supabase</span>
-                    <span class="tag tech-tag" style="font-size:0.7rem">Scheduled</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
       </div>
 
@@ -531,7 +491,7 @@
   </section>
 
   <!-- CONTACT -->
-  <section id="contact" class="py-24 border-t border-white/5">
+  <section id="contact" class="pt-5 pb-12 border-t border-white/5">
     <div class="max-w-5xl mx-auto px-6">
       <p class="section-label mb-4">Let's work together</p>
       <h2 class="text-3xl sm:text-4xl font-semibold mb-4">Get in touch</h2>
@@ -553,9 +513,9 @@
   </section>
 
   <!-- ABOUT -->
-  <section class="py-24 border-t border-white/5">
+  <section class="pt-5 pb-12 border-t border-white/5">
     <div class="max-w-5xl mx-auto px-6">
-      <p class="section-label mb-4">About</p>
+      <p class="section-label mb-4">About <span style="color: #f1f5f9; font-family: inherit; letter-spacing: inherit; font-size: inherit;">Maxwell Perkins</span></p>
       <div class="space-y-4 text-slate-400 leading-relaxed">
         <p>Music and software development have more in common than most people think. Both are languages. Both are puzzles. You start with a problem or an idea, build a structure toward a solution, adjust as new information surfaces, and end with something that works and feels right.</p>
         <p>I spent years as a composer and entrepreneur building that way of thinking. Running a business taught me to solve real problems for real people, not the problems I assumed they had. That discipline carried into everything I built next.</p>
@@ -573,6 +533,12 @@
       <span class="font-mono text-xs text-slate-600">built with Claude Code</span>
     </div>
   </footer>
+
+  <div id="scroll-btn" style="position:fixed; bottom:2rem; left:50%; transform:translateX(-50%); z-index:50; width:48px; height:48px; border-radius:50%; background:rgba(52,138,88,0.9); border:1px solid rgba(74,222,128,0.3); display:flex; align-items:center; justify-content:center; backdrop-filter:blur(8px); transition:opacity 0.3s; cursor:pointer;">
+    <svg width="22" height="22" fill="none" stroke="#080d08" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+      <path d="M6 9l6 6 6-6"/>
+    </svg>
+  </div>
 
   <script>
     // ── Main tab switching ──────────────────────────────────────────────────
@@ -693,26 +659,25 @@
 
     // ── Scroll button ───────────────────────────────────────────────────────
     var scrollBtn = document.getElementById('scroll-btn');
-    window.addEventListener('scroll', function() {
-      scrollBtn.style.opacity = window.scrollY < 50 ? '1' : '0';
-      scrollBtn.style.pointerEvents = window.scrollY < 50 ? 'auto' : 'none';
-    });
+    function updateScrollBtn() {
+      var atTop = window.scrollY < 50;
+      scrollBtn.style.opacity = atTop ? '1' : '0';
+      scrollBtn.style.pointerEvents = atTop ? 'auto' : 'none';
+    }
+    window.addEventListener('scroll', updateScrollBtn);
+    updateScrollBtn();
     scrollBtn.addEventListener('click', function() {
-      var activePanel = document.querySelector('.tab-panel:not([style*="none"])');
-      if (!activePanel) return;
       var nav = document.querySelector('nav');
       var tabBar = document.querySelector('.sticky.top-14');
       var offset = (nav ? nav.offsetHeight : 0) + (tabBar ? tabBar.offsetHeight : 0) + 16;
+      var panels = document.querySelectorAll('.tab-panel');
+      var activePanel = null;
+      panels.forEach(function(p) { if (p.style.display !== 'none') activePanel = p; });
+      if (!activePanel) activePanel = panels[0];
       var top = activePanel.getBoundingClientRect().top + window.scrollY - offset;
       window.scrollTo({ top: top, behavior: 'smooth' });
     });
   </script>
-
-  <div id="scroll-btn" style="position:fixed; bottom:2rem; left:50%; transform:translateX(-50%); z-index:50; width:48px; height:48px; border-radius:50%; background:rgba(8,13,8,0.9); border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; backdrop-filter:blur(8px); transition:opacity 0.3s; cursor:pointer;">
-    <svg width="22" height="22" fill="none" stroke="#348a58" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-      <path d="M6 9l6 6 6-6"/>
-    </svg>
-  </div>
 
 </body>
 </html>

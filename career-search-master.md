@@ -47,21 +47,22 @@ You are a self-taught developer who transitioned from music, entrepreneurship, a
 ### Projects
 | Project | Link | Status | Key Tech |
 |---|---|---|---|
-| Sprout Society CRM | /#crm | Live, actively used | Next.js, Supabase, Claude API, Zod, JSON |
-| Grant Manager V2 | /#grant | Live, actively used | Next.js, Supabase, Claude API, JSON |
-| Social Content Planner V2 | /#social | Live, functional | Canva API, Instagram API, Composio API |
-| QR Scan Tracker | /#qr | Live, actively used | Cloudflare Workers, Supabase, HTML |
-| Music Composition Assistant | /#composition | In Development | Claude API, Agent Architecture |
-| Workflow Walkthrough | /#tab-workflow | Live | Loom video of Claude Code process |
+| Sprout Society CRM | /#crm | Live, actively used | Next.js, Supabase, Claude API, Zod, MCP, n8n, JSON |
+| Grant Assistant | /#grant | Live, actively used | Next.js, Supabase, Claude API, JSON |
+| Social Media Manager | /#social | Live, actively used | Canva API, Instagram API, Composio API, Next.js |
+| Campaign Tracker | /#qr | Live, actively used | Cloudflare Workers, HTML |
+| CRM MCP Server | — | Shipped | Node.js, MCP Protocol, Supabase, stdio |
+| Music Composition Assistant | /#composition | Building | Claude API, Agent Architecture, Tool Use |
+| Workflow Walkthrough | /#tab-workflow | Loom needs to be redone | Claude Code process |
 
-### In-Progress Builds (May 2026)
-| Build | Purpose | Target completion |
+### Shipped Builds (May 2026)
+| Build | What it is | Status |
 |---|---|---|
-| n8n weekly digest automation | Scheduled email pulling live data from CRM + Grant + Social tools, Claude analysis layer | Within 13-day n8n trial window |
-| MCP server on CRM | Exposes live CRM data as Claude tools — contacts, relationship health, events — with research protocols as resources. Claude queries the database mid-conversation. | After n8n workflow |
+| n8n weekly digest automation | Scheduled email pulling live data from all Sprout tools, Claude analysis layer, delivers to inbox every Monday | Live |
+| CRM MCP Server | Exposes live CRM data as Claude tools. Claude queries contacts, relationship health, and upcoming actions mid-conversation via stdio transport connected to Claude Desktop. | Live |
 
 ### The Sprout Suite Framing (use this narrative)
-The CRM, Grant Manager, and Social Manager are not three separate projects. They share one Supabase backend, one org profile, and one set of contacts. Together they are a production internal toolset built for a real Brooklyn nonprofit — the equivalent of a lightweight operations system. Frame it as a system in applications and interviews, not a list of side projects.
+The CRM, Grant Assistant, Social Media Manager, and Campaign Tracker are not four separate projects. They share one Supabase backend, one org profile, and one set of contacts. Together they are a production internal toolset built for a real Brooklyn nonprofit, the equivalent of a lightweight operations system. Frame it as a system in applications and interviews, not a list of side projects.
 
 ### GitHub
 https://github.com/mhperkins
@@ -278,38 +279,38 @@ Answer: "That's why I built the MD files the way I did. When Claude gets somethi
 
 ## Next Steps — Priority Order
 
-### Immediate
-- [ ] Update portfolio: change Social Manager from "in-progress" to live V2 with screenshots
-- [ ] Add "in production at Sprout Society" language to all relevant project descriptions
-- [ ] Change headline from "Vibe Coder" to something output-focused — move "vibe coder" to the methodology section
-- [ ] Complete Wellfound profile
-- [ ] Complete Contra profile setup
+### Completed (May 2026)
+- [x] n8n weekly digest automation — live, runs every Monday
+- [x] CRM MCP server — live, connected to Claude Desktop
+- [x] Portfolio overhaul — Shipped/Building/Workflow tabs, suite carousel, problem/solution/outcome on each tool
+- [x] Social Manager moved to Shipped as live V2
+- [x] About page added (about.html) and in nav
+- [x] Headline updated from "Vibe Coder" to output-focused framing
+- [x] Campaign Tracker renamed from QR Scan Tracker
 
-### This Week (n8n trial window — time sensitive)
-- [ ] Build n8n weekly digest workflow: one scheduled email pulling live data from CRM + Grant Tool + Social Tool
-- [ ] Add Claude analysis layer: org profile as context, gap analysis, 1-2 research leads per week
-- [ ] Get one complete workflow run delivering to inbox before trial ends
+### Immediate
+- [ ] Complete Wellfound profile
+- [ ] Complete Wellfound AI interview
+- [ ] Complete Contra profile setup
+- [ ] Continue applying 3-5 roles per week
 
 ### Short Term (2-4 weeks)
-- [ ] Build MCP server on the CRM (see MCP Server section below)
-- [ ] Add About Me section to portfolio — one paragraph: background, why Sprout Society, what drives the work
-- [ ] Add development process detail to 2-3 project descriptions (problem → decision → solution framing)
-- [ ] Record new Loom for Social Manager V2 showing the full publish pipeline
-- [ ] Continue applying 3-5 roles per week
-- [ ] Complete Wellfound AI interview
+- [ ] Record new Loom for Social Media Manager V2 showing the full publish pipeline
+- [ ] Redo Workflow tab Loom — current one makes it look like blind Claude use, needs to reflect actual technical understanding
+- [ ] Build unified Sprout Society Suite app (hub with navigation between all 4 tools, one deployment)
 - [ ] Start reading own code — one component per day, explain each function out loud
+- [ ] Begin Music Composition Assistant agent build
 
 ### Medium Term (1-2 months)
-- [ ] Convert n8n workflow to native Vercel cron jobs (no subscription needed, business logic stays in the app)
-- [ ] Advance composition tool eval framework
+- [ ] Convert n8n workflow to native Vercel cron jobs (no subscription needed)
 - [ ] Learn Python basics
 - [ ] Connect real Sprout Society Instagram account
 
 ---
 
-## MCP Server (Build This Next)
+## MCP Server (Shipped)
 
-An MCP (Model Context Protocol) server wraps the CRM's live Supabase data as tools Claude can call mid-conversation. Instead of copy-pasting data into Claude, Claude queries the database itself.
+An MCP server wrapping the CRM's live Supabase data as tools Claude can call mid-conversation. Connected to Claude Desktop via stdio transport.
 
 **What it exposes:**
 - `get_relationship_health` — counts by status, overdue contacts, upcoming actions
@@ -322,21 +323,21 @@ An MCP (Model Context Protocol) server wraps the CRM's live Supabase data as too
 **The demo conversation:**
 > "What should I focus on this week for relationships?"
 
-Claude calls `get_relationship_health`, calls `list_overdue_contacts`, reads the org profile resource, and responds with a specific prioritized answer grounded in live data. That is multi-step tool use with real production data.
+Claude calls `get_relationship_health`, calls `list_upcoming_actions`, reads the org profile resource, and responds with a specific prioritized answer grounded in live data. That is multi-step tool use with real production data.
 
 **The portfolio sentence:**
-> "I built an MCP server on top of a production CRM that exposes live contact and relationship data as Claude tools. Claude queries the database mid-conversation, identifies relationship gaps using custom cadence logic, and generates research briefs following the protocol I wrote — all from a single conversation."
+> "I built an MCP server on top of a production CRM that exposes live contact and relationship data as Claude tools. Claude queries the database mid-conversation, identifies relationship gaps using custom cadence logic, and generates research briefs following the protocol I wrote."
 
-**Why it matters for AI dev roles:** demonstrates Claude API tool use, multi-step reasoning, schema design, and real-world use case. Directly addresses the medium-term goal from this career doc.
+**Why it matters for AI dev roles:** demonstrates Claude API tool use, multi-step reasoning, schema design, and real-world use case.
 
-**Build location:** `sprout-crm-next/mcp/server.js` — about 120 lines using `@modelcontextprotocol/sdk`, connects via stdio to Claude Desktop.
+**Location:** `sprout-crm-next/mcp/server.js` — uses `@modelcontextprotocol/sdk`, connects via stdio to Claude Desktop. Config lives at the Windows Store virtualized path, not AppData\Roaming (see memory file).
 
 ---
 
 ## Key Framings to Remember
 
 1. **"Production tools actively used daily"** — say this every time
-2. **"Three interconnected tools for one organization — a system, not a list of projects"** — use when describing the Sprout Suite
+2. **"Four interconnected tools for one organization, a system not a list of projects"** — use when describing the Sprout Suite
 3. **"Built in under 3 months"** — only use when it strengthens, never as an apology
 4. **"Prompt engineering background gives me a foundation in how LLMs behave and where they fail"** — use for technical roles
 5. **"Former founder"** — use for early-stage, equity, ownership culture roles
@@ -348,7 +349,7 @@ Claude calls `get_relationship_health`, calls `list_overdue_contacts`, reads the
 
 ## What Is and Is Not a Portfolio Centerpiece
 
-The Sprout Suite (CRM + Grant Manager + Social Manager) is the centerpiece. Three production tools, real nonprofit client, actively used.
+The Sprout Suite (CRM + Grant Assistant + Social Media Manager + Campaign Tracker) is the centerpiece. Four production tools, real nonprofit client, actively used.
 
 The n8n automation is not a centerpiece. It is a learning exercise and a useful feature, but a scheduled database query + email is not impressive on its own. What makes it worth mentioning: the decision to build it in n8n to learn the tool, then convert to native code so it doesn't require a paid subscription. That shows engineering judgment.
 
