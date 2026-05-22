@@ -27,7 +27,8 @@ Max's personal portfolio site. Static HTML — no build step, no bundler, no fra
 
 | File | Role |
 |---|---|
-| [index.html](index.html) | Main portfolio page — all projects, methodology, contact |
+| [index.html](index.html) | Main portfolio page — Shipped/Building/Workflow tabs, hero, contact, about |
+| [about.html](about.html) | Standalone About page — linked from nav |
 | [resume.html](resume.html) | Resume page — renders the PDF in an iframe with a download button |
 | [Software Developer Resume.pdf](Software Developer Resume.pdf) | Current resume, linked from resume.html |
 | [images/](images/) | Screenshots and assets |
@@ -42,7 +43,8 @@ Max's personal portfolio site. Static HTML — no build step, no bundler, no fra
 - **Tailwind via CDN.** The `tailwind.config` script block at the top of each file extends the default theme. Do not install Tailwind as a package.
 - **Custom CSS lives in `<style>` tags** in the `<head>` of each file. Use Tailwind utility classes for layout and spacing; use the `<style>` block for animations, custom component classes (`.card-hover`, `.tag`, `.status-live`, etc.), and anything Tailwind can't express cleanly.
 - **No JavaScript frameworks.** Vanilla JS only, inline in `<script>` tags at the bottom of the body.
-- **One file per page.** index.html and resume.html are self-contained. Do not split into partials or components.
+- **One file per page.** index.html, about.html, and resume.html are self-contained. Do not split into partials or components.
+- **No em dashes.** Use commas, periods, or restructure the sentence.
 
 ---
 
@@ -56,16 +58,15 @@ To test locally: open `index.html` in a browser, or run `npx serve .` if you nee
 
 ## Portfolio Structure (index.html)
 
-The page has tabbed sections:
+The page has tabbed sections. The sticky tab nav sits outside the hero section so it persists through the full page scroll.
 
 | Tab | Content |
 |---|---|
-| In Use | Live production tools — Sprout Suite (CRM, Grant Manager, Social Manager), QR Tracker |
-| Building | Projects in active development |
-| Experiments | Music AI and other research work |
-| Workflow | "How I Work with Claude" methodology section |
+| Shipped | The Sprout Society Suite — CRM, Grant Assistant, Social Manager, Campaign Tracker |
+| Building | Composer's Compass — tool scaffolded, agent training protocol active |
+| Workflow | How I build tools (CLAUDE.md system, diff review) and how I build agents (intake form, rubric, experiment protocol) |
 
-Each project card has: title, status tag (Live / MVP / WIP), tech tags, description, screenshot or Loom placeholder, and links.
+Each project card has: title, status tag, tech tags, Problem / Approach / Current Phase description.
 
 ---
 
@@ -79,22 +80,28 @@ Each project card has: title, status tag (Live / MVP / WIP), tech tags, descript
 
 ---
 
-## Known Updates Needed
+## Current Portfolio State (May 2026)
 
-These are tracked in `career-search-master.md` and should be addressed before the next round of applications:
+All major items from the previous Known Updates list are resolved:
+- Headline updated to output-focused language ("I build AI-assisted tools, not prototypes.")
+- About page exists (about.html) and About section on index.html
+- Problem/solution/outcome framing on all project cards
+- Social Manager moved to Shipped tab
+- Composer's Compass added to Building tab with full training protocol description
+- Workflow tab updated with agent training methodology paragraph
 
-1. **Headline** — "Vibe Coder" is the current title. Consider leading with output-focused language instead. "Vibe coder" can stay in the methodology section where it's earned context.
-2. **About Me section** — missing. One paragraph: who Max is, why Sprout Society specifically, what drives the work.
-3. **"In production" language** — none of the project descriptions explicitly say these tools are used by a real nonprofit. Add it.
-4. **Social Manager** — listed as "in-progress" but V2 is functional. Update status tag and description.
-5. **Development process detail** — project descriptions are thin. Add problem-to-solution framing for 2-3 projects. Example: "V1 used localStorage. V2 rebuilt with Supabase, a human-in-the-loop approval pipeline, and Instagram publishing via Composio."
+**Remaining:**
+- Loom for Social Media Manager V2 needs to be recorded
+- Workflow tab Loom needs to be redone to show the composition training protocol
 
 ---
 
 ## Career Context
 
-Targeting: vibe coding / low-code development roles, junior AI development positions.
+Targeting: AI developer, junior full-stack, and internal tools roles. Not "vibe coder" framing.
 
-The Sprout Suite (CRM + Grant Manager + Social Manager) is the strongest story — three interconnected tools built for one real organization. Frame it as a system, not three separate projects.
+The Sprout Suite (CRM + Grant Assistant + Social Manager + Campaign Tracker) is the portfolio centerpiece — four interconnected tools for one real nonprofit, one Supabase backend, actively used in production. Frame as a system, not a list.
 
-For AI dev roles: the Claude API integration in the Grant Manager (tool use, structured JSON output, research protocol prompting) is the differentiator. Highlight it explicitly.
+The MCP server and the Composer's Compass training protocol are the strongest technical differentiators for AI dev roles specifically. The MCP server shows Claude API tool use with real data. The training protocol shows rubric design, structured evaluation, and agent architecture thinking — not just "I called the API."
+
+The Workflow tab is the section most worth investing in. The current copy is solid. The Loom is the weak link — it needs to show intentional methodology, not blind Claude use.
