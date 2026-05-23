@@ -49,6 +49,12 @@
       box-shadow: 0 20px 40px rgba(0,0,0,0.4);
     }
 
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+    #scroll-btn { animation: scrollBounce 1.6s ease-in-out infinite; }
+    #scroll-btn:hover { background: rgba(74,222,128,0.9) !important; }
     .tag {
       display: inline-flex;
       align-items: center;
@@ -171,26 +177,26 @@
   <section class="pt-14">
     <div class="max-w-5xl mx-auto px-6 pt-12 pb-3 text-center">
       <div style="display: inline-block; text-align: left;">
-      <p class="text-2xl uppercase tracking-widest" style="margin-bottom: -0.3em; color: #cbd5e1;">Maxwell Perkins</p>
+      <p class="uppercase tracking-widest" style="margin-bottom: -0.3em; color: #ffffff; font-size: 1.9rem; letter-spacing: 0.1em;">Maxwell Perkins</p>
       <h1 class="mb-1 uppercase" style="font-family: 'Barlow Condensed', sans-serif; font-weight: 900; letter-spacing: 0.16em; line-height: 0.85;">
         <span style="color: #cbd5e1; font-size: clamp(3.5rem, 8vw, 6rem); display: block; text-align: left;">Development</span>
         <span style="color: #348a58; font-size: clamp(5rem, 11vw, 8.5rem); display: block; text-align: left; padding-left: calc(0.6em + 0.2cm);">Portfolio</span>
       </h1>
-      <p class="text-lg text-slate-400 leading-relaxed mb-3 mt-0 text-right">
-        I build AI-assisted tools, not prototypes.
+      <p class="leading-relaxed mb-3 mt-0 text-right uppercase tracking-widest" style="color: #ffffff; font-size: 1.8rem;">
+        AI Developer
       </p>
       </div>
       <div class="grid grid-cols-5 gap-2 max-w-2xl mx-auto mb-6">
-        <span class="tag tech-tag justify-center w-full whitespace-nowrap">Claude API</span>
         <span class="tag tech-tag justify-center w-full whitespace-nowrap">Claude Code</span>
-        <span class="tag tech-tag justify-center w-full whitespace-nowrap">Next.js</span>
-        <span class="tag tech-tag justify-center w-full whitespace-nowrap">Supabase</span>
-        <span class="tag tech-tag justify-center w-full whitespace-nowrap">Vercel</span>
-        <span class="tag tech-tag justify-center w-full whitespace-nowrap">Canva API</span>
-        <span class="tag tech-tag justify-center w-full whitespace-nowrap">Composio API</span>
-        <span class="tag tech-tag justify-center w-full whitespace-nowrap">Instagram API</span>
-        <span class="tag tech-tag justify-center w-full whitespace-nowrap">Cloudflare</span>
+        <span class="tag tech-tag justify-center w-full whitespace-nowrap">Prompt Design</span>
+        <span class="tag tech-tag justify-center w-full whitespace-nowrap">AI Agents</span>
+        <span class="tag tech-tag justify-center w-full whitespace-nowrap">Tool Use</span>
         <span class="tag tech-tag justify-center w-full whitespace-nowrap">MCP Protocol</span>
+        <span class="tag tech-tag justify-center w-full whitespace-nowrap">Full-Stack Dev</span>
+        <span class="tag tech-tag justify-center w-full whitespace-nowrap">API Integration</span>
+        <span class="tag tech-tag justify-center w-full whitespace-nowrap">Database Design</span>
+        <span class="tag tech-tag justify-center w-full whitespace-nowrap">Cloud Deploy</span>
+        <span class="tag tech-tag justify-center w-full whitespace-nowrap">Automation</span>
       </div>
     </div>
   </section>
@@ -216,7 +222,7 @@
         <!-- Suite banner -->
         <div class="suite-banner mb-6 text-center">
           <div class="flex flex-col items-center gap-3 mb-4">
-            <p class="section-label">The Sprout Society Suite</p>
+            <p class="section-label" style="font-size: 1rem;">The Sprout Society Suite</p>
             <p class="text-slate-300 font-medium text-base">CRM &nbsp;|&nbsp; Grant Assistant &nbsp;|&nbsp; Social Media Manager &nbsp;|&nbsp; Campaign Tracker</p>
           </div>
           <ul class="text-slate-400 text-sm leading-relaxed space-y-1 w-full text-left max-w-2xl mx-auto list-disc list-inside">
@@ -475,10 +481,34 @@
           <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
             <h3 class="text-xl font-semibold">How I Work with Claude</h3>
           </div>
-          <div class="text-slate-400 mb-6 leading-relaxed space-y-3">
-            <p><span class="text-slate-300 font-medium">How I build tools:</span> A documentation system with structured MD files covering project instructions, backend architecture, schema rules, and workflow protocols. Every project has a CLAUDE.md that gives Claude the full picture before any prompt is written. Claude Code runs directly in VS Code. Every change is a diff I review before accepting. I keep the browser open to test changes live and read every line that gets written — not to catch errors, but to understand what's being built and why.</p>
-            <p><span class="text-slate-300 font-medium">How I build agents:</span> The same structured methodology applied before deploying any AI. For Composer's Compass, this means a designed intake form, a versioned system prompt, and a five-dimension evaluation rubric that scores output quality across six model configurations before any production decision is made. One variable changes per experiment run. Evaluation happens cold, the next day. Prompt changes require a pattern across at least two runs before they're implemented. The agent doesn't ship until the prompt is stable.</p>
-            <p><span class="text-slate-300 font-medium">The result:</span> A workflow that moves fast without breaking things, produces auditable output, and treats AI as a system to be designed — not a tool to be prompted and hoped at.</p>
+          <div class="text-slate-400 mb-6 space-y-5">
+            <div>
+              <p class="text-slate-300 font-medium mb-2">How I build tools</p>
+              <ul class="space-y-1 leading-relaxed list-none">
+                <li>— Structured MD files for every project: instructions, architecture, schema rules, and protocols</li>
+                <li>— Every project starts with a CLAUDE.md that gives Claude full context before any prompt is written</li>
+                <li>— Claude Code runs in VS Code; every change is a diff I review before accepting</li>
+                <li>— Browser stays open to test live; I read every line written — to understand, not just catch errors</li>
+              </ul>
+            </div>
+            <div>
+              <p class="text-slate-300 font-medium mb-2">How I build agents</p>
+              <ul class="space-y-1 leading-relaxed list-none">
+                <li>— Designed intake form, versioned system prompt, and a five-dimension evaluation rubric</li>
+                <li>— Output scored across six model configurations before any production decision</li>
+                <li>— One variable changes per experiment run; evaluation happens cold, the next day</li>
+                <li>— Prompt changes require a pattern across at least two runs before implementation</li>
+                <li>— The agent doesn't ship until the prompt is stable</li>
+              </ul>
+            </div>
+            <div>
+              <p class="text-slate-300 font-medium mb-2">The result</p>
+              <ul class="space-y-1 leading-relaxed list-none">
+                <li>— Moves fast without breaking things</li>
+                <li>— Produces auditable output</li>
+                <li>— Treats AI as a system to be designed, not a tool to be prompted and hoped at</li>
+              </ul>
+            </div>
           </div>
           <div class="flex flex-wrap gap-2">
             <span class="tag tech-tag">Claude Code</span>

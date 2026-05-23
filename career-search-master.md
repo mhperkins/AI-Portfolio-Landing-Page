@@ -17,9 +17,9 @@ You are a self-taught developer who transitioned from music, entrepreneurship, a
 
 ### Technical Skills (honest assessment)
 - **Strong:** Next.js, React, Tailwind CSS, Supabase, Claude API, RESTful APIs, HTML/CSS, Vercel, Git, JSON, Cloudflare Workers
-- **Working knowledge:** TypeScript, PostgreSQL/SQL (via Supabase), JavaScript
-- **Familiar:** Canva API, Instagram API, Composio API, n8n
-- **Building now:** MCP server development (Model Context Protocol)
+- **Working knowledge:** TypeScript, PostgreSQL/SQL (via Supabase), JavaScript, MCP Protocol, n8n
+- **Familiar:** Canva API, Instagram API, Composio API, Anthropic SDK (direct), Agent evaluation and rubric design
+- **Building now:** Composer's Compass agent training protocol, Sprout Society unified suite app
 - **Learning:** Python, LangChain
 
 ### What Makes You Different
@@ -270,6 +270,9 @@ maxwellhperkins@gmail.com
 **"What do you do when Claude Code gets it wrong in a non-obvious way?"**
 
 Answer: "That's why I built the MD files the way I did. When Claude gets something wrong non-obviously it's usually missing context about how one part of the system connects to another. I learned that the hard way when UI changes were breaking backend data — so I documented the architecture explicitly so Claude always has the full picture. Beyond that I review every diff before accepting it, I keep the HTML file open to see live changes, and I test in the browser before moving on. If something breaks, I go back to the last working state and approach it differently."
+
+**Concrete example to use (May 2026 — CRM debugging session):**
+The dashboard was silently not showing a contact's next action. Traced it through three layers: (1) a save function defined as `(updated) => ...` that was wired as a click handler — so `updated` received the browser event object instead of the contact data, meaning every save from the dashboard edit modal did nothing and showed a success toast anyway; (2) a fallback condition checking `!actions.length` that blocked display whenever a contact had *any* prior completed actions in the array, even though all of them were done; (3) two separate add-action paths that wrote to the flat `next_action` field but never synced to the `next_actions[]` array the dashboard actually reads from. None of these threw errors. The fix required reading the data flow from user interaction through React state through the Supabase write and back, understanding why the UI showed correct data in one view but not another, and knowing which layer to fix first. That is what debugging with Claude actually looks like — not "Claude wrote a bug," but knowing how to find it when the symptoms don't point directly at the cause.
 
 ### Other Common Questions
 - **Why programming?** "Started out of necessity. A non-profit I freelance for needed tools they couldn't afford, so I built them."
