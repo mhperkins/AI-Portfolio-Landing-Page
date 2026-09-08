@@ -1,0 +1,346 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found]){display:none!important}</style></head><body>
+<title>AI-Assisted Music Practice</title>
+<style>
+  :root {
+    --paper: #F5F3ED;
+    --paper-raised: #FCFBF7;
+    --ink: #1B2226;
+    --ink-soft: #4E5A62;
+    --ink-faint: #8B9096;
+    --line: #DBD5C7;
+    --line-soft: #E9E4D8;
+    --signal: #146B64;
+    --signal-soft: #DCEDE9;
+    --manuscript: #9C5A12;
+    --manuscript-soft: #F3E4CE;
+    --tag-sketch: #A34B3F;
+    --tag-sketch-soft: #F4E1DC;
+    --shadow: 0 1px 2px rgba(27,34,38,.06), 0 4px 14px rgba(27,34,38,.05);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #14181A;
+      --paper-raised: #1C2224;
+      --ink: #ECE8DE;
+      --ink-soft: #A9AFA6;
+      --ink-faint: #6E7570;
+      --line: #33393A;
+      --line-soft: #262B2C;
+      --signal: #58D9CC;
+      --signal-soft: #1B3532;
+      --manuscript: #E3A24A;
+      --manuscript-soft: #3A2C18;
+      --tag-sketch: #E08A78;
+      --tag-sketch-soft: #3A2420;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 18px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #14181A;
+    --paper-raised: #1C2224;
+    --ink: #ECE8DE;
+    --ink-soft: #A9AFA6;
+    --ink-faint: #6E7570;
+    --line: #33393A;
+    --line-soft: #262B2C;
+    --signal: #58D9CC;
+    --signal-soft: #1B3532;
+    --manuscript: #E3A24A;
+    --manuscript-soft: #3A2C18;
+    --tag-sketch: #E08A78;
+    --tag-sketch-soft: #3A2420;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 18px rgba(0,0,0,.35);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  h1, h2, h3, h4 { font-family: "IBM Plex Serif", Georgia, serif; text-wrap: balance; color: var(--ink); margin: 0; }
+  .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  a { color: var(--signal); }
+
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 28px 96px; }
+
+  /* nav */
+  .topnav {
+    position: sticky; top: 0; z-index: 20;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .topnav-inner {
+    max-width: 880px; margin: 0 auto; padding: 14px 28px;
+    display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  }
+  .brand { font-family: "IBM Plex Serif", serif; font-weight: 600; font-size: .95rem; letter-spacing: .01em; }
+  .navlinks { display: flex; gap: 22px; flex-wrap: wrap; }
+  .navlinks a { color: var(--ink-soft); text-decoration: none; font-size: .85rem; letter-spacing: .02em; }
+  .navlinks a:hover { color: var(--signal); }
+
+  /* hero */
+  .hero { padding: 56px 0 40px; border-bottom: 1px solid var(--line); }
+  .eyebrow {
+    font-family: "IBM Plex Mono", monospace; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--signal); margin-bottom: 14px; display: block;
+  }
+  .hero h1 { font-size: clamp(2rem, 4.4vw, 2.9rem); line-height: 1.12; font-weight: 600; max-width: 15ch; }
+  .hero-sub { margin-top: 16px; font-size: 1.05rem; color: var(--ink-soft); max-width: 62ch; }
+  .staffline { height: 1px; background: repeating-linear-gradient(to right, var(--manuscript) 0 6px, transparent 6px 12px); opacity: .55; margin: 22px 0; width: 140px; }
+  .metachips { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+  .chip {
+    font-family: "IBM Plex Mono", monospace; font-size: .74rem; letter-spacing: .02em;
+    border: 1px solid var(--line); border-radius: 3px; padding: 5px 10px; color: var(--ink-soft);
+  }
+
+  section { padding: 52px 0; border-bottom: 1px solid var(--line); }
+  section:last-of-type { border-bottom: none; }
+  .kicker {
+    display: flex; align-items: baseline; gap: 12px; margin-bottom: 28px;
+  }
+  .kicker .num { font-family: "IBM Plex Mono", monospace; color: var(--signal); font-size: .85rem; }
+  .kicker h2 { font-size: 1.5rem; font-weight: 600; }
+
+  /* philosophy */
+  .pullquote {
+    font-family: "IBM Plex Serif", serif; font-size: 1.35rem; line-height: 1.5; font-weight: 500;
+    max-width: 42ch; color: var(--ink); margin-bottom: 26px;
+  }
+  .prose { max-width: 66ch; }
+  .prose p { margin: 0 0 18px; color: var(--ink-soft); }
+  .prose p strong { color: var(--ink); font-weight: 600; }
+  .prose-note {
+    margin-top: 24px; padding: 16px 18px; background: var(--paper-raised); border: 1px solid var(--line);
+    border-left: 3px solid var(--manuscript); border-radius: 2px; font-size: .92rem; color: var(--ink-soft);
+  }
+
+  /* program grid */
+  .progmeta { display: flex; gap: 28px; flex-wrap: wrap; margin-bottom: 30px; }
+  .progmeta div { }
+  .progmeta .label { font-family: "IBM Plex Mono", monospace; font-size: .7rem; text-transform: uppercase; letter-spacing: .1em; color: var(--ink-faint); }
+  .progmeta .value { font-size: 1.2rem; font-weight: 600; font-family: "IBM Plex Serif", serif; }
+
+  .coursegrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+  .coursecard { background: var(--paper-raised); padding: 22px 22px 20px; display: flex; flex-direction: column; gap: 8px; }
+  .coursecard .code { font-family: "IBM Plex Mono", monospace; font-size: .78rem; color: var(--signal); }
+  .coursecard h3 { font-size: 1.08rem; font-weight: 600; }
+  .coursecard .desc { color: var(--ink-soft); font-size: .88rem; flex: 1; }
+  .coursecard .foot { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; }
+  .credits { font-family: "IBM Plex Mono", monospace; font-size: .74rem; color: var(--ink-faint); }
+  .tag { font-family: "IBM Plex Mono", monospace; font-size: .66rem; letter-spacing: .04em; text-transform: uppercase; padding: 3px 7px; border-radius: 2px; }
+  .tag.full { background: var(--signal-soft); color: var(--signal); }
+  .tag.sketch { background: var(--tag-sketch-soft); color: var(--tag-sketch); }
+
+  /* objectives */
+  .objectives { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .objectives li { display: flex; gap: 12px; align-items: flex-start; font-size: .95rem; color: var(--ink-soft); }
+  .objectives li .n { font-family: "IBM Plex Mono", monospace; color: var(--manuscript); font-size: .8rem; padding-top: 2px; flex-shrink: 0; }
+
+  /* grading bar */
+  .gradebar { display: flex; height: 30px; border-radius: 3px; overflow: hidden; border: 1px solid var(--line); margin: 18px 0 14px; }
+  .gradebar span { display: block; height: 100%; }
+  .gradelegend { display: flex; flex-wrap: wrap; gap: 16px 22px; font-size: .82rem; color: var(--ink-soft); }
+  .gradelegend .item { display: flex; align-items: center; gap: 7px; }
+  .swatch { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+  /* schedule table */
+  .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 4px; margin-top: 26px; }
+  table { border-collapse: collapse; width: 100%; min-width: 640px; background: var(--paper-raised); }
+  th, td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--line-soft); vertical-align: top; font-size: .88rem; }
+  thead th {
+    font-family: "IBM Plex Mono", monospace; font-size: .68rem; text-transform: uppercase; letter-spacing: .08em;
+    color: var(--ink-faint); background: var(--paper); border-bottom: 1px solid var(--line);
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td.wk { font-family: "IBM Plex Mono", monospace; color: var(--signal); font-variant-numeric: tabular-nums; width: 46px; }
+  td.topic { font-weight: 600; width: 26%; }
+  td.idea { color: var(--ink-soft); width: 34%; }
+  td.deliv { color: var(--ink-soft); font-size: .84rem; }
+  tr.highlight td { background: var(--manuscript-soft); }
+
+  .policy { margin-top: 30px; display: grid; gap: 18px; }
+  .policy h4 { font-size: .95rem; margin-bottom: 6px; }
+  .policy p { color: var(--ink-soft); font-size: .9rem; margin: 0; max-width: 66ch; }
+
+  footer { padding: 40px 0 20px; color: var(--ink-faint); font-size: .82rem; }
+  footer a { color: var(--ink-faint); }
+
+  @media (max-width: 640px) {
+    .coursegrid { grid-template-columns: 1fr; }
+    .progmeta { gap: 18px 26px; }
+  }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <span class="brand">AI-Assisted Music Practice</span>
+    <div class="navlinks">
+      <a href="#philosophy">Philosophy</a>
+      <a href="#program">Program</a>
+      <a href="#syllabus">Sample Syllabus</a>
+      <a href="#courses">Full Sequence</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <header class="hero">
+    <span class="eyebrow">Sample Curriculum &mdash; Draft for Review</span>
+    <h1>Certificate in AI&#8209;Assisted Music Practice</h1>
+    <p class="hero-sub">Prepared by Max Perkins for the Assistant Professor of Music Technology and Artificial Intelligence position (RISE&#8209;AI), Mead Witter School of Music, UW&#8211;Madison.</p>
+    <div class="staffline"></div>
+    <div class="metachips">
+      <span class="chip">4 courses</span>
+      <span class="chip">12 credits</span>
+      <span class="chip">Undergraduate &middot; no coding background required</span>
+      <span class="chip">15&#8209;week semester format</span>
+    </div>
+  </header>
+
+  <section id="philosophy">
+    <div class="kicker"><span class="num">01</span><h2>Teaching Philosophy</h2></div>
+    <p class="pullquote">I don't teach students to make AI compose music. Generation is the least interesting, least durable thing AI does for a trained musician.</p>
+    <div class="prose">
+      <p>I've spent the last several months building AI tools for real use, not classroom demos: a composition-assistance tool that analyzes a composer's own sketches and surfaces unexplored paths in their own material; a CRM and outreach system now running a nonprofit's daily operations; a public QR-tracking tool I use for both concert marketing and organizational work. The clearest lesson from that work is that the skill worth teaching isn't prompting tricks. It's specification, evaluation, and judgment &mdash; the same disciplines a trained musician already practices, redirected at a new instrument.</p>
+      <p>That distinction had to be engineered, not just intended. Early in the composition tool's development, its guidance language read as directives &mdash; actionable suggestions a composer could simply follow. I rewrote the system prompt so every suggestion became an <em>investigative path</em> instead: a place to look, never a decision made for you. When the model kept quietly slipping back into prescriptive habits no matter how the prompt was worded, the fix wasn't a better sentence &mdash; it was removing the data the model was leaning on. Ethical AI use in a creative field is a design constraint you build and re-enforce, not a value you state once.</p>
+      <p><strong>Undergraduate music majors are already trained for this work, they just don't know it yet.</strong> Critical listening is rubric design. A rehearsal log is a session log. Economy of gesture in orchestration is the same discipline as scoping an AI task to the effort it actually deserves, no more, no less. This certificate makes that transfer explicit.</p>
+      <p>The foundations course asks something specific of a non-technical student: not to learn to code, but to learn to <em>read</em> what's being built well enough to direct it. That means basic interface literacy sits alongside prompting and evaluation from week one &mdash; hierarchy, affordance, feedback, consistency &mdash; the vocabulary that lets a music major give a technical collaborator useful direction on something they didn't build themselves.</p>
+    </div>
+    <div class="prose-note">Grounding note: the arc this curriculum teaches &mdash; manual, memoryless prompting &rarr; structured specification &rarr; rubric-based evaluation &rarr; codified, cost-aware practice &mdash; is the real arc of my own development across five-plus tools over roughly five months, compressed here into a semester and aimed at a student's own music practice instead of mine.</div>
+  </section>
+
+  <section id="program">
+    <div class="kicker"><span class="num">02</span><h2>Certificate at a Glance</h2></div>
+    <div class="progmeta">
+      <div><div class="label">Total credits</div><div class="value">12</div></div>
+      <div><div class="label">Sequence</div><div class="value">101 &rarr; 210 + 310 &rarr; 410</div></div>
+      <div><div class="label">Audience</div><div class="value">Music majors</div></div>
+      <div><div class="label">Capstone deliverable</div><div class="value">Assistive tool</div></div>
+    </div>
+    <div class="coursegrid">
+      <div class="coursecard">
+        <span class="code">AIM 101</span>
+        <h3>Intro to AI &amp; Vibe Coding: Foundations of Human&#8211;AI Collaboration</h3>
+        <p class="desc">Specification, memory, evaluation, and cost-conscious judgment &mdash; plus enough interface literacy to direct technical work you don't build yourself. No prior technical background. Prerequisite for the rest of the certificate.</p>
+        <div class="foot"><span class="credits">3 credits</span><span class="tag full">Full syllabus below</span></div>
+      </div>
+      <div class="coursecard">
+        <span class="code">AIM 210</span>
+        <h3>Music Technology and AI</h3>
+        <p class="desc">The 101 skills applied to real music tasks &mdash; score and sketch analysis, arranging aid, production and marketing tooling &mdash; using case studies from working assistive tools.</p>
+        <div class="foot"><span class="credits">3 credits</span><span class="tag sketch">Sketch &mdash; content lead</span></div>
+      </div>
+      <div class="coursecard">
+        <span class="code">AIM 310</span>
+        <h3>AI Ethics and Sustainability in Music</h3>
+        <p class="desc">Authorship and ownership, labor and livelihood, environmental and computational cost, and guardrail design as a craft &mdash; extending the Week 14 exercise from 101 into a full course.</p>
+        <div class="foot"><span class="credits">3 credits</span><span class="tag sketch">Sketch &mdash; content lead</span></div>
+      </div>
+      <div class="coursecard">
+        <span class="code">AIM 410</span>
+        <h3>Capstone in AI&#8209;Assisted Music Practice</h3>
+        <p class="desc">Design, specify, and document an original assistive AI tool or process for a real music task. Non-generative by design: the tool augments a musician's own material, it never produces finished music in their place.</p>
+        <div class="foot"><span class="credits">3 credits</span><span class="tag sketch">Sketch &mdash; content lead</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="syllabus">
+    <div class="kicker"><span class="num">03</span><h2>AIM 101 &mdash; Sample Syllabus</h2></div>
+
+    <h3 style="font-size:1rem;margin-bottom:10px;">Learning Objectives</h3>
+    <ol class="objectives">
+      <li><span class="n">01</span>Direct an AI collaborator through clear, structured specification rather than vague requests.</li>
+      <li><span class="n">02</span>Maintain project memory across sessions with a written brief &mdash; the AI-work equivalent of a rehearsal log.</li>
+      <li><span class="n">03</span>Read and critique a digital interface using basic UI/UX vocabulary (hierarchy, affordance, feedback, consistency, accessibility) well enough to give useful direction on something you didn't build.</li>
+      <li><span class="n">04</span>Design a rubric to evaluate AI-generated output against a real standard, rather than accepting the first draft.</li>
+      <li><span class="n">05</span>Reason about the cost and effort of an AI-assisted task, and scale your approach to match.</li>
+      <li><span class="n">06</span>Recognize where a tool's design choices carry ethical weight, and build guardrails before they're needed.</li>
+    </ol>
+
+    <h3 style="font-size:1rem;margin:34px 0 10px;">Grading</h3>
+    <div class="gradebar" role="img" aria-label="Grading breakdown: Project briefs and process logs 30%, evaluation and critique assignments 20%, weekly exercises and participation 20%, final presentation and reflection portfolio 30%">
+      <span style="width:30%;background:var(--signal)"></span>
+      <span style="width:20%;background:var(--manuscript)"></span>
+      <span style="width:20%;background:var(--ink-faint)"></span>
+      <span style="width:30%;background:var(--tag-sketch)"></span>
+    </div>
+    <div class="gradelegend">
+      <div class="item"><span class="swatch" style="background:var(--signal)"></span>Project briefs &amp; process logs &mdash; 30%</div>
+      <div class="item"><span class="swatch" style="background:var(--manuscript)"></span>Evaluation &amp; critique assignments &mdash; 20%</div>
+      <div class="item"><span class="swatch" style="background:var(--ink-faint)"></span>Weekly exercises &amp; participation &mdash; 20%</div>
+      <div class="item"><span class="swatch" style="background:var(--tag-sketch)"></span>Final presentation &amp; reflection portfolio &mdash; 30%</div>
+    </div>
+
+    <h3 style="font-size:1rem;margin:34px 0 4px;">Weekly Schedule</h3>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Wk</th><th>Topic</th><th>Core idea</th><th>Deliverable</th></tr></thead>
+        <tbody>
+          <tr><td class="wk">01</td><td class="topic">Orientation &mdash; AI Is a Context Window, Not a Colleague</td><td class="idea">Why "vibe coding" still requires discipline</td><td class="deliv">Reflection: your prior AI use, honestly assessed</td></tr>
+          <tr><td class="wk">02</td><td class="topic">Brainstorming Through Constraints</td><td class="idea">Open questions produce noise; constraints produce signal</td><td class="deliv">Rewrite a vague prompt as a constrained one</td></tr>
+          <tr><td class="wk">03</td><td class="topic">Structured Writing as Interface</td><td class="idea">Markdown and templates as reusable "slots" for output</td><td class="deliv">Template a recurring task</td></tr>
+          <tr><td class="wk">04</td><td class="topic">Project Memory</td><td class="idea">A written brief is your rehearsal log for AI work</td><td class="deliv">Draft: first project brief</td></tr>
+          <tr><td class="wk">05</td><td class="topic">Workshop &mdash; Project Brief I</td><td class="idea">Peer review against a shared rubric</td><td class="deliv">Revised brief</td></tr>
+          <tr class="highlight"><td class="wk">06</td><td class="topic">Reading Interfaces &mdash; UI/UX for Non&#8209;Technical Creators</td><td class="idea">Hierarchy, affordance, feedback, consistency, accessibility</td><td class="deliv">Critique three real interfaces</td></tr>
+          <tr><td class="wk">07</td><td class="topic">Specifying a Build</td><td class="idea">You write the spec, the AI writes the code, you review the result</td><td class="deliv">Spec a simple tool using Week 6 vocabulary</td></tr>
+          <tr><td class="wk">08</td><td class="topic">How Systems Fit Together</td><td class="idea">Enough conceptual literacy to specify integrations, no code required</td><td class="deliv">Diagram a tool's moving parts</td></tr>
+          <tr><td class="wk">09</td><td class="topic">Training and Evaluation</td><td class="idea">"It worked once" is not evidence it works</td><td class="deliv">Draft: an evaluation rubric</td></tr>
+          <tr><td class="wk">10</td><td class="topic">Workshop &mdash; Evaluation Rubric</td><td class="idea">Test the rubric against real AI output</td><td class="deliv">Revised rubric</td></tr>
+          <tr><td class="wk">11</td><td class="topic">Workflows and Automation</td><td class="idea">Turning a recurring task into a repeatable protocol</td><td class="deliv">Write a one-page protocol</td></tr>
+          <tr><td class="wk">12</td><td class="topic">Diagnosing Failure</td><td class="idea">A good failure report is half the fix</td><td class="deliv">Failure report from a real breakdown</td></tr>
+          <tr><td class="wk">13</td><td class="topic">Cost and Effort as Craft</td><td class="idea">Matching effort to the size of the task</td><td class="deliv">Budget a project across an effort scale</td></tr>
+          <tr><td class="wk">14</td><td class="topic">Guardrails by Design</td><td class="idea">Building a constraint into a tool, not just stating a value</td><td class="deliv">Redesign a system prompt's boundaries</td></tr>
+          <tr><td class="wk">15</td><td class="topic">Final Presentations</td><td class="idea">Present your process portfolio</td><td class="deliv">Final portfolio: brief, rubric, protocol, reflection</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="policy">
+      <div>
+        <h4>AI Use Policy</h4>
+        <p>This course is about AI, so its AI-use policy has to be more specific than most. Every assignment states which parts must be your own thinking (the brief, the rubric criteria, the reflection) and which parts an AI collaborator may draft under your direction (first-pass structure, code, sample text). Submitting AI output as your own critical judgment, uncredited, is a violation; directing an AI collaborator and documenting that direction is the point of the course.</p>
+      </div>
+      <div>
+        <h4>Accessibility</h4>
+        <p>Standard UW&#8211;Madison McBurney accommodation language applies. [Insert current university accessibility statement.]</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="courses">
+    <div class="kicker"><span class="num">04</span><h2>Rest of the Sequence</h2></div>
+    <div class="prose">
+      <p>AIM 210, 310, and 410 are sketched at the level of a course description and learning objectives here, deliberately &mdash; the process pedagogy above is domain-general, and the music-specific content in these three courses is where my own compositional and pedagogical judgment, not my development history, should lead.</p>
+    </div>
+    <div class="coursegrid" style="margin-top:22px;">
+      <div class="coursecard">
+        <span class="code">AIM 210</span>
+        <h3>Music Technology and AI</h3>
+        <p class="desc">Case-study driven: students apply 101's specification and evaluation skills to score/sketch analysis, arranging assistance, notation and production workflows, and small-scale marketing/logistics tooling. Every case study is an assistive tool, never a generator.</p>
+      </div>
+      <div class="coursecard">
+        <span class="code">AIM 310</span>
+        <h3>AI Ethics and Sustainability in Music</h3>
+        <p class="desc">Authorship and training-data provenance, labor displacement and musicians' livelihoods, the environmental cost of compute, and cultural questions in AI-generated music &mdash; taught through guardrail-design exercises rather than lecture alone.</p>
+      </div>
+      <div class="coursecard">
+        <span class="code">AIM 410</span>
+        <h3>Capstone in AI&#8209;Assisted Music Practice</h3>
+        <p class="desc">Students specify, direct the build of, and document an original assistive tool for a real task in their own practice &mdash; deliverable is the tool plus the same process portfolio format from 101: brief, rubric, protocol, reflection.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Draft prepared for internal review &mdash; not a UW&#8211;Madison catalog document. Course numbers, credit totals, and policy language are placeholders pending institutional review.</p>
+  </footer>
+</div>
+
+</body></html>

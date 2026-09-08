@@ -1,14 +1,26 @@
-# Career Search & Portfolio — Handoff Notes
-**Last updated: May 22, 2026**
+﻿# Career Search & Portfolio — Handoff Notes
+**Last updated: September 8, 2026**
 
 ## Current Situation
 
-- Targeting AI developer, junior full-stack, and internal tools roles
-- Portfolio fully overhauled — Shipped/Building/Workflow tabs, suite carousel, About page, problem/solution/outcome on every tool
-- MCP server shipped and connected to Claude Desktop
-- n8n weekly digest live, runs every Monday
-- Composer's Compass (Music Composition Assistant) — tool scaffolded, training protocol running, first experiment scored
-- Unified Sprout Society Suite app planned (hub with navigation across all 4 tools)
+The search now runs three parallel tracks. **Arts/nonprofit operations
+(`career-search-ops-track.md`) is the primary, ongoing search** — general arts admin roles,
+applied to regularly. The other two are narrower:
+
+- **AI/dev track** (`career-search-master.md`) — original track, background/secondary. Portfolio
+  fully overhauled — Shipped/Building/Workflow tabs, suite carousel, About page, problem/solution/outcome
+  on every tool. MCP server shipped and connected to Claude Desktop. n8n weekly digest live.
+- **Arts/nonprofit operations track** (`career-search-ops-track.md`) — **primary track.** General
+  arts admin roles, applied to on an ongoing basis.
+- **Academic music technology & AI track** (`career-search-academic-track.md`) — **an outlier, not
+  the main strategy.** One tenure-track posting (UW-Madison Mead Witter School of Music, RISE-AI,
+  JR10004513) that happened to fit unusually well. Full packet (CV, cover letter, teaching
+  statement) finalized September 8, 2026, built around The Composer Compass as the focal
+  creative/research work. This does not represent a pivot away from the ops/arts-admin search;
+  treat it as a single opportunistic application, not a new default framing.
+
+The Composer Compass (Music Composition Assistant) — tool scaffolded, training protocol running,
+first experiment scored. Unified Sprout Society Suite app planned (hub with navigation across all 4 tools).
 
 ---
 
@@ -28,7 +40,7 @@
 4. Campaign Tracker — dynamic QR codes, serverless scan tracking via Cloudflare
 
 **Building tab:**
-- Composer's Compass — AI composition studio. Tool is built (Next.js, direct Anthropic SDK, server-side API route). Training protocol active: structured intake form → analysis agent → rubric-based evaluation across 6 model runs. First scoring session completed May 22, 2026. MCP server architecture planned.
+- The Composer Compass — AI composition studio. Tool is built (Next.js, direct Anthropic SDK, server-side API route). Training protocol active: structured intake form → analysis agent → rubric-based evaluation across 6 model runs. First scoring session completed May 22, 2026. MCP server architecture planned.
 
 **Workflow tab:**
 - Loom needs to be redone — current video makes it look like blind Claude use, not intentional technical development
@@ -38,7 +50,7 @@
 
 ## What Was Just Built (May 22, 2026)
 
-- **Composer's Compass** — Next.js app scaffolded and wired:
+- **The Composer Compass** — Next.js app scaffolded and wired:
   - `components/CompositionHub.jsx` — full UI with Pre-Comp, Lo-Res, Hi-Res, Engraving workflow tabs, Brainstorm, Pieces archive, Network, Discover
   - `app/api/ai/route.js` — server-side Anthropic API proxy (API key secured, `mcp_servers` field passed through for future MCP integration)
   - `app/compass/page.js` — thin route wrapper
@@ -64,7 +76,7 @@
 - Multi-step API chains (Instagram Graph API)
 - REST API proxy routes in Next.js
 - Claude API with tool use
-- Direct Anthropic SDK usage — server-side API proxy with model routing and token management (Composer's Compass)
+- Direct Anthropic SDK usage — server-side API proxy with model routing and token management (The Composer Compass)
 - Human-in-the-loop workflow design
 - Zod schema validation
 - Structured research protocols functioning as system prompts, producing importable JSON
@@ -99,7 +111,7 @@ What still needs building:
 - [ ] Start reading own code daily — one component, explain each function out loud
 
 ### Medium Term
-- [ ] Build Composer's Compass MCP server (expose system prompt, intake form, rubric as resources; add `log_session` and `get_piece_history` tools)
+- [ ] Build The Composer Compass MCP server (expose system prompt, intake form, rubric as resources; add `log_session` and `get_piece_history` tools)
 - [ ] Build unified Sprout Society Suite app (hub navigation across all 4 tools, one deployment)
 - [ ] Convert n8n workflow to native Vercel cron (no subscription dependency)
 - [ ] Connect real Sprout Society Instagram account
@@ -116,7 +128,7 @@ What still needs building:
 | Social Manager V2 | github.com/mhperkins/sprout-social-tool | Live |
 | Campaign Tracker | github.com/mhperkins/qr-tracker | Live |
 | Portfolio | github.com/mhperkins/ai-portfolio-landing-page | Live |
-| Composer's Compass | — | Building |
+| The Composer Compass | — | Building |
 
 ---
 
@@ -125,6 +137,7 @@ What still needs building:
 - Lead with the Sprout Suite as a system, not individual projects
 - Four interconnected tools for one organization, one backend, actively used in production
 - MCP server is the strongest technical differentiator for AI dev roles specifically — shows tool use, resource design, multi-step reasoning with real data
-- Composer's Compass training protocol is the second technical differentiator — demonstrates rubric design, structured evaluation, and agent architecture thinking, not just "I called the API"
+- The Composer Compass training protocol is the second technical differentiator — demonstrates rubric design, structured evaluation, and agent architecture thinking, not just "I called the API"
 - Workflow framing needs update — the composition training protocol is the concrete example of intentional methodology that the current Loom doesn't show
 - Arc.dev rejection likely a marketplace seniority bar, not a portfolio problem — not the right channel right now
+- Academic track (UW-Madison RISE-AI) is a one-off outlier, not a new primary strategy. Ops/arts-admin remains the main ongoing search; keep applying to general arts admin roles regardless of how the RISE-AI application lands

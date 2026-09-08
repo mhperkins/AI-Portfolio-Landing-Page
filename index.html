@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -451,52 +451,96 @@
            Tab: Building
       ═══════════════════════════════════════════════════ -->
       <div id="tab-progress" class="tab-panel pb-24" style="display:none">
-        <div id="composition" class="border border-white/8 rounded-xl p-6 sm:p-8 card-hover bg-white/[0.02]">
-          <div class="flex flex-wrap items-center gap-3 mb-3">
-            <h3 class="text-xl font-semibold">Music Composition Agent</h3>
+        <div id="composition" class="border border-white/8 rounded-xl p-6 sm:p-8 bg-white/[0.02]">
+          <div class="flex flex-col items-center gap-2 mb-3">
+            <h3 class="text-xl font-semibold">The Composer Compass</h3>
+            <p class="text-sm text-slate-400">Music Composition Agent</p>
             <span class="tag status-wip">In Development</span>
           </div>
-          <div class="text-slate-400 mb-6 leading-relaxed space-y-3">
-            <div class="rounded-lg p-3" style="border: 1px solid rgba(52,138,88,0.25); background: rgba(52,138,88,0.04);">
-              <p class="text-slate-300 font-medium mb-2">Problem</p>
-              <ul class="space-y-1 list-none">
-                <li>— AI music tools generate output instead of assisting the creative process</li>
-                <li>— Built for non-musicians; useless for a working composer</li>
-                <li>— What's needed: a collaborator that engages with incomplete material and helps think through decisions</li>
-              </ul>
+          <div class="flex flex-col items-center gap-2 mb-6">
+            <div class="flex flex-wrap justify-center gap-2">
+              <span class="tag tech-tag">Claude API</span>
+              <span class="tag tech-tag">FastMCP</span>
+              <span class="tag tech-tag">Python</span>
+              <span class="tag tech-tag">music21</span>
+              <span class="tag tech-tag">ChromaDB</span>
+              <span class="tag tech-tag">Discord</span>
             </div>
-            <div class="rounded-lg p-3" style="border: 1px solid rgba(52,138,88,0.25); background: rgba(52,138,88,0.04);">
-              <p class="text-slate-300 font-medium mb-2">What's built</p>
-              <ul class="space-y-1 list-none">
-                <li>— Next.js composition studio with four workflow stages: Pre-Composition, Lo-Res, Hi-Res, Engraving</li>
-                <li>— Server-side Anthropic API route handles all model calls</li>
-                <li>— MCP server planned to expose protocol documents as live resources in Claude Desktop</li>
-              </ul>
-            </div>
-            <div class="rounded-lg p-3" style="border: 1px solid rgba(52,138,88,0.25); background: rgba(52,138,88,0.04);">
-              <p class="text-slate-300 font-medium mb-2">Agent training</p>
-              <ul class="space-y-1 list-none">
-                <li>— Structured intake form feeds an analysis agent before any deployment decision</li>
-                <li>— Output scored against a five-dimension rubric across six model configurations</li>
-                <li>— Rubric evaluates: factual accuracy, specificity, cross-parameter integration, reference utility, synthesis</li>
-                <li>— Results determine which model and settings ship to production</li>
-              </ul>
-            </div>
-            <div class="rounded-lg p-3" style="border: 1px solid rgba(52,138,88,0.25); background: rgba(52,138,88,0.04);">
-              <p class="text-slate-300 font-medium mb-2">Current phase</p>
-              <ul class="space-y-1 list-none">
-                <li>— First scoring session complete</li>
-                <li>— Runs 2–6 pending cold evaluation</li>
-              </ul>
+            <div class="flex flex-wrap justify-center gap-2">
+              <span class="tag tech-tag">Prompt Engineering</span>
+              <span class="tag tech-tag">Agent Architecture</span>
+              <span class="tag tech-tag">Rubric Evaluation</span>
+              <span class="tag tech-tag">MCP</span>
+              <span class="tag tech-tag">Next.js</span>
             </div>
           </div>
-          <div class="flex flex-wrap gap-2">
-            <span class="tag tech-tag">Claude API</span>
-            <span class="tag tech-tag">Prompt Engineering</span>
-            <span class="tag tech-tag">Agent Architecture</span>
-            <span class="tag tech-tag">MCP</span>
-            <span class="tag tech-tag">Next.js</span>
-            <span class="tag tech-tag">Rubric Evaluation</span>
+          <div data-section-carousel>
+            <div class="overflow-hidden">
+              <div class="section-carousel-track flex transition-transform duration-300 ease-in-out">
+                <div class="section-carousel-slide w-full flex-shrink-0">
+                  <div class="rounded-lg p-4 text-slate-400 leading-relaxed" style="border: 1px solid rgba(52,138,88,0.25); background: rgba(52,138,88,0.04);">
+                    <p class="text-slate-300 font-medium mb-3">Problem</p>
+                    <ul class="space-y-2 list-none">
+                      <li>— AI music tools generate output rather than supporting the creative process</li>
+                      <li>— Existing tools are designed for non-musicians and offer nothing useful to a working composer</li>
+                      <li>— A serious composition tool requires a collaborator that engages with incomplete material and helps reason through decisions</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="section-carousel-slide w-full flex-shrink-0">
+                  <div class="rounded-lg p-4 text-slate-400 leading-relaxed" style="border: 1px solid rgba(52,138,88,0.25); background: rgba(52,138,88,0.04);">
+                    <p class="text-slate-300 font-medium mb-3">MCP server</p>
+                    <ul class="space-y-2 list-none">
+                      <li>— FastMCP/Python server registered in Claude Desktop with 20+ tools across 11 sessions</li>
+                      <li>— <code class="font-mono text-xs">get_project_context</code> loads intake form, constitution, project state, aesthetic blueprint, and Discord teacher summary per piece</li>
+                      <li>— <code class="font-mono text-xs">analyze_score</code> parses MusicXML via music21: pitch classes, intervals, voice leading, and register</li>
+                      <li>— <code class="font-mono text-xs">check_voice_leading</code> detects parallel 5ths and 8ths, hidden 5ths and 8ths, and large leaps</li>
+                      <li>— <code class="font-mono text-xs">search_theory_library</code> runs semantic search over musicology texts via ChromaDB</li>
+                      <li>— Sibelius file watcher auto-routes MusicXML exports to <code class="font-mono text-xs">drafts/</code> or <code class="font-mono text-xs">sketches/</code> based on filename convention</li>
+                      <li>— Discord integration exports teacher feedback threads; agent auto-loads the resulting summary on each run</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="section-carousel-slide w-full flex-shrink-0">
+                  <div class="rounded-lg p-4 text-slate-400 leading-relaxed" style="border: 1px solid rgba(52,138,88,0.25); background: rgba(52,138,88,0.04);">
+                    <p class="text-slate-300 font-medium mb-3">Experiment methodology</p>
+                    <ul class="space-y-2 list-none">
+                      <li>— Type A experiments isolate one variable per run and produce a direct comparison document</li>
+                      <li>— Type B experiments use pre/post score analysis to test whether the intake form predicted the compositional reality</li>
+                      <li>— A five-dimension rubric scores every run: D1 Data Accuracy, D2 Music Theory, D3 Intake Adherence, D4 Specificity, D5 Usefulness</li>
+                      <li>— An Error Pattern Log accumulates observed failure modes across all sessions</li>
+                      <li>— Evaluations happen cold, the next day, to prevent confirmation bias</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="section-carousel-slide w-full flex-shrink-0">
+                  <div class="rounded-lg p-4 text-slate-400 leading-relaxed" style="border: 1px solid rgba(52,138,88,0.25); background: rgba(52,138,88,0.04);">
+                    <p class="text-slate-300 font-medium mb-3">System prompt</p>
+                    <ul class="space-y-2 list-none">
+                      <li>— System prompt iterated from v1.0 through v5.0 across 11 documented sessions with a version CHANGELOG</li>
+                      <li>— v5.0 uses a two-path design: extended thinking ON produces analysis in the thinking block and a one-sheet as output; extended thinking OFF produces a full analytical guide first, then a distilled one-sheet below a divider</li>
+                      <li>— Conversation design follows a masterclass dialogue format: agent opens with a thesis, one claim, and one direct question; one claim per turn</li>
+                      <li>— A numbered workflow in the prompt enforces tool call order on every run</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="section-carousel-slide w-full flex-shrink-0">
+                  <div class="rounded-lg p-4 text-slate-400 leading-relaxed" style="border: 1px solid rgba(52,138,88,0.25); background: rgba(52,138,88,0.04);">
+                    <p class="text-slate-300 font-medium mb-3">Next steps</p>
+                    <ul class="space-y-2 list-none">
+                      <li>— Index musicology texts into ChromaDB to activate semantic theory search</li>
+                      <li>— Run two-path test (Run A: extended thinking ON, Run B: OFF) to evaluate v5.0 system prompt</li>
+                      <li>— Build the Next.js composition studio as the UI layer for the full four-stage workflow: Pre-Composition, Lo-Res, Hi-Res, Engraving</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="section-carousel-controls flex items-center justify-center gap-4 mt-4">
+              <button class="section-carousel-prev w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
+              <div class="section-carousel-dots flex gap-2"></div>
+              <button class="section-carousel-next w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
+            </div>
           </div>
         </div>
       </div>
@@ -505,46 +549,53 @@
            Tab: Workflow
       ═══════════════════════════════════════════════════ -->
       <div id="tab-workflow" class="tab-panel pb-24" style="display:none">
-        <div class="border border-white/8 rounded-xl p-3 sm:p-4 card-hover bg-white/[0.02]">
-          <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
+        <div class="border border-white/8 rounded-xl p-6 sm:p-8 bg-white/[0.02]">
+          <div class="flex flex-col items-center gap-2 mb-6">
             <h3 class="text-xl font-semibold">How I Work with Claude</h3>
           </div>
-          <div class="text-slate-400 mb-6 space-y-3">
-            <div class="rounded-lg p-3" style="border: 1px solid rgba(52,138,88,0.25); background: rgba(52,138,88,0.04);">
-              <p class="text-slate-300 font-medium mb-2">How I build tools</p>
-              <ul class="space-y-1 leading-relaxed list-none">
-                <li>— Structured MD files for every project: instructions, architecture, schema rules, and protocols</li>
-                <li>— Every project starts with a CLAUDE.md that gives Claude full context before any prompt is written</li>
-                <li>— Claude Code runs in VS Code; every change is a diff I review before accepting</li>
-                <li>— Browser stays open to test live; I read every line written — to understand, not just catch errors</li>
-              </ul>
+          <div data-section-carousel>
+            <div class="overflow-hidden">
+              <div class="section-carousel-track flex transition-transform duration-300 ease-in-out">
+                <div class="section-carousel-slide w-full flex-shrink-0">
+                  <div class="rounded-lg p-4 text-slate-400 leading-relaxed" style="border: 1px solid rgba(52,138,88,0.25); background: rgba(52,138,88,0.04);">
+                    <p class="text-slate-300 font-medium mb-3">How I build tools</p>
+                    <ul class="space-y-2 list-none">
+                      <li>— Structured MD files for every project: instructions, architecture, schema rules, and protocols</li>
+                      <li>— Every project starts with a CLAUDE.md that gives Claude full context before any prompt is written</li>
+                      <li>— Claude Code runs in VS Code; every change is a diff I review before accepting</li>
+                      <li>— Browser stays open to test live; I read every line written — to understand, not just catch errors</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="section-carousel-slide w-full flex-shrink-0">
+                  <div class="rounded-lg p-4 text-slate-400 leading-relaxed" style="border: 1px solid rgba(52,138,88,0.25); background: rgba(52,138,88,0.04);">
+                    <p class="text-slate-300 font-medium mb-3">How I build agents</p>
+                    <ul class="space-y-2 list-none">
+                      <li>— Designed intake form, versioned system prompt, and a five-dimension evaluation rubric</li>
+                      <li>— Output scored across six model configurations before any production decision</li>
+                      <li>— One variable changes per experiment run; evaluation happens cold, the next day</li>
+                      <li>— Prompt changes require a pattern across at least two runs before implementation</li>
+                      <li>— The agent doesn't ship until the prompt is stable</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="section-carousel-slide w-full flex-shrink-0">
+                  <div class="rounded-lg p-4 text-slate-400 leading-relaxed" style="border: 1px solid rgba(52,138,88,0.25); background: rgba(52,138,88,0.04);">
+                    <p class="text-slate-300 font-medium mb-3">The result</p>
+                    <ul class="space-y-2 list-none">
+                      <li>— Moves fast without breaking things</li>
+                      <li>— Produces auditable output</li>
+                      <li>— Treats AI as a system to be designed, not a tool to be prompted and hoped at</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="rounded-lg p-3" style="border: 1px solid rgba(52,138,88,0.25); background: rgba(52,138,88,0.04);">
-              <p class="text-slate-300 font-medium mb-2">How I build agents</p>
-              <ul class="space-y-1 leading-relaxed list-none">
-                <li>— Designed intake form, versioned system prompt, and a five-dimension evaluation rubric</li>
-                <li>— Output scored across six model configurations before any production decision</li>
-                <li>— One variable changes per experiment run; evaluation happens cold, the next day</li>
-                <li>— Prompt changes require a pattern across at least two runs before implementation</li>
-                <li>— The agent doesn't ship until the prompt is stable</li>
-              </ul>
+            <div class="section-carousel-controls flex items-center justify-center gap-4 mt-4">
+              <button class="section-carousel-prev w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
+              <div class="section-carousel-dots flex gap-2"></div>
+              <button class="section-carousel-next w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
             </div>
-            <div class="rounded-lg p-3" style="border: 1px solid rgba(52,138,88,0.25); background: rgba(52,138,88,0.04);">
-              <p class="text-slate-300 font-medium mb-2">The result</p>
-              <ul class="space-y-1 leading-relaxed list-none">
-                <li>— Moves fast without breaking things</li>
-                <li>— Produces auditable output</li>
-                <li>— Treats AI as a system to be designed, not a tool to be prompted and hoped at</li>
-              </ul>
-            </div>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <span class="tag tech-tag">Claude Code</span>
-            <span class="tag tech-tag">Structured Documentation</span>
-            <span class="tag tech-tag">VS Code</span>
-            <span class="tag tech-tag">Diff Review</span>
-            <span class="tag tech-tag">Rubric Evaluation</span>
-            <span class="tag tech-tag">Experiment Protocol</span>
           </div>
         </div>
       </div>
@@ -616,6 +667,7 @@
       var top = (panel ? panel.getBoundingClientRect().top + window.scrollY : 0) - offset;
       window.scrollTo({ top: top, behavior: 'smooth' });
       initCarousels();
+      initSectionCarousels();
     }
 
     document.querySelectorAll('.tab-btn').forEach(function(btn) {
@@ -702,11 +754,9 @@
         }
 
         function go(p) {
-          cur = Math.max(0, Math.min(p, pages - 1));
+          cur = ((p % pages) + pages) % pages;
           track.style.transform = 'translateX(-' + (cur * 100) + '%)';
           dots.forEach(function(d, i) { d.style.background = i === cur ? '#348a58' : '#334155'; });
-          prev.disabled = cur === 0;
-          next.disabled = cur === pages - 1;
         }
 
         prev.addEventListener('click', function() { go(cur - 1); });
@@ -716,6 +766,42 @@
     }
 
     initCarousels();
+
+    // ── Section carousels (Building tab) ────────────────────────────────────
+    function initSectionCarousels() {
+      document.querySelectorAll('[data-section-carousel]').forEach(function(el) {
+        if (el._sectionCarouselInit) return;
+        el._sectionCarouselInit = true;
+        var track = el.querySelector('.section-carousel-track');
+        var slides = el.querySelectorAll('.section-carousel-slide');
+        var prev = el.querySelector('.section-carousel-prev');
+        var next = el.querySelector('.section-carousel-next');
+        var dotsWrap = el.querySelector('.section-carousel-dots');
+        var cur = 0;
+        var pages = slides.length;
+
+        var dots = Array.from({ length: pages }, function(_, i) {
+          var d = document.createElement('button');
+          d.style.cssText = 'width:8px;height:8px;border-radius:50%;border:none;padding:0;cursor:pointer;transition:background .2s;background:#334155';
+          d.setAttribute('aria-label', 'Section ' + (i + 1));
+          d.addEventListener('click', function() { go(i); });
+          dotsWrap.appendChild(d);
+          return d;
+        });
+
+        function go(p) {
+          cur = ((p % pages) + pages) % pages;
+          track.style.transform = 'translateX(-' + (cur * 100) + '%)';
+          dots.forEach(function(d, i) { d.style.background = i === cur ? '#348a58' : '#334155'; });
+        }
+
+        prev.addEventListener('click', function() { go(cur - 1); });
+        next.addEventListener('click', function() { go(cur + 1); });
+        go(0);
+      });
+    }
+
+    initSectionCarousels();
 
     // ── Scroll button ───────────────────────────────────────────────────────
     var scrollBtn = document.getElementById('scroll-btn');

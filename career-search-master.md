@@ -1,4 +1,4 @@
-# Career Search Master Reference
+﻿# Career Search Master Reference
 **Maxwell Perkins — Vibe Coder / AI-Assisted Developer**
 **Last updated: May 21, 2026**
 
@@ -19,8 +19,8 @@ You are a self-taught developer who transitioned from music, entrepreneurship, a
 - **Strong:** Next.js, React, Tailwind CSS, Supabase, Claude API, RESTful APIs, HTML/CSS, Vercel, Git, JSON, Cloudflare Workers
 - **Working knowledge:** TypeScript, PostgreSQL/SQL (via Supabase), JavaScript, MCP Protocol, n8n
 - **Familiar:** Canva API, Instagram API, Composio API, Anthropic SDK (direct), Agent evaluation and rubric design
-- **Building now:** Composer's Compass agent training protocol, Sprout Society unified suite app
-- **Learning:** Python, LangChain
+- **Building now:** The Composer Compass agent training protocol, Sprout Society unified suite app, ChromaDB RAG pipeline, sentence-transformers embeddings
+- **Learning:** Python (wrote index_library.py and server tools), LangChain
 
 ### What Makes You Different
 - Claude Code power user — structured MD files, context management, near-zero hallucinations
@@ -52,7 +52,7 @@ You are a self-taught developer who transitioned from music, entrepreneurship, a
 | Social Media Manager | /#social | Live, actively used | Canva API, Instagram API, Composio API, Next.js |
 | Campaign Tracker | /#qr | Live, actively used | Cloudflare Workers, HTML |
 | CRM MCP Server | — | Shipped | Node.js, MCP Protocol, Supabase, stdio |
-| Composer's Compass | /#composition | Building | Next.js, Anthropic SDK, Claude API, Agent Architecture, Rubric Evaluation |
+| The Composer Compass | /#composition | Building | Next.js, Anthropic SDK, Claude API, Agent Architecture, Rubric Evaluation |
 | Workflow Walkthrough | /#tab-workflow | Loom needs to be redone | Claude Code process |
 
 ### Shipped Builds (May 2026)
@@ -60,8 +60,8 @@ You are a self-taught developer who transitioned from music, entrepreneurship, a
 |---|---|---|
 | n8n weekly digest automation | Scheduled email pulling live data from all Sprout tools, Claude analysis layer, delivers to inbox every Monday | Live |
 | CRM MCP Server | Exposes live CRM data as Claude tools. Claude queries contacts, relationship health, and upcoming actions mid-conversation via stdio transport connected to Claude Desktop. | Live |
-| Composer's Compass — Tool | Next.js composition studio with Pre-Comp, Lo-Res, Hi-Res, Engraving workflow. Server-side Anthropic API proxy. MCP server integration planned. | Scaffolded |
-| Composer's Compass — Training Protocol | Structured experiment system: 8-section intake form → analysis agent → 5-dimension rubric evaluation across 6 model runs. First scoring session complete. | Active |
+| The Composer Compass — Tool | Next.js composition studio with Pre-Comp, Lo-Res, Hi-Res, Engraving workflow. Server-side Anthropic API proxy. MCP server integration planned. | Scaffolded |
+| The Composer Compass — Training Protocol | Structured experiment system: 8-section intake form → MCP-connected analysis agent → multi-dimension rubric evaluation with variable-ceiling scoring. v2 rubric (6 dimensions + 3 modifiers) written. ChromaDB RAG pipeline over personal theory library built and indexed. | Active |
 
 ### The Sprout Suite Framing (use this narrative)
 The CRM, Grant Assistant, Social Media Manager, and Campaign Tracker are not four separate projects. They share one Supabase backend, one org profile, and one set of contacts. Together they are a production internal toolset built for a real Brooklyn nonprofit, the equivalent of a lightweight operations system. Frame it as a system in applications and interviews, not a list of side projects.
@@ -300,8 +300,9 @@ The dashboard was silently not showing a contact's next action. Traced it throug
 - [ ] Continue applying 3-5 roles per week
 
 ### Short Term (2-4 weeks)
-- [ ] Score Runs 2–6 for Composer's Compass (one per day, cold evaluation)
-- [ ] Complete experiment log and model assessment after all 6 runs scored
+- [ ] Write system-prompt-v2.md for The Composer Compass
+- [ ] Run bass-fugue through v2 (Sonnet no-EXT, then Sonnet EXT) and score both runs against rubric v2
+- [ ] Complete v2 experiment log and model assessment
 - [ ] Record new Loom for Social Media Manager V2 showing the full publish pipeline
 - [ ] Redo Workflow tab Loom — use composition training protocol as the concrete methodology example
 - [ ] Update Workflow tab copy in portfolio to include agent training approach
@@ -309,7 +310,7 @@ The dashboard was silently not showing a contact's next action. Traced it throug
 - [ ] Start reading own code — one component per day, explain each function out loud
 
 ### Medium Term (1-2 months)
-- [ ] Build Composer's Compass MCP server (system prompt, intake form, rubric as resources; log_session and get_piece_history tools)
+- [ ] Build The Composer Compass MCP server (system prompt, intake form, rubric as resources; log_session and get_piece_history tools)
 - [ ] Convert n8n workflow to native Vercel cron jobs (no subscription needed)
 - [ ] Learn Python basics
 - [ ] Connect real Sprout Society Instagram account
