@@ -61,23 +61,29 @@ as plain facts, then let The Composer Compass and the field's own newness carry 
 
 ### Assistant Professor of Music Technology and Artificial Intelligence (RISE-AI) — UW-Madison, Mead Witter School of Music
 **Requisition:** JR10004513, jobs.wisc.edu
+**Status: Applied — September 9, 2026.**
 **Posted deadline:** "Full consideration" Nov 11, 2025 — already past as of this application (Sept 4,
-2026). Posting states applications accepted until filled. **Confirm the posting is still active on
-jobs.wisc.edu before submitting** — this may be a stale cached copy of an older cycle.
-**Materials drafted:** `Academic CV - UW Madison.md`, `Academic Cover Letter - UW Madison.md`,
-`Teaching Statement - UW Madison.md`
-**Still needed before sending:**
-- [ ] Confirm posting is live / requisition still open
-- [ ] Fill in "Selected performances and compositions" placeholder in the CV
-- [ ] Fill in Sprout Society start date
-- [ ] Confirm whether references are being requested yet (posting says finalists only)
-- [ ] Decide whether to convert CV/letter/statement to PDF or submit as-is per the portal's format requirements
+2026). Posting states applications accepted until filled.
+**Materials sent:** `Academic CV - UW Madison.md`, `Academic Cover Letter - UW Madison.md`,
+`Teaching Statement - UW Madison.md` — cover letter addressed to Wendy Johnson and Search Committee.
+**Referral:** personally recommended to the school director by a current teacher there, who will
+recognize the name; handled as a separate backchannel, not by redirecting the letter's salutation.
 
 ---
 
 ## Open Items
 
-- [ ] Determine if there are other RISE-AI or similar interdisciplinary AI faculty lines worth
-      tracking under this same framing.
+- [ ] Continue identifying other RISE-AI or similar interdisciplinary music-tech-and-AI faculty
+      lines worth applying to under this same framing. Ongoing, not one-and-done.
 - [ ] Decide whether The Composer Compass needs a more formal writeup (a short paper-style summary)
       as a leave-behind for future academic applications, separate from the portfolio page.
+
+---
+
+## Next Task (as of Sept 9, 2026)
+
+Academic track application submitted. **Primary next task is the arts/nonprofit operations track**
+(`career-search-ops-track.md`) — a different strategy from this one (general ops/admin roles, applied
+to on an ongoing basis, portfolio/AI framing kept case-by-case rather than led with). Academic search
+continues in parallel and opportunistically: watch for other postings similar to RISE-AI and apply
+using this track's framing when one fits.

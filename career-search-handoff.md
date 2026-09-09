@@ -1,23 +1,26 @@
 ﻿# Career Search & Portfolio — Handoff Notes
-**Last updated: September 8, 2026**
+**Last updated: September 9, 2026**
 
 ## Current Situation
 
 The search now runs three parallel tracks. **Arts/nonprofit operations
 (`career-search-ops-track.md`) is the primary, ongoing search** — general arts admin roles,
-applied to regularly. The other two are narrower:
+applied to regularly. **This is the next task**: keep applying to arts admin roles on that track,
+a different strategy from the academic one (general ops/admin roles, applied to on an ongoing
+basis, portfolio/AI framing case-by-case rather than led with). The other two are narrower:
 
 - **AI/dev track** (`career-search-master.md`) — original track, background/secondary. Portfolio
   fully overhauled — Shipped/Building/Workflow tabs, suite carousel, About page, problem/solution/outcome
   on every tool. MCP server shipped and connected to Claude Desktop. n8n weekly digest live.
-- **Arts/nonprofit operations track** (`career-search-ops-track.md`) — **primary track.** General
-  arts admin roles, applied to on an ongoing basis.
+- **Arts/nonprofit operations track** (`career-search-ops-track.md`) — **primary track, and the
+  immediate next task.** General arts admin roles, applied to on an ongoing basis.
 - **Academic music technology & AI track** (`career-search-academic-track.md`) — **an outlier, not
-  the main strategy.** One tenure-track posting (UW-Madison Mead Witter School of Music, RISE-AI,
-  JR10004513) that happened to fit unusually well. Full packet (CV, cover letter, teaching
-  statement) finalized September 8, 2026, built around The Composer Compass as the focal
-  creative/research work. This does not represent a pivot away from the ops/arts-admin search;
-  treat it as a single opportunistic application, not a new default framing.
+  the main strategy.** UW-Madison Mead Witter School of Music, RISE-AI (JR10004513) application
+  **submitted September 9, 2026** (CV, cover letter, teaching statement, built around The Composer
+  Compass as the focal creative/research work). Search on this track continues in parallel and
+  opportunistically: other RISE-AI-like postings will be applied to under this same framing as they
+  turn up. This does not represent a pivot away from the ops/arts-admin search; that remains the
+  primary, ongoing effort regardless of how the RISE-AI application lands.
 
 The Composer Compass (Music Composition Assistant) — tool scaffolded, training protocol running,
 first experiment scored. Unified Sprout Society Suite app planned (hub with navigation across all 4 tools).

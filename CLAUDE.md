@@ -8,7 +8,8 @@
 
 Max's personal portfolio site. Static HTML — no build step, no bundler, no framework. Push to git and Vercel deploys automatically.
 
-**Live at:** https://ai-portfolio-landing-page.vercel.app
+**Live at:** https://maxwellhenrymusic.com (custom domain, connected via GoDaddy DNS → Vercel, Sept 2026)
+Vercel project: `composer-portfolio` (fallback URL: https://composer-portfolio-nu.vercel.app)
 
 ---
 
@@ -88,6 +89,8 @@ Each project card has: title, status tag, tech tags, Problem / Approach / Curren
 
 ## Current Portfolio State (September 2026)
 
+Custom domain live: maxwellhenrymusic.com now points to the Vercel deployment (A record → Vercel IP, CNAME on www → Vercel DNS target, both set in GoDaddy). Apex redirects to www.
+
 All major items from the previous Known Updates list are resolved:
 - Headline updated to output-focused language ("I build AI-assisted tools, not prototypes.")
 - About page exists (about.html) and About section on index.html
@@ -108,12 +111,15 @@ All major items from the previous Known Updates list are resolved:
 3. **Academic music technology & AI track** (`career-search-academic-track.md`, new) — tenure-track
    and academic postings at the intersection of music, tech, and AI. First target: UW-Madison
    Mead Witter School of Music, Assistant Professor of Music Technology and AI (RISE-AI),
-   requisition JR10004513. Full packet drafted (CV, cover letter, teaching statement) with
-   The Composer Compass as the focal creative/research work. Framing leans into practical
-   builder experience as a legitimate primary qualification for a field with no established
-   academic pipeline yet, not an apology for lacking a doctorate. Still needs: confirmation the
-   posting is still live (deadline text showed Nov 11, 2025), the performances/compositions
-   placeholder filled in, and the Sprout Society start date filled in across all resume variants.
+   requisition JR10004513. **Application submitted September 9, 2026** (CV, cover letter, teaching
+   statement) with The Composer Compass as the focal creative/research work. Framing leans into
+   practical builder experience as a legitimate primary qualification for a field with no
+   established academic pipeline yet, not an apology for lacking a doctorate.
+
+**Next task (as of Sept 9, 2026):** primary focus shifts back to the arts/nonprofit operations
+track (`career-search-ops-track.md`) — a different strategy from the academic one, applying to
+general arts admin roles on an ongoing basis. The academic track continues in parallel and
+opportunistically: watch for other postings similar to RISE-AI and apply under the same framing.
 
 ---
 
