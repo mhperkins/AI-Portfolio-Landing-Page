@@ -1,4 +1,4 @@
-﻿# AI Tool Portfolio — CLAUDE.md
+# AI Tool Portfolio — CLAUDE.md
 
 > Project memory and context for Claude Code. Not committed to git.
 
@@ -8,8 +8,13 @@
 
 Max's personal portfolio site. Static HTML — no build step, no bundler, no framework. Push to git and Vercel deploys automatically.
 
-**Live at:** https://maxwellhenrymusic.com (custom domain, connected via GoDaddy DNS → Vercel, Sept 2026)
-Vercel project: `composer-portfolio` (fallback URL: https://composer-portfolio-nu.vercel.app)
+**Live at:** https://ai-portfolio-landing-page.vercel.app/
+Vercel project: `ai-portfolio-landing-page` · GitHub: `mhperkins/AI-Portfolio-Landing-Page`
+
+> **Not to be confused with the composer portfolio.** maxwellhenrymusic.com and the
+> `composer-portfolio` Vercel project belong to a *different* site, whose source lives at
+> `Composition_Hub_Tool/composers-compass/portfolio/site/`. Never deploy this repo to that
+> project. See that project's CLAUDE.md for its own deploy pipeline (`sync.mjs`).
 
 ---
 
@@ -29,6 +34,7 @@ Vercel project: `composer-portfolio` (fallback URL: https://composer-portfolio-n
 | File | Role |
 |---|---|
 | [index.html](index.html) | Main portfolio page — Shipped/Building/Workflow tabs, hero, contact, about |
+| [composer-hub.html](composer-hub.html) | Deep-dive walkthrough of The Composition Hub (Compass + CRM + Virtual Agency) — screenshots, the piece life cycle, and a build-state matrix. Linked from the Composer Compass card on the Building tab. Written for the academic track. |
 | [about.html](about.html) | Standalone About page — linked from nav |
 | [resume.html](resume.html) | Resume page — renders the PDF in an iframe with a download button |
 | [Software Developer Resume.pdf](Software Developer Resume.pdf) | Current resume, linked from resume.html |
@@ -77,6 +83,89 @@ Each project card has: title, status tag, tech tags, Problem / Approach / Curren
 
 ---
 
+## The Composition Hub walkthrough (`composer-hub.html`)
+
+> Read this before iterating that page. Built 2026-09-09.
+
+**What it is.** A deep-dive walkthrough of the whole Composition Hub (Composer's Compass + Composer
+CRM + Virtual Agency), written for the **UW-Madison RISE-AI search committee**, not for dev
+recruiters. The committee holds both this site's URL and maxwellhenrymusic.com, so the page must
+corroborate the submitted cover letter rather than drift past it.
+
+**Status: built and verified, committed, NOT pushed.** Production is unchanged until someone pushes.
+
+### Structure and why it is shaped this way
+
+| Zone | Contents | Reasoning |
+|---|---|---|
+| Always visible | Thesis line, cropped hub-cards image, the analytical question | A skimming committee member must reach these with zero clicks. Content behind an unclicked tab does not exist for them. |
+| Tabs | Compass / CRM / Agency | The three tools are parallel alternatives, which is what tabs are for. Also mirrors `index.html` so the eventual merge is mechanical. |
+| Carousel | The 8-stage life cycle, 3-up desktop / 1-up phone | The life cycle is a sequence, so it moves horizontally. Tabs for parallel, carousels for sequential. |
+| Always visible | Closing "composer stays the author" argument | It is the thesis, not a detail. |
+
+Do not move the analytical question or the thesis behind a tab. That was a deliberate call.
+
+### Verified
+
+Tabs switch; both carousels work (including the hidden-panel zero-width measurement bug, fixed by
+dispatching `resize` on tab change); mobile is 1-up with no horizontal overflow at 390px; the print
+stylesheet expands all three panels and hides the controls, because academics save pages as PDF;
+zero console errors; zero em dashes.
+
+### Next tasks, in priority order
+
+1. **Add a Constitution and annotated-guide screenshot.** These are the strongest research evidence
+   and the page currently only describes them. The constitution carries per-decision provenance,
+   which is the most defensible artifact in the whole repo.
+2. **Balance the tabs.** The Compass tab is far longer than CRM and Agency, which read thin.
+3. **Decide on the build-state matrix.** Honest and good for an academic reader, but it is the most
+   internal-engineering thing on the page.
+4. **Then merge into `index.html`** (Max wants this folded into the Building tab, not left as a
+   separate page). See below.
+
+### The merge plan (agreed, not yet done)
+
+`index.html` already runs two carousel systems: `carousel-slide` (half-width images, `aspect-video`,
+used by the Sprout tools) and `section-carousel-slide` (full-width text, used by the Composer
+Compass card). The Compass card has the text one but **no image carousel**.
+
+`composer-hub.html` was deliberately built on the same tab-plus-carousel model, so merging is mostly
+moving panel markup. The one reconciliation needed: it uses its own `car-*` classes and its own
+initializer, which should be replaced with the existing `carousel-slide` markup and `index.html`'s
+initializer. Two snags to solve when merging: the screenshots are 1.6:1 against `aspect-video`'s
+1.78:1, and the canvas screenshot's node text becomes unreadable at half width.
+
+### Accuracy constraints (do not loosen these)
+
+Verified directly against the source repo. A committee may ask about any of it in an interview.
+
+- **RAG is over score sidecars, not books.** `library/chroma_db` holds a `score_sidecars` collection
+  with 17 entries. There is **no `theory_library` collection** and no `library/books/`. A stale claim
+  on `index.html` ("semantic search over musicology texts") was corrected on 2026-09-09.
+- **Numeric rubric scoring is deprecated.** No bass-fugue run was ever numerically scored. The
+  two-run comparison document is the primary evaluation artifact. Never write "scored on a rubric."
+- **The bass fugue is unfinished.** `scores/bass-fugue/drafts/` is empty; the only musical output is
+  a validated 5-measure canon-subject sketch. The life cycle runs intake through first sketch.
+- **MuseScore and Audiveris** are implemented and self-tested, but the external binaries were never
+  installed, so they are "implemented," not "in use."
+- **"My last three pieces"** is supportable as three pieces run through the same protocol, but they
+  are not three equally complete case studies. Bass fugue has the fullest process record and the
+  thinnest music; julies-suite has complete music but no constitution; piano-sonata has the most
+  experimental depth and a finished draft but its constitution is archived, not current.
+
+### Re-capturing screenshots
+
+Full procedure in `Composition_Hub_Tool/composers-compass/docs/deliveries/2026-09-09/README.md`.
+Essentials: run `cd app-ui && npm run dev` (fixed port 5173), seed the Compass piece via
+`/seed-bass-fugue.html`, write `compass:contact:*` / `compass:org:*` / `compass:concert:*` keys
+directly for the CRM, and set `compass:__lastexport__` so the hub header does not read "Never backed
+up." Capture with Playwright at `deviceScaleFactor: 2`.
+
+**Never screenshot the real CRM.** It holds real contacts' names and email addresses and these
+images are published publicly. Always use clearly fictional sample records.
+
+---
+
 ## Status Tags
 
 ```
@@ -89,7 +178,7 @@ Each project card has: title, status tag, tech tags, Problem / Approach / Curren
 
 ## Current Portfolio State (September 2026)
 
-Custom domain live: maxwellhenrymusic.com now points to the Vercel deployment (A record → Vercel IP, CNAME on www → Vercel DNS target, both set in GoDaddy). Apex redirects to www.
+This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
 All major items from the previous Known Updates list are resolved:
 - Headline updated to output-focused language ("I build AI-assisted tools, not prototypes.")

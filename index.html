@@ -495,7 +495,7 @@
                       <li>— <code class="font-mono text-xs">get_project_context</code> loads intake form, constitution, project state, aesthetic blueprint, and Discord teacher summary per piece</li>
                       <li>— <code class="font-mono text-xs">analyze_score</code> parses MusicXML via music21: pitch classes, intervals, voice leading, and register</li>
                       <li>— <code class="font-mono text-xs">check_voice_leading</code> detects parallel 5ths and 8ths, hidden 5ths and 8ths, and large leaps</li>
-                      <li>— <code class="font-mono text-xs">search_theory_library</code> runs semantic search over musicology texts via ChromaDB</li>
+                      <li>— <code class="font-mono text-xs">search_theory_library</code> runs ChromaDB semantic search over indexed score sidecars, so past material is findable by structural description rather than filename</li>
                       <li>— Sibelius file watcher auto-routes MusicXML exports to <code class="font-mono text-xs">drafts/</code> or <code class="font-mono text-xs">sketches/</code> based on filename convention</li>
                       <li>— Discord integration exports teacher feedback threads; agent auto-loads the resulting summary on each run</li>
                     </ul>
@@ -541,6 +541,14 @@
               <div class="section-carousel-dots flex gap-2"></div>
               <button class="section-carousel-next w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
             </div>
+          </div>
+          <div class="flex justify-center mt-7">
+            <a href="composer-hub.html"
+               class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-colors"
+               style="border: 1px solid rgba(52,138,88,0.45); background: rgba(52,138,88,0.10); color: #7ec99a;">
+              See the full walkthrough
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
           </div>
         </div>
       </div>
