@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Composer Compass · One Piece, Start to Finish</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   Composer Compass demo carousel.
+
+   Standalone. Nothing here is wired into index.html yet. Every class is
+   prefixed `demo-` or `d` so it cannot collide with the two carousel systems
+   already living in index.html (`.carousel-*` / `initCarousels()` and
+   `[data-hub-carousel]` / `.hub-car-*`).
+
+   Design tokens are lifted verbatim from the app:
+   app-ui/src/styles/tokens.css. Node chrome (white card, 1px border, 8px
+   radius, dark header with amber uppercase type) is lifted from the node CSS
+   modules so the slides read as the real canvas.
+
+   House rule: no em dashes anywhere on this page. The app's own UI labels use
+   them ("SECTION 1 — STRUCTURAL MODEL"); they are rendered here with a middot
+   instead so the portfolio's zero-em-dash check keeps passing.
+   ========================================================================== */
+
+:root {
+  --ch:        #1C1917;
+  --ch2:       #28211E;
+  --amber:     #B45309;
+  --amber-lt:  #D97706;
+  --amber-bg:  #FEF3C7;
+  --amber-dim: #92400E;
+  --cream:     #FAF8F5;
+  --warm:      #EDE9E3;
+  --border:    #E2DDD6;
+  --tp:        #1C1917;
+  --ts:        #57534E;
+  --tm:        #A8A29E;
+  --green:     #16A34A;
+  --green-bg:  #F0FDF4;
+  --red:       #DC2626;
+
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-sans:  'DM Sans', sans-serif;
+
+  --shadow:    0 2px 12px rgba(28, 25, 23, 0.08);
+  --shadow-lg: 0 8px 32px rgba(28, 25, 23, 0.14);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 32px 20px 64px;
+  background: var(--cream);
+  color: var(--tp);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.demo-wrap { max-width: 1180px; margin: 0 auto; }
+
+/* --- page heading (scaffolding only; drop this on transplant) ------------- */
+.demo-scaffold {
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.demo-scaffold h1 {
+  font-family: var(--font-serif);
+  font-size: 34px;
+  font-weight: 600;
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
+}
+.demo-scaffold p { margin: 0; color: var(--ts); font-size: 14px; max-width: 62ch; }
+
+/* ==========================================================================
+   The chain rail. Persistent across every slide.
+   The Aesthetic Blueprint is NOT a node here, because it is not one in the
+   app: compileContext.js says it is "standing context injected into every
+   agent call at the single chokepoint". So it renders as the tinted field
+   behind the whole rail, and slide 1 lights the field itself.
+   ========================================================================== */
+.demo-rail-field {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background:
+    linear-gradient(180deg, rgba(254, 243, 199, 0.35), rgba(254, 243, 199, 0.12));
+  padding: 32px 18px 21px;
+  margin-bottom: 14px;
+  transition: box-shadow 0.25s, border-color 0.25s, background 0.25s;
+}
+.demo-rail-field.is-lit {
+  border-color: var(--amber-lt);
+  background: linear-gradient(180deg, rgba(254, 243, 199, 0.85), rgba(254, 243, 199, 0.4));
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.12);
+}
+
+.demo-rail-tag {
+  position: absolute;
+  top: 9px;
+  left: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--amber-dim);
+}
+.demo-rail-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.18);
+}
+
+.demo-rail {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 2px 0;
+}
+.demo-rail::-webkit-scrollbar { display: none; }
+
+.demo-rail-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.demo-node-pill {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px 7px 9px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  box-shadow: var(--shadow);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--tm);
+  white-space: nowrap;
+  opacity: 0.55;
+  transition: opacity 0.22s, color 0.22s, border-color 0.22s, transform 0.22s, box-shadow 0.22s;
+  font-family: var(--font-sans);
+}
+.demo-rail-group:hover .demo-node-pill { opacity: 0.85; }
+
+/* Already traversed: solid but quiet. */
+.demo-node-pill.is-past { opacity: 1; color: var(--ts); }
+
+/* Not reached yet: ghosted outline, so there is visibly more to the right. */
+.demo-node-pill.is-future {
+  opacity: 0.42;
+  background: transparent;
+  border-style: dashed;
+  box-shadow: none;
+}
+
+/* Current. */
+.demo-node-pill.is-active {
+  opacity: 1;
+  color: var(--tp);
+  border-color: var(--amber-lt);
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.14), var(--shadow);
+  transform: translateY(-1px);
+}
+
+/* The handle dots, colored exactly as the app colors them:
+   grey in on the left, amber out on the right. */
+.demo-h {
+  width: 8px; height: 8px; border-radius: 50%;
+  flex-shrink: 0;
+}
+.demo-h-in  { background: #A8A29E; border: 2px solid #78716C; }
+.demo-h-out { background: #D97706; border: 2px solid #B45309; }
+.demo-node-pill.is-future .demo-h-in,
+.demo-node-pill.is-future .demo-h-out { opacity: 0.5; }
+
+/* Each slide's nodes are boxed together, and the box is the control: click it
+   to jump to that slide. The pills inside are no longer buttons themselves. */
+.demo-rail-group {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 0;
+  padding: 4px 6px;
+  border: 1px solid rgba(180, 83, 9, 0.16);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+.demo-rail-group:hover { background: rgba(255, 255, 255, 0.85); border-color: rgba(180, 83, 9, 0.45); }
+.demo-rail-group:focus-visible { outline: 2px solid var(--amber-lt); outline-offset: 2px; }
+.demo-rail-group.is-active {
+  border-color: var(--amber-lt);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.12);
+}
+
+.demo-rail-edge {
+  flex: 1 1 22px;
+  min-width: 18px;
+  height: 1px;
+  background: var(--border);
+  position: relative;
+  transition: background 0.25s;
+}
+.demo-rail-edge::after {
+  content: '';
+  position: absolute;
+  right: -1px; top: -3px;
+  border-left: 5px solid var(--border);
+  border-top: 3.5px solid transparent;
+  border-bottom: 3.5px solid transparent;
+  transition: border-left-color 0.25s;
+}
+.demo-rail-edge.is-drawn { background: var(--amber-lt); }
+.demo-rail-edge.is-drawn::after { border-left-color: var(--amber-lt); }
+
+/* ==========================================================================
+   Slide stage
+   ========================================================================== */
+.demo-stage {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: white;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+/* The manuscript canvas the nodes sit on. Same idea as
+   ManuscriptBackground.jsx: faint staff rules, warm ground. */
+.demo-canvas {
+  background-color: var(--warm);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(139, 115, 85, 0.10) 0px,
+    rgba(139, 115, 85, 0.10) 1px,
+    transparent 1px,
+    transparent 10px
+  );
+  background-size: 100% 90px;
+  padding: 30px 26px;
+  min-height: 400px;
+}
+
+/* Side arrows, floating over the canvas edges and centred on the slide rather
+   than on the whole stage (the caption strip is not part of the picture). */
+.demo-canvas { position: relative; }
+.demo-side-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 6;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--ts);
+  font-size: 17px;
+  line-height: 1;
+  box-shadow: var(--shadow-lg);
+  transition: opacity 0.18s, color 0.18s, border-color 0.18s;
+}
+.demo-side-arrow:hover:not(:disabled) { color: var(--amber); border-color: var(--amber-lt); }
+.demo-side-arrow:disabled { opacity: 0.25; cursor: default; }
+.demo-side-prev { left: 6px; }
+.demo-side-next { right: 6px; }
+
+.demo-car-slide { display: none; }
+.demo-car-slide.is-on { display: block; animation: demoFade 220ms ease-out; }
+@keyframes demoFade { from { opacity: 0; } to { opacity: 1; } }
+
+.demo-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  flex-wrap: wrap;
+}
+
+/* The connector drawn between two nodes sitting on the same slide.
+   z-index keeps its label above the node card that follows it in the DOM;
+   without it the card paints over the label and clips the word. */
+.demo-link {
+  flex: 0 0 56px;
+  align-self: center;
+  height: 1px;
+  background: var(--amber-lt);
+  position: relative;
+  margin-top: 8px;
+  z-index: 3;
+}
+.demo-link::after {
+  content: '';
+  position: absolute;
+  right: -1px; top: -4px;
+  border-left: 6px solid var(--amber-lt);
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+.demo-link-label {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 8.5px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--amber-dim);
+  white-space: nowrap;
+  background: var(--warm);
+  padding: 0 3px;
+}
+
+/* ==========================================================================
+   Node card. Lifted from the node CSS modules.
+   ========================================================================== */
+.dnode {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  position: relative;
+  /* The basis is the floor, not the preference: a wrapping flex line breaks on
+     basis, so a larger one wrapped the three-node slides inside the portfolio
+     card's 872px canvas. They grow from here to fill whatever width exists. */
+  flex: 1 1 212px;
+  min-width: 212px;
+}
+.dnode-narrow { flex: 1 1 240px; }
+
+.dnode-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--ch);
+  min-height: 36px;
+}
+.dnode-type {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--amber-lt);
+  flex-shrink: 0;
+}
+.dnode-badge {
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(217, 119, 6, 0.18);
+  color: #F5D9A8;
+  letter-spacing: 0.02em;
+}
+.dnode-meta {
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, 0.45);
+  margin-left: auto;
+}
+.dnode-select {
+  appearance: none;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.75);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  padding: 3px 8px;
+}
+
+.dnode-tabs { display: flex; flex-wrap: nowrap; border-bottom: 1px solid var(--border); }
+.dtab {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  padding: 7px 2px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  color: var(--tm);
+  margin-bottom: -1px;
+  text-align: center;
+}
+.dtab-on { color: var(--tp); border-bottom-color: var(--amber); font-weight: 500; }
+.dtab-dot {
+  display: inline-block;
+  flex: none;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--amber-lt);
+  margin-left: 5px;
+  vertical-align: middle;
+}
+.dtab-import { flex: 0 0 auto; padding: 7px 7px; color: var(--tm); font-size: 11px; }
+
+.dnode-body { padding: 11px 12px 13px; }
+
+/* node port dots pinned to the card edges */
+.dport {
+  position: absolute;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  z-index: 2;
+}
+.dport-in  { left: -6px; background: #A8A29E; border: 2px solid #78716C; }
+.dport-out { right: -6px; background: #D97706; border: 2px solid #B45309; }
+
+/* --- shared small parts -------------------------------------------------- */
+.dlabel {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--tm);
+  margin-bottom: 4px;
+}
+.dfield { margin-bottom: 11px; }
+.dfield:last-child { margin-bottom: 0; }
+.dbox {
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 7px 9px;
+  font-size: 12.5px;
+  color: var(--tp);
+  background: #FCFBF9;
+  line-height: 1.55;
+}
+.dbox-lines { white-space: pre-line; }
+
+.dbtn {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--ts);
+}
+.dbtn-primary {
+  background: var(--ch);
+  border-color: var(--ch);
+  color: var(--amber-lt);
+  font-weight: 500;
+}
+.dbtn-row { display: flex; gap: 7px; margin-top: 11px; align-items: center; }
+
+/* --- dialogue ------------------------------------------------------------ */
+.dturn-agent {
+  background: #FCFBF9;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+.dturn-user {
+  background: var(--ch);
+  color: rgba(255, 255, 255, 0.88);
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  margin-left: 26px;
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+.dseemore {
+  font-size: 11px;
+  color: var(--amber);
+  border: none;
+  background: none;
+  padding: 0;
+  margin-top: 3px;
+}
+.danswer {
+  display: flex;
+  gap: 7px;
+  margin-top: 10px;
+  align-items: stretch;
+}
+.danswer-area {
+  flex: 1;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 7px 9px;
+  font-size: 12px;
+  color: var(--tm);
+  background: white;
+  min-height: 34px;
+}
+
+/* the Proposed decision card inside the Constitution dialogue */
+.ddecision {
+  border: 1px solid var(--amber-lt);
+  background: var(--amber-bg);
+  border-radius: 6px;
+  padding: 9px 10px;
+  margin-bottom: 9px;
+}
+.ddecision-label {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--amber-dim);
+  display: block;
+  margin-bottom: 4px;
+}
+.ddecision-text { font-size: 12.5px; line-height: 1.55; margin: 0 0 8px; color: #4A3410; }
+
+/* --- constitution decisions --------------------------------------------- */
+.dstatus {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--ts);
+  margin-bottom: 8px;
+}
+.dstatus-left { display: flex; align-items: center; gap: 6px; }
+.dstatus-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green);
+}
+.dversionbar {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  padding-bottom: 9px;
+  margin-bottom: 9px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.dversion-btn {
+  font-size: 11px;
+  padding: 4px 9px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--ts);
+}
+.dversion-btn-amber { border-color: var(--amber-lt); color: var(--amber); }
+.dhistory { font-size: 11px; color: var(--tm); margin-left: auto; }
+
+.drule {
+  font-size: 12.5px;
+  line-height: 1.6;
+  padding: 8px 0;
+  border-bottom: 1px dotted var(--border);
+}
+.drule:last-child { border-bottom: none; }
+.drule-n {
+  display: inline-block;
+  min-width: 17px;
+  font-weight: 600;
+  color: var(--amber);
+}
+.drule-src {
+  display: block;
+  font-size: 11px;
+  font-style: italic;
+  color: var(--tm);
+  margin-top: 3px;
+  padding-left: 17px;
+}
+.drule-strike { text-decoration: line-through; color: var(--tm); }
+.drule-new { background: rgba(22, 163, 74, 0.09); border-radius: 3px; }
+
+/* --- analysis one-sheet -------------------------------------------------- */
+.dbucket { margin-bottom: 11px; }
+.dbucket:last-child { margin-bottom: 0; }
+.dbucket ul { margin: 0; padding-left: 16px; }
+.dbucket li { font-size: 12.5px; line-height: 1.55; margin-bottom: 5px; }
+
+/* --- sketch files -------------------------------------------------------- */
+.dfile { border: 1px solid var(--border); border-radius: 6px; margin-bottom: 8px; overflow: hidden; }
+.dfile-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 8px;
+  background: #FCFBF9;
+  border-bottom: 1px solid var(--border);
+  font-size: 11.5px;
+  color: var(--ts);
+}
+.dfile-x { color: var(--tm); font-size: 11px; }
+.dthumb { background: white; padding: 6px 8px; }
+.dthumb svg { display: block; width: 100%; height: auto; }
+.dupload {
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  padding: 9px;
+  text-align: center;
+  color: var(--tm);
+  font-size: 11.5px;
+}
+.dupload-icon { display: block; font-size: 15px; color: var(--amber-lt); margin-bottom: 2px; }
+
+/* --- checklist ----------------------------------------------------------- */
+.dcheck { font-size: 12.5px; line-height: 1.5; }
+.dcheck-group {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--tm);
+  margin: 11px 0 5px;
+}
+.dcheck-group:first-child { margin-top: 0; }
+.dcheck-item {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 4px 0;
+}
+.dcheck-mark {
+  flex: 0 0 14px;
+  height: 14px;
+  margin-top: 2px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  font-size: 10px;
+  line-height: 12px;
+  text-align: center;
+  color: white;
+}
+.dcheck-done { background: var(--green); border-color: var(--green); }
+.dcheck-flag { border-color: var(--amber-lt); background: var(--amber-bg); }
+.dcheck-body { flex: 1; }
+.dcheck-bar {
+  font-size: 11px;
+  color: var(--amber-dim);
+  background: var(--amber-bg);
+  border-radius: 3px;
+  padding: 0 5px;
+  margin-right: 5px;
+  font-variant-numeric: tabular-nums;
+}
+.dcheck-muted { color: var(--tm); }
+
+/* house style chips */
+.dchips { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 9px; }
+.dchip {
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  color: var(--ts);
+  background: white;
+}
+.dchip-on {
+  border-color: var(--amber-lt);
+  background: var(--amber-bg);
+  color: var(--amber-dim);
+  font-weight: 500;
+}
+
+.dkv { display: flex; justify-content: space-between; font-size: 12px; padding: 3px 0; }
+.dkv-k { color: var(--tm); }
+.dkv-v { font-variant-numeric: tabular-nums; }
+
+/* --- finished piece ------------------------------------------------------ */
+.dpiece {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  flex: 1 1 200px;
+  min-width: 200px;
+}
+.dpiece-img { display: block; width: 100%; height: auto; border-bottom: 1px solid var(--border); }
+.dpiece-img-draft { filter: grayscale(0.6) contrast(0.88) opacity(0.8); }
+/* The draft shows the top of the page only, so it does not read as the same
+   picture as the engraved page two nodes later. */
+.dpiece-crop { position: relative; height: 200px; overflow: hidden; border-bottom: 1px solid var(--border); }
+.dpiece-crop .dpiece-img { border-bottom: none; }
+.dpiece-body { padding: 11px 13px 13px; }
+.dpiece-title {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  font-weight: 600;
+  margin: 0 0 2px;
+  line-height: 1.25;
+}
+.dpiece-meta { font-size: 11.5px; color: var(--tm); margin: 0 0 10px; }
+.dpiece audio { width: 100%; height: 34px; }
+.dstamp {
+  position: absolute;
+  bottom: 8px; left: 8px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: white;
+  background: rgba(28, 25, 23, 0.72);
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+.dpiece-wrap { position: relative; }
+
+/* ==========================================================================
+   Caption strip + controls
+   ========================================================================== */
+.demo-caption {
+  border-bottom: 1px solid var(--border);
+  background: white;
+  padding: 18px 22px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+/* The plain-language line for this step, and the largest type in the piece. */
+.demo-slide-title {
+  font-family: var(--font-serif);
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--tp);
+  margin: 0;
+}
+.demo-cap-col { flex: 0 0 auto; min-width: 0; }
+.demo-cap-label {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--tm);
+  margin-bottom: 3px;
+}
+.demo-cap-state {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  line-height: 1.35;
+  color: var(--tp);
+}
+.demo-cap-contrib { font-size: 12.5px; line-height: 1.55; color: var(--ts); }
+
+.demo-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 14px;
+}
+.demo-arrow {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--ts);
+  font-size: 15px;
+  box-shadow: var(--shadow);
+}
+.demo-arrow:disabled { opacity: 0.35; }
+.demo-count {
+  font-size: 12px;
+  color: var(--tm);
+  letter-spacing: 0.1em;
+  font-variant-numeric: tabular-nums;
+}
+.demo-title {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  flex: 1;
+}
+
+button { cursor: pointer; font-family: var(--font-sans); }
+
+@media (max-width: 760px) {
+  .demo-canvas { padding: 20px 14px; }
+  .demo-side-arrow { width: 32px; height: 32px; font-size: 15px; }
+  .demo-side-prev { left: 2px; }
+  .demo-side-next { right: 2px; }
+  .demo-link {
+    flex: 0 0 100%;
+    height: 26px;
+    margin: 4px 0;
+    background: none;
+  }
+  .demo-link::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 6px;
+    width: 1px;
+    background: var(--amber-lt);
+  }
+  .demo-link::after {
+    right: auto;
+    top: auto;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 6px solid var(--amber-lt);
+    border-bottom: none;
+  }
+  .demo-link-label {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--warm);
+  }
+  .dnode-narrow { flex: 1 1 100%; }
+  .demo-title { font-size: 16px; }
+  .demo-slide-title { font-size: 22px; }
+  .demo-caption { padding: 14px 16px 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .demo-car-slide.is-on { animation: none; }
+}
+</style>
+</head>
+<body>
+<div class="demo-wrap">
+
+  <!-- Scaffolding. Not part of the transplant. -->
+  <div class="demo-scaffold">
+    <h1>Composer Compass: one piece, start to finish</h1>
+    <p>A walkthrough of the canvas, node by node, following a piece that began as a bass fugue and became <em>Chaconne for Bass and Pedal Board</em>. The chain above every slide is the real graph, drawn from the ports the app actually accepts.</p>
+  </div>
+
+  <!-- ====================================================================
+       THE RAIL
+       ==================================================================== -->
+  <div class="demo-rail-field" id="demoField">
+    <span class="demo-rail-tag"><span class="demo-rail-dot"></span> Aesthetic Blueprint · On</span>
+    <svg class="demo-rail-svg" id="demoRailSvg" aria-hidden="true"></svg>
+    <div class="demo-rail" id="demoRail">
+      <div class="demo-rail-group" data-slide="1" role="button" tabindex="0" aria-label="Go to the Intake slide">
+        <span class="demo-node-pill" data-node="intake">
+          <span class="demo-h demo-h-in"></span>Intake<span class="demo-h demo-h-out"></span>
+        </span>
+        <span class="demo-rail-edge"></span>
+        <span class="demo-node-pill" data-node="artifact">
+          <span class="demo-h demo-h-in"></span>Intake artifact<span class="demo-h demo-h-out"></span>
+        </span>
+      </div>
+      <span class="demo-rail-edge"></span>
+      <div class="demo-rail-group" data-slide="2" role="button" tabindex="0" aria-label="Go to the Constitution and Guide slide">
+        <span class="demo-node-pill" data-node="constitution">
+          <span class="demo-h demo-h-in"></span>Constitution<span class="demo-h demo-h-out"></span>
+        </span>
+        <span class="demo-rail-edge"></span>
+        <span class="demo-node-pill" data-node="guide">
+          <span class="demo-h demo-h-in"></span>Guide<span class="demo-h demo-h-out"></span>
+        </span>
+      </div>
+      <span class="demo-rail-edge"></span>
+      <div class="demo-rail-group" data-slide="3" role="button" tabindex="0" aria-label="Go to the Sketches slide">
+        <span class="demo-node-pill" data-node="sketch">
+          <span class="demo-h demo-h-in"></span>Sketch<span class="demo-h demo-h-out"></span>
+        </span>
+      </div>
+      <span class="demo-rail-edge"></span>
+      <div class="demo-rail-group" data-slide="4" role="button" tabindex="0" aria-label="Go to the Engraving slide">
+        <span class="demo-node-pill" data-node="engraving">
+          <span class="demo-h demo-h-in"></span>Engraving<span class="demo-h demo-h-out"></span>
+        </span>
+        <span class="demo-rail-edge"></span>
+        <span class="demo-node-pill" data-node="score">
+          <span class="demo-h demo-h-in"></span>Score<span class="demo-h demo-h-out"></span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       THE STAGE
+       ==================================================================== -->
+  <div class="demo-stage">
+    <!-- ================= CAPTION STRIP ============================== -->
+    <div class="demo-caption">
+      <h4 class="demo-slide-title" id="demoSlideTitle"></h4>
+      <div class="demo-cap-col">
+        <div class="demo-cap-label">State of the piece</div>
+        <div class="demo-cap-state" id="demoState"></div>
+      </div>
+    </div>
+
+    <div class="demo-canvas">
+    <button class="demo-side-arrow demo-side-prev" id="demoPrevSide" aria-label="Previous slide">&#8249;</button>
+    <button class="demo-side-arrow demo-side-next" id="demoNextSide" aria-label="Next slide">&#8250;</button>
+
+
+      <!-- ============ SLIDE 1 · AESTHETIC BLUEPRINT ==================== -->
+      <section class="demo-car-slide is-on" data-title="The Aesthetic Blueprint">
+        <div class="demo-row">
+          <div class="dnode" style="flex: 1 1 100%;">
+            <div class="dnode-head">
+              <span class="dnode-type">Aesthetic Blueprint</span>
+              <span class="dnode-meta">Standing context · applied to every session</span>
+            </div>
+            <div class="dnode-body">
+              <div class="demo-row" style="gap: 18px;">
+                <div style="flex: 1 1 330px; min-width: 270px;">
+                  <div class="dfield">
+                    <div class="dlabel">Voice</div>
+                    <div class="dbox">Emo and pop punk immediacy, the structural clarity of Beethoven, the harmonic language of bebop. Direct on the surface, layered underneath. Music that communicates without apology.</div>
+                  </div>
+                  <div class="dfield">
+                    <div class="dlabel">Influences</div>
+                    <div class="dbox">Beethoven Op. 132/iii, Brahms Op. 118 No. 2, Debussy, Copland Symphony No. 3</div>
+                  </div>
+                  <div class="dfield">
+                    <div class="dlabel">Tendencies</div>
+                    <div class="dbox dbox-lines">Stepwise counterpoint; every voice stands on its own
+Groove as a compositional spine, not surface texture
+Harmonic shifts by tritone
+Backbeats and syncopation (drummer first)</div>
+                  </div>
+                </div>
+                <div style="flex: 1 1 330px; min-width: 270px;">
+                  <div class="dfield">
+                    <div class="dlabel">Parameters</div>
+                    <div class="dbox dbox-lines">Strings over woodwinds and brass
+Antecedent and consequent phrasing
+Exploring: polyrhythm, odd tuplets, rhythm-first construction</div>
+                  </div>
+                  <div class="dfield">
+                    <div class="dlabel">Philosophy</div>
+                    <div class="dbox dbox-lines">Name a divergence from this document. Do not filter it out.
+Jazz harmony is current practice, not aspiration.
+Groove is a spine. Never reduce it to "prefers simple rhythms."</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 2 · INTAKE ================================= -->
+      <section class="demo-car-slide" data-title="Intake: the form and the conversation">
+        <div class="demo-row" style="gap: 16px;">
+
+          <div class="dnode dnode-narrow">
+            <span class="dport dport-in" style="top: 50%;"></span>
+            <div class="dnode-head">
+              <span class="dnode-type">Intake</span>
+              <span class="dnode-badge">Guide</span>
+            </div>
+            <div class="dnode-tabs">
+              <span class="dtab dtab-on">Dialogue</span>
+              <span class="dtab">Form<span class="dtab-dot"></span></span>
+              <span class="dtab dtab-import">&uarr; Import</span>
+            </div>
+            <div class="dnode-body">
+              <div class="dturn-agent">What is this piece for, and what makes it different from anything you have already written?</div>
+              <div class="dturn-user">Solo bass through a pedal board. Harmonizer and delay. I want a real fugue, not a bass part with effects on it.</div>
+              <div class="dturn-agent">Then the delay has to be doing contrapuntal work. Does a delayed repetition count as an entry, or as accompaniment?</div>
+              <div class="danswer">
+                <div class="danswer-area">Your answer&hellip;</div>
+                <button class="dbtn dbtn-primary">Send</button>
+              </div>
+              <div class="dbtn-row">
+                <button class="dbtn dbtn-primary">Build intake</button>
+                <button class="dbtn">Reset</button>
+              </div>
+            </div>
+            <span class="dport dport-out" style="top: 50%;"></span>
+          </div>
+
+          <div class="dnode dnode-narrow">
+            <span class="dport dport-in" style="top: 50%;"></span>
+            <div class="dnode-head">
+              <span class="dnode-type">Intake</span>
+              <span class="dnode-badge">Guide</span>
+            </div>
+            <div class="dnode-tabs">
+              <span class="dtab">Dialogue</span>
+              <span class="dtab dtab-on">Form<span class="dtab-dot"></span></span>
+              <span class="dtab dtab-import">&uarr; Import</span>
+            </div>
+            <div class="dnode-body">
+              <div class="dfield">
+                <div class="dlabel">Section 1 · Structural model</div>
+                <div class="dbox">Fugue. Five-module mensuration canon. No single module is a complete subject statement.</div>
+              </div>
+              <div class="dfield">
+                <div class="dlabel">Section 3 · Technical parameters</div>
+                <div class="dbox">Solo electric bass, Boss GT-1. Harmonizer before delay in the chain. E Dorian.</div>
+              </div>
+              <div class="dfield">
+                <div class="dlabel">Section 5 · Reference works</div>
+                <div class="dbox">Bach, Art of Fugue, Contrapunctus VII. Saariaho, Nymph&eacute;a.</div>
+              </div>
+              <div class="dfield">
+                <div class="dlabel">Section 6 · Open questions</div>
+                <div class="dbox">Can four time-shifted voices stay legible over a single bass?</div>
+              </div>
+              <div class="dbtn-row"><button class="dbtn dbtn-primary">Build intake</button></div>
+            </div>
+            <span class="dport dport-out" style="top: 50%;"></span>
+          </div>
+
+          <div class="demo-link"><span class="demo-link-label">compiles to</span></div>
+
+          <div class="dnode" style="flex: 0 1 250px; align-self: center;">
+            <span class="dport dport-in" style="top: 50%;"></span>
+            <div class="dnode-head">
+              <span class="dnode-type">Intake</span>
+              <span class="dnode-badge">Guide</span>
+              <span class="dnode-meta">May 30</span>
+            </div>
+            <div class="dnode-body">
+              <div class="dlabel">Analytical question</div>
+              <div class="dbox" style="border-color: var(--amber-lt); background: var(--amber-bg);">Can a delay line function as a fugal answer rather than an echo?</div>
+              <div class="dbtn-row">
+                <button class="dbtn">Show schema</button>
+                <button class="dbtn">Export .md</button>
+              </div>
+            </div>
+            <span class="dport dport-out" style="top: 50%;"></span>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 3 · CONSTITUTION TO GUIDE =================== -->
+      <section class="demo-car-slide" data-title="Constitution to Guide">
+        <div class="demo-row" style="gap: 0;">
+
+          <div class="dnode">
+            <span class="dport dport-in" style="top: 20%;"></span>
+            <span class="dport dport-in" style="top: 50%;"></span>
+            <span class="dport dport-in" style="top: 80%;"></span>
+            <div class="dnode-head">
+              <span class="dnode-type">Constitution</span>
+              <select class="dnode-select"><option>Drafting</option></select>
+            </div>
+            <div class="dnode-tabs">
+              <span class="dtab">Guide</span>
+              <span class="dtab dtab-on">Decisions<span class="dtab-dot"></span></span>
+              <span class="dtab">Dialogue</span>
+              <span class="dtab dtab-import">&uarr; Import</span>
+            </div>
+            <div class="dnode-body">
+              <div class="dstatus">
+                <span class="dstatus-left"><span class="dstatus-dot"></span> Constitution dialogue · updated May 30</span>
+              </div>
+              <div class="dversionbar">
+                <button class="dversion-btn">Save version</button>
+                <button class="dversion-btn dversion-btn-amber">Reconcile</button>
+                <span class="dhistory">&#9656; History (2)</span>
+              </div>
+              <div class="drule">
+                <span class="drule-n">1.</span> The subject is a mensuration canon. Five modules, one mega-subject; it exists complete only when all five sound together.
+              </div>
+              <div class="drule">
+                <span class="drule-n">2.</span> The subject must be sparse. A groove-forward line saturates the delay buffer and the iterations stop reading as separate entries.
+                <span class="drule-src">Overrides the composer's standing groove-as-spine tendency. Source: noAdaptive, Run01.</span>
+              </div>
+              <div class="drule">
+                <span class="drule-n">3.</span> Pitch collection is E Dorian. C sharp is the signature pitch, and the one pitch that behaves specially under the harmonizer.
+              </div>
+              <div class="drule">
+                <span class="drule-n">4.</span> Delay time and subject phrase length are a single coupled decision, not two parameters.
+              </div>
+            </div>
+            <span class="dport dport-out" style="top: 50%;"></span>
+          </div>
+
+          <div class="demo-link"><span class="demo-link-label">binds</span></div>
+
+          <div class="dnode">
+            <span class="dport dport-in" style="top: 50%;"></span>
+            <div class="dnode-head">
+              <span class="dnode-type">Guide</span>
+              <span class="dnode-meta">One-sheet</span>
+            </div>
+            <div class="dnode-body">
+              <div class="dbucket">
+                <div class="dlabel">General observations</div>
+                <ul>
+                  <li>A mensuration canon narrows the Art of Fugue reference to Contrapunctus VII, augmentation and diminution, rather than subject and answer at the fifth.</li>
+                </ul>
+              </div>
+              <div class="dbucket">
+                <div class="dlabel">Compositional observations and suggestions</div>
+                <ul>
+                  <li>Rules 2 and 4 both describe ostinato behaviour: the pedal returns material on a fixed cycle. <button class="dseemore">see more</button></li>
+                  <li>Every module phrase has to stand alone as a canon subject, which is a harder constraint than a fugue subject usually carries.</li>
+                </ul>
+              </div>
+              <div class="dbucket">
+                <div class="dlabel">Recommended paths</div>
+                <ul>
+                  <li>Sketch the four-voice stack over a sparse subject before committing to the canon.</li>
+                </ul>
+              </div>
+              <div class="dbtn-row">
+                <button class="dbtn">Full guide</button>
+                <button class="dbtn">Export .md</button>
+              </div>
+            </div>
+            <span class="dport dport-out" style="top: 50%;"></span>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 4 · SKETCHES TO FINAL DRAFT ================= -->
+      <section class="demo-car-slide" data-title="Sketches to final draft">
+        <div class="demo-row" style="gap: 0;">
+
+          <div class="dnode" style="flex: 0 1 250px;">
+            <span class="dport dport-in" style="top: 50%;"></span>
+            <div class="dnode-head">
+              <span class="dnode-type">Sketch</span>
+              <span class="dnode-meta">2 files</span>
+            </div>
+            <div class="dnode-body">
+              <div class="dfile">
+                <div class="dfile-head"><span>module-stack-v1.musicxml</span><span class="dfile-x">&#10005;</span></div>
+                <div class="dthumb">
+                  <svg viewBox="0 0 200 46" role="img" aria-label="Sketch: four stacked entries">
+                    <g stroke="#1C1917" stroke-width="0.6" opacity="0.5">
+                      <line x1="4" y1="8" x2="196" y2="8"/><line x1="4" y1="14" x2="196" y2="14"/>
+                      <line x1="4" y1="20" x2="196" y2="20"/><line x1="4" y1="26" x2="196" y2="26"/>
+                      <line x1="4" y1="32" x2="196" y2="32"/>
+                    </g>
+                    <g fill="#1C1917">
+                      <ellipse cx="24" cy="26" rx="3.2" ry="2.4"/><rect x="26.6" y="14" width="0.8" height="12"/>
+                      <ellipse cx="46" cy="20" rx="3.2" ry="2.4"/><rect x="48.6" y="8" width="0.8" height="12"/>
+                      <ellipse cx="72" cy="23" rx="3.2" ry="2.4"/><rect x="74.6" y="11" width="0.8" height="12"/>
+                      <ellipse cx="98" cy="17" rx="3.2" ry="2.4"/><rect x="100.6" y="5" width="0.8" height="12"/>
+                      <ellipse cx="124" cy="26" rx="3.2" ry="2.4"/><rect x="126.6" y="14" width="0.8" height="12"/>
+                      <ellipse cx="150" cy="20" rx="3.2" ry="2.4"/><rect x="152.6" y="8" width="0.8" height="12"/>
+                      <ellipse cx="176" cy="23" rx="3.2" ry="2.4"/><rect x="178.6" y="11" width="0.8" height="12"/>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+              <div class="dfile">
+                <div class="dfile-head"><span>delay-cycle-test.musicxml</span><span class="dfile-x">&#10005;</span></div>
+                <div class="dthumb">
+                  <svg viewBox="0 0 200 46" role="img" aria-label="Sketch: the stack collapsing into one repeating cycle">
+                    <g stroke="#1C1917" stroke-width="0.6" opacity="0.5">
+                      <line x1="4" y1="8" x2="196" y2="8"/><line x1="4" y1="14" x2="196" y2="14"/>
+                      <line x1="4" y1="20" x2="196" y2="20"/><line x1="4" y1="26" x2="196" y2="26"/>
+                      <line x1="4" y1="32" x2="196" y2="32"/>
+                    </g>
+                    <g fill="#1C1917">
+                      <ellipse cx="20" cy="29" rx="3.2" ry="2.4"/><rect x="22.6" y="17" width="0.8" height="12"/>
+                      <ellipse cx="38" cy="23" rx="3.2" ry="2.4"/><rect x="40.6" y="11" width="0.8" height="12"/>
+                      <ellipse cx="56" cy="29" rx="3.2" ry="2.4"/><rect x="58.6" y="17" width="0.8" height="12"/>
+                      <ellipse cx="80" cy="29" rx="3.2" ry="2.4"/><rect x="82.6" y="17" width="0.8" height="12"/>
+                      <ellipse cx="98" cy="23" rx="3.2" ry="2.4"/><rect x="100.6" y="11" width="0.8" height="12"/>
+                      <ellipse cx="116" cy="29" rx="3.2" ry="2.4"/><rect x="118.6" y="17" width="0.8" height="12"/>
+                      <ellipse cx="140" cy="29" rx="3.2" ry="2.4"/><rect x="142.6" y="17" width="0.8" height="12"/>
+                      <ellipse cx="158" cy="23" rx="3.2" ry="2.4"/><rect x="160.6" y="11" width="0.8" height="12"/>
+                      <ellipse cx="176" cy="29" rx="3.2" ry="2.4"/><rect x="178.6" y="17" width="0.8" height="12"/>
+                    </g>
+                    <g stroke="#B45309" stroke-width="0.8" fill="none" opacity="0.85">
+                      <path d="M14 38 h48" /><path d="M74 38 h48" /><path d="M134 38 h48" />
+                    </g>
+                    <g fill="#B45309" font-size="5" font-family="DM Sans, sans-serif">
+                      <text x="30" y="44">cycle</text><text x="90" y="44">cycle</text><text x="150" y="44">cycle</text>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+              <div class="dupload">
+                <span class="dupload-icon">&#9833;</span>
+                Add more sketches
+              </div>
+            </div>
+            <span class="dport dport-out" style="top: 50%;"></span>
+          </div>
+
+          <div style="flex: 0 0 56px;"></div>
+
+          <div class="dnode">
+            <span class="dport dport-in" style="top: 50%;"></span>
+            <div class="dnode-head">
+              <span class="dnode-type">Constitution</span>
+              <select class="dnode-select"><option>Revising</option></select>
+            </div>
+            <div class="dnode-tabs">
+              <span class="dtab">Guide</span>
+              <span class="dtab">Decisions<span class="dtab-dot"></span></span>
+              <span class="dtab dtab-on">Dialogue</span>
+              <span class="dtab dtab-import">&uarr; Import</span>
+            </div>
+            <div class="dnode-body">
+              <div class="dversionbar">
+                <button class="dversion-btn">Save version</button>
+                <button class="dversion-btn dversion-btn-amber">Reconcile</button>
+                <span class="dhistory">&#9662; History (3)</span>
+              </div>
+              <div class="dturn-agent">Sketch 2 shows the four-voice stack collapsing into one repeating cycle rather than four legible entries. Do you hear that as a failed canon, or as a ground?</div>
+              <div class="dturn-user">As a ground. It is the best thing in either sketch.</div>
+              <div class="ddecision">
+                <span class="ddecision-label">Proposed decision</span>
+                <p class="ddecision-text">The delay is a ground, not a set of fugal entries. Rule 1 is retired: the form becomes a chaconne, a repeating bass the pedal generates live with variations flowing over it. Rules 2, 3 and 4 survive unchanged, because a sparse subject locked to the delay cycle is what a ground needs.</p>
+                <button class="dbtn dbtn-primary">Commit</button>
+              </div>
+              <div class="drule">
+                <span class="drule-n">1.</span> <span class="drule-strike">The subject is a mensuration canon.</span>
+                <span class="drule-src">Superseded. The May 30 version is kept in History.</span>
+              </div>
+              <div class="drule drule-new">
+                <span class="drule-n">1.</span> The delay generates the ground. The form is a chaconne: variations flow over a repeating bass the performer creates live.
+              </div>
+            </div>
+            <span class="dport dport-out" style="top: 50%;"></span>
+          </div>
+
+          <div style="flex: 0 0 56px;"></div>
+
+          <div class="dpiece dpiece-wrap" style="flex: 0 1 210px;">
+            <div class="dpiece-crop">
+              <img class="dpiece-img dpiece-img-draft" src="assets/chaconne-p1.webp" alt="Draft page of Chaconne for Bass and Pedal Board">
+              <span class="dstamp">Draft</span>
+            </div>
+            <div class="dpiece-body">
+              <p class="dpiece-title" style="font-size: 16px;">Chaconne for Bass and Pedal Board</p>
+              <p class="dpiece-meta" style="margin: 0;">Full draft · one page · unengraved</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 5 · ENGRAVING ASSISTANT ==================== -->
+      <section class="demo-car-slide" data-title="The engraving assistant">
+        <div class="demo-row" style="gap: 0;">
+
+          <div class="dnode">
+            <span class="dport dport-in" style="top: 35%;"></span>
+            <span class="dport dport-in" style="top: 65%;"></span>
+            <div class="dnode-head">
+              <span class="dnode-type">Engraving</span>
+              <span class="dnode-badge">House style</span>
+            </div>
+            <div class="dnode-tabs">
+              <span class="dtab dtab-on">House style</span>
+              <span class="dtab">Checklist<span class="dtab-dot"></span></span>
+              <span class="dtab dtab-import">&uarr; Import</span>
+            </div>
+            <div class="dnode-body">
+              <div class="dlabel">Base it on a publisher, or on your own</div>
+              <div class="dchips">
+                <span class="dchip">Henle</span>
+                <span class="dchip dchip-on">B&auml;renreiter</span>
+                <span class="dchip">Universal</span>
+                <span class="dchip">Boosey</span>
+                <span class="dchip">Peters</span>
+                <span class="dchip">Faber</span>
+                <span class="dchip">Chester</span>
+                <span class="dchip">Yours</span>
+              </div>
+              <div class="dkv"><span class="dkv-k">Music font</span><span class="dkv-v">Leland</span></div>
+              <div class="dkv"><span class="dkv-k">Staff size</span><span class="dkv-v">6.8 mm</span></div>
+              <div class="dkv"><span class="dkv-k">Systems per page</span><span class="dkv-v">5</span></div>
+              <div class="dkv"><span class="dkv-k">Cautionary accidentals</span><span class="dkv-v">bracketed</span></div>
+              <div class="dkv"><span class="dkv-k">Courtesy clefs at breaks</span><span class="dkv-v">off</span></div>
+              <div class="dkv"><span class="dkv-k">Pedal notation</span><span class="dkv-v">boxed text, above staff</span></div>
+              <div class="dbox" style="margin-top: 11px; font-size: 12px; color: var(--ts);">The same profile drives the live preview on the canvas and the exported PDF, so the screen and the page read the same.</div>
+            </div>
+            <span class="dport dport-out" style="top: 50%;"></span>
+          </div>
+
+          <div class="demo-link"><span class="demo-link-label">returns</span></div>
+
+          <div class="dnode">
+            <span class="dport dport-in" style="top: 50%;"></span>
+            <div class="dnode-head">
+              <span class="dnode-type">Engraving</span>
+              <span class="dnode-badge">Checklist</span>
+              <span class="dnode-meta">4 of 10 clear</span>
+            </div>
+            <div class="dnode-tabs">
+              <span class="dtab">House style</span>
+              <span class="dtab dtab-on">Checklist<span class="dtab-dot"></span></span>
+              <span class="dtab dtab-import">&uarr; Import</span>
+            </div>
+            <div class="dnode-body dcheck">
+              <div class="dcheck-group">Layout</div>
+              <div class="dcheck-item"><span class="dcheck-mark dcheck-done">&#10003;</span><span class="dcheck-body dcheck-muted">Page layout and staff size match the profile.</span></div>
+              <div class="dcheck-item"><span class="dcheck-mark dcheck-done">&#10003;</span><span class="dcheck-body dcheck-muted">Title page, instrument name, performer credit.</span></div>
+              <div class="dcheck-item"><span class="dcheck-mark dcheck-flag"></span><span class="dcheck-body"><span class="dcheck-bar">b. 52</span>Page turn falls mid-cycle. Move the break to b. 56 so the ground stays intact across the turn.</span></div>
+
+              <div class="dcheck-group">Notation</div>
+              <div class="dcheck-item"><span class="dcheck-mark dcheck-done">&#10003;</span><span class="dcheck-body dcheck-muted">Clef, key and time conventions.</span></div>
+              <div class="dcheck-item"><span class="dcheck-mark dcheck-flag"></span><span class="dcheck-body"><span class="dcheck-bar">b. 41</span>Bracket the cautionary C sharp. It is the signature pitch and the harmonizer depends on it.</span></div>
+              <div class="dcheck-item"><span class="dcheck-mark dcheck-flag"></span><span class="dcheck-body"><span class="dcheck-bar">bb. 9, 33</span>Beaming groups across the delay cycle rather than the barline. Correct unless it is deliberate.</span></div>
+              <div class="dcheck-item"><span class="dcheck-mark dcheck-done">&#10003;</span><span class="dcheck-body dcheck-muted">Stem directions and slur or tie placement.</span></div>
+
+              <div class="dcheck-group">Marking</div>
+              <div class="dcheck-item"><span class="dcheck-mark dcheck-flag"></span><span class="dcheck-body"><span class="dcheck-bar">bb. 17 to 24</span>Hairpins collide with the ledger lines. Move them below the staff.</span></div>
+              <div class="dcheck-item"><span class="dcheck-mark dcheck-flag"></span><span class="dcheck-body">Rehearsal marks are absent. One per variation would match the chaconne's form.</span></div>
+              <div class="dcheck-item"><span class="dcheck-mark dcheck-flag"></span><span class="dcheck-body">Final proofread pass not yet run.</span></div>
+
+              <div class="dbtn-row">
+                <button class="dbtn dbtn-primary">Save checklist</button>
+                <button class="dbtn">Export .md</button>
+              </div>
+            </div>
+            <span class="dport dport-out" style="top: 50%;"></span>
+          </div>
+
+          <div style="flex: 0 0 56px;"></div>
+
+          <div class="dpiece" style="flex: 0 1 235px;">
+            <img class="dpiece-img" src="assets/chaconne-p1.webp" alt="Engraved first page of Chaconne for Bass and Pedal Board">
+            <div class="dpiece-body">
+              <p class="dpiece-title">Chaconne for Bass and Pedal Board</p>
+              <p class="dpiece-meta">2026 · for bass and delay pedal · with Jared Cavazos · 12&prime;39&Prime;</p>
+              <audio controls preload="none" src="https://composer-portfolio-nu.vercel.app/assets/audio/chaconne.mp3"></audio>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </div><!-- /.demo-canvas -->
+
+  </div><!-- /.demo-stage -->
+
+  <div class="demo-controls">
+    <button class="demo-arrow" id="demoPrev" aria-label="Previous slide">&#8249;</button>
+    <div class="demo-title" id="demoTitle"></div>
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <span class="demo-count" id="demoCount"></span>
+      <button class="demo-arrow" id="demoNext" aria-label="Next slide">&#8250;</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // Per-slide caption text. Index matches the slide order in the DOM.
+  var CAPTIONS = [
+    {
+      state: 'This information allows your assistant to make better observations and suggestions.',
+      contrib: 'Teach your assistant about your musical aesthetics.'
+    },
+    {
+      state: 'Initial idea: Bass fugue: five modules, one mega-subject.',
+      contrib: 'Discuss the goals and identity of your piece.'
+    },
+    {
+      state: "Decide what the piece is and what it isn't (this can always be edited).",
+      contrib: "Settle on your piece's constitution and receive feedback."
+    },
+    {
+      state: 'Refined and pivoted to a chaconne after discussion with assistant.',
+      contrib: 'Share musical ideas, refine your constitution, upload full drafts via XML for full musical analysis.'
+    },
+    {
+      state: '',
+      contrib: 'Let your assistant be your engraving guide.'
+    }
+  ];
+
+  // Which rail edges are drawn by the time you reach each slide.
+  // Edge i sits between pill i and pill i+1.
+  var EDGES_BY_SLIDE = [0, 1, 3, 4, 6];
+
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.demo-car-slide'));
+  var pills  = Array.prototype.slice.call(document.querySelectorAll('.demo-node-pill'));
+  var groups = Array.prototype.slice.call(document.querySelectorAll('.demo-rail-group'));
+  var edges  = Array.prototype.slice.call(document.querySelectorAll('.demo-rail-edge'));
+  var field  = document.getElementById('demoField');
+  var svg    = document.getElementById('demoRailSvg');
+  var elState = document.getElementById('demoState');
+  var elSlideTitle = document.getElementById('demoSlideTitle');
+  var elTitle = document.getElementById('demoTitle');
+  var elCount = document.getElementById('demoCount');
+  // Two sets of arrows: the pair under the stage and the pair floating over
+  // the slide. They are the same control, so they are driven together.
+  var prevBtns = ['demoPrev', 'demoPrevSide'].map(function (id) {
+    return document.getElementById(id);
+  }).filter(Boolean);
+  var nextBtns = ['demoNext', 'demoNextSide'].map(function (id) {
+    return document.getElementById(id);
+  }).filter(Boolean);
+
+  var current = 0;
+
+  // The back edge: Sketch feeds the Constitution's score-in port. It is the one
+  // arrow that runs right to left, and it is the whole reason the rail exists,
+  // so it is drawn as a real curve under the pills rather than faked with CSS.
+  function drawBackEdge(lit) {
+    var from = document.querySelector('[data-node="sketch"]');
+    var to   = document.querySelector('[data-node="constitution"]');
+    if (!field || !from || !to) return;
+
+    var r = field.getBoundingClientRect();
+    var f = from.getBoundingClientRect();
+    var t = to.getBoundingClientRect();
+
+    var x1 = f.left - r.left + f.width / 2;
+    var x2 = t.left - r.left + t.width / 2;
+    var y  = f.bottom - r.top + 1;
+    var drop = 14;
+
+    var color = lit ? '#B45309' : '#E2DDD6';
+    var path = 'M ' + x1 + ' ' + y +
+               ' C ' + x1 + ' ' + (y + drop) + ', ' + x2 + ' ' + (y + drop) + ', ' + x2 + ' ' + y;
+
+    var label = lit
+      ? '<text x="' + ((x1 + x2) / 2) + '" y="' + (y + drop - 1) + '" fill="#92400E" ' +
+        'font-size="9" font-family="DM Sans, sans-serif" letter-spacing="0.08em" ' +
+        'text-anchor="middle" dominant-baseline="middle" ' +
+        'stroke="#FAF7EE" stroke-width="4" paint-order="stroke">AMENDS</text>'
+      : '';
+
+    svg.innerHTML =
+      '<path d="' + path + '" fill="none" stroke="' + color + '" stroke-width="' + (lit ? 1.6 : 1) + '" ' +
+      'stroke-dasharray="' + (lit ? '0' : '3 3') + '"/>' +
+      '<polygon points="' + x2 + ',' + (y + 1) + ' ' + (x2 - 3.5) + ',' + (y + 6) +
+      ' ' + (x2 + 3.5) + ',' + (y + 6) + '" fill="' + color + '"/>' + label;
+  }
+
+  function show(i) {
+    if (i < 0 || i >= slides.length) return;
+    current = i;
+
+    slides.forEach(function (s, n) { s.classList.toggle('is-on', n === i); });
+
+    // Slide 1 lights the Blueprint field itself, because the Blueprint is the
+    // field, not a node.
+    field.classList.toggle('is-lit', i === 0);
+
+    groups.forEach(function (g) {
+      var n = parseInt(g.getAttribute('data-slide'), 10);
+      g.classList.toggle('is-active', n === i);
+      g.querySelectorAll('.demo-node-pill').forEach(function (p) {
+        p.classList.remove('is-active', 'is-past', 'is-future');
+        if (n === i) p.classList.add('is-active');
+        else if (n < i) p.classList.add('is-past');
+        else p.classList.add('is-future');
+      });
+    });
+
+    var drawn = EDGES_BY_SLIDE[i];
+    edges.forEach(function (e, n) { e.classList.toggle('is-drawn', n < drawn); });
+
+    drawBackEdge(i === 3);
+
+    // Keep the active pill in view on a narrow screen.
+    var active = document.querySelector('.demo-rail-group.is-active');
+    if (active && active.scrollIntoView) {
+      active.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+    }
+
+    elState.textContent = CAPTIONS[i].state;
+    var stateCol = elState.closest('.demo-cap-col');
+    if (stateCol) stateCol.hidden = !CAPTIONS[i].state;
+    elSlideTitle.textContent = CAPTIONS[i].contrib;
+    elTitle.textContent = slides[i].getAttribute('data-title');
+    elCount.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+    prevBtns.forEach(function (el) { el.disabled = (i === 0); });
+    nextBtns.forEach(function (el) { el.disabled = (i === slides.length - 1); });
+  }
+
+  groups.forEach(function (g) {
+    function go() { show(parseInt(g.getAttribute('data-slide'), 10)); }
+    g.addEventListener('click', go);
+    g.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); }
+    });
+  });
+
+  prevBtns.forEach(function (el) {
+    el.addEventListener('click', function () { show(current - 1); });
+  });
+  nextBtns.forEach(function (el) {
+    el.addEventListener('click', function () { show(current + 1); });
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft')  show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  });
+
+  window.addEventListener('resize', function () { drawBackEdge(current === 3); });
+
+  // Fonts change the pill widths, so redraw once they land.
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { drawBackEdge(current === 3); });
+  }
+
+  show(0);
+})();
+</script>
+</body>
+</html>

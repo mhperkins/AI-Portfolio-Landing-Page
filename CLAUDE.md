@@ -39,6 +39,8 @@ Vercel project: `ai-portfolio-landing-page` · GitHub: `mhperkins/AI-Portfolio-L
 | [resume.html](resume.html) | **CV page** — the academic CV rendered as a native page (was a PDF iframe until 2026-09-09). Has a print stylesheet and a DOCX download. |
 | [Software Developer Resume.pdf](Software Developer Resume.pdf) | Software track resume. **Currently unlinked** — nothing routes to it since resume.html became the academic CV. |
 | [Academic CV - UW Madison.docx](Academic CV - UW Madison.docx) | Source of the CV page; offered as the download on resume.html |
+| [demo/compass-demo.html](demo/compass-demo.html) | **The Compass demo carousel** (built 2026-09-09). Standalone, unlinked, self-contained. Destined to replace the screenshot walkthrough on the Compass sub-tab of the Hub. See "The Compass demo carousel" below. |
+| [demo/assets/](demo/assets/) | Assets for the carousel. Currently `chaconne-p1.webp`, copied from the composer portfolio's score previews. |
 | [images/](images/) | Screenshots and assets |
 | [career-search-handoff.md](career-search-handoff.md) | Snapshot of career search status — context for Claude sessions |
 | [career-search-master.md](career-search-master.md) | AI/dev track — full ongoing career strategy document |
@@ -127,17 +129,176 @@ That is pre-existing and identical before and after the merge; it is not caused 
 
 ### Open items
 
-1. **The chaconne slide has no overlay callouts yet.** Slide 2 of the Compass carousel is the
-   score for *Chaconne for Bass and Pedal Board*. It sits in a forced 16:10 frame, which leaves
-   roughly 250px of dark margin either side specifically for callouts. Max is writing the text.
-2. **A Constitution / annotated-guide screenshot** would be the strongest research evidence and
-   is still only described, never shown.
+1. ~~**The chaconne slide has no overlay callouts yet.**~~ **Superseded 2026-09-09.** Max scrapped
+   the screenshot approach for the Compass panel entirely. The replacement is
+   `demo/compass-demo.html`, built and verified the same day but not yet transplanted.
+2. ~~**A Constitution / annotated-guide screenshot**~~ **Solved by the carousel.** Slides 3 and 4
+   show the Constitution as live HTML, including a rule being amended. It never becomes a
+   screenshot.
 3. **`Software Developer Resume.pdf` is unlinked.** Decide whether the software track needs its
    own route (`resume-dev.html`) alongside the academic CV.
 4. **"The composer stays the author" is unused.** It was the heading over the shared card block
    before the cards went per-tool. Strongest line on the page; natural home is above the Compass
    cards.
 5. **Rebuild the Workflow tab** when there is something worth putting in it.
+
+### Iteration on the carousel, 2026-09-10 (all of it live in `index.html`, still not pushed)
+
+Max drove this pass line by line off Vercel preview deploys. The shape it settled into:
+
+**The copy is Max's, not mine.** Each slide carries a large plain-language title in his words,
+and the earlier engineer's phrasing ("compile into a single artifact", "MuseScore headless",
+"standing context injected at a chokepoint") is gone from the visible page. Do not write it back.
+
+| # | Title (large, per slide) | State of the piece |
+|---|---|---|
+| 1 | Teach your assistant about your musical aesthetics. | This information allows your assistant to make better observations and suggestions. |
+| 2 | Discuss the goals and identity of your piece. | Initial idea: Bass fugue: five modules, one mega-subject. |
+| 3 | Settle on your piece's constitution and receive feedback. | Decide what the piece is and what it isn't (this can always be edited). |
+| 4 | Share musical ideas, refine your constitution, upload full drafts via XML for full musical analysis. | Refined and pivoted to a chaconne after discussion with assistant. |
+| 5 | Let your assistant be your engraving guide. | *(none: a slide with an empty `state` hides the whole block, label included)* |
+
+**Structural changes, in the order they happened:**
+
+1. **Side arrows** float over the canvas edges, centred on the slide rather than the whole stage.
+   They and the arrows under the stage are one control, driven from the same arrays.
+2. **The caption strip moved above the slide** and became the slide's header. Watch out: it is a
+   **column** flex container now, and flex-basis applies to height there, so the old
+   `flex: 1 1 300px` on `.demo-cap-col` was forcing a 300px empty band. It is `flex: 0 0 auto`.
+3. **The line under the rail is gone.** It was one static sentence repeated on every slide, which
+   read as if every slide were the Blueprint slide. Its text became slide 1's title, and the
+   per-slide titles took over that job.
+4. **The Blueprint band is tight**: 10px above the tag, 12px below the graphic, 92px tall. The
+   AMENDS label had to move **onto** the curve (with a `paint-order` halo knocking out the line
+   behind it) so the graphic ends in the same place whether the label shows or not. Otherwise the
+   panel cannot close up without the label falling out the bottom.
+5. **The rail is boxed by slide, and the box is the control.** Each slide's nodes sit in one
+   rounded box; clicking it goes to that slide. The pills inside are `<span>`s now, not buttons
+   (a button inside a button is invalid). Keyboard reachable via `role="button"` + Enter/Space.
+
+**Claims Max removed, and why they must not come back:**
+
+- **The tool does not engrave.** The "engraves" arrow into the finished score is gone, and the
+  checklist's button reads "Save checklist", not "Send to engraver". The score sits on slide 5 as
+  the thing you document after engraving it yourself. (The rail still draws Engraving → Score as a
+  plain chain arrow; Max was asked about it and has not called it, so leave it.)
+- **The "contradicts" and "becomes" arrows on slide 4 are gone.** Three connector arrows survive
+  and he has not objected to them: "compiles to" (slide 2), "binds" (slide 3), "returns" (slide 5).
+
+**Still open:** the audio on slide 5 is the hotlinked full 12MB `chaconne.mp3`; the excerpt is
+waiting on a timestamp. The short step name still sits at the bottom centre of the controls
+("The Aesthetic Blueprint", "Constitution to Guide"), which is now a second title on the slide;
+Max was asked whether to drop it and has not called it.
+
+### The Compass demo carousel (built 2026-09-09, transplanted 2026-09-10)
+
+**It is now the Compass panel.** The annotated-screenshot carousel it replaced is gone from
+`index.html`; `images/Hub_Compass_Canvas.png` is unreferenced as a result, and
+`images/Hub_Chaconne_Score.webp` is still used (the carousel reuses it for the draft and the
+engraved page). The CRM and Agency panels are untouched and still run `initHubCarousels()`.
+
+`demo/compass-demo.html` **stays on disk as the iteration source.** Change slides there, look at
+them in isolation, then re-transplant. The two copies were kept byte-identical in their shared
+CSS and markup through the layout tuning below; keep doing that.
+
+**Why it exists.** The screenshot walkthrough failed for a structural reason: the app's UI text
+renders around 4px at page width, so the numbered pills had to become the readable layer. The page
+was showing the *container* and annotating it, because the *contents* were illegible. Max scrapped
+the screenshots for the Compass panel and asked for a carousel that walks one piece from first
+contact to finished score.
+
+**The fix is the inversion.** Every slide is a faithful HTML rebuild of the real node UI, filled
+with example content, at real reading size. No screenshots anywhere. Design tokens come from
+`app-ui/src/styles/tokens.css` and node chrome from the node CSS modules, so it reads as the real
+canvas: Cormorant Garamond and DM Sans, the warm cream palette, dark node headers with amber
+uppercase type, grey inbound and amber outbound ports, faint manuscript staff rules on the canvas.
+It also fixes the known mobile problem for free: live text reflows where a pinned image does not.
+
+**The five slides.** Order set by Max.
+
+| # | Slide | Shows |
+|---|---|---|
+| 1 | Aesthetic Blueprint | The overlay's real five fields: Voice, Influences, Tendencies, Parameters, Philosophy |
+| 2 | Intake | Dialogue and Form modes side by side, compiling into the Intake artifact |
+| 3 | Constitution to Guide | Four rules with a `Source:` citation, then the one-sheet the Guide emits |
+| 4 | Sketches to final draft | The sketch that contradicts rule 1, the amendment, `History (3)`, the draft |
+| 5 | Engraving assistant | House style in, engraving checklist out, then the engraved page and the recording |
+
+**The narrative.** One piece: a bass fugue that becomes *Chaconne for Bass and Pedal Board*. The
+turn happens on slide 4 and the real Constitution rules set it up. Rule 2 (the subject must be
+sparse, because a groove-forward line saturates the delay buffer) and rule 4 (delay time equals
+phrase length) both describe the pedal returning material on a fixed cycle, which is ostinato
+behaviour. A mensuration canon fights that; a chaconne is native to it. **This causality is a
+reconstruction from the rules on disk, not something written down in the Compass repo.** Max has
+not confirmed or corrected it. If it is wrong, slide 4's dialogue and proposed decision are the
+only text that changes.
+
+**The chain rail.** A persistent strip above every slide, drawn from the real graph in
+`app-ui/src/utils/compileContext.js` (its `HANDLE_ACCEPTS` map says which port takes what).
+Upstream nodes are solid but dim, the active node is lit, downstream nodes are ghosted outlines.
+It replaces dot navigation and is clickable.
+
+Two things about it that must not be undone:
+
+1. **The Blueprint is not a node in the rail.** `compileContext.js`: it is "standing context
+   injected into every agent call at the single chokepoint". So it renders as the tinted field
+   *behind* the whole rail, and slide 1 lights that field rather than a pill. Making it the first
+   node would be both wrong and a weaker idea.
+2. **The back edge is the point of the rail.** On slide 4 an arrow runs right to left from Sketch
+   into Constitution, labeled AMENDS. It is the frame that proves the canvas is a loop rather than
+   a pipeline. It is drawn as real SVG measured off the pill positions, and it lives on
+   `.demo-rail-field`, **not** inside `.demo-rail`, because `.demo-rail` sets `overflow-x: auto`
+   which forces `overflow-y` to auto and silently clips anything drawn below the pills. That cost
+   a debugging round; do not move it back.
+
+**Verified headless (Playwright, 2026-09-09).** Zero script errors, zero failed requests, no broken
+images, zero em dashes, all five slides switch, rail states correct on each (field lit only on
+slide 1, back edge amber only on slide 4, edges filling 0/1/3/4/6), no horizontal overflow at
+1280px or 390px.
+
+**Deliberate deviations from the app**, so a future session does not "correct" them:
+
+- App labels use em dashes (`SECTION 1 — STRUCTURAL MODEL`). Rendered here with a middot, so the
+  portfolio's zero-em-dash rule keeps holding.
+- The Engraving node appears twice side by side, House style tab then Checklist tab. Same
+  one-node-two-faces pattern slide 2 uses for Intake.
+- Slide 4's draft is the real Chaconne page cropped and desaturated, so it does not read as the
+  identical picture to slide 5's engraved page.
+
+**The engraving slide is better grounded than it looks.** An engraving-assistant *node* does not
+exist on the canvas, but everything it shows does: `mcp/musescore-engraver/engrave.py` (MuseScore 4
+headless, inbox to outbox, real PDFs), `HOUSE_STYLE` in `app-ui/src/utils/notationSys.js` (the
+Verovio profile matched to MuseScore's Leland so preview and PDF agree), and an engraver system
+prompt surviving in an older Next build of Compass that names publisher house styles (Henle,
+Bärenreiter, Universal, Boosey, Peters, Faber, Chester) and asks the agent to "help build a
+publication-ready order of operations". That last phrase is the checklist, already specified.
+
+**How the transplant was scoped**, since it lives on a dark Tailwind page now:
+
+- Everything is under `.compass-demo`. The app's design tokens sit on **that element, not
+  `:root`**, so they cannot reach the rest of the page. The light palette reads as one cream card
+  on the dark page, the way the annotated screenshots used to.
+- Tailwind's preflight strips list markers, so `.compass-demo .dbucket ul` puts `list-style: disc`
+  back for the Guide one-sheet.
+- Arrow keys are bound to the carousel, not to `document`, so they do not hijack page scrolling.
+  It takes focus on mousedown (`tabindex="-1"`).
+- `switchTab()` and `switchTool()` already dispatch a `resize`, which is the rail's redraw hook, so
+  tabbing away and back re-measures the back edge. Verified.
+- Cormorant Garamond and DM Sans were added to the existing Google Fonts link.
+
+**The layout had to be tuned for the card, and the lesson generalizes:** the portfolio card gives
+the carousel an **872px canvas**, not the 1180px the standalone page has. A wrapping flex line
+breaks on **flex-basis clamped by min-width**, not on the preference, so the three-node slides kept
+wrapping until both came down (`.dnode` and `.dpiece` are now basis-equals-floor, and they grow
+from there). If a slide ever wraps to two rows again, that is the knob.
+
+**Open on the carousel:**
+
+- **Audio is hotlinked** to the full 12MB `chaconne.mp3` on composer-portfolio-nu.vercel.app.
+  Cut a 30 to 45 second excerpt into `demo/assets/` and point both copies at it; waiting on a
+  timestamp from Max.
+- The Compass panel's three benefit cards and the heading "A visualized creative process, not a
+  chat window" are untouched and still sit above it.
 
 ### The merge (done, 2026-09-09)
 
@@ -198,6 +359,33 @@ Two things that are **not** caveats and must stay:
 ## Current Portfolio State (September 2026)
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
+
+### Session of 2026-09-09, later: the Compass demo carousel (NOT pushed)
+
+Max scrapped the screenshot walkthrough for the Compass panel and asked for a carousel instead:
+slides that demo each step to a finished piece, built **separately from the portfolio** so the
+slides could be settled without touching `index.html`. Brainstormed first at his instruction, then
+built.
+
+Result: `demo/compass-demo.html`, self-contained, unlinked, headless-verified. Five slides, each a
+faithful HTML rebuild of a real node rather than a screenshot, with a persistent chain rail drawn
+from the app's actual port map. Full detail, including the two structural decisions not to undo,
+is in "The Compass demo carousel" above.
+
+**Transplanted into `index.html` on 2026-09-10**, replacing the screenshot carousel on the Compass
+panel. Verified headless after the merge: five slides switch, rail states correct on each, the
+back edge redraws after a tab round-trip, the Sprout tab is unaffected, the remaining CRM/Agency
+hub carousel still initializes, zero em dashes, zero script errors. The 426px-at-390px horizontal
+overflow is the pre-existing hero H1, unchanged and unrelated.
+
+Still not pushed. Reviewed on Vercel preview deploys (`vercel deploy`, no `--prod`); the folder is
+now linked to the project, and `.vercel/` was added to `.gitignore` by the CLI. Preview URLs need a
+Vercel login because deployment protection is on for previews.
+
+**Then Max rewrote the whole panel's copy and reshaped it, 2026-09-10.** Large per-slide titles in
+his own plain language, the repeated line under the rail removed, the band tightened, the rail
+boxed by slide and clickable, side arrows added, and every claim that the tool engraves for you
+taken out. Details and the exact copy are in "Iteration on the carousel, 2026-09-10" above.
 
 ### Session of 2026-09-09 (large restructure, NOT pushed)
 
