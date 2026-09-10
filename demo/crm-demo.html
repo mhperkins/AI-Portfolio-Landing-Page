@@ -133,6 +133,28 @@ body {
   padding: 1px 7px;
   border-radius: 8px;
 }
+/* Same job as .demo-rail-hint on the Compass rail: the strip is a control,
+   and nothing said so. Pushed to the far end of the strip; dropped on narrow
+   screens where it would wrap onto its own line and read as another tab. */
+.demo-nav-hint {
+  margin-left: auto;
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  border: 1px dashed rgba(217, 119, 6, 0.55);
+  border-radius: 20px;
+  padding: 4px 11px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.demo-nav-hint svg { width: 10px; height: 10px; display: block; flex-shrink: 0; color: var(--amber-lt); }
+@media (max-width: 660px) { .demo-nav-hint { display: none; } }
 
 /* ==========================================================================
    Slide stage (identical scaffolding to compass-demo.html: caption strip,
@@ -567,6 +589,10 @@ button { cursor: pointer; font-family: var(--font-sans); }
     <button class="demo-nav-item" data-nav="outreach" data-slide="1">Outreach</button>
     <button class="demo-nav-item" data-nav="concerts" data-slide="2">Concerts</button>
     <button class="demo-nav-item" data-nav="newsletter" data-slide="6">Newsletter</button>
+    <span class="demo-nav-hint">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>
+      Click any section
+    </span>
   </div>
 
   <!-- ====================================================================

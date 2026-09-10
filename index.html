@@ -118,6 +118,44 @@
       background: rgba(34,197,94,0.07) !important;
     }
 
+    /* The tool row pins under the main tab bar, which is itself sticky at
+       top-14 (the fixed nav's height). --tabbar-h is measured in JS rather
+       than hardcoded, because that bar changes height when its buttons wrap.
+       Negative side margins let the backdrop bleed to the container's px-6
+       edges so content does not show through beside it while scrolling. */
+    .tool-tabs {
+      position: sticky;
+      top: calc(3.5rem + var(--tabbar-h, 45px));
+      z-index: 30;
+      /* Wrap and alignment live here, NOT as flex-wrap / justify-center
+         utilities on the element. The Tailwind Play CDN injects its styles
+         after this sheet, so an equal-specificity utility silently beats the
+         phone media query below. Do not add those two utilities back. */
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-left: -1.5rem;
+      margin-right: -1.5rem;
+      padding: 10px 1.5rem;
+      background: rgba(8, 13, 8, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    /* On a phone the buttons wrap to two lines, and a two-line row pinned
+       under the nav and the tab bar ate about a quarter of the screen. One
+       swipeable line instead. flex-start, not center: a centered row that
+       overflows clips its first button with no way to scroll back to it. */
+    @media (max-width: 640px) {
+      .tool-tabs {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .tool-tabs::-webkit-scrollbar { display: none; }
+      .tool-tabs .tool-btn { flex-shrink: 0; }
+    }
+
     /* Screenshot carousel */
     .loom-placeholder {
       background: linear-gradient(135deg, #0f1118 0%, #1a1528 100%);
@@ -1193,6 +1231,28 @@
   padding: 1px 7px;
   border-radius: 8px;
 }
+/* Same job as .demo-rail-hint on the Compass rail: the strip is a control,
+   and nothing said so. Pushed to the far end of the strip; dropped on narrow
+   screens where it would wrap onto its own line and read as another tab. */
+.demo-nav-hint {
+  margin-left: auto;
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  border: 1px dashed rgba(217, 119, 6, 0.55);
+  border-radius: 20px;
+  padding: 4px 11px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.demo-nav-hint svg { width: 10px; height: 10px; display: block; flex-shrink: 0; color: var(--amber-lt); }
+@media (max-width: 660px) { .demo-nav-hint { display: none; } }
 
 /* ==========================================================================
    CRM screen chrome, from crm/components/crm.module.css. A white "app window"
@@ -1681,7 +1741,7 @@
         </div>
 
         <!-- Tool sub-tabs -->
-        <div class="flex gap-2 mb-6 flex-wrap justify-center">
+        <div class="tool-tabs flex gap-2 mb-6">
           <button class="tool-btn tool-btn-active" data-tool="hub-compass">Composer Compass</button>
           <button class="tool-btn" data-tool="hub-crm">Composer CRM</button>
           <button class="tool-btn" data-tool="hub-agency">Virtual Agency</button>
@@ -2290,6 +2350,10 @@
                 <button class="demo-nav-item" data-nav="outreach" data-slide="1">Outreach</button>
                 <button class="demo-nav-item" data-nav="concerts" data-slide="2">Concerts</button>
                 <button class="demo-nav-item" data-nav="newsletter" data-slide="6">Newsletter</button>
+                <span class="demo-nav-hint">
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>
+                  Click any section
+                </span>
               </div>
 
               <div class="demo-stage">
@@ -3105,6 +3169,10 @@ Max</textarea>
                 <button class="demo-nav-item" data-nav="example" data-slide="1">Example</button>
                 <button class="demo-nav-item" disabled>Web Design <span class="demo-nav-soon">Soon</span></button>
                 <button class="demo-nav-item" disabled>Social Media <span class="demo-nav-soon">Soon</span></button>
+                <span class="demo-nav-hint">
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>
+                  Click any section
+                </span>
               </div>
 
               <div class="demo-stage">
@@ -3317,7 +3385,7 @@ Max</textarea>
         </div>
 
         <!-- Tool sub-tabs -->
-        <div class="flex gap-2 mb-6 flex-wrap justify-center">
+        <div class="tool-tabs flex gap-2 mb-6">
           <button class="tool-btn tool-btn-active" data-tool="crm">CRM</button>
           <button class="tool-btn" data-tool="grant">Grant Finder</button>
           <button class="tool-btn" data-tool="social">Social Planner</button>
@@ -3358,7 +3426,7 @@ Max</textarea>
               </div>
             </div>
             <div class="relative mb-4" style="padding-bottom:56.25%">
-              <iframe src="https://www.loom.com/embed/d5c0f4d1409041d0ba7897f4d03cf943" frameborder="0" allowfullscreen class="absolute inset-0 w-full h-full rounded-lg"></iframe>
+              <iframe data-src="https://www.loom.com/embed/d5c0f4d1409041d0ba7897f4d03cf943" frameborder="0" allowfullscreen class="absolute inset-0 w-full h-full rounded-lg"></iframe>
             </div>
             <div data-carousel>
               <div class="overflow-hidden -mx-1.5">
@@ -3409,7 +3477,7 @@ Max</textarea>
               </div>
             </div>
             <div class="relative mb-4" style="padding-bottom:56.25%">
-              <iframe src="https://www.loom.com/embed/477728dafa8b4a4e9fb732da7618169f" frameborder="0" allowfullscreen class="absolute inset-0 w-full h-full rounded-lg"></iframe>
+              <iframe data-src="https://www.loom.com/embed/477728dafa8b4a4e9fb732da7618169f" frameborder="0" allowfullscreen class="absolute inset-0 w-full h-full rounded-lg"></iframe>
             </div>
             <div data-carousel>
               <div class="overflow-hidden -mx-1.5">
@@ -3510,7 +3578,7 @@ Max</textarea>
               </div>
             </div>
             <div class="relative mb-4" style="padding-bottom:56.25%">
-              <iframe src="https://www.loom.com/embed/8627c0e470e4482da119622f43efab95" frameborder="0" allowfullscreen class="absolute inset-0 w-full h-full rounded-lg"></iframe>
+              <iframe data-src="https://www.loom.com/embed/8627c0e470e4482da119622f43efab95" frameborder="0" allowfullscreen class="absolute inset-0 w-full h-full rounded-lg"></iframe>
             </div>
             <div data-carousel>
               <div class="overflow-hidden -mx-1.5">
@@ -3584,22 +3652,66 @@ Max</textarea>
 
   <script>
     // ── Main tab switching ──────────────────────────────────────────────────
+    // ── Sticky offsets ──────────────────────────────────────────────────────
+    // Three things can be pinned at once: the fixed nav, the main tab bar, and
+    // the tool row. The tab bar's height changes when its buttons wrap, so it
+    // is measured rather than hardcoded and published as --tabbar-h for the
+    // .tool-tabs `top` to sit on. stickyOffset() is what every scroll-into-view
+    // below subtracts, so nothing ever lands underneath the pinned bars.
+    function measureTabBar() {
+      var tabBar = document.querySelector('.sticky.top-14');
+      if (tabBar) {
+        document.documentElement.style.setProperty('--tabbar-h', tabBar.offsetHeight + 'px');
+      }
+    }
+    function stickyOffset() {
+      var nav = document.querySelector('nav');
+      var tabBar = document.querySelector('.sticky.top-14');
+      // Only the visible tab's tool row counts; the hidden one measures 0.
+      var toolRow = null;
+      document.querySelectorAll('.tab-panel').forEach(function(p) {
+        if (p.style.display !== 'none' && !toolRow) toolRow = p.querySelector('.tool-tabs');
+      });
+      return (nav ? nav.offsetHeight : 0)
+           + (tabBar ? tabBar.offsetHeight : 0)
+           + (toolRow ? toolRow.offsetHeight : 0);
+    }
+    measureTabBar();
+    window.addEventListener('resize', measureTabBar);
+
+    // ── Video loading ───────────────────────────────────────────────────────
+    // Each Loom player pulls roughly 680 script files. Mounting all of them at
+    // once made Chrome drop requests (ERR_INSUFFICIENT_RESOURCES) and whichever
+    // player lost its scripts rendered as an empty box. So the URL lives in
+    // data-src and only the visible player gets a src; hidden ones are
+    // unloaded, which also stops playback when you switch away.
+    function syncVideos() {
+      document.querySelectorAll('iframe[data-src]').forEach(function(iframe) {
+        var visible = iframe.offsetParent !== null;
+        if (visible && !iframe.getAttribute('src')) {
+          iframe.setAttribute('src', iframe.getAttribute('data-src'));
+        } else if (!visible && iframe.getAttribute('src')) {
+          iframe.removeAttribute('src');
+        }
+      });
+    }
+    syncVideos();
+
     function switchTab(id) {
-      document.querySelectorAll('.tab-panel iframe').forEach(function(iframe) { iframe.src = iframe.src; });
       document.querySelectorAll('.tab-panel').forEach(function(p) { p.style.display = 'none'; });
       document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('tab-active'); });
       var panel = document.getElementById(id);
       if (panel) panel.style.display = 'block';
       var btn = document.querySelector('[data-target="' + id + '"]');
       if (btn) btn.classList.add('tab-active');
-      var nav = document.querySelector('nav');
-      var tabBar = document.querySelector('.sticky.top-14');
-      var offset = (nav ? nav.offsetHeight : 0) + (tabBar ? tabBar.offsetHeight : 0) + 16;
+      measureTabBar();
+      var offset = stickyOffset() + 16;
       var top = (panel ? panel.getBoundingClientRect().top + window.scrollY : 0) - offset;
       window.scrollTo({ top: top, behavior: 'smooth' });
       initCarousels();
       initSectionCarousels();
       initHubCarousels();
+      syncVideos();
       window.dispatchEvent(new Event('resize'));
     }
 
@@ -3622,6 +3734,7 @@ Max</textarea>
       if (btn) btn.classList.add('tool-btn-active');
       initCarousels();
       initHubCarousels();
+      syncVideos();
       window.dispatchEvent(new Event('resize'));
     }
 
@@ -3659,9 +3772,7 @@ Max</textarea>
         requestAnimationFrame(function() {
           var card = document.getElementById(hash);
           if (!card) return;
-          var nav = document.querySelector('nav');
-          var tabBar = document.querySelector('.sticky.top-14');
-          var offset = (nav ? nav.offsetHeight : 0) + (tabBar ? tabBar.offsetHeight : 0) + 80;
+          var offset = stickyOffset() + 24;
           var top = card.getBoundingClientRect().top + window.scrollY - offset;
           window.scrollTo({ top: top, behavior: 'smooth' });
         });
@@ -3817,7 +3928,7 @@ Max</textarea>
     scrollBtn.addEventListener('click', function() {
       var nav = document.querySelector('nav');
       var tabBar = document.querySelector('.sticky.top-14');
-      var offset = (nav ? nav.offsetHeight : 0) + (tabBar ? tabBar.offsetHeight : 0) + 16;
+      var offset = stickyOffset() + 16;
       var panels = document.querySelectorAll('.tab-panel');
       var activePanel = null;
       panels.forEach(function(p) { if (p.style.display !== 'none') activePanel = p; });
