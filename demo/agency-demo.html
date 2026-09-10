@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Virtual Agency &middot; Building an AI Employee</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   Virtual Agency demo carousel.
+
+   Standalone, same convention as compass-demo.html and crm-demo.html:
+   nothing here is wired into index.html yet. Shared carousel chrome keeps
+   the `demo-` prefix from those two files verbatim; agency-specific chrome
+   (the chat transcript, the numbered onboarding steps, the document cards)
+   is prefixed `a` so nothing collides across the three standalone files.
+
+   Design tokens are lifted verbatim from app-ui/src/styles/tokens.css, same
+   as the other two demos, so the hub reads as one brand across all three.
+
+   Virtual Agency has no app screen to rebuild: the real interaction is a
+   Claude Code session (a chat) and the real artifacts are markdown files
+   (a job description, a sprint record). So the format here borrows the
+   dialogue-bubble device from compass-demo.html's Intake slide (the one
+   place Compass also recreates a live conversation) and adds a document-
+   card component styled after the folder-path pill already used in the
+   existing Hub roster cards.
+
+   The job description and sprint content below are condensed from the real
+   files in virtual-agency/employees/Music/Marketing/, with one deliberate
+   omission: the sprint's contact-research table (scraped emails for named
+   faculty at outside institutions) is left out. It is not Max's data to
+   publish on a public portfolio, even redacted, so this carousel shows the
+   outreach copy that actually went out instead.
+
+   House rule: no em dashes anywhere on this page. The real sprint file's
+   status line uses one ("Complete — pending Maxwell sends"); it renders
+   here with a comma instead.
+   ========================================================================== */
+
+:root {
+  --ch:        #1C1917;
+  --ch2:       #28211E;
+  --amber:     #B45309;
+  --amber-lt:  #D97706;
+  --amber-bg:  #FEF3C7;
+  --amber-dim: #92400E;
+  --cream:     #FAF8F5;
+  --warm:      #EDE9E3;
+  --border:    #E2DDD6;
+  --tp:        #1C1917;
+  --ts:        #57534E;
+  --tm:        #A8A29E;
+  --green:     #16A34A;
+  --green-bg:  #F0FDF4;
+  --red:       #DC2626;
+
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-sans:  'DM Sans', sans-serif;
+  --font-mono:  ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --shadow:    0 2px 12px rgba(28, 25, 23, 0.08);
+  --shadow-lg: 0 8px 32px rgba(28, 25, 23, 0.14);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 32px 20px 64px;
+  background: var(--cream);
+  color: var(--tp);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.demo-wrap { max-width: 1180px; margin: 0 auto; }
+
+.demo-scaffold {
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.demo-scaffold h1 {
+  font-family: var(--font-serif);
+  font-size: 34px;
+  font-weight: 600;
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
+}
+.demo-scaffold p { margin: 0; color: var(--ts); font-size: 14px; max-width: 68ch; }
+
+/* ==========================================================================
+   Nav strip, same device as crm-demo.html: the dark sidebar-style strip
+   standing in for the persistent element compass-demo.html gets from its
+   node graph. Here it is the roster of employees/sections this carousel
+   covers.
+   ========================================================================== */
+.demo-nav-wrap {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  background: var(--ch);
+  border-radius: 10px;
+  padding: 10px 10px;
+  margin-bottom: 14px;
+}
+.demo-nav-item {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  background: none;
+  color: var(--tm);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: background 0.15s, color 0.15s;
+}
+.demo-nav-item:hover:not(:disabled) { color: var(--cream); background: rgba(255, 255, 255, 0.06); }
+.demo-nav-item.is-active { color: var(--cream); background: rgba(180, 83, 9, 0.32); }
+.demo-nav-item:disabled { cursor: default; opacity: 0.55; }
+.demo-nav-soon {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--cream);
+  padding: 1px 7px;
+  border-radius: 8px;
+}
+
+/* ==========================================================================
+   Slide stage (identical scaffolding to the other two demos).
+   ========================================================================== */
+.demo-stage {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: white;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.demo-canvas {
+  background-color: var(--warm);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(139, 115, 85, 0.10) 0px,
+    rgba(139, 115, 85, 0.10) 1px,
+    transparent 1px,
+    transparent 10px
+  );
+  background-size: 100% 90px;
+  padding: 28px 24px;
+  min-height: 400px;
+  position: relative;
+}
+.demo-side-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--ts);
+  font-size: 17px;
+  line-height: 1;
+  box-shadow: var(--shadow-lg);
+  transition: opacity 0.18s, color 0.18s, border-color 0.18s;
+}
+.demo-side-arrow:hover:not(:disabled) { color: var(--amber); border-color: var(--amber-lt); }
+.demo-side-arrow:disabled { opacity: 0.25; cursor: default; }
+.demo-side-prev { left: 6px; }
+.demo-side-next { right: 6px; }
+
+.demo-car-slide { display: none; }
+.demo-car-slide.is-on { display: block; animation: demoFade 220ms ease-out; }
+@keyframes demoFade { from { opacity: 0; } to { opacity: 1; } }
+
+.demo-caption {
+  border-bottom: 1px solid var(--border);
+  background: white;
+  padding: 18px 22px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.demo-slide-title {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--tp);
+  margin: 0;
+}
+.demo-cap-label {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--tm);
+  margin-bottom: 3px;
+}
+.demo-cap-state {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--tp);
+}
+
+.demo-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 14px;
+}
+.demo-arrow {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--ts);
+  font-size: 15px;
+  box-shadow: var(--shadow);
+}
+.demo-arrow:disabled { opacity: 0.35; }
+.demo-count {
+  font-size: 12px;
+  color: var(--tm);
+  letter-spacing: 0.1em;
+  font-variant-numeric: tabular-nums;
+}
+.demo-title {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  font-weight: 600;
+  text-align: center;
+  flex: 1;
+}
+
+button { cursor: pointer; font-family: var(--font-sans); }
+
+/* ==========================================================================
+   The Claude Code session (chat transcript). A dark title bar carrying the
+   folder path, like a terminal tab, then plain dialogue bubbles.
+   ========================================================================== */
+.aterm {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  max-width: 760px;
+  margin: 0 auto 16px;
+}
+.aterm-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--ch);
+}
+.aterm-dots { display: flex; gap: 5px; }
+.aterm-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.18); }
+.aterm-label { margin-left: 4px; font-size: 11.5px; color: rgba(255, 255, 255, 0.55); }
+.aterm-pill {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--amber-lt);
+  background: rgba(217, 119, 6, 0.16);
+  padding: 2px 9px;
+  border-radius: 5px;
+  white-space: nowrap;
+}
+.aterm-body { padding: 16px 18px; }
+
+.aturn-user {
+  background: var(--ch);
+  color: rgba(255, 255, 255, 0.92);
+  border-radius: 8px;
+  padding: 10px 13px;
+  margin-bottom: 10px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  max-width: 90%;
+}
+.aturn-agent {
+  background: #FCFBF9;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 13px;
+  margin: 0 0 10px auto;
+  font-size: 12.5px;
+  line-height: 1.55;
+  max-width: 90%;
+}
+.aturn-agent:last-child, .aturn-user:last-child { margin-bottom: 0; }
+
+/* ==========================================================================
+   "Putting one to work" - the dark numbered steps card, carried over
+   as-is from the existing Hub panel's own copy (already approved).
+   ========================================================================== */
+.astepbox {
+  background: var(--ch);
+  border-radius: 10px;
+  padding: 18px 20px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+.astepbox h5 {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--cream);
+  margin: 0 0 12px;
+}
+.astep { display: flex; gap: 10px; font-size: 12.5px; line-height: 1.55; color: rgba(255, 255, 255, 0.82); margin-bottom: 9px; }
+.astep:last-child { margin-bottom: 0; }
+.astep-n { flex: 0 0 16px; color: var(--amber-lt); font-weight: 700; }
+.astep code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: rgba(255, 255, 255, 0.09);
+  color: var(--amber-lt);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   Document cards: job description and sprint record.
+   ========================================================================== */
+.adoc-grid { display: flex; gap: 16px; flex-wrap: wrap; align-items: stretch; }
+.adoc-col { flex: 1 1 380px; min-width: 300px; display: flex; }
+.adoc {
+  position: relative;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+/* The job description is longer than the card, so its body scrolls. Without
+   this the last visible line just stops mid-list and reads as broken rather
+   than as "there is more below". On the shorter card it fades white on white
+   and disappears. */
+.adoc::after {
+  content: '';
+  position: absolute;
+  left: 1px; right: 1px; bottom: 0;
+  height: 34px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff);
+  border-radius: 0 0 8px 8px;
+  pointer-events: none;
+}
+.afolderpill {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  background: var(--amber-bg);
+  color: var(--amber-dim);
+  padding: 3px 9px;
+  border-radius: 5px;
+  margin-bottom: 9px;
+  word-break: break-all;
+}
+.adoc-head { padding: 15px 17px 0; }
+.adoc-title { font-family: var(--font-serif); font-size: 17px; font-weight: 600; margin: 0; line-height: 1.25; }
+.adoc-meta { font-size: 10.5px; color: var(--ts); margin: 6px 0 0; line-height: 1.7; }
+.adoc-body { padding: 12px 17px 17px; overflow-y: auto; flex: 1; max-height: 430px; }
+.adoc-sec { margin-top: 13px; }
+.adoc-sec:first-child { margin-top: 0; }
+.adoc-label { font-size: 9.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--tm); margin-bottom: 6px; }
+.adoc-text { font-size: 12px; line-height: 1.6; color: var(--tp); margin: 0; }
+.adoc-list { margin: 0; padding-left: 15px; font-size: 11.5px; line-height: 1.6; color: var(--tp); }
+.adoc-list li { margin-bottom: 3px; }
+.adoc-tbl { width: 100%; border-collapse: collapse; font-size: 11px; }
+.adoc-tbl td { padding: 4px 0; border-bottom: 1px dotted var(--border); vertical-align: top; }
+.adoc-tbl td:first-child { color: var(--ts); font-weight: 600; width: 38%; white-space: nowrap; }
+.adoc-tbl tr:last-child td { border-bottom: none; }
+
+.adoc-tier { border: 1px solid var(--border); border-radius: 6px; padding: 9px 10px; margin-bottom: 8px; background: #FCFBF9; }
+.adoc-tier:last-child { margin-bottom: 0; }
+.adoc-tier-label { font-size: 9.5px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--amber-dim); margin-bottom: 4px; }
+.adoc-tier-text { font-size: 11.5px; line-height: 1.55; color: var(--tp); }
+
+@media (max-width: 760px) {
+  .demo-canvas { padding: 18px 12px; }
+  .demo-side-arrow { width: 32px; height: 32px; font-size: 15px; }
+  .demo-side-prev { left: 2px; }
+  .demo-side-next { right: 2px; }
+  .demo-title { font-size: 15px; }
+  .demo-slide-title { font-size: 21px; }
+  .demo-caption { padding: 14px 16px 13px; }
+  .aturn-user, .aturn-agent { max-width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .demo-car-slide.is-on { animation: none; }
+}
+</style>
+</head>
+<body>
+<div class="demo-wrap">
+
+  <div class="demo-scaffold">
+    <h1>Virtual Agency: AI employees for the Music department</h1>
+    <p>A walkthrough of how one employee gets built and put to work: a job description written first, then a real sprint it shipped. Web Design and Social Media join this carousel once their own examples are ready.</p>
+  </div>
+
+  <div class="demo-nav-wrap" id="demoNav">
+    <button class="demo-nav-item is-active" data-slide="0">Create</button>
+    <button class="demo-nav-item" data-slide="1">Example</button>
+    <button class="demo-nav-item" disabled>Web Design <span class="demo-nav-soon">Soon</span></button>
+    <button class="demo-nav-item" disabled>Social Media <span class="demo-nav-soon">Soon</span></button>
+  </div>
+
+  <div class="demo-stage">
+    <div class="demo-caption">
+      <h4 class="demo-slide-title" id="demoSlideTitle"></h4>
+      <div>
+        <div class="demo-cap-label" id="demoStateLabel">What gets created</div>
+        <div class="demo-cap-state" id="demoState"></div>
+      </div>
+    </div>
+
+    <div class="demo-canvas">
+      <button class="demo-side-arrow demo-side-prev" id="demoPrevSide" aria-label="Previous slide">&#8249;</button>
+      <button class="demo-side-arrow demo-side-next" id="demoNextSide" aria-label="Next slide">&#8250;</button>
+
+      <!-- ============ SLIDE 1 · CREATING AN EMPLOYEE ==================== -->
+      <section class="demo-car-slide is-on" data-title="Creating an employee">
+        <div class="aterm">
+          <div class="aterm-head">
+            <div class="aterm-dots"><span class="aterm-dot"></span><span class="aterm-dot"></span><span class="aterm-dot"></span></div>
+            <span class="aterm-label">Claude Code</span>
+            <span class="aterm-pill">virtual-agency/</span>
+          </div>
+          <div class="aterm-body">
+            <div class="aturn-user">I need someone to handle outreach and campaign copy for my concerts. Set up a Music Marketing employee.</div>
+            <div class="aturn-agent">Three questions first. What is it explicitly not allowed to touch? Who has to sign off before anything sends? And does it hand off to any peer agent?</div>
+            <div class="aturn-user">Not social media posts, not design, not booking. I sign off on everything myself, nothing sends without me. It hands social copy briefs to the Social Media agent.</div>
+            <div class="aturn-agent">Writing <code style="font-family: var(--font-mono); font-size: 11px; background: var(--warm); padding: 1px 5px; border-radius: 3px;">employees/Music/Marketing/</code> now: a job description with those boundaries, a system prompt in its voice, and empty sprints and deliverables folders for what it ships. The job description says outright that nothing goes out without your sign-off.</div>
+          </div>
+        </div>
+
+        <div class="astepbox">
+          <h5>Putting one to work</h5>
+          <div class="astep"><span class="astep-n">1.</span><span>Open the <code>virtual-agency</code> folder in Claude Code (it is its own project, beside this one).</span></div>
+          <div class="astep"><span class="astep-n">2.</span><span>Name the employee and the job: "run the Music Marketing agent on a Groove Theory follow-up wave."</span></div>
+          <div class="astep"><span class="astep-n">3.</span><span>It reads its own system prompt and job description, then works to the brief.</span></div>
+          <div class="astep"><span class="astep-n">4.</span><span>Output lands in that employee's <code>deliverables/</code>, with a dated sprint file recording what shipped.</span></div>
+          <div class="astep"><span class="astep-n">5.</span><span>Nothing sends or goes live without your sign-off. Every agent's job description says so.</span></div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 2 · JOB DESCRIPTION + SPRINT ================= -->
+      <section class="demo-car-slide" data-title="Job description and sprint record">
+        <div class="adoc-grid">
+
+          <div class="adoc-col">
+            <div class="adoc">
+              <div class="adoc-head">
+                <span class="afolderpill">employees/Music/Marketing/marketing-music-jobDescription.md</span>
+                <h3 class="adoc-title">Music Marketing Agent</h3>
+                <p class="adoc-meta">Department: Music &middot; Reports to: Maxwell Henry &middot; Peer: Social Media Agent</p>
+              </div>
+              <div class="adoc-body">
+                <div class="adoc-sec">
+                  <div class="adoc-label">Role summary</div>
+                  <p class="adoc-text">Drives attendance, press coverage, and audience development for Maxwell's concerts and projects. It owns outcomes, not content. It produces strategy and outreach materials. Maxwell reviews and approves everything before it sends. Nothing goes out without his sign-off.</p>
+                </div>
+                <div class="adoc-sec">
+                  <div class="adoc-label">Writing rules</div>
+                  <ul class="adoc-list">
+                    <li>Never use em dashes. Restructure with a colon, a period, or reorder the clause.</li>
+                    <li>Active voice. Flip "X was done by Y" to "Y did X."</li>
+                    <li>Short, direct sentences. One idea per sentence.</li>
+                    <li>The ask is warm and friendly, not transactional. Invite, do not solicit.</li>
+                  </ul>
+                </div>
+                <div class="adoc-sec">
+                  <div class="adoc-label">Core responsibilities</div>
+                  <ul class="adoc-list">
+                    <li>Outreach strategy: who to contact, in what order, through what channel</li>
+                    <li>Tiered outreach copy: close contacts, peers, and cold contacts each get a different version</li>
+                    <li>Email campaigns for alumni networks, venue lists, and mailing lists</li>
+                    <li>Performer and collaborator coordination materials</li>
+                    <li>Series and brand framing, positioning recurring events as an ongoing series</li>
+                  </ul>
+                </div>
+                <div class="adoc-sec">
+                  <div class="adoc-label">Out of scope</div>
+                  <ul class="adoc-list">
+                    <li>Social media posts (briefs the Social Media agent instead)</li>
+                    <li>Design (flags for Canva or a designer)</li>
+                    <li>Booking and contracting, entirely</li>
+                  </ul>
+                </div>
+                <div class="adoc-sec">
+                  <div class="adoc-label">Tools</div>
+                  <table class="adoc-tbl">
+                    <tr><td>Gmail MCP</td><td>Draft and stage outreach emails. Stage only, Maxwell sends.</td></tr>
+                    <tr><td>Composer Assistant MCP</td><td>Reads Maxwell's aesthetic identity for press and institutional copy.</td></tr>
+                    <tr><td>WebSearch</td><td>Research composition department contacts, venue emails, press targets.</td></tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="adoc-col">
+            <div class="adoc">
+              <div class="adoc-head">
+                <span class="afolderpill">employees/Music/Marketing/sprints/sprint-01-groove-theory.md</span>
+                <h3 class="adoc-title">Sprint 01: Groove Theory Deliverables</h3>
+                <p class="adoc-meta">Agent: Music Marketing &middot; Campaign: Groove Theory, Classical Music with a Pulse<br>Sprint date: 2026-05-28 &middot; Status: Complete, pending Maxwell's sends</p>
+              </div>
+              <div class="adoc-body">
+                <div class="adoc-sec">
+                  <div class="adoc-label">Deliverable: personal outreach templates, 3 tiers</div>
+                  <p class="adoc-text" style="margin-bottom: 10px; color: var(--ts); font-size: 11px;">Ready to send. Performers swap in their own name where relevant.</p>
+                  <div class="adoc-tier">
+                    <div class="adoc-tier-label">Tier A &middot; close friend</div>
+                    <div class="adoc-tier-text">Hey, I'm performing in a concert in Brooklyn on June 14 and I really want you there. It's a new composer showcase at Scholes Street Studio, groove-based contemporary classical music. Legit venue, serious performers, new works. Suggested donation $15. Come? RSVP here.</div>
+                  </div>
+                  <div class="adoc-tier">
+                    <div class="adoc-tier-label">Tier B &middot; music community peer</div>
+                    <div class="adoc-tier-text">Hey [name], I'm performing at a new concert series launch in Brooklyn on June 14. Called Groove Theory: new works by Maxwell Henry, Julie Kim, and Jude Duane, all centering groove as a compositional idea. Scholes Street Studio, 2pm, $15 suggested. Would love to have you in the room.</div>
+                  </div>
+                  <div class="adoc-tier">
+                    <div class="adoc-tier-label">Tier C &middot; acquaintance</div>
+                    <div class="adoc-tier-text">Hey [name], hope you're doing well. I'm performing in Brooklyn on June 14 at a contemporary classical concert called Groove Theory at Scholes Street Studio. New music, great performers, $15 suggested donation. If you're around it'd be great to see you.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </div><!-- /.demo-canvas -->
+
+  </div><!-- /.demo-stage -->
+
+  <div class="demo-controls">
+    <button class="demo-arrow" id="demoPrev" aria-label="Previous slide">&#8249;</button>
+    <div class="demo-title" id="demoTitle"></div>
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <span class="demo-count" id="demoCount"></span>
+      <button class="demo-arrow" id="demoNext" aria-label="Next slide">&#8250;</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var CAPTIONS = [
+    {
+      label: 'What gets created',
+      state: 'Music Marketing &middot; job description, system prompt, and empty sprints and deliverables folders.',
+      contrib: 'Every employee starts as a conversation: what it owns, what it does not touch, who signs off.'
+    },
+    {
+      label: 'State of the sprint',
+      state: 'Sprint 01, Groove Theory &middot; complete, pending Maxwell&rsquo;s sends.',
+      contrib: 'The job description is the contract. The sprint is the record of what it actually shipped.'
+    }
+  ];
+
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.demo-car-slide'));
+  var navItems = Array.prototype.slice.call(document.querySelectorAll('.demo-nav-item[data-slide]'));
+  var elState = document.getElementById('demoState');
+  var elStateLabel = document.getElementById('demoStateLabel');
+  var elSlideTitle = document.getElementById('demoSlideTitle');
+  var elTitle = document.getElementById('demoTitle');
+  var elCount = document.getElementById('demoCount');
+  var prevBtns = ['demoPrev', 'demoPrevSide'].map(function (id) { return document.getElementById(id); }).filter(Boolean);
+  var nextBtns = ['demoNext', 'demoNextSide'].map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+  var current = 0;
+
+  function show(i) {
+    if (i < 0 || i >= slides.length) return;
+    current = i;
+
+    slides.forEach(function (s, n) { s.classList.toggle('is-on', n === i); });
+    navItems.forEach(function (b) { b.classList.toggle('is-active', parseInt(b.getAttribute('data-slide'), 10) === i); });
+
+    elStateLabel.textContent = CAPTIONS[i].label;
+    elState.innerHTML = CAPTIONS[i].state;
+    elSlideTitle.textContent = CAPTIONS[i].contrib;
+    elTitle.textContent = slides[i].getAttribute('data-title');
+    elCount.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+    prevBtns.forEach(function (el) { el.disabled = (i === 0); });
+    nextBtns.forEach(function (el) { el.disabled = (i === slides.length - 1); });
+  }
+
+  navItems.forEach(function (b) {
+    b.addEventListener('click', function () { show(parseInt(b.getAttribute('data-slide'), 10)); });
+  });
+  prevBtns.forEach(function (el) { el.addEventListener('click', function () { show(current - 1); }); });
+  nextBtns.forEach(function (el) { el.addEventListener('click', function () { show(current + 1); }); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  });
+
+  show(0);
+})();
+</script>
+</body>
+</html>

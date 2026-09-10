@@ -267,28 +267,41 @@
     .wrap-x { overflow-x: auto; }
 
 /* ==========================================================================
-   Composer Compass demo carousel.
+   Hub demo carousels: Compass, CRM, Virtual Agency.
 
-   Transplanted from demo/compass-demo.html on 2026-09-10, replacing the
-   annotated-screenshot carousel on the Compass panel. Every class is prefixed
-   `demo-` or `d` so it cannot collide with the two carousel systems already
-   here (`.carousel-*` / `initCarousels()` and `[data-hub-carousel]` /
-   `.hub-car-*`), both of which still run the CRM and Agency panels.
+   Transplanted from demo/compass-demo.html (2026-09-10), then
+   demo/crm-demo.html and demo/agency-demo.html (2026-09-10), each replacing
+   the annotated-screenshot carousel on its panel. Every class is prefixed
+   `demo-` (shared carousel chrome), `d` (Compass node chrome), `c` (CRM app
+   chrome) or `a` (Agency chrome), so none of it collides with the two older
+   carousel systems: `.carousel-*` / `initCarousels()`, which still runs the
+   Sprout tab's screenshot carousels, and `[data-hub-carousel]` / `.hub-car-*`,
+   which has no markup left on the page now that the CRM panel is a demo
+   carousel. That system, the `.annot` / `.pin` / `.hub-shot` rules, and the
+   images/Hub_CRM_*.png and images/Hub_Agency_Roster.png captures are all
+   unreferenced as of this transplant. Left in place rather than deleted, in
+   case a panel wants annotated screenshots again.
 
-   The standalone file stays on disk as the place to iterate the slides
-   without touching this page. Change it there, then re-transplant.
+   All three share the `demo-` scaffolding below (stage, canvas, caption strip,
+   arrows, controls) and the token block. Only the Compass carousel has a rail;
+   CRM and Agency use the `.demo-nav-wrap` strip instead.
+
+   The standalone files stay on disk as the place to iterate slides without
+   touching this page. Change them there, then re-transplant.
 
    Design tokens are lifted verbatim from the app:
    app-ui/src/styles/tokens.css. Node chrome (white card, 1px border, 8px
    radius, dark header with amber uppercase type) is lifted from the node CSS
-   modules so the slides read as the real canvas.
+   modules, and the CRM chrome from crm/components/crm.module.css, so the
+   slides read as the real apps.
 
-   House rule: no em dashes anywhere on this page. The app's own UI labels use
-   them ("SECTION 1 — STRUCTURAL MODEL"); they are rendered here with a middot
-   instead so the portfolio's zero-em-dash check keeps passing.
+   House rule: no em dashes anywhere on this page. The apps' own UI labels use
+   them ("SECTION 1 — STRUCTURAL MODEL", "Email 1 — Reconnect"); they are
+   rendered here with a middot instead so the portfolio's zero-em-dash check
+   keeps passing.
    ========================================================================== */
 
-.compass-demo {
+.compass-demo, .crm-demo, .agency-demo {
   --ch:        #1C1917;
   --ch2:       #28211E;
   --amber:     #B45309;
@@ -305,14 +318,20 @@
   --green-bg:  #F0FDF4;
   --red:       #DC2626;
 
+  --cool:      #2563EB;
+  --cool-bg:   #EFF4FE;
+
   --font-serif: 'Cormorant Garamond', serif;
   --font-sans:  'DM Sans', sans-serif;
+  --font-mono:  ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   --shadow:    0 2px 12px rgba(28, 25, 23, 0.08);
   --shadow-lg: 0 8px 32px rgba(28, 25, 23, 0.14);
 }
 
-.compass-demo, .compass-demo *, .compass-demo *::before, .compass-demo *::after { box-sizing: border-box; }
+.compass-demo, .compass-demo *, .compass-demo *::before, .compass-demo *::after,
+.crm-demo, .crm-demo *, .crm-demo *::before, .crm-demo *::after,
+.agency-demo, .agency-demo *, .agency-demo *::before, .agency-demo *::after { box-sizing: border-box; }
 
 
 
@@ -358,6 +377,33 @@
   background: var(--green);
   box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.18);
 }
+
+/* The rail is the control, not just a diagram: every group jumps to its
+   slide. Nothing said so, so it read as a static picture. This sits opposite
+   the Blueprint tag on the same line. pointer-events:none so it can never
+   swallow a click meant for the rail underneath it. */
+.demo-rail-hint {
+  position: absolute;
+  top: 6px;
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--amber-dim);
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px dashed var(--amber-lt);
+  border-radius: 20px;
+  padding: 3px 11px;
+  pointer-events: none;
+}
+.demo-rail-hint svg { width: 11px; height: 11px; display: block; flex-shrink: 0; }
+/* Below this the tag and the hint would collide, and a touch user taps the
+   pills without being told to. */
+@media (max-width: 660px) { .demo-rail-hint { display: none; } }
 
 .demo-rail {
   position: relative;
@@ -1082,13 +1128,13 @@
 }
 
   /* --------------------------------------------------------------------
-     The Compass demo carousel, transplanted from demo/compass-demo.html
-     on 2026-09-10. Everything is scoped under .compass-demo: the app's own
-     design tokens live on that element rather than :root so they cannot
-     reach the rest of the page, and the light palette sits on the dark page
-     as one card, the way the annotated screenshots used to.
+     The three demo carousels, transplanted from demo/*.html on 2026-09-10.
+     Everything is scoped under .compass-demo / .crm-demo / .agency-demo:
+     each app's own design tokens live on those elements rather than :root so
+     they cannot reach the rest of the page, and the light palette sits on the
+     dark page as one card, the way the annotated screenshots used to.
      -------------------------------------------------------------------- */
-  .compass-demo {
+  .compass-demo, .crm-demo, .agency-demo {
     background: var(--cream);
     border-radius: 14px;
     padding: 18px;
@@ -1098,9 +1144,464 @@
     line-height: 1.5;
     text-align: left;
   }
-  /* Tailwind's preflight strips list markers, and the Guide one-sheet needs
-     them back. */
+  /* Tailwind's preflight strips list markers, and the Guide one-sheet, the
+     job description and the sprint record all need them back. */
   .compass-demo .dbucket ul { list-style: disc; }
+  .agency-demo .adoc-list { list-style: disc; }
+
+/* ==========================================================================
+   Section nav strip. The CRM and Agency equivalent of the Compass rail: the
+   persistent element above every slide. Compass is a graph, so its rail is
+   the graph. The CRM is a sidebar of screens and the Agency is a roster, so
+   this is the CRM sidebar's own chrome (dark ground, amber-tinted active row)
+   turned on its side.
+   ========================================================================== */
+.demo-nav-wrap {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  background: var(--ch);
+  border-radius: 10px;
+  padding: 10px 10px;
+  margin-bottom: 14px;
+}
+.demo-nav-item {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  background: none;
+  color: var(--tm);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.demo-nav-item:hover:not(:disabled) { color: var(--cream); background: rgba(255, 255, 255, 0.06); }
+.demo-nav-item.is-active { color: var(--cream); background: rgba(180, 83, 9, 0.32); }
+.demo-nav-item:disabled { cursor: default; opacity: 0.55; }
+.demo-nav-soon {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--cream);
+  padding: 1px 7px;
+  border-radius: 8px;
+}
+
+/* ==========================================================================
+   CRM screen chrome, from crm/components/crm.module.css. A white "app window"
+   card floating on the same manuscript canvas the Compass nodes sit on.
+   ========================================================================== */
+.cframe {
+  position: relative;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow-lg);
+  max-width: 900px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.cframe-full { max-width: 100%; }
+
+.cpage { padding: 22px 26px 26px; }
+.chead { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+.ctitle { font-family: var(--font-serif); font-size: 24px; font-weight: 600; margin: 0; }
+.csub { font-size: 12.5px; color: var(--ts); margin: 4px 0 0; }
+.cactions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.cbtn {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 13px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--tp);
+}
+.cbtn-primary { background: var(--amber); border-color: var(--amber); color: var(--cream); }
+.cbtn-ghost { background: none; border-color: transparent; color: var(--ts); }
+.cbtn-xs { padding: 3px 9px; font-size: 10.5px; }
+.cbtn-sm { padding: 5px 11px; font-size: 11.5px; }
+.cbtn:disabled { opacity: 0.45; }
+
+.ctabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 14px; flex-wrap: wrap; }
+.ctab { padding: 7px 12px; font-size: 12.5px; font-weight: 500; color: var(--ts); border-bottom: 2px solid transparent; margin-bottom: -1px; background: none; border-left: none; border-right: none; border-top: none; }
+.ctab-on { color: var(--amber-dim); border-bottom-color: var(--amber); }
+.ctab-count { margin-left: 5px; font-size: 10.5px; font-weight: 700; color: var(--tm); }
+.ctab-on .ctab-count { color: var(--amber); }
+
+.cfilterbar { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; align-items: center; }
+.csearch { flex: 1; min-width: 160px; padding: 7px 11px; border: 1px solid var(--border); border-radius: 6px; font-size: 12.5px; background: white; color: var(--tm); }
+.cselect { padding: 7px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 11.5px; background: white; color: var(--ts); }
+.ctogglechip { padding: 6px 12px; border: 1px solid var(--border); border-radius: 20px; background: white; font-size: 11.5px; color: var(--ts); white-space: nowrap; }
+
+/* The contacts table wants ~620px. .cframe clips, so on a phone the last
+   three columns would vanish with no way to reach them. The wrapper scrolls
+   them instead, the way the real app's table does in a narrow window. */
+.ctbl-scroll { overflow-x: auto; }
+.ctbl { width: 100%; min-width: 560px; border-collapse: collapse; background: white; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; font-size: 12px; }
+.ctbl th { text-align: left; font-size: 9.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--tm); padding: 8px 12px; border-bottom: 1px solid var(--border); background: var(--cream); }
+.ctbl td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.ctbl tr:last-child td { border-bottom: none; }
+.crow-name { font-weight: 600; font-size: 12.5px; }
+.crow-sub { font-size: 10.5px; color: var(--tm); margin-top: 1px; }
+.ctagwrap { display: flex; flex-wrap: wrap; gap: 4px; }
+.croletag { font-size: 10px; font-weight: 500; padding: 2px 7px; border-radius: 10px; background: var(--warm); color: var(--ts); white-space: nowrap; }
+.cdash { color: var(--tm); }
+
+.cstatus { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 10px; white-space: nowrap; display: inline-block; }
+.cstatus-cold { background: var(--warm); color: var(--ts); }
+.cstatus-cool { background: var(--cool-bg); color: var(--cool); }
+.cstatus-warm { background: var(--amber-bg); color: var(--amber-dim); }
+.cstatus-active { background: var(--green-bg); color: var(--green); }
+
+.chealth { display: flex; align-items: center; gap: 6px; }
+.chealth-bar { width: 40px; height: 5px; border-radius: 3px; background: var(--warm); overflow: hidden; }
+.chealth-fill { height: 100%; background: var(--green); border-radius: 3px; }
+.chealth-num { font-size: 10.5px; color: var(--ts); }
+
+.clist { display: flex; flex-direction: column; }
+.clist-row { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border: 1px solid var(--border); border-top: none; background: white; }
+.clist-row:first-child { border-top: 1px solid var(--border); border-radius: 8px 8px 0 0; }
+.clist-row:last-child { border-radius: 0 0 8px 8px; }
+.clist-row.is-open { background: var(--amber-bg); }
+.clist-main { flex: 1; min-width: 0; }
+.clist-name { font-weight: 600; font-size: 13px; }
+.clist-meta { font-size: 11px; color: var(--ts); margin-top: 2px; display: flex; gap: 8px; flex-wrap: wrap; }
+.ctag { font-size: 10.5px; font-weight: 600; padding: 2px 9px; border-radius: 11px; background: var(--warm); color: var(--ts); white-space: nowrap; }
+.ctag-overdue { background: #FEE2E2; color: var(--red); }
+
+.coverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(28, 25, 23, 0.42);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 5;
+}
+.cmodal {
+  background: var(--cream);
+  border-radius: 10px;
+  width: 100%;
+  max-width: 460px;
+  max-height: 100%;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+}
+.cmodal-wide { max-width: 600px; }
+.cmhead { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 13px 18px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+.cmtitle { font-family: var(--font-serif); font-size: 16px; font-weight: 600; }
+.cmclose { font-size: 18px; color: var(--tm); line-height: 1; background: none; border: none; }
+.cmbody { padding: 15px 18px; overflow-y: auto; }
+.cmfoot { display: flex; justify-content: flex-end; gap: 8px; padding: 11px 18px; border-top: 1px solid var(--border); flex-shrink: 0; }
+
+.cfrow { display: flex; gap: 10px; }
+.cfrow > .cfield { flex: 1; }
+.cfield { margin-bottom: 11px; }
+.cfield:last-child { margin-bottom: 0; }
+.clabel { display: block; font-size: 10.5px; font-weight: 600; color: var(--ts); margin-bottom: 4px; }
+.cinput, .ctextarea { width: 100%; padding: 7px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 12px; font-family: var(--font-sans); background: white; color: var(--tp); }
+.cinput::placeholder, .ctextarea::placeholder { color: var(--tm); }
+.ctextarea { resize: vertical; min-height: 48px; line-height: 1.55; }
+
+.cchipwrap { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; padding: 6px 8px; border: 1px solid var(--border); border-radius: 6px; background: white; }
+.cchip { display: inline-flex; align-items: center; gap: 3px; background: var(--warm); color: var(--tp); font-size: 11px; font-weight: 500; padding: 2px 4px 2px 8px; border-radius: 11px; }
+.cchipx { color: var(--tm); font-size: 11px; }
+
+.ctogglerow { display: flex; gap: 5px; flex-wrap: wrap; }
+.ctogglechip2 { padding: 4px 11px; border: 1px solid var(--border); border-radius: 6px; background: white; font-size: 11px; font-weight: 500; color: var(--ts); }
+.ctogglechip2.is-on { background: var(--amber-bg); color: var(--amber-dim); border-color: var(--amber); }
+
+.cradiorow { display: flex; gap: 5px; flex-wrap: wrap; }
+.cradio { padding: 5px 12px; border: 1px solid var(--border); border-radius: 6px; background: white; font-size: 11px; font-weight: 500; color: var(--ts); }
+.cradio.is-on { border-color: var(--tp); color: var(--tp); font-weight: 600; }
+
+.ccheckline { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--ts); }
+.cnote { font-size: 10.5px; color: var(--tm); }
+
+/* --- concert detail page ------------------------------------------------- */
+.ccrumb { font-size: 11px; color: var(--ts); margin-bottom: 5px; }
+.ccrumb-link { color: var(--amber-dim); }
+.ccrumb-sep { margin: 0 6px; color: var(--tm); }
+.cstatusrow { display: flex; gap: 8px; align-items: center; margin-top: 9px; flex-wrap: wrap; }
+.cpill { font-size: 10.5px; font-weight: 600; padding: 3px 10px; border-radius: 11px; background: var(--warm); color: var(--ts); }
+.cpill-ok { background: var(--green-bg); color: var(--green); }
+
+/* Left rail plus the card grid, the concert dashboard's own layout. */
+.cconcert-cols { display: flex; gap: 18px; align-items: flex-start; flex-wrap: wrap; }
+.cconcert-rail { flex: 0 0 210px; min-width: 190px; }
+.cconcert-main { flex: 1 1 420px; min-width: 300px; display: flex; gap: 12px; flex-wrap: wrap; }
+.cconcert-half { flex: 1 1 240px; min-width: 230px; display: flex; flex-direction: column; gap: 12px; }
+.cconcert-full { flex: 1 1 100%; }
+
+.cprot-label { font-size: 9.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--tm); margin-bottom: 4px; }
+.cprot-note { font-size: 11px; color: var(--ts); margin: 0 0 10px; }
+.cprot-row { display: flex; align-items: center; gap: 8px; padding: 6px 4px; border-bottom: 1px dotted var(--border); font-size: 11.5px; color: var(--tp); }
+.cprot-row:last-of-type { border-bottom: none; }
+.cprot-n {
+  flex: 0 0 17px; height: 17px; border-radius: 50%;
+  background: var(--warm); color: var(--ts);
+  font-size: 9.5px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.cprot-n-done { background: var(--green-bg); color: var(--green); }
+.cprot-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cprot-count { font-size: 10px; color: var(--tm); font-variant-numeric: tabular-nums; }
+.cprot-count-done { color: var(--green); }
+.cprot-link { display: block; margin-top: 10px; border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; font-size: 11px; color: var(--ts); background: white; text-align: left; width: 100%; }
+
+/* A dashboard card: label header, body, footer action. */
+.csec { background: white; border: 1px solid var(--border); border-radius: 8px; display: flex; flex-direction: column; }
+.csec-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 12px 14px 0; }
+.csec-label { font-size: 9.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--tm); }
+.csec-meta { font-size: 10.5px; color: var(--ts); }
+.csec-body { padding: 10px 14px 12px; flex: 1; }
+.csec-foot { border-top: 1px solid var(--border); padding: 9px 14px; font-size: 11px; color: var(--ts); display: flex; justify-content: space-between; align-items: center; }
+
+.cperson { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+.cperson:last-child { border-bottom: none; }
+.cavatar {
+  width: 27px; height: 27px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9.5px; font-weight: 700; color: white; flex-shrink: 0;
+  background: var(--amber);
+}
+.cperson-main { flex: 1; min-width: 0; }
+.cperson-name { font-size: 12px; font-weight: 600; }
+.cperson-tags { display: flex; gap: 4px; margin-top: 2px; flex-wrap: wrap; }
+.crsvp {
+  font-size: 9.5px; font-weight: 700; padding: 2px 9px; border-radius: 11px;
+  border: 1px solid var(--border); background: none; color: var(--tm); flex-shrink: 0;
+}
+.crsvp-on { background: var(--green); color: white; border-color: var(--green); }
+
+.cchecklist-item { display: flex; align-items: flex-start; gap: 8px; padding: 6px 0; font-size: 11.5px; border-bottom: 1px solid var(--border); }
+.cchecklist-item:last-child { border-bottom: none; }
+.cbox { flex: 0 0 13px; height: 13px; margin-top: 2px; border: 1px solid var(--border); border-radius: 3px; font-size: 9px; line-height: 11px; text-align: center; color: white; }
+.cbox-done { background: var(--green); border-color: var(--green); }
+.cchecklist-text { flex: 1; }
+.cchecklist-done { text-decoration: line-through; color: var(--tm); }
+.cchecklist-date { font-size: 10px; color: var(--tm); white-space: nowrap; }
+.cchecklist-late { color: var(--red); font-weight: 600; }
+
+.ccal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.ccal-hd { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--tm); text-align: center; padding: 3px 0; }
+.ccal-day { min-height: 54px; border: 1px solid var(--border); border-radius: 6px; padding: 3px; background: white; }
+.ccal-out { background: transparent; border: none; }
+.ccal-today { border-color: var(--amber); box-shadow: inset 0 0 0 1px var(--amber); }
+.ccal-date { font-size: 10px; color: var(--ts); font-weight: 600; }
+.ccal-dot { font-size: 9px; padding: 2px 4px; border-radius: 4px; margin-top: 2px; line-height: 1.25; }
+.ccal-dot-done { background: var(--green-bg); color: var(--green); text-decoration: line-through; }
+.ccal-dot-late { background: #FEE2E2; color: var(--red); }
+.ccal-dot-up { background: var(--amber-bg); color: var(--amber-dim); }
+.ccal-show { background: var(--ch); color: var(--cream); font-weight: 700; }
+
+.ccomm { display: flex; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
+.ccomm:last-child { border-bottom: none; }
+.ccomm-date { width: 44px; flex-shrink: 0; font-size: 10px; color: var(--tm); font-weight: 700; padding-top: 2px; }
+.ccomm-main { flex: 1; min-width: 0; }
+.ccomm-summary { font-size: 11.5px; line-height: 1.5; }
+.ccomm-who { font-size: 10px; color: var(--tm); margin-top: 2px; }
+.ccomm-tag { font-size: 9.5px; font-weight: 700; padding: 2px 8px; border-radius: 11px; background: var(--warm); color: var(--ts); flex-shrink: 0; }
+.ccomm-awaiting { background: var(--amber-bg); color: var(--amber-dim); }
+.ccomm-replied { background: var(--cool-bg); color: var(--cool); }
+.ccomm-confirmed { background: var(--green); color: white; }
+
+.clink { display: flex; align-items: center; gap: 9px; padding: 7px 9px; margin-bottom: 6px; border: 1px solid var(--border); border-radius: 8px; background: white; }
+.clink:last-child { margin-bottom: 0; }
+.clink-icon { width: 25px; height: 25px; border-radius: 6px; background: var(--warm); color: var(--ts); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 800; flex-shrink: 0; }
+.clink-main { flex: 1; min-width: 0; }
+.clink-label { font-size: 11px; font-weight: 700; }
+.clink-url { font-size: 9.5px; color: var(--tm); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.cprogress { height: 5px; border-radius: 3px; background: var(--warm); overflow: hidden; margin-top: 6px; }
+.cprogress-fill { height: 100%; border-radius: 3px; background: var(--amber); }
+
+/* Portal answers, as the CRM shows them back. */
+.cans { padding: 7px 0; border-bottom: 1px dotted var(--border); display: flex; gap: 10px; font-size: 11.5px; }
+.cans:last-child { border-bottom: none; }
+.cans-k { flex: 0 0 40%; color: var(--ts); }
+.cans-v { flex: 1; color: var(--tp); }
+.cans-empty { color: var(--tm); font-style: italic; }
+
+/* --- newsletter editor --------------------------------------------------- */
+.cnl-bar { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+.ccard { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; margin-bottom: 12px; }
+.ccard-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; gap: 8px; }
+.ccard-title { font-family: var(--font-serif); font-size: 14px; font-weight: 600; }
+.cnl-grid { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; }
+.cnl-col { flex: 1 1 320px; min-width: 280px; }
+
+.cnl-fieldlabel { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; gap: 8px; }
+.cnl-softlabel { font-size: 10.5px; font-weight: 600; color: var(--ts); }
+
+.cnl-polish { margin-top: 8px; border: 1px solid var(--amber); background: var(--amber-bg); border-radius: 8px; padding: 8px; }
+.cnl-polish-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.cnl-polish-title { font-size: 10px; font-weight: 700; color: var(--amber-dim); }
+.cnl-polish-ver { background: white; border: 1px solid var(--border); border-radius: 6px; padding: 7px 9px; }
+.cnl-polish-text { font-size: 11.5px; line-height: 1.55; color: var(--tp); margin: 0 0 6px; }
+
+.cnl-chiprow { display: flex; flex-wrap: wrap; gap: 6px; }
+.cnl-chip { padding: 4px 11px; font-size: 11px; font-weight: 600; border-radius: 20px; border: 1.5px solid var(--border); background: transparent; color: var(--ts); }
+.cnl-chip.is-on { border-color: var(--amber); background: var(--amber); color: var(--cream); }
+
+.cnl-previewhead { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.cnl-previewframe { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--warm); padding: 16px; transition: max-width 0.2s; }
+.cnl-previewframe.is-phone { max-width: 300px; margin: 0 auto; }
+.cnl-previewinner { background: white; border-radius: 4px; padding: 22px 20px; }
+
+.pv-masthead { display: flex; justify-content: space-between; align-items: flex-end; padding-bottom: 11px; border-bottom: 2px solid var(--amber); margin-bottom: 14px; gap: 10px; }
+.pv-name { font-family: var(--font-serif); font-size: 19px; font-weight: 700; color: var(--ch); }
+.pv-issue { text-align: right; }
+.pv-issue-name { font-size: 9.5px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ch); }
+.pv-issue-date { font-size: 9.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--tm); }
+.pv-headline { font-family: var(--font-serif); font-size: 18px; font-weight: 600; line-height: 1.3; margin: 0 0 8px; color: var(--tp); }
+.pv-intro { font-size: 12px; line-height: 1.6; color: var(--ts); margin: 0 0 18px; }
+.pv-eyebrow { font-size: 9.5px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--amber-dim); margin-bottom: 6px; }
+.pv-photo { background: var(--amber-bg); border: 1px dashed var(--amber-lt); border-radius: 6px; height: 120px; display: flex; align-items: center; justify-content: center; color: var(--amber-dim); font-size: 11px; margin-top: 4px; }
+
+/* ==========================================================================
+   Virtual Agency chrome. No app screen to rebuild: the real interaction is a
+   Claude Code session and the real artifacts are markdown files, so this is a
+   chat transcript plus document cards.
+   ========================================================================== */
+.aterm {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  max-width: 760px;
+  margin: 0 auto 16px;
+}
+.aterm-head { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: var(--ch); }
+.aterm-dots { display: flex; gap: 5px; }
+.aterm-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.18); }
+.aterm-label { margin-left: 4px; font-size: 11.5px; color: rgba(255, 255, 255, 0.55); }
+.aterm-pill {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--amber-lt);
+  background: rgba(217, 119, 6, 0.16);
+  padding: 2px 9px;
+  border-radius: 5px;
+  white-space: nowrap;
+}
+.aterm-body { padding: 16px 18px; }
+.aterm-code { font-family: var(--font-mono); font-size: 11px; background: var(--warm); padding: 1px 5px; border-radius: 3px; }
+
+.aturn-user {
+  background: var(--ch);
+  color: rgba(255, 255, 255, 0.92);
+  border-radius: 8px;
+  padding: 10px 13px;
+  margin-bottom: 10px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  max-width: 90%;
+}
+.aturn-agent {
+  background: #FCFBF9;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 13px;
+  margin: 0 0 10px auto;
+  font-size: 12.5px;
+  line-height: 1.55;
+  max-width: 90%;
+}
+.aturn-agent:last-child, .aturn-user:last-child { margin-bottom: 0; }
+
+.astepbox { background: var(--ch); border-radius: 10px; padding: 18px 20px; max-width: 760px; margin: 0 auto; }
+.astepbox h5 { font-family: var(--font-serif); font-size: 17px; font-weight: 600; color: var(--cream); margin: 0 0 12px; }
+.astep { display: flex; gap: 10px; font-size: 12.5px; line-height: 1.55; color: rgba(255, 255, 255, 0.82); margin-bottom: 9px; }
+.astep:last-child { margin-bottom: 0; }
+.astep-n { flex: 0 0 16px; color: var(--amber-lt); font-weight: 700; }
+.astep code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: rgba(255, 255, 255, 0.09);
+  color: var(--amber-lt);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.adoc-grid { display: flex; gap: 16px; flex-wrap: wrap; align-items: stretch; }
+.adoc-col { flex: 1 1 340px; min-width: 290px; display: flex; }
+.adoc {
+  position: relative;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+/* The job description is longer than the card, so its body scrolls. Without
+   this the last visible line just stops mid-list and reads as broken rather
+   than as "there is more below". On the shorter card it fades white on white
+   and disappears. */
+.adoc::after {
+  content: '';
+  position: absolute;
+  left: 1px; right: 1px; bottom: 0;
+  height: 34px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff);
+  border-radius: 0 0 8px 8px;
+  pointer-events: none;
+}
+.afolderpill {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  background: var(--amber-bg);
+  color: var(--amber-dim);
+  padding: 3px 9px;
+  border-radius: 5px;
+  margin-bottom: 9px;
+  word-break: break-all;
+}
+.adoc-head { padding: 15px 17px 0; }
+.adoc-title { font-family: var(--font-serif); font-size: 17px; font-weight: 600; margin: 0; line-height: 1.25; }
+.adoc-meta { font-size: 10.5px; color: var(--ts); margin: 6px 0 0; line-height: 1.7; }
+.adoc-body { padding: 12px 17px 17px; overflow-y: auto; flex: 1; max-height: 430px; }
+.adoc-sec { margin-top: 13px; }
+.adoc-sec:first-child { margin-top: 0; }
+.adoc-label { font-size: 9.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--tm); margin-bottom: 6px; }
+.adoc-text { font-size: 12px; line-height: 1.6; color: var(--tp); margin: 0; }
+.adoc-list { margin: 0; padding-left: 15px; font-size: 11.5px; line-height: 1.6; color: var(--tp); }
+.adoc-list li { margin-bottom: 3px; }
+.adoc-tbl { width: 100%; border-collapse: collapse; font-size: 11px; }
+.adoc-tbl td { padding: 4px 0; border-bottom: 1px dotted var(--border); vertical-align: top; }
+.adoc-tbl td:first-child { color: var(--ts); font-weight: 600; width: 38%; white-space: nowrap; }
+.adoc-tbl tr:last-child td { border-bottom: none; }
+
+.adoc-tier { border: 1px solid var(--border); border-radius: 6px; padding: 9px 10px; margin-bottom: 8px; background: #FCFBF9; }
+.adoc-tier:last-child { margin-bottom: 0; }
+.adoc-tier-label { font-size: 9.5px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--amber-dim); margin-bottom: 4px; }
+.adoc-tier-text { font-size: 11.5px; line-height: 1.55; color: var(--tp); }
+
+@media (max-width: 760px) {
+  .cpage { padding: 16px 14px 18px; }
+  .cmodal { max-width: 100%; }
+  .coverlay { padding: 10px; }
+  .aturn-user, .aturn-agent { max-width: 100%; }
+}
 
   </style>
 </head>
@@ -1229,6 +1730,10 @@
          ==================================================================== -->
     <div class="demo-rail-field" id="demoField">
       <span class="demo-rail-tag"><span class="demo-rail-dot"></span> Aesthetic Blueprint · On</span>
+      <span class="demo-rail-hint">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>
+        Click through the process
+      </span>
       <svg class="demo-rail-svg" id="demoRailSvg" aria-hidden="true"></svg>
       <div class="demo-rail" id="demoRail">
         <div class="demo-rail-group" data-slide="1" role="button" tabindex="0" aria-label="Go to the Intake slide">
@@ -1770,62 +2275,781 @@
               </div>
             </div>
             <h4 class="sec-h2 text-center mb-6" style="color:#e8eff3;">Manage your network and career</h4>
-            <div data-hub-carousel class="mb-4">
-              <div class="hub-car-frame">
-                <div class="hub-car-viewport">
-                  <div class="hub-car-track">
+            <!-- CRM demo carousel, transplanted from demo/crm-demo.html on
+                 2026-09-10, replacing the annotated screenshots. Every screen
+                 is rebuilt in HTML at reading size; all data is placeholder,
+                 never the real CRM. Slide captions live on each section's
+                 data attributes and each slide names its nav group with
+                 data-nav, so a nav entry can cover a run of slides (Concerts
+                 is four) and a slide can be inserted mid-run without
+                 renumbering anything. -->
+            <div class="crm-demo mb-10" data-demo-panel tabindex="-1">
 
-                    <!-- Contacts -->
-                    <div class="hub-car-slide">
-                      <div class="annot">
-                        <figure class="hub-shot"><img src="images/Hub_CRM_Contacts.png" alt="CRM contacts table with role tabs, relationship status, next actions and a relationship health bar per person." /></figure>
-                        <span class="pin" style="left:38.5%; top:56%;"><span class="n">1</span>Two roles</span>
-                        <span class="pin" style="left:50%;   top:22.2%;"><span class="n">2</span>Next action</span>
-                        <span class="pin" style="left:62%;   top:22.2%;"><span class="n">3</span>Relationship health</span>
-                      </div>
-                    </div>
+              <div class="demo-nav-wrap">
+                <button class="demo-nav-item is-active" data-nav="contacts" data-slide="0">Contacts</button>
+                <button class="demo-nav-item" data-nav="outreach" data-slide="1">Outreach</button>
+                <button class="demo-nav-item" data-nav="concerts" data-slide="2">Concerts</button>
+                <button class="demo-nav-item" data-nav="newsletter" data-slide="6">Newsletter</button>
+              </div>
 
-                    <!-- One concert, its own page -->
-                    <div class="hub-car-slide">
-                      <div class="annot">
-                        <figure class="hub-shot"><img src="images/Hub_CRM_Concert_Detail.png" alt="The Groove Theory II concert page: date, set time and venue, an awaiting-reply chip, tabs for plan, people, comms, media, accounting and details, and a dated checklist laid over an October 2026 calendar showing two of seven items done." /></figure>
-                        <span class="pin" style="left:26.5%; top:14.5%;"><span class="n">1</span>Awaiting a reply</span>
-                        <span class="pin" style="left:47.5%; top:18.7%;"><span class="n">2</span>People, comms and a P&amp;L</span>
-                        <span class="pin" style="left:25%;   top:23.6%;"><span class="n">3</span>Checklist, 2 of 7 done</span>
-                        <!-- Below the grid beside the hint line, rather than on the cells,
-                             where it would cover the day numbers. -->
-                        <span class="pin" style="left:43.5%; top:66.2%;"><span class="n">4</span>Drag an item to move it</span>
-                      </div>
-                    </div>
-
-                    <!-- Newsletter editor -->
-                    <div class="hub-car-slide">
-                      <div class="annot">
-                        <figure class="hub-shot"><img src="images/Hub_CRM_Newsletter_Editor.png" alt="The newsletter editor: subject, status and month on the left, a structured section list with polish buttons, and a live phone preview of the rendered email on the right, above a send panel with a test send and a send-to-list control." /></figure>
-                        <!-- Each label stops short of the control it names: the toolbar,
-                             the send blurb, the Phone toggle and the Polish button. -->
-                        <span class="pin" style="left:29%;   top:9%;"><span class="n">1</span>Template + sections</span>
-                        <span class="pin" style="left:60.5%; top:42.3%;"><span class="n">2</span>Real send path</span>
-                        <span class="pin" style="left:22%;   top:63.8%;"><span class="n">3</span>38 structured sections</span>
-                        <span class="pin" style="left:59%;   top:67.2%;"><span class="n">4</span>Live preview</span>
-                        <span class="pin" style="left:36.5%; top:85%;"><span class="n">5</span>Polish a section</span>
-                      </div>
-                    </div>
-
+              <div class="demo-stage">
+                <div class="demo-caption">
+                  <h4 class="demo-slide-title" data-demo-contrib></h4>
+                  <div class="demo-cap-col">
+                    <div class="demo-cap-label" data-demo-state-label></div>
+                    <div class="demo-cap-state" data-demo-state></div>
                   </div>
                 </div>
-                <div class="hub-car-arrows">
-                  <button class="hub-car-arrow hub-car-prev" aria-label="Previous screen">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-                  </button>
-                  <button class="hub-car-arrow hub-car-next" aria-label="Next screen">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                  </button>
+
+                <div class="demo-canvas">
+                  <button class="demo-side-arrow demo-side-prev" data-demo-prev aria-label="Previous slide">&#8249;</button>
+                  <button class="demo-side-arrow demo-side-next" data-demo-next aria-label="Next slide">&#8250;</button>
+
+                  <!-- ===== SLIDE 1 · CONTACTS + EDIT CONTACT ===== -->
+                  <section class="demo-car-slide is-on" data-nav="contacts"
+                           data-title="Contacts: editing a person's profile"
+                           data-contrib="Every person your music touches lives in one place, tagged by how they show up."
+                           data-state-label="State of the relationship"
+                           data-state="Jordan Ma &middot; clarinetist and composer in Tide Quartet &middot; warm, and confirmed for Groove Theory II.">
+                    <div class="cframe">
+                      <div class="cpage">
+                        <div class="chead">
+                          <div>
+                            <h1 class="ctitle">Contacts</h1>
+                            <p class="csub">12 total &middot; 1 overdue</p>
+                          </div>
+                          <div class="cactions">
+                            <button class="cbtn cbtn-ghost">&#11015; Export backup</button>
+                            <button class="cbtn cbtn-ghost">Import contacts</button>
+                            <button class="cbtn cbtn-primary">+ New contact</button>
+                          </div>
+                        </div>
+                        <div class="ctabs">
+                          <button class="ctab ctab-on">All <span class="ctab-count">12</span></button>
+                          <button class="ctab">Attendees <span class="ctab-count">2</span></button>
+                          <button class="ctab">Players <span class="ctab-count">5</span></button>
+                          <button class="ctab">Composers <span class="ctab-count">8</span></button>
+                        </div>
+                        <div class="cfilterbar">
+                          <input class="csearch" placeholder="Search name, email, instrument, tag" disabled>
+                          <select class="cselect" disabled><option>All statuses</option></select>
+                          <select class="cselect" disabled><option>Name A-Z</option></select>
+                          <button class="ctogglechip">Needs a name</button>
+                        </div>
+                        <div class="ctbl-scroll">
+                        <table class="ctbl">
+                          <thead><tr><th>Name</th><th>Roles</th><th>Affiliation</th><th>Status</th><th>Next action</th><th>Health</th></tr></thead>
+                          <tbody>
+                            <tr>
+                              <td><div class="crow-name">Priya Anand</div><div class="crow-sub">priya.anand@gmail.com</div></td>
+                              <td><div class="ctagwrap"><span class="croletag">Composer</span></div></td>
+                              <td><div class="ctagwrap"><span class="croletag">Tide Quartet</span></div></td>
+                              <td><span class="cstatus cstatus-warm">Warm</span></td>
+                              <td>Send score draft<div class="crow-sub">Oct 3</div></td>
+                              <td><div class="chealth"><div class="chealth-bar"><div class="chealth-fill" style="width:82%"></div></div><span class="chealth-num">82</span></div></td>
+                            </tr>
+                            <tr style="background: var(--amber-bg);">
+                              <td><div class="crow-name">Jordan Ma</div><div class="crow-sub">jordanma.music@gmail.com</div></td>
+                              <td><div class="ctagwrap"><span class="croletag">Player</span><span class="croletag">Composer</span></div></td>
+                              <td><div class="ctagwrap"><span class="croletag">Tide Quartet</span></div></td>
+                              <td><span class="cstatus cstatus-warm">Warm</span></td>
+                              <td><span class="cdash">&minus;</span></td>
+                              <td><div class="chealth"><div class="chealth-bar"><div class="chealth-fill" style="width:76%"></div></div><span class="chealth-num">76</span></div></td>
+                            </tr>
+                            <tr>
+                              <td><div class="crow-name">Marcus Webb</div></td>
+                              <td><div class="ctagwrap"><span class="croletag">Player</span><span class="croletag">Composer</span></div></td>
+                              <td><span class="cdash">&minus;</span></td>
+                              <td><span class="cstatus cstatus-cool">Cool</span></td>
+                              <td><span class="cdash">&minus;</span></td>
+                              <td><div class="chealth"><div class="chealth-bar"><div class="chealth-fill" style="width:54%"></div></div><span class="chealth-num">54</span></div></td>
+                            </tr>
+                            <tr>
+                              <td><div class="crow-name">Naomi Cole</div></td>
+                              <td><div class="ctagwrap"><span class="croletag">Attendee</span><span class="croletag">Composer</span></div></td>
+                              <td><span class="cdash">&minus;</span></td>
+                              <td><span class="cstatus cstatus-warm">Warm</span></td>
+                              <td><span class="cdash">&minus;</span></td>
+                              <td><div class="chealth"><div class="chealth-bar"><div class="chealth-fill" style="width:68%"></div></div><span class="chealth-num">68</span></div></td>
+                            </tr>
+                            <tr>
+                              <td><div class="crow-name">Desmond Okafor</div></td>
+                              <td><div class="ctagwrap"><span class="croletag">Conductor</span></div></td>
+                              <td><div class="ctagwrap"><span class="croletag">Bell Ridge Sinfonietta</span></div></td>
+                              <td><span class="cstatus cstatus-active">Active</span></td>
+                              <td>Outreach: send 7-day follow-up email<div class="crow-sub">Oct 5</div></td>
+                              <td><div class="chealth"><div class="chealth-bar"><div class="chealth-fill" style="width:91%"></div></div><span class="chealth-num">91</span></div></td>
+                            </tr>
+                            <tr>
+                              <td><div class="crow-name">Sofia Lindqvist</div></td>
+                              <td><div class="ctagwrap"><span class="croletag">Composer</span></div></td>
+                              <td><span class="cdash">&minus;</span></td>
+                              <td><span class="cstatus cstatus-cold">Cold</span></td>
+                              <td><span class="cdash">&minus;</span></td>
+                              <td><div class="chealth"><div class="chealth-bar"><div class="chealth-fill" style="width:38%"></div></div><span class="chealth-num">38</span></div></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        </div>
+                      </div>
+
+                      <div class="coverlay">
+                        <div class="cmodal cmodal-wide">
+                          <div class="cmhead"><span class="cmtitle">Edit contact</span><button class="cmclose">&#x00D7;</button></div>
+                          <div class="cmbody">
+                            <div class="ctabs">
+                              <button class="ctab ctab-on">Overview</button>
+                              <button class="ctab">Concerts</button>
+                              <button class="ctab">Touchpoint log</button>
+                              <button class="ctab">Follow-ups</button>
+                              <button class="ctab">Notes</button>
+                            </div>
+                            <div class="cfrow">
+                              <div class="cfield"><label class="clabel">First name</label><input class="cinput" value="Jordan"></div>
+                              <div class="cfield"><label class="clabel">Last name</label><input class="cinput" value="Ma"></div>
+                            </div>
+                            <div class="cfrow">
+                              <div class="cfield"><label class="clabel">Email</label><input class="cinput" value="jordanma.music@gmail.com"></div>
+                              <div class="cfield"><label class="clabel">Phone</label><input class="cinput" value="+1 415 555 0148"></div>
+                            </div>
+                            <div class="cfrow">
+                              <div class="cfield"><label class="clabel">Website</label><input class="cinput"></div>
+                              <div class="cfield"><label class="clabel">Instagram</label><input class="cinput" value="@jordanmamusic"></div>
+                            </div>
+                            <div class="cfield">
+                              <label class="clabel">Roles</label>
+                              <div class="ctogglerow">
+                                <span class="ctogglechip2">Attendee</span>
+                                <span class="ctogglechip2 is-on">Player</span>
+                                <span class="ctogglechip2 is-on">Composer</span>
+                                <span class="ctogglechip2">Conductor</span>
+                              </div>
+                            </div>
+                            <div class="cfield">
+                              <label class="clabel">Instruments</label>
+                              <div class="cchipwrap"><span class="cchip">clarinet <span class="cchipx">&#x00D7;</span></span></div>
+                            </div>
+                            <div class="cfield">
+                              <label class="clabel">Relationship</label>
+                              <div class="cradiorow">
+                                <span class="cradio">Cold</span><span class="cradio">Cool</span><span class="cradio is-on">Warm</span><span class="cradio">Active</span>
+                              </div>
+                            </div>
+                            <div class="cfield">
+                              <label class="ccheckline"><input type="checkbox"> Prospect (not yet a contact &middot; lives on the Prospects screen)</label>
+                            </div>
+                            <div class="cfield">
+                              <label class="clabel">Ensembles</label>
+                              <div class="cchipwrap"><span class="cchip">Tide Quartet <span class="cchipx">&#x00D7;</span></span></div>
+                            </div>
+                            <div class="cfield">
+                              <label class="clabel">Concerts <span class="cnote">saved immediately</span></label>
+                              <div class="cchipwrap" style="margin-bottom: 6px;"><span class="cchip">Groove Theory II <span class="cchipx">&#x00D7;</span></span></div>
+                              <input class="cinput" placeholder="Search concerts to add">
+                            </div>
+                          </div>
+                          <div class="cmfoot">
+                            <button class="cbtn cbtn-ghost cbtn-sm">Cancel</button>
+                            <button class="cbtn cbtn-primary cbtn-sm">Save contact</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+
+                  <!-- ===== SLIDE 2 · OUTREACH + DRAFT MODAL ===== -->
+                  <section class="demo-car-slide" data-nav="outreach"
+                           data-title="Outreach: the reconnect draft"
+                           data-contrib="When a contact goes quiet, the CRM writes the first draft. You only fill in the specifics."
+                           data-state-label="State of the relationship"
+                           data-state="Sofia Lindqvist &middot; quiet since August &middot; Email 1 of the reconnect sequence, ready to send.">
+                    <div class="cframe">
+                      <div class="cpage">
+                        <div class="chead">
+                          <div>
+                            <h1 class="ctitle">Outreach</h1>
+                            <p class="csub">3 to reach out to</p>
+                          </div>
+                        </div>
+                        <div class="clist">
+                          <div class="clist-row">
+                            <div class="clist-main">
+                              <div class="clist-name">Theo Lindgren</div>
+                              <div class="clist-meta"><span>New prospect</span></div>
+                            </div>
+                            <span class="ctag ctag-overdue">No email on file</span>
+                          </div>
+                          <div class="clist-row is-open">
+                            <div class="clist-main">
+                              <div class="clist-name">Sofia Lindqvist</div>
+                              <div class="clist-meta"><span>Gone quiet</span><span>Last touch Aug 14</span></div>
+                            </div>
+                            <span class="ctag">Email 1 &middot; Reconnect</span>
+                          </div>
+                          <div class="clist-row">
+                            <div class="clist-main">
+                              <div class="clist-name">Desmond Okafor</div>
+                              <div class="clist-meta"><span>Follow-up due</span><span>Last touch Aug 2</span></div>
+                            </div>
+                            <span class="ctag">Email 2 &middot; 7-day follow-up</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="coverlay">
+                        <div class="cmodal cmodal-wide">
+                          <div class="cmhead"><span class="cmtitle">Email 1 &middot; Reconnect &middot; Sofia Lindqvist</span><button class="cmclose">&#x00D7;</button></div>
+                          <div class="cmbody">
+                            <div class="cfield">
+                              <label class="clabel">To</label>
+                              <input class="cinput" value="sofia.lindqvist@gmail.com">
+                            </div>
+                            <div class="cfield">
+                              <label class="clabel">Subject</label>
+                              <p style="font-size: 12px; color: var(--ts); margin: 0;">Wanted to reconnect, and ask you a quick question!</p>
+                            </div>
+                            <div class="cfield">
+                              <label class="clabel">Body &middot; fill in the bracketed parts before sending</label>
+                              <textarea class="ctextarea" rows="11">Hey Sofia,
+
+I've been meaning to reach out. I've been thinking a lot lately about making more music with the people I already know and admire. You came to mind.
+
+I'm sketching out a few small solo projects, something that blends [a few stylistic terms to describe your aesthetic]. Pieces that [describe the types of compositional problems you want to solve, or moods you want to create] is the direction I'm going in right now!
+
+Would you be up for hopping on a quick Zoom call sometime soon? I'd love to hear what you're working on, and see if anything I'm doing might spark an idea. Either for you, or maybe someone in your circle.
+
+Let me know!
+Max</textarea>
+                            </div>
+                          </div>
+                          <div class="cmfoot">
+                            <button class="cbtn cbtn-ghost cbtn-sm">Not now (30 days)</button>
+                            <button class="cbtn cbtn-ghost cbtn-sm">Copy to clipboard</button>
+                            <button class="cbtn cbtn-primary cbtn-sm">Mark sent</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+
+                  <!-- ==================================================================
+                       SLIDES 3 to 6 · CONCERTS.
+
+                       One concert page, four popups. The background is the same dashboard
+                       on every one of these slides, deliberately: it teaches the page
+                       once, then each slide opens the section that does the work. The
+                       background is repeated per slide rather than shared, because the
+                       carousel shows and hides whole <section> elements.
+                       ================================================================== -->
+
+                  <!-- ============ SLIDE 3 · THE BOOKING PORTAL ======================= -->
+                  <section class="demo-car-slide" data-nav="concerts"
+                           data-contrib="One link collects everything a booking needs. The answers land straight in the protocol."
+                           data-state-label="State of the booking"
+                           data-state="Groove Theory II &middot; 8 of 10 essentials answered &middot; the venue filled the rest in on Sep 2."
+                           data-title="Concerts: the booking portal">
+                    <div class="cframe cframe-full">
+                      <div class="cpage">
+                        <div class="ccrumb"><span class="ccrumb-link">Concerts</span><span class="ccrumb-sep">&rsaquo;</span>Groove Theory II</div>
+                        <div class="chead">
+                          <div>
+                            <h1 class="ctitle">Groove Theory II</h1>
+                            <p class="csub">Oct 18, 2026 &middot; 7:30 PM&ndash;10:00 PM &middot; Scholes Street Studios</p>
+                            <div class="cstatusrow">
+                              <span class="cpill cpill-ok">Confirmed</span>
+                              <span class="cpill">38 days out</span>
+                              <span class="cpill">2 essentials missing</span>
+                            </div>
+                          </div>
+                          <div class="cactions">
+                            <button class="cbtn cbtn-ghost">Edit concert</button>
+                            <button class="cbtn" style="background: var(--red); border-color: var(--red); color: white;">Delete</button>
+                          </div>
+                        </div>
+
+                        <div class="cconcert-cols">
+                          <div class="cconcert-rail">
+                            <div class="cprot-label">Booking protocol</div>
+                            <p class="cprot-note">8 of 10 essentials answered.</p>
+                            <div class="cprot-row"><span class="cprot-n cprot-n-done">1</span><span class="cprot-name">Who you are</span><span class="cprot-count cprot-count-done">9/9</span></div>
+                            <div class="cprot-row"><span class="cprot-n cprot-n-done">2</span><span class="cprot-name">The concert</span><span class="cprot-count cprot-count-done">14/14</span></div>
+                            <div class="cprot-row"><span class="cprot-n">3</span><span class="cprot-name">Program and run of show</span><span class="cprot-count">5/7</span></div>
+                            <div class="cprot-row"><span class="cprot-n">4</span><span class="cprot-name">Space and setup</span><span class="cprot-count">8/10</span></div>
+                            <div class="cprot-row"><span class="cprot-n">5</span><span class="cprot-name">Sound, lights, and recordi&hellip;</span><span class="cprot-count">3/11</span></div>
+                            <div class="cprot-row"><span class="cprot-n cprot-n-done">6</span><span class="cprot-name">Tickets and money</span><span class="cprot-count cprot-count-done">6/6</span></div>
+                            <div class="cprot-row"><span class="cprot-n">7</span><span class="cprot-name">Reception and hospitality</span><span class="cprot-count">2/6</span></div>
+                            <div class="cprot-row"><span class="cprot-n">8</span><span class="cprot-name">Promotion</span><span class="cprot-count">4/7</span></div>
+                            <div class="cprot-row"><span class="cprot-n">9</span><span class="cprot-name">Logistics and paperwork</span><span class="cprot-count">0/8</span></div>
+                            <button class="cprot-link">Portal link &amp; answers &rarr;</button>
+                          </div>
+
+                          <div class="cconcert-main">
+                            <div class="cconcert-half">
+                              <div class="csec">
+                                <div class="csec-head"><span class="csec-label">Checklist</span><span class="csec-meta">4 of 11 done</span></div>
+                                <div class="csec-body">
+                                  <div class="cchecklist-item"><span class="cbox cbox-done">&#10003;</span><span class="cchecklist-text cchecklist-done">Confirm the room hold</span></div>
+                                  <div class="cchecklist-item"><span class="cbox"></span><span class="cchecklist-text">Send the program to the venue</span><span class="cchecklist-date">Oct 4</span></div>
+                                </div>
+                              </div>
+                              <div class="csec">
+                                <div class="csec-head"><span class="csec-label">Links</span></div>
+                                <div class="csec-body">
+                                  <div class="clink"><span class="clink-icon">RS</span><div class="clink-main"><div class="clink-label">RSVP page</div><div class="clink-url">partiful.com/e/groove-theory-ii</div></div></div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="cconcert-half">
+                              <div class="csec">
+                                <div class="csec-head"><span class="csec-label">People</span><span class="csec-meta">7 &middot; 5 confirmed</span></div>
+                                <div class="csec-body">
+                                  <div class="cperson"><span class="cavatar">PA</span><div class="cperson-main"><div class="cperson-name">Priya Anand</div></div><span class="crsvp crsvp-on">&#10003;</span></div>
+                                  <div class="cperson"><span class="cavatar">JM</span><div class="cperson-main"><div class="cperson-name">Jordan Ma</div></div><span class="crsvp crsvp-on">&#10003;</span></div>
+                                </div>
+                              </div>
+                              <div class="csec">
+                                <div class="csec-head"><span class="csec-label">Communications</span><span class="csec-meta">6 logged</span></div>
+                                <div class="csec-body">
+                                  <div class="ccomm"><span class="ccomm-date">Sep 2</span><div class="ccomm-main"><div class="ccomm-summary">Sent the portal link to the venue</div></div><span class="ccomm-tag ccomm-replied">Replied</span></div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="coverlay">
+                        <div class="cmodal cmodal-wide">
+                          <div class="cmhead"><span class="cmtitle">Booking portal</span><button class="cmclose">&#x00D7;</button></div>
+                          <div class="cmbody">
+                            <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+                              <span class="csec-label">Booking portal</span>
+                              <span class="cpill cpill-ok">Answered</span>
+                            </div>
+                            <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-top: 10px;">
+                              <span style="font-family: var(--font-serif); font-size: 17px; font-weight: 600;">8 of 10 essentials</span>
+                              <span class="cnote">51/78 fields &middot; 65%</span>
+                            </div>
+                            <div class="cprogress"><div class="cprogress-fill" style="width: 65%"></div></div>
+                            <p class="cnote" style="margin: 8px 0 0;"><strong style="color: var(--ts);">Still needed:</strong> Recording plan &middot; Load-out time</p>
+
+                            <div style="border: 1px solid var(--border); border-radius: 8px; padding: 11px 12px; margin-top: 14px;">
+                              <div class="csec-label" style="margin-bottom: 6px;">Private link</div>
+                              <p style="font-family: var(--font-mono); font-size: 10.5px; color: var(--tm); margin: 0 0 9px; word-break: break-all;">http://localhost:5173/#portal/kJ7pQ2xN4vTb8mLdRf3wYs</p>
+                              <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                                <button class="cbtn cbtn-sm" style="background: var(--ch); border-color: var(--ch); color: var(--cream);">Copy link</button>
+                                <span style="font-size: 11.5px; color: var(--amber-dim); font-weight: 500;">Open &#8599;</span>
+                                <span style="font-size: 11.5px; color: var(--ts);">New link</span>
+                                <span style="font-size: 11.5px; color: var(--ts);">Remove</span>
+                              </div>
+                              <p class="cnote" style="margin: 9px 0 0; line-height: 1.5;">Anyone with this link can read and edit the whole form, so treat it as the password. It only opens in this browser for now: Compass keeps its data on this machine, so the link will not resolve on someone else's device until there is a backend behind it.</p>
+                            </div>
+
+                            <div style="text-align: right; margin: 12px 0 4px;"><span style="font-size: 11.5px; color: var(--ts);">Copy all answers</span></div>
+
+                            <div class="csec-label" style="margin-top: 6px;">The concert</div>
+                            <div style="margin-top: 4px;">
+                              <div class="cans"><span class="cans-k">Concert name</span><span class="cans-v">Groove Theory II</span></div>
+                              <div class="cans"><span class="cans-k">Type of concert</span><span class="cans-v">Chamber concert</span></div>
+                              <div class="cans"><span class="cans-k">Preferred date</span><span class="cans-v">2026-10-18</span></div>
+                              <div class="cans"><span class="cans-k">Concert start</span><span class="cans-v">19:30</span></div>
+                              <div class="cans"><span class="cans-k">Concert end</span><span class="cans-v">22:00</span></div>
+                              <div class="cans"><span class="cans-k">Expected attendance</span><span class="cans-v">60</span></div>
+                              <div class="cans"><span class="cans-k">Public or private?</span><span class="cans-v">Open to the public</span></div>
+                              <div class="cans"><span class="cans-k">Venue</span><span class="cans-v">Scholes Street Studios</span></div>
+                              <div class="cans"><span class="cans-k">One-line description</span><span class="cans-v">Second concert in the Groove Theory series, four premieres over one repeating bass.</span></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+
+                  <!-- ============ SLIDE 4 · CHECKLIST ON THE CALENDAR ================ -->
+                  <section class="demo-car-slide" data-nav="concerts"
+                           data-contrib="Every task carries a date, so the checklist is also a calendar you can drag things around on."
+                           data-state-label="State of the booking"
+                           data-state="11 items &middot; 4 done &middot; one overdue, and the show sitting on Oct 18."
+                           data-title="Concerts: the checklist and calendar">
+                    <div class="cframe cframe-full">
+                      <div class="cpage">
+                        <div class="ccrumb"><span class="ccrumb-link">Concerts</span><span class="ccrumb-sep">&rsaquo;</span>Groove Theory II</div>
+                        <div class="chead">
+                          <div>
+                            <h1 class="ctitle">Groove Theory II</h1>
+                            <p class="csub">Oct 18, 2026 &middot; 7:30 PM&ndash;10:00 PM &middot; Scholes Street Studios</p>
+                            <div class="cstatusrow">
+                              <span class="cpill cpill-ok">Confirmed</span>
+                              <span class="cpill">38 days out</span>
+                            </div>
+                          </div>
+                          <div class="cactions">
+                            <button class="cbtn cbtn-ghost">Edit concert</button>
+                          </div>
+                        </div>
+                        <div class="cconcert-cols">
+                          <div class="cconcert-rail">
+                            <div class="cprot-label">Booking protocol</div>
+                            <p class="cprot-note">8 of 10 essentials answered.</p>
+                            <div class="cprot-row"><span class="cprot-n cprot-n-done">1</span><span class="cprot-name">Who you are</span><span class="cprot-count cprot-count-done">9/9</span></div>
+                            <div class="cprot-row"><span class="cprot-n cprot-n-done">2</span><span class="cprot-name">The concert</span><span class="cprot-count cprot-count-done">14/14</span></div>
+                            <div class="cprot-row"><span class="cprot-n">3</span><span class="cprot-name">Program and run of show</span><span class="cprot-count">5/7</span></div>
+                            <div class="cprot-row"><span class="cprot-n">4</span><span class="cprot-name">Space and setup</span><span class="cprot-count">8/10</span></div>
+                            <div class="cprot-row"><span class="cprot-n">5</span><span class="cprot-name">Sound, lights, and recordi&hellip;</span><span class="cprot-count">3/11</span></div>
+                            <button class="cprot-link">Portal link &amp; answers &rarr;</button>
+                          </div>
+                          <div class="cconcert-main">
+                            <div class="cconcert-half">
+                              <div class="csec"><div class="csec-head"><span class="csec-label">Links</span></div><div class="csec-body"><div class="clink"><span class="clink-icon">RS</span><div class="clink-main"><div class="clink-label">RSVP page</div><div class="clink-url">partiful.com/e/groove-theory-ii</div></div></div></div></div>
+                            </div>
+                            <div class="cconcert-half">
+                              <div class="csec"><div class="csec-head"><span class="csec-label">People</span><span class="csec-meta">7 &middot; 5 confirmed</span></div><div class="csec-body"><div class="cperson"><span class="cavatar">PA</span><div class="cperson-main"><div class="cperson-name">Priya Anand</div></div><span class="crsvp crsvp-on">&#10003;</span></div></div></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="coverlay">
+                        <div class="cmodal cmodal-wide">
+                          <div class="cmhead"><span class="cmtitle">Checklist &middot; October 2026</span><button class="cmclose">&#x00D7;</button></div>
+                          <div class="cmbody">
+                            <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px;">
+                              <span class="cnote">4 of 11 done &middot; 1 overdue</span>
+                              <span class="cnote">Drag an item to move its date</span>
+                            </div>
+                            <div class="ccal">
+                              <div class="ccal-hd">S</div><div class="ccal-hd">M</div><div class="ccal-hd">T</div><div class="ccal-hd">W</div><div class="ccal-hd">T</div><div class="ccal-hd">F</div><div class="ccal-hd">S</div>
+
+                              <div class="ccal-day ccal-out"></div>
+                              <div class="ccal-day ccal-out"></div>
+                              <div class="ccal-day ccal-out"></div>
+                              <div class="ccal-day ccal-out"></div>
+                              <div class="ccal-day"><div class="ccal-date">1</div></div>
+                              <div class="ccal-day"><div class="ccal-date">2</div><div class="ccal-dot ccal-dot-done">Room hold</div></div>
+                              <div class="ccal-day"><div class="ccal-date">3</div></div>
+
+                              <div class="ccal-day"><div class="ccal-date">4</div><div class="ccal-dot ccal-dot-late">Program to venue</div></div>
+                              <div class="ccal-day"><div class="ccal-date">5</div></div>
+                              <div class="ccal-day"><div class="ccal-date">6</div><div class="ccal-dot ccal-dot-done">Confirm players</div></div>
+                              <div class="ccal-day"><div class="ccal-date">7</div></div>
+                              <div class="ccal-day"><div class="ccal-date">8</div></div>
+                              <div class="ccal-day ccal-today"><div class="ccal-date">9</div><div class="ccal-dot ccal-dot-up">Order programs</div></div>
+                              <div class="ccal-day"><div class="ccal-date">10</div></div>
+
+                              <div class="ccal-day"><div class="ccal-date">11</div></div>
+                              <div class="ccal-day"><div class="ccal-date">12</div><div class="ccal-dot ccal-dot-up">Newsletter</div></div>
+                              <div class="ccal-day"><div class="ccal-date">13</div></div>
+                              <div class="ccal-day"><div class="ccal-date">14</div><div class="ccal-dot ccal-dot-up">Stage plot</div></div>
+                              <div class="ccal-day"><div class="ccal-date">15</div></div>
+                              <div class="ccal-day"><div class="ccal-date">16</div><div class="ccal-dot ccal-dot-up">Sound check</div></div>
+                              <div class="ccal-day"><div class="ccal-date">17</div></div>
+
+                              <div class="ccal-day"><div class="ccal-date">18</div><div class="ccal-dot ccal-show">Groove Theory II</div></div>
+                              <div class="ccal-day"><div class="ccal-date">19</div><div class="ccal-dot ccal-dot-up">Thank-yous</div></div>
+                              <div class="ccal-day"><div class="ccal-date">20</div></div>
+                              <div class="ccal-day"><div class="ccal-date">21</div></div>
+                              <div class="ccal-day"><div class="ccal-date">22</div><div class="ccal-dot ccal-dot-up">Settle up</div></div>
+                              <div class="ccal-day"><div class="ccal-date">23</div></div>
+                              <div class="ccal-day"><div class="ccal-date">24</div></div>
+                            </div>
+
+                            <div style="margin-top: 14px;">
+                              <div class="csec-label" style="margin-bottom: 4px;">Overdue</div>
+                              <div class="cchecklist-item"><span class="cbox"></span><span class="cchecklist-text">Send the program to the venue</span><span class="cchecklist-date cchecklist-late">Oct 4</span></div>
+                              <div class="csec-label" style="margin: 12px 0 4px;">Next up</div>
+                              <div class="cchecklist-item"><span class="cbox"></span><span class="cchecklist-text">Order printed programs</span><span class="cchecklist-date">Oct 9</span></div>
+                              <div class="cchecklist-item"><span class="cbox"></span><span class="cchecklist-text">October newsletter announcing the premiere</span><span class="cchecklist-date">Oct 12</span></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+
+                  <!-- ============ SLIDE 5 · PEOPLE AND RSVP ========================== -->
+                  <section class="demo-car-slide" data-nav="concerts"
+                           data-contrib="The lineup is the same records as your contacts, so an RSVP here updates the person there."
+                           data-state-label="State of the booking"
+                           data-state="7 on the bill &middot; 5 confirmed &middot; two still to answer."
+                           data-title="Concerts: the lineup and RSVPs">
+                    <div class="cframe cframe-full">
+                      <div class="cpage">
+                        <div class="ccrumb"><span class="ccrumb-link">Concerts</span><span class="ccrumb-sep">&rsaquo;</span>Groove Theory II</div>
+                        <div class="chead">
+                          <div>
+                            <h1 class="ctitle">Groove Theory II</h1>
+                            <p class="csub">Oct 18, 2026 &middot; 7:30 PM&ndash;10:00 PM &middot; Scholes Street Studios</p>
+                            <div class="cstatusrow">
+                              <span class="cpill cpill-ok">Confirmed</span>
+                              <span class="cpill">38 days out</span>
+                            </div>
+                          </div>
+                          <div class="cactions"><button class="cbtn cbtn-ghost">Edit concert</button></div>
+                        </div>
+                        <div class="cconcert-cols">
+                          <div class="cconcert-rail">
+                            <div class="cprot-label">Booking protocol</div>
+                            <p class="cprot-note">8 of 10 essentials answered.</p>
+                            <div class="cprot-row"><span class="cprot-n cprot-n-done">1</span><span class="cprot-name">Who you are</span><span class="cprot-count cprot-count-done">9/9</span></div>
+                            <div class="cprot-row"><span class="cprot-n cprot-n-done">2</span><span class="cprot-name">The concert</span><span class="cprot-count cprot-count-done">14/14</span></div>
+                            <div class="cprot-row"><span class="cprot-n">3</span><span class="cprot-name">Program and run of show</span><span class="cprot-count">5/7</span></div>
+                            <button class="cprot-link">Portal link &amp; answers &rarr;</button>
+                          </div>
+                          <div class="cconcert-main">
+                            <div class="cconcert-half">
+                              <div class="csec"><div class="csec-head"><span class="csec-label">Checklist</span><span class="csec-meta">4 of 11 done</span></div><div class="csec-body"><div class="cchecklist-item"><span class="cbox cbox-done">&#10003;</span><span class="cchecklist-text cchecklist-done">Confirm the room hold</span></div></div></div>
+                            </div>
+                            <div class="cconcert-half">
+                              <div class="csec"><div class="csec-head"><span class="csec-label">Media</span></div><div class="csec-body"><p class="cnote" style="margin:0;">1 flyer, 2 rehearsal photos</p></div></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="coverlay">
+                        <div class="cmodal">
+                          <div class="cmhead"><span class="cmtitle">People &middot; Groove Theory II</span><button class="cmclose">&#x00D7;</button></div>
+                          <div class="cmbody">
+                            <p class="cnote" style="margin: 0 0 10px;">7 on the bill &middot; 5 confirmed. Tapping RSVP writes back to the contact record.</p>
+                            <div class="cperson"><span class="cavatar">PA</span><div class="cperson-main"><div class="cperson-name">Priya Anand</div><div class="cperson-tags"><span class="croletag">Composer</span></div></div><button class="crsvp crsvp-on">&#10003; Confirmed</button></div>
+                            <div class="cperson"><span class="cavatar">JM</span><div class="cperson-main"><div class="cperson-name">Jordan Ma</div><div class="cperson-tags"><span class="croletag">Player</span><span class="croletag">Composer</span></div></div><button class="crsvp crsvp-on">&#10003; Confirmed</button></div>
+                            <div class="cperson"><span class="cavatar">MW</span><div class="cperson-main"><div class="cperson-name">Marcus Webb</div><div class="cperson-tags"><span class="croletag">Player</span><span class="croletag">Composer</span></div></div><button class="crsvp crsvp-on">&#10003; Confirmed</button></div>
+                            <div class="cperson"><span class="cavatar">DO</span><div class="cperson-main"><div class="cperson-name">Desmond Okafor</div><div class="cperson-tags"><span class="croletag">Conductor</span></div></div><button class="crsvp crsvp-on">&#10003; Confirmed</button></div>
+                            <div class="cperson"><span class="cavatar">TL</span><div class="cperson-main"><div class="cperson-name">Theo Lindgren</div><div class="cperson-tags"><span class="croletag">Player</span></div></div><button class="crsvp crsvp-on">&#10003; Confirmed</button></div>
+                            <div class="cperson"><span class="cavatar">NC</span><div class="cperson-main"><div class="cperson-name">Naomi Cole</div><div class="cperson-tags"><span class="croletag">Attendee</span><span class="croletag">Composer</span></div></div><button class="crsvp">RSVP</button></div>
+                            <div class="cperson"><span class="cavatar">SL</span><div class="cperson-main"><div class="cperson-name">Sofia Lindqvist</div><div class="cperson-tags"><span class="croletag">Composer</span></div></div><button class="crsvp">RSVP</button></div>
+                            <input class="cinput" style="margin-top: 12px;" placeholder="Search contacts to add">
+                          </div>
+                          <div class="cmfoot">
+                            <button class="cbtn cbtn-ghost cbtn-sm">Close</button>
+                            <button class="cbtn cbtn-primary cbtn-sm">Save lineup</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+
+                  <!-- ============ SLIDE 6 · COMMUNICATIONS LOG ======================= -->
+                  <section class="demo-car-slide" data-nav="concerts"
+                           data-contrib="Every message logged against the concert also lands on that person's own history."
+                           data-state-label="State of the booking"
+                           data-state="6 messages logged &middot; one still awaiting a reply from the venue."
+                           data-title="Concerts: the communications log">
+                    <div class="cframe cframe-full">
+                      <div class="cpage">
+                        <div class="ccrumb"><span class="ccrumb-link">Concerts</span><span class="ccrumb-sep">&rsaquo;</span>Groove Theory II</div>
+                        <div class="chead">
+                          <div>
+                            <h1 class="ctitle">Groove Theory II</h1>
+                            <p class="csub">Oct 18, 2026 &middot; 7:30 PM&ndash;10:00 PM &middot; Scholes Street Studios</p>
+                            <div class="cstatusrow">
+                              <span class="cpill cpill-ok">Confirmed</span>
+                              <span class="cpill">38 days out</span>
+                            </div>
+                          </div>
+                          <div class="cactions"><button class="cbtn cbtn-ghost">Edit concert</button></div>
+                        </div>
+                        <div class="cconcert-cols">
+                          <div class="cconcert-rail">
+                            <div class="cprot-label">Booking protocol</div>
+                            <p class="cprot-note">8 of 10 essentials answered.</p>
+                            <div class="cprot-row"><span class="cprot-n cprot-n-done">1</span><span class="cprot-name">Who you are</span><span class="cprot-count cprot-count-done">9/9</span></div>
+                            <div class="cprot-row"><span class="cprot-n cprot-n-done">2</span><span class="cprot-name">The concert</span><span class="cprot-count cprot-count-done">14/14</span></div>
+                            <div class="cprot-row"><span class="cprot-n">3</span><span class="cprot-name">Program and run of show</span><span class="cprot-count">5/7</span></div>
+                            <button class="cprot-link">Portal link &amp; answers &rarr;</button>
+                          </div>
+                          <div class="cconcert-main">
+                            <div class="cconcert-half">
+                              <div class="csec"><div class="csec-head"><span class="csec-label">Checklist</span><span class="csec-meta">4 of 11 done</span></div><div class="csec-body"><div class="cchecklist-item"><span class="cbox cbox-done">&#10003;</span><span class="cchecklist-text cchecklist-done">Confirm the room hold</span></div></div></div>
+                            </div>
+                            <div class="cconcert-half">
+                              <div class="csec"><div class="csec-head"><span class="csec-label">People</span><span class="csec-meta">7 &middot; 5 confirmed</span></div><div class="csec-body"><div class="cperson"><span class="cavatar">PA</span><div class="cperson-main"><div class="cperson-name">Priya Anand</div></div><span class="crsvp crsvp-on">&#10003;</span></div></div></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="coverlay">
+                        <div class="cmodal cmodal-wide">
+                          <div class="cmhead"><span class="cmtitle">Communications &middot; Groove Theory II</span><button class="cmclose">&#x00D7;</button></div>
+                          <div class="cmbody">
+                            <p class="cnote" style="margin: 0 0 10px;">Naming a contact on an entry also writes the touchpoint onto that person, so the concert log and the relationship history never drift apart.</p>
+                            <div class="ccomm">
+                              <span class="ccomm-date">Sep 2</span>
+                              <div class="ccomm-main"><div class="ccomm-summary">Sent the booking portal link so they could fill in the room details.</div><div class="ccomm-who">Email &middot; Scholes Street Studios</div></div>
+                              <span class="ccomm-tag ccomm-replied">Replied</span>
+                            </div>
+                            <div class="ccomm">
+                              <span class="ccomm-date">Sep 6</span>
+                              <div class="ccomm-main"><div class="ccomm-summary">Asked about the second premiere slot and the running order.</div><div class="ccomm-who">Email &middot; Priya Anand</div></div>
+                              <span class="ccomm-tag ccomm-confirmed">Confirmed</span>
+                            </div>
+                            <div class="ccomm">
+                              <span class="ccomm-date">Sep 8</span>
+                              <div class="ccomm-main"><div class="ccomm-summary">Sent set times and the load-in window to the whole lineup.</div><div class="ccomm-who">Email &middot; 7 recipients</div></div>
+                              <span class="ccomm-tag">Sent</span>
+                            </div>
+                            <div class="ccomm">
+                              <span class="ccomm-date">Sep 9</span>
+                              <div class="ccomm-main"><div class="ccomm-summary">Chased the recording plan: still no answer on whether they can patch a board feed.</div><div class="ccomm-who">Email &middot; Scholes Street Studios</div></div>
+                              <span class="ccomm-tag ccomm-awaiting">Awaiting</span>
+                            </div>
+                            <div class="ccomm">
+                              <span class="ccomm-date">Sep 9</span>
+                              <div class="ccomm-main"><div class="ccomm-summary">Confirmed she is playing the Chaconne on the second half.</div><div class="ccomm-who">Text &middot; Jordan Ma</div></div>
+                              <span class="ccomm-tag ccomm-confirmed">Confirmed</span>
+                            </div>
+                            <div class="ccomm">
+                              <span class="ccomm-date">Sep 10</span>
+                              <div class="ccomm-main"><div class="ccomm-summary">Invited to the bill. No reply yet.</div><div class="ccomm-who">Email &middot; Naomi Cole</div></div>
+                              <span class="ccomm-tag ccomm-awaiting">Awaiting</span>
+                            </div>
+                          </div>
+                          <div class="cmfoot">
+                            <button class="cbtn cbtn-ghost cbtn-sm">Close</button>
+                            <button class="cbtn cbtn-primary cbtn-sm">Log a message</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                  <!-- ===== SLIDE 3 · NEWSLETTER EDITOR ===== -->
+                  <section class="demo-car-slide" data-nav="newsletter"
+                           data-title="Newsletter: brain-dump to a live render"
+                           data-contrib="Type it rough. The marketing agent rewrites it in your voice, and the preview updates live."
+                           data-state-label="State of the issue"
+                           data-state="Studio Notes, October 2026 &middot; headline polished and live in the preview &middot; not yet sent.">
+                    <div class="cframe cframe-full">
+                      <div class="cpage">
+                        <div class="cnl-bar">
+                          <div>
+                            <h1 class="ctitle" style="font-size: 21px;">New newsletter</h1>
+                            <p class="csub">Studio Roundup &middot; custom sections</p>
+                          </div>
+                          <div class="cactions">
+                            <button class="cbtn cbtn-ghost cbtn-sm">&larr; Back</button>
+                            <button class="cbtn cbtn-ghost cbtn-sm">Delete</button>
+                            <button class="cbtn cbtn-ghost cbtn-sm">Copy HTML</button>
+                            <button class="cbtn cbtn-ghost cbtn-sm">Save draft</button>
+                            <button class="cbtn cbtn-ghost cbtn-sm">Save version</button>
+                            <button class="cbtn cbtn-primary cbtn-sm">Save &amp; close</button>
+                          </div>
+                        </div>
+
+                        <div class="cnl-grid">
+                          <div class="cnl-col">
+                            <div class="ccard">
+                              <div class="ccard-head"><span class="ccard-title">Details</span></div>
+                              <div class="cfield"><label class="clabel">Subject line</label><input class="cinput" value="Studio Notes &middot; October 2026"></div>
+                              <div class="cfrow">
+                                <div class="cfield"><label class="clabel">Status</label><select class="cinput"><option>Draft</option></select></div>
+                                <div class="cfield"><label class="clabel">Send date</label><input class="cinput" placeholder="mm/dd/yyyy"></div>
+                              </div>
+                              <div class="cfield"><label class="clabel">Month label</label><input class="cinput" value="October 2026"></div>
+                            </div>
+
+                            <div class="ccard">
+                              <div class="ccard-head"><span class="ccard-title">Version history</span><span class="cnote">0 saved</span></div>
+                              <p class="cnote" style="margin: 0 0 6px; line-height: 1.5;">Save version (top bar) keeps a snapshot you can restore. Saving a draft does not create one.</p>
+                              <p class="cnote" style="margin: 0;">No versions saved yet.</p>
+                            </div>
+
+                            <div class="ccard">
+                              <div class="ccard-head"><span class="ccard-title">Sections</span><span class="cnote">38 sections</span></div>
+                              <div class="cfield">
+                                <label class="cnl-softlabel">Masthead &middot; wordmark</label>
+                                <input class="cinput" style="margin-top: 4px;" value="Maxwell Henry">
+                              </div>
+                              <div class="cfield">
+                                <label class="cnl-softlabel">Masthead &middot; label</label>
+                                <input class="cinput" style="margin-top: 4px;" value="Studio Notes">
+                              </div>
+                              <div class="cfield">
+                                <div class="cnl-fieldlabel">
+                                  <label class="cnl-softlabel">Headline</label>
+                                  <button class="cbtn cbtn-ghost cbtn-xs">&#10024; Re-polish</button>
+                                </div>
+                                <textarea class="ctextarea" rows="2">we're playing groove theory ii in october i think this is the best thing ive written this year need people to come</textarea>
+                                <div class="cnl-polish">
+                                  <div class="cnl-polish-head">
+                                    <span class="cnl-polish-title">&#10024; Polished</span>
+                                    <button class="cbtn cbtn-ghost cbtn-xs">Discard</button>
+                                  </div>
+                                  <div class="cnl-polish-ver">
+                                    <p class="cnl-polish-text">Groove Theory II premieres in October, and it might be the best thing I've written this year. Come hear it.</p>
+                                    <button class="cbtn cbtn-primary cbtn-xs">Use this</button>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="cfield">
+                                <label class="cnl-softlabel">Intro / greeting</label>
+                                <textarea class="ctextarea" rows="2" style="margin-top: 4px;">Hey friends, October is a big one this year. Groove Theory II premieres and the studio has been loud all month getting there.</textarea>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="cnl-col">
+                            <div class="ccard">
+                              <div class="ccard-head"><span class="ccard-title">Send</span></div>
+                              <div class="cfield"><label class="clabel">Send passphrase</label><input class="cinput" type="password" placeholder="required to send"></div>
+                              <div class="cfrow" style="flex-wrap: wrap;">
+                                <div class="cfield" style="flex: 1 1 200px;">
+                                  <label class="clabel">Test send</label>
+                                  <p class="cnote" style="margin: 0 0 6px;">Toggle who gets the test (subject prefixed [TEST]).</p>
+                                  <div class="cnl-chiprow"><span class="cnl-chip is-on">&#10003; Me</span></div>
+                                  <input class="cinput" style="margin-top: 8px;" placeholder="extra@email.com, another@email.com">
+                                  <button class="cbtn cbtn-ghost cbtn-sm" style="margin-top: 8px;">&#9993; Send test</button>
+                                </div>
+                                <div class="cfield" style="flex: 1 1 200px;">
+                                  <label class="clabel">Send to list</label>
+                                  <p class="cnote" style="margin: 0 0 6px;">Every contact in the group with an email. Enabled once the issue is Approved.</p>
+                                  <div class="cfrow" style="align-items: center;">
+                                    <select class="cinput" style="flex: 1;"><option>All contacts</option></select>
+                                    <span class="cnote" style="white-space: nowrap;">4 with email</span>
+                                  </div>
+                                  <button class="cbtn cbtn-primary cbtn-sm" style="margin-top: 8px;" disabled>&#128640; Send to list</button>
+                                  <p class="cnote" style="margin: 6px 0 0;">Set status to Approved to enable.</p>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="ccard">
+                              <div class="cnl-previewhead">
+                                <span class="ccard-title">Preview</span>
+                                <div class="cnl-chiprow">
+                                  <button class="cnl-chip" data-preview-mode="phone">Phone</button>
+                                  <button class="cnl-chip is-on" data-preview-mode="web">Web</button>
+                                </div>
+                              </div>
+                              <div class="cnl-previewframe" data-preview-frame>
+                                <div class="cnl-previewinner">
+                                  <div class="pv-masthead">
+                                    <span class="pv-name">Maxwell Henry</span>
+                                    <div class="pv-issue"><div class="pv-issue-name">Studio Notes</div><div class="pv-issue-date">October 2026</div></div>
+                                  </div>
+                                  <p class="pv-headline">Groove Theory II premieres in October, and it might be the best thing I've written this year. Come hear it.</p>
+                                  <p class="pv-intro">Hey friends, October is a big one this year. Groove Theory II premieres and the studio has been loud all month getting there.</p>
+                                  <div class="pv-eyebrow">Featured &middot; October</div>
+                                  <div class="pv-photo">[Add a featured photo]</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+
+                </div><!-- /.demo-canvas -->
+              </div><!-- /.demo-stage -->
+
+              <div class="demo-controls">
+                <button class="demo-arrow" data-demo-prev aria-label="Previous slide">&#8249;</button>
+                <div class="demo-title" data-demo-title></div>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <span class="demo-count" data-demo-count></span>
+                  <button class="demo-arrow" data-demo-next aria-label="Next slide">&#8250;</button>
                 </div>
-              </div>
-              <div class="hub-car-meter">
-                <span class="hub-car-count"></span>
-                <div class="hub-car-dots"></div>
               </div>
             </div>
           </div>
@@ -1864,14 +3088,169 @@
               </div>
             </div>
             <h4 class="sec-h2 text-center mb-6" style="color:#e8eff3;">Your virtual team</h4>
-            <div class="annot mb-10">
-              <figure class="hub-shot">
-                <img src="images/Hub_Agency_Roster.png" alt="Virtual Agency roster showing three AI employees for marketing, web design and social media, each with owned responsibilities, dated sprint history with outcomes, and a folder path." />
-              </figure>
-              <span class="pin" style="left:24%;   top:43.8%;"><span class="n">1</span>Dated sprints</span>
-              <span class="pin" style="left:66.5%; top:42.1%;"><span class="n">2</span>Scheduled runs</span>
-              <span class="pin" style="left:23.5%; top:52.7%;"><span class="n">3</span>A folder on disk</span>
-              <span class="pin" style="left:56%;   top:87.2%;"><span class="n">4</span>Human sign-off</span>
+            <!-- Virtual Agency demo carousel, transplanted from
+                 demo/agency-demo.html on 2026-09-10, replacing the annotated
+                 roster screenshot. There is no app screen to rebuild here: the
+                 real interaction is a Claude Code session and the real
+                 artifacts are markdown files, so the slides are a transcript
+                 and two document cards. The job description and sprint are
+                 condensed from the real files in
+                 ../virtual-agency/employees/Music/Marketing/, minus that
+                 sprint's contact-research table (scraped emails for named
+                 people at outside institutions, not ours to republish). -->
+            <div class="agency-demo mb-10" data-demo-panel tabindex="-1">
+
+              <div class="demo-nav-wrap">
+                <button class="demo-nav-item is-active" data-nav="create" data-slide="0">Create</button>
+                <button class="demo-nav-item" data-nav="example" data-slide="1">Example</button>
+                <button class="demo-nav-item" disabled>Web Design <span class="demo-nav-soon">Soon</span></button>
+                <button class="demo-nav-item" disabled>Social Media <span class="demo-nav-soon">Soon</span></button>
+              </div>
+
+              <div class="demo-stage">
+                <div class="demo-caption">
+                  <h4 class="demo-slide-title" data-demo-contrib></h4>
+                  <div class="demo-cap-col">
+                    <div class="demo-cap-label" data-demo-state-label></div>
+                    <div class="demo-cap-state" data-demo-state></div>
+                  </div>
+                </div>
+
+                <div class="demo-canvas">
+                  <button class="demo-side-arrow demo-side-prev" data-demo-prev aria-label="Previous slide">&#8249;</button>
+                  <button class="demo-side-arrow demo-side-next" data-demo-next aria-label="Next slide">&#8250;</button>
+
+                  <!-- ===== SLIDE 1 · CREATING AN EMPLOYEE ===== -->
+                  <section class="demo-car-slide is-on" data-nav="create"
+                           data-title="Creating an employee"
+                           data-contrib="Every employee starts as a conversation: what it owns, what it does not touch, who signs off."
+                           data-state-label="What gets created"
+                           data-state="Music Marketing &middot; job description, system prompt, and empty sprints and deliverables folders.">
+                    <div class="aterm">
+                      <div class="aterm-head">
+                        <div class="aterm-dots"><span class="aterm-dot"></span><span class="aterm-dot"></span><span class="aterm-dot"></span></div>
+                        <span class="aterm-label">Claude Code</span>
+                        <span class="aterm-pill">virtual-agency/</span>
+                      </div>
+                      <div class="aterm-body">
+                        <div class="aturn-user">I need someone to handle outreach and campaign copy for my concerts. Set up a Music Marketing employee.</div>
+                        <div class="aturn-agent">Three questions first. What is it explicitly not allowed to touch? Who has to sign off before anything sends? And does it hand off to any peer agent?</div>
+                        <div class="aturn-user">Not social media posts, not design, not booking. I sign off on everything myself, nothing sends without me. It hands social copy briefs to the Social Media agent.</div>
+                        <div class="aturn-agent">Writing <span class="aterm-code">employees/Music/Marketing/</span> now: a job description with those boundaries, a system prompt in its voice, and empty sprints and deliverables folders for what it ships. The job description says outright that nothing goes out without your sign-off.</div>
+                      </div>
+                    </div>
+
+                    <div class="astepbox">
+                      <h5>Putting one to work</h5>
+                      <div class="astep"><span class="astep-n">1.</span><span>Open the <code>virtual-agency</code> folder in Claude Code (it is its own project, beside this one).</span></div>
+                      <div class="astep"><span class="astep-n">2.</span><span>Name the employee and the job: "run the Music Marketing agent on a Groove Theory follow-up wave."</span></div>
+                      <div class="astep"><span class="astep-n">3.</span><span>It reads its own system prompt and job description, then works to the brief.</span></div>
+                      <div class="astep"><span class="astep-n">4.</span><span>Output lands in that employee's <code>deliverables/</code>, with a dated sprint file recording what shipped.</span></div>
+                      <div class="astep"><span class="astep-n">5.</span><span>Nothing sends or goes live without your sign-off. Every agent's job description says so.</span></div>
+                    </div>
+                  </section>
+
+                  <!-- ===== SLIDE 2 · JOB DESCRIPTION + SPRINT ===== -->
+                  <section class="demo-car-slide" data-nav="example"
+                           data-title="Job description and sprint record"
+                           data-contrib="The job description is the contract. The sprint is the record of what it actually shipped."
+                           data-state-label="State of the sprint"
+                           data-state="Sprint 01, Groove Theory &middot; complete, pending Maxwell&rsquo;s sends.">
+                    <div class="adoc-grid">
+
+                      <div class="adoc-col">
+                        <div class="adoc">
+                          <div class="adoc-head">
+                            <span class="afolderpill">employees/Music/Marketing/marketing-music-jobDescription.md</span>
+                            <h3 class="adoc-title">Music Marketing Agent</h3>
+                            <p class="adoc-meta">Department: Music &middot; Reports to: Maxwell Henry &middot; Peer: Social Media Agent</p>
+                          </div>
+                          <div class="adoc-body">
+                            <div class="adoc-sec">
+                              <div class="adoc-label">Role summary</div>
+                              <p class="adoc-text">Drives attendance, press coverage, and audience development for Maxwell's concerts and projects. It owns outcomes, not content. It produces strategy and outreach materials. Maxwell reviews and approves everything before it sends. Nothing goes out without his sign-off.</p>
+                            </div>
+                            <div class="adoc-sec">
+                              <div class="adoc-label">Writing rules</div>
+                              <ul class="adoc-list">
+                                <li>Never use em dashes. Restructure with a colon, a period, or reorder the clause.</li>
+                                <li>Active voice. Flip "X was done by Y" to "Y did X."</li>
+                                <li>Short, direct sentences. One idea per sentence.</li>
+                                <li>The ask is warm and friendly, not transactional. Invite, do not solicit.</li>
+                              </ul>
+                            </div>
+                            <div class="adoc-sec">
+                              <div class="adoc-label">Core responsibilities</div>
+                              <ul class="adoc-list">
+                                <li>Outreach strategy: who to contact, in what order, through what channel</li>
+                                <li>Tiered outreach copy: close contacts, peers, and cold contacts each get a different version</li>
+                                <li>Email campaigns for alumni networks, venue lists, and mailing lists</li>
+                                <li>Performer and collaborator coordination materials</li>
+                                <li>Series and brand framing, positioning recurring events as an ongoing series</li>
+                              </ul>
+                            </div>
+                            <div class="adoc-sec">
+                              <div class="adoc-label">Out of scope</div>
+                              <ul class="adoc-list">
+                                <li>Social media posts (briefs the Social Media agent instead)</li>
+                                <li>Design (flags for Canva or a designer)</li>
+                                <li>Booking and contracting, entirely</li>
+                              </ul>
+                            </div>
+                            <div class="adoc-sec">
+                              <div class="adoc-label">Tools</div>
+                              <table class="adoc-tbl">
+                                <tr><td>Gmail MCP</td><td>Draft and stage outreach emails. Stage only, Maxwell sends.</td></tr>
+                                <tr><td>Composer Assistant MCP</td><td>Reads Maxwell's aesthetic identity for press and institutional copy.</td></tr>
+                                <tr><td>WebSearch</td><td>Research composition department contacts, venue emails, press targets.</td></tr>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="adoc-col">
+                        <div class="adoc">
+                          <div class="adoc-head">
+                            <span class="afolderpill">employees/Music/Marketing/sprints/sprint-01-groove-theory.md</span>
+                            <h3 class="adoc-title">Sprint 01: Groove Theory Deliverables</h3>
+                            <p class="adoc-meta">Agent: Music Marketing &middot; Campaign: Groove Theory, Classical Music with a Pulse<br>Sprint date: 2026-05-28 &middot; Status: Complete, pending Maxwell's sends</p>
+                          </div>
+                          <div class="adoc-body">
+                            <div class="adoc-sec">
+                              <div class="adoc-label">Deliverable: personal outreach templates, 3 tiers</div>
+                              <p class="adoc-text" style="margin-bottom: 10px; color: var(--ts); font-size: 11px;">Ready to send. Performers swap in their own name where relevant.</p>
+                              <div class="adoc-tier">
+                                <div class="adoc-tier-label">Tier A &middot; close friend</div>
+                                <div class="adoc-tier-text">Hey, I'm performing in a concert in Brooklyn on June 14 and I really want you there. It's a new composer showcase at Scholes Street Studio, groove-based contemporary classical music. Legit venue, serious performers, new works. Suggested donation $15. Come? RSVP here.</div>
+                              </div>
+                              <div class="adoc-tier">
+                                <div class="adoc-tier-label">Tier B &middot; music community peer</div>
+                                <div class="adoc-tier-text">Hey [name], I'm performing at a new concert series launch in Brooklyn on June 14. Called Groove Theory: new works by Maxwell Henry, Julie Kim, and Jude Duane, all centering groove as a compositional idea. Scholes Street Studio, 2pm, $15 suggested. Would love to have you in the room.</div>
+                              </div>
+                              <div class="adoc-tier">
+                                <div class="adoc-tier-label">Tier C &middot; acquaintance</div>
+                                <div class="adoc-tier-text">Hey [name], hope you're doing well. I'm performing in Brooklyn on June 14 at a contemporary classical concert called Groove Theory at Scholes Street Studio. New music, great performers, $15 suggested donation. If you're around it'd be great to see you.</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </section>
+
+                </div><!-- /.demo-canvas -->
+              </div><!-- /.demo-stage -->
+
+              <div class="demo-controls">
+                <button class="demo-arrow" data-demo-prev aria-label="Previous slide">&#8249;</button>
+                <div class="demo-title" data-demo-title></div>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <span class="demo-count" data-demo-count></span>
+                  <button class="demo-arrow" data-demo-next aria-label="Next slide">&#8250;</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -2483,10 +3862,16 @@
   // Edge i sits between pill i and pill i+1.
   var EDGES_BY_SLIDE = [0, 1, 3, 4, 6];
 
-  var slides = Array.prototype.slice.call(document.querySelectorAll('.demo-car-slide'));
-  var pills  = Array.prototype.slice.call(document.querySelectorAll('.demo-node-pill'));
-  var groups = Array.prototype.slice.call(document.querySelectorAll('.demo-rail-group'));
-  var edges  = Array.prototype.slice.call(document.querySelectorAll('.demo-rail-edge'));
+  // Scoped to #compassDemo, not the document. The CRM and Agency panels use
+  // the same `demo-` scaffolding classes, so a document-wide query here would
+  // pick up their slides too and this carousel would count and toggle theirs.
+  var root = document.getElementById('compassDemo');
+  if (!root) return;
+
+  var slides = Array.prototype.slice.call(root.querySelectorAll('.demo-car-slide'));
+  var pills  = Array.prototype.slice.call(root.querySelectorAll('.demo-node-pill'));
+  var groups = Array.prototype.slice.call(root.querySelectorAll('.demo-rail-group'));
+  var edges  = Array.prototype.slice.call(root.querySelectorAll('.demo-rail-edge'));
   var field  = document.getElementById('demoField');
   var svg    = document.getElementById('demoRailSvg');
   var elState = document.getElementById('demoState');
@@ -2508,8 +3893,8 @@
   // arrow that runs right to left, and it is the whole reason the rail exists,
   // so it is drawn as a real curve under the pills rather than faked with CSS.
   function drawBackEdge(lit) {
-    var from = document.querySelector('[data-node="sketch"]');
-    var to   = document.querySelector('[data-node="constitution"]');
+    var from = root.querySelector('[data-node="sketch"]');
+    var to   = root.querySelector('[data-node="constitution"]');
     if (!field || !from || !to) return;
 
     var r = field.getBoundingClientRect();
@@ -2566,7 +3951,7 @@
     drawBackEdge(i === 3);
 
     // Keep the active pill in view on a narrow screen.
-    var active = document.querySelector('.demo-rail-group.is-active');
+    var active = root.querySelector('.demo-rail-group.is-active');
     if (active && active.scrollIntoView) {
       active.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
     }
@@ -2596,15 +3981,12 @@
     el.addEventListener('click', function () { show(current + 1); });
   });
 
-  var root = document.getElementById('compassDemo');
-  if (root) {
-    root.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowLeft')  { e.preventDefault(); show(current - 1); }
-      if (e.key === 'ArrowRight') { e.preventDefault(); show(current + 1); }
-    });
-    // Clicking anywhere in the carousel gives it the keyboard.
-    root.addEventListener('mousedown', function () { root.focus({ preventScroll: true }); });
-  }
+  root.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); show(current - 1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); show(current + 1); }
+  });
+  // Clicking anywhere in the carousel gives it the keyboard.
+  root.addEventListener('mousedown', function () { root.focus({ preventScroll: true }); });
 
   window.addEventListener('resize', function () { drawBackEdge(current === 3); });
 
@@ -2617,6 +3999,98 @@
   // redrawn whenever this panel becomes visible again. switchTab() and
   // switchTool() both dispatch a resize, which the listener above catches.
   show(0);
+})();
+  </script>
+
+  <!-- CRM and Virtual Agency demo carousels. One initializer drives both (and
+       any later one): each root is `[data-demo-panel]`, everything inside is
+       found by data attribute rather than by id, and each slide carries its
+       own caption on data-title / data-contrib / data-state-label /
+       data-state. Adding a slide (the Concerts one, when its screens are
+       reworked) means pasting one <section> and, if it needs a nav entry,
+       flipping that nav button's `disabled` for a `data-slide` index. Nothing
+       else here changes. -->
+  <script>
+(function () {
+  'use strict';
+
+  document.querySelectorAll('[data-demo-panel]').forEach(function (root) {
+    var slides = Array.prototype.slice.call(root.querySelectorAll('.demo-car-slide'));
+    if (!slides.length) return;
+
+    var navItems = Array.prototype.slice.call(root.querySelectorAll('.demo-nav-item[data-slide]'));
+    var prevBtns = Array.prototype.slice.call(root.querySelectorAll('[data-demo-prev]'));
+    var nextBtns = Array.prototype.slice.call(root.querySelectorAll('[data-demo-next]'));
+    var elContrib    = root.querySelector('[data-demo-contrib]');
+    var elState      = root.querySelector('[data-demo-state]');
+    var elStateLabel = root.querySelector('[data-demo-state-label]');
+    var elTitle      = root.querySelector('[data-demo-title]');
+    var elCount      = root.querySelector('[data-demo-count]');
+
+    var current = 0;
+
+    function show(i) {
+      if (i < 0 || i >= slides.length) return;
+      current = i;
+      var slide = slides[i];
+
+      slides.forEach(function (s, n) { s.classList.toggle('is-on', n === i); });
+
+      // A nav entry can cover a run of slides (Concerts is four), so the
+      // active one is matched on data-nav, not on the slide index.
+      var group = slide.getAttribute('data-nav');
+      navItems.forEach(function (b) {
+        b.classList.toggle('is-active', group
+          ? b.getAttribute('data-nav') === group
+          : parseInt(b.getAttribute('data-slide'), 10) === i);
+      });
+
+      // Captions are innerHTML because the copy carries entities (middots,
+      // curly apostrophes) that would otherwise render literally.
+      if (elContrib) elContrib.textContent = slide.getAttribute('data-contrib') || '';
+      if (elStateLabel) elStateLabel.innerHTML = slide.getAttribute('data-state-label') || '';
+      if (elState) {
+        elState.innerHTML = slide.getAttribute('data-state') || '';
+        var col = elState.closest('.demo-cap-col');
+        if (col) col.hidden = !slide.getAttribute('data-state');
+      }
+      if (elTitle) elTitle.textContent = slide.getAttribute('data-title') || '';
+      if (elCount) {
+        elCount.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+      }
+      prevBtns.forEach(function (el) { el.disabled = (i === 0); });
+      nextBtns.forEach(function (el) { el.disabled = (i === slides.length - 1); });
+    }
+
+    navItems.forEach(function (b) {
+      b.addEventListener('click', function () { show(parseInt(b.getAttribute('data-slide'), 10)); });
+    });
+    prevBtns.forEach(function (el) { el.addEventListener('click', function () { show(current - 1); }); });
+    nextBtns.forEach(function (el) { el.addEventListener('click', function () { show(current + 1); }); });
+
+    root.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); show(current - 1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); show(current + 1); }
+    });
+    root.addEventListener('mousedown', function () { root.focus({ preventScroll: true }); });
+
+    // Newsletter slide only: the Phone / Web toggle narrows the rendered
+    // preview, the way the real editor's does.
+    var frame = root.querySelector('[data-preview-frame]');
+    if (frame) {
+      root.querySelectorAll('[data-preview-mode]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var phone = btn.getAttribute('data-preview-mode') === 'phone';
+          frame.classList.toggle('is-phone', phone);
+          root.querySelectorAll('[data-preview-mode]').forEach(function (b) {
+            b.classList.toggle('is-on', b === btn);
+          });
+        });
+      });
+    }
+
+    show(0);
+  });
 })();
   </script>
 

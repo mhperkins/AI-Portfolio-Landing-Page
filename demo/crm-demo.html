@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Composer CRM &middot; Contacts, Outreach, Newsletter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   Composer CRM demo carousel.
+
+   Standalone, same convention as compass-demo.html: nothing here is wired
+   into index.html yet. Classes are prefixed `demo-` (shared carousel chrome,
+   lifted from compass-demo.html) or `c` (CRM screen chrome, hand-built from
+   crm/components/crm.module.css so it reads as the real app). Neither
+   prefix collides with the two carousel systems already living in
+   index.html (`.carousel-*` / `initCarousels()` and `[data-hub-carousel]` /
+   `.hub-car-*`), or with compass-demo.html's own `d`-prefixed node classes.
+
+   Design tokens are lifted verbatim from app-ui/src/styles/tokens.css, same
+   as compass-demo.html. The CRM's own chrome (sidebar-less page views, list
+   rows, the overlay + modal pattern) is lifted from crm/components/crm.module.css.
+
+   House rule: no em dashes anywhere on this page. Two places the real app's
+   own copy uses one ("Prospect (not yet a contact — lives on...", the
+   outreach modal's "Label — Name" title), both render here with a middot
+   instead, same fix compass-demo.html used for its own UI labels.
+
+   Three of four CRM sections are built: Contacts, Outreach, Newsletter.
+   Concerts is pending new screenshots (the concerts page is being reworked)
+   and sits in the nav strip as "soon" until it joins the carousel.
+   ========================================================================== */
+
+:root {
+  --ch:        #1C1917;
+  --ch2:       #28211E;
+  --amber:     #B45309;
+  --amber-lt:  #D97706;
+  --amber-bg:  #FEF3C7;
+  --amber-dim: #92400E;
+  --cream:     #FAF8F5;
+  --warm:      #EDE9E3;
+  --border:    #E2DDD6;
+  --tp:        #1C1917;
+  --ts:        #57534E;
+  --tm:        #A8A29E;
+  --green:     #16A34A;
+  --green-bg:  #F0FDF4;
+  --red:       #DC2626;
+  --cool:      #2563EB;
+  --cool-bg:   #EFF4FE;
+
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-sans:  'DM Sans', sans-serif;
+
+  --shadow:    0 2px 12px rgba(28, 25, 23, 0.08);
+  --shadow-lg: 0 8px 32px rgba(28, 25, 23, 0.14);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 32px 20px 64px;
+  background: var(--cream);
+  color: var(--tp);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.demo-wrap { max-width: 1180px; margin: 0 auto; }
+
+/* --- page heading (scaffolding only; drop this on transplant) ------------- */
+.demo-scaffold {
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.demo-scaffold h1 {
+  font-family: var(--font-serif);
+  font-size: 34px;
+  font-weight: 600;
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
+}
+.demo-scaffold p { margin: 0; color: var(--ts); font-size: 14px; max-width: 66ch; }
+
+/* ==========================================================================
+   Section nav strip. Persistent across every slide, the CRM's equivalent of
+   the chain rail in compass-demo.html: there the persistent element is the
+   node graph, because Compass is a graph. The CRM is not a graph, it is a
+   sidebar of screens, so the persistent element here is that sidebar's own
+   chrome (dark ground, amber-tinted active row) rendered as a horizontal
+   strip instead of a vertical one.
+   ========================================================================== */
+.demo-nav-wrap {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  background: var(--ch);
+  border-radius: 10px;
+  padding: 10px 10px;
+  margin-bottom: 14px;
+}
+.demo-nav-item {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  background: none;
+  color: var(--tm);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: background 0.15s, color 0.15s;
+}
+.demo-nav-item:hover:not(:disabled) { color: var(--cream); background: rgba(255, 255, 255, 0.06); }
+.demo-nav-item.is-active { color: var(--cream); background: rgba(180, 83, 9, 0.32); }
+.demo-nav-item:disabled { cursor: default; opacity: 0.55; }
+.demo-nav-soon {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--cream);
+  padding: 1px 7px;
+  border-radius: 8px;
+}
+
+/* ==========================================================================
+   Slide stage (identical scaffolding to compass-demo.html: caption strip,
+   canvas, side arrows, bottom controls, fade transition).
+   ========================================================================== */
+.demo-stage {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: white;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.demo-canvas {
+  background-color: var(--warm);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(139, 115, 85, 0.10) 0px,
+    rgba(139, 115, 85, 0.10) 1px,
+    transparent 1px,
+    transparent 10px
+  );
+  background-size: 100% 90px;
+  padding: 28px 24px;
+  min-height: 400px;
+  position: relative;
+}
+
+.demo-side-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--ts);
+  font-size: 17px;
+  line-height: 1;
+  box-shadow: var(--shadow-lg);
+  transition: opacity 0.18s, color 0.18s, border-color 0.18s;
+}
+.demo-side-arrow:hover:not(:disabled) { color: var(--amber); border-color: var(--amber-lt); }
+.demo-side-arrow:disabled { opacity: 0.25; cursor: default; }
+.demo-side-prev { left: 6px; }
+.demo-side-next { right: 6px; }
+
+.demo-car-slide { display: none; }
+.demo-car-slide.is-on { display: block; animation: demoFade 220ms ease-out; }
+@keyframes demoFade { from { opacity: 0; } to { opacity: 1; } }
+
+.demo-caption {
+  border-bottom: 1px solid var(--border);
+  background: white;
+  padding: 18px 22px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.demo-slide-title {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--tp);
+  margin: 0;
+}
+.demo-cap-label {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--tm);
+  margin-bottom: 3px;
+}
+.demo-cap-state {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--tp);
+}
+
+.demo-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 14px;
+}
+.demo-arrow {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--ts);
+  font-size: 15px;
+  box-shadow: var(--shadow);
+}
+.demo-arrow:disabled { opacity: 0.35; }
+.demo-count {
+  font-size: 12px;
+  color: var(--tm);
+  letter-spacing: 0.1em;
+  font-variant-numeric: tabular-nums;
+}
+.demo-title {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  font-weight: 600;
+  text-align: center;
+  flex: 1;
+}
+
+button { cursor: pointer; font-family: var(--font-sans); }
+
+/* ==========================================================================
+   The CRM screen itself. A white "app window" card floating on the same
+   manuscript canvas compass-demo.html uses, so the brand reads as one hub
+   across both carousels even though this tool has no node graph.
+   ========================================================================== */
+.cframe {
+  position: relative;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow-lg);
+  max-width: 900px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.cframe-full { max-width: 100%; }
+
+.cpage { padding: 22px 26px 26px; }
+.chead { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+.ctitle { font-family: var(--font-serif); font-size: 24px; font-weight: 600; margin: 0; }
+.csub { font-size: 12.5px; color: var(--ts); margin: 4px 0 0; }
+.cactions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.cbtn {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 13px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--tp);
+}
+.cbtn-primary { background: var(--amber); border-color: var(--amber); color: var(--cream); }
+.cbtn-ghost { background: none; border-color: transparent; color: var(--ts); }
+.cbtn-dark { background: var(--ch); border-color: var(--ch); color: var(--cream); }
+.cbtn-xs { padding: 3px 9px; font-size: 10.5px; }
+.cbtn-sm { padding: 5px 11px; font-size: 11.5px; }
+.cbtn:disabled { opacity: 0.45; }
+
+.ctabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 14px; flex-wrap: wrap; }
+.ctab { padding: 7px 12px; font-size: 12.5px; font-weight: 500; color: var(--ts); border-bottom: 2px solid transparent; margin-bottom: -1px; background: none; border-left: none; border-right: none; border-top: none; }
+.ctab-on { color: var(--amber-dim); border-bottom-color: var(--amber); }
+.ctab-count { margin-left: 5px; font-size: 10.5px; font-weight: 700; color: var(--tm); }
+.ctab-on .ctab-count { color: var(--amber); }
+
+.cfilterbar { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; align-items: center; }
+.csearch { flex: 1; min-width: 160px; padding: 7px 11px; border: 1px solid var(--border); border-radius: 6px; font-size: 12.5px; background: white; color: var(--tm); }
+.cselect { padding: 7px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 11.5px; background: white; color: var(--ts); }
+.ctogglechip { padding: 6px 12px; border: 1px solid var(--border); border-radius: 20px; background: white; font-size: 11.5px; color: var(--ts); white-space: nowrap; }
+
+/* The contacts table wants ~620px. .cframe clips, so on a phone the last
+   three columns would vanish with no way to reach them. The wrapper scrolls
+   them instead, the way the real app's table does in a narrow window. */
+.ctbl-scroll { overflow-x: auto; }
+.ctbl { width: 100%; min-width: 560px; border-collapse: collapse; background: white; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; font-size: 12px; }
+.ctbl th { text-align: left; font-size: 9.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--tm); padding: 8px 12px; border-bottom: 1px solid var(--border); background: var(--cream); }
+.ctbl td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.ctbl tr:last-child td { border-bottom: none; }
+.crow-name { font-weight: 600; font-size: 12.5px; }
+.crow-sub { font-size: 10.5px; color: var(--tm); margin-top: 1px; }
+.ctagwrap { display: flex; flex-wrap: wrap; gap: 4px; }
+.croletag { font-size: 10px; font-weight: 500; padding: 2px 7px; border-radius: 10px; background: var(--warm); color: var(--ts); white-space: nowrap; }
+.cdash { color: var(--tm); }
+
+.cstatus { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 10px; white-space: nowrap; display: inline-block; }
+.cstatus-cold { background: var(--warm); color: var(--ts); }
+.cstatus-cool { background: var(--cool-bg); color: var(--cool); }
+.cstatus-warm { background: var(--amber-bg); color: var(--amber-dim); }
+.cstatus-active { background: var(--green-bg); color: var(--green); }
+
+.chealth { display: flex; align-items: center; gap: 6px; }
+.chealth-bar { width: 40px; height: 5px; border-radius: 3px; background: var(--warm); overflow: hidden; }
+.chealth-fill { height: 100%; background: var(--green); border-radius: 3px; }
+.chealth-num { font-size: 10.5px; color: var(--ts); }
+
+.clist { display: flex; flex-direction: column; }
+.clist-row { display: flex; align-items: center; gap: 12px; padding: 11px 14px; border: 1px solid var(--border); border-top: none; background: white; }
+.clist-row:first-child { border-top: 1px solid var(--border); border-radius: 8px 8px 0 0; }
+.clist-row:last-child { border-radius: 0 0 8px 8px; }
+.clist-row.is-open { background: var(--amber-bg); }
+.clist-main { flex: 1; min-width: 0; }
+.clist-name { font-weight: 600; font-size: 13px; }
+.clist-meta { font-size: 11px; color: var(--ts); margin-top: 2px; display: flex; gap: 8px; flex-wrap: wrap; }
+.ctag { font-size: 10.5px; font-weight: 600; padding: 2px 9px; border-radius: 11px; background: var(--warm); color: var(--ts); white-space: nowrap; }
+.ctag-overdue { background: #FEE2E2; color: var(--red); }
+
+/* --- overlay + modal --------------------------------------------------- */
+.coverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(28, 25, 23, 0.42);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 5;
+}
+.cmodal {
+  background: var(--cream);
+  border-radius: 10px;
+  width: 100%;
+  max-width: 460px;
+  max-height: 100%;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+}
+.cmodal-wide { max-width: 600px; }
+.cmhead { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 13px 18px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+.cmtitle { font-family: var(--font-serif); font-size: 16px; font-weight: 600; }
+.cmclose { font-size: 18px; color: var(--tm); line-height: 1; background: none; border: none; }
+.cmbody { padding: 15px 18px; overflow-y: auto; }
+.cmfoot { display: flex; justify-content: flex-end; gap: 8px; padding: 11px 18px; border-top: 1px solid var(--border); flex-shrink: 0; }
+
+.cfrow { display: flex; gap: 10px; }
+.cfrow > .cfield { flex: 1; }
+.cfield { margin-bottom: 11px; }
+.cfield:last-child { margin-bottom: 0; }
+.clabel { display: block; font-size: 10.5px; font-weight: 600; color: var(--ts); margin-bottom: 4px; }
+.cinput, .ctextarea { width: 100%; padding: 7px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 12px; font-family: var(--font-sans); background: white; color: var(--tp); box-sizing: border-box; }
+.cinput::placeholder, .ctextarea::placeholder { color: var(--tm); }
+.ctextarea { resize: vertical; min-height: 48px; line-height: 1.55; }
+
+.cchipwrap { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; padding: 6px 8px; border: 1px solid var(--border); border-radius: 6px; background: white; }
+.cchip { display: inline-flex; align-items: center; gap: 3px; background: var(--warm); color: var(--tp); font-size: 11px; font-weight: 500; padding: 2px 4px 2px 8px; border-radius: 11px; }
+.cchipx { color: var(--tm); font-size: 11px; }
+
+.ctogglerow { display: flex; gap: 5px; flex-wrap: wrap; }
+.ctogglechip2 { padding: 4px 11px; border: 1px solid var(--border); border-radius: 6px; background: white; font-size: 11px; font-weight: 500; color: var(--ts); }
+.ctogglechip2.is-on { background: var(--amber-bg); color: var(--amber-dim); border-color: var(--amber); }
+
+.cradiorow { display: flex; gap: 5px; flex-wrap: wrap; }
+.cradio { padding: 5px 12px; border: 1px solid var(--border); border-radius: 6px; background: white; font-size: 11px; font-weight: 500; color: var(--ts); }
+.cradio.is-on { border-color: var(--tp); color: var(--tp); font-weight: 600; }
+
+.ccheckline { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--ts); }
+.cnote { font-size: 10.5px; color: var(--tm); }
+
+/* --- concert detail page ------------------------------------------------- */
+.ccrumb { font-size: 11px; color: var(--ts); margin-bottom: 5px; }
+.ccrumb-link { color: var(--amber-dim); }
+.ccrumb-sep { margin: 0 6px; color: var(--tm); }
+.cstatusrow { display: flex; gap: 8px; align-items: center; margin-top: 9px; flex-wrap: wrap; }
+.cpill { font-size: 10.5px; font-weight: 600; padding: 3px 10px; border-radius: 11px; background: var(--warm); color: var(--ts); }
+.cpill-ok { background: var(--green-bg); color: var(--green); }
+
+/* Left rail plus the card grid, the concert dashboard's own layout. */
+.cconcert-cols { display: flex; gap: 18px; align-items: flex-start; flex-wrap: wrap; }
+.cconcert-rail { flex: 0 0 210px; min-width: 190px; }
+.cconcert-main { flex: 1 1 420px; min-width: 300px; display: flex; gap: 12px; flex-wrap: wrap; }
+.cconcert-half { flex: 1 1 240px; min-width: 230px; display: flex; flex-direction: column; gap: 12px; }
+.cconcert-full { flex: 1 1 100%; }
+
+.cprot-label { font-size: 9.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--tm); margin-bottom: 4px; }
+.cprot-note { font-size: 11px; color: var(--ts); margin: 0 0 10px; }
+.cprot-row { display: flex; align-items: center; gap: 8px; padding: 6px 4px; border-bottom: 1px dotted var(--border); font-size: 11.5px; color: var(--tp); }
+.cprot-row:last-of-type { border-bottom: none; }
+.cprot-n {
+  flex: 0 0 17px; height: 17px; border-radius: 50%;
+  background: var(--warm); color: var(--ts);
+  font-size: 9.5px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.cprot-n-done { background: var(--green-bg); color: var(--green); }
+.cprot-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cprot-count { font-size: 10px; color: var(--tm); font-variant-numeric: tabular-nums; }
+.cprot-count-done { color: var(--green); }
+.cprot-link { display: block; margin-top: 10px; border: 1px solid var(--border); border-radius: 6px; padding: 7px 10px; font-size: 11px; color: var(--ts); background: white; text-align: left; width: 100%; }
+
+/* A dashboard card: label header, body, footer action. */
+.csec { background: white; border: 1px solid var(--border); border-radius: 8px; display: flex; flex-direction: column; }
+.csec-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 12px 14px 0; }
+.csec-label { font-size: 9.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--tm); }
+.csec-meta { font-size: 10.5px; color: var(--ts); }
+.csec-body { padding: 10px 14px 12px; flex: 1; }
+.csec-foot { border-top: 1px solid var(--border); padding: 9px 14px; font-size: 11px; color: var(--ts); display: flex; justify-content: space-between; align-items: center; }
+
+.cperson { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+.cperson:last-child { border-bottom: none; }
+.cavatar {
+  width: 27px; height: 27px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9.5px; font-weight: 700; color: white; flex-shrink: 0;
+  background: var(--amber);
+}
+.cperson-main { flex: 1; min-width: 0; }
+.cperson-name { font-size: 12px; font-weight: 600; }
+.cperson-tags { display: flex; gap: 4px; margin-top: 2px; flex-wrap: wrap; }
+.crsvp {
+  font-size: 9.5px; font-weight: 700; padding: 2px 9px; border-radius: 11px;
+  border: 1px solid var(--border); background: none; color: var(--tm); flex-shrink: 0;
+}
+.crsvp-on { background: var(--green); color: white; border-color: var(--green); }
+
+.cchecklist-item { display: flex; align-items: flex-start; gap: 8px; padding: 6px 0; font-size: 11.5px; border-bottom: 1px solid var(--border); }
+.cchecklist-item:last-child { border-bottom: none; }
+.cbox { flex: 0 0 13px; height: 13px; margin-top: 2px; border: 1px solid var(--border); border-radius: 3px; font-size: 9px; line-height: 11px; text-align: center; color: white; }
+.cbox-done { background: var(--green); border-color: var(--green); }
+.cchecklist-text { flex: 1; }
+.cchecklist-done { text-decoration: line-through; color: var(--tm); }
+.cchecklist-date { font-size: 10px; color: var(--tm); white-space: nowrap; }
+.cchecklist-late { color: var(--red); font-weight: 600; }
+
+.ccal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.ccal-hd { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--tm); text-align: center; padding: 3px 0; }
+.ccal-day { min-height: 54px; border: 1px solid var(--border); border-radius: 6px; padding: 3px; background: white; }
+.ccal-out { background: transparent; border: none; }
+.ccal-today { border-color: var(--amber); box-shadow: inset 0 0 0 1px var(--amber); }
+.ccal-date { font-size: 10px; color: var(--ts); font-weight: 600; }
+.ccal-dot { font-size: 9px; padding: 2px 4px; border-radius: 4px; margin-top: 2px; line-height: 1.25; }
+.ccal-dot-done { background: var(--green-bg); color: var(--green); text-decoration: line-through; }
+.ccal-dot-late { background: #FEE2E2; color: var(--red); }
+.ccal-dot-up { background: var(--amber-bg); color: var(--amber-dim); }
+.ccal-show { background: var(--ch); color: var(--cream); font-weight: 700; }
+
+.ccomm { display: flex; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
+.ccomm:last-child { border-bottom: none; }
+.ccomm-date { width: 44px; flex-shrink: 0; font-size: 10px; color: var(--tm); font-weight: 700; padding-top: 2px; }
+.ccomm-main { flex: 1; min-width: 0; }
+.ccomm-summary { font-size: 11.5px; line-height: 1.5; }
+.ccomm-who { font-size: 10px; color: var(--tm); margin-top: 2px; }
+.ccomm-tag { font-size: 9.5px; font-weight: 700; padding: 2px 8px; border-radius: 11px; background: var(--warm); color: var(--ts); flex-shrink: 0; }
+.ccomm-awaiting { background: var(--amber-bg); color: var(--amber-dim); }
+.ccomm-replied { background: var(--cool-bg); color: var(--cool); }
+.ccomm-confirmed { background: var(--green); color: white; }
+
+.clink { display: flex; align-items: center; gap: 9px; padding: 7px 9px; margin-bottom: 6px; border: 1px solid var(--border); border-radius: 8px; background: white; }
+.clink:last-child { margin-bottom: 0; }
+.clink-icon { width: 25px; height: 25px; border-radius: 6px; background: var(--warm); color: var(--ts); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 800; flex-shrink: 0; }
+.clink-main { flex: 1; min-width: 0; }
+.clink-label { font-size: 11px; font-weight: 700; }
+.clink-url { font-size: 9.5px; color: var(--tm); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.cprogress { height: 5px; border-radius: 3px; background: var(--warm); overflow: hidden; margin-top: 6px; }
+.cprogress-fill { height: 100%; border-radius: 3px; background: var(--amber); }
+
+/* Portal answers, as the CRM shows them back. */
+.cans { padding: 7px 0; border-bottom: 1px dotted var(--border); display: flex; gap: 10px; font-size: 11.5px; }
+.cans:last-child { border-bottom: none; }
+.cans-k { flex: 0 0 40%; color: var(--ts); }
+.cans-v { flex: 1; color: var(--tp); }
+.cans-empty { color: var(--tm); font-style: italic; }
+
+/* --- newsletter editor --------------------------------------------------- */
+.cnl-bar { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+.ccard { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; margin-bottom: 12px; }
+.ccard-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; gap: 8px; }
+.ccard-title { font-family: var(--font-serif); font-size: 14px; font-weight: 600; }
+.cnl-grid { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; }
+.cnl-col { flex: 1 1 320px; min-width: 280px; }
+
+.cnl-fieldlabel { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; gap: 8px; }
+.cnl-softlabel { font-size: 10.5px; font-weight: 600; color: var(--ts); }
+
+.cnl-polish { margin-top: 8px; border: 1px solid var(--amber); background: var(--amber-bg); border-radius: 8px; padding: 8px; }
+.cnl-polish-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.cnl-polish-title { font-size: 10px; font-weight: 700; color: var(--amber-dim); }
+.cnl-polish-ver { background: white; border: 1px solid var(--border); border-radius: 6px; padding: 7px 9px; }
+.cnl-polish-text { font-size: 11.5px; line-height: 1.55; color: var(--tp); margin: 0 0 6px; }
+
+.cnl-chiprow { display: flex; flex-wrap: wrap; gap: 6px; }
+.cnl-chip { padding: 4px 11px; font-size: 11px; font-weight: 600; border-radius: 20px; border: 1.5px solid var(--border); background: transparent; color: var(--ts); }
+.cnl-chip.is-on { border-color: var(--amber); background: var(--amber); color: var(--cream); }
+
+.cnl-previewhead { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.cnl-previewframe { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--warm); padding: 16px; transition: max-width 0.2s; }
+.cnl-previewframe.is-phone { max-width: 300px; margin: 0 auto; }
+.cnl-previewinner { background: white; border-radius: 4px; padding: 22px 20px; }
+
+.pv-masthead { display: flex; justify-content: space-between; align-items: flex-end; padding-bottom: 11px; border-bottom: 2px solid var(--amber); margin-bottom: 14px; gap: 10px; }
+.pv-name { font-family: var(--font-serif); font-size: 19px; font-weight: 700; color: var(--ch); }
+.pv-issue { text-align: right; }
+.pv-issue-name { font-size: 9.5px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ch); }
+.pv-issue-date { font-size: 9.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--tm); }
+.pv-headline { font-family: var(--font-serif); font-size: 18px; font-weight: 600; line-height: 1.3; margin: 0 0 8px; color: var(--tp); }
+.pv-intro { font-size: 12px; line-height: 1.6; color: var(--ts); margin: 0 0 18px; }
+.pv-eyebrow { font-size: 9.5px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--amber-dim); margin-bottom: 6px; }
+.pv-photo { background: var(--amber-bg); border: 1px dashed var(--amber-lt); border-radius: 6px; height: 120px; display: flex; align-items: center; justify-content: center; color: var(--amber-dim); font-size: 11px; margin-top: 4px; }
+
+@media (max-width: 760px) {
+  .demo-canvas { padding: 18px 12px; }
+  .demo-side-arrow { width: 32px; height: 32px; font-size: 15px; }
+  .demo-side-prev { left: 2px; }
+  .demo-side-next { right: 2px; }
+  .demo-title { font-size: 15px; }
+  .demo-slide-title { font-size: 21px; }
+  .demo-caption { padding: 14px 16px 13px; }
+  .cpage { padding: 16px 14px 18px; }
+  .cmodal { max-width: 100%; }
+  .coverlay { padding: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .demo-car-slide.is-on { animation: none; }
+}
+</style>
+</head>
+<body>
+<div class="demo-wrap">
+
+  <!-- Scaffolding. Not part of the transplant. -->
+  <div class="demo-scaffold">
+    <h1>Composer CRM: keeping the people around your music</h1>
+    <p>A walkthrough of the CRM screen by screen: contacts and their health, an outreach draft written for you, one concert from its booking portal through to its calendar, and a newsletter that goes from rough notes to a sent email. All data here is placeholder, never the real CRM.</p>
+  </div>
+
+  <!-- ====================================================================
+       SECTION NAV STRIP
+       ==================================================================== -->
+  <div class="demo-nav-wrap" id="demoNav">
+    <button class="demo-nav-item is-active" data-nav="contacts" data-slide="0">Contacts</button>
+    <button class="demo-nav-item" data-nav="outreach" data-slide="1">Outreach</button>
+    <button class="demo-nav-item" data-nav="concerts" data-slide="2">Concerts</button>
+    <button class="demo-nav-item" data-nav="newsletter" data-slide="6">Newsletter</button>
+  </div>
+
+  <!-- ====================================================================
+       THE STAGE
+       ==================================================================== -->
+  <div class="demo-stage">
+    <div class="demo-caption">
+      <h4 class="demo-slide-title" data-demo-contrib></h4>
+      <div class="demo-cap-col">
+        <div class="demo-cap-label" data-demo-state-label></div>
+        <div class="demo-cap-state" data-demo-state></div>
+      </div>
+    </div>
+
+    <div class="demo-canvas">
+      <button class="demo-side-arrow demo-side-prev" data-demo-prev aria-label="Previous slide">&#8249;</button>
+      <button class="demo-side-arrow demo-side-next" data-demo-next aria-label="Next slide">&#8250;</button>
+
+      <!-- ============ SLIDE 1 · CONTACTS + EDIT CONTACT ================= -->
+      <section class="demo-car-slide is-on" data-nav="contacts"
+               data-contrib="Every person your music touches lives in one place, tagged by how they show up."
+               data-state-label="State of the relationship"
+               data-state="Jordan Ma &middot; clarinetist and composer in Tide Quartet &middot; warm, and confirmed for Groove Theory II."
+               data-title="Contacts: editing a person's profile">
+        <div class="cframe">
+          <div class="cpage">
+            <div class="chead">
+              <div>
+                <h1 class="ctitle">Contacts</h1>
+                <p class="csub">12 total &middot; 1 overdue</p>
+              </div>
+              <div class="cactions">
+                <button class="cbtn cbtn-ghost">&#11015; Export backup</button>
+                <button class="cbtn cbtn-ghost">Import contacts</button>
+                <button class="cbtn cbtn-primary">+ New contact</button>
+              </div>
+            </div>
+            <div class="ctabs">
+              <button class="ctab ctab-on">All <span class="ctab-count">12</span></button>
+              <button class="ctab">Attendees <span class="ctab-count">2</span></button>
+              <button class="ctab">Players <span class="ctab-count">5</span></button>
+              <button class="ctab">Composers <span class="ctab-count">8</span></button>
+            </div>
+            <div class="cfilterbar">
+              <input class="csearch" placeholder="Search name, email, instrument, tag" disabled>
+              <select class="cselect" disabled><option>All statuses</option></select>
+              <select class="cselect" disabled><option>Name A-Z</option></select>
+              <button class="ctogglechip">Needs a name</button>
+            </div>
+            <div class="ctbl-scroll">
+            <table class="ctbl">
+              <thead><tr><th>Name</th><th>Roles</th><th>Affiliation</th><th>Status</th><th>Next action</th><th>Health</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><div class="crow-name">Priya Anand</div><div class="crow-sub">priya.anand@gmail.com</div></td>
+                  <td><div class="ctagwrap"><span class="croletag">Composer</span></div></td>
+                  <td><div class="ctagwrap"><span class="croletag">Tide Quartet</span></div></td>
+                  <td><span class="cstatus cstatus-warm">Warm</span></td>
+                  <td>Send score draft<div class="crow-sub">Oct 3</div></td>
+                  <td><div class="chealth"><div class="chealth-bar"><div class="chealth-fill" style="width:82%"></div></div><span class="chealth-num">82</span></div></td>
+                </tr>
+                <tr style="background: var(--amber-bg);">
+                  <td><div class="crow-name">Jordan Ma</div><div class="crow-sub">jordanma.music@gmail.com</div></td>
+                  <td><div class="ctagwrap"><span class="croletag">Player</span><span class="croletag">Composer</span></div></td>
+                  <td><div class="ctagwrap"><span class="croletag">Tide Quartet</span></div></td>
+                  <td><span class="cstatus cstatus-warm">Warm</span></td>
+                  <td><span class="cdash">&minus;</span></td>
+                  <td><div class="chealth"><div class="chealth-bar"><div class="chealth-fill" style="width:76%"></div></div><span class="chealth-num">76</span></div></td>
+                </tr>
+                <tr>
+                  <td><div class="crow-name">Marcus Webb</div></td>
+                  <td><div class="ctagwrap"><span class="croletag">Player</span><span class="croletag">Composer</span></div></td>
+                  <td><span class="cdash">&minus;</span></td>
+                  <td><span class="cstatus cstatus-cool">Cool</span></td>
+                  <td><span class="cdash">&minus;</span></td>
+                  <td><div class="chealth"><div class="chealth-bar"><div class="chealth-fill" style="width:54%"></div></div><span class="chealth-num">54</span></div></td>
+                </tr>
+                <tr>
+                  <td><div class="crow-name">Naomi Cole</div></td>
+                  <td><div class="ctagwrap"><span class="croletag">Attendee</span><span class="croletag">Composer</span></div></td>
+                  <td><span class="cdash">&minus;</span></td>
+                  <td><span class="cstatus cstatus-warm">Warm</span></td>
+                  <td><span class="cdash">&minus;</span></td>
+                  <td><div class="chealth"><div class="chealth-bar"><div class="chealth-fill" style="width:68%"></div></div><span class="chealth-num">68</span></div></td>
+                </tr>
+                <tr>
+                  <td><div class="crow-name">Desmond Okafor</div></td>
+                  <td><div class="ctagwrap"><span class="croletag">Conductor</span></div></td>
+                  <td><div class="ctagwrap"><span class="croletag">Bell Ridge Sinfonietta</span></div></td>
+                  <td><span class="cstatus cstatus-active">Active</span></td>
+                  <td>Outreach: send 7-day follow-up email<div class="crow-sub">Oct 5</div></td>
+                  <td><div class="chealth"><div class="chealth-bar"><div class="chealth-fill" style="width:91%"></div></div><span class="chealth-num">91</span></div></td>
+                </tr>
+                <tr>
+                  <td><div class="crow-name">Sofia Lindqvist</div></td>
+                  <td><div class="ctagwrap"><span class="croletag">Composer</span></div></td>
+                  <td><span class="cdash">&minus;</span></td>
+                  <td><span class="cstatus cstatus-cold">Cold</span></td>
+                  <td><span class="cdash">&minus;</span></td>
+                  <td><div class="chealth"><div class="chealth-bar"><div class="chealth-fill" style="width:38%"></div></div><span class="chealth-num">38</span></div></td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+          </div>
+
+          <!-- Edit contact modal, open over the list -->
+          <div class="coverlay">
+            <div class="cmodal cmodal-wide">
+              <div class="cmhead"><span class="cmtitle">Edit contact</span><button class="cmclose">&#x00D7;</button></div>
+              <div class="cmbody">
+                <div class="ctabs">
+                  <button class="ctab ctab-on">Overview</button>
+                  <button class="ctab">Concerts</button>
+                  <button class="ctab">Touchpoint log</button>
+                  <button class="ctab">Follow-ups</button>
+                  <button class="ctab">Notes</button>
+                </div>
+                <div class="cfrow">
+                  <div class="cfield"><label class="clabel">First name</label><input class="cinput" value="Jordan"></div>
+                  <div class="cfield"><label class="clabel">Last name</label><input class="cinput" value="Ma"></div>
+                </div>
+                <div class="cfrow">
+                  <div class="cfield"><label class="clabel">Email</label><input class="cinput" value="jordanma.music@gmail.com"></div>
+                  <div class="cfield"><label class="clabel">Phone</label><input class="cinput" value="+1 415 555 0148"></div>
+                </div>
+                <div class="cfrow">
+                  <div class="cfield"><label class="clabel">Website</label><input class="cinput" placeholder=""></div>
+                  <div class="cfield"><label class="clabel">Instagram</label><input class="cinput" value="@jordanmamusic"></div>
+                </div>
+                <div class="cfield">
+                  <label class="clabel">Roles</label>
+                  <div class="ctogglerow">
+                    <span class="ctogglechip2">Attendee</span>
+                    <span class="ctogglechip2 is-on">Player</span>
+                    <span class="ctogglechip2 is-on">Composer</span>
+                    <span class="ctogglechip2">Conductor</span>
+                  </div>
+                </div>
+                <div class="cfield">
+                  <label class="clabel">Instruments</label>
+                  <div class="cchipwrap"><span class="cchip">clarinet <span class="cchipx">&#x00D7;</span></span></div>
+                </div>
+                <div class="cfield">
+                  <label class="clabel">Relationship</label>
+                  <div class="cradiorow">
+                    <span class="cradio">Cold</span><span class="cradio">Cool</span><span class="cradio is-on">Warm</span><span class="cradio">Active</span>
+                  </div>
+                </div>
+                <div class="cfield">
+                  <label class="ccheckline"><input type="checkbox"> Prospect (not yet a contact &middot; lives on the Prospects screen)</label>
+                </div>
+                <div class="cfield">
+                  <label class="clabel">Ensembles</label>
+                  <div class="cchipwrap"><span class="cchip">Tide Quartet <span class="cchipx">&#x00D7;</span></span></div>
+                </div>
+                <div class="cfield">
+                  <label class="clabel">Concerts <span class="cnote">saved immediately</span></label>
+                  <div class="cchipwrap" style="margin-bottom: 6px;"><span class="cchip">Groove Theory II <span class="cchipx">&#x00D7;</span></span></div>
+                  <input class="cinput" placeholder="Search concerts to add">
+                </div>
+              </div>
+              <div class="cmfoot">
+                <button class="cbtn cbtn-ghost cbtn-sm">Cancel</button>
+                <button class="cbtn cbtn-primary cbtn-sm">Save contact</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 2 · OUTREACH + DRAFT MODAL =================== -->
+      <section class="demo-car-slide" data-nav="outreach"
+               data-contrib="When a contact goes quiet, the CRM writes the first draft. You only fill in the specifics."
+               data-state-label="State of the relationship"
+               data-state="Sofia Lindqvist &middot; quiet since August &middot; Email 1 of the reconnect sequence, ready to send."
+               data-title="Outreach: the reconnect draft">
+        <div class="cframe">
+          <div class="cpage">
+            <div class="chead">
+              <div>
+                <h1 class="ctitle">Outreach</h1>
+                <p class="csub">3 to reach out to</p>
+              </div>
+            </div>
+            <div class="clist">
+              <div class="clist-row">
+                <div class="clist-main">
+                  <div class="clist-name">Theo Lindgren</div>
+                  <div class="clist-meta"><span>New prospect</span></div>
+                </div>
+                <span class="ctag ctag-overdue">No email on file</span>
+              </div>
+              <div class="clist-row is-open">
+                <div class="clist-main">
+                  <div class="clist-name">Sofia Lindqvist</div>
+                  <div class="clist-meta"><span>Gone quiet</span><span>Last touch Aug 14</span></div>
+                </div>
+                <span class="ctag">Email 1 &middot; Reconnect</span>
+              </div>
+              <div class="clist-row">
+                <div class="clist-main">
+                  <div class="clist-name">Desmond Okafor</div>
+                  <div class="clist-meta"><span>Follow-up due</span><span>Last touch Aug 2</span></div>
+                </div>
+                <span class="ctag">Email 2 &middot; 7-day follow-up</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Draft modal, open over the queue -->
+          <div class="coverlay">
+            <div class="cmodal cmodal-wide">
+              <div class="cmhead"><span class="cmtitle">Email 1 &middot; Reconnect &middot; Sofia Lindqvist</span><button class="cmclose">&#x00D7;</button></div>
+              <div class="cmbody">
+                <div class="cfield">
+                  <label class="clabel">To</label>
+                  <input class="cinput" value="sofia.lindqvist@gmail.com">
+                </div>
+                <div class="cfield">
+                  <label class="clabel">Subject</label>
+                  <p class="cnote" style="font-size: 12px; color: var(--ts); margin: 0;">Wanted to reconnect, and ask you a quick question!</p>
+                </div>
+                <div class="cfield">
+                  <label class="clabel">Body &middot; fill in the bracketed parts before sending</label>
+                  <textarea class="ctextarea" rows="11">Hey Sofia,
+
+I've been meaning to reach out. I've been thinking a lot lately about making more music with the people I already know and admire. You came to mind.
+
+I'm sketching out a few small solo projects, something that blends [a few stylistic terms to describe your aesthetic]. Pieces that [describe the types of compositional problems you want to solve, or moods you want to create] is the direction I'm going in right now!
+
+Would you be up for hopping on a quick Zoom call sometime soon? I'd love to hear what you're working on, and see if anything I'm doing might spark an idea. Either for you, or maybe someone in your circle.
+
+Let me know!
+Max</textarea>
+                </div>
+              </div>
+              <div class="cmfoot">
+                <button class="cbtn cbtn-ghost cbtn-sm">Not now (30 days)</button>
+                <button class="cbtn cbtn-ghost cbtn-sm">Copy to clipboard</button>
+                <button class="cbtn cbtn-primary cbtn-sm">Mark sent</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           SLIDES 3 to 6 · CONCERTS.
+
+           One concert page, four popups. The background is the same dashboard
+           on every one of these slides, deliberately: it teaches the page
+           once, then each slide opens the section that does the work. The
+           background is repeated per slide rather than shared, because the
+           carousel shows and hides whole <section> elements.
+           ================================================================== -->
+
+      <!-- ============ SLIDE 3 · THE BOOKING PORTAL ======================= -->
+      <section class="demo-car-slide" data-nav="concerts"
+               data-contrib="One link collects everything a booking needs. The answers land straight in the protocol."
+               data-state-label="State of the booking"
+               data-state="Groove Theory II &middot; 8 of 10 essentials answered &middot; the venue filled the rest in on Sep 2."
+               data-title="Concerts: the booking portal">
+        <div class="cframe cframe-full">
+          <div class="cpage">
+            <div class="ccrumb"><span class="ccrumb-link">Concerts</span><span class="ccrumb-sep">&rsaquo;</span>Groove Theory II</div>
+            <div class="chead">
+              <div>
+                <h1 class="ctitle">Groove Theory II</h1>
+                <p class="csub">Oct 18, 2026 &middot; 7:30 PM&ndash;10:00 PM &middot; Scholes Street Studios</p>
+                <div class="cstatusrow">
+                  <span class="cpill cpill-ok">Confirmed</span>
+                  <span class="cpill">38 days out</span>
+                  <span class="cpill">2 essentials missing</span>
+                </div>
+              </div>
+              <div class="cactions">
+                <button class="cbtn cbtn-ghost">Edit concert</button>
+                <button class="cbtn" style="background: var(--red); border-color: var(--red); color: white;">Delete</button>
+              </div>
+            </div>
+
+            <div class="cconcert-cols">
+              <div class="cconcert-rail">
+                <div class="cprot-label">Booking protocol</div>
+                <p class="cprot-note">8 of 10 essentials answered.</p>
+                <div class="cprot-row"><span class="cprot-n cprot-n-done">1</span><span class="cprot-name">Who you are</span><span class="cprot-count cprot-count-done">9/9</span></div>
+                <div class="cprot-row"><span class="cprot-n cprot-n-done">2</span><span class="cprot-name">The concert</span><span class="cprot-count cprot-count-done">14/14</span></div>
+                <div class="cprot-row"><span class="cprot-n">3</span><span class="cprot-name">Program and run of show</span><span class="cprot-count">5/7</span></div>
+                <div class="cprot-row"><span class="cprot-n">4</span><span class="cprot-name">Space and setup</span><span class="cprot-count">8/10</span></div>
+                <div class="cprot-row"><span class="cprot-n">5</span><span class="cprot-name">Sound, lights, and recordi&hellip;</span><span class="cprot-count">3/11</span></div>
+                <div class="cprot-row"><span class="cprot-n cprot-n-done">6</span><span class="cprot-name">Tickets and money</span><span class="cprot-count cprot-count-done">6/6</span></div>
+                <div class="cprot-row"><span class="cprot-n">7</span><span class="cprot-name">Reception and hospitality</span><span class="cprot-count">2/6</span></div>
+                <div class="cprot-row"><span class="cprot-n">8</span><span class="cprot-name">Promotion</span><span class="cprot-count">4/7</span></div>
+                <div class="cprot-row"><span class="cprot-n">9</span><span class="cprot-name">Logistics and paperwork</span><span class="cprot-count">0/8</span></div>
+                <button class="cprot-link">Portal link &amp; answers &rarr;</button>
+              </div>
+
+              <div class="cconcert-main">
+                <div class="cconcert-half">
+                  <div class="csec">
+                    <div class="csec-head"><span class="csec-label">Checklist</span><span class="csec-meta">4 of 11 done</span></div>
+                    <div class="csec-body">
+                      <div class="cchecklist-item"><span class="cbox cbox-done">&#10003;</span><span class="cchecklist-text cchecklist-done">Confirm the room hold</span></div>
+                      <div class="cchecklist-item"><span class="cbox"></span><span class="cchecklist-text">Send the program to the venue</span><span class="cchecklist-date">Oct 4</span></div>
+                    </div>
+                  </div>
+                  <div class="csec">
+                    <div class="csec-head"><span class="csec-label">Links</span></div>
+                    <div class="csec-body">
+                      <div class="clink"><span class="clink-icon">RS</span><div class="clink-main"><div class="clink-label">RSVP page</div><div class="clink-url">partiful.com/e/groove-theory-ii</div></div></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="cconcert-half">
+                  <div class="csec">
+                    <div class="csec-head"><span class="csec-label">People</span><span class="csec-meta">7 &middot; 5 confirmed</span></div>
+                    <div class="csec-body">
+                      <div class="cperson"><span class="cavatar">PA</span><div class="cperson-main"><div class="cperson-name">Priya Anand</div></div><span class="crsvp crsvp-on">&#10003;</span></div>
+                      <div class="cperson"><span class="cavatar">JM</span><div class="cperson-main"><div class="cperson-name">Jordan Ma</div></div><span class="crsvp crsvp-on">&#10003;</span></div>
+                    </div>
+                  </div>
+                  <div class="csec">
+                    <div class="csec-head"><span class="csec-label">Communications</span><span class="csec-meta">6 logged</span></div>
+                    <div class="csec-body">
+                      <div class="ccomm"><span class="ccomm-date">Sep 2</span><div class="ccomm-main"><div class="ccomm-summary">Sent the portal link to the venue</div></div><span class="ccomm-tag ccomm-replied">Replied</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="coverlay">
+            <div class="cmodal cmodal-wide">
+              <div class="cmhead"><span class="cmtitle">Booking portal</span><button class="cmclose">&#x00D7;</button></div>
+              <div class="cmbody">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+                  <span class="csec-label">Booking portal</span>
+                  <span class="cpill cpill-ok">Answered</span>
+                </div>
+                <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-top: 10px;">
+                  <span style="font-family: var(--font-serif); font-size: 17px; font-weight: 600;">8 of 10 essentials</span>
+                  <span class="cnote">51/78 fields &middot; 65%</span>
+                </div>
+                <div class="cprogress"><div class="cprogress-fill" style="width: 65%"></div></div>
+                <p class="cnote" style="margin: 8px 0 0;"><strong style="color: var(--ts);">Still needed:</strong> Recording plan &middot; Load-out time</p>
+
+                <div style="border: 1px solid var(--border); border-radius: 8px; padding: 11px 12px; margin-top: 14px;">
+                  <div class="csec-label" style="margin-bottom: 6px;">Private link</div>
+                  <p style="font-family: var(--font-mono); font-size: 10.5px; color: var(--tm); margin: 0 0 9px; word-break: break-all;">http://localhost:5173/#portal/kJ7pQ2xN4vTb8mLdRf3wYs</p>
+                  <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                    <button class="cbtn cbtn-sm" style="background: var(--ch); border-color: var(--ch); color: var(--cream);">Copy link</button>
+                    <span style="font-size: 11.5px; color: var(--amber-dim); font-weight: 500;">Open &#8599;</span>
+                    <span style="font-size: 11.5px; color: var(--ts);">New link</span>
+                    <span style="font-size: 11.5px; color: var(--ts);">Remove</span>
+                  </div>
+                  <p class="cnote" style="margin: 9px 0 0; line-height: 1.5;">Anyone with this link can read and edit the whole form, so treat it as the password. It only opens in this browser for now: Compass keeps its data on this machine, so the link will not resolve on someone else's device until there is a backend behind it.</p>
+                </div>
+
+                <div style="text-align: right; margin: 12px 0 4px;"><span style="font-size: 11.5px; color: var(--ts);">Copy all answers</span></div>
+
+                <div class="csec-label" style="margin-top: 6px;">The concert</div>
+                <div style="margin-top: 4px;">
+                  <div class="cans"><span class="cans-k">Concert name</span><span class="cans-v">Groove Theory II</span></div>
+                  <div class="cans"><span class="cans-k">Type of concert</span><span class="cans-v">Chamber concert</span></div>
+                  <div class="cans"><span class="cans-k">Preferred date</span><span class="cans-v">2026-10-18</span></div>
+                  <div class="cans"><span class="cans-k">Concert start</span><span class="cans-v">19:30</span></div>
+                  <div class="cans"><span class="cans-k">Concert end</span><span class="cans-v">22:00</span></div>
+                  <div class="cans"><span class="cans-k">Expected attendance</span><span class="cans-v">60</span></div>
+                  <div class="cans"><span class="cans-k">Public or private?</span><span class="cans-v">Open to the public</span></div>
+                  <div class="cans"><span class="cans-k">Venue</span><span class="cans-v">Scholes Street Studios</span></div>
+                  <div class="cans"><span class="cans-k">One-line description</span><span class="cans-v">Second concert in the Groove Theory series, four premieres over one repeating bass.</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 4 · CHECKLIST ON THE CALENDAR ================ -->
+      <section class="demo-car-slide" data-nav="concerts"
+               data-contrib="Every task carries a date, so the checklist is also a calendar you can drag things around on."
+               data-state-label="State of the booking"
+               data-state="11 items &middot; 4 done &middot; one overdue, and the show sitting on Oct 18."
+               data-title="Concerts: the checklist and calendar">
+        <div class="cframe cframe-full">
+          <div class="cpage">
+            <div class="ccrumb"><span class="ccrumb-link">Concerts</span><span class="ccrumb-sep">&rsaquo;</span>Groove Theory II</div>
+            <div class="chead">
+              <div>
+                <h1 class="ctitle">Groove Theory II</h1>
+                <p class="csub">Oct 18, 2026 &middot; 7:30 PM&ndash;10:00 PM &middot; Scholes Street Studios</p>
+                <div class="cstatusrow">
+                  <span class="cpill cpill-ok">Confirmed</span>
+                  <span class="cpill">38 days out</span>
+                </div>
+              </div>
+              <div class="cactions">
+                <button class="cbtn cbtn-ghost">Edit concert</button>
+              </div>
+            </div>
+            <div class="cconcert-cols">
+              <div class="cconcert-rail">
+                <div class="cprot-label">Booking protocol</div>
+                <p class="cprot-note">8 of 10 essentials answered.</p>
+                <div class="cprot-row"><span class="cprot-n cprot-n-done">1</span><span class="cprot-name">Who you are</span><span class="cprot-count cprot-count-done">9/9</span></div>
+                <div class="cprot-row"><span class="cprot-n cprot-n-done">2</span><span class="cprot-name">The concert</span><span class="cprot-count cprot-count-done">14/14</span></div>
+                <div class="cprot-row"><span class="cprot-n">3</span><span class="cprot-name">Program and run of show</span><span class="cprot-count">5/7</span></div>
+                <div class="cprot-row"><span class="cprot-n">4</span><span class="cprot-name">Space and setup</span><span class="cprot-count">8/10</span></div>
+                <div class="cprot-row"><span class="cprot-n">5</span><span class="cprot-name">Sound, lights, and recordi&hellip;</span><span class="cprot-count">3/11</span></div>
+                <button class="cprot-link">Portal link &amp; answers &rarr;</button>
+              </div>
+              <div class="cconcert-main">
+                <div class="cconcert-half">
+                  <div class="csec"><div class="csec-head"><span class="csec-label">Links</span></div><div class="csec-body"><div class="clink"><span class="clink-icon">RS</span><div class="clink-main"><div class="clink-label">RSVP page</div><div class="clink-url">partiful.com/e/groove-theory-ii</div></div></div></div></div>
+                </div>
+                <div class="cconcert-half">
+                  <div class="csec"><div class="csec-head"><span class="csec-label">People</span><span class="csec-meta">7 &middot; 5 confirmed</span></div><div class="csec-body"><div class="cperson"><span class="cavatar">PA</span><div class="cperson-main"><div class="cperson-name">Priya Anand</div></div><span class="crsvp crsvp-on">&#10003;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="coverlay">
+            <div class="cmodal cmodal-wide">
+              <div class="cmhead"><span class="cmtitle">Checklist &middot; October 2026</span><button class="cmclose">&#x00D7;</button></div>
+              <div class="cmbody">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px;">
+                  <span class="cnote">4 of 11 done &middot; 1 overdue</span>
+                  <span class="cnote">Drag an item to move its date</span>
+                </div>
+                <div class="ccal">
+                  <div class="ccal-hd">S</div><div class="ccal-hd">M</div><div class="ccal-hd">T</div><div class="ccal-hd">W</div><div class="ccal-hd">T</div><div class="ccal-hd">F</div><div class="ccal-hd">S</div>
+
+                  <div class="ccal-day ccal-out"></div>
+                  <div class="ccal-day ccal-out"></div>
+                  <div class="ccal-day ccal-out"></div>
+                  <div class="ccal-day ccal-out"></div>
+                  <div class="ccal-day"><div class="ccal-date">1</div></div>
+                  <div class="ccal-day"><div class="ccal-date">2</div><div class="ccal-dot ccal-dot-done">Room hold</div></div>
+                  <div class="ccal-day"><div class="ccal-date">3</div></div>
+
+                  <div class="ccal-day"><div class="ccal-date">4</div><div class="ccal-dot ccal-dot-late">Program to venue</div></div>
+                  <div class="ccal-day"><div class="ccal-date">5</div></div>
+                  <div class="ccal-day"><div class="ccal-date">6</div><div class="ccal-dot ccal-dot-done">Confirm players</div></div>
+                  <div class="ccal-day"><div class="ccal-date">7</div></div>
+                  <div class="ccal-day"><div class="ccal-date">8</div></div>
+                  <div class="ccal-day ccal-today"><div class="ccal-date">9</div><div class="ccal-dot ccal-dot-up">Order programs</div></div>
+                  <div class="ccal-day"><div class="ccal-date">10</div></div>
+
+                  <div class="ccal-day"><div class="ccal-date">11</div></div>
+                  <div class="ccal-day"><div class="ccal-date">12</div><div class="ccal-dot ccal-dot-up">Newsletter</div></div>
+                  <div class="ccal-day"><div class="ccal-date">13</div></div>
+                  <div class="ccal-day"><div class="ccal-date">14</div><div class="ccal-dot ccal-dot-up">Stage plot</div></div>
+                  <div class="ccal-day"><div class="ccal-date">15</div></div>
+                  <div class="ccal-day"><div class="ccal-date">16</div><div class="ccal-dot ccal-dot-up">Sound check</div></div>
+                  <div class="ccal-day"><div class="ccal-date">17</div></div>
+
+                  <div class="ccal-day"><div class="ccal-date">18</div><div class="ccal-dot ccal-show">Groove Theory II</div></div>
+                  <div class="ccal-day"><div class="ccal-date">19</div><div class="ccal-dot ccal-dot-up">Thank-yous</div></div>
+                  <div class="ccal-day"><div class="ccal-date">20</div></div>
+                  <div class="ccal-day"><div class="ccal-date">21</div></div>
+                  <div class="ccal-day"><div class="ccal-date">22</div><div class="ccal-dot ccal-dot-up">Settle up</div></div>
+                  <div class="ccal-day"><div class="ccal-date">23</div></div>
+                  <div class="ccal-day"><div class="ccal-date">24</div></div>
+                </div>
+
+                <div style="margin-top: 14px;">
+                  <div class="csec-label" style="margin-bottom: 4px;">Overdue</div>
+                  <div class="cchecklist-item"><span class="cbox"></span><span class="cchecklist-text">Send the program to the venue</span><span class="cchecklist-date cchecklist-late">Oct 4</span></div>
+                  <div class="csec-label" style="margin: 12px 0 4px;">Next up</div>
+                  <div class="cchecklist-item"><span class="cbox"></span><span class="cchecklist-text">Order printed programs</span><span class="cchecklist-date">Oct 9</span></div>
+                  <div class="cchecklist-item"><span class="cbox"></span><span class="cchecklist-text">October newsletter announcing the premiere</span><span class="cchecklist-date">Oct 12</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 5 · PEOPLE AND RSVP ========================== -->
+      <section class="demo-car-slide" data-nav="concerts"
+               data-contrib="The lineup is the same records as your contacts, so an RSVP here updates the person there."
+               data-state-label="State of the booking"
+               data-state="7 on the bill &middot; 5 confirmed &middot; two still to answer."
+               data-title="Concerts: the lineup and RSVPs">
+        <div class="cframe cframe-full">
+          <div class="cpage">
+            <div class="ccrumb"><span class="ccrumb-link">Concerts</span><span class="ccrumb-sep">&rsaquo;</span>Groove Theory II</div>
+            <div class="chead">
+              <div>
+                <h1 class="ctitle">Groove Theory II</h1>
+                <p class="csub">Oct 18, 2026 &middot; 7:30 PM&ndash;10:00 PM &middot; Scholes Street Studios</p>
+                <div class="cstatusrow">
+                  <span class="cpill cpill-ok">Confirmed</span>
+                  <span class="cpill">38 days out</span>
+                </div>
+              </div>
+              <div class="cactions"><button class="cbtn cbtn-ghost">Edit concert</button></div>
+            </div>
+            <div class="cconcert-cols">
+              <div class="cconcert-rail">
+                <div class="cprot-label">Booking protocol</div>
+                <p class="cprot-note">8 of 10 essentials answered.</p>
+                <div class="cprot-row"><span class="cprot-n cprot-n-done">1</span><span class="cprot-name">Who you are</span><span class="cprot-count cprot-count-done">9/9</span></div>
+                <div class="cprot-row"><span class="cprot-n cprot-n-done">2</span><span class="cprot-name">The concert</span><span class="cprot-count cprot-count-done">14/14</span></div>
+                <div class="cprot-row"><span class="cprot-n">3</span><span class="cprot-name">Program and run of show</span><span class="cprot-count">5/7</span></div>
+                <button class="cprot-link">Portal link &amp; answers &rarr;</button>
+              </div>
+              <div class="cconcert-main">
+                <div class="cconcert-half">
+                  <div class="csec"><div class="csec-head"><span class="csec-label">Checklist</span><span class="csec-meta">4 of 11 done</span></div><div class="csec-body"><div class="cchecklist-item"><span class="cbox cbox-done">&#10003;</span><span class="cchecklist-text cchecklist-done">Confirm the room hold</span></div></div></div>
+                </div>
+                <div class="cconcert-half">
+                  <div class="csec"><div class="csec-head"><span class="csec-label">Media</span></div><div class="csec-body"><p class="cnote" style="margin:0;">1 flyer, 2 rehearsal photos</p></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="coverlay">
+            <div class="cmodal">
+              <div class="cmhead"><span class="cmtitle">People &middot; Groove Theory II</span><button class="cmclose">&#x00D7;</button></div>
+              <div class="cmbody">
+                <p class="cnote" style="margin: 0 0 10px;">7 on the bill &middot; 5 confirmed. Tapping RSVP writes back to the contact record.</p>
+                <div class="cperson"><span class="cavatar">PA</span><div class="cperson-main"><div class="cperson-name">Priya Anand</div><div class="cperson-tags"><span class="croletag">Composer</span></div></div><button class="crsvp crsvp-on">&#10003; Confirmed</button></div>
+                <div class="cperson"><span class="cavatar">JM</span><div class="cperson-main"><div class="cperson-name">Jordan Ma</div><div class="cperson-tags"><span class="croletag">Player</span><span class="croletag">Composer</span></div></div><button class="crsvp crsvp-on">&#10003; Confirmed</button></div>
+                <div class="cperson"><span class="cavatar">MW</span><div class="cperson-main"><div class="cperson-name">Marcus Webb</div><div class="cperson-tags"><span class="croletag">Player</span><span class="croletag">Composer</span></div></div><button class="crsvp crsvp-on">&#10003; Confirmed</button></div>
+                <div class="cperson"><span class="cavatar">DO</span><div class="cperson-main"><div class="cperson-name">Desmond Okafor</div><div class="cperson-tags"><span class="croletag">Conductor</span></div></div><button class="crsvp crsvp-on">&#10003; Confirmed</button></div>
+                <div class="cperson"><span class="cavatar">TL</span><div class="cperson-main"><div class="cperson-name">Theo Lindgren</div><div class="cperson-tags"><span class="croletag">Player</span></div></div><button class="crsvp crsvp-on">&#10003; Confirmed</button></div>
+                <div class="cperson"><span class="cavatar">NC</span><div class="cperson-main"><div class="cperson-name">Naomi Cole</div><div class="cperson-tags"><span class="croletag">Attendee</span><span class="croletag">Composer</span></div></div><button class="crsvp">RSVP</button></div>
+                <div class="cperson"><span class="cavatar">SL</span><div class="cperson-main"><div class="cperson-name">Sofia Lindqvist</div><div class="cperson-tags"><span class="croletag">Composer</span></div></div><button class="crsvp">RSVP</button></div>
+                <input class="cinput" style="margin-top: 12px;" placeholder="Search contacts to add">
+              </div>
+              <div class="cmfoot">
+                <button class="cbtn cbtn-ghost cbtn-sm">Close</button>
+                <button class="cbtn cbtn-primary cbtn-sm">Save lineup</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 6 · COMMUNICATIONS LOG ======================= -->
+      <section class="demo-car-slide" data-nav="concerts"
+               data-contrib="Every message logged against the concert also lands on that person's own history."
+               data-state-label="State of the booking"
+               data-state="6 messages logged &middot; one still awaiting a reply from the venue."
+               data-title="Concerts: the communications log">
+        <div class="cframe cframe-full">
+          <div class="cpage">
+            <div class="ccrumb"><span class="ccrumb-link">Concerts</span><span class="ccrumb-sep">&rsaquo;</span>Groove Theory II</div>
+            <div class="chead">
+              <div>
+                <h1 class="ctitle">Groove Theory II</h1>
+                <p class="csub">Oct 18, 2026 &middot; 7:30 PM&ndash;10:00 PM &middot; Scholes Street Studios</p>
+                <div class="cstatusrow">
+                  <span class="cpill cpill-ok">Confirmed</span>
+                  <span class="cpill">38 days out</span>
+                </div>
+              </div>
+              <div class="cactions"><button class="cbtn cbtn-ghost">Edit concert</button></div>
+            </div>
+            <div class="cconcert-cols">
+              <div class="cconcert-rail">
+                <div class="cprot-label">Booking protocol</div>
+                <p class="cprot-note">8 of 10 essentials answered.</p>
+                <div class="cprot-row"><span class="cprot-n cprot-n-done">1</span><span class="cprot-name">Who you are</span><span class="cprot-count cprot-count-done">9/9</span></div>
+                <div class="cprot-row"><span class="cprot-n cprot-n-done">2</span><span class="cprot-name">The concert</span><span class="cprot-count cprot-count-done">14/14</span></div>
+                <div class="cprot-row"><span class="cprot-n">3</span><span class="cprot-name">Program and run of show</span><span class="cprot-count">5/7</span></div>
+                <button class="cprot-link">Portal link &amp; answers &rarr;</button>
+              </div>
+              <div class="cconcert-main">
+                <div class="cconcert-half">
+                  <div class="csec"><div class="csec-head"><span class="csec-label">Checklist</span><span class="csec-meta">4 of 11 done</span></div><div class="csec-body"><div class="cchecklist-item"><span class="cbox cbox-done">&#10003;</span><span class="cchecklist-text cchecklist-done">Confirm the room hold</span></div></div></div>
+                </div>
+                <div class="cconcert-half">
+                  <div class="csec"><div class="csec-head"><span class="csec-label">People</span><span class="csec-meta">7 &middot; 5 confirmed</span></div><div class="csec-body"><div class="cperson"><span class="cavatar">PA</span><div class="cperson-main"><div class="cperson-name">Priya Anand</div></div><span class="crsvp crsvp-on">&#10003;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="coverlay">
+            <div class="cmodal cmodal-wide">
+              <div class="cmhead"><span class="cmtitle">Communications &middot; Groove Theory II</span><button class="cmclose">&#x00D7;</button></div>
+              <div class="cmbody">
+                <p class="cnote" style="margin: 0 0 10px;">Naming a contact on an entry also writes the touchpoint onto that person, so the concert log and the relationship history never drift apart.</p>
+                <div class="ccomm">
+                  <span class="ccomm-date">Sep 2</span>
+                  <div class="ccomm-main"><div class="ccomm-summary">Sent the booking portal link so they could fill in the room details.</div><div class="ccomm-who">Email &middot; Scholes Street Studios</div></div>
+                  <span class="ccomm-tag ccomm-replied">Replied</span>
+                </div>
+                <div class="ccomm">
+                  <span class="ccomm-date">Sep 6</span>
+                  <div class="ccomm-main"><div class="ccomm-summary">Asked about the second premiere slot and the running order.</div><div class="ccomm-who">Email &middot; Priya Anand</div></div>
+                  <span class="ccomm-tag ccomm-confirmed">Confirmed</span>
+                </div>
+                <div class="ccomm">
+                  <span class="ccomm-date">Sep 8</span>
+                  <div class="ccomm-main"><div class="ccomm-summary">Sent set times and the load-in window to the whole lineup.</div><div class="ccomm-who">Email &middot; 7 recipients</div></div>
+                  <span class="ccomm-tag">Sent</span>
+                </div>
+                <div class="ccomm">
+                  <span class="ccomm-date">Sep 9</span>
+                  <div class="ccomm-main"><div class="ccomm-summary">Chased the recording plan: still no answer on whether they can patch a board feed.</div><div class="ccomm-who">Email &middot; Scholes Street Studios</div></div>
+                  <span class="ccomm-tag ccomm-awaiting">Awaiting</span>
+                </div>
+                <div class="ccomm">
+                  <span class="ccomm-date">Sep 9</span>
+                  <div class="ccomm-main"><div class="ccomm-summary">Confirmed she is playing the Chaconne on the second half.</div><div class="ccomm-who">Text &middot; Jordan Ma</div></div>
+                  <span class="ccomm-tag ccomm-confirmed">Confirmed</span>
+                </div>
+                <div class="ccomm">
+                  <span class="ccomm-date">Sep 10</span>
+                  <div class="ccomm-main"><div class="ccomm-summary">Invited to the bill. No reply yet.</div><div class="ccomm-who">Email &middot; Naomi Cole</div></div>
+                  <span class="ccomm-tag ccomm-awaiting">Awaiting</span>
+                </div>
+              </div>
+              <div class="cmfoot">
+                <button class="cbtn cbtn-ghost cbtn-sm">Close</button>
+                <button class="cbtn cbtn-primary cbtn-sm">Log a message</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 7 · NEWSLETTER EDITOR ========================= -->
+      <section class="demo-car-slide" data-nav="newsletter"
+               data-contrib="Type it rough. The marketing agent rewrites it in your voice, and the preview updates live."
+               data-state-label="State of the issue"
+               data-state="Studio Notes, October 2026 &middot; headline polished and live in the preview &middot; not yet sent."
+               data-title="Newsletter: brain-dump to a live render">
+        <div class="cframe cframe-full">
+          <div class="cpage">
+            <div class="cnl-bar">
+              <div>
+                <h1 class="ctitle" style="font-size: 21px;">New newsletter</h1>
+                <p class="csub">Studio Roundup &middot; custom sections</p>
+              </div>
+              <div class="cactions">
+                <button class="cbtn cbtn-ghost cbtn-sm">&larr; Back</button>
+                <button class="cbtn cbtn-ghost cbtn-sm">Delete</button>
+                <button class="cbtn cbtn-ghost cbtn-sm">Copy HTML</button>
+                <button class="cbtn cbtn-ghost cbtn-sm">Save draft</button>
+                <button class="cbtn cbtn-ghost cbtn-sm">Save version</button>
+                <button class="cbtn cbtn-primary cbtn-sm">Save &amp; close</button>
+              </div>
+            </div>
+
+            <div class="cnl-grid">
+              <!-- form column -->
+              <div class="cnl-col">
+                <div class="ccard">
+                  <div class="ccard-head"><span class="ccard-title">Details</span></div>
+                  <div class="cfield"><label class="clabel">Subject line</label><input class="cinput" value="Studio Notes &middot; October 2026"></div>
+                  <div class="cfrow">
+                    <div class="cfield"><label class="clabel">Status</label><select class="cinput"><option>Draft</option></select></div>
+                    <div class="cfield"><label class="clabel">Send date</label><input class="cinput" placeholder="mm/dd/yyyy"></div>
+                  </div>
+                  <div class="cfield"><label class="clabel">Month label</label><input class="cinput" value="October 2026"></div>
+                </div>
+
+                <div class="ccard">
+                  <div class="ccard-head"><span class="ccard-title">Version history</span><span class="cnote">0 saved</span></div>
+                  <p class="cnote" style="margin: 0 0 6px; line-height: 1.5;">Save version (top bar) keeps a snapshot you can restore. Saving a draft does not create one.</p>
+                  <p class="cnote" style="margin: 0;">No versions saved yet.</p>
+                </div>
+
+                <div class="ccard">
+                  <div class="ccard-head"><span class="ccard-title">Sections</span><span class="cnote">38 sections</span></div>
+                  <div class="cfield">
+                    <label class="cnl-softlabel">Masthead &middot; wordmark</label>
+                    <input class="cinput" style="margin-top: 4px;" value="Maxwell Henry">
+                  </div>
+                  <div class="cfield">
+                    <label class="cnl-softlabel">Masthead &middot; label</label>
+                    <input class="cinput" style="margin-top: 4px;" value="Studio Notes">
+                  </div>
+                  <div class="cfield">
+                    <div class="cnl-fieldlabel">
+                      <label class="cnl-softlabel">Headline</label>
+                      <button class="cbtn cbtn-ghost cbtn-xs">&#10024; Re-polish</button>
+                    </div>
+                    <textarea class="ctextarea" rows="2">we're playing groove theory ii in october i think this is the best thing ive written this year need people to come</textarea>
+                    <div class="cnl-polish">
+                      <div class="cnl-polish-head">
+                        <span class="cnl-polish-title">&#10024; Polished</span>
+                        <button class="cbtn cbtn-ghost cbtn-xs">Discard</button>
+                      </div>
+                      <div class="cnl-polish-ver">
+                        <p class="cnl-polish-text">Groove Theory II premieres in October, and it might be the best thing I've written this year. Come hear it.</p>
+                        <button class="cbtn cbtn-primary cbtn-xs">Use this</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="cfield">
+                    <label class="cnl-softlabel">Intro / greeting</label>
+                    <textarea class="ctextarea" rows="2" style="margin-top: 4px;">Hey friends, October is a big one this year. Groove Theory II premieres and the studio has been loud all month getting there.</textarea>
+                  </div>
+                </div>
+              </div>
+
+              <!-- send + preview column -->
+              <div class="cnl-col">
+                <div class="ccard">
+                  <div class="ccard-head"><span class="ccard-title">Send</span></div>
+                  <div class="cfield"><label class="clabel">Send passphrase</label><input class="cinput" type="password" placeholder="required to send"></div>
+                  <div class="cfrow" style="flex-wrap: wrap;">
+                    <div class="cfield" style="flex: 1 1 200px;">
+                      <label class="clabel">Test send</label>
+                      <p class="cnote" style="margin: 0 0 6px;">Toggle who gets the test (subject prefixed [TEST]).</p>
+                      <div class="cnl-chiprow"><span class="cnl-chip is-on">&#10003; Me</span></div>
+                      <input class="cinput" style="margin-top: 8px;" placeholder="extra@email.com, another@email.com">
+                      <button class="cbtn cbtn-ghost cbtn-sm" style="margin-top: 8px;">&#9993; Send test</button>
+                    </div>
+                    <div class="cfield" style="flex: 1 1 200px;">
+                      <label class="clabel">Send to list</label>
+                      <p class="cnote" style="margin: 0 0 6px;">Every contact in the group with an email. Enabled once the issue is Approved.</p>
+                      <div class="cfrow" style="align-items: center;">
+                        <select class="cinput" style="flex: 1;"><option>All contacts</option></select>
+                        <span class="cnote" style="white-space: nowrap;">4 with email</span>
+                      </div>
+                      <button class="cbtn cbtn-primary cbtn-sm" style="margin-top: 8px;" disabled>&#128640; Send to list</button>
+                      <p class="cnote" style="margin: 6px 0 0;">Set status to Approved to enable.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="ccard">
+                  <div class="cnl-previewhead">
+                    <span class="ccard-title">Preview</span>
+                    <div class="cnl-chiprow">
+                      <button class="cnl-chip" data-preview-mode="phone">Phone</button>
+                      <button class="cnl-chip is-on" data-preview-mode="web">Web</button>
+                    </div>
+                  </div>
+                  <div class="cnl-previewframe" data-preview-frame>
+                    <div class="cnl-previewinner">
+                      <div class="pv-masthead">
+                        <span class="pv-name">Maxwell Henry</span>
+                        <div class="pv-issue"><div class="pv-issue-name">Studio Notes</div><div class="pv-issue-date">October 2026</div></div>
+                      </div>
+                      <p class="pv-headline">Groove Theory II premieres in October, and it might be the best thing I've written this year. Come hear it.</p>
+                      <p class="pv-intro">Hey friends, October is a big one this year. Groove Theory II premieres and the studio has been loud all month getting there.</p>
+                      <div class="pv-eyebrow">Featured &middot; October</div>
+                      <div class="pv-photo">[Add a featured photo]</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /.demo-canvas -->
+
+  </div><!-- /.demo-stage -->
+
+  <div class="demo-controls">
+    <button class="demo-arrow" data-demo-prev aria-label="Previous slide">&#8249;</button>
+    <div class="demo-title" data-demo-title></div>
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <span class="demo-count" data-demo-count></span>
+      <button class="demo-arrow" data-demo-next aria-label="Next slide">&#8250;</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // Identical to the initializer transplanted into index.html, so the two
+  // never drift. Captions live on each slide's data attributes rather than in
+  // an array here, which is what lets a slide be inserted mid-run (the four
+  // Concerts slides) without renumbering anything.
+  var root = document.querySelector('[data-demo-panel]') || document;
+
+  var slides = Array.prototype.slice.call(root.querySelectorAll('.demo-car-slide'));
+  var navItems = Array.prototype.slice.call(root.querySelectorAll('.demo-nav-item[data-slide]'));
+  var prevBtns = Array.prototype.slice.call(root.querySelectorAll('[data-demo-prev]'));
+  var nextBtns = Array.prototype.slice.call(root.querySelectorAll('[data-demo-next]'));
+  var elContrib    = root.querySelector('[data-demo-contrib]');
+  var elState      = root.querySelector('[data-demo-state]');
+  var elStateLabel = root.querySelector('[data-demo-state-label]');
+  var elTitle      = root.querySelector('[data-demo-title]');
+  var elCount      = root.querySelector('[data-demo-count]');
+
+  var current = 0;
+
+  function show(i) {
+    if (i < 0 || i >= slides.length) return;
+    current = i;
+    var slide = slides[i];
+
+    slides.forEach(function (s, n) { s.classList.toggle('is-on', n === i); });
+
+    // A nav entry can cover a run of slides (Concerts is four), so the active
+    // one is matched on data-nav, not on the slide index.
+    var group = slide.getAttribute('data-nav');
+    navItems.forEach(function (b) {
+      b.classList.toggle('is-active', b.getAttribute('data-nav') === group);
+    });
+
+    if (elContrib) elContrib.textContent = slide.getAttribute('data-contrib') || '';
+    if (elStateLabel) elStateLabel.innerHTML = slide.getAttribute('data-state-label') || '';
+    if (elState) {
+      elState.innerHTML = slide.getAttribute('data-state') || '';
+      var col = elState.closest('.demo-cap-col');
+      if (col) col.hidden = !slide.getAttribute('data-state');
+    }
+    if (elTitle) elTitle.textContent = slide.getAttribute('data-title') || '';
+    if (elCount) {
+      elCount.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+    }
+    prevBtns.forEach(function (el) { el.disabled = (i === 0); });
+    nextBtns.forEach(function (el) { el.disabled = (i === slides.length - 1); });
+  }
+
+  navItems.forEach(function (b) {
+    b.addEventListener('click', function () { show(parseInt(b.getAttribute('data-slide'), 10)); });
+  });
+  prevBtns.forEach(function (el) { el.addEventListener('click', function () { show(current - 1); }); });
+  nextBtns.forEach(function (el) { el.addEventListener('click', function () { show(current + 1); }); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  });
+
+  // Newsletter slide only: the Phone / Web toggle narrows the rendered preview.
+  var frame = document.querySelector('[data-preview-frame]');
+  if (frame) {
+    document.querySelectorAll('[data-preview-mode]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        frame.classList.toggle('is-phone', btn.getAttribute('data-preview-mode') === 'phone');
+        document.querySelectorAll('[data-preview-mode]').forEach(function (b) {
+          b.classList.toggle('is-on', b === btn);
+        });
+      });
+    });
+  }
+
+  show(0);
+})();
+</script>
+</body>
+</html>
