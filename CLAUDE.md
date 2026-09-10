@@ -348,10 +348,11 @@ with the existing "Putting one to work" steps under it, then the real job descri
   his screenshot showed.
 - **The sprint card omits that sprint's contact-research table.** It is scraped work emails for
   named people at outside institutions, which are not ours to republish.
-- **Open: the booking portal slide shows the app's own note** that the link only opens in this
-  browser until there is a backend. It was kept so the slide does not claim performers can open the
-  link on their own devices. That sits against the Accuracy stance below (do not highlight
-  discrepancies), so it is Max's call, and he has not made it.
+- **The booking portal slide does not say the link is local-only** (Max's call, 2026-09-10, under
+  the Accuracy stance below). The app's own note that the link only opens in this browser was
+  removed, and the shown URL elides its host rather than reading `localhost`, which said the same
+  thing. The note's first sentence stays, because it describes the feature rather than a gap:
+  anyone with the link can read and edit the whole form, so treat it as the password.
 
 **How three carousels share one page** (the part that needed care):
 
@@ -484,7 +485,8 @@ tool rows pin at exactly the tab bar's bottom (113px) at 1280 and 420 wide; zero
 Loom was not re-tested on its own, but every tab and tool switch in these runs went through
 `syncVideos()` without an error.
 
-**Open:** the booking portal caveat (see "The CRM and Agency carousels").
+**Booking portal note:** removed at Max's call in a follow-up commit; see "The CRM and Agency
+carousels". Nothing from this session is open.
 
 ### Session of 2026-09-09, later: the Compass demo carousel (pushed 2026-09-10 as `f3fc9fa`)
 
