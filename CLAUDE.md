@@ -475,7 +475,7 @@ Everything is pushed to `main`, and Vercel deploys on push.
   session might be working in this repo.
 - `b662c9e`: the Blueprint tag returns the Compass rail to slide 1. The rail had no control for it,
   so after clicking Intake the arrows were the only way back.
-- The commit carrying this doc update: slide 5 plays a 45-second excerpt from 8:25
+- `6d3c174`: slide 5 plays a 45-second excerpt from 8:25
   (`demo/assets/chaconne-excerpt.mp3`) instead of hotlinking the full 12MB recording, and clicking a
   tool tab scrolls to the top of that tool's card. Both verified headless: the excerpt loads at
   45.0s in both copies, and tool switches land at exactly 184px on both tabs at both widths.
@@ -485,8 +485,10 @@ tool rows pin at exactly the tab bar's bottom (113px) at 1280 and 420 wide; zero
 Loom was not re-tested on its own, but every tab and tool switch in these runs went through
 `syncVideos()` without an error.
 
-**Booking portal note:** removed at Max's call in a follow-up commit; see "The CRM and Agency
-carousels". Nothing from this session is open.
+- `dad8ac2`: the booking portal slide drops the app's local-only note, at Max's call; see "The CRM
+  and Agency carousels".
+
+Nothing from this session is open. Matching docs in composers-compass: `55d49c6` and `8bdfa8c`.
 
 ### Session of 2026-09-09, later: the Compass demo carousel (pushed 2026-09-10 as `f3fc9fa`)
 
