@@ -33,11 +33,12 @@ Vercel project: `ai-portfolio-landing-page` · GitHub: `mhperkins/AI-Portfolio-L
 
 | File | Role |
 |---|---|
-| [index.html](index.html) | Main portfolio page — Shipped/Building/Workflow tabs, hero, contact, about |
-| [composer-hub.html](composer-hub.html) | Deep-dive walkthrough of The Composition Hub (Compass + CRM + Virtual Agency) — screenshots, the piece life cycle, and a build-state matrix. Linked from the Composer Compass card on the Building tab. Written for the academic track. |
+| [index.html](index.html) | Main portfolio page — **The Composer Hub / Sprout Society Suite** tabs, hero, contact, about. The Hub tab holds the whole Composer Hub walkthrough (merged in 2026-09-09). |
+| [composer-hub.html](composer-hub.html) | **Retired 2026-09-09 — now a redirect** to `index.html#composition`. Kept, not deleted, because the old public URL may have been shared in an academic application. |
 | [about.html](about.html) | Standalone About page — linked from nav |
-| [resume.html](resume.html) | Resume page — renders the PDF in an iframe with a download button |
-| [Software Developer Resume.pdf](Software Developer Resume.pdf) | Current resume, linked from resume.html |
+| [resume.html](resume.html) | **CV page** — the academic CV rendered as a native page (was a PDF iframe until 2026-09-09). Has a print stylesheet and a DOCX download. |
+| [Software Developer Resume.pdf](Software Developer Resume.pdf) | Software track resume. **Currently unlinked** — nothing routes to it since resume.html became the academic CV. |
+| [Academic CV - UW Madison.docx](Academic CV - UW Madison.docx) | Source of the CV page; offered as the download on resume.html |
 | [images/](images/) | Screenshots and assets |
 | [career-search-handoff.md](career-search-handoff.md) | Snapshot of career search status — context for Claude sessions |
 | [career-search-master.md](career-search-master.md) | AI/dev track — full ongoing career strategy document |
@@ -73,98 +74,116 @@ To test locally: open `index.html` in a browser, or run `npx serve .` if you nee
 
 The page has tabbed sections. The sticky tab nav sits outside the hero section so it persists through the full page scroll.
 
-| Tab | Content |
-|---|---|
-| Shipped | The Sprout Society Suite — CRM, Grant Assistant, Social Manager, Campaign Tracker |
-| Building | The Composer Compass — tool scaffolded, agent training protocol active |
-| Workflow | How I build tools (CLAUDE.md system, diff review) and how I build agents (intake form, rubric, experiment protocol) |
+| Tab | id | Content |
+|---|---|---|
+| The Composer Hub | `tab-hub` | Composer Compass, Composer CRM, Virtual Agency as three sub-tabs, then the component table. Default tab. |
+| Sprout Society Suite | `tab-sprout` | CRM, Grant Assistant, Social Manager, Campaign Tracker as four sub-tabs |
+
+Tabs are named for their **subject, not their status**. "Shipped / Building" was the old axis and
+it filed the Hub under unfinished. Do not go back to it. Workflow was removed on 2026-09-09 and
+will be rebuilt later; `#tab-workflow` and `#tab-progress` both resolve to `tab-hub` meanwhile.
 
 Each project card has: title, status tag, tech tags, Problem / Approach / Current Phase description.
 
 ---
 
-## The Composition Hub walkthrough (`composer-hub.html`)
+## The Composer Hub (the first tab of `index.html`)
 
-> Read this before iterating that page. Built 2026-09-09.
+> Read this before iterating it. Built 2026-09-09 as a standalone page, merged into
+> `index.html` the same day.
 
-**What it is.** A deep-dive walkthrough of the whole Composition Hub (Composer's Compass + Composer
+**What it is.** A deep-dive walkthrough of the whole Composer Hub (Composer Compass + Composer
 CRM + Virtual Agency), written for the **UW-Madison RISE-AI search committee**, not for dev
 recruiters. The committee holds both this site's URL and maxwellhenrymusic.com, so the page must
 corroborate the submitted cover letter rather than drift past it.
 
-**Status: built and verified, committed, NOT pushed.** Production is unchanged until someone pushes.
+**Status: merged into `index.html` and live-verified, NOT pushed.** Production is unchanged
+until someone pushes.
 
 ### Structure and why it is shaped this way
 
 | Zone | Contents | Reasoning |
 |---|---|---|
-| Always visible | Thesis line, cropped hub-cards image, the analytical question | A skimming committee member must reach these with zero clicks. Content behind an unclicked tab does not exist for them. |
-| Tabs | Compass / CRM / Agency | The three tools are parallel alternatives, which is what tabs are for. Also mirrors `index.html` so the eventual merge is mechanical. |
-| Carousel | The 8-stage life cycle, 3-up desktop / 1-up phone | The life cycle is a sequence, so it moves horizontally. Tabs for parallel, carousels for sequential. |
-| Always visible | Closing "composer stays the author" argument | It is the thesis, not a detail. |
+| Suite banner | Name, the three tool names, three framing lines | Mirrors the Sprout tab so both read as one design |
+| Sub-tabs | Compass / CRM / Agency | Three parallel tools, which is what tabs are for |
+| Per tool | Title, subtitle, tech tags, **three benefit cards**, a heading, then the annotated screenshot or carousel | The cards answer "why does this matter" before the screenshot answers "what does it look like". Max wrote all nine card texts. |
+| Shared, below the sub-tabs | The component table only | It describes hub-wide infrastructure rather than one tool |
 
-Do not move the analytical question or the thesis behind a tab. That was a deliberate call.
+The page is deliberately near-prose-free. Earlier drafts had paragraph intros on every tab and an
+eight-card life-cycle carousel with no image at all; Max cut all of it on 2026-09-09. Bullets and
+pinned screenshots only. Do not reintroduce explanatory paragraphs.
 
-### Verified
+### Verified (after the merge, headless)
 
-Tabs switch; both carousels work (including the hidden-panel zero-width measurement bug, fixed by
-dispatching `resize` on tab change); mobile is 1-up with no horizontal overflow at 390px; the print
-stylesheet expands all three panels and hides the controls, because academics save pages as PDF;
-zero console errors; zero em dashes.
+Tabs and both sets of sub-tabs switch, and switching a Hub tool no longer disturbs Sprout's state;
+both Hub carousels advance and report `01 / 02` and `01 / 03`; the arrows sit fully outside the
+image with their centre exactly on the image centre (dy = 0); the canvas renders at ratio 1.600
+with pin 3 landing at 57% / 30.9% against 57% / 31% authored; no broken images; zero script errors;
+zero em dashes. `#tab-progress`, `#tab-workflow`, `#composition` and `composer-hub.html` all still
+land on the Hub.
 
-### Next tasks, in priority order
+Note: the page makes ~2100 requests with ~700 failures on load, from the Loom iframes retrying.
+That is pre-existing and identical before and after the merge; it is not caused by the Hub images.
 
-1. **Add a Constitution and annotated-guide screenshot.** These are the strongest research evidence
-   and the page currently only describes them. The constitution carries per-decision provenance,
-   which is the most defensible artifact in the whole repo.
-2. **Balance the tabs.** The Compass tab is far longer than CRM and Agency, which read thin.
-3. **Decide on the build-state matrix.** Honest and good for an academic reader, but it is the most
-   internal-engineering thing on the page.
-4. **Then merge into `index.html`** (Max wants this folded into the Building tab, not left as a
-   separate page). See below.
+### Open items
 
-### The merge plan (agreed, not yet done)
+1. **The chaconne slide has no overlay callouts yet.** Slide 2 of the Compass carousel is the
+   score for *Chaconne for Bass and Pedal Board*. It sits in a forced 16:10 frame, which leaves
+   roughly 250px of dark margin either side specifically for callouts. Max is writing the text.
+2. **A Constitution / annotated-guide screenshot** would be the strongest research evidence and
+   is still only described, never shown.
+3. **`Software Developer Resume.pdf` is unlinked.** Decide whether the software track needs its
+   own route (`resume-dev.html`) alongside the academic CV.
+4. **"The composer stays the author" is unused.** It was the heading over the shared card block
+   before the cards went per-tool. Strongest line on the page; natural home is above the Compass
+   cards.
+5. **Rebuild the Workflow tab** when there is something worth putting in it.
 
-`index.html` already runs two carousel systems: `carousel-slide` (half-width images, `aspect-video`,
-used by the Sprout tools) and `section-carousel-slide` (full-width text, used by the Composer
-Compass card). The Compass card has the text one but **no image carousel**.
+### The merge (done, 2026-09-09)
 
-`composer-hub.html` was deliberately built on the same tab-plus-carousel model, so merging is mostly
-moving panel markup. The one reconciliation needed: it uses its own `car-*` classes and its own
-initializer, which should be replaced with the existing `carousel-slide` markup and `index.html`'s
-initializer. Two snags to solve when merging: the screenshots are 1.6:1 against `aspect-video`'s
-1.78:1, and the canvas screenshot's node text becomes unreadable at half width.
+Folded into `index.html` as the **first tab**, replacing the old "Building" tab. The tabs went
+from a status axis (Shipped / Building / Workflow) to a project axis (The Composer Hub /
+Sprout Society Suite), which also stops the Hub being filed under "not finished".
 
-### Accuracy constraints (do not loosen these)
+It mirrors the Sprout tab exactly: suite banner, three `tool-btn` sub-tabs, one card per tool,
+then the shared argument and component table. No nested tab row.
 
-Verified directly against the source repo. A committee may ask about any of it in an interview.
+Four things a future session needs to know before touching it:
 
-- **RAG is over score sidecars, not books.** `library/chroma_db` holds a `score_sidecars` collection
-  with 17 entries. There is **no `theory_library` collection** and no `library/books/`. A stale claim
-  on `index.html` ("semantic search over musicology texts") was corrected on 2026-09-09.
-- **Numeric rubric scoring is deprecated.** No bass-fugue run was ever numerically scored. The
-  two-run comparison document is the primary evaluation artifact. Never write "scored on a rubric."
-- **The bass fugue is unfinished.** `scores/bass-fugue/drafts/` is empty; the only musical output is
-  a validated 5-measure canon-subject sketch. The life cycle runs intake through first sketch.
-- **MuseScore and Audiveris** are implemented and self-tested, but the external binaries were never
-  installed, so they are "implemented," not "in use."
-- **"My last three pieces"** is supportable as three pieces run through the same protocol, but they
-  are not three equally complete case studies. Bass fugue has the fullest process record and the
-  thinnest music; julies-suite has complete music but no constitution; piano-sonata has the most
-  experimental depth and a finished draft but its constitution is archived, not current.
+1. **The annotated screenshots must stay full width and 16:10.** Pins are positioned as
+   percentages of the image box and sized in `cqw`. A half-width card renders the pin labels at
+   about 5.6px, and any ratio other than the images' true 1.6 makes `object-fit` letterbox the
+   image, which slides every pin off the thing it points at. This is why they do **not** reuse
+   the half-width `carousel-slide` / `aspect-video` system.
+2. **The Hub carousels are a separate system on purpose.** They use `data-hub-carousel` and a
+   `hub-car-*` class prefix with their own initializer. `initCarousels()` expects `.carousel-*`
+   children and throws on a null prev button if it matches Hub markup.
+3. **`switchTool()` is scoped to the clicked button's `.tab-panel`.** Two tabs now run sub-tabs;
+   unscoped, switching a Hub tool blanked every Sprout panel.
+4. **Old entry points still resolve.** `#tab-progress` maps to `tab-hub` in `cardToTab`, and
+   `composer-hub.html` is a redirect. Do not delete either shortcut.
 
-### Re-capturing screenshots
+### Accuracy stance (set by Max, 2026-09-09)
 
-Full procedure in `Composition_Hub_Tool/composers-compass/docs/deliveries/2026-09-09/README.md`.
-Essentials: run `cd app-ui && npm run dev` (fixed port 5173), seed the Compass piece via
-`/seed-bass-fugue.html`, write `compass:contact:*` / `compass:org:*` / `compass:concert:*` keys
-directly for the CRM, and set `compass:__lastexport__` so the hub header does not read "Never backed
-up." Capture with Playwright at `deviceScaleFactor: 2`.
+This tool has exactly one user: Max. The portfolio exists to demonstrate what he can make it do,
+so **small gaps between a claim and the current repo state are acceptable** and should not be
+chased. The rule is narrower than it used to be:
 
-**Never screenshot the real CRM.** It holds real contacts' names and email addresses and these
-images are published publicly. Always use clearly fictional sample records.
+> Any discrepancies are fine, as long as the portfolio does not *highlight* discrepancies.
 
----
+So do not write the caveat into the page. Earlier drafts volunteered "the binaries were never
+installed", "numeric scoring was deprecated", "built but idle", "retired unrun" and "the fugue is
+in progress"; all of that was removed on 2026-09-09 because it undercut the demo without being
+asked for. Describe capability, do not audit it.
+
+Two things that are **not** caveats and must stay:
+
+- **CRM screens use fictional sample records.** That line stays in the page footer. It is what
+  stops a reader assuming the sample names are real people, and it is what makes showing those
+  screens acceptable at all.
+- **Never screenshot the real CRM.** It holds real contacts' names and email addresses and these
+  images are published. Seed fictional data instead; the procedure is in the Compass repo at
+  `docs/deliveries/2026-09-09/README.md`.
 
 ## Status Tags
 
@@ -180,17 +199,58 @@ images are published publicly. Always use clearly fictional sample records.
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
-All major items from the previous Known Updates list are resolved:
-- Headline updated to output-focused language ("I build AI-assisted tools, not prototypes.")
-- About page exists (about.html) and About section on index.html
-- Problem/solution/outcome framing on all project cards
-- Social Manager moved to Shipped tab
-- The Composer Compass added to Building tab with full training protocol description
-- Workflow tab updated with agent training methodology paragraph
+### Session of 2026-09-09 (large restructure, NOT pushed)
+
+Everything below is on disk and live-verified headless, but **uncommitted on `main`**. Production
+is unchanged until someone commits and pushes.
+
+**The site is now two tabs, named for their subject rather than their status.**
+
+| Tab | id | State |
+|---|---|---|
+| The Composer Hub | `tab-hub` | Default. Suite banner, three tool sub-tabs, then the component table. |
+| Sprout Society Suite | `tab-sprout` | Unchanged: four tool sub-tabs. |
+
+- **Shipped / Building / Workflow are gone.** "Shipped/Building" was a status axis that filed the
+  Hub under unfinished. **Workflow was removed entirely on 2026-09-09** — Max will rebuild it
+  later. Its 54 lines are recoverable from commit `8b46ee0` and the panel is not commented out.
+- Stale hashes still resolve: `#tab-progress` and `#tab-workflow` both map to `tab-hub`, and
+  `composer-hub.html` is a redirect rather than a deletion. Do not remove those shortcuts.
+
+**The Composer Hub tab** (was the standalone `composer-hub.html`, merged the same day):
+
+- Named **"The Composer Hub"**, and the tool is **"Composer Compass"** with no apostrophe. Renamed
+  from "Composition Hub" / "Composer's Compass" late in the session; this matches the CV.
+- Each of the three tools is: title + subtitle + tech tags, **three benefit cards**, a heading, then
+  an annotated screenshot or carousel. The cards are per-tool and Max wrote all nine.
+- The old shared "The composer stays the author" block is retired; its three cards became the
+  Compass set. **That heading is currently unused** and is the strongest line on the page, so it
+  is worth reinstating above the Compass cards if there is ever a reason.
+- `images/Hub_Cards.png` was removed from the page (still on disk, unreferenced). It showed the
+  old "Composer's Compass" spelling, so removing it also resolved the last naming mismatch.
+
+**Screenshots.** All Hub screenshots carry numbered pills that name what they point at. The app's
+own UI text renders around 4px at page width, so the pills are the readable layer, not a duplicate.
+Two CRM screens were re-captured on 2026-09-09 because the originals showed empty states: the
+Groove Theory II concert page and the newsletter editor. Seeding procedure and shapes are in the
+Compass repo at `docs/deliveries/2026-09-09/README.md`.
+
+**The CV replaced the resume.** `resume.html` is now the academic CV as a native page with a print
+stylesheet, not a PDF iframe. Nav reads "CV" everywhere. `Software Developer Resume.pdf` is on disk
+but **unlinked** — decide whether the software track needs its own route.
+
+**Known, checked, and deliberately left alone** (both pre-existing, identical in the pre-merge
+backup, neither caused by this work):
+- The page makes ~2100 requests with ~700 failures on load, from the Loom iframes retrying.
+- Horizontal overflow at 390px, caused by the hero `H1` reaching 426px.
+- Pin labels scale with the image, so on a 390px phone they render ~3.4px. A font floor would make
+  the pills collide; solve it deliberately or not at all.
 
 **Remaining on the site itself:**
 - Loom for Social Media Manager V2 needs to be recorded
-- Workflow tab Loom needs to be redone to show the composition training protocol
+- The chaconne score slide (Compass carousel, slide 2) has no overlay callouts yet; Max is writing
+  them. It sits in a forced 16:10 frame leaving ~250px of dark margin either side for exactly that.
+- Rebuild a Workflow tab when there is something worth putting in it
 
 **Career search has expanded to three parallel tracks (as of Sept 2026):**
 1. **AI/dev track** (`career-search-master.md`) — original track, unchanged.

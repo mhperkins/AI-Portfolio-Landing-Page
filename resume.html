@@ -3,18 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Resume: MH Perkins</title>
+  <title>CV: MH Perkins</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            brand: {
-              400: '#4ade80',
-              500: '#22c55e',
-              600: '#16a34a',
-            }
+            brand: { 400: '#348a58', 500: '#2d7a4f', 600: '#2d7a4f', 700: '#235e3d' }
           },
           fontFamily: {
             sans: ['Inter', 'system-ui', 'sans-serif'],
@@ -25,69 +21,289 @@
     }
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Barlow+Condensed:wght@900&display=block" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Barlow+Condensed:wght@300;900&display=block" rel="stylesheet" />
   <style>
+    html { scroll-behavior: smooth; }
+
     .nav-link { color: #94a3b8; font-size: 0.875rem; transition: color 0.15s; }
     .nav-link:hover { color: #f1f5f9; }
-    .gradient-text {
-      background: linear-gradient(135deg, #22c55e 0%, #4ade80 50%, #86efac 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+
+    .sec-kicker {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem; letter-spacing: 0.18em;
+      text-transform: uppercase; color: #348a58;
+    }
+    .sec-h2 {
+      text-transform: uppercase;
+      font-size: 1.3rem; font-weight: 600;
+      letter-spacing: 0.085em; line-height: 1.25;
+      color: #e8eff3;
+    }
+    @media (max-width: 639px) { .sec-h2 { font-size: 1.1rem; letter-spacing: 0.07em; } }
+
+    /* One CV entry: title line, meta line, bullets. */
+    .entry { margin-bottom: 26px; }
+    .entry-title { font-size: 0.98rem; font-weight: 600; color: #e8eff3; line-height: 1.4; }
+    .entry-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem; letter-spacing: 0.06em;
+      color: #7f8f99; margin-top: 3px;
+    }
+    .entry-note {
+      font-size: 0.9rem; line-height: 1.6; color: #9fb2bd;
+      font-style: italic; margin-top: 8px;
+    }
+    .blist { list-style: none; padding: 0; margin: 9px 0 0; }
+    .blist li {
+      position: relative; padding-left: 17px; margin-bottom: 6px;
+      font-size: 0.9rem; line-height: 1.55; color: #9fb2bd;
+    }
+    .blist li::before {
+      content: ''; position: absolute; left: 1px; top: 0.62em;
+      width: 5px; height: 5px; border-radius: 9999px; background: #348a58;
+    }
+
+    .rule { border-top: 1px solid rgba(255,255,255,0.07); }
+
+    .lede {
+      font-size: 0.95rem; line-height: 1.7; color: #b8c9d4;
+      border-left: 2px solid rgba(52,138,88,0.5); padding-left: 16px;
+    }
+
+    a.inline { color: #9fdcb5; text-decoration: none; border-bottom: 1px solid rgba(52,138,88,0.4); }
+    a.inline:hover { color: #cfe9d9; border-bottom-color: rgba(52,138,88,0.8); }
+
+    /* Print: this is a CV, so it must survive Ctrl+P cleanly. */
+    @media print {
+      body { background: #fff !important; color: #111 !important; }
+      nav, .no-print { display: none !important; }
+      main { padding-top: 0 !important; }
+      h1, h2, h3, p, li, .entry-title, .sec-h2 { color: #111 !important; }
+      .sec-kicker { color: #235e3d !important; }
+      .entry-meta { color: #444 !important; }
+      .blist li, .entry-note, .lede { color: #222 !important; }
+      .blist li::before { background: #235e3d !important; }
+      .entry { page-break-inside: avoid; }
+      a.inline { color: #235e3d !important; border: 0 !important; }
+      .rule { border-color: #bbb !important; }
     }
   </style>
 </head>
-<body class="bg-[#080d08] text-slate-200 font-sans antialiased">
+<body class="font-sans antialiased" style="color: #c4d4de; background: radial-gradient(ellipse 120% 60% at 50% 0%, #0f1f10 0%, #080d08 65%) #080d08;">
 
   <!-- NAV -->
   <nav class="fixed top-0 inset-x-0 z-50 border-b border-white/5 bg-[#080d08]/80 backdrop-blur-md">
     <div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
       <a href="index.html" class="font-mono text-sm font-medium" style="color: #348a58;">mhperkins<span style="color: #64748b;">.dev</span></a>
       <div class="flex items-center gap-6">
-        <a href="index.html#tab-sprout" class="nav-link text-sm">Shipped</a>
-        <a href="index.html#tab-progress" class="nav-link text-sm">Building</a>
-        <a href="index.html#tab-workflow" class="nav-link text-sm">Workflow</a>
+        <a href="index.html#tab-hub" class="nav-link text-sm">Composer Hub</a>
+        <a href="index.html#tab-sprout" class="nav-link text-sm">Sprout Suite</a>
         <a href="about.html" class="nav-link text-sm">About</a>
-        <a href="resume.html" class="nav-link text-sm" style="color: #f1f5f9;">Resume</a>
+        <a href="resume.html" class="nav-link text-sm" style="color: #f1f5f9;">CV</a>
         <a href="index.html#contact" class="nav-link text-sm">Contact</a>
       </div>
     </div>
   </nav>
 
-  <!-- HEADER -->
-
-  <!-- PDF VIEWER -->
-  <section class="pt-20 pb-24">
+  <main class="pt-14">
     <div class="max-w-4xl mx-auto px-6">
-      <iframe src="Software%20Developer%20Resume.pdf#pagemode=none" class="w-full rounded-xl border border-white/10" style="height: 85vh;" frameborder="0"></iframe>
-      <div class="flex justify-center mt-6">
-        <a href="Software Developer Resume.pdf" download class="px-6 py-3 bg-brand-600 hover:bg-brand-500 text-white font-medium rounded-lg transition-colors text-sm">
-          Download PDF
-        </a>
-      </div>
-    </div>
-  </section>
 
-  <!-- CONTACT -->
-  <section id="contact" class="pt-5 pb-12 border-t border-white/5">
-    <div class="max-w-5xl mx-auto px-6">
-      <h2 class="text-3xl font-semibold mb-4">Get in touch</h2>
-      <p class="text-slate-400 max-w-3xl mb-8 leading-relaxed">
-        I'm looking for AI developer and full-stack engineering roles. If you're building internal tools, AI workflows, and solving real operational problems,<br>let's connect.
-      </p>
-      <div class="flex flex-wrap gap-4">
-        <a href="mailto:maxwellhperkins@gmail.com" class="px-6 py-3 bg-brand-600 hover:bg-brand-500 text-white font-medium rounded-lg transition-colors text-sm">Email me</a>
-        <a href="https://github.com/mhperkins" target="_blank" rel="noopener" class="px-6 py-3 border border-white/10 hover:border-white/20 text-slate-300 hover:text-white font-medium rounded-lg transition-colors text-sm">GitHub</a>
-        <a href="https://www.linkedin.com/in/maxwell-perkins-702a82207/" target="_blank" rel="noopener" class="px-6 py-3 border border-white/10 hover:border-white/20 text-slate-300 hover:text-white font-medium rounded-lg transition-colors text-sm">LinkedIn</a>
-      </div>
-    </div>
-  </section>
+      <!-- HEADER -->
+      <header class="pt-12 pb-8">
+        <p class="sec-kicker mb-3">Curriculum vitae</p>
+        <h1 class="uppercase mb-5" style="font-family: 'Barlow Condensed', sans-serif; font-weight: 900; letter-spacing: 0.14em; line-height: 1; color: #ffffff; font-size: clamp(2rem, 8.5vw, 4.6rem); white-space: nowrap;">
+          Maxwell Perkins
+        </h1>
+        <p class="text-sm leading-relaxed mb-2" style="color: #b8c9d4;">
+          Brooklyn, NY &nbsp;·&nbsp;
+          <a class="inline" href="mailto:maxwellhperkins@gmail.com">maxwellhperkins@gmail.com</a> &nbsp;·&nbsp;
+          <a class="inline" href="tel:+19252591748">925-259-1748</a>
+        </p>
+        <p class="text-sm leading-relaxed" style="color: #b8c9d4;">
+          <a class="inline" href="https://ai-portfolio-landing-page.vercel.app/" target="_blank" rel="noopener">Portfolio</a> &nbsp;·&nbsp;
+          <a class="inline" href="https://www.linkedin.com/in/maxwell-perkins-702a82207/" target="_blank" rel="noopener">LinkedIn</a>
+        </p>
+        <div class="flex flex-wrap gap-3 mt-6 no-print">
+          <a href="Academic CV - UW Madison.docx" download
+             class="px-5 py-2.5 rounded-lg text-sm font-medium transition-colors"
+             style="background:#2d7a4f; color:#fff;">Download CV (DOCX)</a>
+          <a href="index.html#composition"
+             class="px-5 py-2.5 rounded-lg text-sm font-medium border border-white/10 hover:border-white/20 transition-colors"
+             style="color:#cbd5e1;">See the Composer Hub</a>
+        </div>
+      </header>
 
-  <!-- FOOTER -->
+      <!-- EDUCATION -->
+      <section class="rule pt-10 pb-2">
+        <h2 class="sec-h2 mb-6">Education</h2>
+        <div class="entry">
+          <p class="entry-title">M.M., Music Theory and Composition (Songwriting Concentration)</p>
+          <p class="entry-meta">New York University &nbsp;·&nbsp; 2022</p>
+        </div>
+        <div class="entry">
+          <p class="entry-title">B.A., Music Composition, Minor in Business</p>
+          <p class="entry-meta">University of Wisconsin&ndash;Madison &nbsp;·&nbsp; 2014</p>
+        </div>
+      </section>
+
+      <!-- TEACHING -->
+      <section class="rule pt-10 pb-2">
+        <h2 class="sec-h2 mb-6">Teaching experience</h2>
+        <div class="entry">
+          <p class="entry-title">Private Music Instructor</p>
+          <p class="entry-meta">2011&ndash;Present</p>
+          <ul class="blist">
+            <li>Piano, drums, audio production, and composition, one-on-one and in groups.</li>
+            <li>Developed original curricula for composition and audio production for beginner to advanced levels, available on request.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- CREATIVE WORK & RESEARCH -->
+      <section class="rule pt-10 pb-2">
+        <p class="sec-kicker mb-3">Creative work and research</p>
+        <h2 class="sec-h2 mb-6">The Composer Hub</h2>
+        <p class="lede mb-8">
+          Current AI music tools are built to generate music, offering nothing to a musician who already
+          knows how to write and make it. The Composer Hub is built to prove AI can assist trained
+          musicians in their creative process, career, and workflow, without diluting human creation.
+        </p>
+
+        <div class="entry">
+          <p class="entry-title">The Composer Compass</p>
+          <p class="entry-meta">2026&ndash;present &nbsp;·&nbsp; <a class="inline" href="index.html#composition">walkthrough</a></p>
+          <p class="entry-note">
+            An AI composer assistant that does not compose music; it learns your compositional process and
+            augments your creative capacity through a structured protocol in the background and a simple
+            interface in the foreground.
+          </p>
+          <ul class="blist">
+            <li>Learns a composer's process from a structured intake form filled out per piece, then evaluates new work against it: trained via an AI analysis agent and a rubric scoring six compositional dimensions plus three modifiers.</li>
+            <li>Grounds every evaluation in the composer's own reference material, not generic AI assumptions, via a searchable personal music theory library (ChromaDB).</li>
+            <li>Allows the composer to visualize their creative workflow in a Next.js interface built on the Anthropic API: planning, sketching, analyzing, draft management, and engraving.</li>
+            <li>Tested the trained agent across several AI models to compare the utility of each response using a multi-dimension, weighted rubric.</li>
+          </ul>
+        </div>
+
+        <div class="entry">
+          <p class="entry-title">Composer CRM</p>
+          <p class="entry-meta">2026&ndash;present</p>
+          <p class="entry-note">A tool to organize and manage the career side of being a composer.</p>
+          <ul class="blist">
+            <li>Tracks performers, prospects, ensembles, venues, and concerts (budgets, communications, media).</li>
+            <li>A newsletter builder tool.</li>
+            <li>An AI outreach feature to research and compile new prospects.</li>
+          </ul>
+        </div>
+
+        <div class="entry">
+          <p class="entry-title">Virtual Agency</p>
+          <p class="entry-meta">2026&ndash;present, in training</p>
+          <p class="entry-note">
+            A virtual label/publisher: customizable AI employees that fill the roles a record label or
+            publisher normally provides, still in training and under close human oversight.
+          </p>
+          <ul class="blist">
+            <li>Each agent is a system prompt (job description) plus a set of tools/skills.</li>
+            <li>Can run on a schedule or be triggered manually.</li>
+            <li>Marketing, Web Design, and Social Media virtual employees have produced a concert landing page and digital program notes, an outreach campaign, and a content calendar.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- APPLIED SYSTEMS -->
+      <section class="rule pt-10 pb-2">
+        <h2 class="sec-h2 mb-6">Applied systems</h2>
+        <div class="entry">
+          <p class="entry-title">The Sprout Suite</p>
+          <p class="entry-meta">2025&ndash;present</p>
+          <p class="entry-note">
+            Four internal tools built for Sprout Society, a Brooklyn community space for creatives: a CRM,
+            a grant research and writing assistant, a social media manager, and a campaign tracker.
+          </p>
+          <ul class="blist">
+            <li><b style="color:#dbe6ec;">CRM:</b> a tool to manage contacts, donors, outreach, and events management.</li>
+            <li><b style="color:#dbe6ec;">Grant Tool:</b> AI assisted grant research and compatibility, with grant life cycle tracking, and application workspace.</li>
+            <li><b style="color:#dbe6ec;">Social Media Manager:</b> a repository and workspace for social media content, with an automated publishing feature that runs on a content calendar.</li>
+            <li><b style="color:#dbe6ec;">Campaign Tracker:</b> a dynamic QR code builder that tracks scans and visualizes data.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- PROFESSIONAL EXPERIENCE -->
+      <section class="rule pt-10 pb-2">
+        <h2 class="sec-h2 mb-6">Professional experience</h2>
+
+        <div class="entry">
+          <p class="entry-title">Community Manager &mdash; Sprout Society</p>
+          <p class="entry-meta">Brooklyn, NY &nbsp;·&nbsp; February 2026&ndash;Present</p>
+          <ul class="blist">
+            <li>Manage community, membership growth, social media, event planning, outreach, and grant research and reporting.</li>
+            <li>See Applied Systems for the internal software toolset built for this role.</li>
+          </ul>
+        </div>
+
+        <div class="entry">
+          <p class="entry-title">Freelance Prompt Engineer &mdash; Handshake AI</p>
+          <p class="entry-meta">Aug 2025&ndash;Present</p>
+          <ul class="blist">
+            <li>Annotate and evaluate AI-generated music.</li>
+            <li>Write prompts and rubrics to evaluate AI responses on musical analysis, not generation: identify failures and document the correct answer.</li>
+          </ul>
+        </div>
+
+        <div class="entry">
+          <p class="entry-title">Founder &mdash; Music Major Records LLC</p>
+          <p class="entry-meta">Jul 2023&ndash;Aug 2025</p>
+          <ul class="blist">
+            <li>Founded and ran a company: a platform for college musicians to collaborate and build their careers.</li>
+            <li>Owned strategy, product, marketing, and finances. Began market testing, iterated the model, then decided to place the project on hold.</li>
+          </ul>
+        </div>
+
+        <div class="entry">
+          <p class="entry-title">Producer &amp; Recording Engineer &mdash; Misfits' Instruments Studio</p>
+          <p class="entry-meta">2018&ndash;Present</p>
+          <ul class="blist">
+            <li>Produced, arranged, and mixed recordings, analog and digital, from tracking through final mix, in Pro Tools and Logic.</li>
+            <li>Played as a session musician and handled studio scheduling and session logistics.</li>
+          </ul>
+        </div>
+
+        <div class="entry">
+          <p class="entry-title">Composer and Songwriter &mdash; Independent</p>
+          <p class="entry-meta">2014&ndash;Present</p>
+          <ul class="blist">
+            <li>Both in pop/contemporary and concert music styles.</li>
+            <li>Songwriting and producer credits for pop and rock (John Harvie, Brett Altman).</li>
+            <li>A recent return to concert music and re-debut concert in June 2026 in NYC.</li>
+            <li>Produce and host a concert music series for composers and performers in NYC.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="rule pt-10 pb-12 no-print">
+        <h2 class="sec-h2 mb-4">Get in touch</h2>
+        <p class="text-sm max-w-3xl mb-7 leading-relaxed" style="color:#9fb2bd;">
+          I'm interested in research, teaching, and applied AI work at the intersection of music and
+          technology. If you're building in that space, let's connect.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="mailto:maxwellhperkins@gmail.com" class="px-6 py-3 text-white font-medium rounded-lg transition-colors text-sm" style="background:#2d7a4f;">Email me</a>
+          <a href="https://github.com/mhperkins" target="_blank" rel="noopener" class="px-6 py-3 border border-white/10 hover:border-white/20 font-medium rounded-lg transition-colors text-sm" style="color:#cbd5e1;">GitHub</a>
+          <a href="https://www.linkedin.com/in/maxwell-perkins-702a82207/" target="_blank" rel="noopener" class="px-6 py-3 border border-white/10 hover:border-white/20 font-medium rounded-lg transition-colors text-sm" style="color:#cbd5e1;">LinkedIn</a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
   <footer class="py-8 border-t border-white/5">
     <div class="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <span class="font-mono text-xs text-slate-600">mhperkins · 2026</span>
-      <span class="font-mono text-xs text-slate-600">built with Claude Code</span>
+      <span class="font-mono text-xs" style="color:#4a5a63;">mhperkins &middot; 2026</span>
+      <span class="font-mono text-xs" style="color:#4a5a63;">built with Claude Code</span>
     </div>
   </footer>
 

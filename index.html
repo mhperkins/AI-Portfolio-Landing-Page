@@ -157,6 +157,114 @@
       border-radius: 10px;
       padding: 16px 20px;
     }
+
+    /* ═══ Composer Hub (merged from composer-hub.html, 2026-09-09) ═══
+       Annotated screenshots. Pins are positioned as percentages of the image
+       box and sized in cqw, so they scale with the image and stay locked to
+       what they point at. This is why these slides must stay FULL WIDTH and
+       in the images' true 16:10 ratio: a half-width card would render the pin
+       labels at ~5.6px, and any other aspect ratio letterboxes the image and
+       slides every pin off its target. That is why they do not reuse the
+       half-width `carousel-slide` / `aspect-video` system above. */
+    .annot { position: relative; container-type: inline-size; }
+    .hub-shot {
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 10px; overflow: hidden; background: #0b120c; margin: 0;
+    }
+    .hub-shot img { display: block; width: 100%; height: auto; }
+
+    /* A portrait score page in the same 16:10 box the screenshots use, so the
+       carousel keeps one geometry and the arrows stay put between slides. */
+    .score-frame {
+      aspect-ratio: 16 / 10;
+      display: flex; align-items: center; justify-content: center;
+      background: #10161a;
+    }
+    .score-frame img { width: auto; height: 100%; max-width: 100%; object-fit: contain; }
+
+    .pin {
+      position: absolute; transform: translateY(-50%); z-index: 2;
+      display: inline-flex; align-items: center; gap: 0.6cqw;
+      padding: 0.34cqw 1cqw 0.34cqw 0.34cqw;
+      border-radius: 9999px;
+      background: rgba(32,96,60,0.96);
+      border: 0.1cqw solid rgba(255,255,255,0.42);
+      color: #ffffff; white-space: nowrap;
+      font-size: 1.15cqw; font-weight: 600;
+      box-shadow: 0 0.2cqw 0.9cqw rgba(0,0,0,0.55);
+    }
+    .pin .n {
+      flex: 0 0 auto;
+      width: 1.75cqw; height: 1.75cqw; border-radius: 9999px;
+      background: #ffffff; color: #1d5537;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95cqw; font-weight: 500; line-height: 1;
+    }
+
+    /* Hub carousel. Its own hook (`data-hub-carousel`) and its own class
+       prefix, because index's initCarousels() expects .carousel-* children
+       and would throw on a null prev button if it matched these. */
+    .hub-car-frame { position: relative; }
+    .hub-car-viewport { overflow: hidden; }
+    .hub-car-track { display: flex; transition: transform 0.35s ease; }
+    .hub-car-slide { flex: 0 0 100%; min-width: 0; box-sizing: border-box; }
+    /* Same width and 16:10 ratio as the image, pinned to the top of the frame,
+       so the arrows' vertical centre IS the image's centre however tall the
+       slide grows. */
+    .hub-car-arrows {
+      position: absolute; top: 0; left: 0; right: 0;
+      aspect-ratio: 16 / 10; pointer-events: none; z-index: 3;
+    }
+    .hub-car-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      pointer-events: auto;
+      width: 42px; height: 42px; border-radius: 9999px;
+      border: 1px solid rgba(255,255,255,0.14); color: #b7c8d2;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(8,13,8,0.55); backdrop-filter: blur(6px);
+      transition: all 0.15s; cursor: pointer;
+    }
+    .hub-car-arrow:hover:not(:disabled) { border-color: rgba(52,138,88,0.6); color: #9fdcb5; background: rgba(11,18,12,0.85); }
+    .hub-car-arrow:disabled { opacity: 0.22; cursor: not-allowed; }
+    .hub-car-prev { left: -58px; }
+    .hub-car-next { right: -58px; }
+    /* Inside a padded card the outside margin runs out sooner than on the
+       standalone page, so the arrows ride the image edges below this. */
+    @media (max-width: 1280px) {
+      .hub-car-prev { left: 10px; }
+      .hub-car-next { right: 10px; }
+      .hub-car-arrow { background: rgba(8,13,8,0.78); }
+    }
+    .hub-car-meter { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 14px; }
+    .hub-car-count { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; color: #6f8089; }
+    .hub-car-dots { display: flex; align-items: center; gap: 7px; }
+    .hub-car-dot {
+      width: 6px; height: 6px; border-radius: 9999px; border: 0; padding: 0;
+      background: rgba(255,255,255,0.18); transition: all 0.2s; cursor: pointer;
+    }
+    .hub-car-dot.active { background: #348a58; width: 20px; }
+
+    /* Sub-heading inside a Hub card. Caps need tracking to stay readable and
+       sit smaller than the mixed-case size they replace. */
+    .sec-h2 {
+      text-transform: uppercase;
+      font-size: 1.15rem; font-weight: 600;
+      letter-spacing: 0.085em; line-height: 1.25;
+    }
+    @media (max-width: 639px) { .sec-h2 { font-size: 1rem; letter-spacing: 0.07em; } }
+
+    table.matrix { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    table.matrix th, table.matrix td {
+      text-align: left; padding: 10px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.07); vertical-align: top;
+    }
+    table.matrix th {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: #7f8f99; font-weight: 500;
+    }
+    .wrap-x { overflow-x: auto; }
   </style>
 </head>
 <body class="font-sans antialiased" style="color: #c4d4de; background: radial-gradient(ellipse 120% 60% at 50% 0%, #0f1f10 0%, #080d08 65%) #080d08;">
@@ -167,7 +275,7 @@
       <a href="#" class="font-mono text-sm text-brand-400 font-medium">mhperkins<span class="text-slate-500">.dev</span></a>
       <div class="flex items-center gap-6">
         <a href="about.html" class="nav-link text-sm">About</a>
-        <a href="resume.html" class="nav-link text-sm">Resume</a>
+        <a href="resume.html" class="nav-link text-sm">CV</a>
         <a href="#contact" class="nav-link text-sm">Contact</a>
       </div>
     </div>
@@ -205,9 +313,8 @@
     <div class="sticky top-14 z-40 bg-[#080d08]/90 backdrop-blur-md border-b border-white/10 mb-10">
       <div class="max-w-5xl mx-auto px-6">
         <div class="flex justify-center gap-6 py-3">
-          <button data-target="tab-sprout" class="tab-btn tab-active text-sm font-medium">Shipped</button>
-          <button data-target="tab-progress" class="tab-btn text-sm font-medium">Building</button>
-          <button data-target="tab-workflow" class="tab-btn text-sm font-medium">Workflow</button>
+          <button data-target="tab-hub" class="tab-btn tab-active text-sm font-medium">The Composer Hub</button>
+          <button data-target="tab-sprout" class="tab-btn text-sm font-medium">Sprout Society Suite</button>
         </div>
       </div>
     </div>
@@ -215,9 +322,307 @@
     <div class="max-w-5xl mx-auto px-6">
 
       <!-- ═══════════════════════════════════════════════════
-           Tab: Shipped — Sprout Society Suite
+           Tab: The Composer Hub
+           Merged in from the standalone composer-hub.html on 2026-09-09.
+           Mirrors the Sprout tab: suite banner, tool sub-tabs, one card per
+           tool, then the argument and component table shared by all three.
       ═══════════════════════════════════════════════════ -->
-      <div id="tab-sprout" class="tab-panel pb-24">
+      <div id="tab-hub" class="tab-panel pb-24">
+
+        <!-- Suite banner -->
+        <div class="suite-banner mb-6 text-center">
+          <div class="flex flex-col items-center gap-3 mb-4">
+            <p class="section-label" style="font-size: 1rem;">The Composer Hub</p>
+            <p class="text-slate-300 font-medium text-base">Composer Compass &nbsp;|&nbsp; Composer CRM &nbsp;|&nbsp; Virtual Agency</p>
+          </div>
+          <ul class="text-slate-400 text-sm leading-relaxed space-y-1 w-full text-left max-w-2xl mx-auto list-disc list-inside">
+            <li>An AI composer assistant that does not compose music: it learns a composer&rsquo;s process</li>
+            <li>Structured protocol in the background, simple interface in the foreground</li>
+            <li>Three tools on one local store: composing, networking, career managing</li>
+          </ul>
+        </div>
+
+        <!-- Tool sub-tabs -->
+        <div class="flex gap-2 mb-6 flex-wrap justify-center">
+          <button class="tool-btn tool-btn-active" data-tool="hub-compass">Composer Compass</button>
+          <button class="tool-btn" data-tool="hub-crm">Composer CRM</button>
+          <button class="tool-btn" data-tool="hub-agency">Virtual Agency</button>
+        </div>
+
+        <!-- ── Tool: Composer Compass ── -->
+        <div id="tool-hub-compass" class="tool-panel">
+          <div id="composition" class="border border-white/8 rounded-xl p-6 sm:p-8 bg-white/[0.02]">
+            <div class="flex flex-col items-center gap-2 mb-3">
+              <h3 class="text-xl font-semibold">Composer Compass</h3>
+              <p class="text-sm text-slate-400">The composing tool</p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-2 mb-6">
+              <span class="tag tech-tag">React</span>
+              <span class="tag tech-tag">Claude API</span>
+              <span class="tag tech-tag">Model Context Protocol</span>
+              <span class="tag tech-tag">music21</span>
+              <span class="tag tech-tag">Verovio</span>
+              <span class="tag tech-tag">ChromaDB</span>
+              <span class="tag tech-tag">MusicXML</span>
+            </div>
+            <div class="grid md:grid-cols-3 gap-5 mb-8">
+              <div class="border border-white/8 rounded-lg p-5 bg-white/[0.02]">
+                <h4 class="font-semibold mb-2 text-sm" style="color:#dbe6ec;">It does not write the music</h4>
+                <p class="text-sm leading-relaxed" style="color:#93a7b2;">
+                  The assistant produces questions and observations based on your idea for the piece and your aesthetic blueprint.
+                </p>
+              </div>
+              <div class="border border-white/8 rounded-lg p-5 bg-white/[0.02]">
+                <h4 class="font-semibold mb-2 text-sm" style="color:#dbe6ec;">Discover your piece as you write</h4>
+                <p class="text-sm leading-relaxed" style="color:#93a7b2;">
+                  As you continue to interact and update the assistant, the more it will understand your piece and learn your creative process.
+                </p>
+              </div>
+              <div class="border border-white/8 rounded-lg p-5 bg-white/[0.02]">
+                <h4 class="font-semibold mb-2 text-sm" style="color:#dbe6ec;">Learn about your own process</h4>
+                <p class="text-sm leading-relaxed" style="color:#93a7b2;">
+                  There are canvas templates to visualize the composition process, without building your process from scratch.
+                </p>
+              </div>
+            </div>
+            <h4 class="sec-h2 text-center mb-6" style="color:#e8eff3;">A visualized creative process, not a chat window</h4>
+            <div data-hub-carousel class="mb-10">
+              <div class="hub-car-frame">
+                <div class="hub-car-viewport">
+                  <div class="hub-car-track">
+
+                    <!-- The canvas. Each pin carries its own step name, so the stages
+                         read straight off the image with no legend underneath. -->
+                    <div class="hub-car-slide">
+                      <div class="annot">
+                        <figure class="hub-shot">
+                          <img src="images/Hub_Compass_Canvas.png" alt="The Composer Compass canvas showing connected nodes over a faint Grosse Fuge manuscript background, labelled in order: Intake, Question, Guide, Analysis and Constitution." />
+                        </figure>
+                        <!-- Left-anchored in the empty half of each node's title bar. -->
+                        <span class="pin" style="left:12.8%; top:47%;"><span class="n">1</span>Intake</span>
+                        <span class="pin" style="left:36.4%; top:47%;"><span class="n">2</span>Question</span>
+                        <span class="pin" style="left:57%;   top:31%;"><span class="n">3</span>Guide</span>
+                        <span class="pin" style="left:81.5%; top:31%;"><span class="n">4</span>Analysis</span>
+                        <span class="pin" style="left:60.2%; top:67.5%;"><span class="n">5</span>Constitution</span>
+                      </div>
+                    </div>
+
+                    <!-- The score. Overlay callouts go here once the text is written. -->
+                    <div class="hub-car-slide">
+                      <div class="annot">
+                        <figure class="hub-shot score-frame">
+                          <img src="images/Hub_Chaconne_Score.webp" alt="First page of the score for Chaconne for Bass and Pedal Board, for Jared Cavazos, by Maxwell Henry and Jared Cavazos: four modules marked A, B, C and D at 120, 60, 120 and 90 beats per minute, in 4/4, 6/8, 4/4 and 3/4, scored for double bass over a pedal board set to a whole-note delay." />
+                        </figure>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="hub-car-arrows">
+                  <button class="hub-car-arrow hub-car-prev" aria-label="Previous">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                  </button>
+                  <button class="hub-car-arrow hub-car-next" aria-label="Next">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                  </button>
+                </div>
+              </div>
+              <div class="hub-car-meter">
+                <span class="hub-car-count"></span>
+                <div class="hub-car-dots"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ── Tool: Composer CRM ── -->
+        <div id="tool-hub-crm" class="tool-panel" style="display:none">
+          <div id="composer-crm" class="border border-white/8 rounded-xl p-6 sm:p-8 bg-white/[0.02]">
+            <div class="flex flex-col items-center gap-2 mb-3">
+              <h3 class="text-xl font-semibold">Composer CRM</h3>
+              <p class="text-sm text-slate-400">People, ensembles, concerts</p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-2 mb-6">
+              <span class="tag tech-tag">React</span>
+              <span class="tag tech-tag">Supabase</span>
+              <span class="tag tech-tag">localStorage</span>
+              <span class="tag tech-tag">Claude API</span>
+            </div>
+            <div class="grid md:grid-cols-3 gap-5 mb-8">
+              <div class="border border-white/8 rounded-lg p-5 bg-white/[0.02]">
+                <h4 class="font-semibold mb-2 text-sm" style="color:#dbe6ec;">Everyone in one place</h4>
+                <p class="text-sm leading-relaxed" style="color:#93a7b2;">
+                  Players, ensembles, venues and conductors in one record.
+                </p>
+              </div>
+              <div class="border border-white/8 rounded-lg p-5 bg-white/[0.02]">
+                <h4 class="font-semibold mb-2 text-sm" style="color:#dbe6ec;">Keep your network active</h4>
+                <p class="text-sm leading-relaxed" style="color:#93a7b2;">
+                  Track and draft communications and build newsletters to keep contacts up to date.
+                </p>
+              </div>
+              <div class="border border-white/8 rounded-lg p-5 bg-white/[0.02]">
+                <h4 class="font-semibold mb-2 text-sm" style="color:#dbe6ec;">Manage your concerts</h4>
+                <p class="text-sm leading-relaxed" style="color:#93a7b2;">
+                  Plan and track your concerts and communications with your players and venues.
+                </p>
+              </div>
+            </div>
+            <h4 class="sec-h2 text-center mb-6" style="color:#e8eff3;">Manage your network and career</h4>
+            <div data-hub-carousel class="mb-4">
+              <div class="hub-car-frame">
+                <div class="hub-car-viewport">
+                  <div class="hub-car-track">
+
+                    <!-- Contacts -->
+                    <div class="hub-car-slide">
+                      <div class="annot">
+                        <figure class="hub-shot"><img src="images/Hub_CRM_Contacts.png" alt="CRM contacts table with role tabs, relationship status, next actions and a relationship health bar per person." /></figure>
+                        <span class="pin" style="left:38.5%; top:56%;"><span class="n">1</span>Two roles</span>
+                        <span class="pin" style="left:50%;   top:22.2%;"><span class="n">2</span>Next action</span>
+                        <span class="pin" style="left:62%;   top:22.2%;"><span class="n">3</span>Relationship health</span>
+                      </div>
+                    </div>
+
+                    <!-- One concert, its own page -->
+                    <div class="hub-car-slide">
+                      <div class="annot">
+                        <figure class="hub-shot"><img src="images/Hub_CRM_Concert_Detail.png" alt="The Groove Theory II concert page: date, set time and venue, an awaiting-reply chip, tabs for plan, people, comms, media, accounting and details, and a dated checklist laid over an October 2026 calendar showing two of seven items done." /></figure>
+                        <span class="pin" style="left:26.5%; top:14.5%;"><span class="n">1</span>Awaiting a reply</span>
+                        <span class="pin" style="left:47.5%; top:18.7%;"><span class="n">2</span>People, comms and a P&amp;L</span>
+                        <span class="pin" style="left:25%;   top:23.6%;"><span class="n">3</span>Checklist, 2 of 7 done</span>
+                        <!-- Below the grid beside the hint line, rather than on the cells,
+                             where it would cover the day numbers. -->
+                        <span class="pin" style="left:43.5%; top:66.2%;"><span class="n">4</span>Drag an item to move it</span>
+                      </div>
+                    </div>
+
+                    <!-- Newsletter editor -->
+                    <div class="hub-car-slide">
+                      <div class="annot">
+                        <figure class="hub-shot"><img src="images/Hub_CRM_Newsletter_Editor.png" alt="The newsletter editor: subject, status and month on the left, a structured section list with polish buttons, and a live phone preview of the rendered email on the right, above a send panel with a test send and a send-to-list control." /></figure>
+                        <!-- Each label stops short of the control it names: the toolbar,
+                             the send blurb, the Phone toggle and the Polish button. -->
+                        <span class="pin" style="left:29%;   top:9%;"><span class="n">1</span>Template + sections</span>
+                        <span class="pin" style="left:60.5%; top:42.3%;"><span class="n">2</span>Real send path</span>
+                        <span class="pin" style="left:22%;   top:63.8%;"><span class="n">3</span>38 structured sections</span>
+                        <span class="pin" style="left:59%;   top:67.2%;"><span class="n">4</span>Live preview</span>
+                        <span class="pin" style="left:36.5%; top:85%;"><span class="n">5</span>Polish a section</span>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="hub-car-arrows">
+                  <button class="hub-car-arrow hub-car-prev" aria-label="Previous screen">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                  </button>
+                  <button class="hub-car-arrow hub-car-next" aria-label="Next screen">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                  </button>
+                </div>
+              </div>
+              <div class="hub-car-meter">
+                <span class="hub-car-count"></span>
+                <div class="hub-car-dots"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Tool: Virtual Agency ── -->
+        <div id="tool-hub-agency" class="tool-panel" style="display:none">
+          <div id="virtual-agency" class="border border-white/8 rounded-xl p-6 sm:p-8 bg-white/[0.02]">
+            <div class="flex flex-col items-center gap-2 mb-3">
+              <h3 class="text-xl font-semibold">Virtual Agency</h3>
+              <p class="text-sm text-slate-400">The AI employees</p>
+            </div>
+            <div class="flex flex-wrap justify-center gap-2 mb-6">
+              <span class="tag tech-tag">Claude Code</span>
+              <span class="tag tech-tag">System Prompts</span>
+              <span class="tag tech-tag">Agent Skills</span>
+            </div>
+            <div class="grid md:grid-cols-3 gap-5 mb-8">
+              <div class="border border-white/8 rounded-lg p-5 bg-white/[0.02]">
+                <h4 class="font-semibold mb-2 text-sm" style="color:#dbe6ec;">Design your team</h4>
+                <p class="text-sm leading-relaxed" style="color:#93a7b2;">
+                  Create your own team members to assist in any way you need.
+                </p>
+              </div>
+              <div class="border border-white/8 rounded-lg p-5 bg-white/[0.02]">
+                <h4 class="font-semibold mb-2 text-sm" style="color:#dbe6ec;">Custom job descriptions</h4>
+                <p class="text-sm leading-relaxed" style="color:#93a7b2;">
+                  Tell your team what you need and how you need it.
+                </p>
+              </div>
+              <div class="border border-white/8 rounded-lg p-5 bg-white/[0.02]">
+                <h4 class="font-semibold mb-2 text-sm" style="color:#dbe6ec;">Supervise your team</h4>
+                <p class="text-sm leading-relaxed" style="color:#93a7b2;">
+                  When your team completes work, you review, revise, and implement.
+                </p>
+              </div>
+            </div>
+            <h4 class="sec-h2 text-center mb-6" style="color:#e8eff3;">Your virtual team</h4>
+            <div class="annot mb-10">
+              <figure class="hub-shot">
+                <img src="images/Hub_Agency_Roster.png" alt="Virtual Agency roster showing three AI employees for marketing, web design and social media, each with owned responsibilities, dated sprint history with outcomes, and a folder path." />
+              </figure>
+              <span class="pin" style="left:24%;   top:43.8%;"><span class="n">1</span>Dated sprints</span>
+              <span class="pin" style="left:66.5%; top:42.1%;"><span class="n">2</span>Scheduled runs</span>
+              <span class="pin" style="left:23.5%; top:52.7%;"><span class="n">3</span>A folder on disk</span>
+              <span class="pin" style="left:56%;   top:87.2%;"><span class="n">4</span>Human sign-off</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="section-label mb-3 mt-16">Under the hood</p>
+        <h2 class="sec-h2 mb-5" style="color:#e8eff3;">What the tool runs on</h2>
+        <div class="wrap-x border border-white/8 rounded-xl bg-white/[0.02]">
+          <table class="matrix">
+            <thead>
+              <tr><th style="min-width:170px;">Component</th><th style="min-width:104px;">State</th><th>Detail</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="color:#dbe6ec;">MCP server</td>
+                <td><span class="tag status-live">In use</span></td>
+                <td>~25 tools: project context, artifact persistence, music21 score analysis, voice-leading checks, retrieval.</td>
+              </tr>
+              <tr>
+                <td style="color:#dbe6ec;">Score watcher</td>
+                <td><span class="tag status-live">In use</span></td>
+                <td>Writes a JSON sidecar per score file and embeds it. Verified end to end on this piece's sketch.</td>
+              </tr>
+              <tr>
+                <td style="color:#dbe6ec;">Retrieval</td>
+                <td><span class="tag status-live">In use</span></td>
+                <td>Semantic search over an embedded personal library of scores and reference material, findable by structural description rather than filename.</td>
+              </tr>
+              <tr>
+                <td style="color:#dbe6ec;">Evaluation protocol</td>
+                <td><span class="tag status-live">In use</span></td>
+                <td>Rubric annotation plus binary hallucination and technical-claim checks, with the two-run comparison as the primary evaluation artifact.</td>
+              </tr>
+              <tr>
+                <td style="color:#dbe6ec;">Notation rendering</td>
+                <td><span class="tag status-live">In use</span></td>
+                <td>Verovio in the browser: note-level selection, playback with a following cursor, fragment capture into an ideas library.</td>
+              </tr>
+              <tr>
+                <td style="color:#dbe6ec;">Engraving and OMR</td>
+                <td><span class="tag status-mvp">Implemented</span></td>
+                <td>MuseScore engraving and Audiveris optical recognition, written and self-tested as external subprocesses.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════
+           Tab: Sprout Society Suite
+      ═══════════════════════════════════════════════════ -->
+      <div id="tab-sprout" class="tab-panel pb-24" style="display:none">
 
         <!-- Suite banner -->
         <div class="suite-banner mb-6 text-center">
@@ -447,167 +852,6 @@
 
       </div>
 
-      <!-- ═══════════════════════════════════════════════════
-           Tab: Building
-      ═══════════════════════════════════════════════════ -->
-      <div id="tab-progress" class="tab-panel pb-24" style="display:none">
-        <div id="composition" class="border border-white/8 rounded-xl p-6 sm:p-8 bg-white/[0.02]">
-          <div class="flex flex-col items-center gap-2 mb-3">
-            <h3 class="text-xl font-semibold">The Composer Compass</h3>
-            <p class="text-sm text-slate-400">Music Composition Agent</p>
-            <span class="tag status-wip">In Development</span>
-          </div>
-          <div class="flex flex-col items-center gap-2 mb-6">
-            <div class="flex flex-wrap justify-center gap-2">
-              <span class="tag tech-tag">Claude API</span>
-              <span class="tag tech-tag">FastMCP</span>
-              <span class="tag tech-tag">Python</span>
-              <span class="tag tech-tag">music21</span>
-              <span class="tag tech-tag">ChromaDB</span>
-              <span class="tag tech-tag">Discord</span>
-            </div>
-            <div class="flex flex-wrap justify-center gap-2">
-              <span class="tag tech-tag">Prompt Engineering</span>
-              <span class="tag tech-tag">Agent Architecture</span>
-              <span class="tag tech-tag">Rubric Evaluation</span>
-              <span class="tag tech-tag">MCP</span>
-              <span class="tag tech-tag">Next.js</span>
-            </div>
-          </div>
-          <div data-section-carousel>
-            <div class="overflow-hidden">
-              <div class="section-carousel-track flex transition-transform duration-300 ease-in-out">
-                <div class="section-carousel-slide w-full flex-shrink-0">
-                  <div class="rounded-lg p-4 text-slate-400 leading-relaxed" style="border: 1px solid rgba(52,138,88,0.25); background: rgba(52,138,88,0.04);">
-                    <p class="text-slate-300 font-medium mb-3">Problem</p>
-                    <ul class="space-y-2 list-none">
-                      <li>— AI music tools generate output rather than supporting the creative process</li>
-                      <li>— Existing tools are designed for non-musicians and offer nothing useful to a working composer</li>
-                      <li>— A serious composition tool requires a collaborator that engages with incomplete material and helps reason through decisions</li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="section-carousel-slide w-full flex-shrink-0">
-                  <div class="rounded-lg p-4 text-slate-400 leading-relaxed" style="border: 1px solid rgba(52,138,88,0.25); background: rgba(52,138,88,0.04);">
-                    <p class="text-slate-300 font-medium mb-3">MCP server</p>
-                    <ul class="space-y-2 list-none">
-                      <li>— FastMCP/Python server registered in Claude Desktop with 20+ tools across 11 sessions</li>
-                      <li>— <code class="font-mono text-xs">get_project_context</code> loads intake form, constitution, project state, aesthetic blueprint, and Discord teacher summary per piece</li>
-                      <li>— <code class="font-mono text-xs">analyze_score</code> parses MusicXML via music21: pitch classes, intervals, voice leading, and register</li>
-                      <li>— <code class="font-mono text-xs">check_voice_leading</code> detects parallel 5ths and 8ths, hidden 5ths and 8ths, and large leaps</li>
-                      <li>— <code class="font-mono text-xs">search_theory_library</code> runs ChromaDB semantic search over indexed score sidecars, so past material is findable by structural description rather than filename</li>
-                      <li>— Sibelius file watcher auto-routes MusicXML exports to <code class="font-mono text-xs">drafts/</code> or <code class="font-mono text-xs">sketches/</code> based on filename convention</li>
-                      <li>— Discord integration exports teacher feedback threads; agent auto-loads the resulting summary on each run</li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="section-carousel-slide w-full flex-shrink-0">
-                  <div class="rounded-lg p-4 text-slate-400 leading-relaxed" style="border: 1px solid rgba(52,138,88,0.25); background: rgba(52,138,88,0.04);">
-                    <p class="text-slate-300 font-medium mb-3">Experiment methodology</p>
-                    <ul class="space-y-2 list-none">
-                      <li>— Type A experiments isolate one variable per run and produce a direct comparison document</li>
-                      <li>— Type B experiments use pre/post score analysis to test whether the intake form predicted the compositional reality</li>
-                      <li>— A five-dimension rubric scores every run: D1 Data Accuracy, D2 Music Theory, D3 Intake Adherence, D4 Specificity, D5 Usefulness</li>
-                      <li>— An Error Pattern Log accumulates observed failure modes across all sessions</li>
-                      <li>— Evaluations happen cold, the next day, to prevent confirmation bias</li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="section-carousel-slide w-full flex-shrink-0">
-                  <div class="rounded-lg p-4 text-slate-400 leading-relaxed" style="border: 1px solid rgba(52,138,88,0.25); background: rgba(52,138,88,0.04);">
-                    <p class="text-slate-300 font-medium mb-3">System prompt</p>
-                    <ul class="space-y-2 list-none">
-                      <li>— System prompt iterated from v1.0 through v5.0 across 11 documented sessions with a version CHANGELOG</li>
-                      <li>— v5.0 uses a two-path design: extended thinking ON produces analysis in the thinking block and a one-sheet as output; extended thinking OFF produces a full analytical guide first, then a distilled one-sheet below a divider</li>
-                      <li>— Conversation design follows a masterclass dialogue format: agent opens with a thesis, one claim, and one direct question; one claim per turn</li>
-                      <li>— A numbered workflow in the prompt enforces tool call order on every run</li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="section-carousel-slide w-full flex-shrink-0">
-                  <div class="rounded-lg p-4 text-slate-400 leading-relaxed" style="border: 1px solid rgba(52,138,88,0.25); background: rgba(52,138,88,0.04);">
-                    <p class="text-slate-300 font-medium mb-3">Next steps</p>
-                    <ul class="space-y-2 list-none">
-                      <li>— Index musicology texts into ChromaDB to activate semantic theory search</li>
-                      <li>— Run two-path test (Run A: extended thinking ON, Run B: OFF) to evaluate v5.0 system prompt</li>
-                      <li>— Build the Next.js composition studio as the UI layer for the full four-stage workflow: Pre-Composition, Lo-Res, Hi-Res, Engraving</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="section-carousel-controls flex items-center justify-center gap-4 mt-4">
-              <button class="section-carousel-prev w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
-              <div class="section-carousel-dots flex gap-2"></div>
-              <button class="section-carousel-next w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors disabled:opacity-30 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
-            </div>
-          </div>
-          <div class="flex justify-center mt-7">
-            <a href="composer-hub.html"
-               class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-colors"
-               style="border: 1px solid rgba(52,138,88,0.45); background: rgba(52,138,88,0.10); color: #7ec99a;">
-              See the full walkthrough
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- ═══════════════════════════════════════════════════
-           Tab: Workflow
-      ═══════════════════════════════════════════════════ -->
-      <div id="tab-workflow" class="tab-panel pb-24" style="display:none">
-        <div class="border border-white/8 rounded-xl p-6 sm:p-8 bg-white/[0.02]">
-          <div class="flex flex-col items-center gap-2 mb-6">
-            <h3 class="text-xl font-semibold">How I Work with Claude</h3>
-          </div>
-          <div data-section-carousel>
-            <div class="overflow-hidden">
-              <div class="section-carousel-track flex transition-transform duration-300 ease-in-out">
-                <div class="section-carousel-slide w-full flex-shrink-0">
-                  <div class="rounded-lg p-4 text-slate-400 leading-relaxed" style="border: 1px solid rgba(52,138,88,0.25); background: rgba(52,138,88,0.04);">
-                    <p class="text-slate-300 font-medium mb-3">How I build tools</p>
-                    <ul class="space-y-2 list-none">
-                      <li>— Structured MD files for every project: instructions, architecture, schema rules, and protocols</li>
-                      <li>— Every project starts with a CLAUDE.md that gives Claude full context before any prompt is written</li>
-                      <li>— Claude Code runs in VS Code; every change is a diff I review before accepting</li>
-                      <li>— Browser stays open to test live; I read every line written — to understand, not just catch errors</li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="section-carousel-slide w-full flex-shrink-0">
-                  <div class="rounded-lg p-4 text-slate-400 leading-relaxed" style="border: 1px solid rgba(52,138,88,0.25); background: rgba(52,138,88,0.04);">
-                    <p class="text-slate-300 font-medium mb-3">How I build agents</p>
-                    <ul class="space-y-2 list-none">
-                      <li>— Designed intake form, versioned system prompt, and a five-dimension evaluation rubric</li>
-                      <li>— Output scored across six model configurations before any production decision</li>
-                      <li>— One variable changes per experiment run; evaluation happens cold, the next day</li>
-                      <li>— Prompt changes require a pattern across at least two runs before implementation</li>
-                      <li>— The agent doesn't ship until the prompt is stable</li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="section-carousel-slide w-full flex-shrink-0">
-                  <div class="rounded-lg p-4 text-slate-400 leading-relaxed" style="border: 1px solid rgba(52,138,88,0.25); background: rgba(52,138,88,0.04);">
-                    <p class="text-slate-300 font-medium mb-3">The result</p>
-                    <ul class="space-y-2 list-none">
-                      <li>— Moves fast without breaking things</li>
-                      <li>— Produces auditable output</li>
-                      <li>— Treats AI as a system to be designed, not a tool to be prompted and hoped at</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="section-carousel-controls flex items-center justify-center gap-4 mt-4">
-              <button class="section-carousel-prev w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button>
-              <div class="section-carousel-dots flex gap-2"></div>
-              <button class="section-carousel-next w-8 h-8 rounded-full border border-white/10 hover:border-white/20 text-slate-400 hover:text-white flex items-center justify-center transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
 
   <!-- CONTACT -->
@@ -676,6 +920,8 @@
       window.scrollTo({ top: top, behavior: 'smooth' });
       initCarousels();
       initSectionCarousels();
+      initHubCarousels();
+      window.dispatchEvent(new Event('resize'));
     }
 
     document.querySelectorAll('.tab-btn').forEach(function(btn) {
@@ -684,13 +930,20 @@
 
     // ── Tool sub-tab switching ──────────────────────────────────────────────
     function switchTool(id) {
-      document.querySelectorAll('.tool-panel').forEach(function(p) { p.style.display = 'none'; });
-      document.querySelectorAll('.tool-btn').forEach(function(b) { b.classList.remove('tool-btn-active'); });
+      // Two tabs now run sub-tabs (Sprout and the Composer Hub). Scope the
+      // reset to the tab that owns the clicked button, or switching a Hub tool
+      // would blank every Sprout panel and vice versa.
+      var srcBtn = document.querySelector('[data-tool="' + id + '"]');
+      var scope = (srcBtn && srcBtn.closest('.tab-panel')) || document;
+      scope.querySelectorAll('.tool-panel').forEach(function(p) { p.style.display = 'none'; });
+      scope.querySelectorAll('.tool-btn').forEach(function(b) { b.classList.remove('tool-btn-active'); });
       var panel = document.getElementById('tool-' + id);
       if (panel) panel.style.display = 'block';
       var btn = document.querySelector('[data-tool="' + id + '"]');
       if (btn) btn.classList.add('tool-btn-active');
       initCarousels();
+      initHubCarousels();
+      window.dispatchEvent(new Event('resize'));
     }
 
     document.querySelectorAll('.tool-btn').forEach(function(btn) {
@@ -700,11 +953,18 @@
     // ── Hash navigation ─────────────────────────────────────────────────────
     var cardToTab = {
       crm: 'tab-sprout', grant: 'tab-sprout', social: 'tab-sprout', qr: 'tab-sprout',
-      composition: 'tab-progress',
-      'tab-sprout': 'tab-sprout', 'tab-progress': 'tab-progress', 'tab-workflow': 'tab-workflow'
+      composition: 'tab-hub', 'composer-crm': 'tab-hub', 'virtual-agency': 'tab-hub',
+      'tab-sprout': 'tab-sprout', 'tab-hub': 'tab-hub',
+      // Old entry points that no longer have a tab of their own still land
+      // somewhere sensible: 'Building' became the Hub, and Workflow was removed
+      // on 2026-09-09 to be rebuilt later.
+      'tab-progress': 'tab-hub', 'tab-workflow': 'tab-hub'
     };
-    var cardToTool = { crm: 'crm', grant: 'grant', social: 'social', qr: 'qr' };
-    var directTabs = { 'tab-sprout': true, 'tab-progress': true, 'tab-workflow': true };
+    var cardToTool = {
+      crm: 'crm', grant: 'grant', social: 'social', qr: 'qr',
+      composition: 'hub-compass', 'composer-crm': 'hub-crm', 'virtual-agency': 'hub-agency'
+    };
+    var directTabs = { 'tab-sprout': true, 'tab-hub': true, 'tab-progress': true, 'tab-workflow': true };
 
     function navigateToHash(hash) {
       if (!hash) return;
@@ -775,7 +1035,61 @@
 
     initCarousels();
 
-    // ── Section carousels (Building tab) ────────────────────────────────────
+    // ── Composer Hub carousels ───────────────────────────────────────────
+    // Separate from initCarousels() above: these are full-width, one slide per
+    // page, with arrows anchored to the image rather than the slide.
+    function initHubCarousels() {
+      document.querySelectorAll('[data-hub-carousel]').forEach(function(root) {
+        if (root._hubCarouselInit) return;
+        root._hubCarouselInit = true;
+        var track = root.querySelector('.hub-car-track');
+        var slides = Array.prototype.slice.call(root.querySelectorAll('.hub-car-slide'));
+        var prev = root.querySelector('.hub-car-prev');
+        var next = root.querySelector('.hub-car-next');
+        var dotsWrap = root.querySelector('.hub-car-dots');
+        var count = root.querySelector('.hub-car-count');
+        if (!track || !slides.length) return;
+        var index = 0;
+        function pad(n) { return (n < 10 ? '0' : '') + n; }
+        function render() {
+          var cap = slides.length - 1;
+          if (index > cap) index = cap;
+          if (index < 0) index = 0;
+          var w = slides[0].getBoundingClientRect().width;
+          track.style.transform = 'translateX(' + (-index * w) + 'px)';
+          if (prev) prev.disabled = index <= 0;
+          if (next) next.disabled = index >= cap;
+          if (count) count.textContent = pad(index + 1) + ' / ' + pad(slides.length);
+          if (dotsWrap) {
+            Array.prototype.slice.call(dotsWrap.children).forEach(function (d, i) {
+              d.classList.toggle('active', i === index);
+            });
+          }
+        }
+        if (dotsWrap) {
+          dotsWrap.innerHTML = '';
+          for (var i = 0; i < slides.length; i++) {
+            (function (n) {
+              var d = document.createElement('button');
+              d.className = 'hub-car-dot';
+              d.setAttribute('aria-label', 'Go to screen ' + (n + 1));
+              d.addEventListener('click', function () { index = n; render(); });
+              dotsWrap.appendChild(d);
+            })(i);
+          }
+        }
+        if (prev) prev.addEventListener('click', function () { index--; render(); });
+        if (next) next.addEventListener('click', function () { index++; render(); });
+        var raf = null;
+        window.addEventListener('resize', function () {
+          if (raf) cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(render);
+        });
+        render();
+      });
+    }
+
+    // ── Section carousels ───────────────────────────────────────────────────
     function initSectionCarousels() {
       document.querySelectorAll('[data-section-carousel]').forEach(function(el) {
         if (el._sectionCarouselInit) return;
@@ -810,6 +1124,7 @@
     }
 
     initSectionCarousels();
+    initHubCarousels();
 
     // ── Scroll button ───────────────────────────────────────────────────────
     var scrollBtn = document.getElementById('scroll-btn');
