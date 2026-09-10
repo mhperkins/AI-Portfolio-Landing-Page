@@ -1,6 +1,7 @@
 # AI Tool Portfolio — CLAUDE.md
 
-> Project memory and context for Claude Code. Not committed to git.
+> Project memory and context for Claude Code. **Tracked in git** (committed alongside the page
+> through `f3fc9fa`), so an update here needs a commit and push like any other file.
 
 ---
 
@@ -39,8 +40,10 @@ Vercel project: `ai-portfolio-landing-page` · GitHub: `mhperkins/AI-Portfolio-L
 | [resume.html](resume.html) | **CV page** — the academic CV rendered as a native page (was a PDF iframe until 2026-09-09). Has a print stylesheet and a DOCX download. |
 | [Software Developer Resume.pdf](Software Developer Resume.pdf) | Software track resume. **Currently unlinked** — nothing routes to it since resume.html became the academic CV. |
 | [Academic CV - UW Madison.docx](Academic CV - UW Madison.docx) | Source of the CV page; offered as the download on resume.html |
-| [demo/compass-demo.html](demo/compass-demo.html) | **The Compass demo carousel** (built 2026-09-09). Standalone, unlinked, self-contained. Destined to replace the screenshot walkthrough on the Compass sub-tab of the Hub. See "The Compass demo carousel" below. |
-| [demo/assets/](demo/assets/) | Assets for the carousel. Currently `chaconne-p1.webp`, copied from the composer portfolio's score previews. |
+| [demo/compass-demo.html](demo/compass-demo.html) | **Iteration source for the Compass panel's carousel** (built 2026-09-09, transplanted 2026-09-10). Change slides here, then re-transplant. See "The Compass demo carousel" below. |
+| [demo/crm-demo.html](demo/crm-demo.html) | **Iteration source for the CRM panel's carousel** (7 slides, transplanted 2026-09-10). See "The CRM and Agency carousels" below. |
+| [demo/agency-demo.html](demo/agency-demo.html) | **Iteration source for the Virtual Agency panel's carousel** (2 slides, transplanted 2026-09-10). |
+| [demo/assets/](demo/assets/) | Carousel assets: `chaconne-p1.webp` (copied from the composer portfolio's score previews) and `chaconne-excerpt.mp3`, the 45-second cut from 8:25 of the Chaconne recording that slide 5 plays in both copies. |
 | [images/](images/) | Screenshots and assets |
 | [career-search-handoff.md](career-search-handoff.md) | Snapshot of career search status — context for Claude sessions |
 | [career-search-master.md](career-search-master.md) | AI/dev track — full ongoing career strategy document |
@@ -99,8 +102,8 @@ CRM + Virtual Agency), written for the **UW-Madison RISE-AI search committee**, 
 recruiters. The committee holds both this site's URL and maxwellhenrymusic.com, so the page must
 corroborate the submitted cover letter rather than drift past it.
 
-**Status: merged into `index.html` and live-verified, NOT pushed.** Production is unchanged
-until someone pushes.
+**Status: live.** Pushed 2026-09-10. All three panels are HTML carousels now; no Hub panel uses a
+screenshot. Commit trail is under "Session of 2026-09-10" in Current Portfolio State.
 
 ### Structure and why it is shaped this way
 
@@ -108,14 +111,17 @@ until someone pushes.
 |---|---|---|
 | Suite banner | Name, the three tool names, three framing lines | Mirrors the Sprout tab so both read as one design |
 | Sub-tabs | Compass / CRM / Agency | Three parallel tools, which is what tabs are for |
-| Per tool | Title, subtitle, tech tags, **three benefit cards**, a heading, then the annotated screenshot or carousel | The cards answer "why does this matter" before the screenshot answers "what does it look like". Max wrote all nine card texts. |
+| Per tool | Title, subtitle, tech tags, **three benefit cards**, a heading, then a demo carousel | The cards answer "why does this matter" before the carousel answers "what does it look like". Max wrote all nine card texts. |
 | Shared, below the sub-tabs | The component table only | It describes hub-wide infrastructure rather than one tool |
 
 The page is deliberately near-prose-free. Earlier drafts had paragraph intros on every tab and an
 eight-card life-cycle carousel with no image at all; Max cut all of it on 2026-09-09. Bullets and
-pinned screenshots only. Do not reintroduce explanatory paragraphs.
+the demo carousels only. Do not reintroduce explanatory paragraphs.
 
-### Verified (after the merge, headless)
+### Verified (after the merge, headless; superseded 2026-09-10)
+
+This describes the screenshot version of the page. The carousels that replaced it were verified
+separately; see their sections below.
 
 Tabs and both sets of sub-tabs switch, and switching a Hub tool no longer disturbs Sprout's state;
 both Hub carousels advance and report `01 / 02` and `01 / 03`; the arrows sit fully outside the
@@ -124,14 +130,14 @@ with pin 3 landing at 57% / 30.9% against 57% / 31% authored; no broken images; 
 zero em dashes. `#tab-progress`, `#tab-workflow`, `#composition` and `composer-hub.html` all still
 land on the Hub.
 
-Note: the page makes ~2100 requests with ~700 failures on load, from the Loom iframes retrying.
-That is pre-existing and identical before and after the merge; it is not caused by the Hub images.
+Note: the page used to make ~2100 requests with ~700 failures on load. **Fixed 2026-09-10**; see
+"Loom embeds load on demand" under Current Portfolio State.
 
 ### Open items
 
 1. ~~**The chaconne slide has no overlay callouts yet.**~~ **Superseded 2026-09-09.** Max scrapped
    the screenshot approach for the Compass panel entirely. The replacement is
-   `demo/compass-demo.html`, built and verified the same day but not yet transplanted.
+   `demo/compass-demo.html`, built and verified the same day and transplanted 2026-09-10.
 2. ~~**A Constitution / annotated-guide screenshot**~~ **Solved by the carousel.** Slides 3 and 4
    show the Constitution as live HTML, including a rule being amended. It never becomes a
    screenshot.
@@ -142,7 +148,7 @@ That is pre-existing and identical before and after the merge; it is not caused 
    cards.
 5. **Rebuild the Workflow tab** when there is something worth putting in it.
 
-### Iteration on the carousel, 2026-09-10 (all of it live in `index.html`, still not pushed)
+### Iteration on the Compass carousel, 2026-09-10 (live, pushed)
 
 Max drove this pass line by line off Vercel preview deploys. The shape it settled into:
 
@@ -185,8 +191,7 @@ and the earlier engineer's phrasing ("compile into a single artifact", "MuseScor
 - **The "contradicts" and "becomes" arrows on slide 4 are gone.** Three connector arrows survive
   and he has not objected to them: "compiles to" (slide 2), "binds" (slide 3), "returns" (slide 5).
 
-**Still open:** the audio on slide 5 is the hotlinked full 12MB `chaconne.mp3`; the excerpt is
-waiting on a timestamp. The short step name still sits at the bottom centre of the controls
+**Still open:** the short step name still sits at the bottom centre of the controls
 ("The Aesthetic Blueprint", "Constitution to Guide"), which is now a second title on the slide;
 Max was asked whether to drop it and has not called it.
 
@@ -195,7 +200,8 @@ Max was asked whether to drop it and has not called it.
 **It is now the Compass panel.** The annotated-screenshot carousel it replaced is gone from
 `index.html`; `images/Hub_Compass_Canvas.png` is unreferenced as a result, and
 `images/Hub_Chaconne_Score.webp` is still used (the carousel reuses it for the draft and the
-engraved page). The CRM and Agency panels are untouched and still run `initHubCarousels()`.
+engraved page). The CRM and Agency panels became carousels the same day; see "The CRM and Agency
+carousels" below.
 
 `demo/compass-demo.html` **stays on disk as the iteration source.** Change slides there, look at
 them in isolation, then re-transplant. The two copies were kept byte-identical in their shared
@@ -292,13 +298,105 @@ breaks on **flex-basis clamped by min-width**, not on the preference, so the thr
 wrapping until both came down (`.dnode` and `.dpiece` are now basis-equals-floor, and they grow
 from there). If a slide ever wraps to two rows again, that is the knob.
 
-**Open on the carousel:**
+**Audio (done 2026-09-10).** Slide 5 used to hotlink the full 12MB, 12:39 `chaconne.mp3` from
+composer-portfolio-nu.vercel.app. It now plays `demo/assets/chaconne-excerpt.mp3`: exactly 45
+seconds from 8:25, the timestamp Max picked, 160 kbps and about 880 KB, with a 0.5s fade in and a
+1.5s fade out so it does not start or stop mid-note. Cut with ffmpeg from
+`composers-compass/portfolio/site/assets/audio/chaconne.mp3`, which is byte-identical to the
+deployed copy, so 8:25 is the same moment the live composer site plays. `index.html` points at
+`demo/assets/...` and the standalone at `assets/...`.
 
-- **Audio is hotlinked** to the full 12MB `chaconne.mp3` on composer-portfolio-nu.vercel.app.
-  Cut a 30 to 45 second excerpt into `demo/assets/` and point both copies at it; waiting on a
-  timestamp from Max.
-- The Compass panel's three benefit cards and the heading "A visualized creative process, not a
-  chat window" are untouched and still sit above it.
+**The Blueprint tag is slide 1's control (2026-09-10).** Because the Blueprint is the field and
+not a pill, nothing in the rail went back to slide 1. The "Aesthetic Blueprint · On" tag now does
+it (click, Enter, Space). Its hit-area padding is cancelled by equal negative margins, measured at
+0px of movement. A "Click through the process" hint sits opposite it on the same line.
+
+The Compass panel's three benefit cards and the heading "A visualized creative process, not a chat
+window" are untouched and still sit above it.
+
+### The CRM and Agency carousels (built and transplanted 2026-09-10)
+
+Same treatment as Compass, same workflow: built standalone in `demo/crm-demo.html` and
+`demo/agency-demo.html`, settled with Max slide by slide, then transplanted over the annotated
+screenshots. The standalones stay the iteration sources; keep them in sync with `index.html`.
+
+**CRM, seven slides.** One fictional roster throughout (Priya Anand, Jordan Ma, Marcus Webb, Naomi
+Cole, Desmond Okafor, Sofia Lindqvist, Theo Lindgren) and one concert, Groove Theory II on
+Oct 18, 2026, which ties the slides together: Jordan is confirmed for it on Contacts, and the
+October newsletter announces its premiere.
+
+| # | Nav | Slide |
+|---|---|---|
+| 1 | Contacts | Contacts table behind the Edit contact modal |
+| 2 | Outreach | Outreach queue behind the Email 1 reconnect draft (the app's real template, verbatim) |
+| 3 | Concerts | Booking portal: essentials progress, private link, answers |
+| 4 | Concerts | Checklist laid over an October calendar |
+| 5 | Concerts | Lineup and RSVPs |
+| 6 | Concerts | Communications log |
+| 7 | Newsletter | Editor with a brain-dump, the Polish result, and the live preview |
+
+The four Concerts slides share one dashboard background and each opens a different section's
+popup. That structure was Max's, and the booking portal slide was his addition.
+
+**Virtual Agency, two slides.** A Claude Code transcript creating the Music Marketing employee,
+with the existing "Putting one to work" steps under it, then the real job description and
+`sprint-01-groove-theory.md` as document cards, condensed from `../virtual-agency/`.
+
+**Content calls to keep:**
+
+- **Placeholder data only.** Max asked explicitly for the Concerts lineup to drop the real names
+  his screenshot showed.
+- **The sprint card omits that sprint's contact-research table.** It is scraped work emails for
+  named people at outside institutions, which are not ours to republish.
+- **Open: the booking portal slide shows the app's own note** that the link only opens in this
+  browser until there is a backend. It was kept so the slide does not claim performers can open the
+  link on their own devices. That sits against the Accuracy stance below (do not highlight
+  discrepancies), so it is Max's call, and he has not made it.
+
+**How three carousels share one page** (the part that needed care):
+
+- All three use the same `demo-` scaffolding classes. The Compass script used document-wide
+  queries, which would have counted the CRM and Agency slides as its own, so its queries are
+  scoped to `#compassDemo`. Never add a document-wide `.demo-car-slide` query.
+- CRM and Agency run off one shared initializer keyed on `[data-demo-panel]`, with no ids.
+  Captions live on each slide (`data-title`, `data-contrib`, `data-state-label`, `data-state`),
+  and each slide names its nav group with `data-nav`, so one nav entry can span a run of slides
+  (Concerts is four) and a slide can be inserted mid-run without renumbering.
+- One token block and card rule serve `.compass-demo, .crm-demo, .agency-demo`. CRM chrome is
+  `c`-prefixed, lifted from `crm/components/crm.module.css`; Agency chrome is `a`-prefixed.
+- The CRM and Agency nav strips carry a "Click any section" hint, the same job as the Compass
+  rail's hint.
+
+**Two fixes found in verification:** the contacts table is about 620px inside a clipping frame, so
+on a phone its last columns were unreachable (now a scroll container), and the job description
+card cut off mid-list (the document cards now fade at the bottom).
+
+**Unreferenced now, left in place:** `initHubCarousels()` and the `.hub-car-*` CSS (no markup
+left), the `.annot` / `.pin` / `.hub-shot` rules, and `images/Hub_CRM_*.png` plus
+`images/Hub_Agency_Roster.png`.
+
+### Pinned tool tabs (2026-09-10)
+
+Both tool rows, Hub and Sprout, are `.tool-tabs`: sticky directly under the main tab bar, which is
+itself sticky under the fixed nav. **The row is deliberately narrower than the full-width bar
+above it.** Max likes that the two read as different levels of tab; do not make it full-bleed.
+
+- `--tabbar-h` is **measured** in JS (`measureTabBar()`), because the tab bar changes height when
+  it wraps, and the row's `top` sits on it.
+- Every scroll-into-view subtracts one `stickyOffset()` (nav + tab bar + the visible tab's tool
+  row). Use it for any new jump; do not hand-roll offsets.
+- Below 640px the row is one swipeable line, left-aligned so an overflowing row never clips its
+  first button out of reach. **Wrap and alignment live in `.tool-tabs`, not in `flex-wrap` /
+  `justify-center` utilities:** the Tailwind Play CDN injects its styles after this page's, so an
+  equal-specificity utility silently beat the media query. That cost a verification round.
+- The row releases at the end of its tab panel on purpose, so it never hovers over the Contact
+  section.
+- **Clicking a tool tab scrolls to the top of that tool's card** (added 2026-09-10 at Max's ask),
+  the same way a main tab lands on its panel: `switchTool(id)` scrolls so the card sits
+  `stickyOffset() + 16` from the top. Hash navigation calls `switchTool(id, true)` to skip it,
+  because it scrolls to the same card itself 100ms later and two smooth scrolls fight. Verified at
+  1280 and 420 wide on both tabs, from deep inside a card and from the page top: the card lands at
+  exactly 184px (57 nav, 57 tab bar, 54 row, 16 gap), and hash links still land at +24.
 
 ### The merge (done, 2026-09-09)
 
@@ -309,7 +407,8 @@ Sprout Society Suite), which also stops the Hub being filed under "not finished"
 It mirrors the Sprout tab exactly: suite banner, three `tool-btn` sub-tabs, one card per tool,
 then the shared argument and component table. No nested tab row.
 
-Four things a future session needs to know before touching it:
+Four things a future session needs to know before touching it (1 and 2 are historical since
+2026-09-10: no Hub panel uses screenshots, and `initHubCarousels()` finds no markup):
 
 1. **The annotated screenshots must stay full width and 16:10.** Pins are positioned as
    percentages of the image box and sized in `cqw`. A half-width card renders the pin labels at
@@ -360,7 +459,34 @@ Two things that are **not** caveats and must stay:
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
-### Session of 2026-09-09, later: the Compass demo carousel (NOT pushed)
+### Session of 2026-09-10: CRM and Agency carousels, pinned tabs (pushed)
+
+Everything is pushed to `main`, and Vercel deploys on push.
+
+- `155aff6`: the CRM (7 slides) and Agency (2 slides) carousels replace the last annotated
+  screenshots, the Compass script is scoped to its own panel, and the Compass rail gets its "Click
+  through the process" hint. Details in "The CRM and Agency carousels" above.
+- `f81c79a`: tool rows pinned under the main tabs on both tabs, `stickyOffset()`, the phone
+  single-line row, and "Click any section" hints. **This commit also carries a parallel session's
+  Loom fix** (`syncVideos()` and `data-src` iframes). That change was uncommitted in the working
+  tree when this commit staged with `git add -A`, so it shipped under a message that does not
+  mention it; `git log -S syncVideos` points here. **Stage named files, never `-A`,** while another
+  session might be working in this repo.
+- `b662c9e`: the Blueprint tag returns the Compass rail to slide 1. The rail had no control for it,
+  so after clicking Intake the arrows were the only way back.
+- The commit carrying this doc update: slide 5 plays a 45-second excerpt from 8:25
+  (`demo/assets/chaconne-excerpt.mp3`) instead of hotlinking the full 12MB recording, and clicking a
+  tool tab scrolls to the top of that tool's card. Both verified headless: the excerpt loads at
+  45.0s in both copies, and tool switches land at exactly 184px on both tabs at both widths.
+
+Verified headless throughout: each carousel counts only its own slides and none moves another; the
+tool rows pin at exactly the tab bar's bottom (113px) at 1280 and 420 wide; zero script errors.
+Loom was not re-tested on its own, but every tab and tool switch in these runs went through
+`syncVideos()` without an error.
+
+**Open:** the booking portal caveat (see "The CRM and Agency carousels").
+
+### Session of 2026-09-09, later: the Compass demo carousel (pushed 2026-09-10 as `f3fc9fa`)
 
 Max scrapped the screenshot walkthrough for the Compass panel and asked for a carousel instead:
 slides that demo each step to a finished piece, built **separately from the portfolio** so the
@@ -378,7 +504,7 @@ back edge redraws after a tab round-trip, the Sprout tab is unaffected, the rema
 hub carousel still initializes, zero em dashes, zero script errors. The 426px-at-390px horizontal
 overflow is the pre-existing hero H1, unchanged and unrelated.
 
-Still not pushed. Reviewed on Vercel preview deploys (`vercel deploy`, no `--prod`); the folder is
+Pushed as `f3fc9fa`. Before that it was reviewed on Vercel preview deploys (`vercel deploy`, no `--prod`); the folder is
 now linked to the project, and `.vercel/` was added to `.gitignore` by the CLI. Preview URLs need a
 Vercel login because deployment protection is on for previews.
 
@@ -387,10 +513,10 @@ his own plain language, the repeated line under the rail removed, the band tight
 boxed by slide and clickable, side arrows added, and every claim that the tool engraves for you
 taken out. Details and the exact copy are in "Iteration on the carousel, 2026-09-10" above.
 
-### Session of 2026-09-09 (large restructure, NOT pushed)
+### Session of 2026-09-09 (large restructure, pushed as `95aebfc`)
 
-Everything below is on disk and live-verified headless, but **uncommitted on `main`**. Production
-is unchanged until someone commits and pushes.
+Everything below was live-verified headless and is now committed and pushed. The one later addition
+in this block, the Loom fix, shipped inside `f81c79a` (see the 2026-09-10 session).
 
 **The site is now two tabs, named for their subject rather than their status.**
 
@@ -417,7 +543,7 @@ is unchanged until someone commits and pushes.
 - `images/Hub_Cards.png` was removed from the page (still on disk, unreferenced). It showed the
   old "Composer's Compass" spelling, so removing it also resolved the last naming mismatch.
 
-**Screenshots.** All Hub screenshots carry numbered pills that name what they point at. The app's
+**Screenshots (historical: replaced by carousels on 2026-09-10).** All Hub screenshots carried numbered pills that name what they point at. The app's
 own UI text renders around 4px at page width, so the pills are the readable layer, not a duplicate.
 Two CRM screens were re-captured on 2026-09-09 because the originals showed empty states: the
 Groove Theory II concert page and the newsletter editor. Seeding procedure and shapes are in the
@@ -427,17 +553,28 @@ Compass repo at `docs/deliveries/2026-09-09/README.md`.
 stylesheet, not a PDF iframe. Nav reads "CV" everywhere. `Software Developer Resume.pdf` is on disk
 but **unlinked** — decide whether the software track needs its own route.
 
+**Loom embeds load on demand (fixed 2026-09-10; pushed inside `f81c79a`).** Production was showing the Grant
+Finder video as an empty box. Each Loom player pulls ~680 script files; all three Sprout players
+mounted at once (hidden ones included) and `switchTab()` reloaded every iframe, so Chrome dropped
+~800 requests with `ERR_INSUFFICIENT_RESOURCES` and whichever player lost its scripts rendered
+blank. The video and markup were fine. Now each Loom iframe carries `data-src`, and
+`syncVideos()` (called on load, in `switchTab()` and in `switchTool()`) gives a `src` only to the
+visible one and strips it from hidden ones, which also stops playback on switch. Any new video
+embed must use `data-src`, not `src`, or it reintroduces the problem. Verified headless: zero Loom
+requests on load, one player at a time, all three render, `#grant` deep link works, zero resource
+failures, zero script errors. A parallel session wrote this fix; it went out inside the tab-pinning
+commit `f81c79a`, whose message does not mention it.
+
 **Known, checked, and deliberately left alone** (both pre-existing, identical in the pre-merge
 backup, neither caused by this work):
-- The page makes ~2100 requests with ~700 failures on load, from the Loom iframes retrying.
 - Horizontal overflow at 390px, caused by the hero `H1` reaching 426px.
-- Pin labels scale with the image, so on a 390px phone they render ~3.4px. A font floor would make
-  the pills collide; solve it deliberately or not at all.
+- ~~Pin labels scale with the image and render ~3.4px on a phone.~~ Moot since 2026-09-10: no Hub
+  panel has pins any more.
 
 **Remaining on the site itself:**
 - Loom for Social Media Manager V2 needs to be recorded
-- The chaconne score slide (Compass carousel, slide 2) has no overlay callouts yet; Max is writing
-  them. It sits in a forced 16:10 frame leaving ~250px of dark margin either side for exactly that.
+- ~~The chaconne score slide has no overlay callouts yet.~~ Superseded: the screenshot carousel it
+  belonged to is gone.
 - Rebuild a Workflow tab when there is something worth putting in it
 
 **Career search has expanded to three parallel tracks (as of Sept 2026):**

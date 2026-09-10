@@ -2293,7 +2293,7 @@
               <div class="dpiece-body">
                 <p class="dpiece-title">Chaconne for Bass and Pedal Board</p>
                 <p class="dpiece-meta">2026 · for bass and delay pedal · with Jared Cavazos · 12&prime;39&Prime;</p>
-                <audio controls preload="none" src="https://composer-portfolio-nu.vercel.app/assets/audio/chaconne.mp3"></audio>
+                <audio controls preload="none" src="demo/assets/chaconne-excerpt.mp3"></audio>
               </div>
             </div>
 
@@ -3736,7 +3736,7 @@ Max</textarea>
     });
 
     // ── Tool sub-tab switching ──────────────────────────────────────────────
-    function switchTool(id) {
+    function switchTool(id, noScroll) {
       // Two tabs now run sub-tabs (Sprout and the Composer Hub). Scope the
       // reset to the tab that owns the clicked button, or switching a Hub tool
       // would blank every Sprout panel and vice versa.
@@ -3752,6 +3752,14 @@ Max</textarea>
       initHubCarousels();
       syncVideos();
       window.dispatchEvent(new Event('resize'));
+      // Land on the top of the tool's card, the way switchTab() lands on its
+      // panel, so a tool picked from deep inside a long card does not open
+      // partway down the next one. Hash navigation passes noScroll: it scrolls
+      // to the same card itself a moment later, and two smooth scrolls fight.
+      if (panel && !noScroll) {
+        var top = panel.getBoundingClientRect().top + window.scrollY - (stickyOffset() + 16);
+        window.scrollTo({ top: top, behavior: 'smooth' });
+      }
     }
 
     document.querySelectorAll('.tool-btn').forEach(function(btn) {
@@ -3782,7 +3790,7 @@ Max</textarea>
       switchTab(tabId);
       if (directTabs[hash]) return;
       if (cardToTool[hash]) {
-        setTimeout(function() { switchTool(cardToTool[hash]); }, 50);
+        setTimeout(function() { switchTool(cardToTool[hash], true); }, 50);
       }
       setTimeout(function() {
         requestAnimationFrame(function() {
