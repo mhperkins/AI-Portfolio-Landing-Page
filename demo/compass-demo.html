@@ -149,6 +149,22 @@ body {
    pills without being told to. */
 @media (max-width: 660px) { .demo-rail-hint { display: none; } }
 
+/* The Blueprint has no pill, because it is the field rather than a node, so
+   nothing in the rail went back to slide 1: once you clicked Intake the only
+   way back was the arrows. The tag is that control. The negative margins
+   cancel the padding, so the tag sits exactly where it did and the padding
+   only enlarges the hit area and gives the hover a shape. */
+.demo-rail-tag {
+  cursor: pointer;
+  padding: 3px 7px;
+  margin: -3px -7px;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+.demo-rail-tag:hover { background: rgba(255, 255, 255, 0.75); color: var(--amber); }
+.demo-rail-tag:focus-visible { outline: 2px solid var(--amber-lt); outline-offset: 2px; }
+.demo-rail-field.is-lit .demo-rail-tag { cursor: default; background: none; color: var(--amber-dim); }
+
 .demo-rail {
   position: relative;
   display: flex;
@@ -885,7 +901,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
        THE RAIL
        ==================================================================== -->
   <div class="demo-rail-field" id="demoField">
-    <span class="demo-rail-tag"><span class="demo-rail-dot"></span> Aesthetic Blueprint · On</span>
+    <span class="demo-rail-tag" role="button" tabindex="0" aria-label="Go to the Aesthetic Blueprint slide"><span class="demo-rail-dot"></span> Aesthetic Blueprint · On</span>
     <span class="demo-rail-hint">
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>
       Click through the process
@@ -1532,6 +1548,16 @@ Groove is a spine. Never reduce it to "prefers simple rhythms."</div>
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); }
     });
   });
+
+  // Slide 1's control. The Blueprint has no rail group to click (it is the
+  // field, not a node), so without this the rail could never return to it.
+  var blueprintTag = document.querySelector('.demo-rail-tag');
+  if (blueprintTag) {
+    blueprintTag.addEventListener('click', function () { show(0); });
+    blueprintTag.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(0); }
+    });
+  }
 
   prevBtns.forEach(function (el) {
     el.addEventListener('click', function () { show(current - 1); });
