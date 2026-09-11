@@ -10,6 +10,26 @@ Associate, $19-20/hr, 30 hrs/week, reports to a manager.
 
 ---
 
+## Current State (as of September 10, 2026)
+
+**WCO application: materials ready, not yet submitted.** Priority deadline is **September 11, 2026**
+(applications accepted after that until filled).
+
+| Piece | Status | Where |
+|---|---|---|
+| Resume | Final, one page, verified in the exported PDF | `Maxwell Perkins Resume - Community Engagement.pdf` (and `.docx`) |
+| Cover letter | Final text settled (Draft v3 below) | Max's Word doc: `OneDrive\Documents\WCO - Community Engagement Cover Letter.docx` |
+| Application questions (3) | Answers drafted and revised | "Application Questions" section below |
+
+**Left to do before submitting:**
+1. Delete the old letter draft that still sits below ~25 blank lines at the end of the Word doc.
+2. Optional: change the second "earned" in the letter's first paragraph to "completed".
+3. Save the letter as PDF.
+4. Fix the LinkedIn headline (still "Vibe Coder / AI Developer"); the resume links to the profile.
+5. Submit through WCO's online application, then log the date here.
+
+---
+
 ## How This Track Differs From career-search-ops-track.md
 
 - `career-search-ops-track.md` targets personal-assistant/studio-manager roles. Voice: business
@@ -55,17 +75,18 @@ director candidate applying for a coordinator job, which reads as flight risk, n
    community and education work, hours that fit, mission fit with arts access. Never "this is
    temporary" or "I'm overqualified but."
 
+**Also learned in the WCO letter pass (Sept 10):** "ideas for growing your educational and
+community presence" and "exactly what WCO needs to advance your goals" both read at director
+altitude. The final letter closes on "how I can best support your programs" instead.
+
 ---
 
 ## Asset This Track Should Surface That the Ops Track Undersells
 
-The **Composer, Pianist, and Music Educator** line (fifteen years teaching private students) is a
-direct hit on two of this JD's preferences: "musical background a plus" and "experience working
-with youth or in a youth-facing program environment is highly valued." The ops-track resume buries
-it at the bottom as a third job. This track should pull it up and lead with whichever detail is
-true: if a meaningful share of those students were youth, say so explicitly. **Confirm the actual
-age range of your private students before sending** (a hollow "youth-facing" claim is easy to
-puncture if asked one follow-up question in an interview).
+The **Private Music Instructor** line is a direct hit on two of this JD's preferences: "musical
+background a plus" and "experience working with youth or in a youth-facing program environment is
+highly valued." **Confirmed:** students ranged from ages 5 to 18, taught one-on-one and in groups,
+and Max scheduled lessons and kept families informed on progress. All three facts are on the resume.
 
 ---
 
@@ -73,75 +94,90 @@ puncture if asked one follow-up question in an interview).
 
 | Area | JD-mirrored framing |
 |---|---|
-| Title | Community Manager, Sprout Society, part-time, ~1 year, team of 3 |
-| Front-line contact | Primary point of contact for members, partners, and donors; responds to all inquiries |
-| Database/CRM | Owns and maintains CRM and records for members, donors, and partners: accuracy and currency |
-| Events | Produces monthly showcase end to end (recruit, logistics, comms, host, 30-50 attendees); coordinates 15-20 more events/month |
-| Registration/enrollment | Built and ran the sign-up and onboarding process that took membership from 0 to 15 |
-| Partnerships | Sources and coordinates vendors and contractors; represents the org at community events |
-| Development | Grant research, writing, and reporting; donor correspondence |
-| Comms | Newsletters, email announcements, social media, promotional material |
-| Efficiency (soft-pedaled) | Built internal tools to keep records accurate and cut manual data entry; retired unneeded software subscriptions |
-| Youth/teaching | Fifteen years teaching private students; performer and composer (confirm youth share before sending) |
+| Title | Community Manager, Sprout Society, since February 2026, team of 3 |
+| Front-line contact | First point of contact for members, partners, and donors; responds to every inquiry |
+| Database/CRM | Maintains CRM and records for members, donors, partners, and events: accuracy and currency |
+| Events | Plans and hosts monthly showcase; supports members running their own events |
+| Growth | Zero to five members running their own communities in two months; one showcase a month to 10-15 events; over 100 new people a month |
+| Registration/enrollment | Built and runs the sign-up and onboarding process |
+| Development | Grant research, applications, and reporting |
+| Comms | Social media (Instagram, YouTube, TikTok) and community outreach |
+| Efficiency (soft-pedaled) | Sprout Suite tools (CRM, grant tool, social media manager, campaign tracker), in development from late 2025: accurate records, less manual data entry, replaced paid software |
+| Youth/teaching | Fifteen years teaching ages 5 to 18, one-on-one and in groups; scheduling and family communication |
+
+**Dates:** the Sprout Suite reads 2025-Present and the Community Manager role reads February
+2026-Present. Both are true: the tools were in development in late 2025, before the formal start.
+
+**Two membership numbers, both true:** 0 to 15 is *paying* members; 0 to 5 is members running their
+own communities in the space. The WCO resume and letter use only the second set, so a reader never
+sees the two side by side.
 
 ---
 
 ## Resume
 
-Use `Community Engagement Resume.md`, not `Operations Resume.md` or `Software Developer Resume.pdf`,
-for this track.
+**Use `Maxwell Perkins Resume - Community Engagement.pdf`** for this track. Text source:
+`Community Engagement Resume.md`. Rebuild with `python build_resume.py` (python-docx, uses
+`Academic CV - UW Madison.docx` as the style template), then export the PDF through Word.
+
+**Format (set by Max, Sept 10):** follows the academic CV rather than a standard resume. Sections:
+Education, Teaching Experience, Professional Experience, Applied Systems, Additional. Creative Work &
+Research is dropped. Professional Experience sits above Applied Systems (the CV has it the other
+way) because the Sprout job bullets carry the 90% of this role.
+
+**Calls made for this version:**
+- Header reads "Brooklyn, NY (relocating to Madison, WI)". Portfolio link omitted (AI-forward site).
+- No "AI" wording anywhere; Handshake AI omitted.
+- Additional section: Tools (Google Workspace, CRM systems, Canva, social media: Instagram, YouTube,
+  TikTok) and Availability (days, plus nights and weekends when needed; valid driver's license).
+- Pro Tools and Logic removed from Tools but kept in the Misfits' Instruments Studio bullet (Max's call).
+- Entry separators are commas and pipes; the academic CV's em dashes are not carried over.
 
 ---
 
 ## Cover Letter — Wisconsin Chamber Orchestra, Community Engagement & Education Associate
 
-**Deadline:** applications received by September 11, 2026 get full consideration (posted today is
-September 8, so this is tight). Accepted after that, but priority window closes fast.
+**Deadline:** applications received by September 11, 2026 get full consideration.
 
-**Confirmed for this letter:** private students spanned ages 5 to 18, a direct hit on "experience
-working with youth." Max is relocating from Brooklyn back to Madison, and holds a UW-Madison B.A.,
-both worth naming since they answer the unspoken "why is a Brooklyn candidate applying here"
-question before it gets asked.
+#### Draft v3 (final, Sept 10)
 
-#### Draft v1
+**Changed from v2:** reweighted toward the 90% of the role (CRM and records, sign-up and
+onboarding, teaching ages 5 to 18) instead of community growth; UW-Madison named as the reason for
+the move; numbers aligned with the resume; director-altitude lines removed; "the WCO team" named in
+the close (not "education team": the role reports to the Community Engagement & Education Manager).
 
 > Dear WCO Hiring Team,
 >
-> I'm looking for a hands-on role supporting youth education and community programs, and this
-> posting describes work I already do in a different setting.
+> After nearly ten years in New York, I'm moving back to Madison, where I earned my B.A. in
+> composition at UW-Madison. In New York I earned a master's in songwriting, performed regularly,
+> and taught piano, drums, audio production, and composition. Over fifteen years of teaching, my
+> students have ranged from ages 5 to 18, so I know what young musicians and their families need
+> to feel supported.
 >
-> I currently manage community operations for Sprout Society, a creative space in Brooklyn with a
-> team of three. I'm the primary point of contact for our members, partners, and donors, and I own
-> our CRM and records, keeping registration, attendance, and participant data accurate day to day.
-> I produce a monthly community showcase from artist recruitment through hosting, and I coordinate
-> fifteen to twenty additional events every month. I also research and write our grant applications
-> and manage donor correspondence.
+> Most recently, I've been the Community Manager at Sprout Society, a nonprofit community space for
+> creatives in Brooklyn. I'm the first point of contact for our members and partners, and I keep our
+> CRM and records accurate and current. I built our sign-up and onboarding process, along with tools
+> and workflows that cut down on manual data entry. I also plan and host a monthly music and art
+> showcase and help members run their own events in the space.
 >
-> Early on, I noticed our revenue model would not hold. I built a new enrollment process and grew
-> paying membership from zero to fifteen within a few months, quickly enough that we had to
-> redesign the offering to keep up.
+> That work has grown the space quickly. In two months, we went from zero to five members running
+> their own communities inside it, and from one showcase a month to 10 to 15 community events,
+> bringing in over 100 new people each month. I track that engagement closely, because organized
+> records are what keep a program running smoothly for the people in it.
 >
-> I bring fifteen years of teaching private students ages five to eighteen, alongside performing as
-> a pianist, drummer, and composer, so I understand both the family side of a youth program and the
-> artistic side of an orchestra's mission. I also earned my B.A. at UW-Madison, and I'm relocating
-> from Brooklyn back to Madison, so this is a return, not a leap.
+> I've done most of this on my own, and I'm ready to do this work as part of the WCO team. I'm
+> available evenings and weekends for concerts and events, and I look forward to discussing how I
+> can best support your programs.
 >
-> I'm available for the full thirty hours a week and glad to work evenings and weekends for
-> concerts and events. My resume is attached, and I'd welcome a conversation.
->
-> Best,
+> Thank you for your time and consideration,
 > Maxwell Perkins
-> maxwellhperkins@gmail.com | 925-259-1748
+> maxwellhperkins@gmail.com
+> 925-259-1748
 
-#### Draft v2 (current, from Max's own stream of consciousness)
+"Master's in songwriting" stays: the resume shows the full degree, M.M., Music Theory and
+Composition (Songwriting Concentration), so the two agree.
 
-**Changed from v1:** rebuilt from Max's own draft rather than the resume. Leads with the NYC decade
-and the breadth of teaching and event experience as the throughline, not with Sprout Society job
-duties. Cut the duty list to one sentence. Replaced the 0-to-15-paying-members stat with Max's
-current numbers (0 to 5 active members building their own communities in two months; showcase
-frequency growing from monthly to 10-15 events/month; 50-100 new people/month), since that is the
-story he wants told here. Added the "craving a team" close as the emotional hook and the honest
-reason for applying, instead of leaving it unsaid.
+#### Draft v2 (from Max's own stream of consciousness)
 
 > Dear WCO Hiring Team,
 >
@@ -173,17 +209,128 @@ reason for applying, instead of leaving it unsaid.
 > Maxwell Perkins
 > maxwellhperkins@gmail.com | 925-259-1748
 
-**Note (resolved):** confirmed these are two different, both-true metrics. The resume's "0 to 15"
-is paying members. The letter's "0 to 5 active members... 10-15 events/month" counts active
-community members plus non-member hosts running events in the space. No conflict, no edit needed.
+#### Draft v1
+
+> Dear WCO Hiring Team,
+>
+> I'm looking for a hands-on role supporting youth education and community programs, and this
+> posting describes work I already do in a different setting.
+>
+> I currently manage community operations for Sprout Society, a creative space in Brooklyn with a
+> team of three. I'm the primary point of contact for our members, partners, and donors, and I own
+> our CRM and records, keeping registration, attendance, and participant data accurate day to day.
+> I produce a monthly community showcase from artist recruitment through hosting, and I coordinate
+> fifteen to twenty additional events every month. I also research and write our grant applications
+> and manage donor correspondence.
+>
+> Early on, I noticed our revenue model would not hold. I built a new enrollment process and grew
+> paying membership from zero to fifteen within a few months, quickly enough that we had to
+> redesign the offering to keep up.
+>
+> I bring fifteen years of teaching private students ages five to eighteen, alongside performing as
+> a pianist, drummer, and composer, so I understand both the family side of a youth program and the
+> artistic side of an orchestra's mission. I also earned my B.A. at UW-Madison, and I'm relocating
+> from Brooklyn back to Madison, so this is a return, not a leap.
+>
+> I'm available for the full thirty hours a week and glad to work evenings and weekends for
+> concerts and events. My resume is attached, and I'd welcome a conversation.
+>
+> Best,
+> Maxwell Perkins
+> maxwellhperkins@gmail.com | 925-259-1748
+
+---
+
+## Application Questions — WCO (Sept 10)
+
+Three questions on the online application. Texts below are the last versions discussed; Max may
+have made small edits in the form itself.
+
+**1. Tell us about a time when plans changed unexpectedly during a youth program or community
+event. How did you adjust, communicate the changes, and keep things moving?**
+
+> Two days before one of our monthly music and art showcases, two of our three visual artists and
+> one of our musicians dropped out, all within a few hours of each other. I had two options:
+> scramble for last-minute replacements and put on a weaker show, or postpone so the artists still
+> committed didn't get shortchanged. Postponing isn't always possible, but here it was the right
+> call, and I made it that day.
+>
+> I told the remaining artists first, before announcing anything publicly. I messaged them as a
+> group, explained the decision, and made clear that postponing was for their benefit: a full
+> lineup and a full room. Then I made the public announcement and let everyone know a new date was
+> coming shortly.
+>
+> The hardest part was finding a date that worked for everyone. I sent a quick poll the next day,
+> and we locked in a date two weeks out. The extra time let us fill the open slots and re-promote
+> the show.
+>
+> There was some disappointment at first, but the rescheduled showcase drew a full house, and our
+> audience got the quality they've come to expect from our events.
+
+**2. A Super Strings student arrives without their instrument, and the instructor does not have an
+extra one available. How would you handle the situation so the student can still participate and
+feel included?**
+
+Structure Max chose: student/family, then instructor, then follow-up. Kept light on teaching
+suggestions on purpose.
+
+> First, I'd make sure the student knows they aren't in trouble. Forgetting an instrument happens,
+> and they'll still have a great lesson. If a parent or caregiver is there, I'd tell them the same
+> thing so no one leaves feeling bad about it.
+>
+> Next, I'd check in with the instructor. They know the student best, so I'd follow their lead and
+> offer ideas if they'd help. In fifteen years of teaching students ages 5 to 18, I've learned that
+> a lot of music education happens away from the instrument: rhythm work, listening, or the
+> instructor demonstrating the student's pieces.
+>
+> After the lesson, I'd follow up with the family and the site coordinator. I'd keep it warm and
+> blame-free and find out what happened. If getting the instrument to lessons is hard for the
+> family, I'd talk with my manager about options so the student arrives ready next time.
+
+**3. What interests you about supporting WCO's education and community engagement programs?**
+
+Suggested rewrite of Max's draft; his final text for this one was not seen. The hook is his own:
+Bernstein's Young People's Concerts, which he watched on YouTube.
+
+> My favorite music educator is Leonard Bernstein. His Young People's Concerts reached millions of
+> kids for free on television, and decades later I watched every one of them on YouTube. WCO
+> carries the same belief: great music belongs to everyone, and education is how it gets there.
+>
+> What excites me is that WCO doesn't treat education and community engagement as separate things.
+> Free concerts on the Square bring families in, and programs like Super Strings give kids a way to
+> keep going. Classical music's future depends on reaching young people, and WCO is doing that for
+> more people than anyone else in Wisconsin.
+>
+> Music education and community building are what I've built my career around. I'd love to do that
+> work with your team, back in the city where I went to school.
+
+---
+
+## WCO Research Notes
+
+- **Super Strings:** free violin lessons, ages 5 to 16, led by WCO musicians, "strong mentorship
+  connections". Partner sites: Road Home, Lussier Community Center, Northport/Packers Community
+  Center, Big Brothers Big Sisters, YWCA. Satellite sites (open to the public): Bethel Lutheran
+  Church, Operation Fresh Start. Fall 2026 semester starts September 21. Source:
+  wcoconcerts.org/education/youth/super-strings.
+- **Lesson format is not stated on WCO's site.** An older NBC15 story on the Lussier program (where
+  Super Strings began) describes "an adult mentor meet[ing] with these students once a week", which
+  points to one-on-one or near it. Six instructors across seven sites points the other way. Unconfirmed;
+  worth asking in an interview.
+- The program serves kids from equitable housing and aftercare programs, so logistics problems
+  (like a missing instrument) may be a family circumstance, not forgetfulness. Answer 2 is written
+  with that in mind.
+- The role reports to the Community Engagement & Education Manager (the JD also says "Sr.
+  Manager"). Call it "the WCO team" rather than guessing a department name.
+- WCO pitch lines worth mirroring: "No other arts organization in Wisconsin performs free for more
+  people each year"; 250,000 people a year; over 2,000 youth a year in education programs.
 
 ---
 
 ## Open Items
 
-- [ ] Confirm what share of private students (Composer/Educator line) were youth. Sets how hard to
-      lean on "experience working with youth."
-- [ ] Confirm Sprout Society start date for resume dates (same open item as the ops track).
-- [ ] Decide per posting, same as the ops track, whether the org is tech-adjacent enough to surface
-      the AI tool-building explicitly. WCO reads as a traditional orchestra: default to omitting
-      "AI" language for this application.
+- [ ] Finish and submit the WCO application (see Current State). Log the submission date.
+- [ ] Fix the LinkedIn headline before submitting anywhere on this track.
+- [x] Youth share of private students: ages 5 to 18, confirmed.
+- [x] Sprout Society start date: February 2026, confirmed. Tools in development from late 2025.
+- [x] AI disclosure for WCO: omitted (traditional orchestra).

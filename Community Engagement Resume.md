@@ -1,85 +1,81 @@
 # Maxwell Perkins
-Brooklyn, NY | maxwellhperkins@gmail.com | 925-259-1748 | LinkedIn
-
-Community manager for a creative nonprofit space, composer, and music educator. I keep programs,
-records, and people organized so the community around me has a good experience every time.
-
----
-
-## EXPERIENCE
-
-**COMMUNITY MANAGER — SPROUT SOCIETY** | Brooklyn, NY | [DATE] – Present
-*Community space for creatives. Team of three.*
-
-- Serve as the primary point of contact for the organization, responding to member, partner, and
-  donor inquiries and maintaining a welcoming, informed experience across every touchpoint
-- Own and maintain the organization's CRM and records, keeping member, donor, and partner data
-  accurate and current
-- Produce a monthly community showcase end to end: artist recruitment, logistics, participant
-  communication, and hosting, drawing 30 to 50 attendees; coordinate 15 to 20 additional events
-  monthly
-- Manage space operations and vendor and contractor relationships: bookings, supplies, equipment,
-  access, and upkeep
-- Research, write, and report on grants; manage donor correspondence and represent the organization
-  at community and partner events
-- Built and ran a new sign-up and onboarding process, growing paying membership from 0 to 15
-  within months
-- Built lightweight internal tools to keep member and program records accurate and cut manual data
-  entry, while retiring software subscriptions the team no longer needed
-
-**COMPOSER, PIANIST, AND MUSIC EDUCATOR** | 2011 – Present
-
-- Fifteen years teaching private students ages 5 to 18, and performing as a pianist, drummer, and
-  composer
-- Produce and record original work; coordinate rehearsals, performers, venues, and session
-  logistics
-
-**FOUNDER — MUSIC MAJOR RECORDS LLC** | Jul 2023 – Aug 2025
-
-- Founded and ran a company serving college musicians, building a platform for collaboration and
-  career development
-- Iterated the model across several versions based on direct user research, then made the call to
-  wind the venture down and pursue operating experience
+Brooklyn, NY (relocating to Madison, WI) | maxwellhperkins@gmail.com | 925-259-1748
+LinkedIn: linkedin.com/in/maxwell-perkins-702a82207
 
 ---
 
 ## EDUCATION
 
-**M.M. Music Composition** | New York University | 2022
-**B.A. Music Composition** | University of Wisconsin | 2014
+**M.M., Music Theory and Composition (Songwriting Concentration)** | New York University, 2022
+**B.A., Music Composition, Minor in Business** | University of Wisconsin-Madison, 2014
 
 ---
 
-## SKILLS
+## TEACHING EXPERIENCE
 
-**Community and program coordination:** front-line communication with members, families, and
-partners; multi-program coordination; scheduling and deadline management
-**Database and records:** CRM ownership and upkeep, registration and enrollment tracking, data
-accuracy, comfort learning new systems quickly
-**Events:** production, participant coordination, logistics, hosting, promotion
-**Development:** grant research, grant writing, grant reporting, donor communication
-**Communications:** newsletters, email marketing, social media management, promotional design
-**Tools:** Google Workspace, CRM systems, Canva
-**Other:** valid driver's license, available evenings and weekends
+**Private Music Instructor** | 2011-Present
+- Teach piano, drums, audio production, and composition to students ages 5 to 18, one-on-one and in groups.
+- Schedule lessons and keep families informed on each student's progress.
+- Developed original curricula for composition and audio production, from beginner through advanced.
 
 ---
 
-## NOTES (delete before sending)
+## PROFESSIONAL EXPERIENCE
 
-- Set the Sprout Society start date.
-- Title is "Community Manager," the real title. Do not use "Operations Manager" on this track;
-  save that framing for `Operations Resume.md`.
-- PMP-in-progress and the University of Wisconsin B.A. tie are both cut/light on purpose here.
-  UW-Madison alum is a real, honest hook worth naming in the cover letter for this specific
-  posting, since the role is in Madison. Do not put it in the resume as a bullet; say it once in
-  the letter's close.
-- The membership win is kept but shrunk to one line and moved below the front-line/database
-  bullets, on purpose. See `career-search-arts-education-track.md` for why.
-- The internal tools bullet deliberately says nothing about AI. If this org (or another one on this
-  track) turns out to be tech-adjacent, revisit per the case-by-case rule in
-  `career-search-ops-track.md`.
-- Confirmed: private students span ages 5 to 18, so the Composer/Educator bullet now says so
-  directly. It is a direct hit on this JD's "experience working with youth" preference.
-- Handshake AI (freelance prompt engineer) is omitted here, same call as the ops-track resume.
-- Your LinkedIn headline still reads "Vibe Coder / AI Developer." Fix it before sending on any
-  track outside AI/dev roles.
+**Community Manager, Sprout Society** | Brooklyn, NY | February 2026-Present
+*Nonprofit community space for creatives. Team of three.*
+- Serve as the first point of contact for members, partners, and donors, responding to every inquiry.
+- Maintain the organization's CRM and records, keeping member, donor, partner, and event data accurate and current.
+- Built and run the sign-up and onboarding process for new members.
+- Plan and host a monthly music and art showcase, and support members running their own events in the space.
+- Grew the space from one showcase a month to 10 to 15 events, bringing in over 100 new people each month.
+- Lead social media and community outreach; support grant research, applications, and reporting.
+
+**Founder, Music Major Records LLC** | Jul 2023-Aug 2025
+- Ran and iterated a platform for college musicians to build careers, then placed it on hold.
+
+**Producer & Recording Engineer, Misfits' Instruments Studio** | 2018-Present
+- Produce, arrange, and mix recordings from tracking through final mix in Pro Tools and Logic.
+- Handle studio scheduling and session logistics, and play as a session musician.
+
+**Composer and Songwriter, Independent** | 2014-Present
+- Write pop and concert music, with songwriting and producer credits for John Harvie and Brett Altman.
+- Produce and host a concert music series for composers and performers in NYC.
+
+---
+
+## APPLIED SYSTEMS
+
+**The Sprout Suite** | 2025-Present
+*Tools I built to keep Sprout Society's records accurate, cut manual data entry, and replace paid software.*
+- **CRM:** manages contacts, members, donors, outreach, and events in one place.
+- **Grant Tool:** grant research and matching, application tracking through the full grant cycle, and a writing workspace.
+- **Social Media Manager:** a content library and workspace that publishes posts automatically on a content calendar.
+- **Campaign Tracker:** builds dynamic QR codes, tracks scans, and visualizes the results.
+
+---
+
+## ADDITIONAL
+
+**Tools:** Google Workspace, CRM systems, Canva, social media (Instagram, YouTube, TikTok)
+**Availability:** Days, plus nights and weekends when needed; valid driver's license
+
+---
+
+## NOTES (not in the exported files)
+
+- Format follows `Academic CV - UW Madison.docx` (section order, entry lines, italic notes, bullets)
+  with the Creative Work & Research section removed. Exported to
+  `Maxwell Perkins Resume - Community Engagement.docx` and `.pdf`, one page.
+- Professional Experience sits above Applied Systems here (the CV has it the other way) because the
+  WCO role is 90% program operations, and the Sprout job bullets carry that.
+- Entry separators use commas and pipes. The academic CV's em dashes are not carried over.
+- Dates are both correct: the Sprout Suite tools were in development in late 2025, before Max
+  formally started as Community Manager in February 2026.
+- "AI assisted" is gone from the Grant Tool bullet, per the case-by-case rule in
+  `career-search-ops-track.md` (WCO reads as a traditional orchestra).
+- The portfolio link is omitted from the header for the same reason: the site is AI-forward.
+- Handshake AI (freelance prompt engineer) is omitted, same call as the earlier version.
+- The 0-to-15 paying members line is dropped so the resume matches the cover letter's numbers
+  (zero to five members running their own communities; 10 to 15 events; over 100 new people a month).
+- Your LinkedIn headline still reads "Vibe Coder / AI Developer." Fix it before sending.

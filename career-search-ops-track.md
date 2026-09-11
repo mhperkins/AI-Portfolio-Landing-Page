@@ -239,8 +239,15 @@ driver's license (preferred), Google Workspace.
 - [ ] **Primary next task (as of Sept 9, 2026):** this track is now the active focus — the
       academic-track UW-Madison application is submitted, so applying to arts admin roles here is
       the immediate priority, not a background task.
-- [ ] Build an operations resume. Do not send `Software Developer Resume.pdf` on this track.
+- [ ] **Sept 10 progress:** the first application on the arts-education sub-track (Wisconsin
+      Chamber Orchestra, Community Engagement & Education Associate) has resume, letter, and
+      application answers ready. Status and remaining steps are in
+      `career-search-arts-education-track.md` under Current State.
+- [x] Build an operations resume. `Operations Resume.md` exists for this track, and the
+      arts-education sub-track has its own (`Maxwell Perkins Resume - Community Engagement.pdf`).
+      Do not send `Software Developer Resume.pdf` on either.
 - [ ] Decide whether `career-search-master.md` splits into two tracks or stays dev-only.
 - [ ] Confirm whether you built or maintain a Sprout Society website. If yes, it is a direct hit
       on "website management" and belongs in the letter.
-- [ ] Confirm the Sprout Society start month for resume dates.
+- [x] Sprout Society start month: February 2026 (title Community Manager). The Sprout Suite tools
+      were in development from late 2025.

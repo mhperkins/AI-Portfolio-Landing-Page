@@ -49,7 +49,11 @@ Vercel project: `ai-portfolio-landing-page` · GitHub: `mhperkins/AI-Portfolio-L
 | [career-search-master.md](career-search-master.md) | AI/dev track — full ongoing career strategy document |
 | [career-search-ops-track.md](career-search-ops-track.md) | Arts/nonprofit operations track — hard rules, story, proof points, application log |
 | [career-search-academic-track.md](career-search-academic-track.md) | Academic music technology & AI track — hard rules, story, proof points, application log |
+| [career-search-arts-education-track.md](career-search-arts-education-track.md) | Arts nonprofit community engagement & education sub-track of the ops track. Current State section at the top; holds the WCO letter, application answers, and research notes |
 | [Operations Resume.md](Operations%20Resume.md) | Resume draft for the ops track (do not send the dev PDF on this track) |
+| [Community Engagement Resume.md](Community%20Engagement%20Resume.md) | Text source for the arts-education resume, in the academic CV's format |
+| [Maxwell Perkins Resume - Community Engagement.pdf](Maxwell%20Perkins%20Resume%20-%20Community%20Engagement.pdf) | **The file to send** on the arts-education track (one page; `.docx` beside it). Not committed as of 2026-09-10 |
+| [build_resume.py](build_resume.py) | Rebuilds that `.docx` with python-docx, using `Academic CV - UW Madison.docx` as the style template. Export the PDF through Word. Not committed as of 2026-09-10 |
 | [Academic CV - UW Madison.md](Academic%20CV%20-%20UW%20Madison.md) | Academic CV draft for the UW-Madison RISE-AI posting |
 | [Academic Cover Letter - UW Madison.md](Academic%20Cover%20Letter%20-%20UW%20Madison.md) | Cover letter draft for the same posting |
 | [Teaching Statement - UW Madison.md](Teaching%20Statement%20-%20UW%20Madison.md) | Required teaching statement for the same posting |
@@ -593,6 +597,12 @@ backup, neither caused by this work):
    statement) with The Composer Compass as the focal creative/research work. Framing leans into
    practical builder experience as a legitimate primary qualification for a field with no
    established academic pipeline yet, not an apology for lacking a doctorate.
+
+**Update, Sept 10, 2026:** the first ops-track application is ready. Wisconsin Chamber Orchestra,
+Community Engagement & Education Associate, on the arts-education sub-track
+(`career-search-arts-education-track.md`). Resume (one page, academic CV format, no AI wording),
+final cover letter, and three application answers are done. **Not yet submitted;** priority
+deadline is Sept 11. Remaining steps are in that file's Current State section.
 
 **Next task (as of Sept 9, 2026):** primary focus shifts back to the arts/nonprofit operations
 track (`career-search-ops-track.md`) — a different strategy from the academic one, applying to
