@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sprout Society CRM &middot; Demo carousel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   Sprout Society CRM demo carousel.
+
+   Standalone iteration source, same convention as crm-demo.html and
+   compass-demo.html: nothing here is wired into index.html yet. It replaces
+   the Loom embed on the Sprout CRM panel once it is settled.
+
+   Two class families:
+   - `demo-` is the shared carousel scaffolding, copied verbatim from
+     crm-demo.html so the transplant can reuse the rules already on the page.
+     It reads its colors from variables, so the Sprout look comes from the
+     token block on `.sprout-demo` plus a short override block, never from
+     edits to the shared rules.
+   - `sp-` is the Sprout app chrome, lifted from the STYLES constant in
+     sprout-crm-next/components/CRMManager.jsx (dashboard, tables, event
+     dashboard tiles). `sp-` does not collide with
+     Composer CRM's `c`, Compass's `d`, or Agency's `a`.
+
+   Tokens sit on `.sprout-demo`, not :root, so they cannot leak into the dark
+   portfolio page after the transplant.
+
+   All data is placeholder. Sprout N Tell Vol. 4 is the one real event name;
+   every person, org, bio, email, and photo around it is invented.
+
+   House rule: no em dashes anywhere on this page.
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 32px 20px 64px;
+  background: #F7F7F6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.sprout-demo {
+  /* names the shared demo- rules expect, mapped to the Sprout palette */
+  --ch:        #030000;
+  --cream:     #F7F7F6;
+  --amber:     #2a8ca0;
+  --amber-lt:  #73C4D6;
+  --border:    #E5E7EB;
+  --tp:        #030000;
+  --ts:        #4B5563;
+  --tm:        #9CA3AF;
+  --warm:      #F3F4F6;
+  --font-serif: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-sans:  'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --shadow:    0 4px 14px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.13);
+
+  /* Sprout's own tokens, from CRMManager.jsx STYLES */
+  --ink:        #030000;
+  --paper:      #F7F7F6;
+  --cyan:       #73C4D6;
+  --cyan-dk:    #2a8ca0;
+  --fuchsia:    #E10098;
+  --acid:       #C6C902;
+  --banana:     #FAD100;
+  --cyan-lt:    #C7E7EF;
+  --acid-lt:    #E9E99A;
+  --fuchsia-lt: #FFCDF0;
+  --banana-lt:  #FEF4C1;
+  --g50:  #F9FAFB;
+  --g100: #F3F4F6;
+  --g200: #E5E7EB;
+  --g300: #D1D5DB;
+  --g400: #9CA3AF;
+  --g500: #6B7280;
+  --g600: #4B5563;
+  --g800: #1F2937;
+  --sh-sm: 0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.demo-wrap { max-width: 1180px; margin: 0 auto; }
+
+/* --- page heading (scaffolding only; drop this on transplant) ------------- */
+.demo-scaffold { margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+.demo-scaffold h1 { font-size: 30px; font-weight: 900; margin: 0 0 6px; letter-spacing: -0.02em; }
+.demo-scaffold p { margin: 0; color: var(--ts); font-size: 14px; max-width: 70ch; }
+
+/* ==========================================================================
+   Shared carousel scaffolding. Verbatim from crm-demo.html.
+   ========================================================================== */
+.demo-nav-wrap { display: flex; gap: 4px; flex-wrap: wrap; background: var(--ch); border-radius: 10px; padding: 10px 10px; margin-bottom: 14px; }
+.demo-nav-item { font-family: var(--font-sans); font-size: 13px; font-weight: 500; padding: 8px 14px; border-radius: 6px; border: none; background: none; color: var(--tm); display: flex; align-items: center; gap: 7px; transition: background 0.15s, color 0.15s; }
+.demo-nav-item:hover:not(:disabled) { color: var(--cream); background: rgba(255, 255, 255, 0.06); }
+.demo-nav-item.is-active { color: var(--cream); background: rgba(180, 83, 9, 0.32); }
+.demo-nav-item:disabled { cursor: default; opacity: 0.55; }
+.demo-nav-soon { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; background: rgba(255, 255, 255, 0.12); color: var(--cream); padding: 1px 7px; border-radius: 8px; }
+.demo-nav-hint { margin-left: auto; align-self: center; display: inline-flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); border: 1px dashed rgba(217, 119, 6, 0.55); border-radius: 20px; padding: 4px 11px; pointer-events: none; white-space: nowrap; }
+.demo-nav-hint svg { width: 10px; height: 10px; display: block; flex-shrink: 0; color: var(--amber-lt); }
+@media (max-width: 660px) { .demo-nav-hint { display: none; } }
+
+.demo-stage { position: relative; border: 1px solid var(--border); border-radius: 10px; background: white; box-shadow: var(--shadow); overflow: hidden; }
+.demo-canvas { background-color: var(--warm); background-image: repeating-linear-gradient(to bottom, rgba(139, 115, 85, 0.10) 0px, rgba(139, 115, 85, 0.10) 1px, transparent 1px, transparent 10px); background-size: 100% 90px; padding: 28px 24px; min-height: 400px; position: relative; }
+.demo-side-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 20; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); background: rgba(255, 255, 255, 0.94); color: var(--ts); font-size: 17px; line-height: 1; box-shadow: var(--shadow-lg); transition: opacity 0.18s, color 0.18s, border-color 0.18s; }
+.demo-side-arrow:hover:not(:disabled) { color: var(--amber); border-color: var(--amber-lt); }
+.demo-side-arrow:disabled { opacity: 0.25; cursor: default; }
+.demo-side-prev { left: 6px; }
+.demo-side-next { right: 6px; }
+.demo-car-slide { display: none; }
+.demo-car-slide.is-on { display: block; animation: demoFade 220ms ease-out; }
+@keyframes demoFade { from { opacity: 0; } to { opacity: 1; } }
+.demo-caption { border-bottom: 1px solid var(--border); background: white; padding: 18px 22px 16px; display: flex; flex-direction: column; gap: 10px; }
+.demo-cap-col { flex: 0 0 auto; }
+.demo-slide-title { font-family: var(--font-serif); font-size: 28px; font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; color: var(--tp); margin: 0; }
+.demo-cap-label { font-size: 9.5px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--tm); margin-bottom: 3px; }
+.demo-cap-state { font-family: var(--font-serif); font-size: 16px; line-height: 1.35; color: var(--tp); }
+.demo-controls { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 14px; }
+.demo-arrow { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: white; color: var(--ts); font-size: 15px; box-shadow: var(--shadow); }
+.demo-arrow:disabled { opacity: 0.35; }
+.demo-count { font-size: 12px; color: var(--tm); letter-spacing: 0.1em; font-variant-numeric: tabular-nums; }
+.demo-title { font-family: var(--font-serif); font-size: 19px; font-weight: 600; text-align: center; flex: 1; }
+.sprout-demo button { cursor: pointer; font-family: var(--font-sans); }
+
+/* ==========================================================================
+   Sprout overrides of the shared scaffolding. The nav strip becomes the CRM's
+   black sidebar laid on its side: uppercase wordmark, cyan active row. The
+   stage picks up the acid rule the public portal pages sit under.
+   ========================================================================== */
+.sprout-demo .demo-nav-wrap { align-items: center; padding: 8px 10px; }
+.sprout-demo .demo-nav-item { font-size: 12.5px; font-weight: 700; color: rgba(247, 247, 246, 0.55); }
+.sprout-demo .demo-nav-item:hover:not(:disabled) { color: var(--paper); background: rgba(247, 247, 246, 0.07); }
+.sprout-demo .demo-nav-item.is-active { color: var(--ink); background: var(--cyan); }
+.sprout-demo .demo-nav-hint { border-color: rgba(115, 196, 214, 0.6); font-weight: 700; }
+.sprout-demo .demo-nav-hint svg { color: var(--cyan); }
+.sp-navbrand { padding: 2px 14px 2px 6px; margin-right: 6px; border-right: 1px solid rgba(247, 247, 246, 0.1); line-height: 1.2; }
+.sp-navbrand-name { font-size: 10px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper); }
+.sp-navbrand-sub { font-size: 8.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); margin-top: 2px; }
+.sp-navnew { font-size: 8.5px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; background: var(--fuchsia); color: #fff; padding: 1px 6px; border-radius: 8px; }
+.demo-nav-item.is-active .sp-navnew { background: var(--ink); }
+@media (max-width: 1100px) { .sp-navbrand { display: none; } }
+
+.sprout-demo .demo-stage { border-top: 4px solid var(--acid); }
+.sprout-demo .demo-canvas {
+  background-color: var(--paper);
+  background-image: radial-gradient(rgba(3, 0, 0, 0.07) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+.sprout-demo .demo-slide-title { font-weight: 900; font-size: 26px; letter-spacing: -0.02em; line-height: 1.2; }
+.sprout-demo .demo-cap-label { font-weight: 700; letter-spacing: 0.12em; }
+.sprout-demo .demo-cap-state { font-size: 15px; color: var(--g600); }
+.sprout-demo .demo-title { font-weight: 900; font-size: 16px; }
+.sprout-demo .demo-side-arrow:hover:not(:disabled) { color: var(--ink); border-color: var(--cyan); }
+
+/* ==========================================================================
+   CRM app chrome (from CRMManager.jsx STYLES).
+   ========================================================================== */
+.sp-frame { position: relative; background: #fff; border: 1.5px solid var(--g200); border-radius: 12px; box-shadow: var(--shadow-lg); overflow: hidden; }
+.sp-page { padding: 22px 24px 24px; background: var(--paper); }
+.sp-hd { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+.sp-ttl { font-size: 21px; font-weight: 900; letter-spacing: -0.01em; margin: 0; line-height: 1.2; }
+.sp-sub { font-size: 12px; color: var(--g600); margin-top: 3px; }
+.sp-crumb { font-size: 11.5px; color: var(--g500); margin-bottom: 5px; }
+.sp-crumb b { color: var(--cyan-dk); font-weight: 700; }
+.sp-actions { display: flex; gap: 7px; flex-wrap: wrap; align-items: center; }
+.sp-clip { max-height: 760px; overflow: hidden; }
+.sp-clip::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 80px; background: linear-gradient(to bottom, rgba(247,247,246,0), var(--paper)); pointer-events: none; z-index: 3; }
+
+.sp-btn { display: inline-flex; align-items: center; gap: 5px; padding: 7px 13px; border-radius: 7px; border: none; font-size: 11.5px; font-weight: 700; font-family: var(--font-sans); letter-spacing: 0.02em; white-space: nowrap; line-height: 1.3; }
+.sp-btn-blk { background: var(--ink); color: var(--paper); }
+.sp-btn-cyan { background: var(--cyan); color: var(--ink); }
+.sp-btn-acid { background: var(--acid); color: var(--ink); }
+.sp-btn-ghost { background: transparent; color: var(--g600); border: 1.5px solid var(--g200); }
+.sp-btn-danger { background: #FEE2E2; color: #B91C1C; }
+.sp-btn-sm { padding: 4px 9px; font-size: 10.5px; border-radius: 5px; }
+.sp-btn-xs { padding: 2px 7px; font-size: 9.5px; border-radius: 4px; }
+
+.sp-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 16px; }
+.sp-stat { background: #fff; border-radius: 10px; padding: 12px 14px; border: 1.5px solid var(--g200); min-width: 0; }
+.sp-stat-lbl { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--g400); margin-bottom: 4px; }
+.sp-stat-val { font-size: 23px; font-weight: 900; line-height: 1.1; }
+.sp-stat-meta { font-size: 10.5px; color: var(--g600); margin-top: 2px; }
+
+.sp-card { background: #fff; border-radius: 11px; border: 1.5px solid var(--g200); box-shadow: var(--sh-sm); min-width: 0; }
+.sp-card-hd { padding: 11px 15px; border-bottom: 1px solid var(--g100); display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.sp-card-ttl { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--g600); }
+.sp-card-meta { font-size: 10.5px; color: var(--g500); }
+.sp-card-bd { padding: 12px 15px; }
+.sp-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: start; }
+.sp-stack { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+
+.sp-tabs { display: flex; border-bottom: 2px solid var(--g200); margin-bottom: 14px; gap: 1px; flex-wrap: wrap; }
+.sp-tab { padding: 7px 12px; font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--g400); border-bottom: 2px solid transparent; margin-bottom: -2px; }
+.sp-tab.on { color: var(--ink); border-bottom-color: var(--cyan); }
+.sp-tab-n { margin-left: 5px; color: var(--g400); font-weight: 900; }
+.sp-tab.on .sp-tab-n { color: var(--cyan-dk); }
+
+.sp-filter { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 12px; align-items: center; }
+.sp-input { padding: 7px 10px; border: 1.5px solid var(--g200); border-radius: 6px; font-size: 12px; font-family: var(--font-sans); color: var(--ink); background: #fff; min-width: 0; }
+.sp-input.ph { color: var(--g400); }
+.sp-search { flex: 1 1 150px; max-width: 230px; }
+.sp-fl { display: block; font-size: 8.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--g600); margin-bottom: 4px; }
+
+.sp-tbl-scroll { overflow-x: auto; background: #fff; border-radius: 11px; border: 1.5px solid var(--g200); box-shadow: var(--sh-sm); }
+.sp-tbl { width: 100%; min-width: 600px; border-collapse: collapse; }
+.sp-tbl th { text-align: left; font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--g400); padding: 9px 12px; border-bottom: 1.5px solid var(--g200); white-space: nowrap; background: var(--g50); }
+.sp-tbl td { padding: 10px 12px; border-bottom: 1px solid var(--g100); vertical-align: middle; font-size: 12px; }
+.sp-tbl tr:last-child td { border-bottom: none; }
+.sp-tbl tr.is-sel td { background: rgba(115, 196, 214, 0.12); }
+.sp-name { font-weight: 700; font-size: 12.5px; }
+.sp-email { font-size: 10.5px; color: var(--g400); }
+.sp-small { font-size: 10.5px; color: var(--g400); }
+
+.sp-tag { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 20px; font-size: 8.5px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; }
+.t-cold   { background: var(--g100); color: var(--g600); }
+.t-warm   { background: var(--banana-lt); color: #7a5c00; }
+.t-active { background: var(--acid-lt); color: #3a3d00; }
+.t-up     { background: var(--cyan-lt); color: #155e6e; }
+.t-pend   { background: var(--banana-lt); color: #7a5c00; }
+.sp-type { display: inline-block; background: rgba(115, 196, 214, 0.15); color: #155e6e; font-size: 8.5px; font-weight: 700; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
+.sp-wrap { display: flex; flex-wrap: wrap; gap: 3px; }
+.sp-aff { display: inline-flex; align-items: center; gap: 3px; background: var(--cyan-lt); color: #155e6e; border-radius: 20px; padding: 1px 8px; font-size: 10.5px; font-weight: 700; white-space: nowrap; }
+.sp-aff-evt { background: var(--banana-lt); color: #6b5200; }
+.sp-member { background: var(--acid); color: var(--ink); }
+.sp-due { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 20px; font-size: 9px; font-weight: 800; white-space: nowrap; flex-shrink: 0; }
+.due-over  { background: var(--fuchsia-lt); color: #8b0057; }
+.due-today { background: var(--banana-lt); color: #6b5200; }
+.due-soon  { background: var(--g100); color: var(--g600); }
+.due-ok    { background: var(--acid-lt); color: #3a3d00; }
+.due-wait  { background: var(--acid-lt); color: #3a3d00; }
+.due-done  { background: var(--cyan-lt); color: #155e6e; }
+
+.sp-health { display: flex; align-items: center; gap: 6px; }
+.sp-health-bar { width: 42px; height: 6px; border-radius: 3px; background: var(--g200); overflow: hidden; }
+.sp-health-fill { height: 100%; border-radius: 3px; }
+
+/* dashboard action rows */
+.sp-act { display: flex; align-items: center; gap: 10px; padding: 8px 11px; border-radius: 7px; background: #fff; border: 1.5px solid var(--g200); margin-bottom: 6px; }
+.sp-act:last-child { margin-bottom: 0; }
+.sp-act-main { flex: 1; min-width: 0; }
+.sp-act-name { font-size: 12.5px; font-weight: 700; }
+.sp-act-kind { font-size: 9.5px; color: var(--g400); font-weight: 400; margin-left: 5px; }
+.sp-act-meta { font-size: 11px; color: var(--g600); }
+.sp-evrow { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--g100); }
+.sp-evrow:last-child { border-bottom: none; }
+.sp-evdate { width: 38px; text-align: center; flex-shrink: 0; line-height: 1.05; }
+.sp-evdate b { display: block; font-size: 16px; font-weight: 900; }
+.sp-evdate span { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--g400); }
+
+/* detail side panel (ContactDetail), inside the frame */
+.sp-dim { position: absolute; inset: 0; background: rgba(3, 0, 0, 0.3); z-index: 4; }
+.sp-panel { position: absolute; top: 0; right: 0; bottom: 0; width: 47%; min-width: 320px; background: #fff; z-index: 5; box-shadow: -8px 0 40px rgba(0, 0, 0, 0.13); display: flex; flex-direction: column; overflow: hidden; }
+.sp-dp-hd { padding: 15px 18px 12px; border-bottom: 1px solid var(--g200); display: flex; justify-content: space-between; gap: 10px; }
+.sp-dp-name { font-size: 16px; font-weight: 900; }
+.sp-dp-sub { font-size: 10.5px; color: var(--g600); margin-top: 2px; }
+.sp-dp-x { font-size: 20px; color: var(--g400); line-height: 1; }
+.sp-dp-body { padding: 12px 18px; overflow: hidden; }
+.sp-dp-sec { margin-bottom: 13px; }
+.sp-dp-lbl { font-size: 8.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--g400); margin-bottom: 7px; padding-bottom: 4px; border-bottom: 1px solid var(--g100); }
+.sp-dp-row { display: flex; gap: 5px; flex-wrap: wrap; align-items: center; margin-bottom: 8px; }
+.sp-dp-field { font-size: 11.5px; color: var(--g600); }
+.sp-dp-field strong { color: var(--ink); }
+.sp-na { display: flex; align-items: center; gap: 8px; padding: 7px 9px; border: 1.5px solid var(--g200); border-radius: 7px; margin-bottom: 5px; }
+.sp-circle { width: 15px; height: 15px; border-radius: 50%; border: 1.5px solid var(--g300); flex-shrink: 0; }
+.sp-tp { padding: 8px 10px; border-radius: 8px; background: var(--banana-lt); border: 1px solid rgba(250, 209, 0, 0.3); margin-bottom: 6px; }
+.sp-tp-hd { display: flex; align-items: center; gap: 7px; margin-bottom: 3px; }
+.sp-tp-date { font-size: 9.5px; font-weight: 700; color: var(--g600); }
+.sp-tp-type { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; background: var(--cyan-lt); color: #155e6e; padding: 1px 5px; border-radius: 3px; }
+.sp-tp-sum { font-size: 11.5px; line-height: 1.45; color: #1a5f7a; font-weight: 700; }
+.sp-tp-next { font-size: 10.5px; color: var(--g600); font-weight: 700; margin-top: 2px; }
+.sp-menu { position: absolute; background: #fff; border: 1.5px solid var(--g200); border-radius: 8px; box-shadow: var(--shadow-lg); padding: 4px; z-index: 6; min-width: 170px; }
+.sp-menu div { font-size: 11.5px; font-weight: 700; padding: 6px 9px; border-radius: 5px; color: var(--g800); }
+.sp-menu div.hi { background: var(--g100); }
+.sp-menu hr { border: none; border-top: 1px solid var(--g100); margin: 3px 0; }
+
+/* modal (Modal / .mover) */
+.sp-overlay { position: absolute; inset: 0; background: rgba(3, 0, 0, 0.45); display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 5; }
+.sp-modal { background: #fff; border-radius: 14px; width: 100%; max-width: 560px; max-height: 100%; overflow: hidden; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18); display: flex; flex-direction: column; }
+.sp-m-hd { padding: 13px 18px 11px; border-bottom: 1px solid var(--g200); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+.sp-m-ttl { font-size: 13.5px; font-weight: 900; }
+.sp-m-x { font-size: 19px; color: var(--g400); line-height: 1; }
+.sp-m-bd { padding: 14px 18px; overflow: hidden; }
+
+/* link box used by the portal and program panels */
+.sp-linkbox { border: 1px solid var(--g200); border-radius: 8px; padding: 9px 11px; background: var(--g50); }
+.sp-linkbox-lbl { font-size: 9px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--g500); margin-bottom: 3px; }
+.sp-linkbox-url { font-size: 11px; font-weight: 700; color: var(--cyan-dk); word-break: break-all; margin-bottom: 7px; }
+.sp-linkbox-note { font-size: 10px; color: var(--g500); margin-top: 6px; line-height: 1.5; }
+
+/* event dashboard (the .evd-* rules) */
+.sp-evd-strip { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; margin: 0 0 13px; }
+.sp-evd-strip b { font-size: 12px; font-weight: 900; }
+.sp-evd-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; align-items: start; }
+.sp-span2 { grid-column: 1 / -1; }
+.sp-tile { background: #fff; border: 1.5px solid var(--g200); border-radius: 11px; box-shadow: var(--sh-sm); display: flex; flex-direction: column; min-width: 0; }
+.sp-tile-hd { display: flex; align-items: baseline; gap: 8px; padding: 10px 13px 0; }
+.sp-tile-ttl { font-size: 9.5px; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; }
+.sp-tile-n { margin-left: auto; font-size: 10.5px; color: var(--g500); font-weight: 700; }
+.sp-tile-b { padding: 8px 13px 11px; display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+.sp-tile-f { display: flex; justify-content: space-between; padding: 7px 13px; border-top: 1px solid var(--g100); font-size: 10.5px; font-weight: 700; color: var(--cyan-dk); }
+.sp-hostgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 7px 14px; }
+.sp-lbl { font-size: 8.5px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--g400); margin-bottom: 2px; }
+.sp-val { font-size: 11.5px; word-break: break-word; }
+.sp-p { font-size: 11.5px; line-height: 1.55; margin: 0; }
+.sp-ta { border: 1.5px solid var(--g200); border-radius: 6px; padding: 7px 9px; font-size: 11px; line-height: 1.55; background: #fff; white-space: pre-line; }
+.sp-row { display: flex; align-items: flex-start; gap: 8px; padding: 5px 0; border-top: 1px solid var(--g100); }
+.sp-row-t { flex: 1; min-width: 0; font-size: 11.5px; line-height: 1.35; }
+.sp-row-t small { display: block; font-size: 10px; color: var(--g400); margin-top: 1px; }
+.sp-row-t small.clamp { color: var(--g600); font-size: 10.5px; }
+.sp-date { width: 34px; flex-shrink: 0; font-size: 9.5px; font-weight: 700; color: var(--g400); padding-top: 2px; }
+.sp-box { width: 12px; height: 12px; border-radius: 2px; margin-top: 3px; flex-shrink: 0; background: #3b3b3b; }
+.sp-bar { height: 5px; border-radius: 3px; background: var(--g100); overflow: hidden; }
+.sp-bar i { display: block; height: 100%; background: var(--cyan); border-radius: 3px; }
+.sp-person { display: flex; align-items: center; gap: 7px; padding: 5px 0; border-top: 1px solid var(--g100); }
+.sp-person:first-child { border-top: none; }
+.sp-avatar { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 800; color: #fff; flex-shrink: 0; }
+.sp-person-main { flex: 1; min-width: 0; }
+.sp-person-name { font-size: 11.5px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sp-rsvp { font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 20px; border: 1.5px solid var(--g300); color: var(--g400); background: transparent; flex-shrink: 0; }
+.sp-rsvp.on { background: var(--cyan); border-color: var(--cyan); color: #fff; }
+.sp-link { display: flex; align-items: center; gap: 6px; border: 1.5px solid var(--g200); border-radius: 8px; padding: 5px 8px 5px 9px; }
+.sp-link-main { flex: 1; min-width: 0; }
+.sp-link-l { font-size: 11px; font-weight: 700; color: var(--cyan-dk); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sp-link-u { font-size: 9.5px; color: var(--g400); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sp-x { color: var(--g400); font-size: 14px; line-height: 1; }
+.sp-thumbs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+.sp-thumb { border: 1.5px solid var(--g200); border-radius: 8px; overflow: hidden; min-width: 0; }
+.sp-thumb-img { height: 62px; display: flex; align-items: center; justify-content: center; background: var(--g100); font-size: 18px; }
+.sp-thumb-f { display: flex; align-items: center; gap: 5px; padding: 4px 6px; font-size: 9.5px; font-weight: 700; }
+.sp-thumb-f span { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sp-dl { border: 1.5px solid var(--g200); border-radius: 4px; padding: 0 4px; font-size: 9.5px; }
+
+/* placeholder photos: gradients with initials, never real people */
+.ph { display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 900; letter-spacing: 0.02em; }
+.ph1 { background: linear-gradient(135deg, #73C4D6, #2a8ca0); }
+.ph2 { background: linear-gradient(135deg, #E10098, #7a1fa2); }
+.ph3 { background: linear-gradient(135deg, #C6C902, #5f8f1a); }
+.ph4 { background: linear-gradient(135deg, #FAD100, #e0701b); }
+.ph5 { background: linear-gradient(135deg, #1F2937, #4B5563); }
+.ph6 { background: linear-gradient(135deg, #2a8ca0, #C6C902); }
+.ph7 { background: linear-gradient(135deg, #E10098, #FAD100); }
+.ph8 { background: linear-gradient(135deg, #7a1fa2, #73C4D6); }
+
+/* numbered notes and pins, verbatim from dasha-demo.html, recolored below */
+.demo-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin: 0 0 16px; }
+.demo-note { display: flex; gap: 10px; align-items: flex-start; background: white; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; box-shadow: var(--shadow); font-family: var(--font-sans); font-size: 13px; line-height: 1.45; color: var(--tp); }
+.demo-pin, .demo-pin-n { width: 22px; height: 22px; border-radius: 50%; background: var(--amber); color: white; font-family: var(--font-sans); font-size: 11.5px; font-weight: 700; line-height: 22px; text-align: center; flex: none; }
+.demo-pin { position: absolute; top: -10px; left: -10px; z-index: 6; box-shadow: 0 0 0 2px white, 0 2px 8px rgba(28, 25, 23, .25); pointer-events: none; }
+.demo-pinned { position: relative; }
+.sprout-demo .demo-notes { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.sprout-demo .demo-note { font-size: 12px; }
+.sprout-demo .demo-pin, .sprout-demo .demo-pin-n { background: var(--fuchsia); font-weight: 900; }
+/* The notes stay pinned to the top while a tall slide scrolls. Sticky dies
+   under any overflow: hidden ancestor, so the stage clips with overflow: clip
+   instead (still rounds its corners, never becomes a scroll container). The
+   band spans the canvas padding so page content never shows between cards.
+   On the portfolio page set --demo-sticky-top to stickyOffset() so the notes
+   sit under the pinned nav and tab rows instead of behind them. */
+.sprout-demo .demo-stage { overflow: clip; }
+.sprout-demo .demo-notes { position: sticky; top: var(--demo-sticky-top, 0px); z-index: 30; margin: -12px -24px 16px; padding: 12px 24px; background: rgba(247, 247, 246, 0.94); backdrop-filter: blur(4px); }
+@media (max-width: 760px) { .sprout-demo .demo-notes { margin: -10px -12px 14px; padding: 10px 12px; } }
+
+/* media tile thumbnails: placeholder event graphics */
+.sp-media { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.sp-mcard { border: 1.5px solid var(--g200); border-radius: 8px; overflow: hidden; background: #fff; min-width: 0; }
+.sp-mimg { height: 112px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 6px 10px; line-height: 1.2; overflow: hidden; }
+.sp-mimg.poster { background: #fff; box-shadow: inset 10px 0 0 #fff, inset 11px 0 0 var(--ink), inset -10px 0 0 #fff, inset -11px 0 0 var(--ink); }
+.sp-mimg .mt { font-size: 7.5px; color: var(--ink); margin-bottom: 3px; }
+.sp-mimg .mh { font-size: 7.5px; font-weight: 900; text-decoration: underline; margin-top: 2px; }
+.sp-mimg .mn { font-size: 6.5px; color: var(--fuchsia); font-weight: 700; }
+.sp-mimg .mw { font-size: 8.5px; font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase; }
+.sp-mimg.flyer { background: linear-gradient(160deg, #73C4D6 0%, #73C4D6 45%, #E10098 45%, #FAD100 100%); align-items: flex-start; text-align: left; }
+.sp-mimg .mf { font-size: 11px; font-weight: 900; color: #FAD100; text-shadow: 0 1px 0 var(--ink); text-transform: uppercase; }
+.sp-mimg .mf2 { font-size: 7px; font-weight: 900; color: var(--ink); text-transform: uppercase; }
+.sp-mimg .mf3 { font-size: 7px; font-weight: 900; color: #fff; text-transform: uppercase; margin-top: 6px; }
+.sp-qr { width: 30px; height: 30px; margin-top: 5px; flex-shrink: 0; border: 3px solid var(--ink); background: conic-gradient(var(--ink) 25%, #fff 0 50%, var(--ink) 0 75%, #fff 0) 0 0 / 6px 6px; }
+.sp-mfoot { display: flex; align-items: center; justify-content: space-between; gap: 6px; padding: 6px 8px; border-top: 1px solid var(--g100); font-size: 10px; font-weight: 700; }
+.sp-mfoot span:first-child { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* program tile row on the event dashboard */
+.sp-progrow { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 8px 12px; }
+.sp-prog { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.sp-prog-ph { width: 30px; height: 30px; border-radius: 50%; font-size: 9.5px; flex-shrink: 0; }
+.sp-prog-role { font-size: 10.5px; color: var(--g600); }
+.sp-more { font-size: 10.5px; font-weight: 700; color: var(--g800); }
+
+/* newsletter editor (slide 4) */
+.sp-polish { margin-top: 7px; border: 1.5px solid var(--acid); background: rgba(198, 201, 2, 0.12); border-radius: 8px; padding: 7px; }
+.sp-polish-hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-size: 9.5px; font-weight: 900; color: #3a3d00; }
+.sp-polish-v { background: #fff; border: 1px solid var(--g200); border-radius: 6px; padding: 7px 9px; }
+.sp-polish-v p { font-size: 11.5px; line-height: 1.5; margin: 0 0 6px; }
+.sp-order-lbl { font-size: 9px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--g500); margin: 14px 0 6px; padding-top: 10px; border-top: 1px dashed var(--g200); }
+.sp-blk { display: flex; align-items: center; gap: 9px; border: 1.5px solid var(--g200); border-radius: 8px; padding: 7px 10px; margin-bottom: 5px; background: #fff; font-size: 11.5px; }
+.sp-blk b { font-weight: 900; }
+.sp-handle { color: var(--g400); font-size: 14px; line-height: 1; }
+.sp-blk.is-lift { border-color: var(--cyan); box-shadow: 0 8px 22px rgba(3, 0, 0, 0.16); transform: translateX(10px) rotate(-0.8deg); }
+.sp-blk.is-lift .sp-handle { color: var(--cyan-dk); }
+.sp-blk.is-drop { border: 1.5px dashed var(--cyan-dk); background: rgba(115, 196, 214, 0.1); }
+.sp-pill { padding: 3px 10px; font-size: 10.5px; font-weight: 700; border-radius: 20px; border: 1.5px solid var(--g200); color: var(--g600); background: #fff; }
+.sp-pill.on { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.nl { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+.nl-mast { display: flex; justify-content: space-between; align-items: flex-end; padding: 13px 16px 10px; }
+.nl-logo { font-size: 13px; font-weight: 900; line-height: 1; letter-spacing: -0.01em; }
+.nl-issue { font-size: 8.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; text-align: right; line-height: 1.5; }
+.nl-issue em { font-style: normal; color: #8a8a86; }
+.nl-rule { height: 3px; background: var(--acid); }
+.nl-body { padding: 13px 16px 16px; }
+.nl-head { font-size: 14.5px; font-weight: 900; line-height: 1.3; margin: 0 0 11px; }
+.nl-flash { outline: 2px solid var(--fuchsia); outline-offset: 3px; border-radius: 2px; }
+.nl-eyebrow { font-size: 8.5px; font-weight: 900; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fuchsia); margin-bottom: 5px; }
+.nl-photo { height: 88px; border-radius: 6px; font-size: 10px; margin-bottom: 7px; }
+.nl-copy { font-size: 11px; line-height: 1.55; color: #3a3a38; margin: 0 0 8px; }
+.nl-btn { display: inline-block; background: var(--fuchsia); color: #fff; font-size: 10px; font-weight: 900; padding: 5px 12px; border-radius: 5px; margin-bottom: 11px; }
+.nl-announce { border-left: 5px solid var(--cyan); border-radius: 6px; padding: 8px 11px; box-shadow: 0 4px 14px rgba(0,0,0,0.12); font-size: 11.5px; }
+
+/* the "how Claude helps" box on the outreach slide */
+.sp-explain { background: #fff; border: 1px solid var(--border); border-left: 5px solid var(--acid); border-radius: 0 10px 10px 0; box-shadow: var(--shadow); padding: 14px 18px 16px; margin: 0 0 16px; }
+.sp-explain-ttl { font-size: 10px; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; color: var(--g600); margin-bottom: 6px; }
+.sp-explain p { margin: 0 0 10px; font-size: 13px; line-height: 1.55; color: var(--ink); }
+.sp-explain ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; counter-reset: step; }
+.sp-explain li { counter-increment: step; display: flex; gap: 9px; font-size: 12px; line-height: 1.5; color: var(--g800); }
+.sp-explain li::before { content: counter(step); flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--ink); color: var(--acid); font-size: 11.5px; font-weight: 900; line-height: 22px; text-align: center; }
+.sp-explain li b { color: var(--ink); font-weight: 900; }
+
+/* outreach workspace (slide 5) */
+.sp-doc { border: 1px solid var(--g200); border-radius: 10px; overflow: hidden; background: #fff; }
+.sp-doc-hd { display: flex; align-items: center; gap: 9px; padding: 10px 14px; border-bottom: 1px solid var(--g100); font-size: 12.5px; flex-wrap: wrap; }
+.sp-doc-hd b { font-weight: 900; }
+.sp-doc-meta { font-size: 8.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #155e6e; background: var(--cyan-lt); padding: 1px 6px; border-radius: 3px; }
+.sp-doc-bd { padding: 4px 16px 16px; font-size: 12px; line-height: 1.6; color: var(--g800); }
+.md-h2 { font-size: 15px; font-weight: 900; margin: 12px 0 8px; color: var(--ink); padding-bottom: 5px; border-bottom: 1px solid var(--g200); }
+.md-h3 { font-size: 11.5px; font-weight: 900; margin: 10px 0 5px; color: var(--ink); text-transform: uppercase; letter-spacing: 0.04em; }
+.md-tbl td { font-size: 11.5px; padding: 6px 10px; border: 1px solid var(--g200); vertical-align: top; }
+.md-k { font-weight: 900; background: var(--g100); white-space: nowrap; width: 1%; }
+.md-cell-hover td:last-child { background: rgba(115, 196, 214, 0.16); box-shadow: inset 0 0 0 1px var(--cyan); }
+.sp-edit { font-size: 12px; line-height: 1.6; color: var(--ink); background: #fff; border: 1.5px solid var(--cyan); border-radius: 6px; padding: 8px 10px; box-shadow: 0 0 0 3px rgba(115, 196, 214, 0.16); }
+.sp-ai { margin-top: 5px; padding: 8px 10px; background: rgba(198, 201, 2, 0.10); border: 1px solid rgba(198, 201, 2, 0.55); border-radius: 6px; }
+.sp-ai-row { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+.sp-ai-input { flex: 1 1 200px; min-width: 0; font-size: 11.5px; background: #fff; border: 1px solid var(--g200); border-radius: 6px; padding: 5px 9px; }
+.sp-ai-hint { margin-top: 5px; font-size: 10.5px; color: var(--g600); }
+
+@media (max-width: 760px) {
+  .demo-canvas { padding: 18px 12px; }
+  .demo-side-arrow { width: 32px; height: 32px; font-size: 15px; }
+  .demo-side-prev { left: 2px; }
+  .demo-side-next { right: 2px; }
+  .demo-title { font-size: 15px; }
+  .demo-slide-title, .sprout-demo .demo-slide-title { font-size: 20px; }
+  .demo-caption { padding: 14px 16px 13px; }
+  .sp-page { padding: 16px 14px 18px; }
+  .sp-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sp-cols, .sp-evd-grid { grid-template-columns: minmax(0, 1fr); }
+  .sp-panel { width: 100%; min-width: 0; }
+  .sp-explain ol { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .demo-car-slide.is-on { animation: none; }
+}
+</style>
+</head>
+<body data-demo-standalone>
+<div class="demo-wrap sprout-demo" data-demo-panel tabindex="-1">
+
+  <!-- Scaffolding. Not part of the transplant. -->
+  <div class="demo-scaffold">
+    <h1>Sprout Society CRM: the relationships behind a community space</h1>
+    <p>A walkthrough of the CRM screen by screen: the daily dashboard, contacts, one event page (Sprout N Tell Vol. 4), the newsletter, and outreach with Claude. Every person, bio, and email here is placeholder, never the real CRM.</p>
+  </div>
+
+  <!-- ====================================================================
+       SECTION NAV STRIP: the CRM sidebar, laid on its side
+       ==================================================================== -->
+  <div class="demo-nav-wrap">
+    <div class="sp-navbrand"><div class="sp-navbrand-name">Sprout Society</div><div class="sp-navbrand-sub">CRM</div></div>
+    <button class="demo-nav-item is-active" data-nav="dashboard" data-slide="0">Dashboard</button>
+    <button class="demo-nav-item" data-nav="contacts" data-slide="1">Contacts</button>
+    <button class="demo-nav-item" data-nav="portal" data-slide="2">Events Portal <span class="sp-navnew">New</span></button>
+    <button class="demo-nav-item" data-nav="newsletter" data-slide="3">Newsletter</button>
+    <button class="demo-nav-item" data-nav="outreach" data-slide="4">Outreach/Claude MCP</button>
+    <span class="demo-nav-hint">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>
+      Click any section
+    </span>
+  </div>
+
+  <!-- ====================================================================
+       THE STAGE
+       ==================================================================== -->
+  <div class="demo-stage">
+    <div class="demo-caption">
+      <h4 class="demo-slide-title" data-demo-contrib></h4>
+      <div class="demo-cap-col">
+        <div class="demo-cap-label" data-demo-state-label></div>
+        <div class="demo-cap-state" data-demo-state></div>
+      </div>
+    </div>
+
+    <div class="demo-canvas">
+      <button class="demo-side-arrow demo-side-prev" data-demo-prev aria-label="Previous slide">&#8249;</button>
+      <button class="demo-side-arrow demo-side-next" data-demo-next aria-label="Next slide">&#8250;</button>
+
+      <!-- ============ SLIDE 1 · DASHBOARD ================================ -->
+      <section class="demo-car-slide is-on" data-nav="dashboard"
+               data-contrib="Open the CRM and the day is already sorted: who to follow up with, what is overdue, and what is coming up."
+               data-state-label="State of the CRM"
+               data-state="Tuesday, September 1 &middot; 6 actions due in the next two weeks &middot; 2 overdue &middot; Sprout N Tell Vol. 4 in 10 days."
+               data-title="Dashboard: who needs attention today">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Today's key numbers.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Every follow-up, sorted by due date.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>Past-due items, flagged.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">4</span><span>Upcoming events and pending requests.</span></div>
+        </div>
+        <div class="sp-frame">
+          <div class="sp-page">
+            <div class="sp-hd">
+              <div>
+                <h1 class="sp-ttl">Dashboard</h1>
+                <div class="sp-sub">Tuesday, September 1, 2026</div>
+              </div>
+              <div class="sp-actions"><span class="sp-btn sp-btn-blk">+ Log Touchpoint</span></div>
+            </div>
+
+            <div class="sp-stats demo-pinned"><span class="demo-pin">1</span>
+              <div class="sp-stat"><div class="sp-stat-lbl">Total Contacts</div><div class="sp-stat-val">1,284</div><div class="sp-stat-meta">42 organizations</div></div>
+              <div class="sp-stat"><div class="sp-stat-lbl">Active Relationships</div><div class="sp-stat-val" style="color: var(--cyan);">186</div><div class="sp-stat-meta">of 1,284 contacts</div></div>
+              <div class="sp-stat"><div class="sp-stat-lbl">Overdue</div><div class="sp-stat-val" style="color: var(--fuchsia);">2</div><div class="sp-stat-meta">need contact now</div></div>
+              <div class="sp-stat"><div class="sp-stat-lbl">Due This Week</div><div class="sp-stat-val" style="color: var(--acid);">6</div><div class="sp-stat-meta">actions in 14 days</div></div>
+            </div>
+
+            <div class="sp-cols">
+              <div class="sp-card demo-pinned"><span class="demo-pin">2</span>
+                <div class="sp-card-hd"><span class="sp-card-ttl">&#128197; Next Actions</span><span class="sp-card-meta">next 14 days</span></div>
+                <div class="sp-card-bd">
+                  <div class="sp-act"><div class="sp-act-main"><div class="sp-act-name">Rosa Delgado</div><div class="sp-act-meta">Send set times to the Vol. 4 lineup</div></div><span class="sp-due due-today">today</span></div>
+                  <div class="sp-act"><div class="sp-act-main"><div class="sp-act-name">Sprout N Tell Vol. 4<span class="sp-act-kind">&#128197; event</span></div><div class="sp-act-meta">Confirm the sound engineer</div></div><span class="sp-due due-soon">in 2d</span></div>
+                  <div class="sp-act"><div class="sp-act-main"><div class="sp-act-name">Maya Chen</div><div class="sp-act-meta">Invite to Vol. 4 as a reader</div></div><span class="sp-due due-soon">in 3d</span></div>
+                  <div class="sp-act"><div class="sp-act-main"><div class="sp-act-name">Kai Brennan</div><div class="sp-act-meta">Thank-you note for the scholarship gift</div></div><span class="sp-due due-soon">in 5d</span></div>
+                  <div class="sp-act"><div class="sp-act-main"><div class="sp-act-name">Low Tide Records<span class="sp-act-kind">&#127970; org</span></div><div class="sp-act-meta">Pitch a co-hosted listening party</div></div><span class="sp-due due-soon">in 9d</span></div>
+                </div>
+              </div>
+
+              <div class="sp-stack">
+                <div class="sp-card demo-pinned"><span class="demo-pin">3</span>
+                  <div class="sp-card-hd"><span class="sp-card-ttl">&#9888; Overdue Actions</span></div>
+                  <div class="sp-card-bd">
+                    <div class="sp-act"><div class="sp-act-main"><div class="sp-act-name">Imani Shaw</div><div class="sp-act-meta">Follow up on the membership scholarship</div></div><span class="sp-due due-over">4d overdue</span></div>
+                    <div class="sp-act"><div class="sp-act-main"><div class="sp-act-name">Quiet Hours Social<span class="sp-act-kind">&#127970; org</span></div><div class="sp-act-meta">Send the host portal link</div></div><span class="sp-due due-over">2d overdue</span></div>
+                  </div>
+                </div>
+                <div class="sp-card demo-pinned"><span class="demo-pin">4</span>
+                  <div class="sp-card-hd"><span class="sp-card-ttl">&#128467; Upcoming Events</span><span class="sp-btn sp-btn-ghost sp-btn-xs">View all</span></div>
+                  <div class="sp-card-bd" style="padding-top: 4px; padding-bottom: 4px;">
+                    <div class="sp-evrow"><div class="sp-evdate"><b>1</b><span>Sep</span></div><div class="sp-act-main"><div class="sp-act-name">Co-Working &#128257;</div><div class="sp-small">Weekly on Tuesdays &middot; 10:00am&ndash;4:00pm</div></div><span class="sp-tag t-up">Upcoming</span></div>
+                    <div class="sp-evrow"><div class="sp-evdate"><b>11</b><span>Sep</span></div><div class="sp-act-main"><div class="sp-act-name">Sprout N Tell Vol. 4</div><div class="sp-small">7:00pm&ndash;10:00pm &middot; 11 people &middot; 7 confirmed</div></div><span class="sp-tag t-up">Upcoming</span></div>
+                    <div class="sp-evrow"><div class="sp-evdate"><b>18</b><span>Sep</span></div><div class="sp-act-main"><div class="sp-act-name">Fern &amp; Fold Zine Night</div><div class="sp-small">Booking request &middot; not on the calendar yet</div></div><span class="sp-tag t-pend">Pending</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 2 · CONTACTS + DETAIL PANEL =================== -->
+      <section class="demo-car-slide" data-nav="contacts"
+               data-contrib="Community, members, donors, and prospects share one list, and every person carries their own history."
+               data-state-label="State of the relationship"
+               data-state="Maya Chen &middot; Community and a Member &middot; warm &middot; found Sprout through a friend performing at Vol. 3."
+               data-title="Contacts: buckets, types, and the history behind each person">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Everyone in one list, sorted into Community, Members, Donors, and Prospects, and searchable by name, type, or handle.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Open anyone to see it all at a glance: their bucket, affiliations, next actions, and a dated log of every conversation.</span></div>
+        </div>
+        <div class="sp-frame">
+          <div class="sp-page" style="min-height: 560px;">
+            <div class="sp-hd">
+              <div>
+                <h1 class="sp-ttl">Contacts</h1>
+                <div class="sp-sub">1,284 contacts &middot; 2 overdue</div>
+              </div>
+              <div class="sp-actions"><span class="sp-btn sp-btn-blk">+ Add to Community</span></div>
+            </div>
+            <div class="sp-tabs demo-pinned"><span class="demo-pin">1</span>
+              <span class="sp-tab on">Community<span class="sp-tab-n">1,041</span></span>
+              <span class="sp-tab">Members<span class="sp-tab-n">48</span></span>
+              <span class="sp-tab">Donors<span class="sp-tab-n">212</span></span>
+              <span class="sp-tab">Prospects<span class="sp-tab-n">31</span></span>
+            </div>
+            <div class="sp-filter">
+              <span class="sp-input ph sp-search">Search name, email, @handle</span>
+              <span class="sp-input">All types &#9662;</span>
+              <span class="sp-input">Name A&ndash;Z &#9662;</span>
+              <span class="sp-btn sp-btn-blk sp-btn-sm">&#128584; Hide nameless</span>
+              <span class="sp-btn sp-btn-ghost sp-btn-sm">&#128100; Needs a name</span>
+            </div>
+            <div class="sp-tbl-scroll">
+              <table class="sp-tbl">
+                <thead><tr><th>Name</th><th>Type</th><th>Affiliation</th><th>Status</th><th>Next action</th><th>Health</th></tr></thead>
+                <tbody>
+                  <tr><td><div class="sp-name">Ada Kim</div><div class="sp-email">ada.kim@example.com</div></td><td><span class="sp-type">Music</span></td><td><span class="sp-aff sp-aff-evt">&#128467; Vol. 4</span></td><td><span class="sp-tag t-active">Active</span></td><td>Confirm backline<div class="sp-small">Sep 3</div></td><td><div class="sp-health"><div class="sp-health-bar"><div class="sp-health-fill" style="width: 88%; background: var(--acid);"></div></div></div></td></tr>
+                  <tr><td><div class="sp-name">Jonah Reyes</div><div class="sp-email">jonah.reyes@example.com</div></td><td><span class="sp-type">Art</span></td><td><span class="sp-aff">&#127970; Fern &amp; Fold</span></td><td><span class="sp-tag t-warm">Warm</span></td><td><span class="sp-small">&minus;</span></td><td><div class="sp-health"><div class="sp-health-bar"><div class="sp-health-fill" style="width: 64%; background: var(--banana);"></div></div></div></td></tr>
+                  <tr class="is-sel"><td><div class="sp-name">Maya Chen</div><div class="sp-email">maya.chen@example.com</div></td><td><div class="sp-wrap"><span class="sp-type">Attendee</span><span class="sp-type">Coworking</span></div></td><td><span class="sp-aff sp-aff-evt">&#128467; Vol. 4</span></td><td><span class="sp-tag t-warm">Warm</span></td><td>Invite as a reader<div class="sp-small">Sep 4</div></td><td><div class="sp-health"><div class="sp-health-bar"><div class="sp-health-fill" style="width: 70%; background: var(--banana);"></div></div></div></td></tr>
+                  <tr><td><div class="sp-name">Rosa Delgado</div><div class="sp-email">rosa@example.com</div></td><td><div class="sp-wrap"><span class="sp-type">Event Host</span></div></td><td><span class="sp-aff">&#127970; Night Garden</span></td><td><span class="sp-tag t-active">Active</span></td><td>Send set times<div class="sp-small">Today</div></td><td><div class="sp-health"><div class="sp-health-bar"><div class="sp-health-fill" style="width: 94%; background: var(--acid);"></div></div></div></td></tr>
+                  <tr><td><div class="sp-name">Theo Park</div><div class="sp-email">theo.park@example.com</div></td><td><span class="sp-type">Partner</span></td><td><span class="sp-aff">&#127970; Low Tide Records</span></td><td><span class="sp-tag t-cold">Cold</span></td><td><span class="sp-small">&minus;</span></td><td><div class="sp-health"><div class="sp-health-bar"><div class="sp-health-fill" style="width: 32%; background: var(--g400);"></div></div></div></td></tr>
+                  <tr><td><div class="sp-name">Imani Shaw</div><div class="sp-email">imani.shaw@example.com</div></td><td><span class="sp-type">Coworking</span></td><td><span class="sp-small">&minus;</span></td><td><span class="sp-tag t-warm">Warm</span></td><td>Scholarship follow-up<div class="sp-small" style="color: var(--fuchsia);">4d overdue</div></td><td><div class="sp-health"><div class="sp-health-bar"><div class="sp-health-fill" style="width: 41%; background: var(--fuchsia);"></div></div></div></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- ContactDetail panel, open over the list -->
+          <div class="sp-dim"></div>
+          <div class="sp-panel">
+            <div class="sp-dp-hd">
+              <div>
+                <div class="sp-dp-name">Maya Chen</div>
+                <div class="sp-dp-sub">maya.chen@example.com &middot; @mayamakes.art</div>
+              </div>
+              <span class="sp-dp-x">&times;</span>
+            </div>
+            <div class="sp-dp-body">
+              <div class="sp-dp-row">
+                <span class="sp-tag t-warm">Warm</span><span class="sp-type">Attendee</span><span class="sp-type">Coworking</span>
+              </div>
+              <div class="sp-dp-row">
+                <span class="sp-dp-field">Bucket:</span>
+                <span class="sp-aff">Community</span><span class="sp-aff sp-member">&#9733; Member</span>
+                <span class="sp-btn sp-btn-ghost sp-btn-xs">Move to &#9662;</span>
+              </div>
+              <div class="sp-dp-sec">
+                <div class="sp-dp-field"><strong>How they heard:</strong> My friend was performing at Vol. 3</div>
+              </div>
+              <div class="sp-dp-sec">
+                <div class="sp-dp-lbl">Affiliations</div>
+                <div class="sp-wrap" style="gap: 5px;"><span class="sp-aff sp-aff-evt">&#128467; Sprout N Tell Vol. 4</span><span class="sp-aff">&#127970; Fern &amp; Fold Collective</span></div>
+              </div>
+              <div class="sp-dp-sec demo-pinned"><span class="demo-pin" style="left: auto; right: 0; top: -4px;">2</span>
+                <div class="sp-dp-lbl">Next Actions</div>
+                <div class="sp-na"><span class="sp-circle"></span><div class="sp-act-main"><div style="font-size: 11.5px; font-weight: 700;">Invite to Vol. 4 as a reader</div><div class="sp-small">Fri, Sep 4</div></div><span class="sp-due due-soon">in 3d</span></div>
+                <span class="sp-btn sp-btn-ghost sp-btn-xs">+ Add Action</span>
+              </div>
+              <div class="sp-dp-sec">
+                <div class="sp-dp-lbl">Touchpoints</div>
+                <div class="sp-tp"><div class="sp-tp-hd"><span class="sp-tp-date">Aug 12</span><span class="sp-tp-type">Email</span></div><div class="sp-tp-sum">Sent the co-working day pass link. She booked Tuesdays.</div><div class="sp-tp-next">&rarr; Invite to Vol. 4 as a reader</div></div>
+                <div class="sp-tp"><div class="sp-tp-hd"><span class="sp-tp-date">Jul 24</span><span class="sp-tp-type">In person</span></div><div class="sp-tp-sum">Signed in at the door for Vol. 3 and asked about co-working.</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 3 · EVENTS PORTAL ============================= -->
+      <!-- One slide, the event page itself (EventDetailPage), with numbered
+           notes in the Dasha-Board demo's style: a note row above the frame and
+           a matching pin on each tile. -->
+      <section class="demo-car-slide" data-nav="portal"
+               data-contrib="One page runs the whole night: the host's portal, the lineup's program, the checklist, the people, and every link and file."
+               data-state-label="State of the event"
+               data-state="Sprout N Tell Vol. 4 &middot; 10 days out &middot; 8 of 8 acts sent their bios &middot; 1 checklist item overdue."
+               data-title="Events Portal: one page for the whole night">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>One private link for the host.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>One form for the lineup's bios.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>Dated checklist with overdue flags.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">4</span><span>RSVPs linked to contacts.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">5</span><span>Event links and graphics.</span></div>
+        </div>
+        <div class="sp-frame">
+          <div class="sp-page">
+            <div class="sp-hd" style="margin-bottom: 6px;">
+              <div>
+                <div class="sp-crumb"><b>Events</b> &rsaquo; Sprout N Tell Vol. 4</div>
+                <h1 class="sp-ttl">Sprout N Tell Vol. 4</h1>
+                <div class="sp-sub">Sep 11, 2026 &middot; 7:00pm&ndash;10:00pm &middot; Sprout Society</div>
+              </div>
+              <div class="sp-actions"><span class="sp-btn sp-btn-ghost sp-btn-sm">Edit Event</span><span class="sp-btn sp-btn-danger sp-btn-sm">Delete</span></div>
+            </div>
+            <div style="margin: 14px 0 10px;"><span class="sp-tag t-up">Upcoming</span></div>
+            <div class="sp-evd-strip">
+              <b>10 days out</b>
+              <span class="sp-due due-over">1 overdue</span>
+            </div>
+
+            <div class="sp-evd-grid">
+              <!-- HOST DETAILS -->
+              <div class="sp-tile sp-span2 demo-pinned"><span class="demo-pin">1</span>
+                <div class="sp-tile-hd"><span class="sp-tile-ttl">Host details</span></div>
+                <div class="sp-tile-b">
+                  <div class="sp-linkbox" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <div style="flex: 1 1 220px; min-width: 0;"><div class="sp-linkbox-lbl">Send this to the host</div><div class="sp-linkbox-url" style="margin: 0;">sproutsociety.example/portal/k7Qp2xN4vTb8mLdRf3wYs</div></div>
+                    <span class="sp-btn sp-btn-blk sp-btn-sm">Copy portal link</span><span class="sp-btn sp-btn-ghost sp-btn-sm">Open &#8599;</span>
+                  </div>
+                  <div class="sp-hostgrid" style="grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));">
+                    <div><div class="sp-lbl">Host</div><div class="sp-val">Rosa Delgado</div></div>
+                    <div><div class="sp-lbl">Email</div><div class="sp-val">rosa@example.com</div></div>
+                    <div><div class="sp-lbl">Organization</div><div class="sp-val">Night Garden Collective</div></div>
+                    <div><div class="sp-lbl">Type</div><div class="sp-val">Performance / show</div></div>
+                    <div><div class="sp-lbl">Public or private</div><div class="sp-val">Open to the public</div></div>
+                    <div><div class="sp-lbl">Attendance</div><div class="sp-val">60</div></div>
+                  </div>
+                </div>
+                <div class="sp-tile-f"><span>Portal link &amp; all answers</span><span>&rarr;</span></div>
+              </div>
+
+              <!-- PROGRAM -->
+              <div class="sp-tile sp-span2 demo-pinned"><span class="demo-pin">2</span>
+                <div class="sp-tile-hd"><span class="sp-tile-ttl">Program</span><span class="sp-tile-n" style="color: var(--ink);">8 sent</span></div>
+                <div class="sp-tile-b">
+                  <div style="display: flex; gap: 6px;"><span class="sp-btn sp-btn-blk sp-btn-sm">Copy form link</span><span class="sp-btn sp-btn-ghost sp-btn-sm">Open &#8599;</span></div>
+                  <div class="sp-progrow">
+                    <div class="sp-prog"><span class="sp-prog-ph ph ph1">AK</span><div style="min-width: 0;"><div class="sp-person-name">Ada Kim</div><div class="sp-prog-role">Music</div></div></div>
+                    <div class="sp-prog"><span class="sp-prog-ph ph ph5">LH</span><div style="min-width: 0;"><div class="sp-person-name">The Low Hums</div><div class="sp-prog-role">Music</div></div></div>
+                    <div class="sp-prog"><span class="sp-prog-ph ph ph8">VS</span><div style="min-width: 0;"><div class="sp-person-name">Velvet Static</div><div class="sp-prog-role">Music</div></div></div>
+                    <div class="sp-prog"><span class="sp-prog-ph ph ph4">SO</span><div style="min-width: 0;"><div class="sp-person-name">Sam Ortega</div><div class="sp-prog-role">Music</div></div></div>
+                    <div class="sp-prog"><span class="sp-prog-ph ph ph2">ML</span><div style="min-width: 0;"><div class="sp-person-name">Mara Lin</div><div class="sp-prog-role">Art</div></div></div>
+                    <div class="sp-prog"><span class="sp-prog-ph ph ph6">JR</span><div style="min-width: 0;"><div class="sp-person-name">Jonah Reyes</div><div class="sp-prog-role">Art</div></div></div>
+                  </div>
+                  <div class="sp-more">+2 more</div>
+                </div>
+                <div class="sp-tile-f"><span>All submissions &amp; link</span><span>&rarr;</span></div>
+              </div>
+
+              <!-- CHECKLIST -->
+              <div class="sp-tile demo-pinned"><span class="demo-pin">3</span>
+                <div class="sp-tile-hd"><span class="sp-tile-ttl">Checklist</span><span class="sp-tile-n" style="color: var(--ink);">8/23 done</span></div>
+                <div class="sp-tile-b" style="gap: 0;">
+                  <div class="sp-bar" style="margin-bottom: 6px;"><i style="width: 35%;"></i></div>
+                  <div class="sp-row"><span class="sp-box"></span><div class="sp-row-t">Flyers posted<small>Aug 30, 2026</small></div><span class="sp-due due-over">2d overdue</span></div>
+                  <div class="sp-row"><span class="sp-box"></span><div class="sp-row-t">Check-in system ready<small>Sep 2, 2026</small></div><span class="sp-due due-soon">in 1d</span></div>
+                  <div class="sp-row"><span class="sp-box"></span><div class="sp-row-t">Equipment list<small>Sep 4, 2026</small></div><span class="sp-due due-soon">in 3d</span></div>
+                  <div class="sp-row"><span class="sp-box"></span><div class="sp-row-t">QR codes made<small>Sep 5, 2026</small></div><span class="sp-due due-soon">in 4d</span></div>
+                  <div class="sp-row"><span class="sp-box"></span><div class="sp-row-t">QR codes for signage made<small>Sep 7, 2026</small></div><span class="sp-due due-soon">in 6d</span></div>
+                  <div class="sp-row"><span class="sp-box"></span><div class="sp-row-t">Refreshments plan<small>Sep 8, 2026</small></div><span class="sp-due due-soon">in 7d</span></div>
+                  <div class="sp-more" style="margin-top: 6px;">+9 more open</div>
+                </div>
+                <div class="sp-tile-f"><span>Calendar &amp; all 23 items</span><span>&rarr;</span></div>
+              </div>
+
+              <!-- PEOPLE -->
+              <div class="sp-tile demo-pinned"><span class="demo-pin">4</span>
+                <div class="sp-tile-hd"><span class="sp-tile-ttl">People</span><span class="sp-tile-n" style="color: var(--ink);">13 &middot; 8 confirmed</span></div>
+                <div class="sp-tile-b" style="gap: 0;">
+                  <div class="sp-person"><span class="sp-avatar" style="background: #2dd4bf;">JR</span><div class="sp-person-main"><div class="sp-person-name">Jonah Reyes</div><div class="sp-wrap" style="margin-top: 2px;"><span class="sp-type">Art</span><span class="sp-type">Showcase</span></div></div><span class="sp-rsvp on">&#10003; Confirmed</span></div>
+                  <div class="sp-person"><span class="sp-avatar" style="background: #60a5fa;">ML</span><div class="sp-person-main"><div class="sp-person-name">Mara Lin</div><div class="sp-wrap" style="margin-top: 2px;"><span class="sp-type">Showcase</span></div></div><span class="sp-rsvp on">&#10003; Confirmed</span></div>
+                  <div class="sp-person"><span class="sp-avatar" style="background: #fb923c;">SO</span><div class="sp-person-main"><div class="sp-person-name">Sam Ortega</div><div class="sp-wrap" style="margin-top: 2px;"><span class="sp-type">Music</span></div></div><span class="sp-rsvp">RSVP</span></div>
+                  <div class="sp-person"><span class="sp-avatar" style="background: #818cf8;">AK</span><div class="sp-person-main"><div class="sp-person-name">Ada Kim</div><div class="sp-wrap" style="margin-top: 2px;"><span class="sp-type">Music</span><span class="sp-type">Showcase</span></div></div><span class="sp-rsvp">RSVP</span></div>
+                  <div class="sp-person"><span class="sp-avatar" style="background: #f472b6;">RD</span><div class="sp-person-main"><div class="sp-person-name">Rosa Delgado</div><div class="sp-wrap" style="margin-top: 2px;"><span class="sp-type">Event Host</span></div></div><span class="sp-rsvp on">&#10003; Confirmed</span></div>
+                  <div class="sp-more" style="margin-top: 6px;">+8 more</div>
+                  <span class="sp-btn sp-btn-ghost sp-btn-sm" style="align-self: flex-start; margin-top: 7px;">+ Add person</span>
+                </div>
+                <div class="sp-tile-f"><span>All 13 people</span><span>&rarr;</span></div>
+              </div>
+
+              <!-- LINKS -->
+              <div class="sp-tile demo-pinned"><span class="demo-pin">5</span>
+                <div class="sp-tile-hd"><span class="sp-tile-ttl">Links</span><span class="sp-tile-n" style="color: var(--ink);">3</span></div>
+                <div class="sp-tile-b">
+                  <div class="sp-link"><div class="sp-link-main"><div class="sp-link-l">Sign-in &#8599;</div><div class="sp-link-u">https://sproutsociety.example/sign-in</div></div><span class="sp-x">&times;</span></div>
+                  <div class="sp-link"><div class="sp-link-main"><div class="sp-link-l">Program Notes &#8599;</div><div class="sp-link-u">https://sproutsociety.example/sign-in?welcome</div></div><span class="sp-x">&times;</span></div>
+                  <div class="sp-link"><div class="sp-link-main"><div class="sp-link-l">TV Slide Show &#8599;</div><div class="sp-link-u">https://sproutsociety.example/tv</div></div><span class="sp-x">&times;</span></div>
+                  <span class="sp-btn sp-btn-ghost sp-btn-sm" style="align-self: flex-start;">+ Add link</span>
+                </div>
+              </div>
+
+              <!-- MEDIA -->
+              <div class="sp-tile">
+                <div class="sp-tile-hd"><span class="sp-tile-ttl">Media</span><span class="sp-tile-n" style="color: var(--ink);">3</span></div>
+                <div class="sp-tile-b">
+                  <div class="sp-media">
+                    <div class="sp-mcard">
+                      <div class="sp-mimg poster">
+                        <div class="mt">Scan the QR for tonight's program</div>
+                        <div class="mh">Artists</div><div class="mn">Mara Lin &middot; Jonah Reyes &middot; Priya Sol</div>
+                        <div class="mh">Musicians</div><div class="mn">Ada Kim &middot; The Low Hums &middot; Sam Ortega</div>
+                        <span class="sp-qr"></span>
+                      </div>
+                      <div class="sp-mfoot"><span>Program Notes Vol. 4.png</span><span class="sp-dl">&#11015;</span></div>
+                    </div>
+                    <div class="sp-mcard">
+                      <div class="sp-mimg poster">
+                        <div class="mw">Welcome to<br><u>Sprout N Tell Vol. 4</u></div>
+                        <div class="mn" style="margin-top: 3px;">Scan the QR to sign in<br>and get tonight's program</div>
+                        <span class="sp-qr"></span>
+                      </div>
+                      <div class="sp-mfoot"><span>Sign-In.png</span><span class="sp-dl">&#11015;</span></div>
+                    </div>
+                    <div class="sp-mcard">
+                      <div class="sp-mimg flyer">
+                        <div class="mf">7 PM to 10 PM</div>
+                        <div class="mf2">Brooklyn, NY</div>
+                        <div class="mf3">Performances by</div>
+                        <div class="mf2">Ada Kim &middot; The Low Hums<br>Velvet Static</div>
+                      </div>
+                      <div class="sp-mfoot"><span>Flyer.png</span><span class="sp-dl">&#11015;</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="sp-tile-f"><span>Upload &amp; manage</span><span>&rarr;</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 4 · NEWSLETTER EDITOR ========================= -->
+      <section class="demo-car-slide" data-nav="newsletter"
+               data-contrib="Type rough notes, let Claude polish them in Sprout's voice, drag the sections into order, and watch the email update as you go."
+               data-state-label="State of the issue"
+               data-state="Sprout Monthly &middot; September 2026 &middot; headline polished &middot; Vol. 4 being dragged above the announcement."
+               data-title="Newsletter: rough notes in, a branded email out">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Claude polishes rough notes.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Drag to reorder sections.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>Test first, send once approved.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">4</span><span>Live preview.</span></div>
+        </div>
+        <div class="sp-frame">
+          <div class="sp-page">
+            <div class="sp-hd" style="margin-bottom: 12px;">
+              <div>
+                <h1 class="sp-ttl" style="font-size: 18px;">Sprout Monthly &middot; September 2026</h1>
+                <div class="sp-sub">Monthly Roundup &middot; Draft</div>
+              </div>
+              <div class="sp-actions">
+                <span class="sp-btn sp-btn-ghost sp-btn-sm">&larr; Back</span>
+                <span class="sp-btn sp-btn-ghost sp-btn-sm">Copy HTML</span>
+                <span class="sp-btn sp-btn-ghost sp-btn-sm">&#128190; Save draft</span>
+                <span class="sp-btn sp-btn-ghost sp-btn-sm">&#128204; Save version</span>
+                <span class="sp-btn sp-btn-blk sp-btn-sm">Save &amp; close</span>
+              </div>
+            </div>
+
+            <div class="sp-cols">
+              <div class="sp-stack">
+                <div class="sp-card">
+                  <div class="sp-card-hd"><span class="sp-card-ttl">Sections</span><span class="sp-card-meta">39 sections</span></div>
+                  <div class="sp-card-bd">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                      <label class="sp-fl" style="margin: 0;">Headline</label>
+                      <span class="sp-btn sp-btn-ghost sp-btn-xs">&#10024; Re-polish</span>
+                    </div>
+                    <div class="sp-ta" style="color: var(--g600);">vol 4 is finally happening sept 11 after we pushed it, 8 acts, come thru and bring a friend</div>
+                    <div class="sp-polish demo-pinned"><span class="demo-pin">1</span>
+                      <div class="sp-polish-hd"><span>&#10024; Polished &middot; v1 &middot; latest</span><span class="sp-btn sp-btn-ghost sp-btn-xs">&#10005; Discard</span></div>
+                      <div class="sp-polish-v">
+                        <p>Sprout N Tell Vol. 4 is here: eight artists and musicians, one night, Friday, September 11. Bring a friend.</p>
+                        <span class="sp-btn sp-btn-blk sp-btn-xs">&#10003; Use this</span>
+                      </div>
+                    </div>
+
+                    <div class="sp-order-lbl demo-pinned"><span class="demo-pin">2</span>&#8597; Sections &middot; drag &#10303; to reorder</div>
+                    <div class="sp-blk is-lift"><span class="sp-handle">&#10303;</span><div><b>Featured event</b><div class="sp-small">Sprout N Tell Vol. 4 &middot; photo, recap, button</div></div></div>
+                    <div class="sp-blk is-drop"><span class="sp-handle">&#10303;</span><div><b>Announcement</b><div class="sp-small">Co-Working, now every Tuesday</div></div></div>
+                    <div class="sp-blk"><span class="sp-handle">&#10303;</span><div><b>Membership</b><div class="sp-small">Become a member</div></div></div>
+                    <div class="sp-blk"><span class="sp-handle">&#10303;</span><div><b>Community Sprout Shout</b><div class="sp-small">Mara Lin &middot; testimonial</div></div></div>
+                    <div class="sp-blk"><span class="sp-handle">&#10303;</span><div><b>Upcoming events</b><div class="sp-small">3 events &middot; RSVP buttons</div></div></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="sp-stack">
+                <div class="sp-card demo-pinned"><span class="demo-pin">3</span>
+                  <div class="sp-card-hd"><span class="sp-card-ttl">Send</span><span class="sp-card-meta">Test first, then the list</span></div>
+                  <div class="sp-card-bd" style="display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end;">
+                    <div style="flex: 1 1 150px;"><label class="sp-fl">Test send</label><div class="sp-wrap" style="gap: 5px;"><span class="sp-pill on">&#10003; Me</span><span class="sp-pill">Events lead</span><span class="sp-pill">+ Add email</span></div></div>
+                    <div style="flex: 1 1 150px;"><label class="sp-fl">Send to list</label><div class="sp-input" style="font-size: 11px;">Community + Donors &#9662;</div></div>
+                  </div>
+                </div>
+                <div class="sp-card demo-pinned"><span class="demo-pin">4</span>
+                  <div class="sp-card-hd"><span class="sp-card-ttl">Preview</span><span class="sp-card-meta">live &middot; follows the field you're editing</span></div>
+                  <div class="sp-card-bd" style="background: #F7F7F6; padding: 12px;">
+                    <div class="nl">
+                      <div class="nl-mast"><span class="nl-logo">Sprout<br>Society</span><span class="nl-issue">Sprout Monthly<br><em>September 2026</em></span></div>
+                      <div class="nl-rule"></div>
+                      <div class="nl-body">
+                        <p class="nl-head nl-flash">Sprout N Tell Vol. 4 is here: eight artists and musicians, one night, Friday, September 11. Bring a friend.</p>
+                        <div class="nl-eyebrow">Featured</div>
+                        <div class="nl-photo ph ph2">Vol. 4 lineup photo</div>
+                        <p class="nl-copy">Local artists on the walls, short sets all night, and a room full of people you have not met yet.</p>
+                        <span class="nl-btn">RSVP &rarr;</span>
+                        <div class="nl-announce"><div class="nl-eyebrow" style="color: #2a8ca0;">Announcement</div><b>Co-Working, now every Tuesday</b></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 5 · OUTREACH + CLAUDE ======================== -->
+      <section class="demo-car-slide" data-nav="outreach"
+               data-contrib="Claude finds the people worth reaching out to, researches them, and drafts the first message. You decide what gets sent."
+               data-state-label="State of the relationship"
+               data-state="Low Tide Records &middot; Tier B prospect &middot; the first message rewritten as a Vol. 4 invitation."
+               data-title="Outreach/Claude MCP: Claude finds the people, you make the call">
+        <div class="sp-explain">
+          <div class="sp-explain-ttl">How Claude helps with outreach</div>
+          <p>Claude works from an outreach protocol written in plain language, so changing how Sprout reaches out means editing a document, not code. Connected to the CRM through a custom MCP server, it:</p>
+          <ol>
+            <li><span><b>Finds</b> people and groups worth knowing: new followers, local collectives, past guests.</span></li>
+            <li><span><b>Checks the CRM</b> so nobody is added twice, then researches fit and sorts each into Tier A, B, or C.</span></li>
+            <li><span><b>Drafts</b> a first message in Sprout's voice and files the brief here to edit, rewrite, or skip. Nothing sends on its own.</span></li>
+          </ol>
+        </div>
+        <div class="sp-frame">
+          <div class="sp-page">
+            <div class="sp-hd">
+              <div>
+                <h1 class="sp-ttl">Outreach</h1>
+                <div class="sp-sub">Research briefs, sprints, and deliverables from the Outreach Manager</div>
+              </div>
+            </div>
+            <div class="sp-tabs">
+              <span class="sp-tab">Overview</span>
+              <span class="sp-tab on">Research Briefs<span class="sp-tab-n">3</span></span>
+              <span class="sp-tab">Sprints<span class="sp-tab-n">1</span></span>
+              <span class="sp-tab">Deliverables</span>
+              <span class="sp-tab">Activity</span>
+            </div>
+
+            <div class="sp-doc">
+              <div class="sp-doc-hd"><b>Relationship Research Briefs &middot; September</b><span class="sp-doc-meta">Edited in app</span><span class="sp-btn sp-btn-ghost sp-btn-xs" style="margin-left: auto;">&#8634; Reset to file</span><span class="sp-small">&#9662;</span></div>
+              <div class="sp-doc-bd">
+                <h2 class="md-h2">Low Tide Records</h2>
+                <div class="sp-tbl-scroll" style="box-shadow: none; border-radius: 6px; margin-bottom: 12px;">
+                  <table class="sp-tbl md-tbl" style="min-width: 420px;">
+                    <tbody>
+                      <tr><td class="md-k">Tier</td><td>B &middot; monthly cadence</td></tr>
+                      <tr><td class="md-k">Why they fit</td><td>Independent label with a listening-room series. Two of their artists already play Sprout N Tell.</td></tr>
+                      <tr class="md-cell-hover"><td class="md-k">Primary contact</td><td>Theo Park &middot; label manager &middot; theo.park@example.com</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <h3 class="md-h3">First-touch message</h3>
+                <div class="sp-edit">Hi Theo, we have loved seeing Low Tide artists on our stage. Sprout N Tell Vol. 4 is Friday, September 11 at Sprout Society, 7 to 10pm: local artists on the walls and short sets all night. We would love to have you there as our guest, and to talk about co-hosting a listening party this fall. Want me to save you a spot?</div>
+                <div class="sp-ai">
+                  <div class="sp-ai-row">
+                    <span style="font-size: 14px;">&#10024;</span>
+                    <div class="sp-ai-input">rewrite this as an invitation to our next Sprout N Tell</div>
+                    <span class="sp-btn sp-btn-blk sp-btn-sm">Rewrite</span>
+                    <span class="sp-btn sp-btn-ghost sp-btn-sm">&#8630; Undo</span>
+                  </div>
+                  <div class="sp-ai-hint">Rewritten in Sprout's voice. The date came from the events calendar, not a guess. Click away to save, Esc to discard.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+          </div><!-- /.demo-canvas -->
+
+  </div><!-- /.demo-stage -->
+
+  <div class="demo-controls">
+    <button class="demo-arrow" data-demo-prev aria-label="Previous slide">&#8249;</button>
+    <div class="demo-title" data-demo-title></div>
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <span class="demo-count" data-demo-count></span>
+      <button class="demo-arrow" data-demo-next aria-label="Next slide">&#8250;</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // Same initializer shape as the CRM and Agency carousels in index.html:
+  // captions live on each slide's data attributes, and a nav entry can span a
+  // run of slides. Every query is
+  // scoped to this panel so it never counts another carousel's slides.
+  var root = document.querySelector('.sprout-demo[data-demo-panel]');
+  if (!root) return;
+
+  var slides = Array.prototype.slice.call(root.querySelectorAll('.demo-car-slide'));
+  var navItems = Array.prototype.slice.call(root.querySelectorAll('.demo-nav-item[data-slide]'));
+  var prevBtns = Array.prototype.slice.call(root.querySelectorAll('[data-demo-prev]'));
+  var nextBtns = Array.prototype.slice.call(root.querySelectorAll('[data-demo-next]'));
+  var elContrib    = root.querySelector('[data-demo-contrib]');
+  var elState      = root.querySelector('[data-demo-state]');
+  var elStateLabel = root.querySelector('[data-demo-state-label]');
+  var elTitle      = root.querySelector('[data-demo-title]');
+  var elCount      = root.querySelector('[data-demo-count]');
+
+  var current = 0;
+
+  function show(i) {
+    if (i < 0 || i >= slides.length) return;
+    current = i;
+    var slide = slides[i];
+
+    slides.forEach(function (s, n) { s.classList.toggle('is-on', n === i); });
+
+    var group = slide.getAttribute('data-nav');
+    navItems.forEach(function (b) {
+      b.classList.toggle('is-active', b.getAttribute('data-nav') === group);
+    });
+
+    if (elContrib) elContrib.textContent = slide.getAttribute('data-contrib') || '';
+    if (elStateLabel) elStateLabel.innerHTML = slide.getAttribute('data-state-label') || '';
+    if (elState) {
+      elState.innerHTML = slide.getAttribute('data-state') || '';
+      var col = elState.closest('.demo-cap-col');
+      if (col) col.hidden = !slide.getAttribute('data-state');
+    }
+    if (elTitle) elTitle.textContent = slide.getAttribute('data-title') || '';
+    if (elCount) {
+      elCount.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+    }
+    prevBtns.forEach(function (el) { el.disabled = (i === 0); });
+    nextBtns.forEach(function (el) { el.disabled = (i === slides.length - 1); });
+  }
+
+  navItems.forEach(function (b) {
+    b.addEventListener('click', function () { show(parseInt(b.getAttribute('data-slide'), 10)); });
+  });
+  prevBtns.forEach(function (el) { el.addEventListener('click', function () { show(current - 1); }); });
+  nextBtns.forEach(function (el) { el.addEventListener('click', function () { show(current + 1); }); });
+
+  // Arrow keys belong to the carousel, not the page, so they never hijack
+  // scrolling on the portfolio. The standalone page also listens on document.
+  function onKey(e) {
+    if (e.key === 'ArrowLeft') show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  }
+  root.addEventListener('mousedown', function () { root.focus({ preventScroll: true }); });
+  if (document.body.hasAttribute('data-demo-standalone')) {
+    document.addEventListener('keydown', onKey);
+  } else {
+    root.addEventListener('keydown', onKey);
+  }
+
+  show(0);
+})();
+</script>
+</body>
+</html>
