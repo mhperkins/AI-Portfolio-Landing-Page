@@ -589,6 +589,16 @@ button { cursor: pointer; font-family: var(--font-sans); }
 .cmfoot.demo-pinned > .demo-pin { top: -11px; left: 6px; }
 .demo-pin.cpin-tr { left: auto; right: 0; top: -4px; }
 .demo-pin.cpin-inline { position: relative; top: auto; left: auto; }
+.demo-pin.cpin-up { left: auto; right: 0; top: -16px; }
+/* Popups show whole (2026-09-13, Max's call). A popup used to sit absolute over
+   the page behind it, so the page capped its height and it scrolled inside
+   itself. Stacking both in one grid cell lets the frame grow to fit whichever
+   is taller, with the popup still centred over the page. */
+.cframe { display: grid; grid-template-columns: minmax(0, 1fr); }
+.cframe > .cpage, .cframe > .coverlay { grid-area: 1 / 1; }
+.coverlay { position: relative; inset: auto; }
+.cmodal { max-height: none; }
+.cmbody > .demo-pinned:not(:last-child) { margin-bottom: 11px; }
 
 @media (max-width: 760px) {
   .demo-canvas { padding: 18px 12px; }
@@ -654,8 +664,8 @@ button { cursor: pointer; font-family: var(--font-sans); }
                data-title="Contacts: editing a person's profile">
         <div class="demo-notes">
           <div class="demo-note"><span class="demo-pin-n">1</span><span>Every contact keeps its touchpoint log, follow-ups, notes and concerts in tabs on one record.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>A contact can hold several roles at once, and each role has its own tab on the Contacts list.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Saving updates the one record, and its relationship status and logged touchpoints drive the health score on the list, so anyone going quiet stands out.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>One record holds their contact details, several roles at once, instruments, a relationship status from Cold to Active that drives the health score on the list, and a prospect flag.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>Assign a contact to ensembles and concerts right on their record, and a concert added here saves straight to that concert's lineup.</span></div>
         </div>
         <div class="cframe">
           <div class="cpage">
@@ -751,6 +761,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
                   <button class="ctab">Follow-ups</button>
                   <button class="ctab">Notes</button>
                 </div>
+                <div class="demo-pinned"><span class="demo-pin cpin-tr">2</span>
                 <div class="cfrow">
                   <div class="cfield"><label class="clabel">First name</label><input class="cinput" value="Jordan"></div>
                   <div class="cfield"><label class="clabel">Last name</label><input class="cinput" value="Ma"></div>
@@ -763,7 +774,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
                   <div class="cfield"><label class="clabel">Website</label><input class="cinput" placeholder=""></div>
                   <div class="cfield"><label class="clabel">Instagram</label><input class="cinput" value="@jordanmamusic"></div>
                 </div>
-                <div class="cfield demo-pinned"><span class="demo-pin cpin-tr">2</span>
+                <div class="cfield">
                   <label class="clabel">Roles</label>
                   <div class="ctogglerow">
                     <span class="ctogglechip2">Attendee</span>
@@ -785,6 +796,8 @@ button { cursor: pointer; font-family: var(--font-sans); }
                 <div class="cfield">
                   <label class="ccheckline"><input type="checkbox"> Prospect (not yet a contact &middot; lives on the Prospects screen)</label>
                 </div>
+                </div>
+                <div class="demo-pinned"><span class="demo-pin cpin-tr">3</span>
                 <div class="cfield">
                   <label class="clabel">Ensembles</label>
                   <div class="cchipwrap"><span class="cchip">Tide Quartet <span class="cchipx">&#x00D7;</span></span></div>
@@ -794,8 +807,9 @@ button { cursor: pointer; font-family: var(--font-sans); }
                   <div class="cchipwrap" style="margin-bottom: 6px;"><span class="cchip">Groove Theory II <span class="cchipx">&#x00D7;</span></span></div>
                   <input class="cinput" placeholder="Search concerts to add">
                 </div>
+                </div>
               </div>
-              <div class="cmfoot demo-pinned"><span class="demo-pin">3</span>
+              <div class="cmfoot">
                 <button class="cbtn cbtn-ghost cbtn-sm">Cancel</button>
                 <button class="cbtn cbtn-primary cbtn-sm">Save contact</button>
               </div>
@@ -863,7 +877,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
                 </div>
                 <div class="cfield demo-pinned"><span class="demo-pin cpin-tr">2</span>
                   <label class="clabel">Body &middot; fill in the bracketed parts before sending</label>
-                  <textarea class="ctextarea" rows="11">Hey Sofia,
+                  <textarea class="ctextarea" rows="16">Hey Sofia,
 
 I've been meaning to reach out. I've been thinking a lot lately about making more music with the people I already know and admire. You came to mind.
 
@@ -1203,7 +1217,7 @@ Max</textarea>
                data-title="Concerts: the communications log">
         <div class="demo-notes">
           <div class="demo-note"><span class="demo-pin-n">1</span><span>Log each email, call or text about the concert, and naming a contact also writes the touchpoint onto that person's history.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Every entry carries a status such as Replied or Awaiting, and threads still waiting on a reply are counted on the concert list and in the page header.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Each entry records the date, what was said, how and with whom, and a status of Sent, Replied, Confirmed or Awaiting, and threads still waiting on a reply are counted on the concert list and in the page header.</span></div>
         </div>
         <div class="cframe cframe-full">
           <div class="cpage">
@@ -1244,10 +1258,11 @@ Max</textarea>
               <div class="cmhead demo-pinned"><span class="demo-pin">1</span><span class="cmtitle">Communications &middot; Groove Theory II</span><button class="cmclose">&#x00D7;</button></div>
               <div class="cmbody">
                 <p class="cnote" style="margin: 0 0 10px;">Naming a contact on an entry also writes the touchpoint onto that person, so the concert log and the relationship history never drift apart.</p>
+                <div class="demo-pinned"><span class="demo-pin cpin-up">2</span>
                 <div class="ccomm">
                   <span class="ccomm-date">Sep 2</span>
                   <div class="ccomm-main"><div class="ccomm-summary">Sent the booking portal link so they could fill in the room details.</div><div class="ccomm-who">Email &middot; Scholes Street Studios</div></div>
-                  <span class="demo-pin cpin-inline">2</span><span class="ccomm-tag ccomm-replied">Replied</span>
+                  <span class="ccomm-tag ccomm-replied">Replied</span>
                 </div>
                 <div class="ccomm">
                   <span class="ccomm-date">Sep 6</span>
@@ -1273,6 +1288,7 @@ Max</textarea>
                   <span class="ccomm-date">Sep 10</span>
                   <div class="ccomm-main"><div class="ccomm-summary">Invited to the bill. No reply yet.</div><div class="ccomm-who">Email &middot; Naomi Cole</div></div>
                   <span class="ccomm-tag ccomm-awaiting">Awaiting</span>
+                </div>
                 </div>
               </div>
               <div class="cmfoot">

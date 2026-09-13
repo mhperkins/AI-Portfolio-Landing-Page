@@ -493,22 +493,32 @@ At Max's ask, the rest of the Composer Hub gets numbered blurbs too, in `index.h
 `demo/crm-demo.html` and `demo/agency-demo.html`. The page needed no script change: the
 `[data-demo-panel]` initializer already runs `initDemoPops()`.
 
-- **CRM, 18 pins:** Contacts 3 (the popup's tabs, Roles, the footer), Outreach 3 (popup header,
-  Body, footer), booking portal 3 (header, private link box, answers), checklist 2 (header,
-  calendar), lineup 2 (header, an inline pin beside Priya's RSVP), communications 2 (header, an
-  inline pin beside the Replied tag), Newsletter 3 (the Sections, Send and Preview cards).
+- **CRM, 18 pins:** Contacts 3 (the popup's tabs; the form from name to Prospect as one tile;
+  Ensembles and Concerts as one tile about assigning them), Outreach 3 (popup header, Body,
+  footer), booking portal 3 (header, private link box, answers), checklist 2 (header, calendar),
+  lineup 2 (header, an inline pin beside Priya's RSVP), communications 2 (header, all six entries
+  as one tile), Newsletter 3 (the Sections, Send and Preview cards).
+- **One tile, one blurb (Max's call, applied twice here):** a run of related fields or rows is
+  one tile whose blurb lists what it holds, not a pin per field. The contact form and the
+  communications entries were reshaped this way. Wrappers are plain `demo-pinned` divs; inside a
+  popup body, `.cmbody > .demo-pinned:not(:last-child)` restores the 11px field gap the wrapper
+  swallows.
 - **Agency, 4 pins:** the Claude Code chat card and the Putting one to work box; the job
   description and sprint cards.
-- **Pins stay in the part of a popup you can see.** Popups scroll, so a pin further down a popup
-  body sits below the visible part and cannot be hovered. The first pass put pins on the checklist
-  lists, Naomi's RSVP, the Awaiting entry and the Relationship field, and all four were unreachable.
-  They moved to the popup header, the footer, or the top rows. Check reachability, not just
-  placement, before pinning anything inside `.cmbody`.
+- **Popups show whole (Max's call).** A popup used to sit `position: absolute` over the page
+  behind it, so that page capped its height and the popup scrolled inside itself; on Outreach only
+  the header and a sliver of the draft showed. Now `.cframe` is a one-cell grid holding both
+  `.cpage` and `.coverlay`, `.coverlay` is `position: relative` and `.cmodal` has no max-height, so
+  the frame grows to whichever is taller and the popup stays centered over the page. Both copies.
+  The Outreach draft's textarea is 16 rows, enough for the whole template at desktop width.
+  Before this, pins further down a popup were unreachable, which is why several CRM pins sit on
+  popup headers; always check reachability, not just placement.
 - **Placement classes** (CSS scoped to `.crm-demo` and `.agency-demo` on the page):
   `.cmhead.demo-pinned` insets its pin ahead of the title (`padding-left: 46px`); a `.cmfoot` pin
   sits on the footer's top edge at `left: 6px`, clear of the text above it; `.cpin-tr` puts a pin
   top right of a field, over the empty end of its label; `.cpin-inline` is an inline pin whose
-  parent row is the tile; the chat card's pin sits in its dark title bar. Cards and the Agency
+  parent row is the tile; `.cpin-up` sits 16px higher, for a list whose first row has a tag at its
+  right end; the chat card's pin sits in its dark title bar. Cards and the Agency
   document columns use the default hanging pin.
 - Copy is Claude's draft; Max has not called it. Nothing on the booking portal slide says the link
   is local-only.
