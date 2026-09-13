@@ -665,7 +665,7 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
-### Session of 2026-09-13: title cards, strip navigation, hover notes, Sprout notes, TeacherAID (pushed)
+### Session of 2026-09-13: title cards, strip navigation, hover notes, Sprout notes, TeacherAID (pushed as `47e1acf`)
 
 **Pushed to `main` in one commit at Max's call, without a fresh preview.** Max noticed the live page
 was not updating: nothing from this session had been committed, and Vercel only deploys on push.
