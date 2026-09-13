@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Teacherade &middot; Schedule, Hours, Students, Booking, Business</title>
+<title>TeacherAID &middot; Schedule, Hours, Students, Booking, Business</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
 <style>
 /* ==========================================================================
-   Teacherade demo carousel (the dasha-board app, renamed for the portfolio).
+   TeacherAID demo carousel (the dasha-board app, renamed for the portfolio).
 
    Standalone, same convention as crm-demo.html: nothing here is wired into
    index.html yet. Classes are prefixed `demo-` (shared carousel chrome, copied
    verbatim from crm-demo.html so the carousel reads as part of the same
-   portfolio) or `ds-` (Teacherade screen chrome, hand-built from the app's
+   portfolio) or `ds-` (TeacherAID screen chrome, hand-built from the app's
    src/app/globals.css so it reads as the real app). The hyphen matters:
    compass-demo.html owns bare `d`-prefixed classes (.dnode, .dbucket).
 
@@ -62,7 +62,7 @@
   --shadow:    0 2px 12px rgba(28, 25, 23, 0.08);
   --shadow-lg: 0 8px 32px rgba(28, 25, 23, 0.14);
 
-  /* Teacherade, from the dasha-board repo's src/app/globals.css (light palette) */
+  /* TeacherAID, from the dasha-board repo's src/app/globals.css (light palette) */
   --ds-paper:#EEF0F3; --ds-card:#FBFBFC; --ds-sunk:#F4F5F8;
   --ds-ink:#16181D; --ds-ink2:#4C515C; --ds-muted:#838A97;
   --ds-hair:#E2E5EA; --ds-rule:#CBD0D8;
@@ -166,7 +166,7 @@ body {
 button { cursor: pointer; font-family: var(--font-sans); }
 
 /* ==========================================================================
-   The Teacherade screen. A window in the app's own cool grey, floating on
+   The TeacherAID screen. A window in the app's own cool grey, floating on
    the same manuscript canvas as the Hub carousels.
    ========================================================================== */
 .ds-frame {
@@ -398,7 +398,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
 /* ==========================================================================
    Annotations. A numbered amber pin sits on each feature inside the screen,
    and the same number heads a one-sentence note above it. Carousel chrome,
-   so `demo-` prefixed and Hub-coloured rather than Teacherade-coloured.
+   so `demo-` prefixed and Hub-coloured rather than TeacherAID-coloured.
    ========================================================================== */
 .demo-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin: 0 0 16px; }
 .demo-note { display: flex; gap: 10px; align-items: flex-start; background: white; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; box-shadow: var(--shadow); font-family: var(--font-sans); font-size: 13px; line-height: 1.45; color: var(--tp); }
@@ -427,7 +427,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
 
   <!-- Scaffolding. Not part of the transplant. -->
   <div class="demo-scaffold">
-    <h1>Teacherade: lessons, hours, and the business behind them</h1>
+    <h1>TeacherAID: lessons, hours, and the business behind them</h1>
     <p>A walkthrough of the teaching studio app screen by screen: logging a day of lessons, a pay period submitted and locked, a student's record, the income plan, and the hours families can book. All data here is placeholder, never the real ledger.</p>
   </div>
 
@@ -506,6 +506,15 @@ button { cursor: pointer; font-family: var(--font-sans); }
                   </div>
                   <ul class="ds-blocks">
                     <li class="ds-blk">
+                      <div class="t">8:00&ndash;9:00</div><div class="ds-rail r-private"></div>
+                      <div>
+                        <div class="name">MIRA OKONKWO</div><div class="meta">60 min &middot; Private</div>
+                        <div class="ds-acts demo-pinned"><span class="demo-pin">1</span>
+                          <span class="ds-act pri">&#10003; Completed</span><span class="ds-act">Late cancel</span><span class="ds-act">No-show</span><span class="ds-act">Excused</span>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="ds-blk">
                       <div class="t">9:30&ndash;10:45</div><div class="ds-rail r-personal"></div>
                       <div><div class="name">Performance Practice Seminar</div><div class="meta">75 min &middot; Personal &middot; Rm 2441</div></div>
                     </li>
@@ -534,15 +543,6 @@ button { cursor: pointer; font-family: var(--font-sans); }
                         <div class="name">Sam Whitaker</div><div class="meta">30 min &middot; Harbor Piano</div>
                         <div class="ds-statline"><span class="ds-pill p-excused">Excused</span><span class="ds-undo">Undo</span></div>
                         <div class="ds-fu"><span class="ds-flag f-warn">Reschedule</span>Makeup Thursday at 5:30?</div>
-                      </div>
-                    </li>
-                    <li class="ds-blk">
-                      <div class="t">6:00&ndash;7:00</div><div class="ds-rail r-private"></div>
-                      <div>
-                        <div class="name">MIRA OKONKWO</div><div class="meta">60 min &middot; Private</div>
-                        <div class="ds-acts demo-pinned"><span class="demo-pin">1</span>
-                          <span class="ds-act pri">&#10003; Completed</span><span class="ds-act">Late cancel</span><span class="ds-act">No-show</span><span class="ds-act">Excused</span>
-                        </div>
                       </div>
                     </li>
                     <li class="ds-blk">

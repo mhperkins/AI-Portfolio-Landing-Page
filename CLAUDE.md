@@ -34,7 +34,7 @@ Vercel project: `ai-portfolio-landing-page` · GitHub: `mhperkins/AI-Portfolio-L
 
 | File | Role |
 |---|---|
-| [index.html](index.html) | Main portfolio page: **The Composer Hub / Teacherade / Sprout Society Suite** tabs, hero, contact, about. The Hub tab holds the whole Composer Hub walkthrough (merged in 2026-09-09). |
+| [index.html](index.html) | Main portfolio page: **The Composer Hub / TeacherAID / Sprout Society Suite** tabs, hero, contact, about. The Hub tab holds the whole Composer Hub walkthrough (merged in 2026-09-09). |
 | [composer-hub.html](composer-hub.html) | **Retired 2026-09-09 — now a redirect** to `index.html#composition`. Kept, not deleted, because the old public URL may have been shared in an academic application. |
 | [about.html](about.html) | Standalone About page — linked from nav |
 | [resume.html](resume.html) | **CV page** — the academic CV rendered as a native page (was a PDF iframe until 2026-09-09). Has a print stylesheet and a DOCX download. |
@@ -43,7 +43,7 @@ Vercel project: `ai-portfolio-landing-page` · GitHub: `mhperkins/AI-Portfolio-L
 | [demo/compass-demo.html](demo/compass-demo.html) | **Iteration source for the Compass panel's carousel** (built 2026-09-09, transplanted 2026-09-10). Change slides here, then re-transplant. See "The Compass demo carousel" below. |
 | [demo/crm-demo.html](demo/crm-demo.html) | **Iteration source for the CRM panel's carousel** (7 slides, transplanted 2026-09-10). See "The CRM and Agency carousels" below. |
 | [demo/agency-demo.html](demo/agency-demo.html) | **Iteration source for the Virtual Agency panel's carousel** (2 slides, transplanted 2026-09-10). |
-| [demo/dasha-demo.html](demo/dasha-demo.html) | **Iteration source for the Teacherade tab's carousel** (6 annotated slides, transplanted 2026-09-12). See "The Teacherade tab" below. |
+| [demo/dasha-demo.html](demo/dasha-demo.html) | **Iteration source for the TeacherAID tab's carousel** (6 annotated slides, transplanted 2026-09-12). See "The TeacherAID tab" below. |
 | [demo/sprout-crm-demo.html](demo/sprout-crm-demo.html) | **Iteration source for the Sprout CRM panel's carousel** (5 annotated slides; built by a parallel session, committed `6c226cc`, transplanted 2026-09-12). See "The Sprout CRM carousel" below. |
 | [demo/grant-demo.html](demo/grant-demo.html) | **Iteration source for the Grant Finder panel's carousel** (6 annotated slides, transplanted 2026-09-12). See "The Grant, Social and Campaign carousels" below. |
 | [demo/social-demo.html](demo/social-demo.html) | **Iteration source for the Social Planner panel's carousel** (5 annotated slides, transplanted 2026-09-12). |
@@ -91,7 +91,7 @@ The page has tabbed sections. The sticky tab nav sits outside the hero section s
 | Tab | id | Content |
 |---|---|---|
 | The Composer Hub | `tab-hub` | Composer Compass, Composer CRM, Virtual Agency as three sub-tabs, then the component table. Default tab. |
-| Teacherade | `tab-dasha` | One tool, no sub-tabs: suite banner, one card (tags, three benefit cards, heading), the annotated carousel. Added 2026-09-12. |
+| TeacherAID | `tab-dasha` | One tool, no sub-tabs: suite banner, one card (tags, three benefit cards, heading), the annotated carousel. Added 2026-09-12. |
 | Sprout Society Suite | `tab-sprout` | CRM, Grant Assistant, Social Manager, Campaign Tracker as four sub-tabs. All four panels are annotated carousels as of 2026-09-12; no Sprout panel uses a Loom or screenshots now. |
 
 Tabs are named for their **subject, not their status**. "Shipped / Building" was the old axis and
@@ -201,9 +201,10 @@ and the earlier engineer's phrasing ("compile into a single artifact", "MuseScor
 - **The "contradicts" and "becomes" arrows on slide 4 are gone.** Three connector arrows survive
   and he has not objected to them: "compiles to" (slide 2), "binds" (slide 3), "returns" (slide 5).
 
-**Still open:** the short step name still sits at the bottom centre of the controls
-("The Aesthetic Blueprint", "Constitution to Guide"), which is now a second title on the slide;
-Max was asked whether to drop it and has not called it.
+~~**Still open:** the short step name still sits at the bottom centre of the controls
+("The Aesthetic Blueprint", "Constitution to Guide"), which is now a second title on the slide.~~
+**Resolved 2026-09-13:** the whole controls row is hidden on the page; see "Strip navigation and
+hover notes".
 
 ### The Compass demo carousel (built 2026-09-09, transplanted 2026-09-10)
 
@@ -409,15 +410,71 @@ above it.** Max likes that the two read as different levels of tab; do not make 
   1280 and 420 wide on both tabs, from deep inside a card and from the page top: the card lands at
   exactly 184px (57 nav, 57 tab bar, 54 row, 16 gap), and hash links still land at +24.
 
+### Strip navigation and hover notes (2026-09-13, not pushed)
+
+At Max's ask, on all eight carousels. Page only; the `demo/` standalones are unchanged.
+
+- **No arrows.** The side arrows and the arrow row under each stage (with its step name and
+  `01 / 05` count) are hidden in CSS. The markup stays so a re-transplant still lands clean. The
+  strip, or the Compass rail, is the control. The arrow keys still work.
+- **The "next" cue.** Whichever control leads to the following slide gets `is-next`: a dashed
+  outline and a pulsing corner dot on strip entries (a dot, not an arrow glyph, so the strip never
+  changes width), and a dashed glowing border on Compass rail groups. The last slide has no cue.
+- **Step chips.** A strip entry that covers a run of slides gets numbered chips beside it while
+  that run is showing (Hub CRM Concerts 1 to 4, TeacherAID Booking 1 and 2), built by the shared
+  carousel script. Without them those slides were unreachable once the arrows went.
+- Strip hints read "Click to step through" (Compass keeps "Click through the process"), tightened
+  so the strips stay one line.
+- **Hover notes.** On TeacherAID and the four Sprout carousels the numbered notes row is hidden
+  (`.has-pop`, set by the script). Each note pops up beside its pin when the pin's parent element
+  (its tile) is hovered, focused (tiles get `tabindex="0"`) or tapped; a tap elsewhere closes it.
+  The tile gets an outline in the pin color and the pin scales up. The popover is
+  `position: fixed`, anchored under the pin but never under the pinned strip and title card, and it
+  follows scroll. **The `.demo-notes` markup is still the text source,** so notes are edited in the
+  same place as before.
+- The title card's "State of" label carries a "Hover a number for details" pill ("Tap a number" on
+  touch) on slides that have pins.
+- **Verified headless (1280, and 390 with touch):** all eight carousels walk every slide by
+  clicking only the `is-next` control (Hub CRM 0 to 6 through the Concerts chips, TeacherAID 0 to
+  5 through the Booking chips), with no cue on the last slide; arrows and controls computed hidden;
+  arrow keys still step; every strip one line (50 to 56px, Compass rail 102px); all 75 numbered
+  tiles show the right note on hover, inside the viewport and below the pinned layers, and hide on
+  leave; keyboard focus shows and blur hides; a tap shows and a tap elsewhere hides; zero script
+  errors, em dash count unchanged. Test note: the page's smooth scrolling moves targets under a
+  parked cursor, so hover checks need `scroll-behavior: auto` and a wait after a slide jump.
+
+### Pinned title cards (2026-09-13, not pushed)
+
+At Max's ask, every carousel's title card (`.demo-caption`: the big slide title and "State of"
+line) pins too, for all slides.
+
+- **Stack, top down:** strip (`--demo-pin-top`), title card (`+ --demo-strip-h`), then the Sprout
+  suite's notes rows (`+ --demo-cap-h`). The notes rows are hidden since they became popovers (see
+  "Strip navigation and hover notes"); the rule stays for the no-script fallback. TeacherAID is the exception: its strip sits under the
+  title card, so the card pins at `--demo-pin-top` and the strip under it.
+- `measureDemoPin(root)` publishes both heights per carousel. `measureTabBar()` calls it for
+  every root, and both carousel scripts call it in `show()`, because titles wrap to different
+  heights slide to slide.
+- **Layering for the release** at the end of a carousel: strips z 27, title card 25, notes 24,
+  all under the tool row (30), so each slides under the one above it.
+- **The base `.demo-stage` is `overflow: clip` now** (with `hidden` as the fallback). `hidden`
+  made the stage a scroll container, so the title card stuck to the stage instead of the page.
+- **Below 640px the title card scrolls away**, like the notes rows, and TeacherAID's strip goes
+  back to pinning at `--demo-pin-top`.
+- Page only: the standalone demos in `demo/` do not pin their title cards.
+- Verified headless at 1280 on all eight carousels, 150px into a pin: each layer sits exactly on
+  the one above, the title card paints over the slide, a slide change while pinned lands with
+  delta 0; at 390 every title card is static; zero script errors.
+
 ### Pinned carousel strips (2026-09-12, pushed)
 
-The Compass rail and the CRM, Agency and Teacherade nav strips are `position: sticky`, so they
+The Compass rail and the CRM, Agency and TeacherAID nav strips are `position: sticky`, so they
 stay in view while a tall slide scrolls under them and release at the end of their carousel.
 
 - They pin at `--demo-pin-top`: `3.5rem + --tabbar-h + --toolrow-h`. `measureTabBar()` measures
-  `--toolrow-h` from the visible tab's tool row (0 on Teacherade). The standalone demos leave
+  `--toolrow-h` from the visible tab's tool row (0 on TeacherAID). The standalone demos leave
   the variable unset, so their strips pin at 0.
-- **Sticky dies under any ancestor with `overflow: hidden`.** The Teacherade strip sits inside
+- **Sticky dies under any ancestor with `overflow: hidden`.** The TeacherAID strip sits inside
   `.demo-stage`, so that stage uses `overflow: clip; display: flow-root` instead. Do not put
   `hidden` back.
 - The rail's tint now has `var(--cream)` under it, because a translucent pinned rail showed the
@@ -427,7 +484,7 @@ stay in view while a tall slide scrolls under them and release at the end of the
 - **Below 640px** the nav strips become one swipeable line (they wrapped to 91 to 135px), and the
   102px Compass rail does not pin, because the page already pins about 190px of bars on a phone.
 - Verified headless at 1280 and 390: each strip pins exactly at the tool row's bottom (167px
-  Hub, 113px Teacherade at 1280), sits above slide content, and a slide change from deep in a
+  Hub, 113px TeacherAID at 1280), sits above slide content, and a slide change from deep in a
   carousel lands with delta 0. All four standalones pin at 0. Zero script errors.
 
 ### The merge (done, 2026-09-09)
@@ -477,11 +534,12 @@ Two things that are **not** caveats and must stay:
   images are published. Seed fictional data instead; the procedure is in the Compass repo at
   `docs/deliveries/2026-09-09/README.md`.
 
-## The Teacherade tab (added 2026-09-12)
+## The TeacherAID tab (added 2026-09-12)
 
-The teaching studio app from `../dasha-board/`, shown on the page as **Teacherade** (renamed from
-Dasha-Board the same day; the internal ids `tab-dasha`, `.dasha-demo` and the demo filename keep the
-old name on purpose) as its own main tab between the Hub and
+The teaching studio app from `../dasha-board/`, shown on the page as **TeacherAID** (renamed from
+Dasha-Board the same day as Teacherade, then renamed TeacherAID at Max's call on 2026-09-13, by way
+of Teacher-ade; the internal ids `tab-dasha`, `.dasha-demo` and the demo filename keep the old name
+on purpose, and the `#teacherade` id and hash keep the earlier spelling) as its own main tab between the Hub and
 Sprout. Built standalone in `demo/dasha-demo.html`, settled with Max, then transplanted by
 script. **That file stays the iteration source**; change slides there, then re-copy.
 
@@ -494,10 +552,15 @@ until he reworks that feature in the app.**
 
 - **The nav strip sits inside the stage, below the title header** (Max's call), as a square band.
   Scoped as `.dasha-demo .demo-stage .demo-nav-wrap`, so the CRM and Agency strips are untouched.
-- **Annotations.** Each slide has one-sentence numbered notes (`.demo-notes`) above the screen and a
-  matching amber pin (`.demo-pin`) on the feature. One sentence per note, Max's rule.
+- **Annotations.** Each slide has one-sentence numbered notes (`.demo-notes`) and a matching amber
+  pin (`.demo-pin`) on the feature. One sentence per note, Max's rule. On the page the notes row is
+  hidden and each note pops up on its tile (2026-09-13, "Strip navigation and hover notes"); the
+  standalone still shows the row.
+- **Schedule slide order (2026-09-13, Max's call):** the lesson carrying pin 1 and the log buttons,
+  Mira Okonkwo, is the first block of the day at 8:00&ndash;9:00. The Booking slide still shows her
+  regular lesson on Tuesdays at 6 PM; not reconciled yet.
 - **No pronouns for the user.** Copy says "the teacher", never she/her, and never names Dasha,
-  and the product is called Teacherade on the page. Max wants it to read as applicable to any teacher.
+  and the product is called TeacherAID on the page. Max wants it to read as applicable to any teacher.
 - **Screens use the app's own look** (IBM Plex, Newsreader, cool grey), not the Hub's cream.
   Classes are `ds-` prefixed; tokens are `--ds-` prefixed and live on `.dasha-demo`.
 
@@ -571,9 +634,9 @@ root class, so nothing reaches the rest of the page.
 - **Social is V2,** the live app: black and cyan, approval pipeline, publish to Instagram. The old
   `images/Social_*.png` screenshots were V1 (green, Brand Voice, AI captions). V2 has no Canva, AI
   caption or brand voice UI, so the slides show none.
-- **Campaign names no platform.** The live tracker runs on Vercel functions and Supabase, and the
-  Cloudflare Worker is retired. The slides avoid naming either so they do not contradict the
-  panel's tech tags.
+- **Campaign's slides name no platform.** The live tracker runs on Vercel functions and Supabase,
+  and the Cloudflare Worker is retired. The panel's tags and Solution card say Vercel (fixed
+  2026-09-12); the slides leave hosting to them.
 - `images/Grant_*.png`, `Social_*.png` and `QR_*.png` are unreferenced now, left on disk. The Grant
   and Campaign Looms are gone from the page, so `index.html` has no iframes left.
 - **Page-only deviation:** Social's nav items use 10px side padding (both copies), because at the
@@ -602,16 +665,83 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
-### Session of 2026-09-12: Teacherade tab, pinned strips, all four Sprout carousels (pushed)
+### Session of 2026-09-13: title cards, strip navigation, hover notes, Sprout notes, TeacherAID (pushed)
+
+**Pushed to `main` in one commit at Max's call, without a fresh preview.** Max noticed the live page
+was not updating: nothing from this session had been committed, and Vercel only deploys on push.
+The commit carries `index.html`, `CLAUDE.md`, `demo/dasha-demo.html` and the four Sprout
+standalones (`sprout-crm-demo`, `grant-demo`, `social-demo`, `campaign-demo`). The last preview,
+`9oipv8abc`, predates the TeacherAID rename, so the live site is the first place the rename shows.
+
+- **Sprout tech tags and cards fixed** at Max's call: Grant Finder reads Claude, Research
+  Protocols, Next.js, Supabase, JSON; Social Planner lost the Canva API tag and its Solution card
+  now reads "Direct Instagram publishing via API, with a human approval step before anything
+  posts."; Campaign Tracker's tag and Solution card say Vercel instead of Cloudflare Workers. Do not
+  put the old claims back.
+- **Pinned title cards** on all eight carousels, under the strip (TeacherAID: above it). Details in
+  "Pinned title cards".
+- **Strip navigation and hover notes** on all eight carousels: arrows hidden, a "next" cue on the
+  strip, step chips for multi-slide entries, and the numbered notes as popovers on their tiles.
+  Details in "Strip navigation and hover notes".
+- **TeacherAID Schedule slide:** Mira Okonkwo's lesson, the one carrying pin 1 and the log
+  buttons, is now the first block of the day at 8:00&ndash;9:00 (was 6:00&ndash;7:00), in both
+  copies.
+- **Sprout notes are full sentences now** (Max's ask): all 57 short title-style notes on the four
+  Sprout carousels (CRM 13, Grant 16, Social 16, Campaign 12) became one explanatory sentence
+  each, TeacherAID length, in both the page and the standalones. Claude wrote them; Max has not
+  called them. Grant's Import from Claude and Campaign's Update Live keep their explain boxes and
+  have no pins. Verified headless at 1280 and 390: every Sprout popover shows the right sentence,
+  inside the viewport and below the pinned layers, zero script errors.
+- **Sprout CRM pin targets reshaped** at Max's call, both copies. A pin's tile is its parent
+  element, so these use plain `demo-pinned` wrapper divs:
+  - Contacts: pin 1 left the list tabs and now wraps the detail panel's profile block (tags,
+    bucket, how they heard, affiliations); pin 2 wraps Next Actions and Touchpoints. Both notes
+    rewritten to match.
+  - Events Portal: pin 5 wraps the Links and Media tiles in one `sp-span2 sp-evd-grid` wrapper,
+    so the pair keeps its two columns (one under 760px). Note 5 names both.
+  - Newsletter: pin 2 wraps the reorder label and all five section blocks.
+  - Outreach/Claude MCP: the "How Claude helps with outreach" box is gone; its content became
+    four pinned notes: 1 the header (Outreach Manager, protocol, MCP, finds), 2 the tabs (new,
+    grounded in `CRMManager.jsx` OutreachView), 3 the tier table, 4 the draft and rewrite box.
+    Pins 3 and 4 sit top-right, because top-left covered the first letters of their headings.
+    The `.sp-explain` CSS is now unused, left in place.
+  - Verified headless at 1280 and 390: 63 Sprout popovers (was 59) all show the right note; each
+    wrapper holds what it should (Links and Media side by side at 1280, stacked at 390; five
+    section blocks under Newsletter pin 2); no pin clipped by an overflow ancestor; `#tool-crm`
+    still has 5 slides with no tool panel nested inside it; the standalone loads clean; zero script
+    errors. Screenshots checked by eye.
+- **Renamed Teacherade to TeacherAID** at Max's call (briefly Teacher-ade first), in `index.html`
+  (tab button, banner label, card title, comments), `demo/dasha-demo.html` (page title, heading)
+  and this file. The `#teacherade` id and hash keep the old spelling so existing links still land.
+  Not re-verified headless; text only.
+
+All of it is verified headless unless noted; details sit in each section.
+
+**Open:**
+- TeacherAID's Booking slide still shows Mira's regular lesson on Tuesdays at 6 PM, which no longer
+  matches the Schedule slide. Max was asked whether to move it and has not called it.
+- The `demo/` standalones do not have the pinned title cards, hidden arrows, next cue or hover
+  notes; those are page only. A re-transplant keeps working because the page rules sit outside the
+  transplant markers.
+- Max still owes the copy for the TeacherAID tab's three benefit cards, banner bullets and heading.
+- Slide titles and notes on the Grant, Social and Campaign carousels are Claude's drafts; Max has
+  not called them.
+- Max has not reviewed the new Sprout sentence notes, the rewritten Contacts notes 1 and 2, or
+  the four Outreach notes (the tabs note is new copy).
+
+**Next:** Max clicks through the live site. Stage named files, never `-A`, in
+case another session is working here.
+
+### Session of 2026-09-12: Teacherade (now TeacherAID) tab, pinned strips, all four Sprout carousels (pushed as `dee52ff`)
 
 **Pushed to `main` in one commit,** and Vercel deploys on push. `index.html` carried every item
 below interleaved, so the day could not be split into separate commits. The commit adds
 `demo/dasha-demo.html`, `demo/grant-demo.html`, `demo/social-demo.html` and
 `demo/campaign-demo.html`, and updates `index.html`, `CLAUDE.md` and the other four standalones.
 
-- **Teacherade tab** added between the Hub and Sprout: six annotated slides from
-  `demo/dasha-demo.html`. Details in "The Teacherade tab".
-- **Pinned carousel strips.** The Compass rail and the CRM, Agency and Teacherade nav strips
+- **Teacherade tab** (TeacherAID since 2026-09-13) added between the Hub and Sprout: six annotated slides from
+  `demo/dasha-demo.html`. Details in "The TeacherAID tab".
+- **Pinned carousel strips.** The Compass rail and the CRM, Agency and TeacherAID nav strips
   stay in view while a slide scrolls under them. Details in "Pinned carousel strips".
 - **Sprout CRM carousel** replaces the Loom and the four screenshots on the Sprout CRM panel: five
   annotated slides from `demo/sprout-crm-demo.html`, which a parallel session built and committed.
@@ -628,16 +758,8 @@ below interleaved, so the day could not be split into separate commits. The comm
 All of it is verified headless. **Max asked for the push without a preview deploy,** so the live
 site is the first place he clicks through it.
 
-**Open:**
-- Max still owes the copy for the Teacherade tab's three benefit cards, banner bullets and heading.
-- **Sprout tech tags and cards predate the carousels** and do not all match the apps: Campaign
-  Tracker lists Cloudflare Workers (retired), Social Planner's card claims Canva API for in-tool
-  design (V2 has no Canva UI), Grant Finder lists Claude API and Vercel (Grant Tool v2 has
-  neither). Left alone under the Accuracy stance; Max has not been asked.
-
-**Next:** Max clicks through the live Sprout tab and calls the slide copy, which Claude drafted
-for all three new carousels. Stage named files, never `-A`, in case another session is working
-here.
+Max clicked through the live site after the push and confirmed it works. Open items and next steps
+moved to the 2026-09-13 session above.
 
 ### Session of 2026-09-10: CRM and Agency carousels, pinned tabs (pushed)
 

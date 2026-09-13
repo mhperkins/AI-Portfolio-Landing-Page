@@ -585,7 +585,12 @@
   border-radius: 10px;
   background: white;
   box-shadow: var(--shadow);
+  /* clip, not hidden: hidden makes the stage a scroll container, and the
+     title card pinned inside it would stick to the stage instead of the page.
+     hidden stays as the fallback for browsers without clip. */
   overflow: hidden;
+  overflow: clip;
+  display: flow-root;
 }
 
 /* The manuscript canvas the nodes sit on. Same idea as
@@ -1281,7 +1286,7 @@
    here the fixed nav, the main tab bar and the visible tab's tool row
    (--toolrow-h, measured in measureTabBar()). The standalone demos leave it
    at 0. Sticky needs every ancestor up to the carousel to leave overflow
-   visible, which is why the Teacherade stage uses overflow: clip.
+   visible, which is why the TeacherAID stage uses overflow: clip.
    ========================================================================== */
 .compass-demo, .crm-demo, .agency-demo, .dasha-demo, .sprout-demo,
 .grant-demo, .social-demo, .campaign-demo {
@@ -1292,10 +1297,41 @@
   top: var(--demo-pin-top, 0px);
   z-index: 20;
 }
+/* The title card pins too, directly under its strip (--demo-strip-h), and
+   releases at the end of its stage. Both heights are measured per carousel in
+   measureDemoPin(), because titles wrap to different heights slide to slide. */
+.demo-caption {
+  position: sticky;
+  top: calc(var(--demo-pin-top, 0px) + var(--demo-strip-h, 0px));
+  z-index: 25;
+}
+/* Layering for the release at the end of a carousel: strip over title card
+   over notes, so each slides under the one above it. The Grant, Social and
+   Campaign blocks set their strips' z-index later in the file at equal
+   specificity, hence the element qualifiers. */
+#compassDemo > .demo-rail-field,
+div[data-demo-panel] > .demo-nav-wrap,
+div.dasha-demo .demo-stage .demo-nav-wrap { z-index: 27; }
+/* The Sprout suite's notes rows pin under the title card now, not the strip. */
+.sprout-demo .demo-canvas .demo-notes,
+.grant-demo .demo-canvas .demo-notes,
+.social-demo .demo-canvas .demo-notes,
+.campaign-demo .demo-canvas .demo-notes {
+  top: calc(var(--demo-pin-top, 0px) + var(--demo-strip-h, 0px) + var(--demo-cap-h, 0px));
+  z-index: 24;
+}
+/* TeacherAID's strip sits inside the stage under the title card, so the card
+   pins first and the strip pins under it. */
+.dasha-demo .demo-caption { top: var(--demo-pin-top, 0px); }
+div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) + var(--demo-cap-h, 0px)); }
 @media (max-width: 640px) {
   /* A phone already pins about 190px of page bars, and the rail is 102px
      more. Pinned, that is over a third of the screen, so it scrolls away. */
   .demo-rail-field { position: relative; }
+  /* The title card runs 150px or more on a phone, so it scrolls away too,
+     like the notes rows; TeacherAID's strip goes back to the page bars. */
+  .demo-caption { position: static; }
+  div.dasha-demo .demo-stage .demo-nav-wrap { top: var(--demo-pin-top, 0px); }
   /* The strips wrapped two and three lines deep. One swipeable line instead,
      the same treatment the tool row gets. */
   .demo-nav-wrap { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
@@ -1714,7 +1750,7 @@
 
 
 /* ==========================================================================
-   Teacherade carousel (the dasha-board app), transplanted from demo/dasha-demo.html (2026-09-12).
+   TeacherAID carousel (the dasha-board app), transplanted from demo/dasha-demo.html (2026-09-12).
    That file stays the iteration source; change slides there, then copy.
 
    Shares the Hub carousel chrome (demo-*) and the [data-demo-panel]
@@ -1755,7 +1791,7 @@
 }
 
 /* ==========================================================================
-   The Teacherade screen. A window in the app's own cool grey, floating on
+   The TeacherAID screen. A window in the app's own cool grey, floating on
    the same manuscript canvas as the Hub carousels.
    ========================================================================== */
 .ds-frame {
@@ -1987,7 +2023,7 @@
 /* ==========================================================================
    Annotations. A numbered amber pin sits on each feature inside the screen,
    and the same number heads a one-sentence note above it. Carousel chrome,
-   so `demo-` prefixed and Hub-coloured rather than Teacherade-coloured.
+   so `demo-` prefixed and Hub-coloured rather than TeacherAID-coloured.
    ========================================================================== */
 .demo-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin: 0 0 16px; }
 .demo-note { display: flex; gap: 10px; align-items: flex-start; background: white; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; box-shadow: var(--shadow); font-family: var(--font-sans); font-size: 13px; line-height: 1.45; color: var(--tp); }
@@ -3292,6 +3328,64 @@
   .campaign-demo .demo-nav-wrap::-webkit-scrollbar { display: none; }
   .campaign-demo .demo-nav-item { flex-shrink: 0; white-space: nowrap; }
 }
+/* ==========================================================================
+   Nav-driven carousels and hover notes (2026-09-13).
+
+   - The side arrows and the arrow row under each stage are hidden: the strip
+     (or the Compass rail) is the control, and it marks the step that comes
+     next. The markup stays, so a re-transplant from demo/ still lands clean.
+     The arrow keys still work.
+   - A strip entry that covers a run of slides (CRM Concerts, TeacherAID
+     Booking) gets numbered step chips while that run is showing, built by the
+     carousel script, so no slide is stranded without the arrows.
+   - Numbered notes pop up beside their pin on hover, focus or tap instead of
+     sitting in a row above each screen. The script sets .has-pop; without it
+     the notes row still shows.
+   ========================================================================== */
+#compassDemo .demo-side-arrow, #compassDemo .demo-controls,
+[data-demo-panel] .demo-side-arrow, [data-demo-panel] .demo-controls { display: none; }
+
+#compassDemo, [data-demo-panel] { --demo-next: var(--amber-lt); }
+.demo-nav-item.is-next { position: relative; outline: 1.5px dashed var(--demo-next); outline-offset: -3px; }
+/* A pulsing corner dot rather than an arrow glyph, so the cue moving from
+   entry to entry never changes the strip's width. */
+.demo-nav-item.is-next::after { content: ""; position: absolute; top: 3px; right: 3px; width: 6px; height: 6px; border-radius: 50%; background: var(--demo-next); animation: demoPulse 1.4s ease-in-out infinite; }
+@keyframes demoPulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.35; transform: scale(0.7); } }
+/* "Click to step through" is longer than the old hint; tightened so the
+   strips stay one line. */
+#compassDemo .demo-nav-hint, [data-demo-panel] .demo-nav-hint { letter-spacing: 0.04em; padding: 4px 9px; }
+.demo-rail-group.is-next { border-style: dashed; border-color: var(--amber-lt); animation: demoGlow 1.8s ease-in-out infinite; }
+@keyframes demoGlow { 0%, 100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0); } 50% { box-shadow: 0 0 0 4px rgba(217, 119, 6, 0.2); } }
+
+.demo-nav-steps { display: inline-flex; align-items: center; gap: 4px; margin-right: 4px; flex-shrink: 0; }
+.demo-nav-steps[hidden] { display: none; }
+.demo-nav-step { width: 22px; height: 22px; padding: 0; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.28); background: none; color: rgba(255, 255, 255, 0.7); font-family: var(--font-sans); font-size: 10.5px; font-weight: 700; line-height: 20px; text-align: center; cursor: pointer; flex-shrink: 0; transition: background 0.15s, color 0.15s, border-color 0.15s; }
+.demo-nav-step:hover { color: #fff; border-color: rgba(255, 255, 255, 0.6); }
+.demo-nav-step.is-active { background: var(--demo-next); border-color: var(--demo-next); color: var(--ch); }
+.demo-nav-step.is-next { outline: 1.5px dashed var(--demo-next); outline-offset: 2px; }
+
+.has-pop .demo-notes { display: none; }
+.demo-pin-target { cursor: help; }
+.demo-pin-target:focus { outline: none; }
+.demo-pin-target.is-hot { outline: 2px solid var(--demo-pin-color, var(--amber)); outline-offset: 3px; }
+.has-pop .demo-pin { pointer-events: auto; transition: transform 0.12s; }
+.has-pop .demo-pin.is-hot { transform: scale(1.2); }
+.demo-pop {
+  position: fixed; left: 0; top: 0; z-index: 29;
+  display: flex; gap: 9px; align-items: flex-start;
+  max-width: min(300px, calc(100vw - 24px));
+  background: #fff; border: 1px solid var(--border); border-left: 3px solid var(--demo-pin-color, var(--amber)); border-radius: 9px;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.18);
+  padding: 9px 12px 10px;
+  font-family: var(--font-sans); font-size: 13px; line-height: 1.45; color: var(--tp); text-align: left;
+  pointer-events: none; opacity: 0; visibility: hidden; transform: translateY(4px);
+  transition: opacity 0.12s, transform 0.12s, visibility 0s linear 0.12s;
+}
+.demo-pop.is-on { opacity: 1; visibility: visible; transform: none; transition: opacity 0.12s, transform 0.12s; }
+/* The title card says the numbers do something, on slides that have them. */
+.has-pop.slide-has-pins .demo-cap-label::after { content: "Hover a number for details"; display: inline-block; margin-left: 10px; padding: 0 8px; border: 1px dashed var(--demo-pin-color, var(--amber)); border-radius: 20px; color: var(--demo-pin-color, var(--amber)); font-weight: 700; letter-spacing: 0.06em; line-height: 1.6; }
+@media (hover: none) { .has-pop.slide-has-pins .demo-cap-label::after { content: "Tap a number for details"; } }
+@media (prefers-reduced-motion: reduce) { .demo-nav-item.is-next::after, .demo-rail-group.is-next { animation: none; } }
   </style>
 </head>
 <body class="font-sans antialiased" style="color: #c4d4de; background: radial-gradient(ellipse 120% 60% at 50% 0%, #0f1f10 0%, #080d08 65%) #080d08;">
@@ -3341,7 +3435,7 @@
       <div class="max-w-5xl mx-auto px-6">
         <div class="flex justify-center gap-6 py-3">
           <button data-target="tab-hub" class="tab-btn tab-active text-sm font-medium">The Composer Hub</button>
-          <button data-target="tab-dasha" class="tab-btn text-sm font-medium">Teacherade</button>
+          <button data-target="tab-dasha" class="tab-btn text-sm font-medium">TeacherAID</button>
           <button data-target="tab-sprout" class="tab-btn text-sm font-medium">Sprout Society Suite</button>
         </div>
       </div>
@@ -3982,7 +4076,7 @@
                 <button class="demo-nav-item" data-nav="newsletter" data-slide="6">Newsletter</button>
                 <span class="demo-nav-hint">
                   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>
-                  Click any section
+                  Click to step through
                 </span>
               </div>
 
@@ -4801,7 +4895,7 @@ Max</textarea>
                 <button class="demo-nav-item" disabled>Social Media <span class="demo-nav-soon">Soon</span></button>
                 <span class="demo-nav-hint">
                   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>
-                  Click any section
+                  Click to step through
                 </span>
               </div>
 
@@ -4997,7 +5091,7 @@ Max</textarea>
       </div>
 
       <!-- ═══════════════════════════════════════════════════
-           Tab: Teacherade
+           Tab: TeacherAID
            Added 2026-09-12. One tool, so no sub-tabs: suite banner, one card,
            then the carousel transplanted from demo/dasha-demo.html. All data
            in it is placeholder, never the real ledger.
@@ -5007,7 +5101,7 @@ Max</textarea>
         <!-- Suite banner -->
         <div class="suite-banner mb-6 text-center">
           <div class="flex flex-col items-center gap-3 mb-4">
-            <p class="section-label" style="font-size: 1rem;">Teacherade</p>
+            <p class="section-label" style="font-size: 1rem;">TeacherAID</p>
             <p class="text-slate-300 font-medium text-base">Schedule &nbsp;|&nbsp; Hours &nbsp;|&nbsp; Students &nbsp;|&nbsp; Booking &nbsp;|&nbsp; Business</p>
           </div>
           <ul class="text-slate-400 text-sm leading-relaxed space-y-1 w-full text-left max-w-2xl mx-auto list-disc list-inside">
@@ -5019,7 +5113,7 @@ Max</textarea>
 
         <div id="teacherade" class="border border-white/8 rounded-xl p-6 sm:p-8 bg-white/[0.02]">
           <div class="flex flex-col items-center gap-2 mb-3">
-            <h3 class="text-xl font-semibold">Teacherade</h3>
+            <h3 class="text-xl font-semibold">TeacherAID</h3>
             <p class="text-sm text-slate-400">The teaching studio manager</p>
           </div>
           <div class="flex flex-wrap justify-center gap-2 mb-6">
@@ -5051,7 +5145,7 @@ Max</textarea>
             </div>
           </div>
           <h4 class="sec-h2 text-center mb-6" style="color:#e8eff3;">One ledger for the lessons, the pay, and the plan</h4>
-          <!-- Teacherade demo carousel, transplanted from demo/dasha-demo.html
+          <!-- TeacherAID demo carousel, transplanted from demo/dasha-demo.html
                on 2026-09-12. Same [data-demo-panel] initializer as the CRM and
                Agency carousels; numbered pins inside each screen match the
                one-sentence notes above it. -->
@@ -5077,7 +5171,7 @@ Max</textarea>
                 <button class="demo-nav-item" data-nav="business" data-slide="5">Business</button>
                 <span class="demo-nav-hint">
                   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>
-                  Click any section
+                  Click to step through
                 </span>
               </div>
 
@@ -5129,6 +5223,15 @@ Max</textarea>
                             </div>
                             <ul class="ds-blocks">
                               <li class="ds-blk">
+                                <div class="t">8:00&ndash;9:00</div><div class="ds-rail r-private"></div>
+                                <div>
+                                  <div class="name">MIRA OKONKWO</div><div class="meta">60 min &middot; Private</div>
+                                  <div class="ds-acts demo-pinned"><span class="demo-pin">1</span>
+                                    <span class="ds-act pri">&#10003; Completed</span><span class="ds-act">Late cancel</span><span class="ds-act">No-show</span><span class="ds-act">Excused</span>
+                                  </div>
+                                </div>
+                              </li>
+                              <li class="ds-blk">
                                 <div class="t">9:30&ndash;10:45</div><div class="ds-rail r-personal"></div>
                                 <div><div class="name">Performance Practice Seminar</div><div class="meta">75 min &middot; Personal &middot; Rm 2441</div></div>
                               </li>
@@ -5157,15 +5260,6 @@ Max</textarea>
                                   <div class="name">Sam Whitaker</div><div class="meta">30 min &middot; Harbor Piano</div>
                                   <div class="ds-statline"><span class="ds-pill p-excused">Excused</span><span class="ds-undo">Undo</span></div>
                                   <div class="ds-fu"><span class="ds-flag f-warn">Reschedule</span>Makeup Thursday at 5:30?</div>
-                                </div>
-                              </li>
-                              <li class="ds-blk">
-                                <div class="t">6:00&ndash;7:00</div><div class="ds-rail r-private"></div>
-                                <div>
-                                  <div class="name">MIRA OKONKWO</div><div class="meta">60 min &middot; Private</div>
-                                  <div class="ds-acts demo-pinned"><span class="demo-pin">1</span>
-                                    <span class="ds-act pri">&#10003; Completed</span><span class="ds-act">Late cancel</span><span class="ds-act">No-show</span><span class="ds-act">Excused</span>
-                                  </div>
                                 </div>
                               </li>
                               <li class="ds-blk">
@@ -5682,7 +5776,7 @@ Max</textarea>
             </div>
             <!-- Sprout CRM demo carousel, transplanted from demo/sprout-crm-demo.html
                  on 2026-09-12, replacing the Loom and the screenshot strip. Same
-                 [data-demo-panel] initializer as the Hub and Teacherade carousels;
+                 [data-demo-panel] initializer as the Hub and TeacherAID carousels;
                  every screen is HTML with placeholder data, never the real CRM. -->
             <div class="sprout-demo" data-demo-panel tabindex="-1">
               <div class="demo-nav-wrap">
@@ -5694,7 +5788,7 @@ Max</textarea>
                 <button class="demo-nav-item" data-nav="outreach" data-slide="4">Outreach/Claude MCP</button>
                 <span class="demo-nav-hint">
                   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>
-                  Click any section
+                  Click to step through
                 </span>
               </div>
 
@@ -5721,10 +5815,10 @@ Max</textarea>
                            data-state="Tuesday, September 1 &middot; 6 actions due in the next two weeks &middot; 2 overdue &middot; Sprout N Tell Vol. 4 in 10 days."
                            data-title="Dashboard: who needs attention today">
                     <div class="demo-notes">
-                      <div class="demo-note"><span class="demo-pin-n">1</span><span>Today's key numbers.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">2</span><span>Every follow-up, sorted by due date.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">3</span><span>Past-due items, flagged.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">4</span><span>Upcoming events and pending requests.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">1</span><span>The four counts at the top show total contacts, active relationships, and how many follow-ups are overdue or due this week.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">2</span><span>Every follow-up due in the next two weeks, for people, organizations, and events alike, lines up in order of its due date.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">3</span><span>Anything past due moves into its own box with how many days late it is, so a missed follow-up never hides in the longer list.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">4</span><span>Upcoming events sit beside the follow-ups, including booking requests that are not on the calendar yet.</span></div>
                     </div>
                     <div class="sp-frame">
                       <div class="sp-page">
@@ -5784,8 +5878,8 @@ Max</textarea>
                            data-state="Maya Chen &middot; Community and a Member &middot; warm &middot; found Sprout through a friend performing at Vol. 3."
                            data-title="Contacts: buckets, types, and the history behind each person">
                     <div class="demo-notes">
-                      <div class="demo-note"><span class="demo-pin-n">1</span><span>Everyone in one list, sorted into Community, Members, Donors, and Prospects, and searchable by name, type, or handle.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">2</span><span>Open anyone to see it all at a glance: their bucket, affiliations, next actions, and a dated log of every conversation.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">1</span><span>Opening anyone shows who they are to Sprout at a glance: how warm the relationship is, their type and bucket, how they heard about Sprout, and the events and groups they belong to.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">2</span><span>Next actions sit above a dated log of every conversation, so each follow-up comes with the history behind it.</span></div>
                     </div>
                     <div class="sp-frame">
                       <div class="sp-page" style="min-height: 560px;">
@@ -5796,7 +5890,7 @@ Max</textarea>
                           </div>
                           <div class="sp-actions"><span class="sp-btn sp-btn-blk">+ Add to Community</span></div>
                         </div>
-                        <div class="sp-tabs demo-pinned"><span class="demo-pin">1</span>
+                        <div class="sp-tabs">
                           <span class="sp-tab on">Community<span class="sp-tab-n">1,041</span></span>
                           <span class="sp-tab">Members<span class="sp-tab-n">48</span></span>
                           <span class="sp-tab">Donors<span class="sp-tab-n">212</span></span>
@@ -5835,30 +5929,34 @@ Max</textarea>
                           <span class="sp-dp-x">&times;</span>
                         </div>
                         <div class="sp-dp-body">
-                          <div class="sp-dp-row">
-                            <span class="sp-tag t-warm">Warm</span><span class="sp-type">Attendee</span><span class="sp-type">Coworking</span>
+                          <div class="demo-pinned"><span class="demo-pin" style="left: auto; right: -10px; top: -10px;">1</span>
+                            <div class="sp-dp-row">
+                              <span class="sp-tag t-warm">Warm</span><span class="sp-type">Attendee</span><span class="sp-type">Coworking</span>
+                            </div>
+                            <div class="sp-dp-row">
+                              <span class="sp-dp-field">Bucket:</span>
+                              <span class="sp-aff">Community</span><span class="sp-aff sp-member">&#9733; Member</span>
+                              <span class="sp-btn sp-btn-ghost sp-btn-xs">Move to &#9662;</span>
+                            </div>
+                            <div class="sp-dp-sec">
+                              <div class="sp-dp-field"><strong>How they heard:</strong> My friend was performing at Vol. 3</div>
+                            </div>
+                            <div class="sp-dp-sec">
+                              <div class="sp-dp-lbl">Affiliations</div>
+                              <div class="sp-wrap" style="gap: 5px;"><span class="sp-aff sp-aff-evt">&#128467; Sprout N Tell Vol. 4</span><span class="sp-aff">&#127970; Fern &amp; Fold Collective</span></div>
+                            </div>
                           </div>
-                          <div class="sp-dp-row">
-                            <span class="sp-dp-field">Bucket:</span>
-                            <span class="sp-aff">Community</span><span class="sp-aff sp-member">&#9733; Member</span>
-                            <span class="sp-btn sp-btn-ghost sp-btn-xs">Move to &#9662;</span>
-                          </div>
-                          <div class="sp-dp-sec">
-                            <div class="sp-dp-field"><strong>How they heard:</strong> My friend was performing at Vol. 3</div>
-                          </div>
-                          <div class="sp-dp-sec">
-                            <div class="sp-dp-lbl">Affiliations</div>
-                            <div class="sp-wrap" style="gap: 5px;"><span class="sp-aff sp-aff-evt">&#128467; Sprout N Tell Vol. 4</span><span class="sp-aff">&#127970; Fern &amp; Fold Collective</span></div>
-                          </div>
-                          <div class="sp-dp-sec demo-pinned"><span class="demo-pin" style="left: auto; right: 0; top: -4px;">2</span>
-                            <div class="sp-dp-lbl">Next Actions</div>
-                            <div class="sp-na"><span class="sp-circle"></span><div class="sp-act-main"><div style="font-size: 11.5px; font-weight: 700;">Invite to Vol. 4 as a reader</div><div class="sp-small">Fri, Sep 4</div></div><span class="sp-due due-soon">in 3d</span></div>
-                            <span class="sp-btn sp-btn-ghost sp-btn-xs">+ Add Action</span>
-                          </div>
-                          <div class="sp-dp-sec">
-                            <div class="sp-dp-lbl">Touchpoints</div>
-                            <div class="sp-tp"><div class="sp-tp-hd"><span class="sp-tp-date">Aug 12</span><span class="sp-tp-type">Email</span></div><div class="sp-tp-sum">Sent the co-working day pass link. She booked Tuesdays.</div><div class="sp-tp-next">&rarr; Invite to Vol. 4 as a reader</div></div>
-                            <div class="sp-tp"><div class="sp-tp-hd"><span class="sp-tp-date">Jul 24</span><span class="sp-tp-type">In person</span></div><div class="sp-tp-sum">Signed in at the door for Vol. 3 and asked about co-working.</div></div>
+                          <div class="demo-pinned"><span class="demo-pin" style="left: auto; right: -10px; top: -10px;">2</span>
+                            <div class="sp-dp-sec">
+                              <div class="sp-dp-lbl">Next Actions</div>
+                              <div class="sp-na"><span class="sp-circle"></span><div class="sp-act-main"><div style="font-size: 11.5px; font-weight: 700;">Invite to Vol. 4 as a reader</div><div class="sp-small">Fri, Sep 4</div></div><span class="sp-due due-soon">in 3d</span></div>
+                              <span class="sp-btn sp-btn-ghost sp-btn-xs">+ Add Action</span>
+                            </div>
+                            <div class="sp-dp-sec">
+                              <div class="sp-dp-lbl">Touchpoints</div>
+                              <div class="sp-tp"><div class="sp-tp-hd"><span class="sp-tp-date">Aug 12</span><span class="sp-tp-type">Email</span></div><div class="sp-tp-sum">Sent the co-working day pass link. She booked Tuesdays.</div><div class="sp-tp-next">&rarr; Invite to Vol. 4 as a reader</div></div>
+                              <div class="sp-tp"><div class="sp-tp-hd"><span class="sp-tp-date">Jul 24</span><span class="sp-tp-type">In person</span></div><div class="sp-tp-sum">Signed in at the door for Vol. 3 and asked about co-working.</div></div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -5875,11 +5973,11 @@ Max</textarea>
                            data-state="Sprout N Tell Vol. 4 &middot; 10 days out &middot; 8 of 8 acts sent their bios &middot; 1 checklist item overdue."
                            data-title="Events Portal: one page for the whole night">
                     <div class="demo-notes">
-                      <div class="demo-note"><span class="demo-pin-n">1</span><span>One private link for the host.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">2</span><span>One form for the lineup's bios.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">3</span><span>Dated checklist with overdue flags.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">4</span><span>RSVPs linked to contacts.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">5</span><span>Event links and graphics.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">1</span><span>The host gets one private link to fill in the event's details, and every answer lands back on this page.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">2</span><span>Each act sends its bio through one shared form link, and the submissions build the night's program.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">3</span><span>A dated checklist counts down to the night and flags anything overdue, like flyers that should already be up.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">4</span><span>Everyone performing, hosting, or attending links to their contact record, with a check mark once they confirm.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">5</span><span>Every link the night needs, from sign-in to the lobby slideshow, sits beside the event's media, with each flyer and sign ready to download.</span></div>
                     </div>
                     <div class="sp-frame">
                       <div class="sp-page">
@@ -5967,8 +6065,9 @@ Max</textarea>
                             <div class="sp-tile-f"><span>All 13 people</span><span>&rarr;</span></div>
                           </div>
 
-                          <!-- LINKS -->
-                          <div class="sp-tile demo-pinned"><span class="demo-pin">5</span>
+                          <!-- LINKS + MEDIA: pin 5 covers both tiles -->
+                          <div class="sp-span2 sp-evd-grid demo-pinned"><span class="demo-pin">5</span>
+                          <div class="sp-tile">
                             <div class="sp-tile-hd"><span class="sp-tile-ttl">Links</span><span class="sp-tile-n" style="color: var(--ink);">3</span></div>
                             <div class="sp-tile-b">
                               <div class="sp-link"><div class="sp-link-main"><div class="sp-link-l">Sign-in &#8599;</div><div class="sp-link-u">https://sproutsociety.example/sign-in</div></div><span class="sp-x">&times;</span></div>
@@ -6013,6 +6112,7 @@ Max</textarea>
                             </div>
                             <div class="sp-tile-f"><span>Upload &amp; manage</span><span>&rarr;</span></div>
                           </div>
+                          </div><!-- /pin 5 -->
                         </div>
                       </div>
                     </div>
@@ -6025,10 +6125,10 @@ Max</textarea>
                            data-state="Sprout Monthly &middot; September 2026 &middot; headline polished &middot; Vol. 4 being dragged above the announcement."
                            data-title="Newsletter: rough notes in, a branded email out">
                     <div class="demo-notes">
-                      <div class="demo-note"><span class="demo-pin-n">1</span><span>Claude polishes rough notes.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">2</span><span>Drag to reorder sections.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">3</span><span>Test first, send once approved.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">4</span><span>Live preview.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">1</span><span>Rough notes typed into any field come back polished by Claude in Sprout's voice, ready to use or discard.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">2</span><span>Each part of the email is a block that drags into a new order, like moving the Vol. 4 feature above the announcement.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">3</span><span>A test copy goes to the team first, and the issue goes out to the chosen lists only once it is approved.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">4</span><span>The preview shows the finished email as it is written and follows whichever field is being edited.</span></div>
                     </div>
                     <div class="sp-frame">
                       <div class="sp-page">
@@ -6064,12 +6164,14 @@ Max</textarea>
                                   </div>
                                 </div>
 
-                                <div class="sp-order-lbl demo-pinned"><span class="demo-pin">2</span>&#8597; Sections &middot; drag &#10303; to reorder</div>
+                                <div class="demo-pinned"><span class="demo-pin">2</span>
+                                <div class="sp-order-lbl">&#8597; Sections &middot; drag &#10303; to reorder</div>
                                 <div class="sp-blk is-lift"><span class="sp-handle">&#10303;</span><div><b>Featured event</b><div class="sp-small">Sprout N Tell Vol. 4 &middot; photo, recap, button</div></div></div>
                                 <div class="sp-blk is-drop"><span class="sp-handle">&#10303;</span><div><b>Announcement</b><div class="sp-small">Co-Working, now every Tuesday</div></div></div>
                                 <div class="sp-blk"><span class="sp-handle">&#10303;</span><div><b>Membership</b><div class="sp-small">Become a member</div></div></div>
                                 <div class="sp-blk"><span class="sp-handle">&#10303;</span><div><b>Community Sprout Shout</b><div class="sp-small">Mara Lin &middot; testimonial</div></div></div>
                                 <div class="sp-blk"><span class="sp-handle">&#10303;</span><div><b>Upcoming events</b><div class="sp-small">3 events &middot; RSVP buttons</div></div></div>
+                                </div><!-- /pin 2 -->
                               </div>
                             </div>
                           </div>
@@ -6111,24 +6213,21 @@ Max</textarea>
                            data-state-label="State of the relationship"
                            data-state="Low Tide Records &middot; Tier B prospect &middot; the first message rewritten as a Vol. 4 invitation."
                            data-title="Outreach/Claude MCP: Claude finds the people, you make the call">
-                    <div class="sp-explain">
-                      <div class="sp-explain-ttl">How Claude helps with outreach</div>
-                      <p>Claude works from an outreach protocol written in plain language, so changing how Sprout reaches out means editing a document, not code. Connected to the CRM through a custom MCP server, it:</p>
-                      <ol>
-                        <li><span><b>Finds</b> people and groups worth knowing: new followers, local collectives, past guests.</span></li>
-                        <li><span><b>Checks the CRM</b> so nobody is added twice, then researches fit and sorts each into Tier A, B, or C.</span></li>
-                        <li><span><b>Drafts</b> a first message in Sprout's voice and files the brief here to edit, rewrite, or skip. Nothing sends on its own.</span></li>
-                      </ol>
+                    <div class="demo-notes">
+                      <div class="demo-note"><span class="demo-pin-n">1</span><span>Claude works as Sprout's Outreach Manager through a custom MCP server, following a plain-language protocol to find people and groups worth knowing, like new followers, local collectives, and past guests.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">2</span><span>Overview counts the work, Research Briefs and Sprints hold Claude's research and planned campaigns, Deliverables logs what it has shipped, and Activity lists every touchpoint logged in the CRM.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">3</span><span>Claude checks the CRM so nobody gets added twice, then researches each fit and sorts it into Tier A, B, or C with a primary contact.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">4</span><span>Claude drafts the first message in Sprout's voice for the team to edit, rewrite with a prompt, or skip, and nothing sends on its own.</span></div>
                     </div>
                     <div class="sp-frame">
                       <div class="sp-page">
                         <div class="sp-hd">
-                          <div>
+                          <div class="demo-pinned"><span class="demo-pin">1</span>
                             <h1 class="sp-ttl">Outreach</h1>
                             <div class="sp-sub">Research briefs, sprints, and deliverables from the Outreach Manager</div>
                           </div>
                         </div>
-                        <div class="sp-tabs">
+                        <div class="sp-tabs demo-pinned"><span class="demo-pin">2</span>
                           <span class="sp-tab">Overview</span>
                           <span class="sp-tab on">Research Briefs<span class="sp-tab-n">3</span></span>
                           <span class="sp-tab">Sprints<span class="sp-tab-n">1</span></span>
@@ -6139,6 +6238,7 @@ Max</textarea>
                         <div class="sp-doc">
                           <div class="sp-doc-hd"><b>Relationship Research Briefs &middot; September</b><span class="sp-doc-meta">Edited in app</span><span class="sp-btn sp-btn-ghost sp-btn-xs" style="margin-left: auto;">&#8634; Reset to file</span><span class="sp-small">&#9662;</span></div>
                           <div class="sp-doc-bd">
+                            <div class="demo-pinned"><span class="demo-pin" style="left: auto; right: -10px;">3</span>
                             <h2 class="md-h2">Low Tide Records</h2>
                             <div class="sp-tbl-scroll" style="box-shadow: none; border-radius: 6px; margin-bottom: 12px;">
                               <table class="sp-tbl md-tbl" style="min-width: 420px;">
@@ -6149,6 +6249,8 @@ Max</textarea>
                                 </tbody>
                               </table>
                             </div>
+                            </div><!-- /pin 3 -->
+                            <div class="demo-pinned"><span class="demo-pin" style="left: auto; right: -10px;">4</span>
                             <h3 class="md-h3">First-touch message</h3>
                             <div class="sp-edit">Hi Theo, we have loved seeing Low Tide artists on our stage. Sprout N Tell Vol. 4 is Friday, September 11 at Sprout Society, 7 to 10pm: local artists on the walls and short sets all night. We would love to have you there as our guest, and to talk about co-hosting a listening party this fall. Want me to save you a spot?</div>
                             <div class="sp-ai">
@@ -6160,6 +6262,7 @@ Max</textarea>
                               </div>
                               <div class="sp-ai-hint">Rewritten in Sprout's voice. The date came from the events calendar, not a guess. Click away to save, Esc to discard.</div>
                             </div>
+                            </div><!-- /pin 4 -->
                           </div>
                         </div>
                       </div>
@@ -6191,10 +6294,10 @@ Max</textarea>
                 <span class="tag status-live">Live · Actively Used</span>
               </div>
               <div class="flex flex-wrap justify-center gap-2 mb-6">
-                <span class="tag tech-tag">Claude API</span>
+                <span class="tag tech-tag">Claude</span>
+                <span class="tag tech-tag">Research Protocols</span>
                 <span class="tag tech-tag">Next.js</span>
                 <span class="tag tech-tag">Supabase</span>
-                <span class="tag tech-tag">Vercel</span>
                 <span class="tag tech-tag">JSON</span>
               </div>
               <div class="grid sm:grid-cols-3 gap-4 text-sm mb-6">
@@ -6231,7 +6334,7 @@ Max</textarea>
     <button class="demo-nav-item" data-nav="export" data-slide="5">Export</button>
     <span class="demo-nav-hint">
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>
-      Click any section
+      Click to step through
     </span>
   </div>
 
@@ -6258,10 +6361,10 @@ Max</textarea>
                data-state="Tuesday, September 1 &middot; 6 grants &middot; $44,000 in asks &middot; 2 due within 30 days."
                data-title="Grant Pipeline: every application at a glance">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Asks, deadlines, and what is due soon.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Deadlines turn red as they get close.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>How much of each application is written.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">4</span><span>The next step for every grant.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>The counts at the top show how many grants are active or being written, the total asked across every funder, and how many are due within 30 days.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Each deadline shows the days left and changes color as it gets closer, so the most urgent application stands out in red.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>A progress bar tracks how many of each application's questions have answers and flags any that still have gaps.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">4</span><span>Every grant carries its one next step, from emailing a program officer to sending the impact report after an award.</span></div>
         </div>
         <div class="gf-frame">
           <div class="gf-page">
@@ -6457,9 +6560,9 @@ Max</textarea>
                data-state="Brooklyn Neighbors Fund &middot; Tier 1 &middot; verdict: go &middot; brief linked August 27."
                data-title="Research Brief: know the funder first">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Framing notes ride along on every tab.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Go or no-go, decided before any writing.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>The funder's own words, to write in.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Framing notes from the research stay pinned above every tab, so every answer starts from the same angle.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>The brief weighs Sprout's strengths, gaps, and eligibility risks against the funder, and ends in a go or no-go before any writing starts.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>The brief lists the funder's own phrases and the words to swap out, so every answer sounds like the people scoring it.</span></div>
         </div>
         <div class="gf-frame">
           <div class="gf-page">
@@ -6543,10 +6646,10 @@ One question only: does peer connection fit Civic Life or Health and Wellbeing?<
                data-state="7 of 9 answered &middot; 3 gaps to fill &middot; the impact answer is near its limit."
                data-title="Questions: drafts, limits, and gaps">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Answered, complete, and gaps, at a glance.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>A character count against every limit.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Unknowns stay flagged until they are filled.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">4</span><span>Paste Claude's draft, keep the old one in history.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>The tracker shows how many questions have answers, how complete the application is, and how many gaps are left to fill.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Every answer counts its characters against the funder's limit and warns when it gets close.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>Facts nobody has confirmed yet stay highlighted in brackets and count as gaps until someone fills them in.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">4</span><span>A new draft from Claude pastes straight into the answer, and the version it replaces stays in History.</span></div>
         </div>
         <div class="gf-frame">
           <div class="gf-page">
@@ -6670,9 +6773,9 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
                data-state="6 open tasks &middot; 2 high priority due this week &middot; 2 done."
                data-title="Tasks: what stands between draft and submit">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Every step, with a priority.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Due dates line up before the deadline.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Done items stay on the list, crossed off.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Every step the application needs becomes a task with a high, medium, or low priority, starting with confirming the funder's budget cap.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Each task has a due date ahead of the application deadline, so every piece is ready before the portal closes.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>Finished tasks stay on the list crossed off, which keeps a record of what is already done.</span></div>
         </div>
         <div class="gf-frame">
           <div class="gf-page">
@@ -6791,8 +6894,8 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
                data-state="Neighborhood Connection Grant 2026 &middot; 9 answers &middot; ready to paste into the portal."
                data-title="Export: one block for the portal">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Every answer in portal order.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>One click copies the whole application.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Every answer lines up in the portal's question order, under a header with the grant, funder, amount, and deadline.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>One click copies the whole application, ready to paste into the funder's portal.</span></div>
         </div>
         <div class="gf-frame">
           <div class="gf-page">
@@ -6896,7 +6999,6 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
                 <span class="tag tech-tag">Next.js</span>
                 <span class="tag tech-tag">Supabase</span>
                 <span class="tag tech-tag">Vercel</span>
-                <span class="tag tech-tag">Canva API</span>
                 <span class="tag tech-tag">Instagram API</span>
                 <span class="tag tech-tag">Composio API</span>
               </div>
@@ -6907,7 +7009,7 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
                 </div>
                 <div class="rounded-lg p-3" style="border: 1px solid rgba(52,138,88,0.25); background: rgba(52,138,88,0.04);">
                   <p class="text-slate-300 font-medium mb-1">Solution</p>
-                  <p class="text-slate-400 leading-relaxed">Canva API for in-tool design, direct Instagram publishing via API, with a human-in-the-loop.</p>
+                  <p class="text-slate-400 leading-relaxed">Direct Instagram publishing via API, with a human approval step before anything posts.</p>
                 </div>
                 <div class="rounded-lg p-3" style="border: 1px solid rgba(52,138,88,0.25); background: rgba(52,138,88,0.04);">
                   <p class="text-slate-300 font-medium mb-1">Outcome</p>
@@ -6933,7 +7035,7 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
     <button class="demo-nav-item" data-nav="analytics" data-slide="4"><span class="so-navico">&#8599;</span>Analytics</button>
     <span class="demo-nav-hint">
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>
-      Click any section
+      Click to step through
     </span>
   </div>
 
@@ -6960,9 +7062,9 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
                data-state="Tuesday, September 1 &middot; 2 posts waiting for approval &middot; 4 scheduled &middot; the Vol. 4 promo starts Thursday."
                data-title="Dashboard: what needs a yes today">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Where every post stands.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Posts waiting on a yes.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>What goes out next.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>The counts show how many posts are drafts, waiting for approval, scheduled, and already published.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Posts waiting for approval come first, each with its caption, time, and hashtags, and an Approve button right on the card.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>The next scheduled posts line up below, each showing who approved it and a button to publish it to Instagram.</span></div>
         </div>
         <div class="so-frame so-cut" style="--cut: 1120px;">
           <div class="so-page">
@@ -7077,9 +7179,9 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
                data-state="Scheduled tab &middot; the Vol. 4 lineup post publishing now &middot; approved by the comms lead."
                data-title="Content Queue: nothing posts without a yes">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Five stages, each with a count.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Who approved it, right on the card.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>One click publishes to Instagram.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Every post moves through five stages from Draft to Published, and each tab shows how many posts sit in that stage.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Every approved post shows the address of the person who approved it, so there is always a record of who signed off.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>One click publishes a scheduled post straight to Instagram, right from the queue.</span></div>
         </div>
         <div class="so-frame so-cut" style="--cut: 900px;">
           <div class="so-page">
@@ -7167,9 +7269,9 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
                data-state="September 2026 &middot; 11 posts planned &middot; Sprout N Tell Vol. 4 on the 11th."
                data-title="Calendar: posts and events in one view">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Every post, colored by status.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Events next to the posts that promote them.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Open a day to see it all or add an event.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Every post appears on the day it goes out, colored by where it stands, from draft to published.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Events share the calendar with the posts, so the team can time each promo to the night it promotes.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>Opening a day lists every post and event on it, with a button to add another event.</span></div>
         </div>
         <div class="so-frame">
           <div class="so-page">
@@ -7284,10 +7386,10 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
                data-state="Vol. 4 lineup announcement &middot; image uploaded &middot; set for Tuesday, September 8 at 6pm."
                data-title="Create Post: a draft in one form">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Write the caption.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Upload the graphic or paste a link.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Pick when it goes out.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">4</span><span>Save it as a draft for review.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>The caption goes here, hashtags included, with a separate field for internal notes the audience never sees.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>The graphic uploads directly or comes in as a link, with a preview to check before saving.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>A date and time picker sets when the post goes out once someone approves it.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">4</span><span>Create Draft saves the post to the queue, where it waits for approval before anything can publish.</span></div>
         </div>
         <div class="so-frame">
           <div class="so-page">
@@ -7365,9 +7467,9 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                data-state="All time &middot; 64 published &middot; 1 so far this month &middot; 3 posts in the week of August 30."
                data-title="Analytics: the posting record">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Pull past posts in from Instagram.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Posting rhythm, week by week.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Every published post, with its Instagram ID.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Import from Instagram pulls in posts published outside the planner, so the record covers the whole account.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>A bar chart counts posts published each week, and clicking a bar lists that week's posts.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>Every published post appears with its type, date, and Instagram post ID, and filters by image, video, or carousel.</span></div>
         </div>
         <div class="so-frame">
           <div class="so-page">
@@ -7501,7 +7603,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                 <span class="tag status-live">Live · Actively Used</span>
               </div>
               <div class="flex flex-wrap justify-center gap-2 mb-6">
-                <span class="tag tech-tag">Cloudflare Workers</span>
+                <span class="tag tech-tag">Vercel Functions</span>
                 <span class="tag tech-tag">Supabase</span>
                 <span class="tag tech-tag">Plain HTML</span>
                 <span class="tag tech-tag">Dynamic QR</span>
@@ -7513,7 +7615,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                 </div>
                 <div class="rounded-lg p-3" style="border: 1px solid rgba(52,138,88,0.25); background: rgba(52,138,88,0.04);">
                   <p class="text-slate-300 font-medium mb-1">Solution</p>
-                  <p class="text-slate-400 leading-relaxed">Real-time scan tracking runs serverless via Cloudflare Workers with a live analytics dashboard.</p>
+                  <p class="text-slate-400 leading-relaxed">Real-time scan tracking runs serverless on Vercel with a live analytics dashboard.</p>
                 </div>
                 <div class="rounded-lg p-3" style="border: 1px solid rgba(52,138,88,0.25); background: rgba(52,138,88,0.04);">
                   <p class="text-slate-300 font-medium mb-1">Outcome</p>
@@ -7547,7 +7649,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
     <button class="demo-nav-item" data-nav="live" data-slide="4">Update Live</button>
     <span class="demo-nav-hint">
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>
-      Click any section
+      Click to step through
     </span>
   </div>
 
@@ -7574,9 +7676,9 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                data-state="Saturday, September 12 &middot; the morning after Sprout N Tell Vol. 4 &middot; 347 scans across 5 codes."
                data-title="Dashboard: one event, every code">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>One tab per event.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Scans today, this week, and all time.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Every code for the event, with its total.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Each event gets its own tab, from a one-night show to weekly Co-Working, so its codes stay together.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>The counts show scans for the selected code today, over the last seven days, and all time.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>Every code for the event appears as a tile with its placement and total scans, and clicking one opens its details.</span></div>
         </div>
         <div class="qt-frame qt-clip">
           <div class="qt-page">
@@ -7623,9 +7725,9 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                data-state="Door Sign-In leads with 142 scans &middot; the street flyer brought in 37."
                data-title="QR Codes: which placement worked">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>One tile per placement, with its scan total.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Download the code, ready to print.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Every scan is counted, then sent on.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Each placement, from the front door sign to the Instagram bio, has its own code and scan total to compare side by side.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Each code downloads as a PNG, ready to drop onto a flyer, sign, or slide.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>Each scan adds one to that code's count for the day, then sends the phone on to wherever the code points.</span></div>
         </div>
         <div class="qt-frame">
           <div class="qt-page">
@@ -7666,9 +7768,9 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                data-state="Street Flyer &middot; posted August 30 &middot; scans peaked the two days before the show."
                data-title="Daily Scans: when it worked">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Scans per day for one code.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>30, 60, or 90 days, or all time.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>The climb starts the day the flyers went up.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>The chart shows scans per day for one code, here the street flyer, from two weeks before it went up to the morning after the show.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>The range buttons switch the chart between the last 30, 60, or 90 days, or all time.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>Scans start on August 30, the day the flyers went up, and peak in the two days before the show.</span></div>
         </div>
         <div class="qt-frame">
           <div class="qt-page">
@@ -7739,9 +7841,9 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                data-state="Fern &amp; Fold Zine Night &middot; September 18 &middot; adding the code for its window poster."
                data-title="Manage Events: a new code in seconds">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Add an event.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Label the code and set where it sends people.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>The code ID fills itself in.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Add Event creates a new event with a name, date, and promoter, and gives it its own tab on the dashboard.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Each new code gets a label, a placement type, and the link it should send people to.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>The code ID fills itself in from the event name, year, and label, so nobody has to make one up.</span></div>
         </div>
         <div class="qt-frame">
           <!-- the dashboard, dimmed behind the drawer -->
@@ -8028,15 +8130,23 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
         document.documentElement.style.setProperty('--tabbar-h', tabBar.offsetHeight + 'px');
       }
       // The demo carousels' strips pin under the tool row as well, when the
-      // visible tab has one (Teacherade does not). See --demo-pin-top.
+      // visible tab has one (TeacherAID does not). See --demo-pin-top.
       var toolRow = visibleToolRow();
       document.documentElement.style.setProperty('--toolrow-h', (toolRow ? toolRow.offsetHeight : 0) + 'px');
-      // The Sprout suite carousels pin their notes rows under their nav strips, so they need
-      // each strip's height. A hidden panel measures 0; keep the last value.
-      document.querySelectorAll('.sprout-demo, .grant-demo, .social-demo, .campaign-demo').forEach(function(root) {
-        var strip = root.querySelector('.demo-nav-wrap');
-        if (strip && strip.offsetHeight) root.style.setProperty('--demo-strip-h', strip.offsetHeight + 'px');
-      });
+      document.querySelectorAll('#compassDemo, [data-demo-panel]').forEach(function(root) { measureDemoPin(root); });
+    }
+    // Every carousel's title card pins under its strip, and the Sprout suite's
+    // notes rows pin under the title card, so each carousel publishes its
+    // strip height (--demo-strip-h) and title card height (--demo-cap-h).
+    // TeacherAID's strip sits below its title card, so it has no strip height
+    // to add. A hidden panel measures 0; keep the last value. The carousel
+    // scripts call this on every slide change, since titles wrap differently.
+    function measureDemoPin(root) {
+      if (!root) return;
+      var strip = root.querySelector('.demo-rail-field') || root.querySelector('.demo-nav-wrap');
+      var cap = root.querySelector('.demo-caption');
+      if (strip && strip.offsetHeight && !strip.closest('.demo-stage')) root.style.setProperty('--demo-strip-h', strip.offsetHeight + 'px');
+      if (cap && cap.offsetHeight) root.style.setProperty('--demo-cap-h', cap.offsetHeight + 'px');
     }
     function stickyOffset() {
       var nav = document.querySelector('nav');
@@ -8442,6 +8552,8 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
     groups.forEach(function (g) {
       var n = parseInt(g.getAttribute('data-slide'), 10);
       g.classList.toggle('is-active', n === i);
+      // The arrows are hidden, so the rail marks the step that comes next.
+      g.classList.toggle('is-next', n === i + 1);
       g.querySelectorAll('.demo-node-pill').forEach(function (p) {
         p.classList.remove('is-active', 'is-past', 'is-future');
         if (n === i) p.classList.add('is-active');
@@ -8466,6 +8578,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
     if (stateCol) stateCol.hidden = !CAPTIONS[i].state;
     elSlideTitle.textContent = CAPTIONS[i].contrib;
     elTitle.textContent = slides[i].getAttribute('data-title');
+    if (typeof measureDemoPin === 'function') measureDemoPin(root);
     elCount.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
     prevBtns.forEach(function (el) { el.disabled = (i === 0); });
     nextBtns.forEach(function (el) { el.disabled = (i === slides.length - 1); });
@@ -8552,6 +8665,146 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
 
     var current = 0;
 
+    // ── Numbered notes as popovers ────────────────────────────────────────
+    // Each note pops up beside its pin when its tile (the pin's parent) is
+    // hovered, focused or tapped, instead of sitting in a row above the
+    // screen. The .demo-notes markup stays as the source of the text and is
+    // hidden by .has-pop, so the notes still read if this never runs.
+    var pinInfo = [];
+    slides.forEach(function (s) {
+      var notes = {};
+      s.querySelectorAll('.demo-note').forEach(function (note) {
+        var num = note.querySelector('.demo-pin-n');
+        if (!num) return;
+        var txt = num.nextElementSibling;
+        notes[num.textContent.trim()] = txt ? txt.innerHTML : '';
+      });
+      s.querySelectorAll('.demo-pin').forEach(function (p) {
+        var k = p.textContent.trim();
+        var target = p.parentElement;
+        if (!notes[k] || !target) return;
+        target.classList.add('demo-pin-target');
+        target.setAttribute('tabindex', '0');
+        target.setAttribute('data-pin-index', String(pinInfo.length));
+        pinInfo.push({ target: target, pin: p, n: k, html: notes[k] });
+      });
+    });
+    var pop = null, hot = null, lastPointer = 'mouse';
+    if (pinInfo.length) {
+      root.classList.add('has-pop');
+      root.style.setProperty('--demo-pin-color', getComputedStyle(pinInfo[0].pin).backgroundColor);
+      pop = document.createElement('div');
+      pop.className = 'demo-pop';
+      pop.setAttribute('role', 'tooltip');
+      root.appendChild(pop);
+    }
+    function infoFor(el) {
+      var t = el && el.closest ? el.closest('.demo-pin-target') : null;
+      if (!t || !root.contains(t)) return null;
+      return pinInfo[parseInt(t.getAttribute('data-pin-index'), 10)] || null;
+    }
+    function placePop() {
+      if (!hot) return;
+      var tr = hot.target.getBoundingClientRect();
+      if (!tr.width && !tr.height) { hidePop(); return; }
+      var pr = hot.pin.getBoundingClientRect();
+      // Never anchor under the pinned strip and title card.
+      var floor = 0;
+      root.querySelectorAll('.demo-caption, .demo-nav-wrap').forEach(function (el) {
+        floor = Math.max(floor, el.getBoundingClientRect().bottom);
+      });
+      var anchor = Math.min(Math.max(pr.bottom, floor), tr.bottom);
+      var pw = pop.offsetWidth, ph = pop.offsetHeight;
+      var stage = root.querySelector('.demo-stage').getBoundingClientRect();
+      var left = Math.min(pr.left, stage.right - pw - 8);
+      left = Math.max(left, stage.left + 8, 8);
+      left = Math.min(left, window.innerWidth - pw - 8);
+      var top = anchor + 8;
+      if (top + ph > window.innerHeight - 8) {
+        top = Math.max(pr.top, floor) - ph - 8;
+        if (top < floor + 8) top = Math.max(floor + 8, window.innerHeight - ph - 8);
+      }
+      pop.style.left = Math.round(left) + 'px';
+      pop.style.top = Math.round(top) + 'px';
+    }
+    function showPop(info) {
+      if (!pop || !info) return;
+      if (hot && hot !== info) { hot.target.classList.remove('is-hot'); hot.pin.classList.remove('is-hot'); }
+      hot = info;
+      pop.innerHTML = '<span class="demo-pin-n">' + info.n + '</span><span class="demo-pop-txt">' + info.html + '</span>';
+      info.target.classList.add('is-hot');
+      info.pin.classList.add('is-hot');
+      pop.classList.add('is-on');
+      placePop();
+    }
+    function hidePop() {
+      if (!pop) return;
+      pop.classList.remove('is-on');
+      if (hot) { hot.target.classList.remove('is-hot'); hot.pin.classList.remove('is-hot'); }
+      hot = null;
+    }
+    if (pop) {
+      root.addEventListener('pointerdown', function (e) { lastPointer = e.pointerType || 'mouse'; });
+      root.addEventListener('pointerover', function (e) {
+        if (e.pointerType === 'touch') return;
+        var info = infoFor(e.target);
+        if (info) showPop(info);
+      });
+      root.addEventListener('pointerout', function (e) {
+        if (e.pointerType === 'touch' || !hot) return;
+        if (infoFor(e.relatedTarget) !== hot) hidePop();
+      });
+      // Touch has no hover: a tap on a tile shows its note, a tap anywhere else hides it.
+      root.addEventListener('click', function (e) {
+        if (lastPointer === 'mouse') return;
+        var info = infoFor(e.target);
+        if (info) showPop(info); else hidePop();
+      });
+      document.addEventListener('click', function (e) { if (hot && !root.contains(e.target)) hidePop(); });
+      root.addEventListener('focusin', function (e) {
+        if (e.target.classList && e.target.classList.contains('demo-pin-target')) showPop(infoFor(e.target));
+      });
+      root.addEventListener('focusout', function (e) {
+        if (hot && e.target === hot.target && infoFor(e.relatedTarget) !== hot) hidePop();
+      });
+      var raf = 0;
+      function follow() {
+        if (!hot || raf) return;
+        raf = requestAnimationFrame(function () { raf = 0; placePop(); });
+      }
+      window.addEventListener('scroll', follow, { passive: true });
+      window.addEventListener('resize', follow);
+    }
+
+    // ── The strip is the only control ─────────────────────────────────────
+    // The arrows are hidden, so every slide has to be reachable from the
+    // strip. An entry that covers a run of slides (Concerts is four) gets
+    // numbered step chips beside it while that run is showing.
+    navItems.forEach(function (b) {
+      var g = b.getAttribute('data-nav');
+      if (!g) return;
+      var run = [];
+      slides.forEach(function (s, n) { if (s.getAttribute('data-nav') === g) run.push(n); });
+      if (run.length < 2) return;
+      var wrap = document.createElement('span');
+      wrap.className = 'demo-nav-steps';
+      wrap.setAttribute('data-steps-for', g);
+      wrap.hidden = true;
+      run.forEach(function (n, k) {
+        var c = document.createElement('button');
+        c.type = 'button';
+        c.className = 'demo-nav-step';
+        c.setAttribute('data-step', String(n));
+        c.textContent = String(k + 1);
+        var t = slides[n].getAttribute('data-title') || '';
+        c.title = t;
+        c.setAttribute('aria-label', t || ('Step ' + (k + 1)));
+        c.addEventListener('click', function () { turn(n); });
+        wrap.appendChild(c);
+      });
+      b.parentNode.insertBefore(wrap, b.nextSibling);
+    });
+
     function show(i) {
       if (i < 0 || i >= slides.length) return;
       current = i;
@@ -8568,6 +8821,23 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
           : parseInt(b.getAttribute('data-slide'), 10) === i);
       });
 
+      // The "next" cue: the strip marks whichever control leads to the
+      // following slide, a step chip when that slide is in the same run.
+      var nextGroup = i + 1 < slides.length ? slides[i + 1].getAttribute('data-nav') : null;
+      navItems.forEach(function (b) {
+        b.classList.toggle('is-next', !!nextGroup && nextGroup !== group && b.getAttribute('data-nav') === nextGroup);
+      });
+      root.querySelectorAll('.demo-nav-steps').forEach(function (w) {
+        w.hidden = w.getAttribute('data-steps-for') !== group;
+      });
+      root.querySelectorAll('.demo-nav-step').forEach(function (c) {
+        var n = parseInt(c.getAttribute('data-step'), 10);
+        c.classList.toggle('is-active', n === i);
+        c.classList.toggle('is-next', n === i + 1 && nextGroup === group);
+      });
+      hidePop();
+      root.classList.toggle('slide-has-pins', !!slide.querySelector('.demo-pin-target'));
+
       // Captions are innerHTML because the copy carries entities (middots,
       // curly apostrophes) that would otherwise render literally.
       if (elContrib) elContrib.textContent = slide.getAttribute('data-contrib') || '';
@@ -8578,6 +8848,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
         if (col) col.hidden = !slide.getAttribute('data-state');
       }
       if (elTitle) elTitle.textContent = slide.getAttribute('data-title') || '';
+      if (typeof measureDemoPin === 'function') measureDemoPin(root);
       if (elCount) {
         elCount.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
       }
