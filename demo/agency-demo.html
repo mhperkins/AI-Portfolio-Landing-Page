@@ -435,6 +435,22 @@ button { cursor: pointer; font-family: var(--font-sans); }
 .adoc-tier-label { font-size: 9.5px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--amber-dim); margin-bottom: 4px; }
 .adoc-tier-text { font-size: 11.5px; line-height: 1.55; color: var(--tp); }
 
+/* ==========================================================================
+   Annotations. A numbered amber pin sits on each feature, and the same
+   number heads a one-sentence note above the screen. Same block as
+   dasha-demo.html and compass-demo.html. On index.html the notes row is
+   hidden and each note pops up on its tile.
+   ========================================================================== */
+.demo-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin: 0 0 16px; }
+.demo-note { display: flex; gap: 10px; align-items: flex-start; background: white; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; box-shadow: var(--shadow); font-family: var(--font-sans); font-size: 13px; line-height: 1.45; color: var(--tp); }
+.demo-pin, .demo-pin-n { width: 22px; height: 22px; border-radius: 50%; background: var(--amber); color: white; font-family: var(--font-sans); font-size: 11.5px; font-weight: 700; line-height: 22px; text-align: center; flex: none; }
+.demo-pin { position: absolute; top: -10px; left: -10px; z-index: 6; box-shadow: 0 0 0 2px white, 0 2px 8px rgba(28, 25, 23, .25); pointer-events: none; }
+.demo-pinned { position: relative; }
+/* Agency pins. The chat card clips its corners, so its pin sits in the dark
+   title bar, ahead of the window dots. */
+.aterm.demo-pinned > .aterm-head { padding-left: 44px; }
+.aterm.demo-pinned > .demo-pin { top: 8px; left: 12px; }
+
 @media (max-width: 760px) {
   .demo-canvas { padding: 18px 12px; }
   .demo-side-arrow { width: 32px; height: 32px; font-size: 15px; }
@@ -484,7 +500,11 @@ button { cursor: pointer; font-family: var(--font-sans); }
 
       <!-- ============ SLIDE 1 · CREATING AN EMPLOYEE ==================== -->
       <section class="demo-car-slide is-on" data-title="Creating an employee">
-        <div class="aterm">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>You describe the job in plain language, Claude Code asks what the employee must not touch and who signs off, then writes its job description, system prompt and folders.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Putting one to work takes one request naming the employee and the job, and nothing it produces sends without your sign-off.</span></div>
+        </div>
+        <div class="aterm demo-pinned"><span class="demo-pin">1</span>
           <div class="aterm-head">
             <div class="aterm-dots"><span class="aterm-dot"></span><span class="aterm-dot"></span><span class="aterm-dot"></span></div>
             <span class="aterm-label">Claude Code</span>
@@ -498,7 +518,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
           </div>
         </div>
 
-        <div class="astepbox">
+        <div class="astepbox demo-pinned"><span class="demo-pin">2</span>
           <h5>Putting one to work</h5>
           <div class="astep"><span class="astep-n">1.</span><span>Open the <code>virtual-agency</code> folder in Claude Code (it is its own project, beside this one).</span></div>
           <div class="astep"><span class="astep-n">2.</span><span>Name the employee and the job: "run the Music Marketing agent on a Groove Theory follow-up wave."</span></div>
@@ -510,9 +530,13 @@ button { cursor: pointer; font-family: var(--font-sans); }
 
       <!-- ============ SLIDE 2 · JOB DESCRIPTION + SPRINT ================= -->
       <section class="demo-car-slide" data-title="Job description and sprint record">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>The job description is the contract: what the employee owns, its writing rules, what is out of scope, and which tools it may use.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Each sprint file records what the employee shipped for one campaign, here three tiers of outreach copy, and its status until you send.</span></div>
+        </div>
         <div class="adoc-grid">
 
-          <div class="adoc-col">
+          <div class="adoc-col demo-pinned"><span class="demo-pin">1</span>
             <div class="adoc">
               <div class="adoc-head">
                 <span class="afolderpill">employees/Music/Marketing/marketing-music-jobDescription.md</span>
@@ -563,7 +587,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
             </div>
           </div>
 
-          <div class="adoc-col">
+          <div class="adoc-col demo-pinned"><span class="demo-pin">2</span>
             <div class="adoc">
               <div class="adoc-head">
                 <span class="afolderpill">employees/Music/Marketing/sprints/sprint-01-groove-theory.md</span>

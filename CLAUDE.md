@@ -429,8 +429,8 @@ At Max's ask, on all eight carousels. Page only; the `demo/` standalones are unc
   carousel script. Without them those slides were unreachable once the arrows went.
 - Strip hints read "Click to step through" (Compass keeps "Click through the process"), tightened
   so the strips stay one line.
-- **Hover notes.** On TeacherAID, the four Sprout carousels and Compass (added later the same
-  day, see "Compass pins and notes") the numbered notes row is hidden
+- **Hover notes.** On all eight carousels (Compass, CRM and Agency were added later the same
+  day, see "Compass pins and notes" and "CRM and Agency pins") the numbered notes row is hidden
   (`.has-pop`, set by the script). Each note pops up beside its pin when the pin's parent element
   (its tile) is hovered, focused (tiles get `tabindex="0"`) or tapped; a tap elsewhere closes it.
   The tile gets an outline in the pin color and the pin scales up. The popover is
@@ -486,6 +486,38 @@ below, the standalone and these docs followed in their own commit.
   slides (pill only on slide 5), dock chips match the pins below the fold, TeacherAID and Sprout CRM
   popovers still work through the shared function, and the standalone shows its notes row with
   unclipped pins. Screenshots checked by eye.
+
+### CRM and Agency pins (2026-09-13, pushed)
+
+At Max's ask, the rest of the Composer Hub gets numbered blurbs too, in `index.html`,
+`demo/crm-demo.html` and `demo/agency-demo.html`. The page needed no script change: the
+`[data-demo-panel]` initializer already runs `initDemoPops()`.
+
+- **CRM, 18 pins:** Contacts 3 (the popup's tabs, Roles, the footer), Outreach 3 (popup header,
+  Body, footer), booking portal 3 (header, private link box, answers), checklist 2 (header,
+  calendar), lineup 2 (header, an inline pin beside Priya's RSVP), communications 2 (header, an
+  inline pin beside the Replied tag), Newsletter 3 (the Sections, Send and Preview cards).
+- **Agency, 4 pins:** the Claude Code chat card and the Putting one to work box; the job
+  description and sprint cards.
+- **Pins stay in the part of a popup you can see.** Popups scroll, so a pin further down a popup
+  body sits below the visible part and cannot be hovered. The first pass put pins on the checklist
+  lists, Naomi's RSVP, the Awaiting entry and the Relationship field, and all four were unreachable.
+  They moved to the popup header, the footer, or the top rows. Check reachability, not just
+  placement, before pinning anything inside `.cmbody`.
+- **Placement classes** (CSS scoped to `.crm-demo` and `.agency-demo` on the page):
+  `.cmhead.demo-pinned` insets its pin ahead of the title (`padding-left: 46px`); a `.cmfoot` pin
+  sits on the footer's top edge at `left: 6px`, clear of the text above it; `.cpin-tr` puts a pin
+  top right of a field, over the empty end of its label; `.cpin-inline` is an inline pin whose
+  parent row is the tile; the chat card's pin sits in its dark title bar. Cards and the Agency
+  document columns use the default hanging pin.
+- Copy is Claude's draft; Max has not called it. Nothing on the booking portal slide says the link
+  is local-only.
+- **Verified headless (1280, and 390 with touch):** 271 checks, 0 failures, zero script errors.
+  For every slide: pin count, one note per pin, every pin has a tile, no pin clipped by any
+  scrolling or clipping ancestor, every pin reachable at its center, its popover shows the right
+  note inside the viewport and below the pinned title card, and the hint pill shows. The standalones
+  show their notes rows with unclipped pins. The Compass suite still passes 191 of 191.
+  Screenshots checked by eye.
 
 ### Pinned title cards (2026-09-13, not pushed)
 
@@ -869,7 +901,8 @@ login; no `--prod`). Production matches it after the end-of-session push.
   copy), the four Import notes, Social Queue notes 2 and 3 and Create Post note 2, Campaign Daily
   Scans 1, Manage Events 2 and the single Update Live note, or the Grant whole-card notes
   (Research Brief 2, Questions 2 to 4, Tasks 1, Export 1 and 2).
-- Max has not reviewed the 13 Compass notes (see "Compass pins and notes").
+- Max has not reviewed the 13 Compass notes, the 18 CRM notes or the 4 Agency notes (see "Compass
+  pins and notes" and "CRM and Agency pins").
 
 **Next:** Max clicks through the live site and calls the open copy items above. Pushed at the
 end of the session with `index.html`, `CLAUDE.md` and the four changed standalones

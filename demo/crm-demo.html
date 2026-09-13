@@ -569,6 +569,27 @@ button { cursor: pointer; font-family: var(--font-sans); }
 .pv-eyebrow { font-size: 9.5px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--amber-dim); margin-bottom: 6px; }
 .pv-photo { background: var(--amber-bg); border: 1px dashed var(--amber-lt); border-radius: 6px; height: 120px; display: flex; align-items: center; justify-content: center; color: var(--amber-dim); font-size: 11px; margin-top: 4px; }
 
+/* ==========================================================================
+   Annotations. A numbered amber pin sits on each feature, and the same
+   number heads a one-sentence note above the screen. Same block as
+   dasha-demo.html and compass-demo.html. On index.html the notes row is
+   hidden and each note pops up on its tile.
+   ========================================================================== */
+.demo-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin: 0 0 16px; }
+.demo-note { display: flex; gap: 10px; align-items: flex-start; background: white; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; box-shadow: var(--shadow); font-family: var(--font-sans); font-size: 13px; line-height: 1.45; color: var(--tp); }
+.demo-pin, .demo-pin-n { width: 22px; height: 22px; border-radius: 50%; background: var(--amber); color: white; font-family: var(--font-sans); font-size: 11.5px; font-weight: 700; line-height: 22px; text-align: center; flex: none; }
+.demo-pin { position: absolute; top: -10px; left: -10px; z-index: 6; box-shadow: 0 0 0 2px white, 0 2px 8px rgba(28, 25, 23, .25); pointer-events: none; }
+.demo-pinned { position: relative; }
+/* CRM pins. Popups scroll, and a scroll container clips anything hanging off
+   its edge, so pins inside one sit inset: in a popup header ahead of its
+   title, on the footer's top edge, top right of a field over the empty end
+   of its label, or inline beside a row's own control. */
+.cmhead.demo-pinned { padding-left: 46px; }
+.cmhead.demo-pinned > .demo-pin { top: 50%; left: 14px; margin-top: -11px; }
+.cmfoot.demo-pinned > .demo-pin { top: -11px; left: 6px; }
+.demo-pin.cpin-tr { left: auto; right: 0; top: -4px; }
+.demo-pin.cpin-inline { position: relative; top: auto; left: auto; }
+
 @media (max-width: 760px) {
   .demo-canvas { padding: 18px 12px; }
   .demo-side-arrow { width: 32px; height: 32px; font-size: 15px; }
@@ -631,6 +652,11 @@ button { cursor: pointer; font-family: var(--font-sans); }
                data-state-label="State of the relationship"
                data-state="Jordan Ma &middot; clarinetist and composer in Tide Quartet &middot; warm, and confirmed for Groove Theory II."
                data-title="Contacts: editing a person's profile">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Every contact keeps its touchpoint log, follow-ups, notes and concerts in tabs on one record.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>A contact can hold several roles at once, and each role has its own tab on the Contacts list.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>Saving updates the one record, and its relationship status and logged touchpoints drive the health score on the list, so anyone going quiet stands out.</span></div>
+        </div>
         <div class="cframe">
           <div class="cpage">
             <div class="chead">
@@ -718,7 +744,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
             <div class="cmodal cmodal-wide">
               <div class="cmhead"><span class="cmtitle">Edit contact</span><button class="cmclose">&#x00D7;</button></div>
               <div class="cmbody">
-                <div class="ctabs">
+                <div class="ctabs demo-pinned"><span class="demo-pin cpin-tr">1</span>
                   <button class="ctab ctab-on">Overview</button>
                   <button class="ctab">Concerts</button>
                   <button class="ctab">Touchpoint log</button>
@@ -737,7 +763,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
                   <div class="cfield"><label class="clabel">Website</label><input class="cinput" placeholder=""></div>
                   <div class="cfield"><label class="clabel">Instagram</label><input class="cinput" value="@jordanmamusic"></div>
                 </div>
-                <div class="cfield">
+                <div class="cfield demo-pinned"><span class="demo-pin cpin-tr">2</span>
                   <label class="clabel">Roles</label>
                   <div class="ctogglerow">
                     <span class="ctogglechip2">Attendee</span>
@@ -769,7 +795,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
                   <input class="cinput" placeholder="Search concerts to add">
                 </div>
               </div>
-              <div class="cmfoot">
+              <div class="cmfoot demo-pinned"><span class="demo-pin">3</span>
                 <button class="cbtn cbtn-ghost cbtn-sm">Cancel</button>
                 <button class="cbtn cbtn-primary cbtn-sm">Save contact</button>
               </div>
@@ -784,6 +810,11 @@ button { cursor: pointer; font-family: var(--font-sans); }
                data-state-label="State of the relationship"
                data-state="Sofia Lindqvist &middot; quiet since August &middot; Email 1 of the reconnect sequence, ready to send."
                data-title="Outreach: the reconnect draft">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>The Outreach queue gathers new prospects and anyone past their follow-up cadence, and picks the reconnect or follow-up email for each.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>The draft is your own template with the contact's name filled in, and the bracketed parts are left for you to make specific.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>Mark sent logs the email on the contact and lines up the follow-up, and Not now sets the person aside for 30 days.</span></div>
+        </div>
         <div class="cframe">
           <div class="cpage">
             <div class="chead">
@@ -820,7 +851,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
           <!-- Draft modal, open over the queue -->
           <div class="coverlay">
             <div class="cmodal cmodal-wide">
-              <div class="cmhead"><span class="cmtitle">Email 1 &middot; Reconnect &middot; Sofia Lindqvist</span><button class="cmclose">&#x00D7;</button></div>
+              <div class="cmhead demo-pinned"><span class="demo-pin">1</span><span class="cmtitle">Email 1 &middot; Reconnect &middot; Sofia Lindqvist</span><button class="cmclose">&#x00D7;</button></div>
               <div class="cmbody">
                 <div class="cfield">
                   <label class="clabel">To</label>
@@ -830,7 +861,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
                   <label class="clabel">Subject</label>
                   <p class="cnote" style="font-size: 12px; color: var(--ts); margin: 0;">Wanted to reconnect, and ask you a quick question!</p>
                 </div>
-                <div class="cfield">
+                <div class="cfield demo-pinned"><span class="demo-pin cpin-tr">2</span>
                   <label class="clabel">Body &middot; fill in the bracketed parts before sending</label>
                   <textarea class="ctextarea" rows="11">Hey Sofia,
 
@@ -844,7 +875,7 @@ Let me know!
 Max</textarea>
                 </div>
               </div>
-              <div class="cmfoot">
+              <div class="cmfoot demo-pinned"><span class="demo-pin">3</span>
                 <button class="cbtn cbtn-ghost cbtn-sm">Not now (30 days)</button>
                 <button class="cbtn cbtn-ghost cbtn-sm">Copy to clipboard</button>
                 <button class="cbtn cbtn-primary cbtn-sm">Mark sent</button>
@@ -870,6 +901,11 @@ Max</textarea>
                data-state-label="State of the booking"
                data-state="Groove Theory II &middot; 8 of 10 essentials answered &middot; the venue filled the rest in on Sep 2."
                data-title="Concerts: the booking portal">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>The booking portal is a nine-section form for the venue or host, and it tracks the ten essentials a concert cannot go ahead without.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>One private link opens the form for whoever needs it, and New link or Remove shuts the old one off.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>Answers come back into the CRM section by section, fill in the booking protocol on the concert page, and copy out in one click.</span></div>
+        </div>
         <div class="cframe cframe-full">
           <div class="cpage">
             <div class="ccrumb"><span class="ccrumb-link">Concerts</span><span class="ccrumb-sep">&rsaquo;</span>Groove Theory II</div>
@@ -942,7 +978,7 @@ Max</textarea>
 
           <div class="coverlay">
             <div class="cmodal cmodal-wide">
-              <div class="cmhead"><span class="cmtitle">Booking portal</span><button class="cmclose">&#x00D7;</button></div>
+              <div class="cmhead demo-pinned"><span class="demo-pin">1</span><span class="cmtitle">Booking portal</span><button class="cmclose">&#x00D7;</button></div>
               <div class="cmbody">
                 <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px;">
                   <span class="csec-label">Booking portal</span>
@@ -955,7 +991,7 @@ Max</textarea>
                 <div class="cprogress"><div class="cprogress-fill" style="width: 65%"></div></div>
                 <p class="cnote" style="margin: 8px 0 0;"><strong style="color: var(--ts);">Still needed:</strong> Recording plan &middot; Load-out time</p>
 
-                <div style="border: 1px solid var(--border); border-radius: 8px; padding: 11px 12px; margin-top: 14px;">
+                <div class="demo-pinned" style="border: 1px solid var(--border); border-radius: 8px; padding: 11px 12px; margin-top: 14px;"><span class="demo-pin cpin-tr">2</span>
                   <div class="csec-label" style="margin-bottom: 6px;">Private link</div>
                   <p style="font-family: var(--font-mono); font-size: 10.5px; color: var(--tm); margin: 0 0 9px; word-break: break-all;">https://&hellip;/#portal/kJ7pQ2xN4vTb8mLdRf3wYs</p>
                   <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
@@ -970,7 +1006,7 @@ Max</textarea>
                 <div style="text-align: right; margin: 12px 0 4px;"><span style="font-size: 11.5px; color: var(--ts);">Copy all answers</span></div>
 
                 <div class="csec-label" style="margin-top: 6px;">The concert</div>
-                <div style="margin-top: 4px;">
+                <div class="demo-pinned" style="margin-top: 4px;"><span class="demo-pin cpin-tr">3</span>
                   <div class="cans"><span class="cans-k">Concert name</span><span class="cans-v">Groove Theory II</span></div>
                   <div class="cans"><span class="cans-k">Type of concert</span><span class="cans-v">Chamber concert</span></div>
                   <div class="cans"><span class="cans-k">Preferred date</span><span class="cans-v">2026-10-18</span></div>
@@ -993,6 +1029,10 @@ Max</textarea>
                data-state-label="State of the booking"
                data-state="11 items &middot; 4 done &middot; one overdue, and the show sitting on Oct 18."
                data-title="Concerts: the checklist and calendar">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Every checklist item carries a due date, and overdue or upcoming ones also show on the CRM dashboard, next to every contact's follow-ups.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Click a day to add an item, click an item to edit or finish it, and drag it to another day to move its date.</span></div>
+        </div>
         <div class="cframe cframe-full">
           <div class="cpage">
             <div class="ccrumb"><span class="ccrumb-link">Concerts</span><span class="ccrumb-sep">&rsaquo;</span>Groove Theory II</div>
@@ -1033,13 +1073,13 @@ Max</textarea>
 
           <div class="coverlay">
             <div class="cmodal cmodal-wide">
-              <div class="cmhead"><span class="cmtitle">Checklist &middot; October 2026</span><button class="cmclose">&#x00D7;</button></div>
+              <div class="cmhead demo-pinned"><span class="demo-pin">1</span><span class="cmtitle">Checklist &middot; October 2026</span><button class="cmclose">&#x00D7;</button></div>
               <div class="cmbody">
                 <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px;">
                   <span class="cnote">4 of 11 done &middot; 1 overdue</span>
                   <span class="cnote">Drag an item to move its date</span>
                 </div>
-                <div class="ccal">
+                <div class="ccal demo-pinned"><span class="demo-pin cpin-tr">2</span>
                   <div class="ccal-hd">S</div><div class="ccal-hd">M</div><div class="ccal-hd">T</div><div class="ccal-hd">W</div><div class="ccal-hd">T</div><div class="ccal-hd">F</div><div class="ccal-hd">S</div>
 
                   <div class="ccal-day ccal-out"></div>
@@ -1094,6 +1134,10 @@ Max</textarea>
                data-state-label="State of the booking"
                data-state="7 on the bill &middot; 5 confirmed &middot; two still to answer."
                data-title="Concerts: the lineup and RSVPs">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>The lineup is built from your contacts, and tapping RSVP writes the answer back onto that person's record.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Each person's RSVP toggles between open and confirmed, and the confirmed count on the concert page updates with it.</span></div>
+        </div>
         <div class="cframe cframe-full">
           <div class="cpage">
             <div class="ccrumb"><span class="ccrumb-link">Concerts</span><span class="ccrumb-sep">&rsaquo;</span>Groove Theory II</div>
@@ -1130,10 +1174,10 @@ Max</textarea>
 
           <div class="coverlay">
             <div class="cmodal">
-              <div class="cmhead"><span class="cmtitle">People &middot; Groove Theory II</span><button class="cmclose">&#x00D7;</button></div>
+              <div class="cmhead demo-pinned"><span class="demo-pin">1</span><span class="cmtitle">People &middot; Groove Theory II</span><button class="cmclose">&#x00D7;</button></div>
               <div class="cmbody">
                 <p class="cnote" style="margin: 0 0 10px;">7 on the bill &middot; 5 confirmed. Tapping RSVP writes back to the contact record.</p>
-                <div class="cperson"><span class="cavatar">PA</span><div class="cperson-main"><div class="cperson-name">Priya Anand</div><div class="cperson-tags"><span class="croletag">Composer</span></div></div><button class="crsvp crsvp-on">&#10003; Confirmed</button></div>
+                <div class="cperson"><span class="cavatar">PA</span><div class="cperson-main"><div class="cperson-name">Priya Anand</div><div class="cperson-tags"><span class="croletag">Composer</span></div></div><span class="demo-pin cpin-inline">2</span><button class="crsvp crsvp-on">&#10003; Confirmed</button></div>
                 <div class="cperson"><span class="cavatar">JM</span><div class="cperson-main"><div class="cperson-name">Jordan Ma</div><div class="cperson-tags"><span class="croletag">Player</span><span class="croletag">Composer</span></div></div><button class="crsvp crsvp-on">&#10003; Confirmed</button></div>
                 <div class="cperson"><span class="cavatar">MW</span><div class="cperson-main"><div class="cperson-name">Marcus Webb</div><div class="cperson-tags"><span class="croletag">Player</span><span class="croletag">Composer</span></div></div><button class="crsvp crsvp-on">&#10003; Confirmed</button></div>
                 <div class="cperson"><span class="cavatar">DO</span><div class="cperson-main"><div class="cperson-name">Desmond Okafor</div><div class="cperson-tags"><span class="croletag">Conductor</span></div></div><button class="crsvp crsvp-on">&#10003; Confirmed</button></div>
@@ -1157,6 +1201,10 @@ Max</textarea>
                data-state-label="State of the booking"
                data-state="6 messages logged &middot; one still awaiting a reply from the venue."
                data-title="Concerts: the communications log">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Log each email, call or text about the concert, and naming a contact also writes the touchpoint onto that person's history.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Every entry carries a status such as Replied or Awaiting, and threads still waiting on a reply are counted on the concert list and in the page header.</span></div>
+        </div>
         <div class="cframe cframe-full">
           <div class="cpage">
             <div class="ccrumb"><span class="ccrumb-link">Concerts</span><span class="ccrumb-sep">&rsaquo;</span>Groove Theory II</div>
@@ -1193,13 +1241,13 @@ Max</textarea>
 
           <div class="coverlay">
             <div class="cmodal cmodal-wide">
-              <div class="cmhead"><span class="cmtitle">Communications &middot; Groove Theory II</span><button class="cmclose">&#x00D7;</button></div>
+              <div class="cmhead demo-pinned"><span class="demo-pin">1</span><span class="cmtitle">Communications &middot; Groove Theory II</span><button class="cmclose">&#x00D7;</button></div>
               <div class="cmbody">
                 <p class="cnote" style="margin: 0 0 10px;">Naming a contact on an entry also writes the touchpoint onto that person, so the concert log and the relationship history never drift apart.</p>
                 <div class="ccomm">
                   <span class="ccomm-date">Sep 2</span>
                   <div class="ccomm-main"><div class="ccomm-summary">Sent the booking portal link so they could fill in the room details.</div><div class="ccomm-who">Email &middot; Scholes Street Studios</div></div>
-                  <span class="ccomm-tag ccomm-replied">Replied</span>
+                  <span class="demo-pin cpin-inline">2</span><span class="ccomm-tag ccomm-replied">Replied</span>
                 </div>
                 <div class="ccomm">
                   <span class="ccomm-date">Sep 6</span>
@@ -1242,6 +1290,11 @@ Max</textarea>
                data-state-label="State of the issue"
                data-state="Studio Notes, October 2026 &middot; headline polished and live in the preview &middot; not yet sent."
                data-title="Newsletter: brain-dump to a live render">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Write each section rough, and Polish has the marketing agent rewrite it in your voice for you to use or discard.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Send a test to yourself first, then send to any contact group once the issue is marked Approved.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>The preview renders the finished email as you type, at phone or web width.</span></div>
+        </div>
         <div class="cframe cframe-full">
           <div class="cpage">
             <div class="cnl-bar">
@@ -1278,7 +1331,7 @@ Max</textarea>
                   <p class="cnote" style="margin: 0;">No versions saved yet.</p>
                 </div>
 
-                <div class="ccard">
+                <div class="ccard demo-pinned"><span class="demo-pin">1</span>
                   <div class="ccard-head"><span class="ccard-title">Sections</span><span class="cnote">38 sections</span></div>
                   <div class="cfield">
                     <label class="cnl-softlabel">Masthead &middot; wordmark</label>
@@ -1314,7 +1367,7 @@ Max</textarea>
 
               <!-- send + preview column -->
               <div class="cnl-col">
-                <div class="ccard">
+                <div class="ccard demo-pinned"><span class="demo-pin">2</span>
                   <div class="ccard-head"><span class="ccard-title">Send</span></div>
                   <div class="cfield"><label class="clabel">Send passphrase</label><input class="cinput" type="password" placeholder="required to send"></div>
                   <div class="cfrow" style="flex-wrap: wrap;">
@@ -1338,7 +1391,7 @@ Max</textarea>
                   </div>
                 </div>
 
-                <div class="ccard">
+                <div class="ccard demo-pinned"><span class="demo-pin">3</span>
                   <div class="cnl-previewhead">
                     <span class="ccard-title">Preview</span>
                     <div class="cnl-chiprow">
