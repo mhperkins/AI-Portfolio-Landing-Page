@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sprout Society Grant Manager &middot; Demo carousel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   Sprout Society Grant Manager demo carousel.
+
+   Standalone iteration source, same convention as sprout-crm-demo.html:
+   nothing here is wired into index.html yet. It replaces the Loom embed on
+   the Grant Assistant panel once it is settled.
+
+   Two class families:
+   - `demo-` is the shared carousel scaffolding, copied verbatim from
+     sprout-crm-demo.html so the transplant can reuse the rules already on
+     the page. It reads its colors from variables, so the Sprout look comes
+     from the token block on `.grant-demo` plus a short override block, never
+     from edits to the shared rules.
+   - `gf-` is the Grant Manager V2 app chrome, lifted from the STYLES
+     constant in Grant Tool v2/components/GrantManagerV2.jsx (pipeline,
+     workspace, question editor, tasks, brief, import, export). `gf-` does
+     not collide with Sprout CRM's `sp-`, Composer CRM's `c`, Compass's `d`,
+     Agency's `a`, or Teacher-Aide's `ds-`.
+
+   Everything between the TRANSPLANT CSS markers starts with `.grant-demo`,
+   so that block copies onto the portfolio page as is. Tokens sit on
+   `.grant-demo`, not :root, so they cannot leak into the dark page.
+
+   All data is placeholder. Every funder, grant, amount, and brief is
+   invented; emails and portals use .example domains.
+
+   House rule: no em dashes anywhere on this page.
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 32px 20px 64px;
+  background: #F7F7F6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.demo-wrap { max-width: 1180px; margin: 0 auto; }
+
+/* --- page heading (scaffolding only; drop this on transplant) ------------- */
+.demo-scaffold { margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+.demo-scaffold h1 { font-size: 30px; font-weight: 900; margin: 0 0 6px; letter-spacing: -0.02em; }
+.demo-scaffold p { margin: 0; color: var(--ts); font-size: 14px; max-width: 70ch; }
+
+/* ==========================================================================
+   Shared carousel scaffolding. Verbatim from crm-demo.html.
+   ========================================================================== */
+.demo-nav-wrap { display: flex; gap: 4px; flex-wrap: wrap; background: var(--ch); border-radius: 10px; padding: 10px 10px; margin-bottom: 14px; }
+.demo-nav-item { font-family: var(--font-sans); font-size: 13px; font-weight: 500; padding: 8px 14px; border-radius: 6px; border: none; background: none; color: var(--tm); display: flex; align-items: center; gap: 7px; transition: background 0.15s, color 0.15s; }
+.demo-nav-item:hover:not(:disabled) { color: var(--cream); background: rgba(255, 255, 255, 0.06); }
+.demo-nav-item.is-active { color: var(--cream); background: rgba(180, 83, 9, 0.32); }
+.demo-nav-item:disabled { cursor: default; opacity: 0.55; }
+.demo-nav-soon { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; background: rgba(255, 255, 255, 0.12); color: var(--cream); padding: 1px 7px; border-radius: 8px; }
+.demo-nav-hint { margin-left: auto; align-self: center; display: inline-flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); border: 1px dashed rgba(217, 119, 6, 0.55); border-radius: 20px; padding: 4px 11px; pointer-events: none; white-space: nowrap; }
+.demo-nav-hint svg { width: 10px; height: 10px; display: block; flex-shrink: 0; color: var(--amber-lt); }
+@media (max-width: 660px) { .demo-nav-hint { display: none; } }
+
+.demo-stage { position: relative; border: 1px solid var(--border); border-radius: 10px; background: white; box-shadow: var(--shadow); overflow: hidden; }
+.demo-canvas { background-color: var(--warm); background-image: repeating-linear-gradient(to bottom, rgba(139, 115, 85, 0.10) 0px, rgba(139, 115, 85, 0.10) 1px, transparent 1px, transparent 10px); background-size: 100% 90px; padding: 28px 24px; min-height: 400px; position: relative; }
+.demo-side-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 20; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); background: rgba(255, 255, 255, 0.94); color: var(--ts); font-size: 17px; line-height: 1; box-shadow: var(--shadow-lg); transition: opacity 0.18s, color 0.18s, border-color 0.18s; }
+.demo-side-arrow:hover:not(:disabled) { color: var(--amber); border-color: var(--amber-lt); }
+.demo-side-arrow:disabled { opacity: 0.25; cursor: default; }
+.demo-side-prev { left: 6px; }
+.demo-side-next { right: 6px; }
+.demo-car-slide { display: none; }
+.demo-car-slide.is-on { display: block; animation: demoFade 220ms ease-out; }
+@keyframes demoFade { from { opacity: 0; } to { opacity: 1; } }
+.demo-caption { border-bottom: 1px solid var(--border); background: white; padding: 18px 22px 16px; display: flex; flex-direction: column; gap: 10px; }
+.demo-cap-col { flex: 0 0 auto; }
+.demo-slide-title { font-family: var(--font-serif); font-size: 28px; font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; color: var(--tp); margin: 0; }
+.demo-cap-label { font-size: 9.5px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--tm); margin-bottom: 3px; }
+.demo-cap-state { font-family: var(--font-serif); font-size: 16px; line-height: 1.35; color: var(--tp); }
+.demo-controls { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 14px; }
+.demo-arrow { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: white; color: var(--ts); font-size: 15px; box-shadow: var(--shadow); }
+.demo-arrow:disabled { opacity: 0.35; }
+.demo-count { font-size: 12px; color: var(--tm); letter-spacing: 0.1em; font-variant-numeric: tabular-nums; }
+.demo-title { font-family: var(--font-serif); font-size: 19px; font-weight: 600; text-align: center; flex: 1; }
+
+/* numbered notes and pins, verbatim from dasha-demo.html, recolored below */
+.demo-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin: 0 0 16px; }
+.demo-note { display: flex; gap: 10px; align-items: flex-start; background: white; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; box-shadow: var(--shadow); font-family: var(--font-sans); font-size: 13px; line-height: 1.45; color: var(--tp); }
+.demo-pin, .demo-pin-n { width: 22px; height: 22px; border-radius: 50%; background: var(--amber); color: white; font-family: var(--font-sans); font-size: 11.5px; font-weight: 700; line-height: 22px; text-align: center; flex: none; }
+.demo-pin { position: absolute; top: -10px; left: -10px; z-index: 6; box-shadow: 0 0 0 2px white, 0 2px 8px rgba(28, 25, 23, .25); pointer-events: none; }
+.demo-pinned { position: relative; }
+
+@media (max-width: 760px) {
+  .demo-canvas { padding: 18px 12px; }
+  .demo-side-arrow { width: 32px; height: 32px; font-size: 15px; }
+  .demo-side-prev { left: 2px; }
+  .demo-side-next { right: 2px; }
+  .demo-title { font-size: 15px; }
+  .demo-slide-title { font-size: 20px; }
+  .demo-caption { padding: 14px 16px 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .demo-car-slide.is-on { animation: none; }
+}
+
+/* ===== TRANSPLANT CSS START ===== */
+.grant-demo {
+  /* names the shared demo- rules expect, mapped to the Sprout palette */
+  --ch:        #030000;
+  --cream:     #F7F7F6;
+  --amber:     #2a8ca0;
+  --amber-lt:  #73C4D6;
+  --border:    #E5E7EB;
+  --tp:        #030000;
+  --ts:        #4B5563;
+  --tm:        #9CA3AF;
+  --warm:      #F3F4F6;
+  --font-serif: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-sans:  'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --shadow:    0 4px 14px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.13);
+
+  /* Sprout's own tokens, from GrantManagerV2.jsx STYLES (same palette as the CRM) */
+  --ink:        #030000;
+  --paper:      #F7F7F6;
+  --cyan:       #73C4D6;
+  --cyan-dk:    #2a8ca0;
+  --fuchsia:    #E10098;
+  --acid:       #C6C902;
+  --banana:     #FAD100;
+  --cyan-lt:    #C7E7EF;
+  --acid-lt:    #E9E99A;
+  --fuchsia-lt: #FFCDF0;
+  --banana-lt:  #FEF4C1;
+  --g50:  #F9FAFB;
+  --g100: #F3F4F6;
+  --g200: #E5E7EB;
+  --g300: #D1D5DB;
+  --g400: #9CA3AF;
+  --g500: #6B7280;
+  --g600: #4B5563;
+  --g800: #1F2937;
+  --sh-sm: 0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+  --sh:    0 4px 14px rgba(0,0,0,0.08);
+  --sh-lg: 0 12px 40px rgba(0,0,0,0.13);
+  --mono: 'Courier New', Courier, monospace;
+
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.grant-demo button { cursor: pointer; font-family: var(--font-sans); }
+
+/* ==========================================================================
+   Sprout overrides of the shared scaffolding. The nav strip becomes the Grant
+   Manager's black sidebar laid on its side: uppercase wordmark, cyan active
+   row, fuchsia count badge. The stage picks up the acid rule.
+   ========================================================================== */
+.grant-demo .demo-nav-wrap { align-items: center; padding: 8px 10px; position: sticky; top: var(--demo-pin-top, 0px); z-index: 20; }
+/* 10px side padding keeps six items, the wordmark, and the hint on one line
+   in the portfolio card's 875px strip. */
+.grant-demo .demo-nav-item { font-size: 12px; font-weight: 700; padding: 8px 10px; color: rgba(247, 247, 246, 0.5); }
+.grant-demo .demo-nav-item:hover:not(:disabled) { color: var(--paper); background: rgba(247, 247, 246, 0.07); }
+.grant-demo .demo-nav-item.is-active { color: var(--ink); background: var(--cyan); }
+.grant-demo .demo-nav-hint { border-color: rgba(115, 196, 214, 0.6); font-weight: 700; }
+.grant-demo .demo-nav-hint svg { color: var(--cyan); }
+.grant-demo .gf-navbrand { padding: 2px 11px 2px 6px; margin-right: 3px; border-right: 1px solid rgba(247, 247, 246, 0.1); line-height: 1.2; }
+.grant-demo .gf-navbrand-name { font-size: 10px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper); white-space: nowrap; }
+.grant-demo .gf-navbrand-sub { font-size: 8.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); margin-top: 2px; white-space: nowrap; }
+.grant-demo .gf-navbadge { background: var(--fuchsia); color: #fff; border-radius: 10px; padding: 1px 6px; font-size: 9px; font-weight: 900; min-width: 18px; text-align: center; line-height: 1.4; }
+.grant-demo .demo-nav-item.is-active .gf-navbadge { background: var(--ink); color: var(--paper); }
+
+.grant-demo .demo-canvas {
+  background-color: var(--paper);
+  background-image: radial-gradient(rgba(3, 0, 0, 0.07) 1px, transparent 1px);
+  background-size: 18px 18px;
+  padding: 28px 26px;
+}
+.grant-demo .demo-slide-title { font-weight: 900; font-size: 26px; letter-spacing: -0.02em; line-height: 1.2; }
+.grant-demo .demo-cap-label { font-weight: 700; letter-spacing: 0.12em; }
+.grant-demo .demo-cap-state { font-size: 15px; color: var(--g600); }
+.grant-demo .demo-title { font-weight: 900; font-size: 16px; }
+.grant-demo .demo-side-arrow:hover:not(:disabled) { color: var(--ink); border-color: var(--cyan); }
+
+.grant-demo .demo-notes { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.grant-demo .demo-note { font-size: 12px; }
+.grant-demo .demo-pin, .grant-demo .demo-pin-n { background: var(--fuchsia); font-weight: 900; }
+/* A pin that sits beside its feature instead of on its corner, for features
+   whose top-left corner is text the corner pin would cover. */
+.grant-demo .demo-pin.is-inline { position: relative; top: auto; left: auto; display: inline-block; vertical-align: middle; margin-left: 6px; letter-spacing: 0; text-transform: none; font-style: normal; text-decoration: none; }
+.grant-demo .gf-pipe-head .demo-pin.is-inline { margin-top: -6px; margin-bottom: -6px; }
+.grant-demo .gf-qe-ft .demo-pin.is-inline, .grant-demo .gf-qe-acts .demo-pin.is-inline, .grant-demo .gf-task-meta .demo-pin.is-inline, .grant-demo .gf-card-acts .demo-pin.is-inline { margin-left: 0; }
+/* The nav strip pins at --demo-pin-top (0 here, the page's own bars on the
+   portfolio) and the notes row pins directly under it, at --demo-pin-top plus
+   the strip's measured --demo-strip-h. Sticky dies under any overflow: hidden
+   ancestor, so the stage clips with overflow: clip instead. The band spans
+   the canvas padding so page content never shows between the cards. */
+.grant-demo .demo-stage { border-top: 4px solid var(--acid); overflow: clip; display: flow-root; }
+.grant-demo .demo-notes { position: sticky; top: calc(var(--demo-pin-top, 0px) + var(--demo-strip-h, 0px)); z-index: 30; margin: -12px -26px 16px; padding: 12px 26px; background: rgba(247, 247, 246, 0.94); backdrop-filter: blur(4px); }
+
+/* the "how Claude helps" box on the import slide */
+.grant-demo .gf-explain { background: #fff; border: 1px solid var(--border); border-left: 5px solid var(--acid); border-radius: 0 10px 10px 0; box-shadow: var(--shadow); padding: 14px 18px 16px; margin: 0 0 16px; }
+.grant-demo .gf-explain-ttl { font-size: 10px; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; color: var(--g600); margin-bottom: 6px; }
+.grant-demo .gf-explain p { margin: 0 0 10px; font-size: 13px; line-height: 1.55; color: var(--ink); }
+.grant-demo .gf-explain ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; counter-reset: step; }
+.grant-demo .gf-explain li { counter-increment: step; display: flex; gap: 9px; font-size: 12px; line-height: 1.5; color: var(--g800); }
+.grant-demo .gf-explain li::before { content: counter(step); flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--ink); color: var(--acid); font-size: 11.5px; font-weight: 900; line-height: 22px; text-align: center; }
+.grant-demo .gf-explain li b { color: var(--ink); font-weight: 900; }
+
+/* ==========================================================================
+   Grant Manager app chrome (from GrantManagerV2.jsx STYLES).
+   ========================================================================== */
+.grant-demo .gf-frame { position: relative; background: #fff; border: 1.5px solid var(--g200); border-radius: 12px; box-shadow: var(--sh-lg); overflow: hidden; }
+.grant-demo .gf-page { padding: 22px 24px 24px; background: var(--paper); }
+.grant-demo .gf-hd { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 20px; }
+.grant-demo .gf-ttl { font-size: 23px; font-weight: 900; letter-spacing: -0.01em; margin: 0; line-height: 1.2; }
+.grant-demo .gf-sub { font-size: 12px; color: var(--g600); margin-top: 3px; }
+
+/* buttons (.btn) */
+.grant-demo .gf-btn { display: inline-flex; align-items: center; gap: 5px; padding: 8px 14px; border-radius: 7px; border: none; font-size: 12px; font-weight: 700; font-family: var(--font-sans); letter-spacing: 0.02em; white-space: nowrap; line-height: 1.3; }
+.grant-demo .gf-btn-blk { background: var(--ink); color: var(--paper); }
+.grant-demo .gf-btn-cyan { background: var(--cyan); color: var(--ink); }
+.grant-demo .gf-btn-acid { background: var(--acid); color: var(--ink); }
+.grant-demo .gf-btn-fuch { background: var(--fuchsia); color: #fff; }
+.grant-demo .gf-btn-ghost { background: transparent; color: var(--g600); border: 1.5px solid var(--g200); }
+.grant-demo .gf-btn-danger { background: #FEE2E2; color: #B91C1C; }
+.grant-demo .gf-btn-sm { padding: 5px 10px; font-size: 11px; border-radius: 5px; }
+.grant-demo .gf-btn-xs { padding: 3px 7px; font-size: 10px; border-radius: 4px; }
+
+/* stats */
+.grant-demo .gf-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 20px; }
+.grant-demo .gf-stat { background: #fff; border-radius: 10px; padding: 14px 16px; border: 1.5px solid var(--g200); min-width: 0; }
+.grant-demo .gf-stat-lbl { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--g400); margin-bottom: 5px; }
+.grant-demo .gf-stat-val { font-size: 25px; font-weight: 900; color: var(--ink); line-height: 1.2; }
+.grant-demo .gf-stat-val.is-sm { font-size: 20px; line-height: 1.5; }
+.grant-demo .gf-stat-meta { font-size: 11px; color: var(--g600); margin-top: 2px; }
+
+/* status tags (.tag) */
+.grant-demo .gf-tag { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 20px; font-size: 9px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; line-height: 1.5; }
+.grant-demo .gf-t-notstarted { background: var(--banana-lt); color: #7a5c00; }
+.grant-demo .gf-t-inprog     { background: var(--cyan-lt); color: #155e6e; }
+.grant-demo .gf-t-submitted  { background: var(--fuchsia-lt); color: #800055; }
+.grant-demo .gf-t-awarded    { background: var(--acid-lt); color: #3a3d00; }
+.grant-demo .gf-t-rejected   { background: var(--g100); color: var(--g600); }
+.grant-demo .gf-t-future     { background: var(--g200); color: var(--g600); }
+
+/* pipeline table (.pipe-*). The rows are flex, not a table, as in the app.
+   The portfolio card leaves about 780px, so the table keeps a floor and
+   scrolls sideways below it. */
+.grant-demo .gf-pipe-scroll { overflow-x: auto; background: #fff; border-radius: 12px; border: 1.5px solid var(--g200); box-shadow: var(--sh-sm); }
+.grant-demo .gf-pipe { min-width: 720px; }
+.grant-demo .gf-pipe-head { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1.5px solid var(--g200); background: var(--g50); }
+.grant-demo .gf-pipe-head > span { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--g400); }
+.grant-demo .gf-pipe-row { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid var(--g100); transition: background 0.1s; }
+.grant-demo .gf-pipe-row:last-child { border-bottom: none; }
+.grant-demo .gf-pipe-row:hover { background: rgba(115, 196, 214, 0.06); }
+.grant-demo .gf-c-name     { flex: 2 1 0; min-width: 0; }
+.grant-demo .gf-c-status   { flex: 1.2 1 0; min-width: 104px; }
+.grant-demo .gf-c-amount   { width: 60px; flex-shrink: 0; }
+.grant-demo .gf-c-deadline { width: 86px; flex-shrink: 0; }
+.grant-demo .gf-c-progress { flex: 1.5 1 0; min-width: 86px; }
+.grant-demo .gf-c-brief    { width: 64px; flex-shrink: 0; }
+.grant-demo .gf-c-next     { flex: 2 1 0; min-width: 0; font-size: 11px; color: var(--g600); line-height: 1.45; }
+.grant-demo .gf-c-actions  { width: 32px; flex-shrink: 0; text-align: right; }
+.grant-demo .gf-clamp { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.grant-demo .gf-gt-name { font-size: 13px; font-weight: 700; color: var(--ink); line-height: 1.35; margin-bottom: 1px; }
+.grant-demo .gf-gt-funder { font-size: 11px; color: var(--g400); line-height: 1.35; }
+.grant-demo .gf-amt { font-size: 13px; font-weight: 700; }
+.grant-demo .gf-dl-urgent { color: #C00; font-weight: 700; font-size: 11px; }
+.grant-demo .gf-dl-soon   { color: #885500; font-weight: 700; font-size: 11px; }
+.grant-demo .gf-dl-ok     { color: var(--g600); font-size: 11px; }
+.grant-demo .gf-dl-past   { color: var(--g400); font-size: 11px; }
+.grant-demo .gf-dl-day    { font-size: 10px; font-weight: 700; }
+.grant-demo .gf-prog-txt { font-size: 10px; color: var(--g600); margin-bottom: 4px; line-height: 1.6; }
+.grant-demo .gf-prog-bar { height: 4px; background: var(--g200); border-radius: 2px; overflow: hidden; }
+.grant-demo .gf-prog-bar i { display: block; height: 100%; background: var(--cyan); border-radius: 2px; }
+.grant-demo .gf-prog-bar i.is-full { background: var(--acid); }
+.grant-demo .gf-muted { font-size: 11px; color: var(--g400); }
+.grant-demo .gf-linked { font-size: 11px; font-weight: 700; color: #5a5c00; background: rgba(198, 201, 2, 0.15); border-radius: 20px; padding: 2px 8px; white-space: nowrap; }
+.grant-demo .gf-gap-badge { background: var(--banana-lt); color: #7a5c00; border-radius: 4px; padding: 2px 6px; font-size: 9px; font-weight: 700; white-space: nowrap; }
+
+/* cards (.card) */
+.grant-demo .gf-card { background: #fff; border-radius: 11px; border: 1.5px solid var(--g200); box-shadow: var(--sh-sm); min-width: 0; }
+.grant-demo .gf-card-hd { padding: 13px 17px; border-bottom: 1px solid var(--g100); display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.grant-demo .gf-card-ttl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--g600); }
+.grant-demo .gf-card-acts { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.grant-demo .gf-card-bd { padding: 15px 17px; }
+
+/* workspace header (.ws-*) */
+.grant-demo .gf-back { margin-bottom: 14px; }
+.grant-demo .gf-ws-hd { background: #fff; border-radius: 12px; border: 1.5px solid var(--g200); padding: 18px 22px; margin-bottom: 14px; box-shadow: var(--sh-sm); }
+.grant-demo .gf-ws-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+.grant-demo .gf-ws-name { font-size: 19px; font-weight: 900; letter-spacing: -0.01em; line-height: 1.25; }
+.grant-demo .gf-ws-funder { font-size: 12px; color: var(--g600); margin-top: 2px; }
+.grant-demo .gf-ws-acts { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.grant-demo .gf-ws-meta { display: flex; gap: 6px 18px; flex-wrap: wrap; align-items: center; padding-top: 10px; border-top: 1px solid var(--g100); }
+.grant-demo .gf-ws-mi { font-size: 11px; color: var(--g600); min-width: 0; overflow-wrap: anywhere; }
+.grant-demo .gf-ws-mi strong { color: var(--ink); font-weight: 700; }
+.grant-demo .gf-ws-mi.is-soon { color: #885500; }
+.grant-demo .gf-ws-link { color: var(--cyan-dk); font-weight: 700; }
+.grant-demo .gf-ws-hd.is-compact { padding: 13px 18px; margin-bottom: 12px; }
+.grant-demo .gf-ws-hd.is-compact .gf-ws-top { margin-bottom: 8px; }
+.grant-demo .gf-ws-hd.is-compact .gf-ws-name { font-size: 16px; }
+.grant-demo .gf-ws-hd.is-compact .gf-ws-meta { padding-top: 8px; }
+
+/* framing banner (.framing) */
+.grant-demo .gf-framing { background: linear-gradient(to right, rgba(199, 231, 239, 0.5), rgba(199, 231, 239, 0.05)); border: 1.5px solid var(--cyan); border-radius: 10px; padding: 13px 16px; margin-bottom: 16px; }
+.grant-demo .gf-framing-lbl { font-size: 8px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.14em; color: var(--g600); margin-bottom: 4px; }
+.grant-demo .gf-framing-txt { font-size: 12px; line-height: 1.7; color: var(--ink); }
+.grant-demo .gf-framing.is-compact { display: flex; align-items: baseline; gap: 10px; padding: 8px 14px; margin-bottom: 14px; }
+.grant-demo .gf-framing.is-compact .gf-framing-lbl { margin: 0; white-space: nowrap; flex-shrink: 0; }
+.grant-demo .gf-framing.is-compact .gf-framing-txt { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.5; }
+
+/* workspace tabs (.tabs). The grey rule is an inset shadow rather than a
+   border, so the row can scroll on a phone without clipping the cyan line. */
+.grant-demo .gf-tabs { display: flex; gap: 1px; margin-bottom: 18px; box-shadow: inset 0 -2px 0 var(--g200); overflow-x: auto; scrollbar-width: none; }
+.grant-demo .gf-tabs::-webkit-scrollbar { display: none; }
+.grant-demo .gf-tab { padding: 8px 14px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--g400); border-bottom: 2px solid transparent; white-space: nowrap; flex-shrink: 0; }
+.grant-demo .gf-tab.on { color: var(--ink); border-bottom-color: var(--cyan); }
+
+/* completion tracker (.tracker) */
+.grant-demo .gf-tracker { background: #fff; border-radius: 10px; border: 1.5px solid var(--g200); padding: 12px 16px; margin-bottom: 14px; display: flex; align-items: center; gap: 10px 18px; flex-wrap: wrap; box-shadow: var(--sh-sm); }
+.grant-demo .gf-tr-stat { font-size: 11px; color: var(--g600); white-space: nowrap; }
+.grant-demo .gf-tr-stat strong { color: var(--ink); font-weight: 900; }
+.grant-demo .gf-tr-bar { flex: 1; min-width: 80px; height: 5px; background: var(--g200); border-radius: 3px; overflow: hidden; }
+.grant-demo .gf-tr-bar i { display: block; height: 100%; border-radius: 3px; background: linear-gradient(to right, var(--cyan), var(--acid)); }
+.grant-demo .gf-tr-gaps { background: var(--banana-lt); color: #7a5c00; border-radius: 4px; padding: 2px 7px; font-size: 10px; font-weight: 700; white-space: nowrap; }
+.grant-demo .gf-tr-tools { display: flex; gap: 8px; margin-left: auto; flex-wrap: wrap; align-items: center; }
+.grant-demo .gf-check-lbl { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; color: var(--ink); white-space: nowrap; }
+.grant-demo .gf-check { width: 13px; height: 13px; border-radius: 3px; background: var(--banana); color: var(--ink); display: inline-flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 900; line-height: 1; }
+
+/* question editor (.qe) */
+.grant-demo .gf-qe { background: #fff; border-radius: 11px; border: 1.5px solid var(--g200); margin-bottom: 12px; }
+.grant-demo .gf-qe.is-focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(115, 196, 214, 0.12); }
+.grant-demo .gf-qe-hd { padding: 13px 16px 8px; }
+.grant-demo .gf-qe-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.grant-demo .gf-qe-main { flex: 1; min-width: 0; }
+.grant-demo .gf-qe-cat { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--g400); margin-bottom: 4px; }
+.grant-demo .gf-qe-q { font-size: 13px; font-weight: 700; color: var(--ink); line-height: 1.5; }
+.grant-demo .gf-qe-hint { font-size: 11px; color: var(--g600); font-style: italic; margin-top: 3px; }
+.grant-demo .gf-qe-btns { display: flex; gap: 4px; flex-shrink: 0; }
+.grant-demo .gf-qe-bd { padding: 2px 16px 0; }
+/* The answer box is a textarea in the app: 110px tall until it is edited, so
+   a long draft scrolls inside it. */
+.grant-demo .gf-qe-ta { font-size: 13px; line-height: 1.75; color: var(--ink); min-height: 110px; padding: 6px 0 8px; white-space: pre-wrap; overflow-wrap: break-word; }
+.grant-demo .gf-qe-ta.is-long { height: 148px; overflow-y: auto; padding-right: 8px; scrollbar-width: thin; scrollbar-color: var(--g300) transparent; }
+.grant-demo .gf-gap { background: var(--banana-lt); border-radius: 3px; padding: 1px 2px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+.grant-demo .gf-qe-ft { padding: 7px 16px; border-top: 1px solid var(--g100); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.grant-demo .gf-cc { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px; white-space: nowrap; }
+.grant-demo .gf-cc-ok   { color: var(--g400); background: var(--g100); }
+.grant-demo .gf-cc-warn { color: #885500; background: var(--banana-lt); }
+.grant-demo .gf-cc-over { color: #B91C1C; background: #FEE2E2; }
+.grant-demo .gf-qe-acts { display: flex; gap: 5px; margin-left: auto; }
+.grant-demo .gf-more { position: relative; max-height: 64px; overflow: hidden; }
+.grant-demo .gf-more::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 56px; background: linear-gradient(to bottom, rgba(247, 247, 246, 0), var(--paper)); pointer-events: none; }
+
+/* tasks (.task) */
+.grant-demo .gf-task { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--g100); }
+.grant-demo .gf-task:last-child { border-bottom: none; }
+.grant-demo .gf-task-chk { width: 17px; height: 17px; border-radius: 50%; border: 2px solid var(--g300); flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 900; line-height: 1; }
+.grant-demo .gf-task-chk.is-done { background: var(--acid); border-color: var(--acid); color: var(--ink); }
+.grant-demo .gf-task-info { flex: 1; min-width: 0; }
+.grant-demo .gf-task-txt { font-size: 13px; line-height: 1.5; }
+.grant-demo .gf-task-txt.is-done { text-decoration: line-through; color: var(--g400); }
+.grant-demo .gf-task-meta { display: flex; gap: 8px; align-items: center; margin-top: 2px; flex-wrap: wrap; }
+.grant-demo .gf-task-due { font-size: 10.5px; color: var(--g400); }
+.grant-demo .gf-task-x { flex-shrink: 0; margin-top: 2px; }
+.grant-demo .gf-pri { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 1px 5px; border-radius: 3px; }
+.grant-demo .gf-pri-high { color: #B91C1C; background: #FEE2E2; }
+.grant-demo .gf-pri-med  { color: #854D0E; background: var(--banana-lt); }
+.grant-demo .gf-pri-low  { color: #166534; background: #DCFCE7; }
+
+/* research brief (.brief-*) */
+.grant-demo .gf-brief-acts { display: flex; gap: 8px 12px; flex-wrap: wrap; align-items: center; margin-bottom: 4px; }
+.grant-demo .gf-brief-has { background: rgba(198, 201, 2, 0.15); color: #5a5c00; border-radius: 20px; padding: 3px 9px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; white-space: nowrap; }
+.grant-demo .gf-brief-link { font-size: 11px; font-weight: 700; color: var(--cyan-dk); white-space: nowrap; }
+.grant-demo .gf-brief-meta { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--g400); white-space: nowrap; }
+/* The clip spans the card body's padding, so a pin on a section is not cut. */
+.grant-demo .gf-brief-clip { position: relative; max-height: 560px; overflow: hidden; margin: 0 -17px -15px; padding: 12px 17px 0; border-radius: 0 0 10px 10px; }
+.grant-demo .gf-brief-clip::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 96px; background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff 88%); pointer-events: none; }
+.grant-demo .gf-brief-body { font-size: 12.5px; line-height: 1.75; color: var(--ink); white-space: pre-wrap; overflow-wrap: break-word; }
+.grant-demo .gf-brief-sec { margin-bottom: 1.75em; }
+
+/* add a grant (.import-*, .preview-*) */
+.grant-demo .gf-import-tabs { display: inline-flex; margin-bottom: 16px; background: var(--g100); border-radius: 8px; padding: 3px; max-width: 100%; }
+.grant-demo .gf-import-tab { padding: 6px 14px; border-radius: 6px; font-size: 11px; font-weight: 700; color: var(--g600); white-space: nowrap; }
+.grant-demo .gf-import-tab.on { background: #fff; color: var(--ink); box-shadow: var(--sh-sm); }
+.grant-demo .gf-howto { background: linear-gradient(to right, rgba(115, 196, 214, 0.1), rgba(198, 201, 2, 0.05)); border: 1.5px solid var(--cyan); border-radius: 10px; padding: 12px 16px; margin-bottom: 14px; font-size: 12px; line-height: 1.7; color: var(--g800); }
+.grant-demo .gf-import-lbl { display: block; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--g400); margin-bottom: 8px; }
+.grant-demo .gf-import-zone { border: 2px dashed var(--g300); border-radius: 12px; padding: 16px 20px; background: #fff; }
+.grant-demo .gf-import-zone.is-active { border-color: var(--cyan); }
+.grant-demo .gf-import-ta { margin: 0; font-family: var(--mono); font-size: 11px; line-height: 1.6; color: var(--ink); white-space: pre; overflow-x: auto; scrollbar-width: thin; }
+.grant-demo .gf-preview { background: linear-gradient(to bottom right, rgba(115, 196, 214, 0.08), rgba(198, 201, 2, 0.05)); border: 1.5px solid var(--cyan); border-radius: 12px; padding: 16px 20px; margin-top: 14px; }
+.grant-demo .gf-preview-name { font-size: 16px; font-weight: 900; margin-bottom: 2px; }
+.grant-demo .gf-preview-funder { font-size: 12px; color: var(--g600); margin-bottom: 10px; }
+.grant-demo .gf-preview-row { display: flex; gap: 4px 20px; flex-wrap: wrap; margin-bottom: 6px; }
+.grant-demo .gf-preview-item { font-size: 11px; color: var(--g600); white-space: nowrap; }
+.grant-demo .gf-preview-item strong { color: var(--ink); font-weight: 700; }
+.grant-demo .gf-preview-note { font-size: 11px; color: var(--g600); margin: 4px 0 0; font-style: italic; line-height: 1.6; }
+.grant-demo .gf-import-btns { display: flex; gap: 8px; margin-top: 14px; align-items: center; flex-wrap: wrap; }
+
+/* export (.export-area) and the toast */
+.grant-demo .gf-export-intro { font-size: 12px; color: var(--g600); margin: 0 0 12px; }
+.grant-demo .gf-export-wrap { position: relative; }
+.grant-demo .gf-export { margin: 0; background: var(--g50); border-radius: 8px; padding: 14px; font-family: var(--mono); font-size: 11px; line-height: 1.9; white-space: pre-wrap; word-break: normal; overflow-wrap: normal; max-height: 460px; overflow-x: auto; overflow-y: hidden; color: var(--ink); border: 1.5px solid var(--g200); scrollbar-width: thin; }
+.grant-demo .gf-export-wrap::after { content: ""; position: absolute; left: 1.5px; right: 1.5px; bottom: 1.5px; height: 120px; border-radius: 0 0 7px 7px; background: linear-gradient(to bottom, rgba(249, 250, 251, 0), var(--g50) 85%); pointer-events: none; }
+.grant-demo .gf-toast { position: absolute; right: 22px; bottom: 22px; z-index: 5; background: var(--ink); color: var(--paper); padding: 11px 17px; border-radius: 8px; font-size: 13px; font-weight: 700; box-shadow: var(--sh-lg); white-space: nowrap; }
+
+@media (max-width: 1100px) {
+  .grant-demo .gf-navbrand { display: none; }
+}
+@media (max-width: 760px) {
+  .grant-demo .demo-canvas { padding: 18px 14px; }
+  .grant-demo .demo-slide-title { font-size: 20px; }
+  .grant-demo .demo-notes { margin: -10px -14px 14px; padding: 10px 14px; }
+  .grant-demo .gf-explain ol { grid-template-columns: minmax(0, 1fr); }
+  .grant-demo .gf-page { padding: 16px 14px 18px; }
+  .grant-demo .gf-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .grant-demo .gf-ws-hd, .grant-demo .gf-ws-hd.is-compact { padding: 13px 14px; }
+  .grant-demo .gf-card-hd { padding: 12px 13px; }
+  .grant-demo .gf-card-bd { padding: 13px 13px; }
+  .grant-demo .gf-brief-clip { max-height: 980px; margin: 0 -13px -13px; padding: 12px 13px 0; }
+  .grant-demo .gf-import-zone { padding: 12px; }
+  .grant-demo .gf-preview { padding: 14px; }
+  .grant-demo .gf-qe-hd { padding: 12px 13px 8px; }
+  .grant-demo .gf-qe-bd { padding: 2px 13px 0; }
+  .grant-demo .gf-qe-ft { padding: 7px 13px; }
+  .grant-demo .gf-qe-ta.is-long { height: 200px; }
+  .grant-demo .gf-toast { right: 14px; bottom: 14px; }
+}
+@media (max-width: 640px) {
+  /* one swipeable line on a phone, as on the other carousels */
+  .grant-demo .demo-nav-wrap { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .grant-demo .demo-nav-wrap::-webkit-scrollbar { display: none; }
+  .grant-demo .demo-nav-item { flex-shrink: 0; white-space: nowrap; }
+  .grant-demo .demo-notes { position: static; }
+}
+/* ===== TRANSPLANT CSS END ===== */
+</style>
+</head>
+<body data-demo-standalone>
+<div class="demo-wrap grant-demo" data-demo-panel tabindex="-1">
+
+  <!-- Scaffolding. Not part of the transplant. -->
+  <div class="demo-scaffold">
+    <h1>Sprout Society Grant Manager: from funder research to a finished application</h1>
+    <p>A walkthrough of the Grant Finder &amp; Writer screen by screen: the pipeline, a grant profile imported from Claude, the funder research brief, the questions, the tasks, and the export. Every funder, grant, amount, and brief here is placeholder.</p>
+  </div>
+  <!-- ===== TRANSPLANT MARKUP START ===== -->
+
+  <!-- ====================================================================
+       SECTION NAV STRIP: the Grant Manager sidebar, laid on its side
+       ==================================================================== -->
+  <div class="demo-nav-wrap">
+    <div class="gf-navbrand"><div class="gf-navbrand-name">Sprout Society</div><div class="gf-navbrand-sub">Grant Manager</div></div>
+    <button class="demo-nav-item is-active" data-nav="pipeline" data-slide="0">Grant Pipeline <span class="gf-navbadge">2</span></button>
+    <button class="demo-nav-item" data-nav="import" data-slide="1">Import from Claude</button>
+    <button class="demo-nav-item" data-nav="brief" data-slide="2">Research Brief</button>
+    <button class="demo-nav-item" data-nav="questions" data-slide="3">Questions</button>
+    <button class="demo-nav-item" data-nav="tasks" data-slide="4">Tasks</button>
+    <button class="demo-nav-item" data-nav="export" data-slide="5">Export</button>
+    <span class="demo-nav-hint">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>
+      Click any section
+    </span>
+  </div>
+
+  <!-- ====================================================================
+       THE STAGE
+       ==================================================================== -->
+  <div class="demo-stage">
+    <div class="demo-caption">
+      <h4 class="demo-slide-title" data-demo-contrib></h4>
+      <div class="demo-cap-col">
+        <div class="demo-cap-label" data-demo-state-label></div>
+        <div class="demo-cap-state" data-demo-state></div>
+      </div>
+    </div>
+
+    <div class="demo-canvas">
+      <button class="demo-side-arrow demo-side-prev" data-demo-prev aria-label="Previous slide">&#8249;</button>
+      <button class="demo-side-arrow demo-side-next" data-demo-next aria-label="Next slide">&#8250;</button>
+
+      <!-- ============ SLIDE 1 · GRANT PIPELINE ========================== -->
+      <section class="demo-car-slide is-on" data-nav="pipeline"
+               data-contrib="Every grant in one view, sorted by deadline, with how far along each application is and what to do next."
+               data-state-label="State of the pipeline"
+               data-state="Tuesday, September 1 &middot; 6 grants &middot; $44,000 in asks &middot; 2 due within 30 days."
+               data-title="Grant Pipeline: every application at a glance">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Asks, deadlines, and what is due soon.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Deadlines turn red as they get close.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>How much of each application is written.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">4</span><span>The next step for every grant.</span></div>
+        </div>
+        <div class="gf-frame">
+          <div class="gf-page">
+            <div class="gf-hd">
+              <div>
+                <h1 class="gf-ttl">Grant Pipeline</h1>
+                <div class="gf-sub">All grants in one view &middot; sorted by deadline</div>
+              </div>
+              <span class="gf-btn gf-btn-blk">&#65291; Add Grant</span>
+            </div>
+
+            <div class="gf-stats demo-pinned"><span class="demo-pin">1</span>
+              <div class="gf-stat"><div class="gf-stat-lbl">Active Grants</div><div class="gf-stat-val">5</div><div class="gf-stat-meta">of 6 total</div></div>
+              <div class="gf-stat"><div class="gf-stat-lbl">Total Ask</div><div class="gf-stat-val is-sm">$44,000</div><div class="gf-stat-meta">across all funders</div></div>
+              <div class="gf-stat"><div class="gf-stat-lbl">In Progress</div><div class="gf-stat-val" style="color: var(--cyan);">2</div><div class="gf-stat-meta">being written now</div></div>
+              <div class="gf-stat"><div class="gf-stat-lbl">Due Soon</div><div class="gf-stat-val" style="color: #C00;">2</div><div class="gf-stat-meta">within 30 days</div></div>
+            </div>
+
+            <div class="gf-pipe-scroll">
+              <div class="gf-pipe">
+                <div class="gf-pipe-head">
+                  <span class="gf-c-name">Grant / Funder</span>
+                  <span class="gf-c-status">Status</span>
+                  <span class="gf-c-amount">Amount</span>
+                  <span class="gf-c-deadline">Deadline<span class="demo-pin is-inline">2</span></span>
+                  <span class="gf-c-progress">Progress<span class="demo-pin is-inline">3</span></span>
+                  <span class="gf-c-brief">Brief</span>
+                  <span class="gf-c-next">Next Action<span class="demo-pin is-inline">4</span></span>
+                  <span class="gf-c-actions"></span>
+                </div>
+
+                <div class="gf-pipe-row">
+                  <div class="gf-c-name"><div class="gf-gt-name">Summer Belonging Grant</div><div class="gf-gt-funder">Open Doors Foundation</div></div>
+                  <div class="gf-c-status"><span class="gf-tag gf-t-awarded">Awarded &#127942;</span></div>
+                  <div class="gf-c-amount"><span class="gf-amt">$5,000</span></div>
+                  <div class="gf-c-deadline"><div class="gf-dl-past">Jul 31, 2026</div><div class="gf-dl-day gf-dl-past">Past deadline</div></div>
+                  <div class="gf-c-progress"><div class="gf-prog-txt">6/6 answered</div><div class="gf-prog-bar"><i class="is-full" style="width: 100%;"></i></div></div>
+                  <div class="gf-c-brief"><span class="gf-linked">&#10003; Linked</span></div>
+                  <div class="gf-c-next"><span class="gf-clamp">Send the six-month impact report</span></div>
+                  <div class="gf-c-actions"><span class="gf-btn gf-btn-danger gf-btn-xs">Del</span></div>
+                </div>
+
+                <div class="gf-pipe-row">
+                  <div class="gf-c-name"><div class="gf-gt-name">Seed Grant</div><div class="gf-gt-funder">The Seedling Foundation</div></div>
+                  <div class="gf-c-status"><span class="gf-tag gf-t-submitted">Submitted</span></div>
+                  <div class="gf-c-amount"><span class="gf-amt">$1,000</span></div>
+                  <div class="gf-c-deadline"><div class="gf-dl-past">Aug 15, 2026</div><div class="gf-dl-day gf-dl-past">Past deadline</div></div>
+                  <div class="gf-c-progress"><div class="gf-prog-txt">3/3 answered</div><div class="gf-prog-bar"><i class="is-full" style="width: 100%;"></i></div></div>
+                  <div class="gf-c-brief"><span class="gf-muted">&minus;</span></div>
+                  <div class="gf-c-next"><span class="gf-clamp">Decision expected in October</span></div>
+                  <div class="gf-c-actions"><span class="gf-btn gf-btn-danger gf-btn-xs">Del</span></div>
+                </div>
+
+                <div class="gf-pipe-row">
+                  <div class="gf-c-name"><div class="gf-gt-name">Community Arts Microgrant</div><div class="gf-gt-funder">Kings County Arts Council</div></div>
+                  <div class="gf-c-status"><span class="gf-tag gf-t-inprog">In Progress</span></div>
+                  <div class="gf-c-amount"><span class="gf-amt">$2,500</span></div>
+                  <div class="gf-c-deadline"><div class="gf-dl-urgent">Sep 14, 2026</div><div class="gf-dl-day gf-dl-urgent">13d left</div></div>
+                  <div class="gf-c-progress"><div class="gf-prog-txt">4/4 answered</div><div class="gf-prog-bar"><i class="is-full" style="width: 100%;"></i></div></div>
+                  <div class="gf-c-brief"><span class="gf-muted">&minus;</span></div>
+                  <div class="gf-c-next"><span class="gf-clamp">Upload photos from Sprout N Tell Vol. 3</span></div>
+                  <div class="gf-c-actions"><span class="gf-btn gf-btn-danger gf-btn-xs">Del</span></div>
+                </div>
+
+                <div class="gf-pipe-row">
+                  <div class="gf-c-name"><div class="gf-gt-name">Neighborhood Connection Grant 2026</div><div class="gf-gt-funder">Brooklyn Neighbors Fund</div></div>
+                  <div class="gf-c-status"><span class="gf-tag gf-t-inprog">In Progress</span></div>
+                  <div class="gf-c-amount"><span class="gf-amt">$10,000</span></div>
+                  <div class="gf-c-deadline"><div class="gf-dl-soon">Sep 30, 2026</div><div class="gf-dl-day gf-dl-soon">29d left</div></div>
+                  <div class="gf-c-progress"><div class="gf-prog-txt">7/9 answered <span class="gf-gap-badge">3 gaps</span></div><div class="gf-prog-bar"><i style="width: 78%;"></i></div></div>
+                  <div class="gf-c-brief"><span class="gf-linked">&#10003; Linked</span></div>
+                  <div class="gf-c-next"><span class="gf-clamp">Email the program officer one question about program fit</span></div>
+                  <div class="gf-c-actions"><span class="gf-btn gf-btn-danger gf-btn-xs">Del</span></div>
+                </div>
+
+                <div class="gf-pipe-row">
+                  <div class="gf-c-name"><div class="gf-gt-name">Belonging Initiative</div><div class="gf-gt-funder">Hudson Wellness Trust</div></div>
+                  <div class="gf-c-status"><span class="gf-tag gf-t-notstarted">Not Started</span></div>
+                  <div class="gf-c-amount"><span class="gf-amt">$25,000</span></div>
+                  <div class="gf-c-deadline"><div class="gf-dl-ok">Oct 20, 2026</div><div class="gf-dl-day gf-dl-ok">49d left</div></div>
+                  <div class="gf-c-progress"><div class="gf-prog-txt">0/6 answered</div><div class="gf-prog-bar"><i style="width: 0%;"></i></div></div>
+                  <div class="gf-c-brief"><span class="gf-linked">&#10003; Linked</span></div>
+                  <div class="gf-c-next"><span class="gf-clamp">Watch the recorded info session before deciding</span></div>
+                  <div class="gf-c-actions"><span class="gf-btn gf-btn-danger gf-btn-xs">Del</span></div>
+                </div>
+
+                <div class="gf-pipe-row">
+                  <div class="gf-c-name"><div class="gf-gt-name">Common Ground Microgrant</div><div class="gf-gt-funder">Common Ground Fund</div></div>
+                  <div class="gf-c-status"><span class="gf-tag gf-t-future">Future Pipeline</span></div>
+                  <div class="gf-c-amount"><span class="gf-amt">$500</span></div>
+                  <div class="gf-c-deadline"><div class="gf-dl-ok">Jan 15, 2027</div><div class="gf-dl-day gf-dl-ok">136d left</div></div>
+                  <div class="gf-c-progress"><span class="gf-muted">No questions</span></div>
+                  <div class="gf-c-brief"><span class="gf-muted">&minus;</span></div>
+                  <div class="gf-c-next"><span class="gf-clamp">Check back when the portal reopens in December</span></div>
+                  <div class="gf-c-actions"><span class="gf-btn gf-btn-danger gf-btn-xs">Del</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 2 · IMPORT FROM CLAUDE ======================= -->
+      <!-- No notes row: the explain box says what Claude does, and the frame is
+           the screen that takes what Claude produced. -->
+      <section class="demo-car-slide" data-nav="import"
+               data-contrib="Claude does the finding and the funder research, then hands over a complete grant profile to paste in."
+               data-state-label="State of the import"
+               data-state="Belonging Initiative &middot; Hudson Wellness Trust &middot; scored 21 of 25 &middot; 6 questions and 4 tasks ready to import."
+               data-title="Import from Claude: research in, workspace out">
+        <div class="gf-explain">
+          <div class="gf-explain-ttl">How Claude helps with grants</div>
+          <p>Claude works from research protocols written in plain language, so changing how Sprout finds and vets grants means editing a document, not code. In its own conversation, it:</p>
+          <ol>
+            <li><span><b>Finds</b> grants with live web search, checks every link, deadline, and eligibility rule on the funder's own page, and scores the fit.</span></li>
+            <li><span><b>Researches</b> the funder: past grantees from public tax filings, the words its reviewers respond to, and a clear go or no-go.</span></li>
+            <li><span><b>Builds</b> the grant profile: every question with its character limit, the tasks, and the framing notes, ready to paste in here.</span></li>
+          </ol>
+        </div>
+        <div class="gf-frame">
+          <div class="gf-page">
+            <div class="gf-hd">
+              <div>
+                <h1 class="gf-ttl">Add a Grant</h1>
+                <div class="gf-sub">Import a profile from Claude or build one manually</div>
+              </div>
+            </div>
+
+            <div class="gf-import-tabs">
+              <span class="gf-import-tab on">&#128229; Import from Claude</span>
+              <span class="gf-import-tab">&#9997; Manual Build</span>
+            </div>
+
+            <div class="gf-card">
+              <div class="gf-card-hd"><span class="gf-card-ttl">Paste Grant Profile JSON</span></div>
+              <div class="gf-card-bd">
+                <div class="gf-howto"><b>How to use:</b> In this conversation, ask Claude to <i>"build a grant profile JSON for [funder name]"</i>. Claude will generate a complete profile. Copy the JSON output, paste it below, and click Import.</div>
+                <span class="gf-import-lbl">Grant Profile JSON</span>
+                <div class="gf-import-zone is-active">
+<pre class="gf-import-ta">{
+  "grantName": "Belonging Initiative",
+  "funder": "Hudson Wellness Trust",
+  "amount": 25000,
+  "deadline": "2026-10-20",
+  "status": "not_started",
+  "applicationUrl": "https://hudsonwellness.example/belonging",
+  ...
+  "questions": [
+    {
+      "id": "hwt_q1",
+      "category": "narrative",
+      "question": "Who in your community feels most alone, and how do you reach them?",
+      "hint": "Name the people and the place. No clinical terms.",
+      "charLimit": 2000,
+      "draft": ""
+    },
+    ...
+  ],
+  "tasks": [
+    { "text": "Watch the recorded info session", "priority": "high", "dueDate": "2026-09-09" },
+    ...
+  ],
+  "notes": "Score: 21/25 &middot; Tier 1. Strong fit on belonging. Confirm the budget floor."
+}</pre>
+                </div>
+
+                <div class="gf-preview">
+                  <div class="gf-preview-name">Belonging Initiative</div>
+                  <div class="gf-preview-funder">Hudson Wellness Trust</div>
+                  <div class="gf-preview-row">
+                    <span class="gf-preview-item"><strong>Amount:</strong> $25,000</span>
+                    <span class="gf-preview-item"><strong>Deadline:</strong> Oct 20, 2026</span>
+                    <span class="gf-preview-item"><strong>Questions:</strong> 6</span>
+                    <span class="gf-preview-item"><strong>Tasks:</strong> 4</span>
+                  </div>
+                  <p class="gf-preview-note">&#128204; Belonging is the health outcome here. Lead with people who arrive alone and come back, and keep clinical words out of i&hellip;</p>
+                </div>
+
+                <div class="gf-import-btns">
+                  <span class="gf-btn gf-btn-acid">&#10003; Import Grant Profile</span>
+                  <span class="gf-btn gf-btn-ghost gf-btn-sm">Clear</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 3 · RESEARCH BRIEF =========================== -->
+      <section class="demo-car-slide" data-nav="brief"
+               data-contrib="Before writing a word, the brief says who the funder is, whether Sprout fits, and how their reviewers talk."
+               data-state-label="State of the research"
+               data-state="Brooklyn Neighbors Fund &middot; Tier 1 &middot; verdict: go &middot; brief linked August 27."
+               data-title="Research Brief: know the funder first">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Framing notes ride along on every tab.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Go or no-go, decided before any writing.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>The funder's own words, to write in.</span></div>
+        </div>
+        <div class="gf-frame">
+          <div class="gf-page">
+            <div class="gf-back"><span class="gf-btn gf-btn-ghost gf-btn-sm">&larr; Back to Pipeline</span></div>
+
+            <div class="gf-ws-hd">
+              <div class="gf-ws-top">
+                <div>
+                  <div class="gf-ws-name">Neighborhood Connection Grant 2026</div>
+                  <div class="gf-ws-funder">Brooklyn Neighbors Fund</div>
+                </div>
+                <div class="gf-ws-acts">
+                  <span class="gf-tag gf-t-inprog">In Progress</span>
+                  <span class="gf-btn gf-btn-ghost gf-btn-sm">&#9999; Edit</span>
+                  <span class="gf-btn gf-btn-danger gf-btn-sm">&#128465; Delete</span>
+                </div>
+              </div>
+              <div class="gf-ws-meta">
+                <span class="gf-ws-mi"><strong>Amount:</strong> $10,000</span>
+                <span class="gf-ws-mi is-soon"><strong>Deadline:</strong> Sep 30, 2026 (29d)</span>
+                <span class="gf-ws-mi"><strong>Portal:</strong> <span class="gf-ws-link">https://apply.brooklynneighbors.example/connection-2026</span></span>
+              </div>
+            </div>
+
+            <div class="gf-framing demo-pinned"><span class="demo-pin">1</span>
+              <div class="gf-framing-lbl">&#128204; Framing Notes</div>
+              <div class="gf-framing-txt">Lead with community building: belonging, a third space, neighborhood life. Keep clinical words out (therapy, counseling, treatment). Applications are read by residents on the advisory council, so write plainly, not like a grant professional. Use the funder's own words: 'neighbors supporting neighbors', 'resident-led', 'participatory'. The one belief a reviewer should walk away with: Sprout Society is of this neighborhood, not just serving it.</div>
+            </div>
+
+            <div class="gf-tabs">
+              <span class="gf-tab">Questions (9)</span>
+              <span class="gf-tab">Tasks (6)</span>
+              <span class="gf-tab on">&#128203; Research Brief</span>
+              <span class="gf-tab">Contacts</span>
+              <span class="gf-tab">Notes</span>
+              <span class="gf-tab">Export</span>
+            </div>
+
+            <div class="gf-card">
+              <div class="gf-card-hd">
+                <span class="gf-card-ttl">Funder Research Brief</span>
+                <div class="gf-card-acts">
+                  <span class="gf-btn gf-btn-ghost gf-btn-sm">&#128279; Open Doc</span>
+                  <span class="gf-btn gf-btn-ghost gf-btn-sm">&#128203; Copy</span>
+                  <span class="gf-btn gf-btn-ghost gf-btn-sm">&#9999; Edit</span>
+                  <span class="gf-btn gf-btn-danger gf-btn-sm">&#10005; Clear</span>
+                </div>
+              </div>
+              <div class="gf-card-bd">
+                <div class="gf-brief-acts">
+                  <span class="gf-brief-has">&#10003; Brief linked</span>
+                  <span class="gf-brief-link">&#128279; Open Google Doc &rarr;</span>
+                  <span class="gf-brief-meta">Last updated Aug 27, 2026</span>
+                </div>
+                <div class="gf-brief-clip">
+                  <div class="gf-brief-body"><div class="gf-brief-sec">FUNDER PROFILE
+Brooklyn Neighbors Fund is a community foundation that gives small grants to resident-led groups across the borough.
+The problem it is trying to solve: neighbors who live side by side for years and never meet.</div><div class="gf-brief-sec">FIT ANALYSIS<span class="demo-pin is-inline">2</span>
+Strengths: free to join, peer-led, rooted in one neighborhood.
+Gap: outcomes beyond attendance. Show who comes back, not only who comes.
+Eligibility risk: annual expenses must be under $250K. Confirm before writing.
+Verdict: GO</div><div class="gf-brief-sec">GRANTEE RESEARCH
+5 comparable past grantees, from public tax filings: Maple Street Tenants Circle, Eastside Garden Keepers, Knit &amp; Natter Collective, Corner Table Supper Club, Block by Block Chess Club.
+Patterns: volunteer-run, budgets under $150K, the neighborhood named in the first sentence.</div><div class="gf-brief-sec">VOICE &amp; LANGUAGE<span class="demo-pin is-inline">3</span>
+Use: "neighbors supporting neighbors", "resident-led", "belonging", "participatory".
+Swap: "clients" &rarr; "members", "services" &rarr; "gatherings", "therapy" &rarr; "peer support".</div><div class="gf-brief-sec">APPLICATION INTELLIGENCE
+9 questions, each with a 1,500 character limit.
+Residents on the advisory council score every application. Decisions in December.</div><div class="gf-brief-sec">PROGRAM OFFICER OUTREACH
+One question only: does peer connection fit Civic Life or Health and Wellbeing?</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 4 · QUESTIONS ================================ -->
+      <section class="demo-car-slide" data-nav="questions"
+               data-contrib="Every question sits next to its limit and hint, and anything still unknown is flagged as a gap before it goes out."
+               data-state-label="State of the application"
+               data-state="7 of 9 answered &middot; 3 gaps to fill &middot; the impact answer is near its limit."
+               data-title="Questions: drafts, limits, and gaps">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Answered, complete, and gaps, at a glance.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>A character count against every limit.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>Unknowns stay flagged until they are filled.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">4</span><span>Paste Claude's draft, keep the old one in history.</span></div>
+        </div>
+        <div class="gf-frame">
+          <div class="gf-page">
+            <div class="gf-ws-hd is-compact">
+              <div class="gf-ws-top">
+                <div>
+                  <div class="gf-ws-name">Neighborhood Connection Grant 2026</div>
+                  <div class="gf-ws-funder">Brooklyn Neighbors Fund</div>
+                </div>
+                <div class="gf-ws-acts">
+                  <span class="gf-tag gf-t-inprog">In Progress</span>
+                  <span class="gf-btn gf-btn-ghost gf-btn-sm">&#9999; Edit</span>
+                  <span class="gf-btn gf-btn-danger gf-btn-sm">&#128465; Delete</span>
+                </div>
+              </div>
+              <div class="gf-ws-meta">
+                <span class="gf-ws-mi"><strong>Amount:</strong> $10,000</span>
+                <span class="gf-ws-mi is-soon"><strong>Deadline:</strong> Sep 30, 2026 (29d)</span>
+                <span class="gf-ws-mi"><strong>Portal:</strong> <span class="gf-ws-link">https://apply.brooklynneighbors.example/connection-2026</span></span>
+              </div>
+            </div>
+            <div class="gf-framing is-compact">
+              <div class="gf-framing-lbl">&#128204; Framing Notes</div>
+              <div class="gf-framing-txt">Lead with community building: belonging, a third space, neighborhood life. Keep clinical words out (therapy, counseling, treatment). Applications are read by residents on the advisory council, so write plainly, not like a grant professional.</div>
+            </div>
+
+            <div class="gf-tabs">
+              <span class="gf-tab on">Questions (9)</span>
+              <span class="gf-tab">Tasks (6)</span>
+              <span class="gf-tab">&#128203; Research Brief</span>
+              <span class="gf-tab">Contacts</span>
+              <span class="gf-tab">Notes</span>
+              <span class="gf-tab">Export</span>
+            </div>
+
+            <div class="gf-tracker demo-pinned"><span class="demo-pin">1</span>
+              <div class="gf-tr-stat"><strong>7</strong> of <strong>9</strong> answered</div>
+              <div class="gf-tr-bar"><i style="width: 78%;"></i></div>
+              <div class="gf-tr-stat"><strong>78%</strong> complete</div>
+              <div class="gf-tr-gaps">&#9888; 3 gaps to fill</div>
+              <div class="gf-tr-tools">
+                <span class="gf-check-lbl"><span class="gf-check">&#10003;</span>Show gaps</span>
+                <span class="gf-btn gf-btn-ghost gf-btn-sm">&#128229; Import Draft</span>
+              </div>
+            </div>
+
+            <!-- (a) complete, well under its limit -->
+            <div class="gf-qe">
+              <div class="gf-qe-hd"><div class="gf-qe-row">
+                <div class="gf-qe-main">
+                  <div class="gf-qe-cat">org info</div>
+                  <div class="gf-qe-q">Organization name, website, and year founded</div>
+                  <div class="gf-qe-hint">&#128161; Standard fields. Should match the org profile.</div>
+                </div>
+                <div class="gf-qe-btns"><span class="gf-btn gf-btn-ghost gf-btn-xs">&#9999; Edit</span><span class="gf-btn gf-btn-danger gf-btn-xs">&#128465;</span></div>
+              </div></div>
+              <div class="gf-qe-bd"><div class="gf-qe-ta">Sprout Society
+sproutsociety.example
+Founded in Brooklyn in 2019 as a free community space where neighbors meet up, work, and share their art.</div></div>
+              <div class="gf-qe-ft">
+                <span class="gf-cc gf-cc-ok">142 / 500</span>
+                <div class="gf-qe-acts"><span class="gf-btn gf-btn-ghost gf-btn-xs">&#9198; History</span><span class="gf-btn gf-btn-ghost gf-btn-xs">&#128203; Paste</span></div>
+              </div>
+            </div>
+
+            <!-- (b) complete, being edited -->
+            <div class="gf-qe is-focus">
+              <div class="gf-qe-hd"><div class="gf-qe-row">
+                <div class="gf-qe-main">
+                  <div class="gf-qe-cat">narrative</div>
+                  <div class="gf-qe-q">Describe your organization and the neighborhood it serves.</div>
+                  <div class="gf-qe-hint">&#128161; Lead with belonging and name the neighborhood in the first sentence.</div>
+                </div>
+                <div class="gf-qe-btns"><span class="gf-btn gf-btn-ghost gf-btn-xs">&#9999; Edit</span><span class="gf-btn gf-btn-danger gf-btn-xs">&#128465;</span></div>
+              </div></div>
+              <div class="gf-qe-bd"><div class="gf-qe-ta is-long">Sprout Society is a free, peer-led community space in Brooklyn, run by neighbors for neighbors who want more connection in their lives. Every week the doors open for Co-Working on Tuesdays and peer-led gatherings in the evenings, and a few times a year for Sprout N Tell, a night where local artists and musicians share their work with a room full of people who live nearby. Nobody pays to come in, nobody needs a referral, and nobody has to explain why they showed up. Most people arrive knowing no one and leave with a name, a reason to come back, and often a new friend who lives on the next block. Members lead most of what happens here: they host the gatherings, set up the chairs, greet people at the door, and decide what the space should try next. Over the summer, members hosted their own gatherings every week, from a Sunday walking group to a zine table. We started because so many neighbors told us the same thing, that they had lived in Brooklyn for years and still felt alone in it. A third space that asks nothing of you turned out to be what people were missing. This grant would keep the doors open more nights a week and help more of our neighbors find their way in.</div></div>
+              <div class="gf-qe-ft">
+                <span class="gf-cc gf-cc-ok">1,184 / 1,500</span><span class="demo-pin is-inline">2</span>
+                <div class="gf-qe-acts"><span class="gf-btn gf-btn-ghost gf-btn-xs">&#9198; History</span><span class="gf-btn gf-btn-ghost gf-btn-xs">&#128203; Paste</span></div>
+              </div>
+            </div>
+
+            <!-- (c) answered, with two gaps, near its limit -->
+            <div class="gf-qe">
+              <div class="gf-qe-hd"><div class="gf-qe-row">
+                <div class="gf-qe-main">
+                  <div class="gf-qe-cat">impact</div>
+                  <div class="gf-qe-q">How many neighbors did your programs reach last year, and how do you know?</div>
+                  <div class="gf-qe-hint">&#128161; Numbers first, then one short story.</div>
+                </div>
+                <div class="gf-qe-btns"><span class="gf-btn gf-btn-ghost gf-btn-xs">&#9999; Edit</span><span class="gf-btn gf-btn-danger gf-btn-xs">&#128465;</span></div>
+              </div></div>
+              <div class="gf-qe-bd"><div class="gf-qe-ta is-long">Last year, <span class="gf-gap">[confirm Vol. 1 to 3 attendance totals]</span> neighbors came to Sprout N Tell, and <span class="gf-gap">[need count of weekly Co-Working regulars]</span> of them now come back every Tuesday to work side by side. We know because every guest signs in at the door, and our community records show who returns, not just who comes once. Peer-led gatherings ran every week of the year, and members hosted most of them. Most weeks, more than half of the people in the room have been before, and many first came as someone&#39;s guest. One member first came to Vol. 2 because a friend was performing, and she did not know anyone else in the room. She came back the very next Tuesday for Co-Working, then the week after that. By the fall she was greeting people at the door herself, and now she hosts a monthly gathering for people who have just moved to the neighborhood. She told us that Sprout was the first place in Brooklyn where someone noticed when she did not show up. That is the kind of change we count: people who arrive alone, come back, and start bringing others with them. We also ask performers and hosts what they noticed, because they see the room change before the numbers do. With this grant we will keep counting sign-ins and repeat visits, and add a short check-in twice a year.</div></div>
+              <div class="gf-qe-ft">
+                <span class="gf-cc gf-cc-warn">1,262 / 1,500</span>
+                <span class="gf-gap-badge">&#9888; 2 gaps to fill</span><span class="demo-pin is-inline">3</span>
+                <div class="gf-qe-acts"><span class="demo-pin is-inline">4</span><span class="gf-btn gf-btn-ghost gf-btn-xs">&#9198; History</span><span class="gf-btn gf-btn-ghost gf-btn-xs">&#128203; Paste</span></div>
+              </div>
+            </div>
+
+            <!-- the next question, fading out: six more below -->
+            <div class="gf-more" aria-hidden="true">
+              <div class="gf-qe" style="margin-bottom: 0;">
+                <div class="gf-qe-hd"><div class="gf-qe-row">
+                  <div class="gf-qe-main">
+                    <div class="gf-qe-cat">program</div>
+                    <div class="gf-qe-q">What will this grant make possible in the next twelve months?</div>
+                  </div>
+                  <div class="gf-qe-btns"><span class="gf-btn gf-btn-ghost gf-btn-xs">&#9999; Edit</span><span class="gf-btn gf-btn-danger gf-btn-xs">&#128465;</span></div>
+                </div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 5 · TASKS ==================================== -->
+      <section class="demo-car-slide" data-nav="tasks"
+               data-contrib="The work behind the application becomes a checklist with priorities and dates, so nothing blocks the deadline."
+               data-state-label="State of the work"
+               data-state="6 open tasks &middot; 2 high priority due this week &middot; 2 done."
+               data-title="Tasks: what stands between draft and submit">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Every step, with a priority.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Due dates line up before the deadline.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>Done items stay on the list, crossed off.</span></div>
+        </div>
+        <div class="gf-frame">
+          <div class="gf-page">
+            <div class="gf-ws-hd is-compact">
+              <div class="gf-ws-top">
+                <div>
+                  <div class="gf-ws-name">Neighborhood Connection Grant 2026</div>
+                  <div class="gf-ws-funder">Brooklyn Neighbors Fund</div>
+                </div>
+                <div class="gf-ws-acts">
+                  <span class="gf-tag gf-t-inprog">In Progress</span>
+                  <span class="gf-btn gf-btn-ghost gf-btn-sm">&#9999; Edit</span>
+                  <span class="gf-btn gf-btn-danger gf-btn-sm">&#128465; Delete</span>
+                </div>
+              </div>
+              <div class="gf-ws-meta">
+                <span class="gf-ws-mi"><strong>Amount:</strong> $10,000</span>
+                <span class="gf-ws-mi is-soon"><strong>Deadline:</strong> Sep 30, 2026 (29d)</span>
+                <span class="gf-ws-mi"><strong>Portal:</strong> <span class="gf-ws-link">https://apply.brooklynneighbors.example/connection-2026</span></span>
+              </div>
+            </div>
+            <div class="gf-framing is-compact">
+              <div class="gf-framing-lbl">&#128204; Framing Notes</div>
+              <div class="gf-framing-txt">Lead with community building: belonging, a third space, neighborhood life. Keep clinical words out (therapy, counseling, treatment). Applications are read by residents on the advisory council, so write plainly, not like a grant professional.</div>
+            </div>
+
+            <div class="gf-tabs">
+              <span class="gf-tab">Questions (9)</span>
+              <span class="gf-tab on">Tasks (6)</span>
+              <span class="gf-tab">&#128203; Research Brief</span>
+              <span class="gf-tab">Contacts</span>
+              <span class="gf-tab">Notes</span>
+              <span class="gf-tab">Export</span>
+            </div>
+
+            <div class="gf-card">
+              <div class="gf-card-hd">
+                <span class="gf-card-ttl">Tasks &amp; Next Steps</span>
+                <span class="gf-btn gf-btn-ghost gf-btn-sm">&#65291; Add Task</span>
+              </div>
+              <div class="gf-card-bd" style="padding-top: 6px; padding-bottom: 6px;">
+                <div class="gf-task">
+                  <span class="gf-task-chk"></span>
+                  <div class="gf-task-info">
+                    <div class="gf-task-txt">Confirm annual expenses are under the funder's $250K cap</div>
+                    <div class="gf-task-meta"><span class="gf-pri gf-pri-high">high</span><span class="demo-pin is-inline">1</span><span class="gf-task-due">Due Sep 4, 2026</span></div>
+                  </div>
+                  <span class="gf-btn gf-btn-ghost gf-btn-xs gf-task-x">&#10005;</span>
+                </div>
+                <div class="gf-task">
+                  <span class="gf-task-chk"></span>
+                  <div class="gf-task-info">
+                    <div class="gf-task-txt">Email the program officer one question: does peer connection fit Civic Life or Health and Wellbeing?</div>
+                    <div class="gf-task-meta"><span class="gf-pri gf-pri-high">high</span><span class="gf-task-due">Due Sep 8, 2026</span></div>
+                  </div>
+                  <span class="gf-btn gf-btn-ghost gf-btn-xs gf-task-x">&#10005;</span>
+                </div>
+                <div class="gf-task">
+                  <span class="gf-task-chk"></span>
+                  <div class="gf-task-info">
+                    <div class="gf-task-txt">Pull event attendance totals from the CRM for the impact answer</div>
+                    <div class="gf-task-meta"><span class="gf-pri gf-pri-med">med</span><span class="gf-task-due">Due Sep 10, 2026</span></div>
+                  </div>
+                  <span class="gf-btn gf-btn-ghost gf-btn-xs gf-task-x">&#10005;</span>
+                </div>
+                <div class="gf-task">
+                  <span class="gf-task-chk"></span>
+                  <div class="gf-task-info">
+                    <div class="gf-task-txt">Count weekly Co-Working regulars for August</div>
+                    <div class="gf-task-meta"><span class="gf-pri gf-pri-med">med</span><span class="gf-task-due">Due Sep 10, 2026</span></div>
+                  </div>
+                  <span class="gf-btn gf-btn-ghost gf-btn-xs gf-task-x">&#10005;</span>
+                </div>
+                <div class="gf-task">
+                  <span class="gf-task-chk"></span>
+                  <div class="gf-task-info">
+                    <div class="gf-task-txt">Draft the one-page program budget</div>
+                    <div class="gf-task-meta"><span class="gf-pri gf-pri-high">high</span><span class="gf-task-due">Due Sep 18, 2026</span><span class="demo-pin is-inline">2</span></div>
+                  </div>
+                  <span class="gf-btn gf-btn-ghost gf-btn-xs gf-task-x">&#10005;</span>
+                </div>
+                <div class="gf-task">
+                  <span class="gf-task-chk"></span>
+                  <div class="gf-task-info">
+                    <div class="gf-task-txt">Ask two members for a short quote about what Sprout means to them</div>
+                    <div class="gf-task-meta"><span class="gf-pri gf-pri-low">low</span><span class="gf-task-due">Due Sep 22, 2026</span></div>
+                  </div>
+                  <span class="gf-btn gf-btn-ghost gf-btn-xs gf-task-x">&#10005;</span>
+                </div>
+                <div class="gf-task">
+                  <span class="gf-task-chk is-done">&#10003;</span>
+                  <div class="gf-task-info">
+                    <div class="gf-task-txt is-done">Create the portal account<span class="demo-pin is-inline">3</span></div>
+                    <div class="gf-task-meta"><span class="gf-pri gf-pri-med">med</span><span class="gf-task-due">Due Aug 25, 2026</span></div>
+                  </div>
+                  <span class="gf-btn gf-btn-ghost gf-btn-xs gf-task-x">&#10005;</span>
+                </div>
+                <div class="gf-task">
+                  <span class="gf-task-chk is-done">&#10003;</span>
+                  <div class="gf-task-info">
+                    <div class="gf-task-txt is-done">Read the full guidelines and FAQ</div>
+                    <div class="gf-task-meta"><span class="gf-pri gf-pri-high">high</span><span class="gf-task-due">Due Aug 28, 2026</span></div>
+                  </div>
+                  <span class="gf-btn gf-btn-ghost gf-btn-xs gf-task-x">&#10005;</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 6 · EXPORT =================================== -->
+      <section class="demo-car-slide" data-nav="export"
+               data-contrib="When the answers are ready, the whole application copies out in one block, formatted for the funder's portal."
+               data-state-label="State of the submission"
+               data-state="Neighborhood Connection Grant 2026 &middot; 9 answers &middot; ready to paste into the portal."
+               data-title="Export: one block for the portal">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Every answer in portal order.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>One click copies the whole application.</span></div>
+        </div>
+        <div class="gf-frame">
+          <div class="gf-page">
+            <div class="gf-ws-hd is-compact">
+              <div class="gf-ws-top">
+                <div>
+                  <div class="gf-ws-name">Neighborhood Connection Grant 2026</div>
+                  <div class="gf-ws-funder">Brooklyn Neighbors Fund</div>
+                </div>
+                <div class="gf-ws-acts">
+                  <span class="gf-tag gf-t-inprog">In Progress</span>
+                  <span class="gf-btn gf-btn-ghost gf-btn-sm">&#9999; Edit</span>
+                  <span class="gf-btn gf-btn-danger gf-btn-sm">&#128465; Delete</span>
+                </div>
+              </div>
+              <div class="gf-ws-meta">
+                <span class="gf-ws-mi"><strong>Amount:</strong> $10,000</span>
+                <span class="gf-ws-mi is-soon"><strong>Deadline:</strong> Sep 30, 2026 (29d)</span>
+                <span class="gf-ws-mi"><strong>Portal:</strong> <span class="gf-ws-link">https://apply.brooklynneighbors.example/connection-2026</span></span>
+              </div>
+            </div>
+            <div class="gf-framing is-compact">
+              <div class="gf-framing-lbl">&#128204; Framing Notes</div>
+              <div class="gf-framing-txt">Lead with community building: belonging, a third space, neighborhood life. Keep clinical words out (therapy, counseling, treatment). Applications are read by residents on the advisory council, so write plainly, not like a grant professional.</div>
+            </div>
+
+            <div class="gf-tabs">
+              <span class="gf-tab">Questions (9)</span>
+              <span class="gf-tab">Tasks (6)</span>
+              <span class="gf-tab">&#128203; Research Brief</span>
+              <span class="gf-tab">Contacts</span>
+              <span class="gf-tab">Notes</span>
+              <span class="gf-tab on">Export</span>
+            </div>
+
+            <div class="gf-card">
+              <div class="gf-card-hd">
+                <span class="gf-card-ttl">Export Answers</span>
+                <div class="gf-card-acts"><span class="demo-pin is-inline">2</span><span class="gf-btn gf-btn-blk gf-btn-sm">&#128203; Copy All</span></div>
+              </div>
+              <div class="gf-card-bd">
+                <p class="gf-export-intro">Copy this block and paste directly into the funder's portal.</p>
+                <div class="gf-export-wrap demo-pinned"><span class="demo-pin">1</span>
+<pre class="gf-export">========================================================
+GRANT APPLICATION: Neighborhood Connection Grant 2026
+FUNDER: Brooklyn Neighbors Fund
+AMOUNT: $10,000
+DEADLINE: Sep 30, 2026
+STATUS: In Progress
+========================================================
+
+QUESTION 1 [ORG INFO]
+Organization name, website, and year founded
+────────────────────────────────────────
+Sprout Society
+sproutsociety.example
+Founded in Brooklyn in 2019 as a free community space where neighbors meet up, work, and share their art.
+
+QUESTION 2 [NARRATIVE]
+Describe your organization and the neighborhood it serves.
+────────────────────────────────────────
+Sprout Society is a free, peer-led community space in Brooklyn, run by neighbors for neighbors who want more connection in their lives. Every week the doors open for Co-Working on Tuesdays and peer-led gatherings in the evenings, and a few times a year for Sprout N Tell, a night where local artists and musicians share their work with a room full of people who live nearby. Nobody pays to come in, nobody needs a referral, and nobody has to explain why they showed up. Most people arrive knowing no one and leave with a name, a reason to come back, and often a new friend who lives on the next block. Members lead most of what happens here: they host the gatherings, set up the chairs, greet people at the door, and decide what the space should try next. Over the summer, members hosted their own gatherings every week, from a Sunday walking group to a zine table. We started because so many neighbors told us the same thing, that they had lived in Brooklyn for years and still felt alone in it. A third space that asks nothing of you turned out to be what people were missing. This grant would keep the doors open more nights a week and help more of our neighbors find their way in.
+
+QUESTION 3 [IMPACT]
+How many neighbors did your programs reach last year, and how do you know?
+────────────────────────────────────────
+Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back every Tuesday to work side by side. We know because every guest signs in at the door, and our community records show who returns, not just who comes once.</pre>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="gf-toast" role="status">Copied to clipboard &#10003;</div>
+        </div>
+      </section>
+
+          </div><!-- /.demo-canvas -->
+
+  </div><!-- /.demo-stage -->
+
+  <div class="demo-controls">
+    <button class="demo-arrow" data-demo-prev aria-label="Previous slide">&#8249;</button>
+    <div class="demo-title" data-demo-title></div>
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <span class="demo-count" data-demo-count></span>
+      <button class="demo-arrow" data-demo-next aria-label="Next slide">&#8250;</button>
+    </div>
+  </div>
+  <!-- ===== TRANSPLANT MARKUP END ===== -->
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // Same initializer shape as the CRM and Agency carousels in index.html:
+  // captions live on each slide's data attributes, and a nav entry can span a
+  // run of slides. Every query is
+  // scoped to this panel so it never counts another carousel's slides.
+  var root = document.querySelector('.grant-demo[data-demo-panel]');
+  if (!root) return;
+
+  var slides = Array.prototype.slice.call(root.querySelectorAll('.demo-car-slide'));
+  var navItems = Array.prototype.slice.call(root.querySelectorAll('.demo-nav-item[data-slide]'));
+  var prevBtns = Array.prototype.slice.call(root.querySelectorAll('[data-demo-prev]'));
+  var nextBtns = Array.prototype.slice.call(root.querySelectorAll('[data-demo-next]'));
+  var elContrib    = root.querySelector('[data-demo-contrib]');
+  var elState      = root.querySelector('[data-demo-state]');
+  var elStateLabel = root.querySelector('[data-demo-state-label]');
+  var elTitle      = root.querySelector('[data-demo-title]');
+  var elCount      = root.querySelector('[data-demo-count]');
+  var strip        = root.querySelector('.demo-nav-wrap');
+
+  var current = 0;
+
+  // The notes row pins under the nav strip, so it needs the strip's height.
+  // A hidden panel measures 0; keep the last value then.
+  function measureStrip() {
+    if (strip && strip.offsetHeight) root.style.setProperty('--demo-strip-h', strip.offsetHeight + 'px');
+  }
+
+  function show(i) {
+    if (i < 0 || i >= slides.length) return;
+    current = i;
+    var slide = slides[i];
+
+    slides.forEach(function (s, n) { s.classList.toggle('is-on', n === i); });
+
+    var group = slide.getAttribute('data-nav');
+    navItems.forEach(function (b) {
+      b.classList.toggle('is-active', b.getAttribute('data-nav') === group);
+    });
+
+    if (elContrib) elContrib.textContent = slide.getAttribute('data-contrib') || '';
+    if (elStateLabel) elStateLabel.innerHTML = slide.getAttribute('data-state-label') || '';
+    if (elState) {
+      elState.innerHTML = slide.getAttribute('data-state') || '';
+      var col = elState.closest('.demo-cap-col');
+      if (col) col.hidden = !slide.getAttribute('data-state');
+    }
+    if (elTitle) elTitle.textContent = slide.getAttribute('data-title') || '';
+    if (elCount) {
+      elCount.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+    }
+    prevBtns.forEach(function (el) { el.disabled = (i === 0); });
+    nextBtns.forEach(function (el) { el.disabled = (i === slides.length - 1); });
+  }
+
+  navItems.forEach(function (b) {
+    b.addEventListener('click', function () { show(parseInt(b.getAttribute('data-slide'), 10)); });
+  });
+  prevBtns.forEach(function (el) { el.addEventListener('click', function () { show(current - 1); }); });
+  nextBtns.forEach(function (el) { el.addEventListener('click', function () { show(current + 1); }); });
+
+  // Arrow keys belong to the carousel, not the page, so they never hijack
+  // scrolling on the portfolio. The standalone page also listens on document.
+  function onKey(e) {
+    if (e.key === 'ArrowLeft') show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  }
+  root.addEventListener('mousedown', function () { root.focus({ preventScroll: true }); });
+  if (document.body.hasAttribute('data-demo-standalone')) {
+    document.addEventListener('keydown', onKey);
+  } else {
+    root.addEventListener('keydown', onKey);
+  }
+
+  measureStrip();
+  window.addEventListener('resize', measureStrip);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureStrip);
+
+  show(0);
+})();
+</script>
+</body>
+</html>

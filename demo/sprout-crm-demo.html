@@ -458,7 +458,10 @@ body {
   .sp-page { padding: 16px 14px 18px; }
   .sp-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .sp-cols, .sp-evd-grid { grid-template-columns: minmax(0, 1fr); }
-  .sp-panel { width: 100%; min-width: 0; }
+  /* The detail panel covered the whole list on a phone, and the list's pin 1
+     floated over the panel. Stack the panel under the list instead. */
+  .sp-dim { display: none; }
+  .sp-panel { position: relative; width: 100%; min-width: 0; box-shadow: none; border-top: 1.5px solid var(--g200); }
   .sp-explain ol { grid-template-columns: minmax(0, 1fr); }
 }
 @media (prefers-reduced-motion: reduce) {

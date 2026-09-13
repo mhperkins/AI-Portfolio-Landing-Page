@@ -109,6 +109,20 @@ body {
   padding: 10px 10px;
   margin-bottom: 14px;
 }
+/* Pinned strips: the nav strip stays in view while a tall slide scrolls under
+   it. Same block as index.html, where --demo-pin-top clears the page's own
+   pinned bars; here nothing sits above it, so it is 0. */
+.demo-rail-field, .demo-nav-wrap {
+  position: sticky;
+  top: var(--demo-pin-top, 0px);
+  z-index: 20;
+}
+@media (max-width: 640px) {
+  .demo-rail-field { position: relative; }
+  .demo-nav-wrap { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .demo-nav-wrap::-webkit-scrollbar { display: none; }
+  .demo-nav-item { flex-shrink: 0; white-space: nowrap; }
+}
 .demo-nav-item {
   font-family: var(--font-sans);
   font-size: 13px;
@@ -640,14 +654,31 @@ button { cursor: pointer; font-family: var(--font-sans); }
     nextBtns.forEach(function (el) { el.disabled = (i === slides.length - 1); });
   }
 
+  // The nav strip stays pinned while a tall slide scrolls under it. Changing
+  // slides from down there would land partway into the next slide, so this
+  // brings the new slide's top back up under the strip. Same as index.html.
+  function alignUnderPin(pin) {
+    var next = pin && pin.nextElementSibling;
+    if (!next) return;
+    var gap = parseFloat(getComputedStyle(pin).marginBottom) || 0;
+    var delta = next.getBoundingClientRect().top - (pin.getBoundingClientRect().bottom + gap);
+    if (delta < -1) window.scrollBy({ top: delta, behavior: 'smooth' });
+  }
+  var pin = document.querySelector('.demo-nav-wrap');
+  function turn(i) {
+    if (i < 0 || i >= slides.length) return;
+    show(i);
+    alignUnderPin(pin);
+  }
+
   navItems.forEach(function (b) {
-    b.addEventListener('click', function () { show(parseInt(b.getAttribute('data-slide'), 10)); });
+    b.addEventListener('click', function () { turn(parseInt(b.getAttribute('data-slide'), 10)); });
   });
-  prevBtns.forEach(function (el) { el.addEventListener('click', function () { show(current - 1); }); });
-  nextBtns.forEach(function (el) { el.addEventListener('click', function () { show(current + 1); }); });
+  prevBtns.forEach(function (el) { el.addEventListener('click', function () { turn(current - 1); }); });
+  nextBtns.forEach(function (el) { el.addEventListener('click', function () { turn(current + 1); }); });
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'ArrowLeft') show(current - 1);
-    if (e.key === 'ArrowRight') show(current + 1);
+    if (e.key === 'ArrowLeft') turn(current - 1);
+    if (e.key === 'ArrowRight') turn(current + 1);
   });
 
   show(0);

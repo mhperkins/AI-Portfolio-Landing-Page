@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teacherade &middot; Schedule, Hours, Students, Booking, Business</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   Teacherade demo carousel (the dasha-board app, renamed for the portfolio).
+
+   Standalone, same convention as crm-demo.html: nothing here is wired into
+   index.html yet. Classes are prefixed `demo-` (shared carousel chrome, copied
+   verbatim from crm-demo.html so the carousel reads as part of the same
+   portfolio) or `ds-` (Teacherade screen chrome, hand-built from the app's
+   src/app/globals.css so it reads as the real app). The hyphen matters:
+   compass-demo.html owns bare `d`-prefixed classes (.dnode, .dbucket).
+
+   The app's own tokens carry a `--ds-` prefix because two of its names
+   (--shadow, --card) would otherwise collide with the Hub tokens.
+   Only the light palette is ported, the same way the Hub carousels render
+   light inside the dark portfolio page.
+
+   Placeholder data only. Every student, employer, rate and room below is
+   fictional; none of it comes from the real ledger.
+
+   Deliberate deviations from the app, so a later session does not "correct"
+   them:
+   - Several of the app's labels use an em dash (the late-cancel pill, the
+     catch-up skip link, composer and title in repertoire). They render here
+     with a middot or a restructured sentence, per the portfolio's rule.
+   - In-app decision references (D1, D6, Q8...) are dropped from visible copy.
+   - The availability grid is cropped to 2 PM to 8:30 PM. The app draws 7 AM
+     to 10 PM, which would be 30 rows of mostly empty morning.
+   - Form fields are styled spans rather than live inputs.
+   ========================================================================== */
+
+:root {
+  --ch:        #1C1917;
+  --ch2:       #28211E;
+  --amber:     #B45309;
+  --amber-lt:  #D97706;
+  --amber-bg:  #FEF3C7;
+  --amber-dim: #92400E;
+  --cream:     #FAF8F5;
+  --warm:      #EDE9E3;
+  --border:    #E2DDD6;
+  --tp:        #1C1917;
+  --ts:        #57534E;
+  --tm:        #A8A29E;
+  --green:     #16A34A;
+  --green-bg:  #F0FDF4;
+  --red:       #DC2626;
+  --cool:      #2563EB;
+  --cool-bg:   #EFF4FE;
+
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-sans:  'DM Sans', sans-serif;
+
+  --shadow:    0 2px 12px rgba(28, 25, 23, 0.08);
+  --shadow-lg: 0 8px 32px rgba(28, 25, 23, 0.14);
+
+  /* Teacherade, from the dasha-board repo's src/app/globals.css (light palette) */
+  --ds-paper:#EEF0F3; --ds-card:#FBFBFC; --ds-sunk:#F4F5F8;
+  --ds-ink:#16181D; --ds-ink2:#4C515C; --ds-muted:#838A97;
+  --ds-hair:#E2E5EA; --ds-rule:#CBD0D8;
+  --ds-contract:#2a78d6; --ds-private:#eb6834; --ds-university:#1baf7a; --ds-personal:#8C93A1; --ds-cml:#7c5cd6;
+  --ds-contract-wash:#E7F0FC; --ds-private-wash:#FCEBE3; --ds-university-wash:#E2F5EE;
+  --ds-personal-wash:#EDEFF2; --ds-cml-wash:#EFE9FB;
+  --ds-good:#0ca30c; --ds-warn:#fab219; --ds-crit:#d03b3b;
+  --ds-good-ink:#006300; --ds-crit-ink:#A62A2A; --ds-warn-ink:#7A5400;
+  --ds-shadow:0 1px 2px rgba(20,24,33,.06), 0 4px 14px rgba(20,24,33,.05);
+  --ds-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --ds-mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+  --ds-serif: 'Newsreader', Georgia, serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 32px 20px 64px;
+  background: var(--cream);
+  color: var(--tp);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.demo-wrap { max-width: 1180px; margin: 0 auto; }
+
+/* --- page heading (scaffolding only; drop this on transplant) ------------- */
+.demo-scaffold { margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+.demo-scaffold h1 { font-family: var(--font-serif); font-size: 34px; font-weight: 600; margin: 0 0 6px; letter-spacing: -0.01em; }
+.demo-scaffold p { margin: 0; color: var(--ts); font-size: 14px; max-width: 66ch; }
+
+/* ==========================================================================
+   Carousel chrome, verbatim from crm-demo.html. The nav strip here stands in
+   for the app's own tab bar (Schedule, Hours, Students, Booking,
+   Business). Ask is left out until that feature is reworked.
+   ========================================================================== */
+.demo-nav-wrap { display: flex; gap: 4px; flex-wrap: wrap; background: var(--ch); border-radius: 10px; padding: 10px 10px; margin-bottom: 14px; }
+.demo-nav-item { font-family: var(--font-sans); font-size: 13px; font-weight: 500; padding: 8px 14px; border-radius: 6px; border: none; background: none; color: var(--tm); display: flex; align-items: center; gap: 7px; transition: background 0.15s, color 0.15s; }
+.demo-nav-item:hover:not(:disabled) { color: var(--cream); background: rgba(255, 255, 255, 0.06); }
+.demo-nav-item.is-active { color: var(--cream); background: rgba(180, 83, 9, 0.32); }
+.demo-nav-hint { margin-left: auto; align-self: center; display: inline-flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); border: 1px dashed rgba(217, 119, 6, 0.55); border-radius: 20px; padding: 4px 11px; pointer-events: none; white-space: nowrap; }
+.demo-nav-hint svg { width: 10px; height: 10px; display: block; flex-shrink: 0; color: var(--amber-lt); }
+@media (max-width: 660px) { .demo-nav-hint { display: none; } }
+/* Inside the stage, between the title header and the canvas, the strip is a
+   band rather than a floating pill: square corners, no gap below. */
+.demo-stage .demo-nav-wrap { border-radius: 0; margin-bottom: 0; padding: 8px 14px; }
+/* On a phone, give the screen back the padding the wrappers take. index.html
+   carries the same block scoped to .dasha-demo. */
+@media (max-width: 640px) {
+  .demo-canvas { padding: 14px 6px; }
+  .ds-page { padding: 12px 10px 14px; }
+  .ds-blk { grid-template-columns: 58px 4px 1fr; gap: 8px; padding: 10px; }
+}
+
+/* overflow: clip, not hidden: hidden makes the stage a scroll container, and
+   the nav strip inside it would pin to the stage instead of the page.
+   flow-root keeps the block formatting context hidden used to give it. */
+.demo-stage { position: relative; border: 1px solid var(--border); border-radius: 10px; background: white; box-shadow: var(--shadow); overflow: clip; display: flow-root; }
+/* Pinned strips: the nav strip stays in view while a tall slide scrolls under
+   it. Same block as index.html, where --demo-pin-top clears the page's own
+   pinned bars; here nothing sits above it, so it is 0. */
+.demo-rail-field, .demo-nav-wrap { position: sticky; top: var(--demo-pin-top, 0px); z-index: 20; }
+@media (max-width: 640px) {
+  .demo-rail-field { position: relative; }
+  .demo-nav-wrap { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .demo-nav-wrap::-webkit-scrollbar { display: none; }
+  .demo-nav-item { flex-shrink: 0; white-space: nowrap; }
+}
+.demo-canvas {
+  background-color: var(--warm);
+  background-image: repeating-linear-gradient(to bottom, rgba(139, 115, 85, 0.10) 0px, rgba(139, 115, 85, 0.10) 1px, transparent 1px, transparent 10px);
+  background-size: 100% 90px;
+  padding: 28px 24px;
+  min-height: 400px;
+  position: relative;
+}
+.demo-side-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 20; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); background: rgba(255, 255, 255, 0.94); color: var(--ts); font-size: 17px; line-height: 1; box-shadow: var(--shadow-lg); transition: opacity 0.18s, color 0.18s, border-color 0.18s; }
+.demo-side-arrow:hover:not(:disabled) { color: var(--amber); border-color: var(--amber-lt); }
+.demo-side-arrow:disabled { opacity: 0.25; cursor: default; }
+.demo-side-prev { left: 6px; }
+.demo-side-next { right: 6px; }
+
+.demo-car-slide { display: none; }
+.demo-car-slide.is-on { display: block; animation: demoFade 220ms ease-out; }
+@keyframes demoFade { from { opacity: 0; } to { opacity: 1; } }
+
+.demo-caption { border-bottom: 1px solid var(--border); background: white; padding: 18px 22px 16px; display: flex; flex-direction: column; gap: 10px; }
+.demo-slide-title { font-family: var(--font-serif); font-size: 28px; font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; color: var(--tp); margin: 0; }
+.demo-cap-label { font-size: 9.5px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--tm); margin-bottom: 3px; }
+.demo-cap-state { font-family: var(--font-serif); font-size: 16px; line-height: 1.35; color: var(--tp); }
+
+.demo-controls { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 14px; }
+.demo-arrow { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: white; color: var(--ts); font-size: 15px; box-shadow: var(--shadow); }
+.demo-arrow:disabled { opacity: 0.35; }
+.demo-count { font-size: 12px; color: var(--tm); letter-spacing: 0.1em; font-variant-numeric: tabular-nums; }
+.demo-title { font-family: var(--font-serif); font-size: 19px; font-weight: 600; text-align: center; flex: 1; }
+
+button { cursor: pointer; font-family: var(--font-sans); }
+
+/* ==========================================================================
+   The Teacherade screen. A window in the app's own cool grey, floating on
+   the same manuscript canvas as the Hub carousels.
+   ========================================================================== */
+.ds-frame {
+  position: relative; background: var(--ds-paper); color: var(--ds-ink);
+  border: 1px solid var(--ds-hair); border-radius: 8px; box-shadow: var(--shadow-lg);
+  overflow: hidden; font-family: var(--ds-sans); font-size: 13.5px; line-height: 1.5;
+}
+.ds-frame button { font-family: var(--ds-sans); }
+.ds-page { padding: 20px 22px 24px; }
+.ds-mono { font-family: var(--ds-mono); font-variant-numeric: tabular-nums; }
+.ds-h2 { font-family: var(--ds-serif); font-weight: 500; font-size: 23px; margin: 0; line-height: 1.2; }
+.ds-h3 { font-family: var(--ds-serif); font-weight: 500; font-size: 18px; margin: 0; line-height: 1.25; }
+.ds-eyebrow { font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ds-muted); font-weight: 600; }
+.ds-sub { color: var(--ds-muted); font-size: 12.5px; margin-top: 3px; }
+.ds-pagehead { display: flex; align-items: flex-end; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 16px; }
+.ds-card { background: var(--ds-card); border: 1px solid var(--ds-hair); border-radius: 6px; box-shadow: var(--ds-shadow); }
+.ds-card-pad { padding: 15px 17px; }
+.ds-grid2 { display: grid; grid-template-columns: 1.55fr 1fr; gap: 16px; align-items: start; }
+.ds-col { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+/* Grid items default to min-width:auto, so a table's intrinsic width would widen
+   the whole column past the frame on a phone. Zero lets the table's own
+   overflow-x wrapper scroll instead. */
+.ds-grid2 > *, .ds-stwrap > * { min-width: 0; }
+
+.ds-scale { display: inline-flex; flex-wrap: wrap; gap: 2px; padding: 2px; border: 1px solid var(--ds-hair); border-radius: 5px; background: var(--ds-sunk); }
+.ds-scale span { font-size: 12px; font-weight: 500; color: var(--ds-muted); padding: 4px 11px; border-radius: 3px; }
+.ds-scale span.on { background: var(--ds-card); color: var(--ds-ink); box-shadow: var(--ds-shadow); }
+.ds-navbtn { border: 1px solid var(--ds-rule); background: var(--ds-card); color: var(--ds-ink2); font-size: 12.5px; border-radius: 4px; padding: 3px 9px; }
+.ds-headctl { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+.ds-acts { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; align-items: center; }
+.ds-act { font-size: 12px; font-weight: 500; border: 1px solid var(--ds-rule); background: var(--ds-card); color: var(--ds-ink2); border-radius: 4px; padding: 5px 10px; white-space: nowrap; }
+.ds-act.pri { background: var(--ds-ink); color: var(--ds-card); border-color: var(--ds-ink); }
+.ds-act.dim { opacity: .5; }
+.ds-pill { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 3px; }
+.p-held { background: color-mix(in srgb, var(--ds-good) 15%, transparent); color: var(--ds-good-ink); }
+.p-late { background: color-mix(in srgb, var(--ds-warn) 18%, transparent); color: var(--ds-warn-ink); }
+.p-excused { background: var(--ds-sunk); color: var(--ds-muted); }
+.ds-statline { display: flex; align-items: center; gap: 9px; margin-top: 7px; flex-wrap: wrap; }
+.ds-undo { font-size: 11.5px; color: var(--ds-muted); text-decoration: underline; text-underline-offset: 2px; }
+.ds-note { margin-top: 7px; font-size: 12.5px; color: var(--ds-ink); background: var(--ds-sunk); border: 1px solid var(--ds-hair); border-radius: 4px; padding: 7px 9px; }
+.ds-flag { font-size: 10.5px; font-weight: 600; padding: 2px 7px; border-radius: 3px; white-space: nowrap; }
+.f-warn { background: color-mix(in srgb, var(--ds-warn) 18%, transparent); color: var(--ds-warn-ink); }
+.ds-fu { margin-top: 7px; font-size: 12px; color: var(--ds-ink2); display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+
+/* today */
+.ds-daybar { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--ds-hair); }
+.ds-big { font-family: var(--ds-mono); font-size: 19px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.ds-blocks { list-style: none; margin: 0; padding: 0; }
+.ds-blk { display: grid; grid-template-columns: 86px 4px 1fr; gap: 11px; padding: 10px 16px; border-bottom: 1px solid var(--ds-hair); align-items: start; }
+.ds-blk:last-child { border-bottom: 0; }
+.ds-blk .t { font-family: var(--ds-mono); font-size: 11.5px; color: var(--ds-muted); padding-top: 2px; }
+.ds-rail { width: 4px; border-radius: 2px; align-self: stretch; min-height: 30px; }
+.r-contract { background: var(--ds-contract); } .r-private { background: var(--ds-private); }
+.r-university { background: var(--ds-university); } .r-personal { background: var(--ds-personal); } .r-cml { background: var(--ds-cml); }
+.ds-blk .name { font-weight: 600; font-size: 14px; }
+.ds-blk .meta { font-size: 11.5px; color: var(--ds-muted); margin-top: 1px; }
+.ds-blk.done .name { color: var(--ds-ink2); }
+.ds-blk.void .name { text-decoration: line-through; color: var(--ds-muted); }
+.ds-chhead { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 16px; border-bottom: 1px solid var(--ds-hair); }
+.ds-chhead b { font-family: var(--ds-serif); font-size: 15px; font-weight: 500; }
+.ds-chday { padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 12.5px; }
+.ds-chday span { display: block; color: var(--ds-muted); font-size: 11.5px; }
+.ds-qa-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 9px; }
+.ds-qa-sep { display: flex; align-items: center; gap: 10px; margin-top: 12px; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ds-muted); font-weight: 600; }
+.ds-qa-sep::after { content: ""; flex: 1; height: 1px; background: var(--ds-hair); }
+
+/* meters */
+.ds-meter .mtop { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-size: 12.5px; }
+.ds-meter .mval { font-family: var(--ds-mono); font-weight: 600; font-size: 12px; }
+.ds-track { height: 7px; border-radius: 4px; background: var(--ds-sunk); margin-top: 7px; overflow: hidden; border: 1px solid var(--ds-hair); }
+.ds-fill { height: 100%; border-radius: 4px; }
+.ds-mfoot { font-size: 11px; color: var(--ds-muted); margin-top: 5px; }
+.ds-meterstack { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
+
+/* legend */
+.ds-legend { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; font-size: 11.5px; color: var(--ds-ink2); margin-bottom: 11px; }
+.ds-lg { display: inline-flex; align-items: center; gap: 6px; }
+.ds-sw { width: 10px; height: 10px; border-radius: 2px; flex: none; display: inline-block; }
+.ds-scroll { overflow-x: auto; border: 1px solid var(--ds-hair); border-radius: 6px; background: var(--ds-card); box-shadow: var(--ds-shadow); }
+
+/* form fields */
+.ds-in { display: inline-block; font-size: 12.5px; color: var(--ds-ink); background: var(--ds-card); border: 1px solid var(--ds-rule); border-radius: 4px; padding: 5px 8px; min-height: 29px; white-space: nowrap; }
+.ds-in.sunk { background: var(--ds-sunk); }
+.ds-in.mono { font-family: var(--ds-mono); }
+.ds-in.ph { color: var(--ds-muted); }
+.ds-in.sel::after { content: " \25BE"; color: var(--ds-muted); font-size: 10px; }
+
+/* stats + insight + banners */
+.ds-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
+.ds-stat { padding: 13px 15px; }
+.ds-stat .k { font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--ds-muted); font-weight: 600; }
+.ds-stat .v { font-family: var(--ds-mono); font-size: 24px; font-weight: 600; letter-spacing: -.02em; margin-top: 6px; line-height: 1; }
+.ds-stat .d { font-size: 11.5px; color: var(--ds-muted); margin-top: 5px; }
+.ds-insight { padding: 14px 16px; border-radius: 6px; background: var(--ds-card); border: 1px solid var(--ds-hair); border-left: 3px solid var(--ds-private); }
+.ds-insight p { margin: 5px 0 0; font-size: 12.5px; color: var(--ds-ink2); max-width: 64ch; }
+.ds-banner { display: flex; gap: 11px; padding: 11px 14px; margin-bottom: 14px; background: var(--ds-card); border: 1px solid var(--ds-hair); border-left: 3px solid var(--ds-warn); border-radius: 6px; font-size: 12.5px; color: var(--ds-ink2); line-height: 1.5; }
+.ds-banner b { color: var(--ds-ink); }
+.ds-lock { padding: 11px 14px; background: var(--ds-sunk); border: 1px solid var(--ds-hair); border-radius: 5px; font-size: 12px; color: var(--ds-ink2); line-height: 1.5; }
+.ds-lock b { color: var(--ds-ink); font-weight: 600; }
+.ds-fixed-note { font-size: 11.5px; color: var(--ds-muted); margin-top: 9px; line-height: 1.45; }
+.ds-deadline { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 600; color: var(--ds-warn-ink); background: color-mix(in srgb, var(--ds-warn) 16%, transparent); padding: 3px 9px; border-radius: 3px; }
+
+/* tables */
+.ds-tbl { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.ds-tbl th { text-align: left; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--ds-muted); font-weight: 600; padding: 8px 11px; border-bottom: 1px solid var(--ds-rule); }
+.ds-tbl td { padding: 7px 11px; border-bottom: 1px solid var(--ds-hair); }
+.ds-tbl .num { text-align: right; font-family: var(--ds-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.ds-tbl tbody tr:last-child td { border-bottom: 0; }
+.ds-tbl tfoot td { border-top: 1px solid var(--ds-rule); border-bottom: 0; font-weight: 600; padding-top: 9px; }
+.ds-tbl .x { color: var(--ds-muted); }
+.ds-total-hero { padding: 16px; border-bottom: 1px solid var(--ds-hair); }
+.ds-total-hero .n { font-family: var(--ds-mono); font-size: 34px; font-weight: 600; line-height: 1; letter-spacing: -.02em; margin-top: 4px; }
+.ds-total-hero .u { font-size: 14px; color: var(--ds-muted); font-weight: 400; }
+.ds-btn-wide { display: block; width: 100%; text-align: center; font-weight: 600; font-size: 13px; background: var(--ds-ink); color: var(--ds-card); border: 0; border-radius: 5px; padding: 10px; margin-top: 13px; }
+
+@media (max-width: 760px) {
+  .ds-grid2 { grid-template-columns: 1fr; }
+  .ds-page { padding: 16px 14px 18px; }
+}
+
+/* ==========================================================================
+   Slide-specific CSS for the later slides lives below this line.
+   ========================================================================== */
+/* dialogs: the app's <dialog class="daymodal">, drawn open over the screen */
+.ds-overlay { position: absolute; inset: 0; background: rgba(10, 12, 16, .45); display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 5; }
+.ds-modal { background: var(--ds-card); border-radius: 8px; box-shadow: 0 8px 32px rgba(10, 12, 16, .25); width: 100%; max-width: 540px; max-height: 100%; overflow-y: auto; }
+.ds-dmhead { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--ds-hair); }
+.ds-dmhead .ds-h3 { margin-top: 2px; }
+.ds-dmclose { font-size: 20px; line-height: 1; color: var(--ds-muted); }
+.ds-dmbody { padding: 14px 16px 16px; }
+.ds-empty { padding: 12px 14px; color: var(--ds-muted); font-size: 12px; border: 1px dashed var(--ds-rule); border-radius: 5px; background: var(--ds-sunk); }
+.ds-empty b { display: block; font-family: var(--ds-serif); font-size: 14px; color: var(--ds-ink2); font-weight: 500; margin-bottom: 3px; }
+
+/* students */
+.ds-stwrap { display: grid; grid-template-columns: 1fr 1.15fr; gap: 16px; align-items: start; }
+.ds-stlist { list-style: none; margin: 0; padding: 0; }
+.ds-stbucket-head { padding: 7px 14px; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--ds-muted); font-weight: 600; background: var(--ds-sunk); border-bottom: 1px solid var(--ds-hair); }
+.ds-st { display: flex; gap: 10px; align-items: center; padding: 8px 14px; border-bottom: 1px solid var(--ds-hair); }
+.ds-st.cur { background: var(--ds-sunk); box-shadow: inset 3px 0 0 var(--ds-ink); }
+.ds-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.ds-st .nm { font-weight: 500; flex: 1; min-width: 0; }
+.ds-st .rt { font-family: var(--ds-mono); font-size: 11.5px; color: var(--ds-muted); }
+.ds-prof { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; padding: 12px 0 14px; border-bottom: 1px solid var(--ds-hair); margin-bottom: 14px; }
+.ds-field { display: flex; flex-direction: column; gap: 3px; }
+.ds-field > span:first-child { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--ds-muted); font-weight: 600; }
+.ds-hourstat { margin: 0 0 14px; padding: 10px 14px; border: 1px solid var(--ds-hair); border-radius: 6px; background: var(--ds-sunk); }
+.ds-rep, .ds-jrnl { list-style: none; margin: 0; padding: 0; }
+.ds-rep li { display: flex; gap: 10px; align-items: baseline; padding: 7px 0; border-bottom: 1px solid var(--ds-hair); font-size: 12.5px; }
+.ds-rep .pc { flex: 1; }
+.ds-rep .pc i { color: var(--ds-muted); font-style: normal; font-size: 11.5px; display: block; }
+.ds-stg { font-size: 10.5px; font-weight: 600; padding: 2px 7px; border-radius: 3px; background: var(--ds-sunk); color: var(--ds-ink2); white-space: nowrap; }
+.ds-stg.ready { background: color-mix(in srgb, var(--ds-good) 15%, transparent); color: var(--ds-good-ink); }
+.ds-jrnl li { padding: 8px 0; border-bottom: 1px solid var(--ds-hair); font-size: 12.5px; }
+.ds-rep li:last-child, .ds-jrnl li:last-child { border-bottom: 0; }
+.ds-jrnl time { display: block; font-family: var(--ds-mono); font-size: 10.5px; color: var(--ds-muted); margin-bottom: 2px; }
+@media (max-width: 860px) { .ds-stwrap { grid-template-columns: 1fr; } }
+
+/* business */
+.ds-bandwrap { position: relative; height: 30px; margin: 12px 0 4px; }
+.ds-bandtrack { position: absolute; left: 0; right: 0; top: 11px; height: 9px; background: var(--ds-sunk); border: 1px solid var(--ds-hair); border-radius: 5px; }
+.ds-bandfill { position: absolute; top: 11px; height: 9px; background: color-mix(in srgb, var(--ds-university) 34%, transparent); border-top: 1px solid var(--ds-university); border-bottom: 1px solid var(--ds-university); border-radius: 2px; }
+.ds-bandtick { position: absolute; top: 3px; width: 2px; height: 24px; background: var(--ds-ink); border-radius: 1px; }
+.ds-bandlbl { display: flex; justify-content: space-between; font-size: 10.5px; color: var(--ds-muted); font-family: var(--ds-mono); }
+.ds-calc { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 12px; }
+.ds-calc td { padding: 6px 0; border-bottom: 1px solid var(--ds-hair); }
+.ds-calc td:last-child { text-align: right; font-family: var(--ds-mono); font-variant-numeric: tabular-nums; }
+.ds-calc tr:last-child td { border-bottom: 0; font-weight: 600; border-top: 1px solid var(--ds-rule); padding-top: 9px; }
+.ds-scen { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+.ds-grid2.biz { grid-template-columns: 1fr 1.25fr; }
+@media (max-width: 760px) { .ds-grid2.biz { grid-template-columns: 1fr; } }
+@media (max-width: 520px) { .ds-scen { grid-template-columns: 1fr; } }
+.ds-scen .s, .ds-floorwrap .f { padding: 11px 12px; border: 1px solid var(--ds-hair); border-radius: 5px; background: var(--ds-sunk); }
+.ds-scen .h, .ds-floorwrap .h { font-size: 11.5px; font-weight: 600; color: var(--ds-ink2); }
+.ds-scen .b, .ds-floorwrap .b { font-family: var(--ds-mono); font-size: 21px; font-weight: 600; margin: 5px 0 2px; line-height: 1; }
+.ds-scen .c, .ds-floorwrap .c { font-size: 11.5px; color: var(--ds-muted); line-height: 1.45; }
+.ds-floorwrap { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+.ds-floorwrap .f.no { border-color: color-mix(in srgb, var(--ds-crit) 45%, transparent); }
+.ds-floorwrap .f.no .b { color: var(--ds-crit-ink); }
+@media (max-width: 640px) { .ds-floorwrap { grid-template-columns: 1fr; } }
+
+/* booking, the teacher's side: the availability grid */
+.ds-linkrow { display: flex; gap: 7px; align-items: center; flex-wrap: wrap; margin: 7px 0 8px; }
+.ds-booklink { font-family: var(--ds-mono); font-size: 11.5px; color: var(--ds-ink2); background: var(--ds-sunk); border: 1px solid var(--ds-hair); border-radius: 4px; padding: 5px 9px; white-space: nowrap; overflow-x: auto; max-width: 100%; }
+.ds-availgrid { display: grid; grid-template-columns: 58px repeat(7, minmax(46px, 1fr)); grid-template-rows: auto repeat(13, 22px); min-width: 440px; }
+.ds-avhead { border-bottom: 1px solid var(--ds-rule); padding: 6px 0; text-align: center; font-size: 10.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ds-muted); background: var(--ds-card); }
+.ds-avtime { font-family: var(--ds-mono); font-size: 9.5px; color: var(--ds-muted); text-align: right; padding-right: 6px; line-height: 1; margin-top: -4px; }
+.ds-avcell { border-top: 1px solid var(--ds-hair); border-left: 1px solid var(--ds-hair); background: var(--ds-card); min-width: 0; }
+.ds-avcell.h { border-top-color: var(--ds-rule); }
+.ds-avcell.on { background: color-mix(in srgb, var(--ds-university) 42%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ds-university) 55%, transparent); }
+.ds-avcell.busy { background: var(--ds-sunk); overflow: hidden; display: flex; align-items: center; }
+.ds-avcell.busy em { font-style: normal; font-size: 9px; line-height: 1.05; color: var(--ds-muted); padding: 0 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ds-sw.av-on { background: color-mix(in srgb, var(--ds-university) 42%, transparent); border: 1px solid color-mix(in srgb, var(--ds-university) 55%, transparent); }
+.ds-sw.av-busy { background: var(--ds-sunk); border: 1px solid var(--ds-rule); }
+.ds-sw.av-free { background: var(--ds-card); border: 1px solid var(--ds-hair); }
+/* booking, the family's side: the public page. Drawn with the booking dialog
+   beside the week rather than over it, so both can carry an annotation. */
+.ds-urlbar { display: flex; align-items: center; gap: 6px; padding: 7px 12px; background: var(--ds-sunk); border-bottom: 1px solid var(--ds-hair); font-family: var(--ds-mono); font-size: 11px; color: var(--ds-muted); }
+.ds-urlbar i { width: 8px; height: 8px; border-radius: 50%; background: var(--ds-rule); display: inline-block; flex: none; }
+.ds-urlbar span { margin-left: 6px; background: var(--ds-card); border: 1px solid var(--ds-hair); border-radius: 12px; padding: 2px 12px; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ds-bookpair { display: grid; grid-template-columns: 1.15fr 1fr; gap: 16px; align-items: start; }
+.ds-bookpair > * { min-width: 0; }
+@media (max-width: 760px) { .ds-bookpair { grid-template-columns: 1fr; } }
+.ds-durpick { display: flex; gap: 7px; flex-wrap: wrap; margin: 7px 0 14px; }
+.ds-durbtn { min-width: 64px; padding: 6px 9px; border-radius: 7px; text-align: center; background: var(--ds-card); border: 1px solid var(--ds-rule); }
+.ds-durbtn b { display: block; font-family: var(--ds-mono); font-size: 16px; font-weight: 600; line-height: 1.1; }
+.ds-durbtn span { display: block; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--ds-muted); }
+.ds-durbtn.on { background: color-mix(in srgb, var(--ds-university) 30%, transparent); border-color: var(--ds-contract); box-shadow: inset 0 0 0 1px var(--ds-contract); }
+.ds-weeknav { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; font-size: 13px; }
+.ds-pubgrid { display: grid; grid-template-columns: 50px repeat(7, minmax(36px, 1fr)); grid-template-rows: auto repeat(8, 27px); min-width: 330px; }
+.ds-pubhead { border-bottom: 1px solid var(--ds-rule); padding: 5px 0 6px; text-align: center; background: var(--ds-card); }
+.ds-pubhead span { display: block; font-size: 9.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ds-muted); }
+.ds-pubhead b { display: block; font-family: var(--ds-mono); font-size: 12.5px; font-weight: 600; line-height: 1.2; }
+.ds-pubtime { font-family: var(--ds-mono); font-size: 9.5px; color: var(--ds-muted); text-align: right; padding-right: 5px; line-height: 27px; white-space: nowrap; }
+.ds-pubtime i { font-style: normal; font-size: 7.5px; margin-left: 2px; }
+.ds-pubcell { border-top: 1px solid var(--ds-hair); border-left: 1px solid var(--ds-hair); background: var(--ds-card); }
+.ds-pubcell.open { font-family: var(--ds-mono); font-size: 10.5px; font-weight: 600; display: flex; align-items: center; justify-content: center; background: color-mix(in srgb, var(--ds-university) 26%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ds-university) 45%, transparent); }
+.ds-pubcell.picked { background: color-mix(in srgb, var(--ds-university) 52%, transparent); box-shadow: inset 0 0 0 2px var(--ds-contract); }
+.ds-pubcell.gap, .ds-pubtime.gap { border-top: 2px solid var(--ds-rule); }
+.ds-bkdialog { display: flex; flex-direction: column; gap: 11px; padding: 16px 18px 18px; box-shadow: 0 8px 32px rgba(10, 12, 16, .18); }
+.ds-repopt { display: block; padding: 8px 11px; border-radius: 6px; background: var(--ds-card); border: 1px solid var(--ds-rule); }
+.ds-repopt b { display: block; font-size: 12.5px; }
+.ds-repopt span { display: block; font-size: 11.5px; color: var(--ds-muted); margin-top: 1px; }
+.ds-repopt.on { background: color-mix(in srgb, var(--ds-university) 26%, transparent); border-color: var(--ds-contract); box-shadow: inset 0 0 0 1px var(--ds-contract); }
+.ds-bkclash { margin: 0; padding: 9px 11px; border-radius: 5px; font-size: 11.5px; line-height: 1.45; color: var(--ds-warn-ink); background: color-mix(in srgb, var(--ds-warn) 14%, transparent); border: 1px solid color-mix(in srgb, var(--ds-warn) 34%, transparent); }
+.ds-bookform { display: flex; flex-direction: column; gap: 7px; }
+.ds-bookform .ds-in { width: 100%; }
+
+/* ==========================================================================
+   Annotations. A numbered amber pin sits on each feature inside the screen,
+   and the same number heads a one-sentence note above it. Carousel chrome,
+   so `demo-` prefixed and Hub-coloured rather than Teacherade-coloured.
+   ========================================================================== */
+.demo-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin: 0 0 16px; }
+.demo-note { display: flex; gap: 10px; align-items: flex-start; background: white; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; box-shadow: var(--shadow); font-family: var(--font-sans); font-size: 13px; line-height: 1.45; color: var(--tp); }
+.demo-pin, .demo-pin-n { width: 22px; height: 22px; border-radius: 50%; background: var(--amber); color: white; font-family: var(--font-sans); font-size: 11.5px; font-weight: 700; line-height: 22px; text-align: center; flex: none; }
+.demo-pin { position: absolute; top: -10px; left: -10px; z-index: 6; box-shadow: 0 0 0 2px white, 0 2px 8px rgba(28, 25, 23, .25); pointer-events: none; }
+.demo-pinned { position: relative; }
+
+/* SLIDE-CSS-END */
+
+@media (max-width: 760px) {
+  .demo-canvas { padding: 18px 12px; }
+  .demo-side-arrow { width: 32px; height: 32px; font-size: 15px; }
+  .demo-side-prev { left: 2px; }
+  .demo-side-next { right: 2px; }
+  .demo-title { font-size: 15px; }
+  .demo-slide-title { font-size: 21px; }
+  .demo-caption { padding: 14px 16px 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .demo-car-slide.is-on { animation: none; }
+}
+</style>
+</head>
+<body>
+<div class="demo-wrap">
+
+  <!-- Scaffolding. Not part of the transplant. -->
+  <div class="demo-scaffold">
+    <h1>Teacherade: lessons, hours, and the business behind them</h1>
+    <p>A walkthrough of the teaching studio app screen by screen: logging a day of lessons, a pay period submitted and locked, a student's record, the income plan, and the hours families can book. All data here is placeholder, never the real ledger.</p>
+  </div>
+
+  <div data-demo-panel>
+
+  <!-- ====================================================================
+       THE STAGE: title header, then the nav strip, then the slide
+       ==================================================================== -->
+  <div class="demo-stage">
+    <div class="demo-caption">
+      <h4 class="demo-slide-title" data-demo-contrib></h4>
+      <div class="demo-cap-col">
+        <div class="demo-cap-label" data-demo-state-label></div>
+        <div class="demo-cap-state" data-demo-state></div>
+      </div>
+    </div>
+
+    <!-- SECTION NAV STRIP (the app's own tab bar), below the title header -->
+    <div class="demo-nav-wrap">
+      <button class="demo-nav-item is-active" data-nav="schedule" data-slide="0">Schedule</button>
+      <button class="demo-nav-item" data-nav="hours" data-slide="1">Hours</button>
+      <button class="demo-nav-item" data-nav="students" data-slide="2">Students</button>
+      <button class="demo-nav-item" data-nav="booking" data-slide="3">Booking</button>
+      <button class="demo-nav-item" data-nav="business" data-slide="5">Business</button>
+      <span class="demo-nav-hint">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>
+        Click any section
+      </span>
+    </div>
+
+    <div class="demo-canvas">
+      <button class="demo-side-arrow demo-side-prev" data-demo-prev aria-label="Previous slide">&#8249;</button>
+      <button class="demo-side-arrow demo-side-next" data-demo-next aria-label="Next slide">&#8250;</button>
+
+      <!-- ============ SLIDE 1 · SCHEDULE: TODAY ========================== -->
+      <section class="demo-car-slide is-on" data-nav="schedule"
+               data-contrib="Log each lesson with one tap, right after it ends."
+               data-state-label="State of the day"
+               data-state="Tuesday, Sep 15 &middot; 3 of 5 lessons logged &middot; Monday still has lessons to catch up on."
+               data-title="Schedule: logging today">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>After each lesson the teacher taps Completed, Late cancel, No-show or Excused, and that one tap decides whether the hour gets paid.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Every tap feeds the week's running hour totals, measured against the teacher's own limits for teaching, university work and study.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>Add to this day puts a makeup lesson, practice session or gym trip on the calendar in two taps.</span></div>
+        </div>
+        <div class="ds-frame">
+          <div class="ds-page">
+            <div class="ds-pagehead">
+              <div>
+                <h2 class="ds-h2">Tuesday, September 15</h2>
+                <div class="ds-sub">Tap once per lesson. Everything else is calculated from that tap.</div>
+              </div>
+              <div class="ds-headctl">
+                <div class="ds-scale"><span class="on">Day</span><span>Week</span><span>Month</span></div>
+                <span class="ds-navbtn">&lsaquo;</span><span class="ds-navbtn">&rsaquo;</span><span class="ds-navbtn">Today</span>
+              </div>
+            </div>
+
+            <div class="ds-grid2">
+              <div class="ds-col">
+                <div class="ds-card">
+                  <div class="ds-chhead">
+                    <b>One day behind</b>
+                    <span class="ds-undo">Skip, catch up later</span>
+                  </div>
+                  <div class="ds-chday">
+                    <div><b>Monday, September 14</b><span>1 of 3 logged</span></div>
+                    <span class="ds-act pri">Continue</span>
+                  </div>
+                </div>
+
+                <div class="ds-card">
+                  <div class="ds-daybar">
+                    <div><div class="ds-eyebrow">Billable today</div><div class="ds-big">1h 30m</div></div>
+                    <div style="text-align: right;"><div class="ds-eyebrow">Logged</div><div class="ds-big">3 / 5</div></div>
+                  </div>
+                  <ul class="ds-blocks">
+                    <li class="ds-blk">
+                      <div class="t">9:30&ndash;10:45</div><div class="ds-rail r-personal"></div>
+                      <div><div class="name">Performance Practice Seminar</div><div class="meta">75 min &middot; Personal &middot; Rm 2441</div></div>
+                    </li>
+                    <li class="ds-blk">
+                      <div class="t">11:00&ndash;12:15</div><div class="ds-rail r-university"></div>
+                      <div><div class="name">Keyboard Skills (TA)</div><div class="meta">75 min &middot; University &middot; Rm 1351</div></div>
+                    </li>
+                    <li class="ds-blk done">
+                      <div class="t">3:30&ndash;4:15</div><div class="ds-rail r-contract"></div>
+                      <div>
+                        <div class="name">Nora Castellanos</div><div class="meta">45 min &middot; Harbor Piano</div>
+                        <div class="ds-statline"><span class="ds-pill p-held">Completed</span><span class="ds-undo">Undo</span></div>
+                        <div class="ds-note">Hands separate on the Clementi, metronome at 88. Loved the left-hand ostinato.</div>
+                      </div>
+                    </li>
+                    <li class="ds-blk">
+                      <div class="t">4:15&ndash;5:00</div><div class="ds-rail r-contract"></div>
+                      <div>
+                        <div class="name">Eli Ferreira</div><div class="meta">45 min &middot; Harbor Piano</div>
+                        <div class="ds-statline"><span class="ds-pill p-late">Late cancel &middot; billable</span><span class="ds-undo">Undo</span></div>
+                      </div>
+                    </li>
+                    <li class="ds-blk void">
+                      <div class="t">5:00&ndash;5:30</div><div class="ds-rail r-contract"></div>
+                      <div>
+                        <div class="name">Sam Whitaker</div><div class="meta">30 min &middot; Harbor Piano</div>
+                        <div class="ds-statline"><span class="ds-pill p-excused">Excused</span><span class="ds-undo">Undo</span></div>
+                        <div class="ds-fu"><span class="ds-flag f-warn">Reschedule</span>Makeup Thursday at 5:30?</div>
+                      </div>
+                    </li>
+                    <li class="ds-blk">
+                      <div class="t">6:00&ndash;7:00</div><div class="ds-rail r-private"></div>
+                      <div>
+                        <div class="name">MIRA OKONKWO</div><div class="meta">60 min &middot; Private</div>
+                        <div class="ds-acts demo-pinned"><span class="demo-pin">1</span>
+                          <span class="ds-act pri">&#10003; Completed</span><span class="ds-act">Late cancel</span><span class="ds-act">No-show</span><span class="ds-act">Excused</span>
+                        </div>
+                      </div>
+                    </li>
+                    <li class="ds-blk">
+                      <div class="t">7:15&ndash;8:00</div><div class="ds-rail r-private"></div>
+                      <div>
+                        <div class="name">Clara Voss</div><div class="meta">45 min &middot; Private</div>
+                        <div class="ds-acts">
+                          <span class="ds-act pri">&#10003; Completed</span><span class="ds-act">Late cancel</span><span class="ds-act">No-show</span><span class="ds-act">Excused</span>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="ds-col">
+                <div class="ds-card ds-card-pad demo-pinned"><span class="demo-pin">2</span>
+                  <div class="ds-eyebrow">This week so far</div>
+                  <div class="ds-meterstack">
+                    <div class="ds-meter">
+                      <div class="mtop"><span>Teaching</span><span class="mval">13.8 / 18 hrs</span></div>
+                      <div class="ds-track"><div class="ds-fill" style="width: 76%; background: var(--ds-private);"></div></div>
+                      <div class="ds-mfoot">Harbor Piano, Maple Music and private, committed this week</div>
+                    </div>
+                    <div class="ds-meter">
+                      <div class="mtop"><span>University</span><span class="mval">7.8 / 8 hrs</span></div>
+                      <div class="ds-track"><div class="ds-fill" style="width: 97%; background: var(--ds-university);"></div></div>
+                      <div class="ds-mfoot">contact time and TA duty, fixed</div>
+                    </div>
+                    <div class="ds-meter">
+                      <div class="mtop"><span>Degree</span><span class="mval">8.8 / 10 hrs</span></div>
+                      <div class="ds-track"><div class="ds-fill" style="width: 88%; background: var(--ds-personal);"></div></div>
+                      <div class="ds-mfoot">seminar, studio class, lessons taken</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="ds-card ds-card-pad demo-pinned"><span class="demo-pin">3</span>
+                  <div class="ds-eyebrow">Add to this day</div>
+                  <div class="ds-qa-row"><span class="ds-act">Practice Time</span><span class="ds-act">Gym</span></div>
+                  <div class="ds-qa-sep">or a lesson</div>
+                  <div class="ds-qa-row">
+                    <span class="ds-act">Ada Kim</span><span class="ds-act">Clara Voss</span><span class="ds-act">Eli Ferreira</span><span class="ds-act">Hannah Park</span><span class="ds-act">JONAH ELLIS</span><span class="ds-act">MIRA OKONKWO</span><span class="ds-act">Nora Castellanos</span><span class="ds-act">Sam Whitaker</span>
+                  </div>
+                </div>
+
+                <div class="ds-lock"><b>Why this screen is first.</b> The hour log is only as good as the habit behind it. If logging a lesson takes longer than the walk to the next student, the timesheet goes wrong.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 2 · HOURS: REVIEW & SUBMIT ==================== -->
+      <section class="demo-car-slide" data-nav="hours"
+               data-contrib="Review the exact sheet your employer will see, then lock it for good."
+               data-state-label="State of the pay period"
+               data-state="13 lessons &middot; $416.25 &middot; frozen the moment it is submitted."
+               data-title="Hours: review and submit">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Before submitting, the teacher sees the exact sheet the employer receives, date by date, with an X for any student who had no lesson.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Submitting locks the pay period for good, so a later correction becomes an adjustment in the next period instead of changing hours already sent.</span></div>
+        </div>
+        <div class="ds-frame" style="min-height: 670px;">
+          <div class="ds-page">
+            <div class="ds-pagehead">
+              <div>
+                <h2 class="ds-h2">Hours</h2>
+                <div class="ds-sub">One sheet per employer. Each pays on its own period, at its own rate, and is taxed its own way.</div>
+              </div>
+              <div class="ds-headctl">
+                <div class="ds-scale"><span class="on">Harbor Piano</span><span>Maple Music</span><span>University</span><span>Private</span></div>
+              </div>
+            </div>
+            <div class="ds-banner"><div><b>Straight from the ledger.</b> Every row below is a logged lesson, not a tally kept somewhere else.</div></div>
+            <div class="ds-grid2">
+              <div class="ds-card">
+                <table class="ds-tbl">
+                  <thead><tr><th>Student</th><th class="num">Lessons</th><th class="num">Hrs</th><th class="num">Gross</th></tr></thead>
+                  <tbody>
+                    <tr><td>Eli Ferreira</td><td class="num">2</td><td class="num">1.50</td><td class="num">$67.50</td></tr>
+                    <tr><td>Iris Nakamura</td><td class="num">2</td><td class="num">1.50</td><td class="num">$67.50</td></tr>
+                    <tr><td>Lucy Hart</td><td class="num">1</td><td class="num">0.75</td><td class="num">$33.75</td></tr>
+                    <tr><td>Maya Chen</td><td class="num">2</td><td class="num">1.50</td><td class="num">$67.50</td></tr>
+                    <tr><td>Nora Castellanos</td><td class="num">1</td><td class="num">0.75</td><td class="num">$33.75</td></tr>
+                    <tr><td>Owen Brooks</td><td class="num">2</td><td class="num">1.50</td><td class="num">$67.50</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="ds-card">
+                <div class="ds-total-hero"><div class="ds-eyebrow">Submitting</div><div class="n">9.25 <span class="u">hrs</span></div></div>
+                <div class="ds-card-pad"><span class="ds-btn-wide" style="margin-top: 0;">Review &amp; submit &rarr;</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ds-overlay">
+            <div class="ds-modal">
+              <div class="ds-dmhead">
+                <div>
+                  <div class="ds-eyebrow">Review &amp; submit</div>
+                  <h3 class="ds-h3">Harbor Piano &middot; Aug 24 to Sep 6</h3>
+                </div>
+                <span class="ds-dmclose">&times;</span>
+              </div>
+              <div class="ds-dmbody">
+                <div class="ds-lock"><b>Submitting freezes this period permanently.</b> These 13 lessons lock exactly as shown. Nothing here can be edited, deleted or reopened afterwards, by this app or by anyone: a correction found later posts as an adjustment to a future period instead.</div>
+                <div class="demo-pinned" style="margin-top: 12px;"><span class="demo-pin">1</span>
+                <div style="overflow-x: auto;">
+                <table class="ds-tbl">
+                  <thead><tr><th>Student</th><th>Dates</th><th>Lesson length</th><th class="num">Total</th></tr></thead>
+                  <tbody>
+                    <tr><td>Eli Ferreira</td><td>8/25, 9/1</td><td>45 min</td><td class="num">1.5 hrs</td></tr>
+                    <tr><td>Iris Nakamura</td><td>8/24, 8/31</td><td>45 min</td><td class="num">1.5 hrs</td></tr>
+                    <tr><td>Ivy Sorensen</td><td class="x">X</td><td class="x">X</td><td class="num x">X</td></tr>
+                    <tr><td>Lucy Hart</td><td>9/3</td><td>45 min</td><td class="num">45 min</td></tr>
+                    <tr><td>Maya Chen</td><td>8/24, 8/31</td><td>45 min</td><td class="num">1.5 hrs</td></tr>
+                    <tr><td>Nora Castellanos</td><td>9/1</td><td>45 min</td><td class="num">45 min</td></tr>
+                    <tr><td>Owen Brooks</td><td>8/27, 9/3</td><td>45 min</td><td class="num">1.5 hrs</td></tr>
+                    <tr><td>Sam Whitaker</td><td>8/25, 9/1</td><td>30 min</td><td class="num">1 hr</td></tr>
+                    <tr><td>Theo Park</td><td>8/31</td><td>45 min</td><td class="num">45 min</td></tr>
+                  </tbody>
+                  <tfoot><tr><td colspan="2">13 lessons</td><td>9.25 hrs</td><td class="num">$416.25</td></tr></tfoot>
+                </table>
+                </div>
+                </div>
+                <div class="ds-acts" style="margin-top: 14px; justify-content: flex-end;">
+                  <span class="ds-act">Cancel</span><span class="ds-act pri demo-pinned">Submit and lock 9.25 hrs<span class="demo-pin" style="top: -12px; left: -12px;">2</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 3 · STUDENTS: ROSTER AND PROFILE =============== -->
+      <section class="demo-car-slide" data-nav="students"
+               data-contrib="Every student's record builds itself from the lessons you log."
+               data-state-label="State of the student"
+               data-state="Nora Castellanos &middot; Harbor Piano &middot; 1.5 hours logged this pay period, recital piece nearly ready."
+               data-title="Students: roster and profile">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>The roster groups every student under who pays for the lessons, the teacher's private studio or each employer, and flags anyone going idle or cancelling often.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Each profile builds itself from logged lessons: level, hours this pay period, repertoire progress and lesson notes.</span></div>
+        </div>
+        <div class="ds-frame">
+          <div class="ds-page">
+            <div class="ds-pagehead">
+              <div>
+                <h2 class="ds-h2">Students</h2>
+                <div class="ds-sub">18 students &middot; every flag is computed from the lesson ledger</div>
+              </div>
+              <div class="ds-acts" style="margin-top: 0;"><span class="ds-act">Export roster</span><span class="ds-act pri">+ Add student</span></div>
+            </div>
+
+            <div class="ds-stwrap">
+              <div class="ds-card demo-pinned"><span class="demo-pin">1</span>
+                <ul class="ds-stlist">
+                  <li class="ds-stbucket-head">Private</li>
+                  <li class="ds-st"><span class="ds-dot" style="background: var(--ds-private);"></span><span class="nm">Ada Kim</span><span class="rt">$65/hr</span></li>
+                  <li class="ds-st"><span class="ds-dot" style="background: var(--ds-private);"></span><span class="nm">Clara Voss</span><span class="rt">$65/hr</span></li>
+                  <li class="ds-st"><span class="ds-dot" style="background: var(--ds-private);"></span><span class="nm">Hannah Park</span><span class="ds-flag f-warn">2 cancels</span><span class="rt">$60/hr</span></li>
+                  <li class="ds-st"><span class="ds-dot" style="background: var(--ds-private);"></span><span class="nm">JONAH ELLIS</span><span class="rt">$70/hr</span></li>
+                  <li class="ds-st"><span class="ds-dot" style="background: var(--ds-private);"></span><span class="nm">JULIAN REYES</span><span class="rt">$70/hr</span></li>
+                  <li class="ds-st"><span class="ds-dot" style="background: var(--ds-private);"></span><span class="nm">Leo Brandt</span><span class="rt">$60/hr</span></li>
+                  <li class="ds-st"><span class="ds-dot" style="background: var(--ds-private);"></span><span class="nm">MIRA OKONKWO</span><span class="rt">$70/hr</span></li>
+                  <li class="ds-stbucket-head">Harbor Piano</li>
+                  <li class="ds-st"><span class="ds-dot" style="background: var(--ds-contract);"></span><span class="nm">Eli Ferreira</span><span class="rt">$45/hr</span></li>
+                  <li class="ds-st"><span class="ds-dot" style="background: var(--ds-contract);"></span><span class="nm">Iris Nakamura</span><span class="rt">$45/hr</span></li>
+                  <li class="ds-st"><span class="ds-dot" style="background: var(--ds-contract);"></span><span class="nm">Ivy Sorensen</span><span class="ds-flag f-warn">14 wks idle</span><span class="rt">$45/hr</span></li>
+                  <li class="ds-st"><span class="ds-dot" style="background: var(--ds-contract);"></span><span class="nm">Lucy Hart</span><span class="rt">$45/hr</span></li>
+                  <li class="ds-st"><span class="ds-dot" style="background: var(--ds-contract);"></span><span class="nm">Maya Chen</span><span class="rt">$45/hr</span></li>
+                  <li class="ds-st cur"><span class="ds-dot" style="background: var(--ds-contract);"></span><span class="nm">Nora Castellanos</span><span class="rt">$45/hr</span></li>
+                  <li class="ds-st"><span class="ds-dot" style="background: var(--ds-contract);"></span><span class="nm">Owen Brooks</span><span class="rt">$45/hr</span></li>
+                  <li class="ds-st"><span class="ds-dot" style="background: var(--ds-contract);"></span><span class="nm">Sam Whitaker</span><span class="rt">$45/hr</span></li>
+                  <li class="ds-st"><span class="ds-dot" style="background: var(--ds-contract);"></span><span class="nm">Theo Park</span><span class="rt">$45/hr</span></li>
+                  <li class="ds-stbucket-head">Maple Music School</li>
+                  <li class="ds-st"><span class="ds-dot" style="background: var(--ds-cml);"></span><span class="nm">Felix Moreau</span><span class="rt">$40/hr</span></li>
+                  <li class="ds-st"><span class="ds-dot" style="background: var(--ds-cml);"></span><span class="nm">Ruby Alvarez</span><span class="rt">$40/hr</span></li>
+                </ul>
+              </div>
+
+              <div class="ds-card ds-card-pad demo-pinned"><span class="demo-pin">2</span>
+                <div class="ds-pagehead" style="margin-bottom: 0;">
+                  <div>
+                    <h3 class="ds-h3" style="font-size: 20px;">Nora Castellanos</h3>
+                    <div class="ds-sub">Harbor Piano &middot; 45 min &middot; Active &middot; Child &middot; 11 yrs &middot; Early intermediate</div>
+                  </div>
+                  <div class="ds-acts" style="margin-top: 0;"><span class="ds-act">Edit</span><span class="ds-act">Schedule a lesson</span></div>
+                </div>
+
+                <div class="ds-prof">
+                  <label class="ds-field"><span>Adult or child</span><span class="ds-in sel">Child</span></label>
+                  <label class="ds-field"><span>Level</span><span class="ds-in sel">Early intermediate</span></label>
+                  <label class="ds-field"><span>Started</span><span class="ds-in mono">09/08/2025</span></label>
+                  <span class="ds-sub" style="padding-bottom: 6px;">Saves as you change it</span>
+                </div>
+
+                <div class="ds-eyebrow" style="margin-bottom: 4px;">Musical background</div>
+                <p class="ds-sub" style="margin: 0 0 14px;">Two years of Suzuki violin before switching to piano. Reads treble clef fluently; bass clef is newer.</p>
+
+                <div class="ds-hourstat">
+                  <div class="ds-eyebrow">This period</div>
+                  <div class="ds-sub"><b style="color: var(--ds-ink);">1.50 hrs</b> logged Sep 7 to Sep 20 &middot; $67.50</div>
+                </div>
+
+                <div class="ds-eyebrow" style="margin-bottom: 2px;">Repertoire</div>
+                <ul class="ds-rep">
+                  <li><span class="pc">Bart&oacute;k &middot; Mikrokosmos No. 78<i>November studio recital</i></span><span class="ds-stg ready">Performance ready</span></li>
+                  <li><span class="pc">Clementi &middot; Sonatina in C, Op. 36 No. 1</span><span class="ds-stg">Polishing</span></li>
+                  <li><span class="pc">Burgm&uuml;ller &middot; Arabesque, Op. 100 No. 2</span><span class="ds-stg">Learning</span></li>
+                  <li><span class="pc">Kabalevsky &middot; Clowns</span><span class="ds-stg">Assigned</span></li>
+                </ul>
+
+                <div class="ds-eyebrow" style="margin: 16px 0 2px;">Lesson notes</div>
+                <ul class="ds-jrnl">
+                  <li><time>Sep 15</time>Hands separate on the Clementi, metronome at 88. Loved the left-hand ostinato.</li>
+                  <li><time>Sep 8</time>Bart&oacute;k memorized. Talked about playing it for the November studio recital.</li>
+                  <li><time>Sep 1</time>First lesson of the term. Placement and warm-ups; assigned the Arabesque.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 4 · BOOKING: THE TEACHER'S SIDE ================ -->
+      <section class="demo-car-slide" data-nav="booking"
+               data-contrib="Open the hours families can book, right on top of your real week."
+               data-state-label="State of the booking page"
+               data-state="Wednesday, Thursday and Friday afternoons open &middot; existing lessons blocked out automatically."
+               data-title="Booking: the teacher's side">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>One private link lets families book themselves in, and the teacher decides whether families can also claim a regular weekly time.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>The teacher taps the half hours open for lessons, and existing lessons are already blocked out so nothing double-books.</span></div>
+        </div>
+        <div class="ds-frame">
+          <div class="ds-page">
+            <div class="ds-pagehead">
+              <div>
+                <h2 class="ds-h2">Booking</h2>
+                <div class="ds-sub">One link students can book themselves into. They pick from the hours you open here, and the lesson lands on your schedule straight away.</div>
+              </div>
+            </div>
+
+            <div class="ds-card ds-card-pad demo-pinned"><span class="demo-pin">1</span>
+              <div class="ds-eyebrow">Your link</div>
+              <div class="ds-linkrow">
+                <code class="ds-booklink">https://&hellip;/book/lessons-7f3a2c</code>
+                <span class="ds-act">Copy</span><span class="ds-act">Open</span><span class="ds-act">Turn off</span>
+              </div>
+              <div class="ds-sub">Live. 24 hours' notice, up to 30 days ahead, at most 4 bookings a day.</div>
+              <div class="ds-linkrow">
+                <span class="ds-act">Turn off regular times</span>
+                <span class="ds-sub" style="margin: 0;">Students can claim a weekly slot, which books 8 weeks at once and keeps going. At most 2 a day.</span>
+              </div>
+            </div>
+
+            <div class="ds-card ds-card-pad demo-pinned" style="margin-top: 12px;"><span class="demo-pin">2</span>
+              <div class="ds-eyebrow">Your week</div>
+              <p class="ds-sub" style="margin: 4px 0 10px;">Tap the half-hours you are happy to teach in. Your recurring lessons are already blocked out, so what is left is genuinely free.</p>
+
+              <div class="ds-scroll" style="box-shadow: none;">
+                <div class="ds-availgrid">
+                  <div class="ds-avhead"></div><div class="ds-avhead">Sun</div><div class="ds-avhead">Mon</div><div class="ds-avhead">Tue</div><div class="ds-avhead">Wed</div><div class="ds-avhead">Thu</div><div class="ds-avhead">Fri</div><div class="ds-avhead">Sat</div>
+
+                  <div class="ds-avtime">2:00 PM</div><div class="ds-avcell h"></div><div class="ds-avcell h busy"><em>TA office hours</em></div><div class="ds-avcell h"></div><div class="ds-avcell h on"></div><div class="ds-avcell h"></div><div class="ds-avcell h busy"><em>Pedagogy Seminar</em></div><div class="ds-avcell h"></div>
+                  <div class="ds-avtime"></div><div class="ds-avcell"></div><div class="ds-avcell busy"></div><div class="ds-avcell"></div><div class="ds-avcell on"></div><div class="ds-avcell"></div><div class="ds-avcell busy"></div><div class="ds-avcell"></div>
+                  <div class="ds-avtime">3:00 PM</div><div class="ds-avcell h"></div><div class="ds-avcell h"></div><div class="ds-avcell h"></div><div class="ds-avcell h on"></div><div class="ds-avcell h"></div><div class="ds-avcell h busy"></div><div class="ds-avcell h"></div>
+                  <div class="ds-avtime"></div><div class="ds-avcell"></div><div class="ds-avcell busy"><em>Iris Nakamura</em></div><div class="ds-avcell busy"><em>Nora Castellanos</em></div><div class="ds-avcell on"></div><div class="ds-avcell busy"><em>Owen Brooks</em></div><div class="ds-avcell busy"></div><div class="ds-avcell"></div>
+                  <div class="ds-avtime">4:00 PM</div><div class="ds-avcell h"></div><div class="ds-avcell h busy"></div><div class="ds-avcell h busy"></div><div class="ds-avcell h busy"><em>Ruby Alvarez</em></div><div class="ds-avcell h busy"></div><div class="ds-avcell h busy"></div><div class="ds-avcell h"></div>
+                  <div class="ds-avtime"></div><div class="ds-avcell"></div><div class="ds-avcell busy"></div><div class="ds-avcell busy"></div><div class="ds-avcell busy"></div><div class="ds-avcell busy"></div><div class="ds-avcell on"></div><div class="ds-avcell"></div>
+                  <div class="ds-avtime">5:00 PM</div><div class="ds-avcell h"></div><div class="ds-avcell h busy"></div><div class="ds-avcell h busy"></div><div class="ds-avcell h busy"></div><div class="ds-avcell h on"></div><div class="ds-avcell h on"></div><div class="ds-avcell h"></div>
+                  <div class="ds-avtime"></div><div class="ds-avcell"></div><div class="ds-avcell busy"></div><div class="ds-avcell"></div><div class="ds-avcell"></div><div class="ds-avcell on"></div><div class="ds-avcell on"></div><div class="ds-avcell"></div>
+                  <div class="ds-avtime">6:00 PM</div><div class="ds-avcell h"></div><div class="ds-avcell h busy"></div><div class="ds-avcell h busy"><em>Mira Okonkwo</em></div><div class="ds-avcell h busy"><em>Hannah Park</em></div><div class="ds-avcell h on"></div><div class="ds-avcell h on"></div><div class="ds-avcell h"></div>
+                  <div class="ds-avtime"></div><div class="ds-avcell"></div><div class="ds-avcell busy"></div><div class="ds-avcell busy"></div><div class="ds-avcell busy"></div><div class="ds-avcell on"></div><div class="ds-avcell"></div><div class="ds-avcell"></div>
+                  <div class="ds-avtime">7:00 PM</div><div class="ds-avcell h busy"><em>Julian Reyes</em></div><div class="ds-avcell h"></div><div class="ds-avcell h busy"></div><div class="ds-avcell h"></div><div class="ds-avcell h"></div><div class="ds-avcell h"></div><div class="ds-avcell h"></div>
+                  <div class="ds-avtime"></div><div class="ds-avcell busy"></div><div class="ds-avcell"></div><div class="ds-avcell busy"></div><div class="ds-avcell"></div><div class="ds-avcell"></div><div class="ds-avcell"></div><div class="ds-avcell"></div>
+                  <div class="ds-avtime">8:00 PM</div><div class="ds-avcell h"></div><div class="ds-avcell h"></div><div class="ds-avcell h"></div><div class="ds-avcell h"></div><div class="ds-avcell h"></div><div class="ds-avcell h"></div><div class="ds-avcell h"></div>
+                </div>
+              </div>
+
+              <div class="ds-legend" style="margin: 10px 0 0;">
+                <span class="ds-lg"><span class="ds-sw av-on"></span> Open for booking</span>
+                <span class="ds-lg"><span class="ds-sw av-busy"></span> Already teaching</span>
+                <span class="ds-lg"><span class="ds-sw av-free"></span> Free, not offered</span>
+              </div>
+
+              <div class="ds-acts" style="margin-top: 10px;">
+                <span class="ds-act pri">Save these hours</span><span class="ds-act">Undo changes</span><span class="ds-sub" style="margin: 0;">1 to open</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 5 · BOOKING: THE FAMILY'S SIDE ================ -->
+      <section class="demo-car-slide" data-nav="booking"
+               data-contrib="Families book themselves in from the teacher's link, with no texting back and forth."
+               data-state-label="State of the booking"
+               data-state="Arlo Bennett &middot; Thursdays at 5:00 &middot; 7 of the next 8 weeks free, the taken week named up front."
+               data-title="Booking: the family's side">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>The family picks a lesson length first, and the grid shows only the start times that length fits.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>The week shows open times and nothing else, so the teacher's own calendar is never visible to the public.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>They choose a one-off lesson or a regular weekly time, and any week already taken is named before they book.</span></div>
+        </div>
+        <div class="ds-frame">
+          <div class="ds-urlbar"><i></i><i></i><i></i><span>https://&hellip;/book/lessons-7f3a2c</span></div>
+          <div class="ds-page">
+            <h2 class="ds-h2">Book a piano lesson</h2>
+            <p class="ds-sub" style="margin: 4px 0 16px;">Piano lessons for all ages, in person.</p>
+
+            <div class="ds-bookpair">
+              <div class="ds-card" style="padding: 15px 16px;">
+                <div class="ds-eyebrow">How long a lesson?</div>
+                <div class="ds-durpick demo-pinned"><span class="demo-pin">1</span>
+                  <span class="ds-durbtn"><b>30</b><span>minutes</span></span>
+                  <span class="ds-durbtn on"><b>45</b><span>minutes</span></span>
+                  <span class="ds-durbtn"><b>60</b><span>minutes</span></span>
+                </div>
+                <div class="ds-weeknav"><span class="ds-act">&lsaquo;</span><b>Sep 20 &ndash; Sep 26</b><span class="ds-act">&rsaquo;</span></div>
+                <div class="demo-pinned"><span class="demo-pin">2</span>
+                <div class="ds-scroll" style="box-shadow: none;">
+                  <div class="ds-pubgrid">
+                    <div class="ds-pubhead"></div>
+                    <div class="ds-pubhead"><span>Sun</span><b>20</b></div><div class="ds-pubhead"><span>Mon</span><b>21</b></div><div class="ds-pubhead"><span>Tue</span><b>22</b></div><div class="ds-pubhead"><span>Wed</span><b>23</b></div><div class="ds-pubhead"><span>Thu</span><b>24</b></div><div class="ds-pubhead"><span>Fri</span><b>25</b></div><div class="ds-pubhead"><span>Sat</span><b>26</b></div>
+
+                    <div class="ds-pubtime">2:00<i>PM</i></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div><div class="ds-pubcell open">2:00</div><div class="ds-pubcell"></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div>
+                    <div class="ds-pubtime">2:30<i>PM</i></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div>
+                    <div class="ds-pubtime">3:00<i>PM</i></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div><div class="ds-pubcell open">3:00</div><div class="ds-pubcell"></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div>
+                    <div class="ds-pubtime">3:30<i>PM</i></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div>
+                    <div class="ds-pubtime gap">5:00<i>PM</i></div><div class="ds-pubcell gap"></div><div class="ds-pubcell gap"></div><div class="ds-pubcell gap"></div><div class="ds-pubcell gap"></div><div class="ds-pubcell gap open picked">5:00</div><div class="ds-pubcell gap"></div><div class="ds-pubcell gap"></div>
+                    <div class="ds-pubtime">5:30<i>PM</i></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div><div class="ds-pubcell open">5:30</div><div class="ds-pubcell"></div><div class="ds-pubcell"></div>
+                    <div class="ds-pubtime">6:00<i>PM</i></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div><div class="ds-pubcell open">6:00</div><div class="ds-pubcell"></div><div class="ds-pubcell"></div>
+                    <div class="ds-pubtime">6:30<i>PM</i></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div><div class="ds-pubcell"></div>
+                  </div>
+                </div>
+                </div>
+                <p class="ds-sub" style="margin-top: 9px;">All times are America/Chicago. At least 24 hours' notice, up to 30 days ahead.</p>
+              </div>
+
+              <div class="ds-card ds-bkdialog">
+                <div>
+                  <div class="ds-eyebrow">Thursday, September 24</div>
+                  <div class="ds-mono" style="font-size: 18px; font-weight: 600; margin: 3px 0 1px;">5:00&ndash;5:45 PM</div>
+                  <div class="ds-sub" style="margin: 0;">45 minutes</div>
+                </div>
+                <div class="demo-pinned" style="display: flex; flex-direction: column; gap: 7px;"><span class="demo-pin">3</span>
+                  <div class="ds-repopt"><b>Just this week</b><span>One lesson, on Sep 24.</span></div>
+                  <div class="ds-repopt on"><b>Make this our regular time</b><span>Thursdays at 5:00&ndash;5:45 PM, from this one on.</span></div>
+                </div>
+                <p class="ds-bkclash"><b>One week is already taken.</b> Oct 15 is not available at this time, so you would need a different time that week. The other 7 will be booked.</p>
+                <div class="ds-bookform">
+                  <label class="ds-field"><span>Student's name</span><span class="ds-in">Arlo Bennett</span></label>
+                  <label class="ds-field"><span>Parent or guardian (if the student is a child)</span><span class="ds-in">Jess Bennett</span></label>
+                  <label class="ds-field"><span>Email</span><span class="ds-in">jess.bennett@example.com</span></label>
+                </div>
+                <div class="ds-acts" style="margin-top: 0;"><span class="ds-act pri">Book this as our regular time</span><span class="ds-act">Cancel</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 6 · BUSINESS ================================== -->
+      <section class="demo-car-slide" data-nav="business"
+               data-contrib="Work backward from the income you need, not forward from the calendar."
+               data-state-label="State of the semester"
+               data-state="$4,000 to $5,000 a month &middot; the TA stipend covers most of it &middot; 4 to 6 teaching hours a week close the gap."
+               data-title="Business: what the semester has to earn">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>The teacher sets a monthly income range, and any stipend comes off the top to show what teaching still has to earn.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Each scenario turns that amount into weekly teaching hours at private rates, contract rates, or a mix of both.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>The income floor restates the target as a number of students, so a thinning roster shows up before a short month does.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">4</span><span>The totals show how many hours each week are already fixed and how much time is left for practice.</span></div>
+        </div>
+        <div class="ds-frame">
+          <div class="ds-page">
+            <div class="ds-pagehead">
+              <div>
+                <h2 class="ds-h2">What the semester has to earn</h2>
+                <div class="ds-sub">Working backward from the teacher's target instead of forward from the calendar.</div>
+              </div>
+            </div>
+
+            <div class="ds-grid2 biz">
+              <div class="ds-card ds-card-pad demo-pinned"><span class="demo-pin">1</span>
+                <div class="ds-eyebrow">Monthly net target</div>
+                <div class="ds-mono" style="font-size: 27px; font-weight: 600; letter-spacing: -.02em; margin-top: 6px;">$4,000 &ndash; $5,000</div>
+                <div class="ds-bandwrap">
+                  <div class="ds-bandtrack"></div>
+                  <div class="ds-bandfill" style="left: 40%; right: 50%;"></div>
+                  <div class="ds-bandtick" style="left: 45%;"></div>
+                </div>
+                <div class="ds-bandlbl"><span>$0</span><span>$10,000</span></div>
+                <p style="font-size: 12.5px; color: var(--ds-ink2); margin: 11px 0 0;">A range, not a number. Teaching income moves with cancellations, holidays and recital season. The floor is what the month has to clear; the ceiling is what a good month looks like.</p>
+                <table class="ds-calc">
+                  <tbody>
+                    <tr><td>Net target (midpoint)</td><td>$4,500</td></tr>
+                    <tr><td>Less TA stipend (gross)</td><td>&minus;$3,261</td></tr>
+                    <tr><td>Must come from teaching</td><td>$1,239 / mo</td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="ds-card ds-card-pad demo-pinned"><span class="demo-pin">2</span>
+                <div class="ds-eyebrow" style="margin-bottom: 10px;">What $1,239 a month costs in chair time</div>
+                <div class="ds-scen">
+                  <div class="s"><div class="h">All private &middot; $66/hr</div><div class="b">4 hrs</div><div class="c">per week. Fits comfortably around the degree.</div></div>
+                  <div class="s"><div class="h">Half and half</div><div class="b">5 hrs</div><div class="c">per week. Still comfortable; practice stays protected.</div></div>
+                  <div class="s"><div class="h">All Harbor Piano &middot; $45/hr</div><div class="b">6 hrs</div><div class="c">per week. Fits too, at the lower contract rate.</div></div>
+                </div>
+                <div class="ds-insight" style="margin-top: 12px;">
+                  <h3 class="ds-h3" style="font-size: 15px;">The real rate shrinks the case, it doesn't erase it</h3>
+                  <p>Harbor Piano pays <b>$45/hr</b> against the teacher's own <b>$60&ndash;70</b>. The gap between an all-private and an all-contract month is <b>2 hours a week</b>. Moving a student to the private roster still buys back real practice time.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="ds-card ds-card-pad demo-pinned" style="margin-top: 14px;"><span class="demo-pin">3</span>
+              <div class="ds-eyebrow">Income floor</div>
+              <h3 class="ds-h3">How many students the floor actually needs</h3>
+              <div class="ds-sub">The dollar target restated as a roster: the number the teacher can watch move week to week. Current load: 13.8 hrs a week across 18 students.</div>
+              <div class="ds-floorwrap">
+                <div class="f"><div class="h">Minimum roster</div><div class="b">~24 students</div><div class="c">at today's real mix ($54/hr blended, 44 min average lesson) to clear the $4,000 floor on teaching alone, with the stipend set aside entirely.</div></div>
+                <div class="f no"><div class="h">Short of the floor</div><div class="b">6 students</div><div class="c">short of clearing the $4,000 floor on teaching alone, so the floor currently leans on the $3,261/mo TA stipend: real money, but it stops the month the appointment does.</div></div>
+              </div>
+            </div>
+
+            <div class="ds-stats demo-pinned" style="margin-top: 14px;"><span class="demo-pin">4</span>
+              <div class="ds-card ds-stat"><div class="k">Fixed obligations</div><div class="v">16.5 hrs</div><div class="d">per week, university and degree combined</div></div>
+              <div class="ds-card ds-stat"><div class="k">Teaching needed</div><div class="v">4&ndash;6 hrs</div><div class="d">per week to hold the target band</div></div>
+              <div class="ds-card ds-stat"><div class="k">Left for practice</div><div class="v">~14 hrs</div><div class="d">on a 36-hour committed week</div></div>
+              <div class="ds-card ds-stat"><div class="k">Trend</div><div class="v" style="font-size: 17px; color: var(--ds-muted);">Month 1 of 6</div><div class="d">Six closed months turn all of this from estimate into evidence</div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /.demo-canvas -->
+  </div><!-- /.demo-stage -->
+
+  <div class="demo-controls">
+    <button class="demo-arrow" data-demo-prev aria-label="Previous slide">&#8249;</button>
+    <div class="demo-title" data-demo-title></div>
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <span class="demo-count" data-demo-count></span>
+      <button class="demo-arrow" data-demo-next aria-label="Next slide">&#8250;</button>
+    </div>
+  </div>
+
+  </div><!-- /[data-demo-panel] -->
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // The same initializer crm-demo.html uses and index.html runs for every
+  // [data-demo-panel], so this carousel can transplant without a new script.
+  var root = document.querySelector('[data-demo-panel]') || document;
+
+  var slides = Array.prototype.slice.call(root.querySelectorAll('.demo-car-slide'));
+  var navItems = Array.prototype.slice.call(root.querySelectorAll('.demo-nav-item[data-slide]'));
+  var prevBtns = Array.prototype.slice.call(root.querySelectorAll('[data-demo-prev]'));
+  var nextBtns = Array.prototype.slice.call(root.querySelectorAll('[data-demo-next]'));
+  var elContrib    = root.querySelector('[data-demo-contrib]');
+  var elState      = root.querySelector('[data-demo-state]');
+  var elStateLabel = root.querySelector('[data-demo-state-label]');
+  var elTitle      = root.querySelector('[data-demo-title]');
+  var elCount      = root.querySelector('[data-demo-count]');
+
+  var current = 0;
+
+  function show(i) {
+    if (i < 0 || i >= slides.length) return;
+    current = i;
+    var slide = slides[i];
+
+    slides.forEach(function (s, n) { s.classList.toggle('is-on', n === i); });
+
+    var group = slide.getAttribute('data-nav');
+    navItems.forEach(function (b) {
+      b.classList.toggle('is-active', b.getAttribute('data-nav') === group);
+    });
+
+    if (elContrib) elContrib.textContent = slide.getAttribute('data-contrib') || '';
+    if (elStateLabel) elStateLabel.innerHTML = slide.getAttribute('data-state-label') || '';
+    if (elState) {
+      elState.innerHTML = slide.getAttribute('data-state') || '';
+      var col = elState.closest('.demo-cap-col');
+      if (col) col.hidden = !slide.getAttribute('data-state');
+    }
+    if (elTitle) elTitle.textContent = slide.getAttribute('data-title') || '';
+    if (elCount) {
+      elCount.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+    }
+    prevBtns.forEach(function (el) { el.disabled = (i === 0); });
+    nextBtns.forEach(function (el) { el.disabled = (i === slides.length - 1); });
+  }
+
+  // The nav strip stays pinned while a tall slide scrolls under it. Changing
+  // slides from down there would land partway into the next slide, so this
+  // brings the new slide's top back up under the strip. Same as index.html.
+  function alignUnderPin(pin) {
+    var next = pin && pin.nextElementSibling;
+    if (!next) return;
+    var gap = parseFloat(getComputedStyle(pin).marginBottom) || 0;
+    var delta = next.getBoundingClientRect().top - (pin.getBoundingClientRect().bottom + gap);
+    if (delta < -1) window.scrollBy({ top: delta, behavior: 'smooth' });
+  }
+  var pin = root.querySelector('.demo-nav-wrap');
+  function turn(i) {
+    if (i < 0 || i >= slides.length) return;
+    show(i);
+    alignUnderPin(pin);
+  }
+
+  navItems.forEach(function (b) {
+    b.addEventListener('click', function () { turn(parseInt(b.getAttribute('data-slide'), 10)); });
+  });
+  prevBtns.forEach(function (el) { el.addEventListener('click', function () { turn(current - 1); }); });
+  nextBtns.forEach(function (el) { el.addEventListener('click', function () { turn(current + 1); }); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') turn(current - 1);
+    if (e.key === 'ArrowRight') turn(current + 1);
+  });
+
+  show(0);
+})();
+</script>
+</body>
+</html>

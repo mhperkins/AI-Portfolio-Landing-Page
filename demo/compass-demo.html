@@ -91,16 +91,32 @@ body {
   position: relative;
   border: 1px solid var(--border);
   border-radius: 10px;
+  /* Cream under the tint, so the pinned rail is opaque over the slide. */
   background:
-    linear-gradient(180deg, rgba(254, 243, 199, 0.35), rgba(254, 243, 199, 0.12));
+    linear-gradient(180deg, rgba(254, 243, 199, 0.35), rgba(254, 243, 199, 0.12)), var(--cream);
   padding: 32px 18px 21px;
   margin-bottom: 14px;
   transition: box-shadow 0.25s, border-color 0.25s, background 0.25s;
 }
 .demo-rail-field.is-lit {
   border-color: var(--amber-lt);
-  background: linear-gradient(180deg, rgba(254, 243, 199, 0.85), rgba(254, 243, 199, 0.4));
+  background: linear-gradient(180deg, rgba(254, 243, 199, 0.85), rgba(254, 243, 199, 0.4)), var(--cream);
   box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.12);
+}
+
+/* Pinned strips: the rail stays in view while a tall slide scrolls under it.
+   Same block as index.html, where --demo-pin-top clears the page's own
+   pinned bars; here nothing sits above it, so it is 0. */
+.demo-rail-field, .demo-nav-wrap {
+  position: sticky;
+  top: var(--demo-pin-top, 0px);
+  z-index: 20;
+}
+@media (max-width: 640px) {
+  .demo-rail-field { position: relative; }
+  .demo-nav-wrap { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .demo-nav-wrap::-webkit-scrollbar { display: none; }
+  .demo-nav-item { flex-shrink: 0; white-space: nowrap; }
 }
 
 .demo-rail-tag {
@@ -1541,8 +1557,24 @@ Groove is a spine. Never reduce it to "prefers simple rhythms."</div>
     nextBtns.forEach(function (el) { el.disabled = (i === slides.length - 1); });
   }
 
+  // The rail stays pinned while a tall slide scrolls under it. Changing slides
+  // from down there would land partway into the next slide, so this brings
+  // the new slide's top back up under the rail. Same as index.html.
+  function alignUnderPin(pin) {
+    var next = pin && pin.nextElementSibling;
+    if (!next) return;
+    var gap = parseFloat(getComputedStyle(pin).marginBottom) || 0;
+    var delta = next.getBoundingClientRect().top - (pin.getBoundingClientRect().bottom + gap);
+    if (delta < -1) window.scrollBy({ top: delta, behavior: 'smooth' });
+  }
+  function turn(i) {
+    if (i < 0 || i >= slides.length) return;
+    show(i);
+    alignUnderPin(field);
+  }
+
   groups.forEach(function (g) {
-    function go() { show(parseInt(g.getAttribute('data-slide'), 10)); }
+    function go() { turn(parseInt(g.getAttribute('data-slide'), 10)); }
     g.addEventListener('click', go);
     g.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); }
@@ -1553,22 +1585,22 @@ Groove is a spine. Never reduce it to "prefers simple rhythms."</div>
   // field, not a node), so without this the rail could never return to it.
   var blueprintTag = document.querySelector('.demo-rail-tag');
   if (blueprintTag) {
-    blueprintTag.addEventListener('click', function () { show(0); });
+    blueprintTag.addEventListener('click', function () { turn(0); });
     blueprintTag.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(0); }
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); turn(0); }
     });
   }
 
   prevBtns.forEach(function (el) {
-    el.addEventListener('click', function () { show(current - 1); });
+    el.addEventListener('click', function () { turn(current - 1); });
   });
   nextBtns.forEach(function (el) {
-    el.addEventListener('click', function () { show(current + 1); });
+    el.addEventListener('click', function () { turn(current + 1); });
   });
 
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'ArrowLeft')  show(current - 1);
-    if (e.key === 'ArrowRight') show(current + 1);
+    if (e.key === 'ArrowLeft')  turn(current - 1);
+    if (e.key === 'ArrowRight') turn(current + 1);
   });
 
   window.addEventListener('resize', function () { drawBackEdge(current === 3); });
