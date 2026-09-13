@@ -2573,7 +2573,15 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
    The portfolio card leaves about 780px, so the table keeps a floor and
    scrolls sideways below it. */
 .grant-demo .gf-pipe-scroll { overflow-x: auto; background: #fff; border-radius: 12px; border: 1.5px solid var(--g200); box-shadow: var(--sh-sm); }
-.grant-demo .gf-pipe { min-width: 720px; }
+.grant-demo .gf-pipe { min-width: 720px; position: relative; }
+.grant-demo .demo-col { position: absolute; top: 6px; bottom: 6px; left: 0; width: 0; border-radius: 8px; }
+/* A pin that sits just past the end of an inline item (the portal link). Under
+   760px the header padding is too tight for that, so it tucks into the corner. */
+.grant-demo .demo-pin.gf-pin-after { left: auto; right: -32px; top: 50%; margin-top: -11px; }
+@media (max-width: 760px) { .grant-demo .demo-pin.gf-pin-after { right: -10px; top: -10px; margin-top: 0; } }
+/* A whole-card pin: 3px further out than the default so it clears the card title
+   on phones, where the header padding drops to 12px. */
+.grant-demo .demo-pin.gf-pin-corner { left: -13px; top: -13px; }
 .grant-demo .gf-pipe-head { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1.5px solid var(--g200); background: var(--g50); }
 .grant-demo .gf-pipe-head > span { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--g400); }
 .grant-demo .gf-pipe-row { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid var(--g100); transition: background 0.1s; }
@@ -3272,6 +3280,9 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
 .campaign-demo .qt-code-top { gap: 10px; }
 .campaign-demo .qt-code-info { flex: 1; min-width: 0; }
 .campaign-demo .qt-code-label { font-size: 11.5px; font-weight: 900; color: var(--ink); }
+/* A pinned code tile gets extra top padding so its pin clears the label. The
+   pin cannot move further out: .qt-evrow clips, with only 10px beside a tile on phones. */
+.campaign-demo .qt-code.demo-pinned { padding-top: 16px; }
 .campaign-demo .qt-code-meta { font-size: 10px; color: var(--g400); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .campaign-demo .qt-code-hi { border-color: var(--cyan); background: rgba(115, 196, 214, 0.08); }
 .campaign-demo .qt-toast { position: absolute; right: 20px; bottom: 20px; z-index: 5; background: var(--ink); border-radius: 8px; padding: 10px 17px; font-size: 12px; font-weight: 700; color: var(--paper); box-shadow: var(--shadow-lg); white-space: nowrap; }
@@ -3382,10 +3393,47 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
   transition: opacity 0.12s, transform 0.12s, visibility 0s linear 0.12s;
 }
 .demo-pop.is-on { opacity: 1; visibility: visible; transform: none; transition: opacity 0.12s, transform 0.12s; }
+/* Pins on the showing slide that sit below the fold float as numbered chips
+   at the bottom of the screen, a cue to keep scrolling. */
+.demo-dock {
+  position: fixed; left: 50%; bottom: 16px; z-index: 35;
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 8px 6px 14px; border-radius: 999px;
+  background: rgba(17, 17, 17, 0.9); color: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  font-family: 'Inter', system-ui, sans-serif; font-size: 12px; font-weight: 600;
+  transform: translateX(-50%); animation: demo-dock-in 0.18s ease-out;
+}
+.demo-dock[hidden] { display: none; }
+.demo-dock-lbl { white-space: nowrap; }
+.demo-dock-lbl::after { content: "\2193"; display: inline-block; margin-left: 5px; animation: demo-dock-bob 1.4s ease-in-out infinite; }
+.demo-dock-pin {
+  width: 26px; height: 26px; border: 0; border-radius: 50%; padding: 0;
+  background: var(--demo-pin-color, var(--amber)); color: #fff;
+  font: 800 12px/26px 'Inter', system-ui, sans-serif; text-align: center; cursor: pointer;
+  box-shadow: 0 0 0 2px #fff;
+}
+.demo-dock-pin:hover, .demo-dock-pin:focus-visible { transform: scale(1.12); outline: none; }
+@keyframes demo-dock-in { from { opacity: 0; transform: translate(-50%, 8px); } to { opacity: 1; transform: translate(-50%, 0); } }
+@keyframes demo-dock-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(2px); } }
+@media (prefers-reduced-motion: reduce) { .demo-dock, .demo-dock-lbl::after { animation: none; } }
 /* The title card says the numbers do something, on slides that have them. */
 .has-pop.slide-has-pins .demo-cap-label::after { content: "Hover a number for details"; display: inline-block; margin-left: 10px; padding: 0 8px; border: 1px dashed var(--demo-pin-color, var(--amber)); border-radius: 20px; color: var(--demo-pin-color, var(--amber)); font-weight: 700; letter-spacing: 0.06em; line-height: 1.6; }
 @media (hover: none) { .has-pop.slide-has-pins .demo-cap-label::after { content: "Tap a number for details"; } }
 @media (prefers-reduced-motion: reduce) { .demo-nav-item.is-next::after, .demo-rail-group.is-next { animation: none; } }
+/* Compass carousel pins (2026-09-13). A node card clips anything hanging off
+   its edge, which is what keeps the ports half-sunk, so a whole-node pin sits
+   inside the dark header ahead of the node's label, and a picture's pin sits
+   on its corner. The Blueprint's two columns carry theirs top right, over the
+   empty end of the first label. */
+.compass-demo .dnode.demo-pinned > .demo-pin { top: 7px; left: 9px; }
+.compass-demo .dnode.demo-pinned > .dnode-head { padding-left: 39px; }
+.compass-demo .dpiece.demo-pinned > .demo-pin { top: 8px; left: 8px; }
+.compass-demo .demo-pin.dpin-tr { left: auto; right: -10px; top: -7px; }
+/* Compass slide 5 has no state line, so its column stays up for the pill alone. */
+#compassDemo .demo-cap-col.is-hint-only .demo-cap-state { display: none; }
+#compassDemo .demo-cap-col.is-hint-only .demo-cap-label { font-size: 0; margin-bottom: 0; }
+#compassDemo .demo-cap-col.is-hint-only .demo-cap-label::after { font-size: 9.5px; margin-left: 0; }
   </style>
 </head>
 <body class="font-sans antialiased" style="color: #c4d4de; background: radial-gradient(ellipse 120% 60% at 50% 0%, #0f1f10 0%, #080d08 65%) #080d08;">
@@ -3578,6 +3626,10 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
 
         <!-- ============ SLIDE 1 · AESTHETIC BLUEPRINT ==================== -->
         <section class="demo-car-slide is-on" data-title="The Aesthetic Blueprint">
+          <div class="demo-notes">
+            <div class="demo-note"><span class="demo-pin-n">1</span><span>Voice, influences and tendencies describe how you already write, and the assistant carries them into every session on every piece.</span></div>
+            <div class="demo-note"><span class="demo-pin-n">2</span><span>Parameters mark what you favor and what you are exploring, and Philosophy sets the ground rules, like naming a departure from your aesthetic instead of filtering it out.</span></div>
+          </div>
           <div class="demo-row">
             <div class="dnode" style="flex: 1 1 100%;">
               <div class="dnode-head">
@@ -3586,7 +3638,7 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
               </div>
               <div class="dnode-body">
                 <div class="demo-row" style="gap: 18px;">
-                  <div style="flex: 1 1 330px; min-width: 270px;">
+                  <div class="demo-pinned" style="flex: 1 1 330px; min-width: 270px;"><span class="demo-pin dpin-tr">1</span>
                     <div class="dfield">
                       <div class="dlabel">Voice</div>
                       <div class="dbox">Emo and pop punk immediacy, the structural clarity of Beethoven, the harmonic language of bebop. Direct on the surface, layered underneath. Music that communicates without apology.</div>
@@ -3603,7 +3655,7 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
   Backbeats and syncopation (drummer first)</div>
                     </div>
                   </div>
-                  <div style="flex: 1 1 330px; min-width: 270px;">
+                  <div class="demo-pinned" style="flex: 1 1 330px; min-width: 270px;"><span class="demo-pin dpin-tr">2</span>
                     <div class="dfield">
                       <div class="dlabel">Parameters</div>
                       <div class="dbox dbox-lines">Strings over woodwinds and brass
@@ -3625,9 +3677,14 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
 
         <!-- ============ SLIDE 2 · INTAKE ================================= -->
         <section class="demo-car-slide" data-title="Intake: the form and the conversation">
+          <div class="demo-notes">
+            <div class="demo-note"><span class="demo-pin-n">1</span><span>In Dialogue, the assistant asks one question at a time about what the piece is for, and each answer shapes the next question.</span></div>
+            <div class="demo-note"><span class="demo-pin-n">2</span><span>Form holds the same intake as labeled sections to fill in directly, and Import brings in notes you have already written.</span></div>
+            <div class="demo-note"><span class="demo-pin-n">3</span><span>Build intake compiles either one into a single artifact, led by the analytical question that every later step works from.</span></div>
+          </div>
           <div class="demo-row" style="gap: 16px;">
 
-            <div class="dnode dnode-narrow">
+            <div class="dnode dnode-narrow demo-pinned"><span class="demo-pin">1</span>
               <span class="dport dport-in" style="top: 50%;"></span>
               <div class="dnode-head">
                 <span class="dnode-type">Intake</span>
@@ -3654,7 +3711,7 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
               <span class="dport dport-out" style="top: 50%;"></span>
             </div>
 
-            <div class="dnode dnode-narrow">
+            <div class="dnode dnode-narrow demo-pinned"><span class="demo-pin">2</span>
               <span class="dport dport-in" style="top: 50%;"></span>
               <div class="dnode-head">
                 <span class="dnode-type">Intake</span>
@@ -3689,7 +3746,7 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
 
             <div class="demo-link"><span class="demo-link-label">compiles to</span></div>
 
-            <div class="dnode" style="flex: 0 1 250px; align-self: center;">
+            <div class="dnode demo-pinned" style="flex: 0 1 250px; align-self: center;"><span class="demo-pin">3</span>
               <span class="dport dport-in" style="top: 50%;"></span>
               <div class="dnode-head">
                 <span class="dnode-type">Intake</span>
@@ -3712,9 +3769,13 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
 
         <!-- ============ SLIDE 3 · CONSTITUTION TO GUIDE =================== -->
         <section class="demo-car-slide" data-title="Constitution to Guide">
+          <div class="demo-notes">
+            <div class="demo-note"><span class="demo-pin-n">1</span><span>Each decision becomes a numbered rule that cites its source, Save version and History keep every earlier draft, and Reconcile resolves rules that contradict each other.</span></div>
+            <div class="demo-note"><span class="demo-pin-n">2</span><span>The Guide reads the constitution and returns a one-sheet of observations, suggestions and recommended paths, with the reasoning and the full guide a click away.</span></div>
+          </div>
           <div class="demo-row" style="gap: 0;">
 
-            <div class="dnode">
+            <div class="dnode demo-pinned"><span class="demo-pin">1</span>
               <span class="dport dport-in" style="top: 20%;"></span>
               <span class="dport dport-in" style="top: 50%;"></span>
               <span class="dport dport-in" style="top: 80%;"></span>
@@ -3756,7 +3817,7 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
 
             <div class="demo-link"><span class="demo-link-label">binds</span></div>
 
-            <div class="dnode">
+            <div class="dnode demo-pinned"><span class="demo-pin">2</span>
               <span class="dport dport-in" style="top: 50%;"></span>
               <div class="dnode-head">
                 <span class="dnode-type">Guide</span>
@@ -3795,9 +3856,14 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
 
         <!-- ============ SLIDE 4 · SKETCHES TO FINAL DRAFT ================= -->
         <section class="demo-car-slide" data-title="Sketches to final draft">
+          <div class="demo-notes">
+            <div class="demo-note"><span class="demo-pin-n">1</span><span>Sketches upload as MusicXML and render as readable score on the canvas, so the assistant can weigh them against the constitution.</span></div>
+            <div class="demo-note"><span class="demo-pin-n">2</span><span>When a sketch pushes against a rule, the assistant raises it in Dialogue and proposes a decision, and nothing changes until you commit it, with the old rule kept in History.</span></div>
+            <div class="demo-note"><span class="demo-pin-n">3</span><span>A full draft uploads as XML for a complete analysis, read section by section so even a long score fits.</span></div>
+          </div>
           <div class="demo-row" style="gap: 0;">
 
-            <div class="dnode" style="flex: 0 1 250px;">
+            <div class="dnode demo-pinned" style="flex: 0 1 250px;"><span class="demo-pin">1</span>
               <span class="dport dport-in" style="top: 50%;"></span>
               <div class="dnode-head">
                 <span class="dnode-type">Sketch</span>
@@ -3864,7 +3930,7 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
 
             <div style="flex: 0 0 56px;"></div>
 
-            <div class="dnode">
+            <div class="dnode demo-pinned"><span class="demo-pin">2</span>
               <span class="dport dport-in" style="top: 50%;"></span>
               <div class="dnode-head">
                 <span class="dnode-type">Constitution</span>
@@ -3902,7 +3968,7 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
 
             <div style="flex: 0 0 56px;"></div>
 
-            <div class="dpiece dpiece-wrap" style="flex: 0 1 210px;">
+            <div class="dpiece dpiece-wrap demo-pinned" style="flex: 0 1 210px;"><span class="demo-pin">3</span>
               <div class="dpiece-crop">
                 <img class="dpiece-img dpiece-img-draft" src="images/Hub_Chaconne_Score.webp" alt="Draft page of Chaconne for Bass and Pedal Board">
                 <span class="dstamp">Draft</span>
@@ -3918,9 +3984,14 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
 
         <!-- ============ SLIDE 5 · ENGRAVING ASSISTANT ==================== -->
         <section class="demo-car-slide" data-title="The engraving assistant">
+          <div class="demo-notes">
+            <div class="demo-note"><span class="demo-pin-n">1</span><span>The house style starts from a publisher's conventions or your own, and one profile drives both the canvas preview and the exported PDF.</span></div>
+            <div class="demo-note"><span class="demo-pin-n">2</span><span>The assistant checks the draft against that house style and returns a checklist, each issue flagged by bar number with its fix.</span></div>
+            <div class="demo-note"><span class="demo-pin-n">3</span><span>The engraved score and its recording close the chain, kept on the canvas with every decision that shaped the piece.</span></div>
+          </div>
           <div class="demo-row" style="gap: 0;">
 
-            <div class="dnode">
+            <div class="dnode demo-pinned"><span class="demo-pin">1</span>
               <span class="dport dport-in" style="top: 35%;"></span>
               <span class="dport dport-in" style="top: 65%;"></span>
               <div class="dnode-head">
@@ -3957,7 +4028,7 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
 
             <div class="demo-link"><span class="demo-link-label">returns</span></div>
 
-            <div class="dnode">
+            <div class="dnode demo-pinned"><span class="demo-pin">2</span>
               <span class="dport dport-in" style="top: 50%;"></span>
               <div class="dnode-head">
                 <span class="dnode-type">Engraving</span>
@@ -3996,7 +4067,7 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
 
             <div style="flex: 0 0 56px;"></div>
 
-            <div class="dpiece" style="flex: 0 1 235px;">
+            <div class="dpiece demo-pinned" style="flex: 0 1 235px;"><span class="demo-pin">3</span>
               <img class="dpiece-img" src="images/Hub_Chaconne_Score.webp" alt="Engraved first page of Chaconne for Bass and Pedal Board">
               <div class="dpiece-body">
                 <p class="dpiece-title">Chaconne for Bass and Pedal Board</p>
@@ -5222,11 +5293,11 @@ Max</textarea>
                               <div style="text-align: right;"><div class="ds-eyebrow">Logged</div><div class="ds-big">3 / 5</div></div>
                             </div>
                             <ul class="ds-blocks">
-                              <li class="ds-blk">
+                              <li class="ds-blk demo-pinned"><span class="demo-pin" style="left: auto; right: 8px; top: 8px;">1</span>
                                 <div class="t">8:00&ndash;9:00</div><div class="ds-rail r-private"></div>
                                 <div>
                                   <div class="name">MIRA OKONKWO</div><div class="meta">60 min &middot; Private</div>
-                                  <div class="ds-acts demo-pinned"><span class="demo-pin">1</span>
+                                  <div class="ds-acts">
                                     <span class="ds-act pri">&#10003; Completed</span><span class="ds-act">Late cancel</span><span class="ds-act">No-show</span><span class="ds-act">Excused</span>
                                   </div>
                                 </div>
@@ -6389,10 +6460,10 @@ Max</textarea>
                   <span class="gf-c-name">Grant / Funder</span>
                   <span class="gf-c-status">Status</span>
                   <span class="gf-c-amount">Amount</span>
-                  <span class="gf-c-deadline">Deadline<span class="demo-pin is-inline">2</span></span>
-                  <span class="gf-c-progress">Progress<span class="demo-pin is-inline">3</span></span>
+                  <span class="gf-c-deadline">Deadline<span class="demo-pin is-inline" data-pin-for="gf-c-deadline">2</span></span>
+                  <span class="gf-c-progress">Progress<span class="demo-pin is-inline" data-pin-for="gf-c-progress">3</span></span>
                   <span class="gf-c-brief">Brief</span>
-                  <span class="gf-c-next">Next Action<span class="demo-pin is-inline">4</span></span>
+                  <span class="gf-c-next">Next Action<span class="demo-pin is-inline" data-pin-for="gf-c-next">4</span></span>
                   <span class="gf-c-actions"></span>
                 </div>
 
@@ -6461,6 +6532,13 @@ Max</textarea>
                   <div class="gf-c-next"><span class="gf-clamp">Check back when the portal reopens in December</span></div>
                   <div class="gf-c-actions"><span class="gf-btn gf-btn-danger gf-btn-xs">Del</span></div>
                 </div>
+
+                <!-- Column overlays for pins 2 to 4, so each outlines its whole column.
+                     The page script sizes them to their header cell; the standalone,
+                     which shows the notes row instead, leaves them at zero width. -->
+                <div class="demo-col" data-col="gf-c-deadline"></div>
+                <div class="demo-col" data-col="gf-c-progress"></div>
+                <div class="demo-col" data-col="gf-c-next"></div>
               </div>
             </div>
           </div>
@@ -6468,21 +6546,18 @@ Max</textarea>
       </section>
 
       <!-- ============ SLIDE 2 · IMPORT FROM CLAUDE ======================= -->
-      <!-- No notes row: the explain box says what Claude does, and the frame is
-           the screen that takes what Claude produced. -->
+      <!-- The notes say what Claude does in its own conversation, and the frame
+           is the screen that takes what Claude produced. -->
       <section class="demo-car-slide" data-nav="import"
                data-contrib="Claude does the finding and the funder research, then hands over a complete grant profile to paste in."
                data-state-label="State of the import"
                data-state="Belonging Initiative &middot; Hudson Wellness Trust &middot; scored 21 of 25 &middot; 6 questions and 4 tasks ready to import."
                data-title="Import from Claude: research in, workspace out">
-        <div class="gf-explain">
-          <div class="gf-explain-ttl">How Claude helps with grants</div>
-          <p>Claude works from research protocols written in plain language, so changing how Sprout finds and vets grants means editing a document, not code. In its own conversation, it:</p>
-          <ol>
-            <li><span><b>Finds</b> grants with live web search, checks every link, deadline, and eligibility rule on the funder's own page, and scores the fit.</span></li>
-            <li><span><b>Researches</b> the funder: past grantees from public tax filings, the words its reviewers respond to, and a clear go or no-go.</span></li>
-            <li><span><b>Builds</b> the grant profile: every question with its character limit, the tasks, and the framing notes, ready to paste in here.</span></li>
-          </ol>
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>In its own conversation, Claude follows plain-language research protocols to find grants with live web search, checking every link, deadline, and eligibility rule on the funder's own page.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Claude hands back the whole grant profile as JSON, with every question and its character limit, the tasks, and the framing notes, ready to paste in.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>Before anything imports, the preview shows the ask, the deadline, and the framing note from Claude's funder research: past grantees from public tax filings, the words reviewers respond to, and a clear go or no-go.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">4</span><span>One click turns the profile into a full grant workspace, with its questions, tasks, and framing notes already in place.</span></div>
         </div>
         <div class="gf-frame">
           <div class="gf-page">
@@ -6501,9 +6576,9 @@ Max</textarea>
             <div class="gf-card">
               <div class="gf-card-hd"><span class="gf-card-ttl">Paste Grant Profile JSON</span></div>
               <div class="gf-card-bd">
-                <div class="gf-howto"><b>How to use:</b> In this conversation, ask Claude to <i>"build a grant profile JSON for [funder name]"</i>. Claude will generate a complete profile. Copy the JSON output, paste it below, and click Import.</div>
+                <div class="gf-howto demo-pinned"><span class="demo-pin" style="left: auto; right: -10px;">1</span><b>How to use:</b> In this conversation, ask Claude to <i>"build a grant profile JSON for [funder name]"</i>. Claude will generate a complete profile. Copy the JSON output, paste it below, and click Import.</div>
                 <span class="gf-import-lbl">Grant Profile JSON</span>
-                <div class="gf-import-zone is-active">
+                <div class="gf-import-zone is-active demo-pinned"><span class="demo-pin" style="left: auto; right: -10px;">2</span>
 <pre class="gf-import-ta">{
   "grantName": "Belonging Initiative",
   "funder": "Hudson Wellness Trust",
@@ -6531,7 +6606,7 @@ Max</textarea>
 }</pre>
                 </div>
 
-                <div class="gf-preview">
+                <div class="gf-preview demo-pinned"><span class="demo-pin">3</span>
                   <div class="gf-preview-name">Belonging Initiative</div>
                   <div class="gf-preview-funder">Hudson Wellness Trust</div>
                   <div class="gf-preview-row">
@@ -6544,7 +6619,7 @@ Max</textarea>
                 </div>
 
                 <div class="gf-import-btns">
-                  <span class="gf-btn gf-btn-acid">&#10003; Import Grant Profile</span>
+                  <span class="gf-btn gf-btn-acid demo-pinned"><span class="demo-pin">4</span>&#10003; Import Grant Profile</span>
                   <span class="gf-btn gf-btn-ghost gf-btn-sm">Clear</span>
                 </div>
               </div>
@@ -6561,8 +6636,7 @@ Max</textarea>
                data-title="Research Brief: know the funder first">
         <div class="demo-notes">
           <div class="demo-note"><span class="demo-pin-n">1</span><span>Framing notes from the research stay pinned above every tab, so every answer starts from the same angle.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>The brief weighs Sprout's strengths, gaps, and eligibility risks against the funder, and ends in a go or no-go before any writing starts.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>The brief lists the funder's own phrases and the words to swap out, so every answer sounds like the people scoring it.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>The brief covers everything before writing starts: who the funder is, how well Sprout fits and whether to apply, what past grantees from public tax filings have in common, the words to use and avoid, how the application gets scored, and the one question worth asking the program officer.</span></div>
         </div>
         <div class="gf-frame">
           <div class="gf-page">
@@ -6601,7 +6675,7 @@ Max</textarea>
               <span class="gf-tab">Export</span>
             </div>
 
-            <div class="gf-card">
+            <div class="gf-card demo-pinned"><span class="demo-pin gf-pin-corner">2</span>
               <div class="gf-card-hd">
                 <span class="gf-card-ttl">Funder Research Brief</span>
                 <div class="gf-card-acts">
@@ -6620,13 +6694,13 @@ Max</textarea>
                 <div class="gf-brief-clip">
                   <div class="gf-brief-body"><div class="gf-brief-sec">FUNDER PROFILE
 Brooklyn Neighbors Fund is a community foundation that gives small grants to resident-led groups across the borough.
-The problem it is trying to solve: neighbors who live side by side for years and never meet.</div><div class="gf-brief-sec">FIT ANALYSIS<span class="demo-pin is-inline">2</span>
+The problem it is trying to solve: neighbors who live side by side for years and never meet.</div><div class="gf-brief-sec">FIT ANALYSIS
 Strengths: free to join, peer-led, rooted in one neighborhood.
 Gap: outcomes beyond attendance. Show who comes back, not only who comes.
 Eligibility risk: annual expenses must be under $250K. Confirm before writing.
 Verdict: GO</div><div class="gf-brief-sec">GRANTEE RESEARCH
 5 comparable past grantees, from public tax filings: Maple Street Tenants Circle, Eastside Garden Keepers, Knit &amp; Natter Collective, Corner Table Supper Club, Block by Block Chess Club.
-Patterns: volunteer-run, budgets under $150K, the neighborhood named in the first sentence.</div><div class="gf-brief-sec">VOICE &amp; LANGUAGE<span class="demo-pin is-inline">3</span>
+Patterns: volunteer-run, budgets under $150K, the neighborhood named in the first sentence.</div><div class="gf-brief-sec">VOICE &amp; LANGUAGE
 Use: "neighbors supporting neighbors", "resident-led", "belonging", "participatory".
 Swap: "clients" &rarr; "members", "services" &rarr; "gatherings", "therapy" &rarr; "peer support".</div><div class="gf-brief-sec">APPLICATION INTELLIGENCE
 9 questions, each with a 1,500 character limit.
@@ -6647,10 +6721,9 @@ One question only: does peer connection fit Civic Life or Health and Wellbeing?<
                data-title="Questions: drafts, limits, and gaps">
         <div class="demo-notes">
           <div class="demo-note"><span class="demo-pin-n">1</span><span>The tracker shows how many questions have answers, how complete the application is, and how many gaps are left to fill.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Every answer counts its characters against the funder's limit and warns when it gets close.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Facts nobody has confirmed yet stay highlighted in brackets and count as gaps until someone fills them in.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">4</span><span>A new draft from Claude pastes straight into the answer, and the version it replaces stays in History.</span></div>
-        </div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Every application opens with the same standard org details, the name, website, and founding year, kept consistent with Sprout's org profile so they go into any grant as written.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>Each question gets its own card: the funder's prompt with a writing hint, a draft box that counts characters against the limit, Edit and delete, History to bring back any earlier version, and Paste to drop in a new draft from Claude.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">4</span><span>Anything nobody has confirmed yet stays in the draft as highlighted, bracketed text, like the attendance totals here, and each card counts its gaps so none slip into the submitted application.</span></div>        </div>
         <div class="gf-frame">
           <div class="gf-page">
             <div class="gf-ws-hd is-compact">
@@ -6697,7 +6770,7 @@ One question only: does peer connection fit Civic Life or Health and Wellbeing?<
             </div>
 
             <!-- (a) complete, well under its limit -->
-            <div class="gf-qe">
+            <div class="gf-qe demo-pinned"><span class="demo-pin gf-pin-corner">2</span>
               <div class="gf-qe-hd"><div class="gf-qe-row">
                 <div class="gf-qe-main">
                   <div class="gf-qe-cat">org info</div>
@@ -6716,7 +6789,7 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
             </div>
 
             <!-- (b) complete, being edited -->
-            <div class="gf-qe is-focus">
+            <div class="gf-qe is-focus demo-pinned"><span class="demo-pin gf-pin-corner">3</span>
               <div class="gf-qe-hd"><div class="gf-qe-row">
                 <div class="gf-qe-main">
                   <div class="gf-qe-cat">narrative</div>
@@ -6727,13 +6800,13 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
               </div></div>
               <div class="gf-qe-bd"><div class="gf-qe-ta is-long">Sprout Society is a free, peer-led community space in Brooklyn, run by neighbors for neighbors who want more connection in their lives. Every week the doors open for Co-Working on Tuesdays and peer-led gatherings in the evenings, and a few times a year for Sprout N Tell, a night where local artists and musicians share their work with a room full of people who live nearby. Nobody pays to come in, nobody needs a referral, and nobody has to explain why they showed up. Most people arrive knowing no one and leave with a name, a reason to come back, and often a new friend who lives on the next block. Members lead most of what happens here: they host the gatherings, set up the chairs, greet people at the door, and decide what the space should try next. Over the summer, members hosted their own gatherings every week, from a Sunday walking group to a zine table. We started because so many neighbors told us the same thing, that they had lived in Brooklyn for years and still felt alone in it. A third space that asks nothing of you turned out to be what people were missing. This grant would keep the doors open more nights a week and help more of our neighbors find their way in.</div></div>
               <div class="gf-qe-ft">
-                <span class="gf-cc gf-cc-ok">1,184 / 1,500</span><span class="demo-pin is-inline">2</span>
+                <span class="gf-cc gf-cc-ok">1,184 / 1,500</span>
                 <div class="gf-qe-acts"><span class="gf-btn gf-btn-ghost gf-btn-xs">&#9198; History</span><span class="gf-btn gf-btn-ghost gf-btn-xs">&#128203; Paste</span></div>
               </div>
             </div>
 
             <!-- (c) answered, with two gaps, near its limit -->
-            <div class="gf-qe">
+            <div class="gf-qe demo-pinned"><span class="demo-pin gf-pin-corner">4</span>
               <div class="gf-qe-hd"><div class="gf-qe-row">
                 <div class="gf-qe-main">
                   <div class="gf-qe-cat">impact</div>
@@ -6745,8 +6818,8 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
               <div class="gf-qe-bd"><div class="gf-qe-ta is-long">Last year, <span class="gf-gap">[confirm Vol. 1 to 3 attendance totals]</span> neighbors came to Sprout N Tell, and <span class="gf-gap">[need count of weekly Co-Working regulars]</span> of them now come back every Tuesday to work side by side. We know because every guest signs in at the door, and our community records show who returns, not just who comes once. Peer-led gatherings ran every week of the year, and members hosted most of them. Most weeks, more than half of the people in the room have been before, and many first came as someone&#39;s guest. One member first came to Vol. 2 because a friend was performing, and she did not know anyone else in the room. She came back the very next Tuesday for Co-Working, then the week after that. By the fall she was greeting people at the door herself, and now she hosts a monthly gathering for people who have just moved to the neighborhood. She told us that Sprout was the first place in Brooklyn where someone noticed when she did not show up. That is the kind of change we count: people who arrive alone, come back, and start bringing others with them. We also ask performers and hosts what they noticed, because they see the room change before the numbers do. With this grant we will keep counting sign-ins and repeat visits, and add a short check-in twice a year.</div></div>
               <div class="gf-qe-ft">
                 <span class="gf-cc gf-cc-warn">1,262 / 1,500</span>
-                <span class="gf-gap-badge">&#9888; 2 gaps to fill</span><span class="demo-pin is-inline">3</span>
-                <div class="gf-qe-acts"><span class="demo-pin is-inline">4</span><span class="gf-btn gf-btn-ghost gf-btn-xs">&#9198; History</span><span class="gf-btn gf-btn-ghost gf-btn-xs">&#128203; Paste</span></div>
+                <span class="gf-gap-badge">&#9888; 2 gaps to fill</span>
+                <div class="gf-qe-acts"><span class="gf-btn gf-btn-ghost gf-btn-xs">&#9198; History</span><span class="gf-btn gf-btn-ghost gf-btn-xs">&#128203; Paste</span></div>
               </div>
             </div>
 
@@ -6773,9 +6846,7 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
                data-state="6 open tasks &middot; 2 high priority due this week &middot; 2 done."
                data-title="Tasks: what stands between draft and submit">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Every step the application needs becomes a task with a high, medium, or low priority, starting with confirming the funder's budget cap.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Each task has a due date ahead of the application deadline, so every piece is ready before the portal closes.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Finished tasks stay on the list crossed off, which keeps a record of what is already done.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Every step between draft and submit becomes a task with a priority and a due date ahead of the deadline, Add Task drops in a new one, and checked-off steps stay on the list crossed out as a record of what is done.</span></div>
         </div>
         <div class="gf-frame">
           <div class="gf-page">
@@ -6811,7 +6882,7 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
               <span class="gf-tab">Export</span>
             </div>
 
-            <div class="gf-card">
+            <div class="gf-card demo-pinned"><span class="demo-pin gf-pin-corner">1</span>
               <div class="gf-card-hd">
                 <span class="gf-card-ttl">Tasks &amp; Next Steps</span>
                 <span class="gf-btn gf-btn-ghost gf-btn-sm">&#65291; Add Task</span>
@@ -6821,7 +6892,7 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
                   <span class="gf-task-chk"></span>
                   <div class="gf-task-info">
                     <div class="gf-task-txt">Confirm annual expenses are under the funder's $250K cap</div>
-                    <div class="gf-task-meta"><span class="gf-pri gf-pri-high">high</span><span class="demo-pin is-inline">1</span><span class="gf-task-due">Due Sep 4, 2026</span></div>
+                    <div class="gf-task-meta"><span class="gf-pri gf-pri-high">high</span><span class="gf-task-due">Due Sep 4, 2026</span></div>
                   </div>
                   <span class="gf-btn gf-btn-ghost gf-btn-xs gf-task-x">&#10005;</span>
                 </div>
@@ -6853,7 +6924,7 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
                   <span class="gf-task-chk"></span>
                   <div class="gf-task-info">
                     <div class="gf-task-txt">Draft the one-page program budget</div>
-                    <div class="gf-task-meta"><span class="gf-pri gf-pri-high">high</span><span class="gf-task-due">Due Sep 18, 2026</span><span class="demo-pin is-inline">2</span></div>
+                    <div class="gf-task-meta"><span class="gf-pri gf-pri-high">high</span><span class="gf-task-due">Due Sep 18, 2026</span></div>
                   </div>
                   <span class="gf-btn gf-btn-ghost gf-btn-xs gf-task-x">&#10005;</span>
                 </div>
@@ -6868,7 +6939,7 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
                 <div class="gf-task">
                   <span class="gf-task-chk is-done">&#10003;</span>
                   <div class="gf-task-info">
-                    <div class="gf-task-txt is-done">Create the portal account<span class="demo-pin is-inline">3</span></div>
+                    <div class="gf-task-txt is-done">Create the portal account</div>
                     <div class="gf-task-meta"><span class="gf-pri gf-pri-med">med</span><span class="gf-task-due">Due Aug 25, 2026</span></div>
                   </div>
                   <span class="gf-btn gf-btn-ghost gf-btn-xs gf-task-x">&#10005;</span>
@@ -6894,12 +6965,12 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
                data-state="Neighborhood Connection Grant 2026 &middot; 9 answers &middot; ready to paste into the portal."
                data-title="Export: one block for the portal">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Every answer lines up in the portal's question order, under a header with the grant, funder, amount, and deadline.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>One click copies the whole application, ready to paste into the funder's portal.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Every grant keeps its essentials in one header: the name and funder, where the application stands, the ask, the deadline with days left, and a link straight to the funder's application portal, so submitting is one click away once the answers are copied.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>The export lays out every answer in the portal's question order under a header with the grant, funder, amount, and deadline, and Copy All puts the whole application on the clipboard, ready to paste into the funder's portal.</span></div>
         </div>
         <div class="gf-frame">
           <div class="gf-page">
-            <div class="gf-ws-hd is-compact">
+            <div class="gf-ws-hd is-compact demo-pinned"><span class="demo-pin gf-pin-corner">1</span>
               <div class="gf-ws-top">
                 <div>
                   <div class="gf-ws-name">Neighborhood Connection Grant 2026</div>
@@ -6931,14 +7002,14 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
               <span class="gf-tab on">Export</span>
             </div>
 
-            <div class="gf-card">
+            <div class="gf-card demo-pinned"><span class="demo-pin gf-pin-corner">2</span>
               <div class="gf-card-hd">
                 <span class="gf-card-ttl">Export Answers</span>
-                <div class="gf-card-acts"><span class="demo-pin is-inline">2</span><span class="gf-btn gf-btn-blk gf-btn-sm">&#128203; Copy All</span></div>
+                <div class="gf-card-acts"><span class="gf-btn gf-btn-blk gf-btn-sm">&#128203; Copy All</span></div>
               </div>
               <div class="gf-card-bd">
                 <p class="gf-export-intro">Copy this block and paste directly into the funder's portal.</p>
-                <div class="gf-export-wrap demo-pinned"><span class="demo-pin">1</span>
+                <div class="gf-export-wrap">
 <pre class="gf-export">========================================================
 GRANT APPLICATION: Neighborhood Connection Grant 2026
 FUNDER: Brooklyn Neighbors Fund
@@ -7180,8 +7251,8 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
                data-title="Content Queue: nothing posts without a yes">
         <div class="demo-notes">
           <div class="demo-note"><span class="demo-pin-n">1</span><span>Every post moves through five stages from Draft to Published, and each tab shows how many posts sit in that stage.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Every approved post shows the address of the person who approved it, so there is always a record of who signed off.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>One click publishes a scheduled post straight to Instagram, right from the queue.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Every post travels the same path from the app to Instagram: drafted, approved with the approver's address stamped on the card, scheduled, then published from the card itself with one click.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>One click publishes a scheduled post straight to Instagram: the app sends the caption, hashtags, and graphic through a Composio connection, waits for Instagram to finish processing, then publishes and saves the post's Instagram ID.</span></div>
         </div>
         <div class="so-frame so-cut" style="--cut: 900px;">
           <div class="so-page">
@@ -7200,7 +7271,7 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
               <span class="so-tab">Published<span class="so-tab-count">64</span></span>
             </div>
 
-            <div class="so-post">
+            <div class="so-post demo-pinned"><span class="demo-pin">2</span>
               <div class="so-post-hd">
                 <div class="so-post-id"><span class="so-thumb so-ph so-ph1">Vol. 4<br>line<br>up</span><span class="so-tag so-tag-scheduled">Scheduled</span></div>
                 <span class="so-btn so-btn-danger so-btn-sm">&#10005;</span>
@@ -7210,7 +7281,7 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
                 <span>&#128197; 9/8/2026, 6:00:00 PM</span>
                 <span>&#128444; image</span>
                 <span>#SproutSociety #SproutNTell #CommunityHeals&#8230;</span>
-                <span class="so-approver demo-pinned"><span class="demo-pin so-pin-end">2</span>&#10003; comms@sproutsociety.example</span>
+                <span class="so-approver">&#10003; comms@sproutsociety.example</span>
               </div>
               <div class="so-post-actions"><span class="so-btn so-btn-ghost so-btn-sm">Edit</span><span class="so-btn so-btn-acid so-btn-sm so-btn-busy">Working&#8230;</span></div>
             </div>
@@ -7387,9 +7458,8 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
                data-title="Create Post: a draft in one form">
         <div class="demo-notes">
           <div class="demo-note"><span class="demo-pin-n">1</span><span>The caption goes here, hashtags included, with a separate field for internal notes the audience never sees.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>The graphic uploads directly or comes in as a link, with a preview to check before saving.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>A date and time picker sets when the post goes out once someone approves it.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">4</span><span>Create Draft saves the post to the queue, where it waits for approval before anything can publish.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Everything Instagram needs besides the caption sits together: the media type, when the post goes out, and the graphic, uploaded to Sprout's own storage or pasted as a link, which Instagram pulls from when it publishes.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>Create Draft saves the post to the queue, where it waits for approval before anything can publish.</span></div>
         </div>
         <div class="so-frame">
           <div class="so-page">
@@ -7418,7 +7488,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                 </div>
               </div>
 
-              <div>
+              <div class="demo-pinned"><span class="demo-pin so-pin-tr">2</span>
                 <div class="so-frow">
                   <div class="so-fg">
                     <label class="so-fl">Media Type</label>
@@ -7426,13 +7496,13 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                   </div>
                   <div class="so-fg">
                     <label class="so-fl">Schedule Time</label>
-                    <div class="so-fi so-fdate demo-pinned"><span class="demo-pin">3</span><span class="so-ellip">09/08/2026, 06:00 PM</span><i>&#128197;</i></div>
+                    <div class="so-fi so-fdate"><span class="so-ellip">09/08/2026, 06:00 PM</span><i>&#128197;</i></div>
                   </div>
                 </div>
                 <div class="so-fg">
                   <div class="so-media-hd">
                     <label class="so-fl" style="margin-bottom: 0;">Media</label>
-                    <div class="so-mtabs demo-pinned"><span class="demo-pin so-pin-before">2</span><span class="so-mtab on">URL</span><span class="so-mtab">&#8593; Upload</span></div>
+                    <div class="so-mtabs"><span class="so-mtab on">URL</span><span class="so-mtab">&#8593; Upload</span></div>
                   </div>
                   <div class="so-fi so-ellip">https://&#8230;/storage/v1/object/public/post-images/1788300512093_k2j9x4.png</div>
                   <div class="so-flyer" role="img" aria-label="Placeholder lineup graphic for Sprout N Tell Vol. 4">
@@ -7451,7 +7521,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
             </div>
 
             <div class="so-create-btns">
-              <span class="so-btn so-btn-blk demo-pinned"><span class="demo-pin">4</span>+ Create Draft</span>
+              <span class="so-btn so-btn-blk demo-pinned"><span class="demo-pin">3</span>+ Create Draft</span>
               <span class="so-btn so-btn-ghost">Cancel</span>
             </div>
           </div>
@@ -7768,10 +7838,8 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                data-state="Street Flyer &middot; posted August 30 &middot; scans peaked the two days before the show."
                data-title="Daily Scans: when it worked">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>The chart shows scans per day for one code, here the street flyer, from two weeks before it went up to the morning after the show.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>The range buttons switch the chart between the last 30, 60, or 90 days, or all time.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Scans start on August 30, the day the flyers went up, and peak in the two days before the show.</span></div>
-        </div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>The whole display follows one code, here the street flyer: scans today, this week, and all time, then a day-by-day chart where scans start the day the flyers went up and peak just before the show.</span></div>        </div>
+        <div class="demo-pinned"><span class="demo-pin">1</span>
         <div class="qt-frame">
           <div class="qt-page">
             <div class="qt-stats">
@@ -7780,9 +7848,9 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
               <div class="qt-stat"><span class="qt-stat-lbl">All Time</span><span class="qt-stat-val">37</span><span class="qt-stat-sub">total scans</span></div>
             </div>
 
-            <div class="qt-chart-card demo-pinned"><span class="demo-pin">1</span>
+            <div class="qt-chart-card">
               <h2 class="qt-chart-h2">Daily Scans &middot; Street Flyer</h2>
-              <div class="qt-ranges demo-pinned" style="display: inline-flex;"><span class="demo-pin">2</span>
+              <div class="qt-ranges" style="display: inline-flex;">
                 <span class="qt-range">30d</span><span class="qt-range">60d</span><span class="qt-range">90d</span><span class="qt-range qt-range-on">All</span>
               </div>
               <div class="qt-chart-scroll">
@@ -7798,7 +7866,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                       <span class="qt-bar-slot"></span><span class="qt-bar-slot"></span><span class="qt-bar-slot"></span><span class="qt-bar-slot"></span>
                       <span class="qt-bar-slot"></span><span class="qt-bar-slot"></span><span class="qt-bar-slot"></span><span class="qt-bar-slot"></span>
                       <!-- Aug 30 to Sep 5: 3 2 2 2 2 2 3 (16) -->
-                      <span class="qt-bar-slot"><i class="qt-bar demo-pinned" style="height: 42.857%;"><span class="demo-pin" style="top: -30px; left: 50%; margin-left: -11px;">3</span></i></span>
+                      <span class="qt-bar-slot"><i class="qt-bar" style="height: 42.857%;"></i></span>
                       <span class="qt-bar-slot"><i class="qt-bar" style="height: 28.571%;"></i></span>
                       <span class="qt-bar-slot"><i class="qt-bar" style="height: 28.571%;"></i></span>
                       <span class="qt-bar-slot"><i class="qt-bar" style="height: 28.571%;"></i></span>
@@ -7832,6 +7900,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
             <p class="qt-updated">Live data &middot; Street Flyer &middot; Last refreshed 9/12/2026, 9:41 AM</p>
           </div>
         </div>
+        </div><!-- /pin 1: the whole display -->
       </section>
 
       <!-- ============ SLIDE 4 · MANAGE EVENTS ============================ -->
@@ -7842,8 +7911,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                data-title="Manage Events: a new code in seconds">
         <div class="demo-notes">
           <div class="demo-note"><span class="demo-pin-n">1</span><span>Add Event creates a new event with a name, date, and promoter, and gives it its own tab on the dashboard.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Each new code gets a label, a placement type, and the link it should send people to.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>The code ID fills itself in from the event name, year, and label, so nobody has to make one up.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Each new code gets a label, a placement type, and the link it should send people to, and its code ID fills itself in from the event name, year, and label, so nobody has to make one up.</span></div>
         </div>
         <div class="qt-frame">
           <!-- the dashboard, dimmed behind the drawer -->
@@ -7915,7 +7983,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                       <div class="qt-field"><span class="qt-label">Type</span><span class="qt-input">Print &middot; Poster</span></div>
                     </div>
                     <div class="qt-field"><span class="qt-label">Destination URL *</span><span class="qt-input qt-input-focus">https://forms.example/fern-and-fold-rsvp<span class="qt-caret"></span></span></div>
-                    <div class="qt-field demo-pinned"><span class="demo-pin" style="left: auto; right: -10px;">3</span><span class="qt-label">Code ID (auto)</span><span class="qt-input qt-input-auto">fern-and-fold-zine-night-2026-window-poster</span></div>
+                    <div class="qt-field"><span class="qt-label">Code ID (auto)</span><span class="qt-input qt-input-auto">fern-and-fold-zine-night-2026-window-poster</span></div>
                     <div class="qt-actions"><span class="qt-btn qt-btn-primary">Save QR Code</span><span class="qt-btn">Cancel</span></div>
                   </div>
 
@@ -7949,14 +8017,8 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                data-state-label="State of the flyer"
                data-state="Street Flyer &middot; the show is over &middot; now sends people to the Vol. 5 interest form."
                data-title="Update Live: change a printed code">
-        <div class="qt-explain">
-          <div class="qt-explain-ttl">How a scan works</div>
-          <p>The printed code never changes. What it points to can.</p>
-          <ol>
-            <li><span><b>Scan.</b> A phone opens the code's own tracking link.</span></li>
-            <li><span><b>Count.</b> That code's scan total for the day goes up by one.</span></li>
-            <li><span><b>Redirect.</b> The phone lands wherever the code points right now.</span></li>
-          </ol>
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Each printed code is one tile: a scan opens its own tracking link and adds to the day's count, the destination field and Update Live repoint every flyer already on the street without reprinting, and Move hands the code to another event.</span></div>
         </div>
         <div class="qt-frame qt-clip qt-clip-tall">
           <div class="qt-drawer qt-drawer-full">
@@ -7990,6 +8052,14 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                   </div>
 
                   <div class="qt-codes">
+                    <div class="qt-code qt-code-hi demo-pinned"><span class="demo-pin">1</span>
+                      <div class="qt-code-top">
+                        <div class="qt-code-info"><div class="qt-code-label">Street Flyer</div><div class="qt-code-meta">Print &middot; Flyer &middot; ID: sprout-n-tell-vol-4-2026-street-flyer</div></div>
+                        <span class="qt-btn qt-btn-danger qt-btn-sm">Delete</span>
+                      </div>
+                      <div class="qt-code-line"><span class="qt-input qt-input-sm qt-input-focus">https://forms.example/sprout-n-tell-vol-5-interest<span class="qt-caret"></span></span><span class="qt-btn qt-btn-primary qt-btn-pressed qt-btn-row">&#8593; Update Live</span></div>
+                      <div class="qt-code-line"><span class="qt-input qt-input-sm qt-select">Fern &amp; Fold Zine Night<i>&#9662;</i></span><span class="qt-btn qt-btn-row">&#8594; Move</span></div>
+                    </div>
                     <div class="qt-code">
                       <div class="qt-code-top">
                         <div class="qt-code-info"><div class="qt-code-label">Door Sign-In</div><div class="qt-code-meta">Signage &middot; Front door &middot; ID: sprout-n-tell-vol-4-2026-door-sign-in</div></div>
@@ -8004,14 +8074,6 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                         <span class="qt-btn qt-btn-danger qt-btn-sm">Delete</span>
                       </div>
                       <div class="qt-code-line"><span class="qt-input qt-input-sm">https://sproutsociety.example/vol-4-program</span><span class="qt-btn qt-btn-primary qt-btn-row">&#8593; Update Live</span></div>
-                      <div class="qt-code-line"><span class="qt-input qt-input-sm qt-select">Fern &amp; Fold Zine Night<i>&#9662;</i></span><span class="qt-btn qt-btn-row">&#8594; Move</span></div>
-                    </div>
-                    <div class="qt-code qt-code-hi">
-                      <div class="qt-code-top">
-                        <div class="qt-code-info"><div class="qt-code-label">Street Flyer</div><div class="qt-code-meta">Print &middot; Flyer &middot; ID: sprout-n-tell-vol-4-2026-street-flyer</div></div>
-                        <span class="qt-btn qt-btn-danger qt-btn-sm">Delete</span>
-                      </div>
-                      <div class="qt-code-line"><span class="qt-input qt-input-sm qt-input-focus">https://forms.example/sprout-n-tell-vol-5-interest<span class="qt-caret"></span></span><span class="qt-btn qt-btn-primary qt-btn-pressed qt-btn-row">&#8593; Update Live</span></div>
                       <div class="qt-code-line"><span class="qt-input qt-input-sm qt-select">Fern &amp; Fold Zine Night<i>&#9662;</i></span><span class="qt-btn qt-btn-row">&#8594; Move</span></div>
                     </div>
                     <div class="qt-code">
@@ -8170,6 +8232,221 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
       var gap = parseFloat(getComputedStyle(pin).marginBottom) || 0;
       var delta = next.getBoundingClientRect().top - (pin.getBoundingClientRect().bottom + gap);
       if (delta < -1) window.scrollBy({ top: delta, behavior: 'smooth' });
+    }
+
+    // ── Numbered notes as popovers, shared by every carousel ──────────────
+    // Each note pops up beside its pin when its tile (the pin's parent) is
+    // hovered, focused or tapped, instead of sitting in a row above the
+    // screen. The .demo-notes markup stays as the source of the text and is
+    // hidden by .has-pop, so the notes still read if this never runs. The
+    // Compass carousel and the [data-demo-panel] initializer both call this
+    // with their own slides and a getter for the one showing; their show()
+    // calls hide() and updateDock() on every slide change.
+    function initDemoPops(root, slides, getCurrent) {
+      var pinInfo = [];
+      slides.forEach(function (s) {
+        var notes = {};
+        s.querySelectorAll('.demo-note').forEach(function (note) {
+          var num = note.querySelector('.demo-pin-n');
+          if (!num) return;
+          var txt = num.nextElementSibling;
+          notes[num.textContent.trim()] = txt ? txt.innerHTML : '';
+        });
+        s.querySelectorAll('.demo-pin').forEach(function (p) {
+          var k = p.textContent.trim();
+          // A pin can name a column overlay (.demo-col) as its tile, so a note
+          // about a table column outlines the whole column, not just its header.
+          var col = p.getAttribute('data-pin-for');
+          var target = col ? s.querySelector('.demo-col[data-col="' + col + '"]') : p.parentElement;
+          if (!notes[k] || !target) return;
+          target.classList.add('demo-pin-target');
+          target.setAttribute('tabindex', '0');
+          target.setAttribute('data-pin-index', String(pinInfo.length));
+          pinInfo.push({ target: target, pin: p, n: k, html: notes[k] });
+        });
+      });
+      var pop = null, hot = null, lastPointer = 'mouse';
+      if (pinInfo.length) {
+        root.classList.add('has-pop');
+        root.style.setProperty('--demo-pin-color', getComputedStyle(pinInfo[0].pin).backgroundColor);
+        pop = document.createElement('div');
+        pop.className = 'demo-pop';
+        pop.setAttribute('role', 'tooltip');
+        root.appendChild(pop);
+      }
+      function infoFor(el) {
+        var t = el && el.closest ? el.closest('.demo-pin-target') : null;
+        if (!t || !root.contains(t)) return null;
+        return pinInfo[parseInt(t.getAttribute('data-pin-index'), 10)] || null;
+      }
+      function placePop() {
+        if (!hot) return;
+        var tr = hot.target.getBoundingClientRect();
+        if (!tr.width && !tr.height) { hidePop(); return; }
+        var pr = hot.pin.getBoundingClientRect();
+        // Never anchor under the pinned strip and title card.
+        var floor = 0;
+        root.querySelectorAll('.demo-caption, .demo-nav-wrap, .demo-rail-field').forEach(function (el) {
+          floor = Math.max(floor, el.getBoundingClientRect().bottom);
+        });
+        var anchor = Math.min(Math.max(pr.bottom, floor), tr.bottom);
+        var pw = pop.offsetWidth, ph = pop.offsetHeight;
+        var stage = root.querySelector('.demo-stage').getBoundingClientRect();
+        var left = Math.min(pr.left, stage.right - pw - 8);
+        left = Math.max(left, stage.left + 8, 8);
+        left = Math.min(left, window.innerWidth - pw - 8);
+        var top = anchor + 8;
+        if (top + ph > window.innerHeight - 8) {
+          top = Math.max(pr.top, floor) - ph - 8;
+          if (top < floor + 8) top = Math.max(floor + 8, window.innerHeight - ph - 8);
+        }
+        pop.style.left = Math.round(left) + 'px';
+        pop.style.top = Math.round(top) + 'px';
+      }
+      function showPop(info) {
+        if (!pop || !info) return;
+        if (hot && hot !== info) { hot.target.classList.remove('is-hot'); hot.pin.classList.remove('is-hot'); }
+        hot = info;
+        pop.innerHTML = '<span class="demo-pin-n">' + info.n + '</span><span class="demo-pop-txt">' + info.html + '</span>';
+        info.target.classList.add('is-hot');
+        info.pin.classList.add('is-hot');
+        pop.classList.add('is-on');
+        placePop();
+      }
+      function hidePop() {
+        if (!pop) return;
+        pop.classList.remove('is-on');
+        if (hot) { hot.target.classList.remove('is-hot'); hot.pin.classList.remove('is-hot'); }
+        hot = null;
+      }
+      if (pop) {
+        root.addEventListener('pointerdown', function (e) { lastPointer = e.pointerType || 'mouse'; });
+        root.addEventListener('pointerover', function (e) {
+          if (e.pointerType === 'touch' || dockHold) return;
+          var info = infoFor(e.target);
+          if (info) showPop(info);
+        });
+        root.addEventListener('pointerout', function (e) {
+          if (e.pointerType === 'touch' || !hot) return;
+          // A dock chip's note survives leaving the chip, and the scroll the chip
+          // started, which slides tiles under a mouse that has not moved.
+          if (dockHold || (dock && dock.contains(e.target))) return;
+          if (infoFor(e.relatedTarget) !== hot) hidePop();
+        });
+        // Touch has no hover: a tap on a tile shows its note, a tap anywhere else hides it.
+        root.addEventListener('click', function (e) {
+          if (lastPointer === 'mouse') return;
+          var info = infoFor(e.target);
+          if (info) showPop(info); else hidePop();
+        });
+        document.addEventListener('click', function (e) { if (hot && !root.contains(e.target)) hidePop(); });
+        root.addEventListener('focusin', function (e) {
+          if (e.target.classList && e.target.classList.contains('demo-pin-target')) showPop(infoFor(e.target));
+        });
+        root.addEventListener('focusout', function (e) {
+          if (hot && e.target === hot.target && infoFor(e.relatedTarget) !== hot) hidePop();
+        });
+        var raf = 0;
+        function follow() {
+          if (!hot || raf) return;
+          raf = requestAnimationFrame(function () { raf = 0; placePop(); });
+        }
+        window.addEventListener('scroll', follow, { passive: true });
+        window.addEventListener('resize', follow);
+      }
+
+      // ── Pins below the fold float at the bottom of the screen ─────────────
+      // While the carousel is on screen, every pin on the showing slide that sits
+      // below the viewport gets a numbered chip in a dock at the bottom, a cue to
+      // keep scrolling. A chip scrolls its tile into view and opens its note.
+      var dock = null;
+      // Set by a chip click, cleared once the mouse really moves (the browser's
+      // own moves during a scroll keep the same coordinates).
+      var dockHold = null;
+      window.addEventListener('pointermove', function (e) {
+        if (dockHold && Math.abs(e.clientX - dockHold.x) + Math.abs(e.clientY - dockHold.y) > 6) dockHold = null;
+      }, { passive: true });
+      if (pop) {
+        dock = document.createElement('div');
+        dock.className = 'demo-dock';
+        dock.hidden = true;
+        root.appendChild(dock);
+      }
+      function updateDock() {
+        if (!dock) return;
+        // Measure against the visual viewport: when a phone's layout viewport is
+        // taller than the screen (the page overflows sideways), innerHeight sits
+        // below the glass and a fixed bottom dock would too.
+        var vv = window.visualViewport;
+        var vh = vv ? vv.offsetTop + vv.height : window.innerHeight;
+        var rr = root.getBoundingClientRect();
+        var below = [];
+        if (rr.height && rr.top < vh - 80 && rr.bottom > vh) {
+          pinInfo.forEach(function (info) {
+            if (!slides[getCurrent()].contains(info.pin)) return;
+            var pr = info.pin.getBoundingClientRect();
+            if (pr.width && pr.top > vh - 12) below.push(info);
+          });
+        }
+        var key = below.map(function (b) { return b.n; }).join(',');
+        if (dock.getAttribute('data-key') !== key) {
+          dock.setAttribute('data-key', key);
+          dock.innerHTML = '';
+          if (below.length) {
+            var lbl = document.createElement('span');
+            lbl.className = 'demo-dock-lbl';
+            lbl.textContent = 'More below';
+            dock.appendChild(lbl);
+          }
+          below.forEach(function (info) {
+            var b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'demo-dock-pin';
+            b.textContent = info.n;
+            b.setAttribute('aria-label', 'Scroll to note ' + info.n);
+            b.addEventListener('click', function (e) {
+              // Stop here, or the carousel's own tap handler reads this as a tap
+              // outside every tile and closes the note straight away.
+              e.stopPropagation();
+              // Land the tile's top (and its pin) just under the pinned strip and
+              // title card. Centering a tall tile would leave its pin off screen.
+              var floor = typeof stickyOffset === 'function' ? stickyOffset() : 0;
+              root.querySelectorAll('.demo-caption, .demo-nav-wrap, .demo-rail-field').forEach(function (el) {
+                var cs = getComputedStyle(el);
+                if (cs.position === 'sticky') floor = Math.max(floor, (parseFloat(cs.top) || 0) + el.offsetHeight);
+              });
+              var tr = info.target.getBoundingClientRect(), pr = info.pin.getBoundingClientRect();
+              window.scrollTo({ top: Math.max(0, window.scrollY + Math.min(tr.top, pr.top) - floor - 24), behavior: 'smooth' });
+              dockHold = { x: e.clientX, y: e.clientY };
+              showPop(info);
+            });
+            dock.appendChild(b);
+          });
+        }
+        dock.hidden = !below.length;
+        if (!dock.hidden && vv) {
+          // Pin the dock to the visible screen rather than the layout viewport.
+          dock.style.left = Math.round(vv.offsetLeft + vv.width / 2) + 'px';
+          dock.style.top = Math.round(vh - 16 - dock.offsetHeight) + 'px';
+          dock.style.bottom = 'auto';
+        }
+      }
+      if (dock) {
+        var dockRaf = 0;
+        var queueDock = function () {
+          if (dockRaf) return;
+          dockRaf = requestAnimationFrame(function () { dockRaf = 0; updateDock(); });
+        };
+        window.addEventListener('scroll', queueDock, { passive: true });
+        window.addEventListener('resize', queueDock);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(queueDock);
+        if (window.visualViewport) {
+          visualViewport.addEventListener('resize', queueDock);
+          visualViewport.addEventListener('scroll', queueDock);
+        }
+      }
+
+      return { hide: hidePop, updateDock: updateDock };
     }
 
     // ── Video loading ───────────────────────────────────────────────────────
@@ -8504,6 +8781,10 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
 
   var current = 0;
 
+  // Numbered notes as popovers, shared with the other carousels. See
+  // initDemoPops().
+  var pops = initDemoPops(root, slides, function () { return current; });
+
   // The back edge: Sketch feeds the Constitution's score-in port. It is the one
   // arrow that runs right to left, and it is the whole reason the rail exists,
   // so it is drawn as a real curve under the pills rather than faked with CSS.
@@ -8544,6 +8825,9 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
     current = i;
 
     slides.forEach(function (s, n) { s.classList.toggle('is-on', n === i); });
+    pops.hide();
+    var hasPins = !!slides[i].querySelector('.demo-pin-target');
+    root.classList.toggle('slide-has-pins', hasPins);
 
     // Slide 1 lights the Blueprint field itself, because the Blueprint is the
     // field, not a node.
@@ -8575,10 +8859,16 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
 
     elState.textContent = CAPTIONS[i].state;
     var stateCol = elState.closest('.demo-cap-col');
-    if (stateCol) stateCol.hidden = !CAPTIONS[i].state;
+    if (stateCol) {
+      // Slide 5 has no state line, but the "Hover a number" pill hangs off
+      // this column's label, so a slide with pins keeps the column up.
+      stateCol.hidden = !CAPTIONS[i].state && !hasPins;
+      stateCol.classList.toggle('is-hint-only', !CAPTIONS[i].state);
+    }
     elSlideTitle.textContent = CAPTIONS[i].contrib;
     elTitle.textContent = slides[i].getAttribute('data-title');
     if (typeof measureDemoPin === 'function') measureDemoPin(root);
+    pops.updateDock();
     elCount.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
     prevBtns.forEach(function (el) { el.disabled = (i === 0); });
     nextBtns.forEach(function (el) { el.disabled = (i === slides.length - 1); });
@@ -8665,116 +8955,8 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
 
     var current = 0;
 
-    // ── Numbered notes as popovers ────────────────────────────────────────
-    // Each note pops up beside its pin when its tile (the pin's parent) is
-    // hovered, focused or tapped, instead of sitting in a row above the
-    // screen. The .demo-notes markup stays as the source of the text and is
-    // hidden by .has-pop, so the notes still read if this never runs.
-    var pinInfo = [];
-    slides.forEach(function (s) {
-      var notes = {};
-      s.querySelectorAll('.demo-note').forEach(function (note) {
-        var num = note.querySelector('.demo-pin-n');
-        if (!num) return;
-        var txt = num.nextElementSibling;
-        notes[num.textContent.trim()] = txt ? txt.innerHTML : '';
-      });
-      s.querySelectorAll('.demo-pin').forEach(function (p) {
-        var k = p.textContent.trim();
-        var target = p.parentElement;
-        if (!notes[k] || !target) return;
-        target.classList.add('demo-pin-target');
-        target.setAttribute('tabindex', '0');
-        target.setAttribute('data-pin-index', String(pinInfo.length));
-        pinInfo.push({ target: target, pin: p, n: k, html: notes[k] });
-      });
-    });
-    var pop = null, hot = null, lastPointer = 'mouse';
-    if (pinInfo.length) {
-      root.classList.add('has-pop');
-      root.style.setProperty('--demo-pin-color', getComputedStyle(pinInfo[0].pin).backgroundColor);
-      pop = document.createElement('div');
-      pop.className = 'demo-pop';
-      pop.setAttribute('role', 'tooltip');
-      root.appendChild(pop);
-    }
-    function infoFor(el) {
-      var t = el && el.closest ? el.closest('.demo-pin-target') : null;
-      if (!t || !root.contains(t)) return null;
-      return pinInfo[parseInt(t.getAttribute('data-pin-index'), 10)] || null;
-    }
-    function placePop() {
-      if (!hot) return;
-      var tr = hot.target.getBoundingClientRect();
-      if (!tr.width && !tr.height) { hidePop(); return; }
-      var pr = hot.pin.getBoundingClientRect();
-      // Never anchor under the pinned strip and title card.
-      var floor = 0;
-      root.querySelectorAll('.demo-caption, .demo-nav-wrap').forEach(function (el) {
-        floor = Math.max(floor, el.getBoundingClientRect().bottom);
-      });
-      var anchor = Math.min(Math.max(pr.bottom, floor), tr.bottom);
-      var pw = pop.offsetWidth, ph = pop.offsetHeight;
-      var stage = root.querySelector('.demo-stage').getBoundingClientRect();
-      var left = Math.min(pr.left, stage.right - pw - 8);
-      left = Math.max(left, stage.left + 8, 8);
-      left = Math.min(left, window.innerWidth - pw - 8);
-      var top = anchor + 8;
-      if (top + ph > window.innerHeight - 8) {
-        top = Math.max(pr.top, floor) - ph - 8;
-        if (top < floor + 8) top = Math.max(floor + 8, window.innerHeight - ph - 8);
-      }
-      pop.style.left = Math.round(left) + 'px';
-      pop.style.top = Math.round(top) + 'px';
-    }
-    function showPop(info) {
-      if (!pop || !info) return;
-      if (hot && hot !== info) { hot.target.classList.remove('is-hot'); hot.pin.classList.remove('is-hot'); }
-      hot = info;
-      pop.innerHTML = '<span class="demo-pin-n">' + info.n + '</span><span class="demo-pop-txt">' + info.html + '</span>';
-      info.target.classList.add('is-hot');
-      info.pin.classList.add('is-hot');
-      pop.classList.add('is-on');
-      placePop();
-    }
-    function hidePop() {
-      if (!pop) return;
-      pop.classList.remove('is-on');
-      if (hot) { hot.target.classList.remove('is-hot'); hot.pin.classList.remove('is-hot'); }
-      hot = null;
-    }
-    if (pop) {
-      root.addEventListener('pointerdown', function (e) { lastPointer = e.pointerType || 'mouse'; });
-      root.addEventListener('pointerover', function (e) {
-        if (e.pointerType === 'touch') return;
-        var info = infoFor(e.target);
-        if (info) showPop(info);
-      });
-      root.addEventListener('pointerout', function (e) {
-        if (e.pointerType === 'touch' || !hot) return;
-        if (infoFor(e.relatedTarget) !== hot) hidePop();
-      });
-      // Touch has no hover: a tap on a tile shows its note, a tap anywhere else hides it.
-      root.addEventListener('click', function (e) {
-        if (lastPointer === 'mouse') return;
-        var info = infoFor(e.target);
-        if (info) showPop(info); else hidePop();
-      });
-      document.addEventListener('click', function (e) { if (hot && !root.contains(e.target)) hidePop(); });
-      root.addEventListener('focusin', function (e) {
-        if (e.target.classList && e.target.classList.contains('demo-pin-target')) showPop(infoFor(e.target));
-      });
-      root.addEventListener('focusout', function (e) {
-        if (hot && e.target === hot.target && infoFor(e.relatedTarget) !== hot) hidePop();
-      });
-      var raf = 0;
-      function follow() {
-        if (!hot || raf) return;
-        raf = requestAnimationFrame(function () { raf = 0; placePop(); });
-      }
-      window.addEventListener('scroll', follow, { passive: true });
-      window.addEventListener('resize', follow);
-    }
+    // Numbered notes as popovers, and the dock for pins below the fold.
+    var pops = initDemoPops(root, slides, function () { return current; });
 
     // ── The strip is the only control ─────────────────────────────────────
     // The arrows are hidden, so every slide has to be reachable from the
@@ -8804,6 +8986,24 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
       });
       b.parentNode.insertBefore(wrap, b.nextSibling);
     });
+
+    // Column overlays are sized to their header cell whenever a slide shows
+    // or the layout changes (switchTab and switchTool dispatch a resize).
+    function sizeCols() {
+      root.querySelectorAll('.demo-col[data-col]').forEach(function (c) {
+        var box = c.parentElement;
+        var cell = box.querySelector('.' + c.getAttribute('data-col'));
+        var br = box.getBoundingClientRect();
+        if (!cell || !br.width) return;
+        var cr = cell.getBoundingClientRect();
+        c.style.left = Math.round(cr.left - br.left) + 'px';
+        c.style.width = Math.round(cr.width) + 'px';
+      });
+    }
+    if (root.querySelector('.demo-col[data-col]')) {
+      window.addEventListener('resize', sizeCols);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(sizeCols);
+    }
 
     function show(i) {
       if (i < 0 || i >= slides.length) return;
@@ -8835,7 +9035,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
         c.classList.toggle('is-active', n === i);
         c.classList.toggle('is-next', n === i + 1 && nextGroup === group);
       });
-      hidePop();
+      pops.hide();
       root.classList.toggle('slide-has-pins', !!slide.querySelector('.demo-pin-target'));
 
       // Captions are innerHTML because the copy carries entities (middots,
@@ -8849,6 +9049,8 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
       }
       if (elTitle) elTitle.textContent = slide.getAttribute('data-title') || '';
       if (typeof measureDemoPin === 'function') measureDemoPin(root);
+      sizeCols();
+      pops.updateDock();
       if (elCount) {
         elCount.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
       }

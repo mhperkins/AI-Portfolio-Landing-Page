@@ -253,7 +253,15 @@ body {
    The portfolio card leaves about 780px, so the table keeps a floor and
    scrolls sideways below it. */
 .grant-demo .gf-pipe-scroll { overflow-x: auto; background: #fff; border-radius: 12px; border: 1.5px solid var(--g200); box-shadow: var(--sh-sm); }
-.grant-demo .gf-pipe { min-width: 720px; }
+.grant-demo .gf-pipe { min-width: 720px; position: relative; }
+.grant-demo .demo-col { position: absolute; top: 6px; bottom: 6px; left: 0; width: 0; border-radius: 8px; }
+/* A pin that sits just past the end of an inline item (the portal link). Under
+   760px the header padding is too tight for that, so it tucks into the corner. */
+.grant-demo .demo-pin.gf-pin-after { left: auto; right: -32px; top: 50%; margin-top: -11px; }
+@media (max-width: 760px) { .grant-demo .demo-pin.gf-pin-after { right: -10px; top: -10px; margin-top: 0; } }
+/* A whole-card pin: 3px further out than the default so it clears the card title
+   on phones, where the header padding drops to 12px. */
+.grant-demo .demo-pin.gf-pin-corner { left: -13px; top: -13px; }
 .grant-demo .gf-pipe-head { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1.5px solid var(--g200); background: var(--g50); }
 .grant-demo .gf-pipe-head > span { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--g400); }
 .grant-demo .gf-pipe-row { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid var(--g100); transition: background 0.1s; }
@@ -521,10 +529,10 @@ body {
                   <span class="gf-c-name">Grant / Funder</span>
                   <span class="gf-c-status">Status</span>
                   <span class="gf-c-amount">Amount</span>
-                  <span class="gf-c-deadline">Deadline<span class="demo-pin is-inline">2</span></span>
-                  <span class="gf-c-progress">Progress<span class="demo-pin is-inline">3</span></span>
+                  <span class="gf-c-deadline">Deadline<span class="demo-pin is-inline" data-pin-for="gf-c-deadline">2</span></span>
+                  <span class="gf-c-progress">Progress<span class="demo-pin is-inline" data-pin-for="gf-c-progress">3</span></span>
                   <span class="gf-c-brief">Brief</span>
-                  <span class="gf-c-next">Next Action<span class="demo-pin is-inline">4</span></span>
+                  <span class="gf-c-next">Next Action<span class="demo-pin is-inline" data-pin-for="gf-c-next">4</span></span>
                   <span class="gf-c-actions"></span>
                 </div>
 
@@ -593,6 +601,13 @@ body {
                   <div class="gf-c-next"><span class="gf-clamp">Check back when the portal reopens in December</span></div>
                   <div class="gf-c-actions"><span class="gf-btn gf-btn-danger gf-btn-xs">Del</span></div>
                 </div>
+
+                <!-- Column overlays for pins 2 to 4, so each outlines its whole column.
+                     The page script sizes them to their header cell; the standalone,
+                     which shows the notes row instead, leaves them at zero width. -->
+                <div class="demo-col" data-col="gf-c-deadline"></div>
+                <div class="demo-col" data-col="gf-c-progress"></div>
+                <div class="demo-col" data-col="gf-c-next"></div>
               </div>
             </div>
           </div>
@@ -600,21 +615,18 @@ body {
       </section>
 
       <!-- ============ SLIDE 2 · IMPORT FROM CLAUDE ======================= -->
-      <!-- No notes row: the explain box says what Claude does, and the frame is
-           the screen that takes what Claude produced. -->
+      <!-- The notes say what Claude does in its own conversation, and the frame
+           is the screen that takes what Claude produced. -->
       <section class="demo-car-slide" data-nav="import"
                data-contrib="Claude does the finding and the funder research, then hands over a complete grant profile to paste in."
                data-state-label="State of the import"
                data-state="Belonging Initiative &middot; Hudson Wellness Trust &middot; scored 21 of 25 &middot; 6 questions and 4 tasks ready to import."
                data-title="Import from Claude: research in, workspace out">
-        <div class="gf-explain">
-          <div class="gf-explain-ttl">How Claude helps with grants</div>
-          <p>Claude works from research protocols written in plain language, so changing how Sprout finds and vets grants means editing a document, not code. In its own conversation, it:</p>
-          <ol>
-            <li><span><b>Finds</b> grants with live web search, checks every link, deadline, and eligibility rule on the funder's own page, and scores the fit.</span></li>
-            <li><span><b>Researches</b> the funder: past grantees from public tax filings, the words its reviewers respond to, and a clear go or no-go.</span></li>
-            <li><span><b>Builds</b> the grant profile: every question with its character limit, the tasks, and the framing notes, ready to paste in here.</span></li>
-          </ol>
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>In its own conversation, Claude follows plain-language research protocols to find grants with live web search, checking every link, deadline, and eligibility rule on the funder's own page.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Claude hands back the whole grant profile as JSON, with every question and its character limit, the tasks, and the framing notes, ready to paste in.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>Before anything imports, the preview shows the ask, the deadline, and the framing note from Claude's funder research: past grantees from public tax filings, the words reviewers respond to, and a clear go or no-go.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">4</span><span>One click turns the profile into a full grant workspace, with its questions, tasks, and framing notes already in place.</span></div>
         </div>
         <div class="gf-frame">
           <div class="gf-page">
@@ -633,9 +645,9 @@ body {
             <div class="gf-card">
               <div class="gf-card-hd"><span class="gf-card-ttl">Paste Grant Profile JSON</span></div>
               <div class="gf-card-bd">
-                <div class="gf-howto"><b>How to use:</b> In this conversation, ask Claude to <i>"build a grant profile JSON for [funder name]"</i>. Claude will generate a complete profile. Copy the JSON output, paste it below, and click Import.</div>
+                <div class="gf-howto demo-pinned"><span class="demo-pin" style="left: auto; right: -10px;">1</span><b>How to use:</b> In this conversation, ask Claude to <i>"build a grant profile JSON for [funder name]"</i>. Claude will generate a complete profile. Copy the JSON output, paste it below, and click Import.</div>
                 <span class="gf-import-lbl">Grant Profile JSON</span>
-                <div class="gf-import-zone is-active">
+                <div class="gf-import-zone is-active demo-pinned"><span class="demo-pin" style="left: auto; right: -10px;">2</span>
 <pre class="gf-import-ta">{
   "grantName": "Belonging Initiative",
   "funder": "Hudson Wellness Trust",
@@ -663,7 +675,7 @@ body {
 }</pre>
                 </div>
 
-                <div class="gf-preview">
+                <div class="gf-preview demo-pinned"><span class="demo-pin">3</span>
                   <div class="gf-preview-name">Belonging Initiative</div>
                   <div class="gf-preview-funder">Hudson Wellness Trust</div>
                   <div class="gf-preview-row">
@@ -676,7 +688,7 @@ body {
                 </div>
 
                 <div class="gf-import-btns">
-                  <span class="gf-btn gf-btn-acid">&#10003; Import Grant Profile</span>
+                  <span class="gf-btn gf-btn-acid demo-pinned"><span class="demo-pin">4</span>&#10003; Import Grant Profile</span>
                   <span class="gf-btn gf-btn-ghost gf-btn-sm">Clear</span>
                 </div>
               </div>
@@ -693,8 +705,7 @@ body {
                data-title="Research Brief: know the funder first">
         <div class="demo-notes">
           <div class="demo-note"><span class="demo-pin-n">1</span><span>Framing notes from the research stay pinned above every tab, so every answer starts from the same angle.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>The brief weighs Sprout's strengths, gaps, and eligibility risks against the funder, and ends in a go or no-go before any writing starts.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>The brief lists the funder's own phrases and the words to swap out, so every answer sounds like the people scoring it.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>The brief covers everything before writing starts: who the funder is, how well Sprout fits and whether to apply, what past grantees from public tax filings have in common, the words to use and avoid, how the application gets scored, and the one question worth asking the program officer.</span></div>
         </div>
         <div class="gf-frame">
           <div class="gf-page">
@@ -733,7 +744,7 @@ body {
               <span class="gf-tab">Export</span>
             </div>
 
-            <div class="gf-card">
+            <div class="gf-card demo-pinned"><span class="demo-pin gf-pin-corner">2</span>
               <div class="gf-card-hd">
                 <span class="gf-card-ttl">Funder Research Brief</span>
                 <div class="gf-card-acts">
@@ -752,13 +763,13 @@ body {
                 <div class="gf-brief-clip">
                   <div class="gf-brief-body"><div class="gf-brief-sec">FUNDER PROFILE
 Brooklyn Neighbors Fund is a community foundation that gives small grants to resident-led groups across the borough.
-The problem it is trying to solve: neighbors who live side by side for years and never meet.</div><div class="gf-brief-sec">FIT ANALYSIS<span class="demo-pin is-inline">2</span>
+The problem it is trying to solve: neighbors who live side by side for years and never meet.</div><div class="gf-brief-sec">FIT ANALYSIS
 Strengths: free to join, peer-led, rooted in one neighborhood.
 Gap: outcomes beyond attendance. Show who comes back, not only who comes.
 Eligibility risk: annual expenses must be under $250K. Confirm before writing.
 Verdict: GO</div><div class="gf-brief-sec">GRANTEE RESEARCH
 5 comparable past grantees, from public tax filings: Maple Street Tenants Circle, Eastside Garden Keepers, Knit &amp; Natter Collective, Corner Table Supper Club, Block by Block Chess Club.
-Patterns: volunteer-run, budgets under $150K, the neighborhood named in the first sentence.</div><div class="gf-brief-sec">VOICE &amp; LANGUAGE<span class="demo-pin is-inline">3</span>
+Patterns: volunteer-run, budgets under $150K, the neighborhood named in the first sentence.</div><div class="gf-brief-sec">VOICE &amp; LANGUAGE
 Use: "neighbors supporting neighbors", "resident-led", "belonging", "participatory".
 Swap: "clients" &rarr; "members", "services" &rarr; "gatherings", "therapy" &rarr; "peer support".</div><div class="gf-brief-sec">APPLICATION INTELLIGENCE
 9 questions, each with a 1,500 character limit.
@@ -779,10 +790,9 @@ One question only: does peer connection fit Civic Life or Health and Wellbeing?<
                data-title="Questions: drafts, limits, and gaps">
         <div class="demo-notes">
           <div class="demo-note"><span class="demo-pin-n">1</span><span>The tracker shows how many questions have answers, how complete the application is, and how many gaps are left to fill.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Every answer counts its characters against the funder's limit and warns when it gets close.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Facts nobody has confirmed yet stay highlighted in brackets and count as gaps until someone fills them in.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">4</span><span>A new draft from Claude pastes straight into the answer, and the version it replaces stays in History.</span></div>
-        </div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Every application opens with the same standard org details, the name, website, and founding year, kept consistent with Sprout's org profile so they go into any grant as written.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>Each question gets its own card: the funder's prompt with a writing hint, a draft box that counts characters against the limit, Edit and delete, History to bring back any earlier version, and Paste to drop in a new draft from Claude.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">4</span><span>Anything nobody has confirmed yet stays in the draft as highlighted, bracketed text, like the attendance totals here, and each card counts its gaps so none slip into the submitted application.</span></div>        </div>
         <div class="gf-frame">
           <div class="gf-page">
             <div class="gf-ws-hd is-compact">
@@ -829,7 +839,7 @@ One question only: does peer connection fit Civic Life or Health and Wellbeing?<
             </div>
 
             <!-- (a) complete, well under its limit -->
-            <div class="gf-qe">
+            <div class="gf-qe demo-pinned"><span class="demo-pin gf-pin-corner">2</span>
               <div class="gf-qe-hd"><div class="gf-qe-row">
                 <div class="gf-qe-main">
                   <div class="gf-qe-cat">org info</div>
@@ -848,7 +858,7 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
             </div>
 
             <!-- (b) complete, being edited -->
-            <div class="gf-qe is-focus">
+            <div class="gf-qe is-focus demo-pinned"><span class="demo-pin gf-pin-corner">3</span>
               <div class="gf-qe-hd"><div class="gf-qe-row">
                 <div class="gf-qe-main">
                   <div class="gf-qe-cat">narrative</div>
@@ -859,13 +869,13 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
               </div></div>
               <div class="gf-qe-bd"><div class="gf-qe-ta is-long">Sprout Society is a free, peer-led community space in Brooklyn, run by neighbors for neighbors who want more connection in their lives. Every week the doors open for Co-Working on Tuesdays and peer-led gatherings in the evenings, and a few times a year for Sprout N Tell, a night where local artists and musicians share their work with a room full of people who live nearby. Nobody pays to come in, nobody needs a referral, and nobody has to explain why they showed up. Most people arrive knowing no one and leave with a name, a reason to come back, and often a new friend who lives on the next block. Members lead most of what happens here: they host the gatherings, set up the chairs, greet people at the door, and decide what the space should try next. Over the summer, members hosted their own gatherings every week, from a Sunday walking group to a zine table. We started because so many neighbors told us the same thing, that they had lived in Brooklyn for years and still felt alone in it. A third space that asks nothing of you turned out to be what people were missing. This grant would keep the doors open more nights a week and help more of our neighbors find their way in.</div></div>
               <div class="gf-qe-ft">
-                <span class="gf-cc gf-cc-ok">1,184 / 1,500</span><span class="demo-pin is-inline">2</span>
+                <span class="gf-cc gf-cc-ok">1,184 / 1,500</span>
                 <div class="gf-qe-acts"><span class="gf-btn gf-btn-ghost gf-btn-xs">&#9198; History</span><span class="gf-btn gf-btn-ghost gf-btn-xs">&#128203; Paste</span></div>
               </div>
             </div>
 
             <!-- (c) answered, with two gaps, near its limit -->
-            <div class="gf-qe">
+            <div class="gf-qe demo-pinned"><span class="demo-pin gf-pin-corner">4</span>
               <div class="gf-qe-hd"><div class="gf-qe-row">
                 <div class="gf-qe-main">
                   <div class="gf-qe-cat">impact</div>
@@ -877,8 +887,8 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
               <div class="gf-qe-bd"><div class="gf-qe-ta is-long">Last year, <span class="gf-gap">[confirm Vol. 1 to 3 attendance totals]</span> neighbors came to Sprout N Tell, and <span class="gf-gap">[need count of weekly Co-Working regulars]</span> of them now come back every Tuesday to work side by side. We know because every guest signs in at the door, and our community records show who returns, not just who comes once. Peer-led gatherings ran every week of the year, and members hosted most of them. Most weeks, more than half of the people in the room have been before, and many first came as someone&#39;s guest. One member first came to Vol. 2 because a friend was performing, and she did not know anyone else in the room. She came back the very next Tuesday for Co-Working, then the week after that. By the fall she was greeting people at the door herself, and now she hosts a monthly gathering for people who have just moved to the neighborhood. She told us that Sprout was the first place in Brooklyn where someone noticed when she did not show up. That is the kind of change we count: people who arrive alone, come back, and start bringing others with them. We also ask performers and hosts what they noticed, because they see the room change before the numbers do. With this grant we will keep counting sign-ins and repeat visits, and add a short check-in twice a year.</div></div>
               <div class="gf-qe-ft">
                 <span class="gf-cc gf-cc-warn">1,262 / 1,500</span>
-                <span class="gf-gap-badge">&#9888; 2 gaps to fill</span><span class="demo-pin is-inline">3</span>
-                <div class="gf-qe-acts"><span class="demo-pin is-inline">4</span><span class="gf-btn gf-btn-ghost gf-btn-xs">&#9198; History</span><span class="gf-btn gf-btn-ghost gf-btn-xs">&#128203; Paste</span></div>
+                <span class="gf-gap-badge">&#9888; 2 gaps to fill</span>
+                <div class="gf-qe-acts"><span class="gf-btn gf-btn-ghost gf-btn-xs">&#9198; History</span><span class="gf-btn gf-btn-ghost gf-btn-xs">&#128203; Paste</span></div>
               </div>
             </div>
 
@@ -905,9 +915,7 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
                data-state="6 open tasks &middot; 2 high priority due this week &middot; 2 done."
                data-title="Tasks: what stands between draft and submit">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Every step the application needs becomes a task with a high, medium, or low priority, starting with confirming the funder's budget cap.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Each task has a due date ahead of the application deadline, so every piece is ready before the portal closes.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Finished tasks stay on the list crossed off, which keeps a record of what is already done.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Every step between draft and submit becomes a task with a priority and a due date ahead of the deadline, Add Task drops in a new one, and checked-off steps stay on the list crossed out as a record of what is done.</span></div>
         </div>
         <div class="gf-frame">
           <div class="gf-page">
@@ -943,7 +951,7 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
               <span class="gf-tab">Export</span>
             </div>
 
-            <div class="gf-card">
+            <div class="gf-card demo-pinned"><span class="demo-pin gf-pin-corner">1</span>
               <div class="gf-card-hd">
                 <span class="gf-card-ttl">Tasks &amp; Next Steps</span>
                 <span class="gf-btn gf-btn-ghost gf-btn-sm">&#65291; Add Task</span>
@@ -953,7 +961,7 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
                   <span class="gf-task-chk"></span>
                   <div class="gf-task-info">
                     <div class="gf-task-txt">Confirm annual expenses are under the funder's $250K cap</div>
-                    <div class="gf-task-meta"><span class="gf-pri gf-pri-high">high</span><span class="demo-pin is-inline">1</span><span class="gf-task-due">Due Sep 4, 2026</span></div>
+                    <div class="gf-task-meta"><span class="gf-pri gf-pri-high">high</span><span class="gf-task-due">Due Sep 4, 2026</span></div>
                   </div>
                   <span class="gf-btn gf-btn-ghost gf-btn-xs gf-task-x">&#10005;</span>
                 </div>
@@ -985,7 +993,7 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
                   <span class="gf-task-chk"></span>
                   <div class="gf-task-info">
                     <div class="gf-task-txt">Draft the one-page program budget</div>
-                    <div class="gf-task-meta"><span class="gf-pri gf-pri-high">high</span><span class="gf-task-due">Due Sep 18, 2026</span><span class="demo-pin is-inline">2</span></div>
+                    <div class="gf-task-meta"><span class="gf-pri gf-pri-high">high</span><span class="gf-task-due">Due Sep 18, 2026</span></div>
                   </div>
                   <span class="gf-btn gf-btn-ghost gf-btn-xs gf-task-x">&#10005;</span>
                 </div>
@@ -1000,7 +1008,7 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
                 <div class="gf-task">
                   <span class="gf-task-chk is-done">&#10003;</span>
                   <div class="gf-task-info">
-                    <div class="gf-task-txt is-done">Create the portal account<span class="demo-pin is-inline">3</span></div>
+                    <div class="gf-task-txt is-done">Create the portal account</div>
                     <div class="gf-task-meta"><span class="gf-pri gf-pri-med">med</span><span class="gf-task-due">Due Aug 25, 2026</span></div>
                   </div>
                   <span class="gf-btn gf-btn-ghost gf-btn-xs gf-task-x">&#10005;</span>
@@ -1026,12 +1034,12 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
                data-state="Neighborhood Connection Grant 2026 &middot; 9 answers &middot; ready to paste into the portal."
                data-title="Export: one block for the portal">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Every answer lines up in the portal's question order, under a header with the grant, funder, amount, and deadline.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>One click copies the whole application, ready to paste into the funder's portal.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Every grant keeps its essentials in one header: the name and funder, where the application stands, the ask, the deadline with days left, and a link straight to the funder's application portal, so submitting is one click away once the answers are copied.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>The export lays out every answer in the portal's question order under a header with the grant, funder, amount, and deadline, and Copy All puts the whole application on the clipboard, ready to paste into the funder's portal.</span></div>
         </div>
         <div class="gf-frame">
           <div class="gf-page">
-            <div class="gf-ws-hd is-compact">
+            <div class="gf-ws-hd is-compact demo-pinned"><span class="demo-pin gf-pin-corner">1</span>
               <div class="gf-ws-top">
                 <div>
                   <div class="gf-ws-name">Neighborhood Connection Grant 2026</div>
@@ -1063,14 +1071,14 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
               <span class="gf-tab on">Export</span>
             </div>
 
-            <div class="gf-card">
+            <div class="gf-card demo-pinned"><span class="demo-pin gf-pin-corner">2</span>
               <div class="gf-card-hd">
                 <span class="gf-card-ttl">Export Answers</span>
-                <div class="gf-card-acts"><span class="demo-pin is-inline">2</span><span class="gf-btn gf-btn-blk gf-btn-sm">&#128203; Copy All</span></div>
+                <div class="gf-card-acts"><span class="gf-btn gf-btn-blk gf-btn-sm">&#128203; Copy All</span></div>
               </div>
               <div class="gf-card-bd">
                 <p class="gf-export-intro">Copy this block and paste directly into the funder's portal.</p>
-                <div class="gf-export-wrap demo-pinned"><span class="demo-pin">1</span>
+                <div class="gf-export-wrap">
 <pre class="gf-export">========================================================
 GRANT APPLICATION: Neighborhood Connection Grant 2026
 FUNDER: Brooklyn Neighbors Fund

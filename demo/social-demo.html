@@ -582,8 +582,8 @@ body {
                data-title="Content Queue: nothing posts without a yes">
         <div class="demo-notes">
           <div class="demo-note"><span class="demo-pin-n">1</span><span>Every post moves through five stages from Draft to Published, and each tab shows how many posts sit in that stage.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Every approved post shows the address of the person who approved it, so there is always a record of who signed off.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>One click publishes a scheduled post straight to Instagram, right from the queue.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Every post travels the same path from the app to Instagram: drafted, approved with the approver's address stamped on the card, scheduled, then published from the card itself with one click.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>One click publishes a scheduled post straight to Instagram: the app sends the caption, hashtags, and graphic through a Composio connection, waits for Instagram to finish processing, then publishes and saves the post's Instagram ID.</span></div>
         </div>
         <div class="so-frame so-cut" style="--cut: 900px;">
           <div class="so-page">
@@ -602,7 +602,7 @@ body {
               <span class="so-tab">Published<span class="so-tab-count">64</span></span>
             </div>
 
-            <div class="so-post">
+            <div class="so-post demo-pinned"><span class="demo-pin">2</span>
               <div class="so-post-hd">
                 <div class="so-post-id"><span class="so-thumb so-ph so-ph1">Vol. 4<br>line<br>up</span><span class="so-tag so-tag-scheduled">Scheduled</span></div>
                 <span class="so-btn so-btn-danger so-btn-sm">&#10005;</span>
@@ -612,7 +612,7 @@ body {
                 <span>&#128197; 9/8/2026, 6:00:00 PM</span>
                 <span>&#128444; image</span>
                 <span>#SproutSociety #SproutNTell #CommunityHeals&#8230;</span>
-                <span class="so-approver demo-pinned"><span class="demo-pin so-pin-end">2</span>&#10003; comms@sproutsociety.example</span>
+                <span class="so-approver">&#10003; comms@sproutsociety.example</span>
               </div>
               <div class="so-post-actions"><span class="so-btn so-btn-ghost so-btn-sm">Edit</span><span class="so-btn so-btn-acid so-btn-sm so-btn-busy">Working&#8230;</span></div>
             </div>
@@ -789,9 +789,8 @@ body {
                data-title="Create Post: a draft in one form">
         <div class="demo-notes">
           <div class="demo-note"><span class="demo-pin-n">1</span><span>The caption goes here, hashtags included, with a separate field for internal notes the audience never sees.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>The graphic uploads directly or comes in as a link, with a preview to check before saving.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>A date and time picker sets when the post goes out once someone approves it.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">4</span><span>Create Draft saves the post to the queue, where it waits for approval before anything can publish.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Everything Instagram needs besides the caption sits together: the media type, when the post goes out, and the graphic, uploaded to Sprout's own storage or pasted as a link, which Instagram pulls from when it publishes.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>Create Draft saves the post to the queue, where it waits for approval before anything can publish.</span></div>
         </div>
         <div class="so-frame">
           <div class="so-page">
@@ -820,7 +819,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                 </div>
               </div>
 
-              <div>
+              <div class="demo-pinned"><span class="demo-pin so-pin-tr">2</span>
                 <div class="so-frow">
                   <div class="so-fg">
                     <label class="so-fl">Media Type</label>
@@ -828,13 +827,13 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                   </div>
                   <div class="so-fg">
                     <label class="so-fl">Schedule Time</label>
-                    <div class="so-fi so-fdate demo-pinned"><span class="demo-pin">3</span><span class="so-ellip">09/08/2026, 06:00 PM</span><i>&#128197;</i></div>
+                    <div class="so-fi so-fdate"><span class="so-ellip">09/08/2026, 06:00 PM</span><i>&#128197;</i></div>
                   </div>
                 </div>
                 <div class="so-fg">
                   <div class="so-media-hd">
                     <label class="so-fl" style="margin-bottom: 0;">Media</label>
-                    <div class="so-mtabs demo-pinned"><span class="demo-pin so-pin-before">2</span><span class="so-mtab on">URL</span><span class="so-mtab">&#8593; Upload</span></div>
+                    <div class="so-mtabs"><span class="so-mtab on">URL</span><span class="so-mtab">&#8593; Upload</span></div>
                   </div>
                   <div class="so-fi so-ellip">https://&#8230;/storage/v1/object/public/post-images/1788300512093_k2j9x4.png</div>
                   <div class="so-flyer" role="img" aria-label="Placeholder lineup graphic for Sprout N Tell Vol. 4">
@@ -853,7 +852,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
             </div>
 
             <div class="so-create-btns">
-              <span class="so-btn so-btn-blk demo-pinned"><span class="demo-pin">4</span>+ Create Draft</span>
+              <span class="so-btn so-btn-blk demo-pinned"><span class="demo-pin">3</span>+ Create Draft</span>
               <span class="so-btn so-btn-ghost">Cancel</span>
             </div>
           </div>

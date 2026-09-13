@@ -307,6 +307,9 @@ body {
 .campaign-demo .qt-code-top { gap: 10px; }
 .campaign-demo .qt-code-info { flex: 1; min-width: 0; }
 .campaign-demo .qt-code-label { font-size: 11.5px; font-weight: 900; color: var(--ink); }
+/* A pinned code tile gets extra top padding so its pin clears the label. The
+   pin cannot move further out: .qt-evrow clips, with only 10px beside a tile on phones. */
+.campaign-demo .qt-code.demo-pinned { padding-top: 16px; }
 .campaign-demo .qt-code-meta { font-size: 10px; color: var(--g400); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .campaign-demo .qt-code-hi { border-color: var(--cyan); background: rgba(115, 196, 214, 0.08); }
 .campaign-demo .qt-toast { position: absolute; right: 20px; bottom: 20px; z-index: 5; background: var(--ink); border-radius: 8px; padding: 10px 17px; font-size: 12px; font-weight: 700; color: var(--paper); box-shadow: var(--shadow-lg); white-space: nowrap; }
@@ -515,10 +518,8 @@ body {
                data-state="Street Flyer &middot; posted August 30 &middot; scans peaked the two days before the show."
                data-title="Daily Scans: when it worked">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>The chart shows scans per day for one code, here the street flyer, from two weeks before it went up to the morning after the show.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>The range buttons switch the chart between the last 30, 60, or 90 days, or all time.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Scans start on August 30, the day the flyers went up, and peak in the two days before the show.</span></div>
-        </div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>The whole display follows one code, here the street flyer: scans today, this week, and all time, then a day-by-day chart where scans start the day the flyers went up and peak just before the show.</span></div>        </div>
+        <div class="demo-pinned"><span class="demo-pin">1</span>
         <div class="qt-frame">
           <div class="qt-page">
             <div class="qt-stats">
@@ -527,9 +528,9 @@ body {
               <div class="qt-stat"><span class="qt-stat-lbl">All Time</span><span class="qt-stat-val">37</span><span class="qt-stat-sub">total scans</span></div>
             </div>
 
-            <div class="qt-chart-card demo-pinned"><span class="demo-pin">1</span>
+            <div class="qt-chart-card">
               <h2 class="qt-chart-h2">Daily Scans &middot; Street Flyer</h2>
-              <div class="qt-ranges demo-pinned" style="display: inline-flex;"><span class="demo-pin">2</span>
+              <div class="qt-ranges" style="display: inline-flex;">
                 <span class="qt-range">30d</span><span class="qt-range">60d</span><span class="qt-range">90d</span><span class="qt-range qt-range-on">All</span>
               </div>
               <div class="qt-chart-scroll">
@@ -545,7 +546,7 @@ body {
                       <span class="qt-bar-slot"></span><span class="qt-bar-slot"></span><span class="qt-bar-slot"></span><span class="qt-bar-slot"></span>
                       <span class="qt-bar-slot"></span><span class="qt-bar-slot"></span><span class="qt-bar-slot"></span><span class="qt-bar-slot"></span>
                       <!-- Aug 30 to Sep 5: 3 2 2 2 2 2 3 (16) -->
-                      <span class="qt-bar-slot"><i class="qt-bar demo-pinned" style="height: 42.857%;"><span class="demo-pin" style="top: -30px; left: 50%; margin-left: -11px;">3</span></i></span>
+                      <span class="qt-bar-slot"><i class="qt-bar" style="height: 42.857%;"></i></span>
                       <span class="qt-bar-slot"><i class="qt-bar" style="height: 28.571%;"></i></span>
                       <span class="qt-bar-slot"><i class="qt-bar" style="height: 28.571%;"></i></span>
                       <span class="qt-bar-slot"><i class="qt-bar" style="height: 28.571%;"></i></span>
@@ -579,6 +580,7 @@ body {
             <p class="qt-updated">Live data &middot; Street Flyer &middot; Last refreshed 9/12/2026, 9:41 AM</p>
           </div>
         </div>
+        </div><!-- /pin 1: the whole display -->
       </section>
 
       <!-- ============ SLIDE 4 · MANAGE EVENTS ============================ -->
@@ -589,8 +591,7 @@ body {
                data-title="Manage Events: a new code in seconds">
         <div class="demo-notes">
           <div class="demo-note"><span class="demo-pin-n">1</span><span>Add Event creates a new event with a name, date, and promoter, and gives it its own tab on the dashboard.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Each new code gets a label, a placement type, and the link it should send people to.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>The code ID fills itself in from the event name, year, and label, so nobody has to make one up.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Each new code gets a label, a placement type, and the link it should send people to, and its code ID fills itself in from the event name, year, and label, so nobody has to make one up.</span></div>
         </div>
         <div class="qt-frame">
           <!-- the dashboard, dimmed behind the drawer -->
@@ -662,7 +663,7 @@ body {
                       <div class="qt-field"><span class="qt-label">Type</span><span class="qt-input">Print &middot; Poster</span></div>
                     </div>
                     <div class="qt-field"><span class="qt-label">Destination URL *</span><span class="qt-input qt-input-focus">https://forms.example/fern-and-fold-rsvp<span class="qt-caret"></span></span></div>
-                    <div class="qt-field demo-pinned"><span class="demo-pin" style="left: auto; right: -10px;">3</span><span class="qt-label">Code ID (auto)</span><span class="qt-input qt-input-auto">fern-and-fold-zine-night-2026-window-poster</span></div>
+                    <div class="qt-field"><span class="qt-label">Code ID (auto)</span><span class="qt-input qt-input-auto">fern-and-fold-zine-night-2026-window-poster</span></div>
                     <div class="qt-actions"><span class="qt-btn qt-btn-primary">Save QR Code</span><span class="qt-btn">Cancel</span></div>
                   </div>
 
@@ -696,14 +697,8 @@ body {
                data-state-label="State of the flyer"
                data-state="Street Flyer &middot; the show is over &middot; now sends people to the Vol. 5 interest form."
                data-title="Update Live: change a printed code">
-        <div class="qt-explain">
-          <div class="qt-explain-ttl">How a scan works</div>
-          <p>The printed code never changes. What it points to can.</p>
-          <ol>
-            <li><span><b>Scan.</b> A phone opens the code's own tracking link.</span></li>
-            <li><span><b>Count.</b> That code's scan total for the day goes up by one.</span></li>
-            <li><span><b>Redirect.</b> The phone lands wherever the code points right now.</span></li>
-          </ol>
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Each printed code is one tile: a scan opens its own tracking link and adds to the day's count, the destination field and Update Live repoint every flyer already on the street without reprinting, and Move hands the code to another event.</span></div>
         </div>
         <div class="qt-frame qt-clip qt-clip-tall">
           <div class="qt-drawer qt-drawer-full">
@@ -737,6 +732,14 @@ body {
                   </div>
 
                   <div class="qt-codes">
+                    <div class="qt-code qt-code-hi demo-pinned"><span class="demo-pin">1</span>
+                      <div class="qt-code-top">
+                        <div class="qt-code-info"><div class="qt-code-label">Street Flyer</div><div class="qt-code-meta">Print &middot; Flyer &middot; ID: sprout-n-tell-vol-4-2026-street-flyer</div></div>
+                        <span class="qt-btn qt-btn-danger qt-btn-sm">Delete</span>
+                      </div>
+                      <div class="qt-code-line"><span class="qt-input qt-input-sm qt-input-focus">https://forms.example/sprout-n-tell-vol-5-interest<span class="qt-caret"></span></span><span class="qt-btn qt-btn-primary qt-btn-pressed qt-btn-row">&#8593; Update Live</span></div>
+                      <div class="qt-code-line"><span class="qt-input qt-input-sm qt-select">Fern &amp; Fold Zine Night<i>&#9662;</i></span><span class="qt-btn qt-btn-row">&#8594; Move</span></div>
+                    </div>
                     <div class="qt-code">
                       <div class="qt-code-top">
                         <div class="qt-code-info"><div class="qt-code-label">Door Sign-In</div><div class="qt-code-meta">Signage &middot; Front door &middot; ID: sprout-n-tell-vol-4-2026-door-sign-in</div></div>
@@ -751,14 +754,6 @@ body {
                         <span class="qt-btn qt-btn-danger qt-btn-sm">Delete</span>
                       </div>
                       <div class="qt-code-line"><span class="qt-input qt-input-sm">https://sproutsociety.example/vol-4-program</span><span class="qt-btn qt-btn-primary qt-btn-row">&#8593; Update Live</span></div>
-                      <div class="qt-code-line"><span class="qt-input qt-input-sm qt-select">Fern &amp; Fold Zine Night<i>&#9662;</i></span><span class="qt-btn qt-btn-row">&#8594; Move</span></div>
-                    </div>
-                    <div class="qt-code qt-code-hi">
-                      <div class="qt-code-top">
-                        <div class="qt-code-info"><div class="qt-code-label">Street Flyer</div><div class="qt-code-meta">Print &middot; Flyer &middot; ID: sprout-n-tell-vol-4-2026-street-flyer</div></div>
-                        <span class="qt-btn qt-btn-danger qt-btn-sm">Delete</span>
-                      </div>
-                      <div class="qt-code-line"><span class="qt-input qt-input-sm qt-input-focus">https://forms.example/sprout-n-tell-vol-5-interest<span class="qt-caret"></span></span><span class="qt-btn qt-btn-primary qt-btn-pressed qt-btn-row">&#8593; Update Live</span></div>
                       <div class="qt-code-line"><span class="qt-input qt-input-sm qt-select">Fern &amp; Fold Zine Night<i>&#9662;</i></span><span class="qt-btn qt-btn-row">&#8594; Move</span></div>
                     </div>
                     <div class="qt-code">

@@ -78,6 +78,10 @@ Vercel project: `ai-portfolio-landing-page` · GitHub: `mhperkins/AI-Portfolio-L
 
 ## Deployment
 
+**End-of-session protocol (Max's rule): update Current State, then commit and push to `main`
+without waiting to be asked.** Vercel only builds production on a push, so a session that ends
+on preview deploys leaves the live site behind. Stage named files, never `-A`.
+
 Push to main. Vercel picks it up automatically. No build command, no output directory to configure — Vercel serves the files directly.
 
 To test locally: open `index.html` in a browser, or run `npx serve .` if you need a local server for relative path testing.
@@ -689,8 +693,8 @@ standalones (`sprout-crm-demo`, `grant-demo`, `social-demo`, `campaign-demo`). T
 - **Sprout notes are full sentences now** (Max's ask): all 57 short title-style notes on the four
   Sprout carousels (CRM 13, Grant 16, Social 16, Campaign 12) became one explanatory sentence
   each, TeacherAID length, in both the page and the standalones. Claude wrote them; Max has not
-  called them. Grant's Import from Claude and Campaign's Update Live keep their explain boxes and
-  have no pins. Verified headless at 1280 and 390: every Sprout popover shows the right sentence,
+  called them. Grant's Import from Claude and Campaign's Update Live had explain boxes
+  at the push; both became pinned notes afterwards (see below), so no Sprout carousel has one now. Verified headless at 1280 and 390: every Sprout popover shows the right sentence,
   inside the viewport and below the pinned layers, zero script errors.
 - **Sprout CRM pin targets reshaped** at Max's call, both copies. A pin's tile is its parent
   element, so these use plain `demo-pinned` wrapper divs:
@@ -717,6 +721,100 @@ standalones (`sprout-crm-demo`, `grant-demo`, `social-demo`, `campaign-demo`). T
 
 All of it is verified headless unless noted; details sit in each section.
 
+**After the first push (committed and pushed to `main` at the end of the session; see `git log`),**
+Max drove more pin changes off the live site: Grant
+Finder, Social Planner, Campaign Tracker and TeacherAID. `index.html`, `demo/grant-demo.html`,
+`demo/social-demo.html`, `demo/campaign-demo.html` and `demo/dasha-demo.html` are modified.
+**Preview:** https://ai-portfolio-landing-page-5tmx20gsx-mhperkins-projects.vercel.app (Vercel
+login; no `--prod`). Production matches it after the end-of-session push.
+
+- **Pipeline pins 2 to 4 outline their whole column** (Deadline, Progress, Next Action), header
+  through the last grant. A column spans rows, so no element could be the tile. Each pin now
+  carries `data-pin-for="gf-c-..."` and names a transparent `.demo-col[data-col]` overlay at the
+  end of `.gf-pipe` (now `position: relative`). The shared page script takes that overlay as the
+  target and sizes it to its header cell in `sizeCols()`, called from `show()`, on resize (tab
+  and tool switches dispatch one) and on `document.fonts.ready`. The overlays sit after the rows
+  so they paint above the header pins and catch hover anywhere in the column. The standalone has
+  no popovers, so its overlays stay zero width. **Any future column note can reuse this.**
+- **Import from Claude:** the "How Claude helps with grants" box is gone; its content became four
+  pinned notes: 1 the how-to box (finds, protocols, verification), 2 the JSON zone (builds the
+  profile), 3 the preview (funder research: tax filings, reviewer words, go or no-go), 4 the
+  Import button. Pins 1 and 2 sit top-right so they do not cover text. `.gf-explain` CSS is now
+  unused, left in place.
+- **Portal link highlighted** at Max's ask (submitting is one click away once the answers are
+  copied). It began as its own pin on the link and now lives in Export pin 1, the whole header
+  card; see "Grant whole-card pins" below. `.gf-pin-after` CSS is unused, left in place.
+- Verified headless at 1280 and 390: each column overlay matches its header cell and holds all 7
+  cells of its column; hovering a Progress body cell shows note 3; the Import pins land on the
+  right elements; no pin clipped; the standalone loads clean; zero script errors.
+- **Social Content Queue:** pin 2 outlines the whole Vol. 4 lineup card and explains the path from
+  the app to Instagram (drafted, approved with the approver's address stamped on, scheduled,
+  published from the card). Pin 3 is on Save the Date's "Publish to Instagram" button and
+  explains the publish call. It spent one round on a wrapper around the "Working..." button; Max
+  said that looked wrong and wanted the Publish blurb back, so **do not pin "Working..." again.**
+  Both notes are grounded in `sprout-social-tool`: `handleAdvance` in
+  `components/SocialManager.jsx` and `app/api/instagram/route.js` (caption, hashtags and media URL
+  go to Instagram through Composio; the route waits for the media container to finish
+  processing, publishes, and the app saves the Instagram post ID). The approver email lost its
+  own pin.
+- **Social Create Post:** the right column (media type, schedule time, media link, flyer preview)
+  is one tile, pin 2, about the post data, noting Instagram pulls the graphic from that link.
+  Create Draft became pin 3; the old media-tab and schedule pins are gone.
+- **Campaign Daily Scans:** pin 1 outlines the whole display through a `demo-pinned` wrapper around
+  `.qt-frame` (the frame clips, so a pin inside it would be cut off). The range-button pin and the
+  Aug 30 bar pin are gone; note 1 absorbs the flyer story.
+- **Campaign Manage Events:** the code ID pin is gone; note 2 covers the whole add-code form,
+  auto ID included.
+- **Campaign Update Live:** the "How a scan works" box is gone. One pin on the whole Street
+  Flyer code tile, with one note covering scan and count, Update Live, and Move. (Two pins
+  nested inside that tile came first; Max said pins should not nest, one tile, one note.)
+  The Street Flyer tile is now first in the Vol. 4 code list (Max's call), and a pinned
+  `.qt-code` gets 16px top padding so its pin clears the label; the pin cannot sit further out
+  because `.qt-evrow` clips and leaves only 10px beside a tile on phones. `.qt-explain`
+  CSS is now unused, left in place.
+- **TeacherAID Schedule:** pin 1 outlines the whole Mira Okonkwo lesson block instead of the log
+  button row, sitting inside the block's top-right corner.
+- Verified headless at 1280 and 390: each target holds what it should, no pin clipped, every
+  popover shows, each standalone's pins match its notes, zero script errors. Screenshots checked
+  by eye.
+- **Grant whole-card pins, one blurb each** (Max's rule for this pass: a tile is the whole card,
+  and its blurb lists the card's features):
+  - Research Brief: pin 2 is the whole Funder Research Brief card (profile, fit and verdict,
+    past grantees, voice, how it is scored, the program officer question). The FIT ANALYSIS and
+    VOICE inline pins are gone; Framing Notes pin 1 stays.
+  - Questions, top to bottom: 1 the tracker; 2 the whole ORG INFO card (added at Max's ask: the
+    standard org details go into any grant, kept consistent with the org profile; it does not
+    claim auto-fill, which only the old V1 build had); 3 the whole Narrative card (prompt and
+    hint, character count, Edit and delete, History, Paste); 4 the whole Impact card, whose
+    highlighted bracketed text is the gaps feature (Max's call: the gaps live in the text, not
+    the footer badge). The old character-count, History/Paste and gap-badge pins are gone.
+  - Tasks: pin 1 is the whole Tasks & Next Steps card; the three inline pins are gone.
+  - Export: pin 1 is the grant header card (name, funder, status, ask, deadline, portal link),
+    pin 2 the Export Answers card (layout and Copy All). The portal-link pin, the export-block pin
+    and the Copy All pin are gone, so `.gf-pin-after` is unused now.
+  - Whole-card pins use `.gf-pin-corner` (-13px, not the default -10px), because at 390 the
+    default landed on the card titles, where the header padding drops to 12px.
+- **Verified after the last change of the day** (headless, 1280 and 390): all 61 Sprout popovers
+  show the right note; every whole-card pin clears its card title or label and is not clipped;
+  Questions reads 1 to 4 top to bottom with the ORG INFO and Impact cards as tiles; Social pin 3
+  is the Publish button and nothing wraps "Working..."; Update Live has one pin on the Street
+  Flyer tile, first in the list; each standalone's pins match its notes; zero script errors.
+- **Below-the-fold dock** (page only, shared script): while a carousel is on screen, every pin
+  on the showing slide that sits below the visible screen gets a numbered chip in `.demo-dock`,
+  a "More below" bar fixed at the bottom center. A chip scrolls its tile's top under the pinned
+  strip and title card and opens its note. Details that cost a round each:
+  - It measures and places against `visualViewport`, not `innerHeight`. With the page's 36px
+    sideways overflow, a phone's layout viewport is taller than the screen and a plain
+    `bottom: 16px` dock sat below the glass.
+  - `dockHold` keeps the opened note through the scroll the chip starts (tiles slide under a
+    still mouse and fire hover-out) until the mouse really moves more than 6px.
+  - The chip's click stops propagation, or the carousel's tap handler closes the note at once.
+  - Verified headless at 1280, 390, and 390 in Chrome mobile emulation: no dock at the page top;
+    chips match exactly the pins below the fold; nothing covers a chip; a chip click or tap keeps
+    its note open with the pin on screen and drops that chip; the dock hides at the carousel's
+    end and follows Grant's pins after a tool switch; all 61 Sprout popovers still pass; zero
+    script errors.
+
 **Open:**
 - TeacherAID's Booking slide still shows Mira's regular lesson on Tuesdays at 6 PM, which no longer
   matches the Schedule slide. Max was asked whether to move it and has not called it.
@@ -726,11 +824,17 @@ All of it is verified headless unless noted; details sit in each section.
 - Max still owes the copy for the TeacherAID tab's three benefit cards, banner bullets and heading.
 - Slide titles and notes on the Grant, Social and Campaign carousels are Claude's drafts; Max has
   not called them.
-- Max has not reviewed the new Sprout sentence notes, the rewritten Contacts notes 1 and 2, or
-  the four Outreach notes (the tabs note is new copy).
+- Max has been clicking through and reshaping pins, but has not signed off on the copy of: the
+  Sprout sentence notes, Contacts notes 1 and 2, the four Outreach notes (the tabs note is new
+  copy), the four Import notes, Social Queue notes 2 and 3 and Create Post note 2, Campaign Daily
+  Scans 1, Manage Events 2 and the single Update Live note, or the Grant whole-card notes
+  (Research Brief 2, Questions 2 to 4, Tasks 1, Export 1 and 2).
 
-**Next:** Max clicks through the live site. Stage named files, never `-A`, in
-case another session is working here.
+**Next:** Max clicks through the live site and calls the open copy items above. Pushed at the
+end of the session with `index.html`, `CLAUDE.md` and the four changed standalones
+(`grant-demo`, `social-demo`, `campaign-demo`, `dasha-demo`). Max had to ask why the live site
+looked old; the cause was a session ending without a push, which the end-of-session protocol under
+Deployment now prevents.
 
 ### Session of 2026-09-12: Teacherade (now TeacherAID) tab, pinned strips, all four Sprout carousels (pushed as `dee52ff`)
 
