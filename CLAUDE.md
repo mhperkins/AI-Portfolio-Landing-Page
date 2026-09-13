@@ -429,7 +429,8 @@ At Max's ask, on all eight carousels. Page only; the `demo/` standalones are unc
   carousel script. Without them those slides were unreachable once the arrows went.
 - Strip hints read "Click to step through" (Compass keeps "Click through the process"), tightened
   so the strips stay one line.
-- **Hover notes.** On TeacherAID and the four Sprout carousels the numbered notes row is hidden
+- **Hover notes.** On TeacherAID, the four Sprout carousels and Compass (added later the same
+  day, see "Compass pins and notes") the numbered notes row is hidden
   (`.has-pop`, set by the script). Each note pops up beside its pin when the pin's parent element
   (its tile) is hovered, focused (tiles get `tabindex="0"`) or tapped; a tap elsewhere closes it.
   The tile gets an outline in the pin color and the pin scales up. The popover is
@@ -446,6 +447,45 @@ At Max's ask, on all eight carousels. Page only; the `demo/` standalones are unc
   leave; keyboard focus shows and blur hides; a tap shows and a tap elsewhere hides; zero script
   errors, em dash count unchanged. Test note: the page's smooth scrolling moves targets under a
   parked cursor, so hover checks need `scroll-behavior: auto` and a wait after a slide jump.
+
+### Compass pins and notes (2026-09-13, pushed)
+
+At Max's ask, the Compass carousel gets numbered blurbs like the other carousels, in both copies.
+On the page they are hover and tap popovers; the standalone shows them as a notes row.
+
+**How it shipped:** a parallel session's commit `0b73ae2` staged `index.html` while this work sat in
+the working tree, so the page's pins, notes and `initDemoPops()` went live inside that commit,
+whose message does not mention them (`git log -S initDemoPops` points there). The two phone fixes
+below, the standalone and these docs followed in their own commit.
+
+- **13 pins, one per node** except slide 1: the Blueprint's two columns (Voice, Influences,
+  Tendencies / Parameters, Philosophy); Intake Dialogue, Intake Form, the intake artifact;
+  Constitution, Guide; Sketch, Constitution revising, the draft; House style, Checklist, the
+  engraved score. One sentence each, Claude's draft; Max has not called them. They describe
+  capability only, and the engraving notes do not claim the tool engraves.
+- **Placement.** `.dnode` and `.dpiece` clip overflow (it keeps the ports half-sunk), so the default
+  -10px corner pin was cut off. A whole-node pin sits inside the dark header (`top: 7px; left: 9px`,
+  and the head gets `padding-left: 39px`), a picture's pin sits on the image corner, and the
+  Blueprint column pins use `.dpin-tr`, top right over the empty end of the first label.
+- **Shared popover code.** The popover and below-the-fold dock moved out of the `[data-demo-panel]`
+  initializer into a global `initDemoPops(root, slides, getCurrent)` in the shared script, beside
+  `alignUnderPin()`. It returns `hide()` and `updateDock()`; both the Compass script and the panel
+  initializer call it from `show()`. Its "never under the pinned layers" floor now also counts
+  `.demo-rail-field`.
+- **Slide 5 has no state line,** so the "Hover a number" pill had nothing to hang on. Its caption
+  column stays up with `.is-hint-only`: the label text drops to font-size 0 and only the pill shows.
+- **Two phone fixes found on the way, both copies:**
+  - The Blueprint columns had `min-width: 270px` inside a card about 226px wide on a phone, so the
+    right side of both columns was already cut off. Now `min(270px, 100%)`.
+  - Below 640px the rail is `position: relative` but kept its sticky `top` (`--demo-pin-top`, about
+    187px), which a relative element reads as an offset. It sat over the title card and the top of
+    every slide on a phone. Now `top: auto`.
+- **Verified headless (1280, and 390 with touch):** 191 checks, 0 failures, zero script errors. Pin
+  counts per slide, one note per pin, every pin has a tile and none is clipped, each popover shows
+  the right note inside the viewport and below the pinned title card, the pill shows on all five
+  slides (pill only on slide 5), dock chips match the pins below the fold, TeacherAID and Sprout CRM
+  popovers still work through the shared function, and the standalone shows its notes row with
+  unclipped pins. Screenshots checked by eye.
 
 ### Pinned title cards (2026-09-13, not pushed)
 
@@ -829,6 +869,7 @@ login; no `--prod`). Production matches it after the end-of-session push.
   copy), the four Import notes, Social Queue notes 2 and 3 and Create Post note 2, Campaign Daily
   Scans 1, Manage Events 2 and the single Update Live note, or the Grant whole-card notes
   (Research Brief 2, Questions 2 to 4, Tasks 1, Export 1 and 2).
+- Max has not reviewed the 13 Compass notes (see "Compass pins and notes").
 
 **Next:** Max clicks through the live site and calls the open copy items above. Pushed at the
 end of the session with `index.html`, `CLAUDE.md` and the four changed standalones

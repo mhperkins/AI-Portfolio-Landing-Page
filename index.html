@@ -1327,7 +1327,7 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
 @media (max-width: 640px) {
   /* A phone already pins about 190px of page bars, and the rail is 102px
      more. Pinned, that is over a third of the screen, so it scrolls away. */
-  .demo-rail-field { position: relative; }
+  .demo-rail-field { position: relative; top: auto; }
   /* The title card runs 150px or more on a phone, so it scrolls away too,
      like the notes rows; TeacherAID's strip goes back to the page bars. */
   .demo-caption { position: static; }
@@ -3638,7 +3638,7 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
               </div>
               <div class="dnode-body">
                 <div class="demo-row" style="gap: 18px;">
-                  <div class="demo-pinned" style="flex: 1 1 330px; min-width: 270px;"><span class="demo-pin dpin-tr">1</span>
+                  <div class="demo-pinned" style="flex: 1 1 330px; min-width: min(270px, 100%);"><span class="demo-pin dpin-tr">1</span>
                     <div class="dfield">
                       <div class="dlabel">Voice</div>
                       <div class="dbox">Emo and pop punk immediacy, the structural clarity of Beethoven, the harmonic language of bebop. Direct on the surface, layered underneath. Music that communicates without apology.</div>
@@ -3655,7 +3655,7 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
   Backbeats and syncopation (drummer first)</div>
                     </div>
                   </div>
-                  <div class="demo-pinned" style="flex: 1 1 330px; min-width: 270px;"><span class="demo-pin dpin-tr">2</span>
+                  <div class="demo-pinned" style="flex: 1 1 330px; min-width: min(270px, 100%);"><span class="demo-pin dpin-tr">2</span>
                     <div class="dfield">
                       <div class="dlabel">Parameters</div>
                       <div class="dbox dbox-lines">Strings over woodwinds and brass

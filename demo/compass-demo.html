@@ -113,7 +113,7 @@ body {
   z-index: 20;
 }
 @media (max-width: 640px) {
-  .demo-rail-field { position: relative; }
+  .demo-rail-field { position: relative; top: auto; }
   .demo-nav-wrap { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
   .demo-nav-wrap::-webkit-scrollbar { display: none; }
   .demo-nav-item { flex-shrink: 0; white-space: nowrap; }
@@ -787,6 +787,27 @@ body {
 .dpiece-wrap { position: relative; }
 
 /* ==========================================================================
+   Annotations. A numbered amber pin sits on each node, and the same number
+   heads a one-sentence note above the slide. Same block as dasha-demo.html.
+   On index.html the notes row is hidden and each note pops up on its node.
+
+   A node card clips anything hanging off its edge (that is what keeps the
+   ports half-sunk), so a whole-node pin sits inside the dark header, ahead
+   of the node's label, and a picture's pin sits on its corner. The
+   Blueprint's two columns carry theirs top right, over the empty end of
+   the first label.
+   ========================================================================== */
+.demo-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin: 0 0 16px; }
+.demo-note { display: flex; gap: 10px; align-items: flex-start; background: white; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; box-shadow: var(--shadow); font-family: var(--font-sans); font-size: 13px; line-height: 1.45; color: var(--tp); }
+.demo-pin, .demo-pin-n { width: 22px; height: 22px; border-radius: 50%; background: var(--amber); color: white; font-family: var(--font-sans); font-size: 11.5px; font-weight: 700; line-height: 22px; text-align: center; flex: none; }
+.demo-pin { position: absolute; top: -10px; left: -10px; z-index: 6; box-shadow: 0 0 0 2px white, 0 2px 8px rgba(28, 25, 23, .25); pointer-events: none; }
+.demo-pinned { position: relative; }
+.dnode.demo-pinned > .demo-pin { top: 7px; left: 9px; }
+.dnode.demo-pinned > .dnode-head { padding-left: 39px; }
+.dpiece.demo-pinned > .demo-pin { top: 8px; left: 8px; }
+.demo-pin.dpin-tr { left: auto; right: -10px; top: -7px; }
+
+/* ==========================================================================
    Caption strip + controls
    ========================================================================== */
 .demo-caption {
@@ -982,6 +1003,10 @@ button { cursor: pointer; font-family: var(--font-sans); }
 
       <!-- ============ SLIDE 1 · AESTHETIC BLUEPRINT ==================== -->
       <section class="demo-car-slide is-on" data-title="The Aesthetic Blueprint">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Voice, influences and tendencies describe how you already write, and the assistant carries them into every session on every piece.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Parameters mark what you favor and what you are exploring, and Philosophy sets the ground rules, like naming a departure from your aesthetic instead of filtering it out.</span></div>
+        </div>
         <div class="demo-row">
           <div class="dnode" style="flex: 1 1 100%;">
             <div class="dnode-head">
@@ -990,7 +1015,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
             </div>
             <div class="dnode-body">
               <div class="demo-row" style="gap: 18px;">
-                <div style="flex: 1 1 330px; min-width: 270px;">
+                <div class="demo-pinned" style="flex: 1 1 330px; min-width: min(270px, 100%);"><span class="demo-pin dpin-tr">1</span>
                   <div class="dfield">
                     <div class="dlabel">Voice</div>
                     <div class="dbox">Emo and pop punk immediacy, the structural clarity of Beethoven, the harmonic language of bebop. Direct on the surface, layered underneath. Music that communicates without apology.</div>
@@ -1007,7 +1032,7 @@ Harmonic shifts by tritone
 Backbeats and syncopation (drummer first)</div>
                   </div>
                 </div>
-                <div style="flex: 1 1 330px; min-width: 270px;">
+                <div class="demo-pinned" style="flex: 1 1 330px; min-width: min(270px, 100%);"><span class="demo-pin dpin-tr">2</span>
                   <div class="dfield">
                     <div class="dlabel">Parameters</div>
                     <div class="dbox dbox-lines">Strings over woodwinds and brass
@@ -1029,9 +1054,14 @@ Groove is a spine. Never reduce it to "prefers simple rhythms."</div>
 
       <!-- ============ SLIDE 2 · INTAKE ================================= -->
       <section class="demo-car-slide" data-title="Intake: the form and the conversation">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>In Dialogue, the assistant asks one question at a time about what the piece is for, and each answer shapes the next question.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Form holds the same intake as labeled sections to fill in directly, and Import brings in notes you have already written.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>Build intake compiles either one into a single artifact, led by the analytical question that every later step works from.</span></div>
+        </div>
         <div class="demo-row" style="gap: 16px;">
 
-          <div class="dnode dnode-narrow">
+          <div class="dnode dnode-narrow demo-pinned"><span class="demo-pin">1</span>
             <span class="dport dport-in" style="top: 50%;"></span>
             <div class="dnode-head">
               <span class="dnode-type">Intake</span>
@@ -1058,7 +1088,7 @@ Groove is a spine. Never reduce it to "prefers simple rhythms."</div>
             <span class="dport dport-out" style="top: 50%;"></span>
           </div>
 
-          <div class="dnode dnode-narrow">
+          <div class="dnode dnode-narrow demo-pinned"><span class="demo-pin">2</span>
             <span class="dport dport-in" style="top: 50%;"></span>
             <div class="dnode-head">
               <span class="dnode-type">Intake</span>
@@ -1093,7 +1123,7 @@ Groove is a spine. Never reduce it to "prefers simple rhythms."</div>
 
           <div class="demo-link"><span class="demo-link-label">compiles to</span></div>
 
-          <div class="dnode" style="flex: 0 1 250px; align-self: center;">
+          <div class="dnode demo-pinned" style="flex: 0 1 250px; align-self: center;"><span class="demo-pin">3</span>
             <span class="dport dport-in" style="top: 50%;"></span>
             <div class="dnode-head">
               <span class="dnode-type">Intake</span>
@@ -1116,9 +1146,13 @@ Groove is a spine. Never reduce it to "prefers simple rhythms."</div>
 
       <!-- ============ SLIDE 3 · CONSTITUTION TO GUIDE =================== -->
       <section class="demo-car-slide" data-title="Constitution to Guide">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Each decision becomes a numbered rule that cites its source, Save version and History keep every earlier draft, and Reconcile resolves rules that contradict each other.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>The Guide reads the constitution and returns a one-sheet of observations, suggestions and recommended paths, with the reasoning and the full guide a click away.</span></div>
+        </div>
         <div class="demo-row" style="gap: 0;">
 
-          <div class="dnode">
+          <div class="dnode demo-pinned"><span class="demo-pin">1</span>
             <span class="dport dport-in" style="top: 20%;"></span>
             <span class="dport dport-in" style="top: 50%;"></span>
             <span class="dport dport-in" style="top: 80%;"></span>
@@ -1160,7 +1194,7 @@ Groove is a spine. Never reduce it to "prefers simple rhythms."</div>
 
           <div class="demo-link"><span class="demo-link-label">binds</span></div>
 
-          <div class="dnode">
+          <div class="dnode demo-pinned"><span class="demo-pin">2</span>
             <span class="dport dport-in" style="top: 50%;"></span>
             <div class="dnode-head">
               <span class="dnode-type">Guide</span>
@@ -1199,9 +1233,14 @@ Groove is a spine. Never reduce it to "prefers simple rhythms."</div>
 
       <!-- ============ SLIDE 4 · SKETCHES TO FINAL DRAFT ================= -->
       <section class="demo-car-slide" data-title="Sketches to final draft">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>Sketches upload as MusicXML and render as readable score on the canvas, so the assistant can weigh them against the constitution.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>When a sketch pushes against a rule, the assistant raises it in Dialogue and proposes a decision, and nothing changes until you commit it, with the old rule kept in History.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>A full draft uploads as XML for a complete analysis, read section by section so even a long score fits.</span></div>
+        </div>
         <div class="demo-row" style="gap: 0;">
 
-          <div class="dnode" style="flex: 0 1 250px;">
+          <div class="dnode demo-pinned" style="flex: 0 1 250px;"><span class="demo-pin">1</span>
             <span class="dport dport-in" style="top: 50%;"></span>
             <div class="dnode-head">
               <span class="dnode-type">Sketch</span>
@@ -1268,7 +1307,7 @@ Groove is a spine. Never reduce it to "prefers simple rhythms."</div>
 
           <div style="flex: 0 0 56px;"></div>
 
-          <div class="dnode">
+          <div class="dnode demo-pinned"><span class="demo-pin">2</span>
             <span class="dport dport-in" style="top: 50%;"></span>
             <div class="dnode-head">
               <span class="dnode-type">Constitution</span>
@@ -1306,7 +1345,7 @@ Groove is a spine. Never reduce it to "prefers simple rhythms."</div>
 
           <div style="flex: 0 0 56px;"></div>
 
-          <div class="dpiece dpiece-wrap" style="flex: 0 1 210px;">
+          <div class="dpiece dpiece-wrap demo-pinned" style="flex: 0 1 210px;"><span class="demo-pin">3</span>
             <div class="dpiece-crop">
               <img class="dpiece-img dpiece-img-draft" src="assets/chaconne-p1.webp" alt="Draft page of Chaconne for Bass and Pedal Board">
               <span class="dstamp">Draft</span>
@@ -1322,9 +1361,14 @@ Groove is a spine. Never reduce it to "prefers simple rhythms."</div>
 
       <!-- ============ SLIDE 5 · ENGRAVING ASSISTANT ==================== -->
       <section class="demo-car-slide" data-title="The engraving assistant">
+        <div class="demo-notes">
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>The house style starts from a publisher's conventions or your own, and one profile drives both the canvas preview and the exported PDF.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>The assistant checks the draft against that house style and returns a checklist, each issue flagged by bar number with its fix.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>The engraved score and its recording close the chain, kept on the canvas with every decision that shaped the piece.</span></div>
+        </div>
         <div class="demo-row" style="gap: 0;">
 
-          <div class="dnode">
+          <div class="dnode demo-pinned"><span class="demo-pin">1</span>
             <span class="dport dport-in" style="top: 35%;"></span>
             <span class="dport dport-in" style="top: 65%;"></span>
             <div class="dnode-head">
@@ -1361,7 +1405,7 @@ Groove is a spine. Never reduce it to "prefers simple rhythms."</div>
 
           <div class="demo-link"><span class="demo-link-label">returns</span></div>
 
-          <div class="dnode">
+          <div class="dnode demo-pinned"><span class="demo-pin">2</span>
             <span class="dport dport-in" style="top: 50%;"></span>
             <div class="dnode-head">
               <span class="dnode-type">Engraving</span>
@@ -1400,7 +1444,7 @@ Groove is a spine. Never reduce it to "prefers simple rhythms."</div>
 
           <div style="flex: 0 0 56px;"></div>
 
-          <div class="dpiece" style="flex: 0 1 235px;">
+          <div class="dpiece demo-pinned" style="flex: 0 1 235px;"><span class="demo-pin">3</span>
             <img class="dpiece-img" src="assets/chaconne-p1.webp" alt="Engraved first page of Chaconne for Bass and Pedal Board">
             <div class="dpiece-body">
               <p class="dpiece-title">Chaconne for Bass and Pedal Board</p>
