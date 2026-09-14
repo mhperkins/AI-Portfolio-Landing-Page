@@ -381,7 +381,8 @@
   /* Cream under the tint, so the pinned rail is opaque over the slide. */
   background:
     linear-gradient(180deg, rgba(254, 243, 199, 0.35), rgba(254, 243, 199, 0.12)), var(--cream);
-  padding: 32px 18px 21px;
+  /* The bottom padding holds the "Click through the process" hint. */
+  padding: 32px 18px 38px;
   margin-bottom: 14px;
   transition: box-shadow 0.25s, border-color 0.25s, background 0.25s;
 }
@@ -411,13 +412,14 @@
 }
 
 /* The rail is the control, not just a diagram: every group jumps to its
-   slide. Nothing said so, so it read as a static picture. This sits opposite
-   the Blueprint tag on the same line. pointer-events:none so it can never
-   swallow a click meant for the rail underneath it. */
+   slide. Nothing said so, so it read as a static picture. This sits under
+   the first group (Intake), where the walk starts, clear of the back edge,
+   which drops under Constitution and Sketch. pointer-events:none so it can
+   never swallow a click meant for the rail. */
 .demo-rail-hint {
   position: absolute;
-  top: 6px;
-  right: 12px;
+  bottom: 7px;
+  left: 18px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -435,7 +437,7 @@
 .demo-rail-hint svg { width: 11px; height: 11px; display: block; flex-shrink: 0; }
 /* Below this the tag and the hint would collide, and a touch user taps the
    pills without being told to. */
-@media (max-width: 660px) { .demo-rail-hint { display: none; } }
+@media (max-width: 660px) { .demo-rail-hint { display: none; } .demo-rail-field { padding-bottom: 21px; } }
 
 /* The Blueprint has no pill, because it is the field rather than a node, so
    nothing in the rail went back to slide 1: once you clicked Intake the only
@@ -1269,6 +1271,9 @@
 }
 .demo-nav-hint svg { width: 10px; height: 10px; display: block; flex-shrink: 0; color: var(--amber-lt); }
 @media (max-width: 660px) { .demo-nav-hint { display: none; } }
+/* On the Hub CRM, Agency and TeacherAID strips the hint sits right after the
+   last tab instead of at the far end (Max's call, 2026-09-14). */
+.crm-demo .demo-nav-hint, .agency-demo .demo-nav-hint, .dasha-demo .demo-nav-hint { margin-left: 12px; }
 
 /* ==========================================================================
    Pinned strips. The Compass rail and the nav strips stay in view while a

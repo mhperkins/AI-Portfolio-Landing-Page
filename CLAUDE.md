@@ -324,7 +324,9 @@ deployed copy, so 8:25 is the same moment the live composer site plays. `index.h
 **The Blueprint tag is slide 1's control (2026-09-10).** Because the Blueprint is the field and
 not a pill, nothing in the rail went back to slide 1. The "Aesthetic Blueprint · On" tag now does
 it (click, Enter, Space). Its hit-area padding is cancelled by equal negative margins, measured at
-0px of movement. A "Click through the process" hint sits opposite it on the same line.
+0px of movement. A "Click through the process" hint sits under the Intake group (moved there from opposite the tag on
+2026-09-14, Max's call; the band's bottom padding grew from 21px to 38px to hold it, back to 21px
+below 660px where the hint hides).
 
 The heading "A visualized creative process, not a chat window" sits above it; the Compass panel's
 three benefit cards sit below it (moved there 2026-09-13).
@@ -775,6 +777,11 @@ dotted row dividers (Compass `.drule`, CRM `.cprot-row` and `.cans`, Agency `.ad
 solid too, since at that size they read as dashes. Verified headless: no rendered element on the
 page or any standalone has a dashed or dotted border or outline, and no SVG stroke has a dash
 pattern; zero script errors.
+
+**2026-09-14: hints moved** (Max's call), page and standalones. Compass: "Click through the process"
+sits under the Intake group instead of top right. Hub CRM, Agency and TeacherAID: "Click to step
+through" sits 12px after the last tab instead of at the far end of the strip (page rule scoped to
+those three roots; the Sprout strips keep theirs at the far end).
 
 ### Session of 2026-09-13, late: TeacherAID on the CV, CV docx typos fixed (pushed)
 
