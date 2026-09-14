@@ -817,6 +817,17 @@ page half shipped a commit after the standalone. Check `git status` before trust
   their Composer Hub and Sprout Suite links hide (`hidden sm:inline`), because five bold links
   overflowed a phone; phones get About, CV and Contact, the same three as the home page. Verified
   headless at 1280, 390 and 360 on all three pages: one line, inside the screen, zero script errors.
+- **The Compass rail's Sketch pill reads Sketch/Draft** (Max's call), page and standalone, and its
+  group's aria-label says "Sketch and Draft". Slide 4's Sketch node header still reads Sketch,
+  because that node sits beside a separate draft card.
+  - **The wider label exposed a rail bug, fixed in both copies.** On the page the rail is 836px and
+    its content was already 850px, so `show()` scrolled it 14px after drawing the back edge; the new
+    label made that 46px, which clipped Score and slid the edge and the "Click through" hint off
+    their pills. On a phone the edge was already hundreds of pixels off. Now pills take
+    `7px 10px 7px 8px` padding and `.demo-rail-edge` a 12px floor (was 18px), so the page rail fits
+    without scrolling, and a scroll listener on `.demo-rail` redraws the back edge (rAF-throttled).
+    `.demo-rail-svg` clips to the field (`overflow: hidden`), so a curve under a scrolled rail stays
+    inside it.
 
 **2026-09-14: hero slimmed to one band** (Max's call: the carousels should sit much higher). The
 three-line poster (Maxwell Perkins / DEVELOPMENT / PORTFOLIO / AI Developer, plus a 5x2 tag grid)

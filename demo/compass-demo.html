@@ -208,7 +208,8 @@ body {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  overflow: visible;
+  /* Clipped to the field, so a curve redrawn under a scrolled rail stays inside it. */
+  overflow: hidden;
 }
 
 .demo-node-pill {
@@ -217,7 +218,7 @@ body {
   display: flex;
   align-items: center;
   gap: 7px;
-  padding: 7px 12px 7px 9px;
+  padding: 7px 10px 7px 8px;
   background: white;
   border: 1px solid var(--border);
   border-radius: 7px;
@@ -285,9 +286,11 @@ body {
   box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.12);
 }
 
+/* 12px floor, not 18: at 18 the page card's 836px rail overflowed and scrolled, which
+   clipped Score and slid the back edge and the hint off their pills (2026-09-14). */
 .demo-rail-edge {
   flex: 1 1 22px;
-  min-width: 18px;
+  min-width: 12px;
   height: 1px;
   background: var(--border);
   position: relative;
@@ -975,9 +978,9 @@ button { cursor: pointer; font-family: var(--font-sans); }
         </span>
       </div>
       <span class="demo-rail-edge"></span>
-      <div class="demo-rail-group" data-slide="3" role="button" tabindex="0" aria-label="Go to the Sketches slide">
+      <div class="demo-rail-group" data-slide="3" role="button" tabindex="0" aria-label="Go to the Sketch and Draft slide">
         <span class="demo-node-pill" data-node="sketch">
-          <span class="demo-h demo-h-in"></span>Sketch<span class="demo-h demo-h-out"></span>
+          <span class="demo-h demo-h-in"></span>Sketch/Draft<span class="demo-h demo-h-out"></span>
         </span>
       </div>
       <span class="demo-rail-edge"></span>
@@ -1568,6 +1571,16 @@ Groove is a spine. Never reduce it to "prefers simple rhythms."</div>
       '<polygon points="' + x2 + ',' + (y + 1) + ' ' + (x2 - 3.5) + ',' + (y + 6) +
       ' ' + (x2 + 3.5) + ',' + (y + 6) + '" fill="' + color + '"/>' + label;
   }
+
+  // The rail scrolls sideways when it overflows (a phone, a narrow card), and
+  // show() scrolls the active group into view after drawing, so the curve is
+  // redrawn off the pills' new positions whenever the rail moves.
+  var railEl = document.getElementById("demoRail") || document.querySelector(".demo-rail");
+  var edgeRaf = 0;
+  if (railEl) railEl.addEventListener("scroll", function () {
+    if (edgeRaf) return;
+    edgeRaf = requestAnimationFrame(function () { edgeRaf = 0; drawBackEdge(current === 3); });
+  }, { passive: true });
 
   function show(i) {
     if (i < 0 || i >= slides.length) return;
