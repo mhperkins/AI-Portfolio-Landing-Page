@@ -30,7 +30,7 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Barlow+Condensed:wght@300;900&family=Lato:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=block" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Barlow+Condensed:wght@300;600;700;900&family=Lato:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=block" rel="stylesheet" />
   <style>
     html { scroll-behavior: smooth; }
 
@@ -319,6 +319,21 @@
       letter-spacing: 0.085em; line-height: 1.25;
     }
     @media (max-width: 639px) { .sec-h2 { font-size: 1rem; letter-spacing: 0.07em; } }
+
+    /* Tool card heading (2026-09-14, Max's call). The tool tabs already name
+       each tool, so cards have no title of their own and this line leads the
+       card. Condensed to match the hero, sized to run most of the card. */
+    .tool-h {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.35rem, 3.6vw, 2.35rem);
+      line-height: 1.05;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-align: center;
+      text-wrap: balance;
+      color: #e8eff3;
+    }
 
     table.matrix { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
     table.matrix th, table.matrix td {
@@ -3594,11 +3609,7 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
         <!-- ── Tool: Composer Compass ── -->
         <div id="tool-hub-compass" class="tool-panel">
           <div id="composition" class="border border-white/8 rounded-xl p-6 sm:p-8 bg-white/[0.02]">
-            <div class="flex flex-col items-center gap-2 mb-5">
-              <h3 class="text-xl font-semibold">Composer Compass</h3>
-              <p class="text-sm text-slate-400">The composing tool</p>
-            </div>
-            <h4 class="sec-h2 text-center mb-6" style="color:#e8eff3;">A visualized creative process, not a chat window</h4>
+            <h4 class="tool-h mb-6">A visualized creative process, not a chat window</h4>
             <div class="compass-demo mb-10" id="compassDemo" tabindex="-1">
     <!-- ====================================================================
          THE RAIL
@@ -4162,11 +4173,7 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
         <!-- ── Tool: Composer CRM ── -->
         <div id="tool-hub-crm" class="tool-panel" style="display:none">
           <div id="composer-crm" class="border border-white/8 rounded-xl p-6 sm:p-8 bg-white/[0.02]">
-            <div class="flex flex-col items-center gap-2 mb-5">
-              <h3 class="text-xl font-semibold">Composer CRM</h3>
-              <p class="text-sm text-slate-400">People, ensembles, concerts</p>
-            </div>
-            <h4 class="sec-h2 text-center mb-6" style="color:#e8eff3;">Manage your network and career</h4>
+            <h4 class="tool-h mb-6">Manage your network and career</h4>
             <!-- CRM demo carousel, transplanted from demo/crm-demo.html on
                  2026-09-10, replacing the annotated screenshots. Every screen
                  is rebuilt in HTML at reading size; all data is placeholder,
@@ -5012,11 +5019,7 @@ Max</textarea>
         <!-- ── Tool: Virtual Agency ── -->
         <div id="tool-hub-agency" class="tool-panel" style="display:none">
           <div id="virtual-agency" class="border border-white/8 rounded-xl p-6 sm:p-8 bg-white/[0.02]">
-            <div class="flex flex-col items-center gap-2 mb-5">
-              <h3 class="text-xl font-semibold">Virtual Agency</h3>
-              <p class="text-sm text-slate-400">The AI employees</p>
-            </div>
-            <h4 class="sec-h2 text-center mb-6" style="color:#e8eff3;">Your virtual team</h4>
+            <h4 class="tool-h mb-6">Your virtual team</h4>
             <!-- Virtual Agency demo carousel, transplanted from
                  demo/agency-demo.html on 2026-09-10, replacing the annotated
                  roster screenshot. There is no app screen to rebuild here: the
@@ -5268,11 +5271,7 @@ Max</textarea>
       <div id="tab-dasha" class="tab-panel pb-24" style="display:none">
 
         <div id="teacherade" class="border border-white/8 rounded-xl p-6 sm:p-8 bg-white/[0.02]">
-          <div class="flex flex-col items-center gap-2 mb-5">
-            <h3 class="text-xl font-semibold">TeacherAID</h3>
-            <p class="text-sm text-slate-400">The teaching studio manager</p>
-          </div>
-          <h4 class="sec-h2 text-center mb-6" style="color:#e8eff3;">One ledger for the lessons, the pay, and the plan</h4>
+          <h4 class="tool-h mb-6">One ledger for the lessons, the pay, and the plan</h4>
           <!-- TeacherAID demo carousel, transplanted from demo/dasha-demo.html
                on 2026-09-12. Same [data-demo-panel] initializer as the CRM and
                Agency carousels; numbered pins inside each screen match the
@@ -5902,8 +5901,7 @@ Max</textarea>
         <div id="tool-crm" class="tool-panel">
           <div id="crm" class="border border-white/8 rounded-xl p-6 sm:p-8 bg-white/[0.02]">
             <div class="mb-6">
-              <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
-                <h3 class="text-xl font-semibold">Sprout Society CRM</h3>
+              <div class="flex justify-center">
                 <span class="tag status-live">Live · Actively Used</span>
               </div>
             </div>
@@ -6436,8 +6434,7 @@ Max</textarea>
         <div id="tool-grant" class="tool-panel" style="display:none">
           <div id="grant" class="border border-white/8 rounded-xl p-6 sm:p-8 bg-white/[0.02]">
             <div class="mb-6">
-              <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
-                <h3 class="text-xl font-semibold">Grant Finder &amp; Writer</h3>
+              <div class="flex justify-center">
                 <span class="tag status-live">Live · Actively Used</span>
               </div>
             </div>
@@ -7131,8 +7128,7 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
         <div id="tool-social" class="tool-panel" style="display:none">
           <div id="social" class="border border-white/8 rounded-xl p-6 sm:p-8 bg-white/[0.02]">
             <div class="mb-6">
-              <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
-                <h3 class="text-xl font-semibold">Social Content Planner</h3>
+              <div class="flex justify-center">
                 <span class="tag status-live">Live · Functional V2</span>
               </div>
             </div>
@@ -7730,8 +7726,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
         <div id="tool-qr" class="tool-panel" style="display:none">
           <div id="qr" class="border border-white/8 rounded-xl p-6 sm:p-8 bg-white/[0.02]">
             <div class="mb-6">
-              <div class="flex flex-wrap items-center justify-center gap-3 mb-3">
-                <h3 class="text-xl font-semibold">Campaign Tracker</h3>
+              <div class="flex justify-center">
                 <span class="tag status-live">Live · Actively Used</span>
               </div>
             </div>
