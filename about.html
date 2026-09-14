@@ -28,8 +28,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Barlow+Condensed:wght@300;900&display=block" rel="stylesheet" />
   <style>
-    .nav-link { color: #94a3b8; font-size: 0.875rem; transition: color 0.15s; }
-    .nav-link:hover { color: #f1f5f9; }
+    /* The hero name's white, bold, wider spacing (2026-09-14); the current page is brand green. */
+    .nav-link { color: #e2e8f0; font-size: 0.9375rem; font-weight: 700; letter-spacing: 0.08em; transition: color 0.15s; }
+    .nav-link:hover, .nav-link.is-current { color: #4ade80; }
+    @media (max-width: 640px) { .nav-link { font-size: 0.75rem; letter-spacing: 0.04em; } }
     .section-label {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem;
@@ -45,12 +47,12 @@
   <nav class="fixed top-0 inset-x-0 z-50 border-b border-white/5 bg-[#080d08]/80 backdrop-blur-md">
     <div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
       <a href="index.html" class="font-mono text-sm text-brand-400 font-medium">mhperkins<span class="text-slate-500">.dev</span></a>
-      <div class="flex items-center gap-6">
-        <a href="index.html#tab-hub" class="nav-link text-sm">Composer Hub</a>
-        <a href="index.html#tab-sprout" class="nav-link text-sm">Sprout Suite</a>
-        <a href="about.html" class="nav-link text-sm" style="color: #f1f5f9;">About</a>
-        <a href="resume.html" class="nav-link text-sm">CV</a>
-        <a href="index.html#contact" class="nav-link text-sm">Contact</a>
+      <div class="flex items-center gap-3 sm:gap-7">
+        <a href="index.html#tab-hub" class="nav-link hidden sm:inline">Composer Hub</a>
+        <a href="index.html#tab-sprout" class="nav-link hidden sm:inline">Sprout Suite</a>
+        <a href="about.html" class="nav-link is-current" aria-current="page">About</a>
+        <a href="resume.html" class="nav-link">CV</a>
+        <a href="index.html#contact" class="nav-link">Contact</a>
       </div>
     </div>
   </nav>

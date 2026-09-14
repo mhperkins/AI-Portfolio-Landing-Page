@@ -798,10 +798,25 @@ column's width; below 760px it drops in under the lesson. Sam Whitaker's excused
 old "Makeup Thursday?" prompt. The "Why this screen is first" note came out to make room for the
 menu. Pins are now 1 + Add, 2 the catch-up card (new blurb: missed lessons collect by day and
 Continue opens one short review), 3 the week meters, 4 Mira's lesson, 5 the menu. Copy is
-Claude's draft; Max has not called it. **The move to Nora's row shipped to `index.html` inside a
-parallel session's commit `353ffc1`** ("box the Aesthetic Blueprint tag"), which staged the page
-while this work sat in the working tree; its message does not mention it. The standalone and these
-docs followed in their own commit.
+Claude's draft; Max has not called it. The move to Nora's row briefly rode inside a parallel
+session's local commit, which that session rewrote (`6cec73c`) without it before pushing, so the
+page half shipped a commit after the standalone. Check `git status` before trusting a sweep.
+
+**2026-09-14, later (Max's calls):**
+- **Sprout tools have headings, no badges.** The "Live · Actively Used" and "Live · Functional V2"
+  status tags are gone, and each Sprout card opens on a `tool-h` heading like the Hub and TeacherAID
+  cards: CRM "Every relationship, event and follow-up in one place", Grant Finder "From funder
+  research to a finished application", Social Planner "Draft it, approve it, publish it to
+  Instagram", Campaign Tracker "See which flyers and links bring people in". Claude's drafts; Max
+  has not called them. The `.status-*` CSS stays, because the component table still uses it.
+- **The hero's skill tags** gained VS Code, right after Claude Code.
+- **The top nav is more prominent** on `index.html`, `about.html` and `resume.html`: the links wear
+  the hero name's white, bold, with wider letter spacing, and turn brand green on hover. The
+  `text-sm` utility came off the links, because the Tailwind CDN's styles land after the page's and
+  would win. On About and CV the current page's link is brand green (`.is-current`), and below 640px
+  their Composer Hub and Sprout Suite links hide (`hidden sm:inline`), because five bold links
+  overflowed a phone; phones get About, CV and Contact, the same three as the home page. Verified
+  headless at 1280, 390 and 360 on all three pages: one line, inside the screen, zero script errors.
 
 **2026-09-14: hero slimmed to one band** (Max's call: the carousels should sit much higher). The
 three-line poster (Maxwell Perkins / DEVELOPMENT / PORTFOLIO / AI Developer, plus a 5x2 tag grid)
