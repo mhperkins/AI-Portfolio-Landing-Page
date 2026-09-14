@@ -645,7 +645,7 @@ until he reworks that feature in the app.**
   pin (`.demo-pin`) on the feature. One sentence per note, Max's rule. On the page the notes row is
   hidden and each note pops up on its tile (2026-09-13, "Strip navigation and hover notes"); the
   standalone still shows the row.
-- **Schedule slide order (2026-09-13, Max's call):** the lesson carrying pin 1 and the log buttons,
+- **Schedule slide order (2026-09-13, Max's call):** the lesson carrying the log buttons (pin 4 since 2026-09-14),
   Mira Okonkwo, is the first block of the day at 8:00&ndash;9:00. The Booking slide still shows her
   regular lesson on Tuesdays at 6 PM; not reconciled yet.
 - **No pronouns for the user.** Copy says "the teacher", never she/her, and never names Dasha,
@@ -782,6 +782,19 @@ pattern; zero script errors.
 sits under the Intake group instead of top right. Hub CRM, Agency and TeacherAID: "Click to step
 through" sits 12px after the last tab instead of at the far end of the strip (page rule scoped to
 those three roots; the Sprout strips keep theirs at the far end).
+
+**2026-09-14: TeacherAID Schedule slide rebuilt for the app's Add button and lesson menus** (Max's
+call), page and standalone, grounded in dasha-board's `ScheduleTab.tsx`, `AddMenu.tsx`,
+`LessonRow.tsx` and `LessonMenu.tsx`. The "Add to this day" card is gone, because the app replaced
+it with one **+ Add** button in the Schedule header. Every lesson row carries a &#8943;, and Clara
+Voss's is drawn open: `.ds-popmenu` pops out beside it into the right column (What happened,
+Follow-up, Reschedule, Notify family, Open student, in the app's own wording). `.ds-frame` clips
+overflow, so the menu opens up from the &#8943; and tracks the right column's width; below 760px it drops
+in under the lesson. Sam Whitaker's excused row shows the app's Reschedule button instead of the
+old "Makeup Thursday?" prompt. The "Why this screen is first" note came out to make room for the
+menu. Pins are now 1 + Add, 2 the catch-up card (new blurb: missed lessons collect by day and
+Continue opens one short review), 3 the week meters, 4 Mira's lesson, 5 the menu. Copy is
+Claude's draft; Max has not called it.
 
 **2026-09-14: hero slimmed to one band** (Max's call: the carousels should sit much higher). The
 three-line poster (Maxwell Perkins / DEVELOPMENT / PORTFOLIO / AI Developer, plus a 5x2 tag grid)

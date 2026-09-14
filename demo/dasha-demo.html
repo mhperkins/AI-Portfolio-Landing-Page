@@ -226,6 +226,39 @@ button { cursor: pointer; font-family: var(--font-sans); }
 .ds-blk .meta { font-size: 11.5px; color: var(--ds-muted); margin-top: 1px; }
 .ds-blk.done .name { color: var(--ds-ink2); }
 .ds-blk.void .name { text-decoration: line-through; color: var(--ds-muted); }
+/* The lesson menu (LessonMenu.tsx, D56): every lesson row carries a \22EF, and the
+   Schedule slide draws one menu open beside the \22EF that opened it. The app opens it
+   as a dialog; here it pops out into the right column so the day stays in view.
+   Its width tracks the right column: the left column is 1.55 times as wide. */
+.ds-blk.has-menu { grid-template-columns: 86px 4px 1fr auto; }
+.ds-blk.menu-open { position: relative; }
+.ds-rowmenu { font-size: 19px; line-height: 1; letter-spacing: .05em; color: var(--ds-muted); padding: 1px 7px 7px; border: 1px solid transparent; border-radius: 4px; align-self: start; }
+.ds-rowmenu.on { color: var(--ds-ink); border-color: var(--ds-rule); background: var(--ds-sunk); }
+.ds-popmenu.demo-pinned { position: absolute; left: calc(100% + 7px); bottom: calc(100% - 40px); width: calc((100% + 2px) / 1.55 + 4px); z-index: 4; background: var(--ds-card); border: 1px solid var(--ds-hair); border-radius: 8px; box-shadow: 0 8px 32px rgba(10, 12, 16, .22); }
+.ds-popmenu::before { content: ""; position: absolute; left: -6px; bottom: 14px; width: 10px; height: 10px; background: var(--ds-card); border-left: 1px solid var(--ds-hair); border-bottom: 1px solid var(--ds-hair); transform: rotate(45deg); }
+.ds-pmhead { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--ds-hair); }
+.ds-pmhead .ds-h3 { font-size: 17px; margin-top: 2px; }
+.ds-pmbody { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 12px; }
+.ds-pmsec > .ds-eyebrow { margin-bottom: 6px; }
+.ds-pmsec .ds-acts { margin-top: 0; }
+.ds-in.ds-pmfield { display: block; white-space: normal; min-height: 44px; line-height: 1.45; }
+.ds-menulist { list-style: none; margin: 0; padding: 0; border: 1px solid var(--ds-hair); border-radius: 6px; overflow: hidden; background: var(--ds-card); }
+.ds-menuitem { display: flex; align-items: center; gap: 12px; padding: 9px 12px; border-bottom: 1px solid var(--ds-hair); }
+.ds-menuitem:last-child { border-bottom: 0; }
+.ds-menuitem .mi { flex: 1; min-width: 0; }
+.ds-menuitem b { display: block; font-size: 13px; font-weight: 600; }
+.ds-menuitem .mi-sub { display: block; font-size: 11.5px; color: var(--ds-muted); margin-top: 1px; line-height: 1.4; }
+.ds-menuitem::after { content: "\203A"; color: var(--ds-muted); font-size: 18px; line-height: 1; }
+@media (max-width: 760px) {
+  /* One column: the menu drops in under its lesson instead of beside it. */
+  /* Out over the time and rail columns and the dots, so it gets the whole row. */
+  .ds-popmenu.demo-pinned { position: relative; left: auto; bottom: auto; width: auto; margin: 10px -46px 0 -112px; }
+  .ds-popmenu::before { display: none; }
+}
+@media (max-width: 640px) {
+  .ds-blk.has-menu { grid-template-columns: 58px 4px 1fr auto; }
+  .ds-popmenu.demo-pinned { margin: 10px -43px 0 -78px; }
+}
 .ds-chhead { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 16px; border-bottom: 1px solid var(--ds-hair); }
 .ds-chhead b { font-family: var(--ds-serif); font-size: 15px; font-weight: 500; }
 .ds-chday { padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 12.5px; }
@@ -469,9 +502,11 @@ button { cursor: pointer; font-family: var(--font-sans); }
                data-state="Tuesday, Sep 15 &middot; 3 of 5 lessons logged &middot; Monday still has lessons to catch up on."
                data-title="Schedule: logging today">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>After each lesson the teacher taps Completed, Late cancel, No-show or Excused, and that one tap decides whether the hour gets paid.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Every tap feeds the week's running hour totals, measured against the teacher's own limits for teaching, university work and study.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Add to this day puts a makeup lesson, practice session or gym trip on the calendar in two taps.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><span>+ Add puts practice time, the gym, a one-off lesson, anything else with its own name, or a new student on the calendar, from the Day, Week or Month view.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><span>Lessons left unlogged in the last two weeks collect here by day, and Continue opens that day as one short review, so catching up takes a few taps and a half-finished day picks up where the teacher left off.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><span>Every tap feeds the week's running hour totals, measured against the teacher's own limits for teaching, university work and study.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">4</span><span>After each lesson the teacher taps Completed, Late cancel, No-show or Excused, and that one tap decides whether the hour gets paid.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">5</span><span>The &#8943; on any lesson opens its action menu: log what happened, leave a follow-up, move the lesson to a new time on the calendar, open email or texts with a message to the family ready, or jump to the student's profile.</span></div>
         </div>
         <div class="ds-frame">
           <div class="ds-page">
@@ -481,6 +516,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
                 <div class="ds-sub">Tap once per lesson. Everything else is calculated from that tap.</div>
               </div>
               <div class="ds-headctl">
+                <span class="ds-act pri demo-pinned"><span class="demo-pin">1</span>+ Add</span>
                 <div class="ds-scale"><span class="on">Day</span><span>Week</span><span>Month</span></div>
                 <span class="ds-navbtn">&lsaquo;</span><span class="ds-navbtn">&rsaquo;</span><span class="ds-navbtn">Today</span>
               </div>
@@ -488,7 +524,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
 
             <div class="ds-grid2">
               <div class="ds-col">
-                <div class="ds-card">
+                <div class="ds-card demo-pinned"><span class="demo-pin">2</span>
                   <div class="ds-chhead">
                     <b>One day behind</b>
                     <span class="ds-undo">Skip, catch up later</span>
@@ -505,7 +541,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
                     <div style="text-align: right;"><div class="ds-eyebrow">Logged</div><div class="ds-big">3 / 5</div></div>
                   </div>
                   <ul class="ds-blocks">
-                    <li class="ds-blk demo-pinned"><span class="demo-pin" style="left: auto; right: 8px; top: 8px;">1</span>
+                    <li class="ds-blk has-menu demo-pinned"><span class="demo-pin" style="left: auto; right: 54px; top: 8px;">4</span>
                       <div class="t">8:00&ndash;9:00</div><div class="ds-rail r-private"></div>
                       <div>
                         <div class="name">MIRA OKONKWO</div><div class="meta">60 min &middot; Private</div>
@@ -513,6 +549,7 @@ button { cursor: pointer; font-family: var(--font-sans); }
                           <span class="ds-act pri">&#10003; Completed</span><span class="ds-act">Late cancel</span><span class="ds-act">No-show</span><span class="ds-act">Excused</span>
                         </div>
                       </div>
+                      <span class="ds-rowmenu" aria-hidden="true">&#8943;</span>
                     </li>
                     <li class="ds-blk">
                       <div class="t">9:30&ndash;10:45</div><div class="ds-rail r-personal"></div>
@@ -522,44 +559,73 @@ button { cursor: pointer; font-family: var(--font-sans); }
                       <div class="t">11:00&ndash;12:15</div><div class="ds-rail r-university"></div>
                       <div><div class="name">Keyboard Skills (TA)</div><div class="meta">75 min &middot; University &middot; Rm 1351</div></div>
                     </li>
-                    <li class="ds-blk done">
+                    <li class="ds-blk has-menu done">
                       <div class="t">3:30&ndash;4:15</div><div class="ds-rail r-contract"></div>
                       <div>
                         <div class="name">Nora Castellanos</div><div class="meta">45 min &middot; Harbor Piano</div>
                         <div class="ds-statline"><span class="ds-pill p-held">Completed</span><span class="ds-undo">Undo</span></div>
                         <div class="ds-note">Hands separate on the Clementi, metronome at 88. Loved the left-hand ostinato.</div>
                       </div>
+                      <span class="ds-rowmenu" aria-hidden="true">&#8943;</span>
                     </li>
-                    <li class="ds-blk">
+                    <li class="ds-blk has-menu">
                       <div class="t">4:15&ndash;5:00</div><div class="ds-rail r-contract"></div>
                       <div>
                         <div class="name">Eli Ferreira</div><div class="meta">45 min &middot; Harbor Piano</div>
                         <div class="ds-statline"><span class="ds-pill p-late">Late cancel &middot; billable</span><span class="ds-undo">Undo</span></div>
                       </div>
+                      <span class="ds-rowmenu" aria-hidden="true">&#8943;</span>
                     </li>
-                    <li class="ds-blk void">
+                    <li class="ds-blk has-menu void">
                       <div class="t">5:00&ndash;5:30</div><div class="ds-rail r-contract"></div>
                       <div>
                         <div class="name">Sam Whitaker</div><div class="meta">30 min &middot; Harbor Piano</div>
-                        <div class="ds-statline"><span class="ds-pill p-excused">Excused</span><span class="ds-undo">Undo</span></div>
-                        <div class="ds-fu"><span class="ds-flag f-warn">Reschedule</span>Makeup Thursday at 5:30?</div>
+                        <div class="ds-statline"><span class="ds-pill p-excused">Excused</span><span class="ds-undo">Undo</span><span class="ds-act">Reschedule</span></div>
                       </div>
+                      <span class="ds-rowmenu" aria-hidden="true">&#8943;</span>
                     </li>
-                    <li class="ds-blk">
+                    <li class="ds-blk has-menu menu-open">
                       <div class="t">7:15&ndash;8:00</div><div class="ds-rail r-private"></div>
                       <div>
                         <div class="name">Clara Voss</div><div class="meta">45 min &middot; Private</div>
                         <div class="ds-acts">
                           <span class="ds-act pri">&#10003; Completed</span><span class="ds-act">Late cancel</span><span class="ds-act">No-show</span><span class="ds-act">Excused</span>
                         </div>
+                        <!-- The lesson menu, drawn open beside the ⋯ that opened it -->
+                        <div class="ds-popmenu demo-pinned"><span class="demo-pin">5</span>
+                          <div class="ds-pmhead">
+                            <div>
+                              <div class="ds-eyebrow">Tuesday, September 15, 7:15&ndash;8:00 PM</div>
+                              <h3 class="ds-h3">Clara Voss</h3>
+                              <div class="ds-sub">45 min &middot; Private</div>
+                            </div>
+                            <span class="ds-dmclose">&times;</span>
+                          </div>
+                          <div class="ds-pmbody">
+                            <div class="ds-pmsec">
+                              <div class="ds-eyebrow">What happened</div>
+                              <div class="ds-acts"><span class="ds-act pri">&#10003; Completed</span><span class="ds-act">Late cancel</span><span class="ds-act">No-show</span><span class="ds-act">Excused</span></div>
+                            </div>
+                            <div class="ds-pmsec">
+                              <div class="ds-eyebrow">Follow-up</div>
+                              <div class="ds-in ph ds-pmfield">What needs follow-up? e.g. confirm next lesson, bring music</div>
+                            </div>
+                            <ul class="ds-menulist">
+                              <li class="ds-menuitem"><span class="mi"><b>Reschedule</b><span class="mi-sub">Pick a new time on the calendar. This one is marked excused.</span></span></li>
+                              <li class="ds-menuitem"><span class="mi"><b>Notify family</b><span class="mi-sub">Open your email or texts with a message ready</span></span></li>
+                              <li class="ds-menuitem"><span class="mi"><b>Open student</b><span class="mi-sub">Profile, rate, lessons and notes</span></span></li>
+                            </ul>
+                          </div>
+                        </div>
                       </div>
+                      <span class="ds-rowmenu on" aria-hidden="true">&#8943;</span>
                     </li>
                   </ul>
                 </div>
               </div>
 
               <div class="ds-col">
-                <div class="ds-card ds-card-pad demo-pinned"><span class="demo-pin">2</span>
+                <div class="ds-card ds-card-pad demo-pinned"><span class="demo-pin">3</span>
                   <div class="ds-eyebrow">This week so far</div>
                   <div class="ds-meterstack">
                     <div class="ds-meter">
@@ -579,17 +645,6 @@ button { cursor: pointer; font-family: var(--font-sans); }
                     </div>
                   </div>
                 </div>
-
-                <div class="ds-card ds-card-pad demo-pinned"><span class="demo-pin">3</span>
-                  <div class="ds-eyebrow">Add to this day</div>
-                  <div class="ds-qa-row"><span class="ds-act">Practice Time</span><span class="ds-act">Gym</span></div>
-                  <div class="ds-qa-sep">or a lesson</div>
-                  <div class="ds-qa-row">
-                    <span class="ds-act">Ada Kim</span><span class="ds-act">Clara Voss</span><span class="ds-act">Eli Ferreira</span><span class="ds-act">Hannah Park</span><span class="ds-act">JONAH ELLIS</span><span class="ds-act">MIRA OKONKWO</span><span class="ds-act">Nora Castellanos</span><span class="ds-act">Sam Whitaker</span>
-                  </div>
-                </div>
-
-                <div class="ds-lock"><b>Why this screen is first.</b> The hour log is only as good as the habit behind it. If logging a lesson takes longer than the walk to the next student, the timesheet goes wrong.</div>
               </div>
             </div>
           </div>
