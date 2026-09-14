@@ -421,9 +421,10 @@ At Max's ask, on all eight carousels. Page only; the `demo/` standalones are unc
 - **No arrows.** The side arrows and the arrow row under each stage (with its step name and
   `01 / 05` count) are hidden in CSS. The markup stays so a re-transplant still lands clean. The
   strip, or the Compass rail, is the control. The arrow keys still work.
-- **The "next" cue.** Whichever control leads to the following slide gets `is-next`: a dashed
+- **The "next" cue.** Whichever control leads to the following slide gets `is-next`: a solid
   outline and a pulsing corner dot on strip entries (a dot, not an arrow glyph, so the strip never
-  changes width), and a dashed glowing border on Compass rail groups. The last slide has no cue.
+  changes width), and a solid glowing border on Compass rail groups. (All dashed lines in the
+  carousels became solid on 2026-09-14 at Max's call; do not bring dashes back.) The last slide has no cue.
 - **Step chips.** A strip entry that covers a run of slides gets numbered chips beside it while
   that run is showing (Hub CRM Concerts 1 to 4, TeacherAID Booking 1 and 2), built by the shared
   carousel script. Without them those slides were unreachable once the arrows went.
@@ -765,6 +766,15 @@ Headings stay above the carousels. The tile grids trade their bottom margin for 
 the `demo/` standalones never had the tiles. Verified headless at 1280 and 390: on every tool the
 grid is the carousel's next sibling inside the same card, holds three cards and renders below the
 carousel, and every carousel still steps; zero script errors.
+
+**2026-09-14: every dashed line in the carousels is solid now** (Max's call), in `index.html` and all
+eight `demo/` standalones: the hint pills, the `is-next` cue on strips, chips and rail groups, the
+"Hover a number" pill, future rail pills, the Compass back edge (its unlit dash pattern is gone), and
+in-slide dashes (upload and drop zones, chart gridlines, the add-code form, empty states). The 1px
+dotted row dividers (Compass `.drule`, CRM `.cprot-row` and `.cans`, Agency `.adoc-tbl td`) became
+solid too, since at that size they read as dashes. Verified headless: no rendered element on the
+page or any standalone has a dashed or dotted border or outline, and no SVG stroke has a dash
+pattern; zero script errors.
 
 ### Session of 2026-09-13, late: TeacherAID on the CV, CV docx typos fixed (pushed)
 

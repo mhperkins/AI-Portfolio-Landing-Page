@@ -66,7 +66,7 @@ body {
 .demo-nav-item.is-active { color: var(--cream); background: rgba(180, 83, 9, 0.32); }
 .demo-nav-item:disabled { cursor: default; opacity: 0.55; }
 .demo-nav-soon { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; background: rgba(255, 255, 255, 0.12); color: var(--cream); padding: 1px 7px; border-radius: 8px; }
-.demo-nav-hint { margin-left: auto; align-self: center; display: inline-flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); border: 1px dashed rgba(217, 119, 6, 0.55); border-radius: 20px; padding: 4px 11px; pointer-events: none; white-space: nowrap; }
+.demo-nav-hint { margin-left: auto; align-self: center; display: inline-flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); border: 1px solid rgba(217, 119, 6, 0.55); border-radius: 20px; padding: 4px 11px; pointer-events: none; white-space: nowrap; }
 .demo-nav-hint svg { width: 10px; height: 10px; display: block; flex-shrink: 0; color: var(--amber-lt); }
 @media (max-width: 660px) { .demo-nav-hint { display: none; } }
 
@@ -251,7 +251,7 @@ body {
 .campaign-demo .qt-chart { direction: ltr; display: grid; grid-template-columns: 22px minmax(0, 1fr); grid-template-rows: 204px 22px; min-width: 520px; font-size: 11px; color: var(--g400); }
 .campaign-demo .qt-chart-y { position: relative; }
 .campaign-demo .qt-chart-y span { position: absolute; right: 8px; transform: translateY(50%); line-height: 1; }
-.campaign-demo .qt-chart-plot { position: relative; border-top: 1px dashed var(--g200); background-image: linear-gradient(to top, var(--g200) 1px, transparent 1px); background-size: 100% calc(100% / 7); background-position: left bottom; }
+.campaign-demo .qt-chart-plot { position: relative; border-top: 1px solid var(--g200); background-image: linear-gradient(to top, var(--g200) 1px, transparent 1px); background-size: 100% calc(100% / 7); background-position: left bottom; }
 .campaign-demo .qt-bars { position: absolute; inset: 0; display: flex; align-items: flex-end; }
 .campaign-demo .qt-bar-slot { flex: 1 1 0; min-width: 0; height: 100%; display: flex; align-items: flex-end; justify-content: center; }
 .campaign-demo .qt-bar { width: 72%; background: var(--cyan); border-radius: 4px 4px 0 0; }
@@ -299,7 +299,7 @@ body {
 .campaign-demo .qt-select { display: flex; justify-content: space-between; gap: 6px; }
 .campaign-demo .qt-select i { font-style: normal; color: var(--g400); }
 .campaign-demo .qt-caret { display: inline-block; width: 1px; height: 12px; background: var(--cyan-dk); vertical-align: -2px; margin-left: 1px; }
-.campaign-demo .qt-addform { background: rgba(115, 196, 214, 0.06); border: 1.5px dashed var(--cyan); border-radius: 8px; padding: 14px; margin-top: 10px; }
+.campaign-demo .qt-addform { background: rgba(115, 196, 214, 0.06); border: 1.5px solid var(--cyan); border-radius: 8px; padding: 14px; margin-top: 10px; }
 .campaign-demo .qt-actions { display: flex; gap: 7px; margin-top: 3px; }
 .campaign-demo .qt-codes { margin-top: 12px; }
 .campaign-demo .qt-code { background: var(--g50); border: 1px solid var(--g200); border-radius: 8px; padding: 10px 14px; margin-bottom: 7px; display: flex; flex-direction: column; gap: 7px; }

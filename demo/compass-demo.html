@@ -155,7 +155,7 @@ body {
   text-transform: uppercase;
   color: var(--amber-dim);
   background: rgba(255, 255, 255, 0.72);
-  border: 1px dashed var(--amber-lt);
+  border: 1px solid var(--amber-lt);
   border-radius: 20px;
   padding: 3px 11px;
   pointer-events: none;
@@ -229,7 +229,7 @@ body {
 .demo-node-pill.is-future {
   opacity: 0.42;
   background: transparent;
-  border-style: dashed;
+  border-style: solid;
   box-shadow: none;
 }
 
@@ -632,7 +632,7 @@ body {
   font-size: 12.5px;
   line-height: 1.6;
   padding: 8px 0;
-  border-bottom: 1px dotted var(--border);
+  border-bottom: 1px solid var(--border);
 }
 .drule:last-child { border-bottom: none; }
 .drule-n {
@@ -674,7 +674,7 @@ body {
 .dthumb { background: white; padding: 6px 8px; }
 .dthumb svg { display: block; width: 100%; height: auto; }
 .dupload {
-  border: 1px dashed var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   padding: 9px;
   text-align: center;
@@ -1554,7 +1554,7 @@ Groove is a spine. Never reduce it to "prefers simple rhythms."</div>
 
     svg.innerHTML =
       '<path d="' + path + '" fill="none" stroke="' + color + '" stroke-width="' + (lit ? 1.6 : 1) + '" ' +
-      'stroke-dasharray="' + (lit ? '0' : '3 3') + '"/>' +
+      'stroke-dasharray="' + '0' + '"/>' +
       '<polygon points="' + x2 + ',' + (y + 1) + ' ' + (x2 - 3.5) + ',' + (y + 6) +
       ' ' + (x2 + 3.5) + ',' + (y + 6) + '" fill="' + color + '"/>' + label;
   }
