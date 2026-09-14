@@ -8291,6 +8291,31 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
       if (delta < -1) window.scrollBy({ top: delta, behavior: 'smooth' });
     }
 
+    // ── Analytics ───────────────────────────────────────────────────────────
+    // Google Analytics counts page views on its own, and this portfolio is one
+    // page, so tab, tool, slide and note clicks go out as events. gtag() is
+    // defined in <head>; when a blocker stops gtag.js they just sit in dataLayer.
+    function trackEvent(name, params) {
+      if (typeof gtag === 'function') gtag('event', name, params || {});
+    }
+    // A carousel is named for the tool button that shows it, or for its tab
+    // button when the tab has no tools (TeacherAID).
+    function carouselName(root) {
+      var tool = root.closest('.tool-panel');
+      var tab = root.closest('.tab-panel');
+      var btn = tool
+        ? document.querySelector('[data-tool="' + tool.id.replace(/^tool-/, '') + '"]')
+        : tab && document.querySelector('[data-target="' + tab.id + '"]');
+      return btn ? btn.textContent.trim() : '';
+    }
+    function trackSlide(root, slides, i) {
+      trackEvent('slide_view', {
+        carousel: carouselName(root),
+        slide_number: i + 1,
+        slide_title: slides[i].getAttribute('data-title') || ''
+      });
+    }
+
     // ── Numbered notes as popovers, shared by every carousel ──────────────
     // Each note pops up beside its pin when its tile (the pin's parent) is
     // hovered, focused or tapped, instead of sitting in a row above the
@@ -8360,9 +8385,31 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
         pop.style.left = Math.round(left) + 'px';
         pop.style.top = Math.round(top) + 'px';
       }
+      // A note counts as read once it has stayed open for a second, and only
+      // once per page load, so sweeping the mouse across tiles logs nothing.
+      var noteTimer = 0, seenNotes = {};
+      function queueNoteEvent(info) {
+        clearTimeout(noteTimer);
+        noteTimer = setTimeout(function () {
+          if (hot !== info) return;
+          var i = getCurrent(), key = i + ':' + info.n;
+          if (seenNotes[key]) return;
+          seenNotes[key] = true;
+          var text = document.createElement('div');
+          text.innerHTML = info.html;
+          trackEvent('note_view', {
+            carousel: carouselName(root),
+            slide_number: i + 1,
+            slide_title: slides[i].getAttribute('data-title') || '',
+            note_number: info.n,
+            note_text: text.textContent.replace(/\s+/g, ' ').trim().slice(0, 100)
+          });
+        }, 1000);
+      }
       function showPop(info) {
         if (!pop || !info) return;
         if (hot && hot !== info) { hot.target.classList.remove('is-hot'); hot.pin.classList.remove('is-hot'); }
+        if (hot !== info) queueNoteEvent(info);
         hot = info;
         pop.innerHTML = '<span class="demo-pin-n">' + info.n + '</span><span class="demo-pop-txt">' + info.html + '</span>';
         info.target.classList.add('is-hot');
@@ -8543,7 +8590,14 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
     }
 
     document.querySelectorAll('.tab-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() { switchTab(btn.getAttribute('data-target')); });
+      btn.addEventListener('click', function() {
+        trackEvent('tab_click', { tab_name: btn.textContent.trim() });
+        switchTab(btn.getAttribute('data-target'));
+      });
+    });
+
+    document.addEventListener('click', function(e) {
+      if (e.target.closest && e.target.closest('a[href^="mailto:"]')) trackEvent('email_click');
     });
 
     // ── Tool sub-tab switching ──────────────────────────────────────────────
@@ -8574,7 +8628,10 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
     }
 
     document.querySelectorAll('.tool-btn').forEach(function(btn) {
-      btn.addEventListener('click', function() { switchTool(btn.getAttribute('data-tool')); });
+      btn.addEventListener('click', function() {
+        trackEvent('tool_click', { tool_name: btn.textContent.trim() });
+        switchTool(btn.getAttribute('data-tool'));
+      });
     });
 
     // ── Hash navigation ─────────────────────────────────────────────────────
@@ -8600,6 +8657,9 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
       if (!hash) return;
       var tabId = cardToTab[hash];
       if (!tabId) return;
+      // The hash is stripped just below, before Google reads the page URL,
+      // so a visit through a link like #grant is logged here instead.
+      trackEvent('link_landing', { link_hash: hash });
       history.replaceState(null, '', window.location.pathname);
       switchTab(tabId);
       if (directTabs[hash]) return;
@@ -8924,6 +8984,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
   // change made while the rail is pinned lands at the top of the new slide.
   function turn(i) {
     if (i < 0 || i >= slides.length) return;
+    if (i !== current) trackSlide(root, slides, i);
     show(i);
     alignUnderPin(field);
   }
@@ -9109,6 +9170,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
     var pin = root.querySelector('.demo-nav-wrap');
     function turn(i) {
       if (i < 0 || i >= slides.length) return;
+      if (i !== current) trackSlide(root, slides, i);
       show(i);
       alignUnderPin(pin);
     }

@@ -763,8 +763,27 @@ This site is served from its Vercel default domain (ai-portfolio-landing-page.ve
 `<head>` on `index.html`, `about.html` and `resume.html`. It is deliberately left off
 `composer-hub.html` (it redirects instantly to `index.html`, so a tag there would count every visit
 twice), the `demo/` standalones (unlinked iteration sources) and `Curriculum - UW Madison.html`. A
-new public page needs the same snippet. Tab and tool switches inside `index.html` are not tracked as
-separate page views.
+new public page needs the same snippet.
+
+**Click tracking (added 2026-09-14, Max: "the only thing that matters").** GA only counts page
+views, and the portfolio is one page, so `index.html` sends events through `trackEvent()` in the
+main script:
+
+| Event | When | Parameters |
+|---|---|---|
+| `tab_click` | a main tab button | `tab_name` |
+| `tool_click` | a tool tab button | `tool_name` |
+| `slide_view` | any user slide change in any carousel (strip, chip, rail, Blueprint tag, arrow keys), never the initial `show(0)` and never the slide already showing | `carousel`, `slide_number`, `slide_title` |
+| `note_view` | a numbered note stays open 1 second; once per slide and note per page load | `carousel`, `slide_number`, `slide_title`, `note_number`, `note_text` (first 100 chars) |
+| `link_landing` | arrival through a hash link (`#grant`); `navigateToHash()` strips the hash before GA reads the URL | `link_hash` |
+| `email_click` | a `mailto:` link | none |
+
+- Slide events live in both `turn()` functions, not `show()`. Note events live in `initDemoPops()`.
+- `carouselName(root)` names a carousel for its tool button, or its tab button on TeacherAID.
+- The parameters only reach GA's standard reports once registered under **Admin → Custom
+  definitions** as event-scoped custom dimensions. Realtime and DebugView show them without that.
+- Verified headless with Google blocked, reading `dataLayer`: every event above fires with the right
+  parameters, a note shown under a second logs nothing, a repeat note logs nothing, zero script errors.
 
 ### Session of 2026-09-13, last: suite banners removed, tiles under the carousels (pushed)
 
