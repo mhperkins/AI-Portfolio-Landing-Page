@@ -58,6 +58,14 @@ Four internal tools built for Sprout Society, a Brooklyn community space for cre
 - Social Media Manager: a repository and workspace for social media content, with an automated publishing feature that runs on a content calendar.
 - Campaign Tracker: a dynamic QR code builder that tracks scans and visualizes data.
 
+### TeacherAID (2026-present)
+*A teaching studio manager for an independent music teacher: scheduling, payroll, student records, booking, and business planning, all run from one lesson ledger.*
+
+- Logs each lesson in one tap (held, cancelled, or excused), and every hour total, pay sheet, and student record updates from that entry.
+- Builds a pay-period hours sheet for each employer, and locks a submitted period so hours already sent never change.
+- Lets families book open lesson times from a single link, and turns an income target into weekly teaching hours and a roster size.
+- Sends scheduled daily, weekly, and pay-period email summaries, with AI observations on each closed period via the Anthropic API.
+
 ---
 
 ## PROFESSIONAL EXPERIENCE

@@ -759,8 +759,10 @@ scheduled email summaries with AI observations) and a walkthrough link to `#tab-
 Claude's draft from the tab's own cards and the dasha-board repo; Max has not called it. It follows
 the tab's rules: no pronouns for the teacher, never names Dasha.
 
-**Open:** the "Download CV (DOCX)" button still serves `Academic CV - UW Madison.docx`, which has
-no TeacherAID entry. It is also the record of the UW-Madison submission, so it was left alone.
+**Then the DOCX and `.md` too** (Max's call): the same entry sits after the Sprout Suite in
+`Academic CV - UW Madison.docx` and `.md`, so the download matches the page. TeacherAID missed the
+UW-Madison submission; it is there as supplementary material for an interview. The docx entry was
+inserted by cloning the Composer Compass title, note and bullet paragraphs, so formatting matches.
 
 ### Session of 2026-09-13: title cards, strip navigation, hover notes, Sprout notes, TeacherAID (pushed as `47e1acf`)
 

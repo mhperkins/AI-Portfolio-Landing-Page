@@ -66,6 +66,9 @@ as plain facts, then let The Composer Compass and the field's own newness carry 
 2026). Posting states applications accepted until filled.
 **Materials sent:** `Academic CV - UW Madison.md`, `Academic Cover Letter - UW Madison.md`,
 `Teaching Statement - UW Madison.md` — cover letter addressed to Wendy Johnson and Search Committee.
+**After submission (Sept 13):** TeacherAID was added to the CV (`.md`, `.docx` and `resume.html`)
+under Applied Systems. The submitted CV did not have it, so for an interview it is supplementary
+material, not something the committee has already read.
 **Referral:** personally recommended to the school director by a current teacher there, who will
 recognize the name; handled as a separate backchannel, not by redirecting the letter's salutation.
 
