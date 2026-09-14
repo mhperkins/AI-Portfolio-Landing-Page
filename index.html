@@ -49,12 +49,6 @@
       box-shadow: 0 20px 40px rgba(0,0,0,0.4);
     }
 
-    @keyframes scrollBounce {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(6px); }
-    }
-    #scroll-btn { animation: scrollBounce 1.6s ease-in-out infinite; }
-    #scroll-btn:hover { background: rgba(74,222,128,0.9) !important; }
     .tag {
       display: inline-flex;
       align-items: center;
@@ -71,6 +65,49 @@
     .status-wip     { background: rgba(99,102,241,0.15); color: #a5b4fc; border: 1px solid rgba(165,180,252,0.3); }
 
     .tech-tag { background: rgba(255,255,255,0.06); color: #94a3b8; border: 1px solid rgba(255,255,255,0.1); }
+
+    /* Hero: one compact band. Name left, skill tags right; stacks on a phone.
+       Custom classes rather than utilities, because the Tailwind Play CDN
+       injects after this sheet and would win the phone media query. */
+    .hero-band {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1.25rem 2.5rem;
+      padding-top: 1.75rem;
+      padding-bottom: 1.25rem;
+    }
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: #4ade80;
+      margin-bottom: 0.35rem;
+    }
+    .hero-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.1rem, 4.2vw, 2.9rem);
+      line-height: 0.95;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #e2e8f0;
+      white-space: nowrap;
+    }
+    .hero-role { display: block; color: #348a58; }
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 6px;
+      max-width: 36rem;
+    }
+    .hero-tags .tag { font-size: 11px; padding: 1px 9px; white-space: nowrap; }
+    @media (max-width: 760px) {
+      .hero-band { flex-direction: column; align-items: flex-start; padding-top: 1.25rem; padding-bottom: 1rem; }
+      .hero-tags { justify-content: flex-start; max-width: none; }
+    }
 
     .nav-link {
       color: #94a3b8;
@@ -3470,35 +3507,31 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
   </nav>
 
   <!-- HERO -->
+  <!-- Slimmed to one band on 2026-09-14 (Max's call) so the carousels sit
+       high on the first screen. It lines up with the nav's edges. -->
   <section class="pt-14">
-    <div class="max-w-5xl mx-auto px-6 pt-12 pb-3 text-center">
-      <div style="display: inline-block; text-align: left;">
-      <p class="uppercase tracking-widest" style="margin-bottom: -0.3em; color: #ffffff; font-size: 1.9rem; letter-spacing: 0.1em;">Maxwell Perkins</p>
-      <h1 class="mb-1 uppercase" style="font-family: 'Barlow Condensed', sans-serif; font-weight: 900; letter-spacing: 0.16em; line-height: 0.85;">
-        <span style="color: #cbd5e1; font-size: clamp(3.5rem, 8vw, 6rem); display: block; text-align: left;">Development</span>
-        <span style="color: #348a58; font-size: clamp(5rem, 11vw, 8.5rem); display: block; text-align: left; padding-left: calc(0.6em + 0.2cm);">Portfolio</span>
-      </h1>
-      <p class="leading-relaxed mb-3 mt-0 text-right uppercase tracking-widest" style="color: #ffffff; font-size: 1.8rem;">
-        AI Developer
-      </p>
+    <div class="hero-band max-w-5xl mx-auto px-6">
+      <div>
+        <p class="hero-eyebrow">Development Portfolio</p>
+        <h1 class="hero-title">Maxwell Perkins <span class="hero-role">AI Developer</span></h1>
       </div>
-      <div class="grid grid-cols-5 gap-2 max-w-2xl mx-auto mb-6">
-        <span class="tag tech-tag justify-center w-full whitespace-nowrap">Claude Code</span>
-        <span class="tag tech-tag justify-center w-full whitespace-nowrap">Prompt Design</span>
-        <span class="tag tech-tag justify-center w-full whitespace-nowrap">AI Agents</span>
-        <span class="tag tech-tag justify-center w-full whitespace-nowrap">Tool Use</span>
-        <span class="tag tech-tag justify-center w-full whitespace-nowrap">MCP Protocol</span>
-        <span class="tag tech-tag justify-center w-full whitespace-nowrap">Full-Stack Dev</span>
-        <span class="tag tech-tag justify-center w-full whitespace-nowrap">API Integration</span>
-        <span class="tag tech-tag justify-center w-full whitespace-nowrap">Database Design</span>
-        <span class="tag tech-tag justify-center w-full whitespace-nowrap">Cloud Deploy</span>
-        <span class="tag tech-tag justify-center w-full whitespace-nowrap">Automation</span>
+      <div class="hero-tags">
+        <span class="tag tech-tag">Claude Code</span>
+        <span class="tag tech-tag">Prompt Design</span>
+        <span class="tag tech-tag">AI Agents</span>
+        <span class="tag tech-tag">Tool Use</span>
+        <span class="tag tech-tag">MCP Protocol</span>
+        <span class="tag tech-tag">Full-Stack Dev</span>
+        <span class="tag tech-tag">API Integration</span>
+        <span class="tag tech-tag">Database Design</span>
+        <span class="tag tech-tag">Cloud Deploy</span>
+        <span class="tag tech-tag">Automation</span>
       </div>
     </div>
   </section>
 
     <!-- TABS -->
-    <div class="sticky top-14 z-40 bg-[#080d08]/90 backdrop-blur-md border-b border-white/10 mb-10">
+    <div class="sticky top-14 z-40 bg-[#080d08]/90 backdrop-blur-md border-b border-white/10 mb-4">
       <div class="max-w-5xl mx-auto px-6">
         <div class="flex justify-center gap-6 py-3">
           <button data-target="tab-hub" class="tab-btn tab-active text-sm font-medium">The Composer Hub</button>
@@ -8190,11 +8223,6 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
     </div>
   </footer>
 
-  <div id="scroll-btn" style="position:fixed; bottom:2rem; left:50%; transform:translateX(-50%); z-index:50; width:48px; height:48px; border-radius:50%; background:rgba(52,138,88,0.9); border:1px solid rgba(74,222,128,0.3); display:flex; align-items:center; justify-content:center; backdrop-filter:blur(8px); transition:opacity 0.3s; cursor:pointer;">
-    <svg width="22" height="22" fill="none" stroke="#080d08" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-      <path d="M6 9l6 6 6-6"/>
-    </svg>
-  </div>
 
   <script>
     // ── Main tab switching ──────────────────────────────────────────────────
@@ -8722,27 +8750,6 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
 
     initSectionCarousels();
     initHubCarousels();
-
-    // ── Scroll button ───────────────────────────────────────────────────────
-    var scrollBtn = document.getElementById('scroll-btn');
-    function updateScrollBtn() {
-      var atTop = window.scrollY < 50;
-      scrollBtn.style.opacity = atTop ? '1' : '0';
-      scrollBtn.style.pointerEvents = atTop ? 'auto' : 'none';
-    }
-    window.addEventListener('scroll', updateScrollBtn);
-    updateScrollBtn();
-    scrollBtn.addEventListener('click', function() {
-      var nav = document.querySelector('nav');
-      var tabBar = document.querySelector('.sticky.top-14');
-      var offset = stickyOffset() + 16;
-      var panels = document.querySelectorAll('.tab-panel');
-      var activePanel = null;
-      panels.forEach(function(p) { if (p.style.display !== 'none') activePanel = p; });
-      if (!activePanel) activePanel = panels[0];
-      var top = activePanel.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({ top: top, behavior: 'smooth' });
-    });
   </script>
 
   <!-- Compass demo carousel. Its own initializer; it shares nothing with

@@ -783,6 +783,16 @@ sits under the Intake group instead of top right. Hub CRM, Agency and TeacherAID
 through" sits 12px after the last tab instead of at the far end of the strip (page rule scoped to
 those three roots; the Sprout strips keep theirs at the far end).
 
+**2026-09-14: hero slimmed to one band** (Max's call: the carousels should sit much higher). The
+three-line poster (Maxwell Perkins / DEVELOPMENT / PORTFOLIO / AI Developer, plus a 5x2 tag grid)
+became a `.hero-band` aligned to the nav's edges: a green mono "Development Portfolio" eyebrow,
+"Maxwell Perkins" with "AI Developer" in green under it, and the ten skill tags at 11px on the
+right (stacked under the name below 760px). The tab bar's bottom margin went from 40px to 16px.
+The bouncing `#scroll-btn` is gone (markup, CSS, script): it only existed to jump past the tall
+hero, and once the carousel sat on the first screen it covered the "More below" dock. Verified
+headless: tab bar 444px to 214px from the top at 1280; Compass carousel starts at 561px; no
+horizontal overflow at 390 (the old hero H1 overflow is gone); zero script errors.
+
 ### Session of 2026-09-13, late: TeacherAID on the CV, CV docx typos fixed (pushed)
 
 **TeacherAID added to all three CV copies** (`0b98920`, `16bb5fd`): `resume.html`,
@@ -1123,7 +1133,8 @@ commit `f81c79a`, whose message does not mention it.
 
 **Known, checked, and deliberately left alone** (both pre-existing, identical in the pre-merge
 backup, neither caused by this work):
-- Horizontal overflow at 390px, caused by the hero `H1` reaching 426px.
+- ~~Horizontal overflow at 390px, caused by the hero `H1` reaching 426px.~~ Gone since
+  2026-09-14: the hero was slimmed and the page is exactly 390px wide at 390.
 - ~~Pin labels scale with the image and render ~3.4px on a phone.~~ Moot since 2026-09-10: no Hub
   panel has pins any more.
 
