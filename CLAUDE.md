@@ -759,7 +759,9 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
-**Google Analytics (added 2026-09-14).** The GA4 Google tag `G-ENBE32TRFZ` sits first inside
+### Session of 2026-09-14, late: Google Analytics and click tracking (pushed as `9852747`, `7a6bd07`)
+
+**Google Analytics.** The GA4 Google tag `G-ENBE32TRFZ` sits first inside
 `<head>` on `index.html`, `about.html` and `resume.html`. It is deliberately left off
 `composer-hub.html` (it redirects instantly to `index.html`, so a tag there would count every visit
 twice), the `demo/` standalones (unlinked iteration sources) and `Curriculum - UW Madison.html`. A
@@ -784,6 +786,22 @@ main script:
   definitions** as event-scoped custom dimensions. Realtime and DebugView show them without that.
 - Verified headless with Google blocked, reading `dataLayer`: every event above fires with the right
   parameters, a note shown under a second logs nothing, a repeat note logs nothing, zero script errors.
+  Both commits are confirmed live on the production URL.
+- `about.html` and `resume.html` send page views only. GA's enhanced measurement already covers the
+  CV DOCX download and the GitHub and LinkedIn links.
+
+**Open:**
+- **Max has not seen data arrive yet.** After the tag went live, his Realtime view showed 0 users,
+  while a headless visit to the live site sent a page view that Google accepted (204 on
+  `g/collect` for `G-ENBE32TRFZ`), so the site side works. Likely causes, not yet confirmed: the GA
+  property he was viewing is not the one that owns `G-ENBE32TRFZ` (check Admin → Data streams), or
+  a blocker in his browser.
+- **Custom dimensions are not registered.** Max still needs to add `carousel`, `slide_title`,
+  `slide_number`, `note_number`, `note_text`, `tab_name` and `tool_name` as event-scoped custom
+  dimensions. Data from before that shows event counts without those details.
+
+**Next:** Max confirms events in Realtime, registers the custom dimensions, then the open copy items
+in the 2026-09-13 session below.
 
 ### Session of 2026-09-13, last: suite banners removed, tiles under the carousels (pushed)
 
