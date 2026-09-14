@@ -153,6 +153,8 @@ both by hand.
 
 ## Open Items
 
+- [ ] **Madison College music pool:** transcripts, Max's calls on the letter, LinkedIn headline, then
+      submit. Steps are in its Application Log entry.
 - [ ] **UMKC:** apply early (rolling review). Needs a letter that leads on concert composition,
       with The Composer Compass as the technology-integrated practice.
 - [ ] **UCSC Teaching Professor, Sound and Media Art:** review Oct 12.

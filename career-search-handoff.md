@@ -13,7 +13,9 @@ Canva, "n8n digest live").
 - **Arts admin** (`career-search-arts-education-track.md`): Madison leads logged. The WCO
   application has not been logged as submitted since Sept 10.
 - **Academic** (`career-search-academic-track.md`): national leads logged (UMKC and UCSC are the
-  best fits). Madison College part-time music pool materials are drafted, not submitted.
+  best fits). Madison College part-time music pool: `Maxwell Perkins CV - Madison College.pdf` and
+  the matching cover letter are done, one page each. Before submitting: unofficial NYU and
+  UW-Madison transcripts, Max's calls on three letter lines, the LinkedIn headline.
 - **Composer Compass claims:** "tested on my last three pieces" is true; "used it to write" them is
   not. Retrieval runs over score data, not a theory library. There was no blind scoring and no
   repeated identical runs. The reliability claim rests on independent runs agreeing.

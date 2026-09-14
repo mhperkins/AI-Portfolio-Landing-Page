@@ -760,6 +760,43 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
+### Session of 2026-09-14: Madison College music instructor pool application (pushed as `fb50156`)
+
+Career work only; no site changes. Ran alongside the sessions below.
+
+- **Posting verified through Workday's JSON endpoint.** The Workday page renders empty to a fetcher,
+  but `/wday/cxs/<tenant>/<site>/job/<path>` returns the full posting text. Reuse it for any Workday
+  posting. PT Instructor Pool, Music (R0002307): a per-course part-time pool, rolling, closing about
+  Jan 31, 2027. The courses are general education surveys: Black American Music, Music Appreciation,
+  Music Theory Fundamentals, History of Pop and Rock Music, World Music. The M.M. meets the minimum.
+- **CV and cover letter drafted,** one page each. Sources `Madison College CV.md` and `Madison
+  College Cover Letter.md`; `build_madison_college.py` builds `Maxwell Perkins CV - Madison College`
+  and `Maxwell Perkins Cover Letter - Madison College` (`.docx`, with PDFs exported through Word).
+  Proofread from the docx text and the exported PDFs. The framing calls sit in the academic track's
+  Application Log: teaching first, no Compass lead, no World Music or Black American Music claims,
+  software in plain language for the posting's educational technology line, no portfolio link. Neither
+  document makes the unsupported Compass claims listed in the AI roles entry below.
+- **These docx and PDF files are committed, so Vercel serves them publicly.** The AI roles session
+  below left its outputs uncommitted for that reason. Max has not picked a rule. Untracking them now
+  would stop Vercel serving them but would not remove them from git history.
+- **The PDF export quit Word without checking for open documents** (`$w.Quit()` on the COM
+  instance), before the AI roles session found Max may have Word open. Nothing reported an error. The
+  build reads `Academic CV - UW Madison.docx` as its template, which that session found locked while
+  open in Word; `build_ai_cv.py`'s fallback to the Community Engagement docx is the fix if a rebuild
+  fails.
+- The academic track's Madison College lead linked the wrong pool (Visual Communications, R0002302).
+  Corrected to the music pool. The Video Audio Design pool is still unchecked.
+
+**Open:**
+- Unofficial transcripts from NYU and UW-Madison (Max).
+- Max's calls on three letter lines: "Madison College would be my first college classroom", the
+  Black American roots line, and "Dear Hiring Committee" (the Associate Dean's name did not turn up).
+- The LinkedIn headline, shared with the AI roles open item below.
+- Whether generated application PDFs stay committed.
+
+**Next:** Max makes the letter calls and pulls transcripts, then applies through Workday and logs the
+date in `career-search-academic-track.md`.
+
 ### Session of 2026-09-14: job search sweeps, AI roles CV and cover letter (pushed)
 
 Career work only; no site changes. Commits `808437c`, `300857d`, `3a9ba35`, `9a7a1f8`. A parallel
