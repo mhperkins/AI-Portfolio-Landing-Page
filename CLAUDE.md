@@ -760,6 +760,32 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
+### Session of 2026-09-14, evening: nav, portrait, Contact landing (pushed as `63fd62b`, `ebc5895`, `e3d5142`, `cbab937`)
+
+All at Max's call, all verified headless.
+
+- **About and CV navs read Portfolio · About · CV · Contact** (`63fd62b`). One "Portfolio" link to
+  `index.html` replaces Composer Hub and Sprout Suite, which named only two of three tabs and both
+  just went home. Shows at every width; one line at 1280, 390 and 360.
+- **Color portrait beside the About text** on `about.html` and the home page's About section
+  (`ebc5895`). It is the on-stage photo from the composer portfolio's About section, **not** the
+  black and white piano hero. Copied to `images/maxwell-portrait-500.webp` and `-800.webp`. A
+  `md:grid-cols-[2fr_3fr]` grid: photo left at desktop (374 by 468px), stacked above the text on a
+  phone. Alt text says Maxwell Perkins, not the stage name Maxwell Henry.
+- **About page name in all caps** (`e3d5142`): `uppercase` on the `h1`; the text stays "Maxwell Perkins".
+- **Contact links land on the section top** (`cbab937`). `#contact` was not in `cardToTab`, so the
+  browser's own jump hid the label and heading under the fixed nav and pinned tab bar.
+  `navigateToHash()` now handles `contact` first: logs `link_landing`, strips the hash, and after
+  150ms scrolls the section to 16px under nav plus tab bar. The tool row is deliberately not
+  counted (it releases at the end of its tab panel). `#contact` also has a matching
+  `scroll-margin-top` so the native jump lands close before the correction. Verified at 1280 and
+  390 from a direct `index.html#contact` load, the home nav link and the CV nav link: section top
+  at 130px (150px at 390), label clear of the tab bar, zero script errors.
+
+**Open:** the divider above "Get in touch" on `about.html` renders bright white instead of faint.
+It predates this session: `border-white/8` is not a Tailwind opacity step, so the border falls
+back to the default light grey. Max has not called it.
+
 ### Session of 2026-09-14: Madison College music instructor pool application (pushed as `fb50156`)
 
 Career work only; no site changes. Ran alongside the sessions below.
