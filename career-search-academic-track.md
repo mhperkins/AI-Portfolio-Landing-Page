@@ -78,6 +78,35 @@ Professor Cover Letter.docx`. Proofread from the docx itself on Sept 13: no typo
 **Referral:** personally recommended to the school director by a current teacher there, who will
 recognize the name; handled as a separate backchannel, not by redirecting the letter's salutation.
 
+### PT Instructor Pool, Music | Madison College, School of Arts, Humanities and Social Sciences
+**Requisition:** R0002307, Madison College Workday. Posted Sept 4, 2026.
+**Status: Materials drafted September 14, 2026. Not submitted.**
+**What it is:** a rolling pool for part-time instructors, hired per course each semester, day, evening
+and weekend. Courses: Black American Music, Music Appreciation, Music Theory Fundamentals, History of
+Pop and Rock Music, World Music. Reports to the Associate Dean (name not found). The skills list
+stresses equity, multicultural course content, and educational technology for hybrid and online
+delivery.
+**Required:** online application, resume, cover letter, unofficial transcripts (checked for
+accreditation before hire).
+**Materials:** `Maxwell Perkins CV - Madison College.pdf` and `Maxwell Perkins Cover Letter - Madison
+College.pdf`, one page each. Text sources `Madison College CV.md` and `Madison College Cover
+Letter.md`; rebuild with `python build_madison_college.py`, then export the PDFs through Word.
+Proofread from the docx text and the exported PDFs.
+**Framing calls (this track's Compass-first rule does not apply):**
+- Teaching leads. These are general education surveys, not music technology.
+- The letter names Theory Fundamentals and Pop and Rock as the strongest fit, Music Appreciation as
+  a broad base. It claims no World Music or Black American Music expertise; its one multicultural
+  line is a teaching stance (pop and rock history starts with the blues, gospel and R&B).
+- A new Music Experience section carries songwriting, production and the concert series.
+- Software appears in plain language, backing the "educational technology" requirement. AI appears
+  only as the Handshake AI employer name. No portfolio link (the hero reads "AI Developer").
+- The letter states the gap once: "Madison College would be my first college classroom."
+**Left to do:**
+1. Pull unofficial transcripts: NYU M.M. and UW-Madison B.A.
+2. Fix the LinkedIn headline (still "Vibe Coder / AI Developer"); both documents link the profile.
+3. Max calls the letter's open lines (listed under NOTES in its `.md`).
+4. Apply through Workday, then log the date here.
+
 ---
 
 ## Leads (sweep of Sept 14, 2026)
@@ -94,7 +123,7 @@ closed for this cycle. Verified means the posting page itself was loaded on Sept
 | UC Santa Cruz | Electronic Music Lecturer Pool (JPF02106), per course | "Master's Degree... in music; or four years of artistic and creative work" | Final Aug 6, 2027 | $8.9k to $10.9k per course | [recruit.ucsc.edu/JPF02106](https://recruit.ucsc.edu/JPF02106) | Course list includes "AI and Music". |
 | Stanford Music | Asst Prof, Composition, TT | "DMA or PhD... or equivalent professional distinction" | Oct 1, 2026 | $115k to $135k | [Stanford](https://facultypositions.stanford.edu/jobs/assistant-professor-of-composition-stanford-university-california-united-states) | Long shot. Computer music is secondary; no AI. |
 | Rollins College | Lecturer/Artist-in-Residence, Music Business and Entrepreneurship | "Master's degree in music or equivalent professional experience" | Priority Sep 30, 2026 | Not listed | [AcademicCareers](https://academiccareers.com/job/179087/lecturer-artist-in-residence/) | No AI; Music Major Records and the Sprout tools read as entrepreneurship. |
-| Madison College | PT Instructor Pools: Music, and Video Audio Design | Music pool: master's in music. VAD pool: master's + 4 yrs | About Jan 31, 2027 | By workload | [Workday](https://madisoncollege.wd115.myworkdayjobs.com/jobsatMadisonCollege/job/District/PT-Instructor-Pool---Visual-Communications-Media-Design_R0002302) | Local. Seen on mirrors only; Workday did not load. A foot in the classroom door. |
+| Madison College | PT Instructor Pool, Music (R0002307), per course | "Master's degree in Music OR Master's degree in related area with 18 graduate credits in Music" | Rolling; pool closes about Jan 31, 2027 | By workload | [Workday](https://madisoncollege.wd115.myworkdayjobs.com/en-US/jobsatMadisonCollege/job/XMLNAME-2019-2020-PT-Instructor-Pool---Music_R0002307) | Local. Verified Sept 14 through Workday's JSON endpoint. General education surveys, no tech. Materials drafted; see Application Log. The Video Audio Design pool is still unverified (the old link here pointed at Visual Communications, R0002302). |
 
 Also open, weaker: Cal Poly SLO and San Diego State music lecturer pools (music tech / audio tracks,
 master's accepted), CSU Monterey Bay lecturer pool.
