@@ -760,6 +760,61 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
+### Session of 2026-09-14: job search sweeps, AI roles CV and cover letter (pushed)
+
+Career work only; no site changes. Commits `808437c`, `300857d`, `3a9ba35`, `9a7a1f8`. A parallel
+session shipped the GA and About work below at the same time.
+
+- **Three live job sweeps, each logged in its track doc** (verified on Sept 14 unless marked):
+  - **Academic music tech and AI, national** (`career-search-academic-track.md`, Leads): no
+    RISE-AI-style cluster hire is open this cycle. Best fits: UMKC Assistant Professor of
+    Composition (technology-integrated; names AI-assisted creative practice; rolling review), UCSC
+    Assistant Teaching Professor, Sound and Media Art (M.M. qualifies; review Oct 12), and the UCSC
+    Electronic Music Lecturer Pool (its courses include "AI and Music").
+  - **Madison arts admin** (`career-search-arts-education-track.md`, Madison Leads): nothing as close
+    as WCO. Best: Children's Theater of Madison Education Assistant, MSCR Arts Field Supervisor, WYSO
+    Social Media Coordinator. Madison Community Foundation's Office Coordinator is interviewing now.
+    Overture's Education & Community Engagement coordinator role is **unverified**: its job board
+    blocked every fetch.
+  - **AI tool, workflow and low-code roles, remote and Madison** (`career-search-master.md`, Current
+    Leads): about 30 roles. Top: AARP Engineer I, AI Agents; Anthology GTM Engineer I; Valsoft AI
+    Automation Engineer; a Madison hybrid Founding Forward Deployed Engineer through Carex. The
+    track's location rule changed from NYC hybrid to Remote or Madison.
+- **AI roles CV** (`AI Roles CV.md`, `build_ai_cv.py`): one page, the academic CV reordered for AI
+  roles, with every technical claim checked against the source repos (NOTES in the md). Max chose
+  this over a resume a job database site suggested, which had copied the pre-fix CV typos and listed
+  Python first. Outputs `Maxwell Perkins CV - AI Roles.docx` and `.pdf`, **uncommitted** because
+  Vercel would serve them publicly. The PDF exports through Word COM from PowerShell; only quit Word
+  when the script's instance started with no documents, since Max may have Word open.
+- **Word locks a docx while it is open.** `Academic CV - UW Madison.docx` was locked during the
+  build, so `build_ai_cv.py` falls back to the Community Engagement docx, which has the same styles.
+- **AI roles cover letter** (`AI Roles Cover Letter.md`): a base letter in Max's shape. His AI
+  story, then the Composer Hub and its training protocol (his biggest project), then the Sprout
+  Suite and TeacherAID, then a company paragraph swapped per posting. About 340 words before that
+  paragraph. NOTES map every claim to evidence and include an example paragraph for AARP.
+- **What the composers-compass training record does and does not support** (checked for the
+  letter; applies to every application):
+  - Supported: 16 system prompt versions, one-variable A/B experiments, a scored v1 rubric, a
+    Sonnet / Haiku / Opus comparison, independent runs reaching the same structural decisions, and
+    "tested on my last three pieces".
+  - Not supported: a theory library in the RAG pipeline (only a `score_sidecars` collection
+    exists), numeric scores on the six-dimension v2 rubric, "used it to write my last three pieces"
+    (only the bass fugue was written with the protocol), blind scoring, repeated identical runs.
+  - The AI CV was corrected. **The UW-submitted CV still says "theory library", and the UW letter
+    says "used it for my last three pieces" and "two years in prompt engineering" (Handshake is one
+    year).** Bring corrected versions to an interview.
+
+**Open:**
+- Max's calls on the AI CV: is the n8n digest still running (written past tense), and is PMP still
+  in progress (omitted).
+- LinkedIn headline still reads "Vibe Coder / AI Developer"; both new documents link to it.
+- Company paragraphs for the top AI leads. Careerswift's AI and Workflow Automation Specialist
+  posting expires Sept 16.
+- Check the Overture coordinator role by hand. The WCO application has not been logged as
+  submitted since Sept 10.
+
+**Next:** apply to the top AI leads with the CV and letter, writing a company paragraph for each.
+
 ### Session of 2026-09-14, late: Google Analytics and click tracking (pushed as `9852747`, `7a6bd07`)
 
 **Google Analytics.** The GA4 Google tag `G-ENBE32TRFZ` sits first inside
@@ -1287,7 +1342,7 @@ opportunistically: watch for other postings similar to RISE-AI and apply under t
 
 ## Career Context
 
-Targeting: AI developer, junior full-stack, and internal tools roles on the primary track. Not "vibe coder" framing.
+Targeting on the AI track (updated 2026-09-14): AI tool and workflow builder roles, including AI automation, internal tools, low-code, solutions and forward deployed, and automation-focused GTM engineering. Remote, or Madison hybrid. Not "vibe coder" framing. Send `Maxwell Perkins CV - AI Roles.pdf` with a company-specific copy of `AI Roles Cover Letter.md`.
 
 The Sprout Suite (CRM + Grant Assistant + Social Manager + Campaign Tracker) is the portfolio centerpiece — four interconnected tools for one real nonprofit, one Supabase backend, actively used in production. Frame as a system, not a list.
 

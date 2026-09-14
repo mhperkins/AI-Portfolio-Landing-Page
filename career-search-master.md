@@ -1,6 +1,6 @@
 ﻿# Career Search Master Reference
 **Maxwell Perkins — Vibe Coder / AI-Assisted Developer**
-**Last updated: May 21, 2026**
+**Last updated: September 14, 2026** (Current Leads, location, and the AI Roles CV; the rest dates from May)
 
 ---
 

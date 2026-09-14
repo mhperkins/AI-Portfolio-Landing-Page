@@ -1,7 +1,24 @@
 ﻿# Career Search & Portfolio — Handoff Notes
-**Last updated: September 9, 2026**
+**Last updated: September 14, 2026**
 
-## Current Situation
+## Update: September 14, 2026
+
+All three tracks are active. Each track doc holds its own current state; the sections below this
+one date from May and September 9 and are partly stale (the Shipped/Building tabs, Cloudflare,
+Canva, "n8n digest live").
+
+- **AI track** (`career-search-master.md`): active again. About 30 leads under Current Leads, now
+  Remote or Madison. Ready to send: `Maxwell Perkins CV - AI Roles.pdf` (source `AI Roles CV.md`)
+  and `AI Roles Cover Letter.md`, which needs a company paragraph per posting.
+- **Arts admin** (`career-search-arts-education-track.md`): Madison leads logged. The WCO
+  application has not been logged as submitted since Sept 10.
+- **Academic** (`career-search-academic-track.md`): national leads logged (UMKC and UCSC are the
+  best fits). Madison College part-time music pool materials are drafted, not submitted.
+- **Composer Compass claims:** "tested on my last three pieces" is true; "used it to write" them is
+  not. Retrieval runs over score data, not a theory library. There was no blind scoring and no
+  repeated identical runs. The reliability claim rests on independent runs agreeing.
+
+## Current Situation (as of September 9, 2026)
 
 The search now runs three parallel tracks. **Arts/nonprofit operations
 (`career-search-ops-track.md`) is the primary, ongoing search** — general arts admin roles,
