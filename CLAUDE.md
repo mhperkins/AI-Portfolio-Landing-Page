@@ -787,15 +787,21 @@ those three roots; the Sprout strips keep theirs at the far end).
 **2026-09-14: TeacherAID Schedule slide rebuilt for the app's Add button and lesson menus** (Max's
 call), page and standalone, grounded in dasha-board's `ScheduleTab.tsx`, `AddMenu.tsx`,
 `LessonRow.tsx` and `LessonMenu.tsx`. The "Add to this day" card is gone, because the app replaced
-it with one **+ Add** button in the Schedule header. Every lesson row carries a &#8943;, and Clara
-Voss's is drawn open: `.ds-popmenu` pops out beside it into the right column (What happened,
-Follow-up, Reschedule, Notify family, Open student, in the app's own wording). `.ds-frame` clips
-overflow, so the menu opens up from the &#8943; and tracks the right column's width; below 760px it drops
-in under the lesson. Sam Whitaker's excused row shows the app's Reschedule button instead of the
+it with one **+ Add** button in the Schedule header. Every lesson row carries a &#8943;, and Nora
+Castellanos's is drawn open, the &#8943; highlighted in the pin color: `.ds-popmenu` pops out beside it
+into the right column with the app's menu for a completed lesson (What happened, What you worked
+on, Follow-up, Notify family, Open student; no Reschedule, which the app offers only on a scheduled
+or excused lesson). It started on Clara Voss's row and moved up to Nora's the same day at Max's
+call, so its blurb sits higher on screen. `.ds-frame` clips overflow and the week card sits above,
+so the menu starts 126px above the row with its caret level with the &#8943;, and tracks the right
+column's width; below 760px it drops in under the lesson. Sam Whitaker's excused row shows the app's Reschedule button instead of the
 old "Makeup Thursday?" prompt. The "Why this screen is first" note came out to make room for the
 menu. Pins are now 1 + Add, 2 the catch-up card (new blurb: missed lessons collect by day and
 Continue opens one short review), 3 the week meters, 4 Mira's lesson, 5 the menu. Copy is
-Claude's draft; Max has not called it.
+Claude's draft; Max has not called it. **The move to Nora's row shipped to `index.html` inside a
+parallel session's commit `353ffc1`** ("box the Aesthetic Blueprint tag"), which staged the page
+while this work sat in the working tree; its message does not mention it. The standalone and these
+docs followed in their own commit.
 
 **2026-09-14: hero slimmed to one band** (Max's call: the carousels should sit much higher). The
 three-line poster (Maxwell Perkins / DEVELOPMENT / PORTFOLIO / AI Developer, plus a 5x2 tag grid)
