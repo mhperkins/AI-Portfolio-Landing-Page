@@ -751,6 +751,17 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
+### TeacherAID on the CV (2026-09-13, pushed)
+
+`resume.html` gains a TeacherAID entry under Applied Systems, after the Sprout Suite: a note line,
+four bullets (one-tap lesson log, per-employer locked pay periods, booking link and income plan,
+scheduled email summaries with AI observations) and a walkthrough link to `#tab-dasha`. Copy is
+Claude's draft from the tab's own cards and the dasha-board repo; Max has not called it. It follows
+the tab's rules: no pronouns for the teacher, never names Dasha.
+
+**Open:** the "Download CV (DOCX)" button still serves `Academic CV - UW Madison.docx`, which has
+no TeacherAID entry. It is also the record of the UW-Madison submission, so it was left alone.
+
 ### Session of 2026-09-13: title cards, strip navigation, hover notes, Sprout notes, TeacherAID (pushed as `47e1acf`)
 
 **Pushed to `main` in one commit at Max's call, without a fresh preview.** Max noticed the live page
