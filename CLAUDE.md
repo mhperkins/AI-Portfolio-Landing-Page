@@ -864,10 +864,11 @@ page half shipped a commit after the standalone. Check `git status` before trust
 - **The top nav is more prominent** on `index.html`, `about.html` and `resume.html`: the links wear
   the hero name's white, bold, with wider letter spacing, and turn brand green on hover. The
   `text-sm` utility came off the links, because the Tailwind CDN's styles land after the page's and
-  would win. On About and CV the current page's link is brand green (`.is-current`), and below 640px
-  their Composer Hub and Sprout Suite links hide (`hidden sm:inline`), because five bold links
-  overflowed a phone; phones get About, CV and Contact, the same three as the home page. Verified
-  headless at 1280, 390 and 360 on all three pages: one line, inside the screen, zero script errors.
+  would win. On About and CV the current page's link is brand green (`.is-current`). **Their Composer Hub and
+  Sprout Suite links became one "Portfolio" link to `index.html`** (Max's call, 2026-09-14: the two
+  named only two of three tabs once TeacherAID arrived, and both just went back to the home page).
+  It shows at every width, so phones get Portfolio, About, CV and Contact. Verified headless at
+  1280, 390 and 360 on all three pages: one line, inside the screen, zero script errors.
 - **The Compass rail's Sketch pill reads Sketch/Draft** (Max's call), page and standalone, and its
   group's aria-label says "Sketch and Draft". Slide 4's Sketch node header still reads Sketch,
   because that node sits beside a separate draft card.
