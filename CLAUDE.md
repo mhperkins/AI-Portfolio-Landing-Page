@@ -751,18 +751,36 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
-### TeacherAID on the CV (2026-09-13, pushed)
+### Session of 2026-09-13, late: TeacherAID on the CV, CV docx typos fixed (pushed)
 
-`resume.html` gains a TeacherAID entry under Applied Systems, after the Sprout Suite: a note line,
-four bullets (one-tap lesson log, per-employer locked pay periods, booking link and income plan,
-scheduled email summaries with AI observations) and a walkthrough link to `#tab-dasha`. Copy is
-Claude's draft from the tab's own cards and the dasha-board repo; Max has not called it. It follows
-the tab's rules: no pronouns for the teacher, never names Dasha.
+**TeacherAID added to all three CV copies** (`0b98920`, `16bb5fd`): `resume.html`,
+`Academic CV - UW Madison.docx` and its `.md`, under Applied Systems after the Sprout Suite. A note
+line, four bullets (one-tap lesson log, per-employer locked pay periods, booking link and income
+plan, scheduled email summaries with AI observations), and on the page a walkthrough link to
+`#tab-dasha`. Copy is Claude's draft from the tab's cards and the dasha-board repo; Max has not
+called it. Same rules as the tab: no pronouns for the teacher, never names Dasha. TeacherAID
+**missed the UW-Madison submission**; it is on the CV as supplementary material for an interview.
+The docx entry was inserted by cloning the Composer Compass paragraphs, so formatting matches
+(checked in a Word PDF export, still 3 pages).
 
-**Then the DOCX and `.md` too** (Max's call): the same entry sits after the Sprout Suite in
-`Academic CV - UW Madison.docx` and `.md`, so the download matches the page. TeacherAID missed the
-UW-Madison submission; it is there as supplementary material for an interview. The docx entry was
-inserted by cloning the Composer Compass title, note and bullet paragraphs, so formatting matches.
+**The submitted CV docx had typos** (`ad07b0c` fixes them). The Sept 9 proofread covered the `.md`,
+but the `.docx` had been hand-edited in Word and was never compared against it. What went out to
+UW-Madison, and what the download served until now: "career side to being a compose", "with
+automated publishing feature", "Campaign Tracker: A dynamic", and 8 bullets or notes with no final
+period. All fixed; "composer" Max fixed himself in Word first. A full line-by-line diff now leaves
+two deliberate differences: the docx header omits "Brooklyn, NY", and it shows Portfolio | LinkedIn
+as links rather than URLs.
+
+**The submitted cover letter is clean.** It is not in this repo:
+`OneDrive\Desktop\Resume and Cover Letters\RISE-AI Assistant Professor Cover Letter.docx` (saved
+3:30 PM Sept 9) matches `Academic Cover Letter - UW Madison.md` word for word. An older draft sits in
+`OneDrive\Documents` (3:02 PM) with superseded wording and no typos.
+
+**Rule that came out of this:** proofread the exact file that gets sent, and diff it against any
+source copy. `build_resume.py`-style edits to a docx go through python-docx on the `w:t` nodes, and
+the docx is checked by extracting its text, never by reading the `.md`.
+
+**Open:** Max has not called the TeacherAID CV copy.
 
 ### Session of 2026-09-13: title cards, strip navigation, hover notes, Sprout notes, TeacherAID (pushed as `47e1acf`)
 

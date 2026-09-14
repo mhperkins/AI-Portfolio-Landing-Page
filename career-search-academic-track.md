@@ -69,6 +69,12 @@ as plain facts, then let The Composer Compass and the field's own newness carry 
 **After submission (Sept 13):** TeacherAID was added to the CV (`.md`, `.docx` and `resume.html`)
 under Applied Systems. The submitted CV did not have it, so for an interview it is supplementary
 material, not something the committee has already read.
+**The submitted CV docx had typos** the proofread missed (it checked the `.md`): "career side to
+being a compose", "with automated publishing feature", "Campaign Tracker: A dynamic", and missing
+final periods. The committee's copy still has them; the portfolio download is fixed. Bring the
+corrected CV to an interview.
+**Submitted cover letter file:** `OneDrive\Desktop\Resume and Cover Letters\RISE-AI Assistant
+Professor Cover Letter.docx`. Proofread from the docx itself on Sept 13: no typos.
 **Referral:** personally recommended to the school director by a current teacher there, who will
 recognize the name; handled as a separate backchannel, not by redirecting the letter's salutation.
 
