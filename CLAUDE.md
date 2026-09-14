@@ -102,7 +102,7 @@ Tabs are named for their **subject, not their status**. "Shipped / Building" was
 it filed the Hub under unfinished. Do not go back to it. Workflow was removed on 2026-09-09 and
 will be rebuilt later; `#tab-workflow` and `#tab-progress` both resolve to `tab-hub` meanwhile.
 
-Each project card has: title, status tag, tech tags, Problem / Approach / Current Phase description.
+Each project card has: title, tagline or status tag, a carousel, then three cards. No tech tag row since 2026-09-14.
 
 ---
 
@@ -125,7 +125,7 @@ screenshot. Commit trail is under "Session of 2026-09-10" in Current Portfolio S
 |---|---|---|
 | ~~Suite banner~~ | **Removed from all three tabs 2026-09-13** at Max's call: each tab opens straight on its tool row (TeacherAID on its card). Do not bring banners back. | |
 | Sub-tabs | Compass / CRM / Agency | Three parallel tools, which is what tabs are for |
-| Per tool | Title, subtitle, tech tags, a heading, a demo carousel, then **three benefit cards** | Since 2026-09-13 (Max's call) the carousel comes first and the cards sit under it, on all eight tools, Sprout's Problem / Solution / Outcome cards included. Max wrote all nine Hub card texts. |
+| Per tool | Title, subtitle, a heading, a demo carousel, then **three benefit cards** (tech tags removed 2026-09-14) | Since 2026-09-13 (Max's call) the carousel comes first and the cards sit under it, on all eight tools, Sprout's Problem / Solution / Outcome cards included. Max wrote all nine Hub card texts. |
 | Shared, below the sub-tabs | The component table only | It describes hub-wide infrastructure rather than one tool |
 
 The page is deliberately near-prose-free. Earlier drafts had paragraph intros on every tab and an
@@ -805,6 +805,12 @@ The bouncing `#scroll-btn` is gone (markup, CSS, script): it only existed to jum
 hero, and once the carousel sat on the first screen it covered the "More below" dock. Verified
 headless: tab bar 444px to 214px from the top at 1280; Compass carousel starts at 561px; no
 horizontal overflow at 390 (the old hero H1 overflow is gone); zero script errors.
+
+**2026-09-14: tech tag rows removed from every tool card** (Max's call), all eight tools. Titles,
+taglines and the Sprout status badges stay. The Hub and TeacherAID title blocks went from `mb-3`
+to `mb-5` so the heading does not crowd them. The hero's ten skill tags are not affected. Do not
+put the per-tool tag rows back. Verified headless: zero `.tech-tag` inside any `.tab-panel`,
+Compass carousel now starts at 521px at 1280x800, zero script errors.
 
 ### Session of 2026-09-13, late: TeacherAID on the CV, CV docx typos fixed (pushed)
 
