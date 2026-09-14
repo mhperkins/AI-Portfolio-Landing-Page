@@ -42,6 +42,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Barlow+Condensed:wght@300;600;700;900&family=Lato:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=block" rel="stylesheet" />
   <style>
     html { scroll-behavior: smooth; }
+    /* A jump to Contact clears the fixed nav and the pinned tab bar (the tool row
+       has released by then), so the section lands on its label, not its paragraph. */
+    #contact { scroll-margin-top: calc(3.5rem + var(--tabbar-h, 57px) + 16px); }
 
     .gradient-text {
       background: linear-gradient(to right, #4a9e6b 0%, #2d7a4f 100%);
@@ -8665,6 +8668,25 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
 
     function navigateToHash(hash) {
       if (!hash) return;
+      // Contact is a section, not a tab. The browser's own jump lands before the
+      // carousels and fonts settle, so it is re-aligned here: its top sits 16px
+      // under the fixed nav and the pinned tab bar. The tool row is not counted,
+      // because it releases at the end of its tab panel, well above Contact.
+      if (hash === 'contact') {
+        trackEvent('link_landing', { link_hash: hash });
+        history.replaceState(null, '', window.location.pathname);
+        setTimeout(function() {
+          requestAnimationFrame(function() {
+            var section = document.getElementById('contact');
+            var nav = document.querySelector('nav');
+            var tabBar = document.querySelector('.sticky.top-14');
+            var offset = (nav ? nav.offsetHeight : 0) + (tabBar ? tabBar.offsetHeight : 0) + 16;
+            var top = section.getBoundingClientRect().top + window.scrollY - offset;
+            window.scrollTo({ top: top, behavior: 'smooth' });
+          });
+        }, 150);
+        return;
+      }
       var tabId = cardToTab[hash];
       if (!tabId) return;
       // The hash is stripped just below, before Google reads the page URL,
