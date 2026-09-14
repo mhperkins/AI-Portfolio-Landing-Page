@@ -434,7 +434,7 @@
   background:
     linear-gradient(180deg, rgba(254, 243, 199, 0.35), rgba(254, 243, 199, 0.12)), var(--cream);
   /* The bottom padding holds the "Click through the process" hint. */
-  padding: 32px 18px 38px;
+  padding: 46px 18px 38px;
   margin-bottom: 14px;
   transition: box-shadow 0.25s, border-color 0.25s, background 0.25s;
 }
@@ -493,19 +493,27 @@
 
 /* The Blueprint has no pill, because it is the field rather than a node, so
    nothing in the rail went back to slide 1: once you clicked Intake the only
-   way back was the arrows. The tag is that control. The negative margins
-   cancel the padding, so the tag sits exactly where it did and the padding
-   only enlarges the hit area and gives the hover a shape. */
+   way back was the arrows. The tag is that control. It is boxed like the rail
+   groups (2026-09-14, Max's call: bare text did not read as clickable), and
+   the field's top padding grew from 32px to 46px to hold the box. On slide 1
+   it takes the groups' active ring. */
 .demo-rail-tag {
   cursor: pointer;
-  padding: 3px 7px;
-  margin: -3px -7px;
-  border-radius: 6px;
-  transition: background 0.15s, color 0.15s;
+  padding: 5px 11px 5px 9px;
+  border: 1px solid rgba(180, 83, 9, 0.16);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.4);
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, color 0.2s;
 }
-.demo-rail-tag:hover { background: rgba(255, 255, 255, 0.75); color: var(--amber); }
+.demo-rail-tag:hover { background: rgba(255, 255, 255, 0.85); border-color: rgba(180, 83, 9, 0.45); color: var(--amber); }
 .demo-rail-tag:focus-visible { outline: 2px solid var(--amber-lt); outline-offset: 2px; }
-.demo-rail-field.is-lit .demo-rail-tag { cursor: default; background: none; color: var(--amber-dim); }
+.demo-rail-field.is-lit .demo-rail-tag {
+  cursor: default;
+  color: var(--amber-dim);
+  border-color: var(--amber-lt);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.12);
+}
 
 .demo-rail {
   position: relative;

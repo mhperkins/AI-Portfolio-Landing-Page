@@ -323,8 +323,9 @@ deployed copy, so 8:25 is the same moment the live composer site plays. `index.h
 
 **The Blueprint tag is slide 1's control (2026-09-10).** Because the Blueprint is the field and
 not a pill, nothing in the rail went back to slide 1. The "Aesthetic Blueprint · On" tag now does
-it (click, Enter, Space). Its hit-area padding is cancelled by equal negative margins, measured at
-0px of movement. A "Click through the process" hint sits under the Intake group (moved there from opposite the tag on
+it (click, Enter, Space). Since 2026-09-14 it is boxed like the rail groups (Max's call: bare text
+did not read as clickable), with their hover and, on slide 1, their active ring; the band's top
+padding grew from 32px to 46px to hold the 32px box, 8px above the Intake group. A "Click through the process" hint sits under the Intake group (moved there from opposite the tag on
 2026-09-14, Max's call; the band's bottom padding grew from 21px to 38px to hold it, back to 21px
 below 660px where the hint hides).
 
