@@ -218,7 +218,9 @@ maxwellhperkins@gmail.com
 - **No time references** that sound short ("in 3 months") — just say "I've built and shipped"
 - **No generic enthusiasm** — connect specifically to their problem
 - **Keep it under 250 words** — hiring managers skim
-- **Always attach PDF resume** when emailing directly
+- **Always attach PDF resume** when emailing directly. Send `Maxwell Perkins CV - AI Roles.pdf`
+  (built Sept 14, 2026 from the academic CV; source `AI Roles CV.md`, rebuild with
+  `python build_ai_cv.py`). It replaces `Software Developer Resume.pdf` on this track.
 - **Always include portfolio link** — hyperlinked if possible
 
 ### What to Customize Per Application
