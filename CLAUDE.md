@@ -95,7 +95,7 @@ The page has tabbed sections. The sticky tab nav sits outside the hero section s
 | Tab | id | Content |
 |---|---|---|
 | The Composer Hub | `tab-hub` | Composer Compass, Composer CRM, Virtual Agency as three sub-tabs, then the component table. Default tab. |
-| TeacherAID | `tab-dasha` | One tool, no sub-tabs: one card (tags, three benefit cards, heading), the annotated carousel. Added 2026-09-12. |
+| TeacherAID | `tab-dasha` | One tool, no sub-tabs: one card (tags, heading, the annotated carousel, then three benefit cards). Added 2026-09-12. |
 | Sprout Society Suite | `tab-sprout` | CRM, Grant Assistant, Social Manager, Campaign Tracker as four sub-tabs. All four panels are annotated carousels as of 2026-09-12; no Sprout panel uses a Loom or screenshots now. |
 
 Tabs are named for their **subject, not their status**. "Shipped / Building" was the old axis and
@@ -125,7 +125,7 @@ screenshot. Commit trail is under "Session of 2026-09-10" in Current Portfolio S
 |---|---|---|
 | ~~Suite banner~~ | **Removed from all three tabs 2026-09-13** at Max's call: each tab opens straight on its tool row (TeacherAID on its card). Do not bring banners back. | |
 | Sub-tabs | Compass / CRM / Agency | Three parallel tools, which is what tabs are for |
-| Per tool | Title, subtitle, tech tags, **three benefit cards**, a heading, then a demo carousel | The cards answer "why does this matter" before the carousel answers "what does it look like". Max wrote all nine card texts. |
+| Per tool | Title, subtitle, tech tags, a heading, a demo carousel, then **three benefit cards** | Since 2026-09-13 (Max's call) the carousel comes first and the cards sit under it, on all eight tools, Sprout's Problem / Solution / Outcome cards included. Max wrote all nine Hub card texts. |
 | Shared, below the sub-tabs | The component table only | It describes hub-wide infrastructure rather than one tool |
 
 The page is deliberately near-prose-free. Earlier drafts had paragraph intros on every tab and an
@@ -326,8 +326,8 @@ not a pill, nothing in the rail went back to slide 1. The "Aesthetic Blueprint Â
 it (click, Enter, Space). Its hit-area padding is cancelled by equal negative margins, measured at
 0px of movement. A "Click through the process" hint sits opposite it on the same line.
 
-The Compass panel's three benefit cards and the heading "A visualized creative process, not a chat
-window" are untouched and still sit above it.
+The heading "A visualized creative process, not a chat window" sits above it; the Compass panel's
+three benefit cards sit below it (moved there 2026-09-13).
 
 ### The CRM and Agency carousels (built and transplanted 2026-09-10)
 
@@ -670,7 +670,7 @@ carousel from `demo/sprout-crm-demo.html`, which a parallel session built (deliv
 
 - **Slides:** Dashboard, Contacts, Events Portal (tagged New), Newsletter, Outreach/Claude MCP.
   Placeholder data only; Sprout N Tell Vol. 4 is the one real name. The Problem / Solution /
-  Outcome cards above it are unchanged.
+  Outcome cards sit below it (moved there 2026-09-13; copy unchanged).
 - **Look:** Sprout's own palette and Lato (added to the Google Fonts link), a black nav strip with
   the wordmark, cyan active tab, fuchsia pins. Tokens live on `.sprout-demo`; app chrome is `sp-`.
 - **Everything is scoped under `.sprout-demo`.** The standalone has unprefixed helpers (`.ph`,
@@ -751,13 +751,20 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
-### Session of 2026-09-13, last: suite banners removed (pushed)
+### Session of 2026-09-13, last: suite banners removed, tiles under the carousels (pushed)
 
 At Max's call, the suite banners (label, tool names, three bullets) are gone from the Hub,
 TeacherAID and Sprout tabs, along with the `.suite-banner` CSS. Each tab now opens straight on its
 tool row, or on its card for TeacherAID. Nothing in the script measured the banner. Verified
 headless at 1280 and 390: no banner on any tab, all three tabs switch, carousels initialize, zero
 script errors.
+
+Then, also at Max's call, **each tool's three tiles moved from above its carousel to below it**, on
+all eight tools (the Hub benefit cards, TeacherAID's, and Sprout's Problem / Solution / Outcome).
+Headings stay above the carousels. The tile grids trade their bottom margin for `mt-8`. Page only;
+the `demo/` standalones never had the tiles. Verified headless at 1280 and 390: on every tool the
+grid is the carousel's next sibling inside the same card, holds three cards and renders below the
+carousel, and every carousel still steps; zero script errors.
 
 ### Session of 2026-09-13, late: TeacherAID on the CV, CV docx typos fixed (pushed)
 
