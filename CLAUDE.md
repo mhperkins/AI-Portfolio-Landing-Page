@@ -95,7 +95,7 @@ The page has tabbed sections. The sticky tab nav sits outside the hero section s
 | Tab | id | Content |
 |---|---|---|
 | The Composer Hub | `tab-hub` | Composer Compass, Composer CRM, Virtual Agency as three sub-tabs, then the component table. Default tab. |
-| TeacherAID | `tab-dasha` | One tool, no sub-tabs: suite banner, one card (tags, three benefit cards, heading), the annotated carousel. Added 2026-09-12. |
+| TeacherAID | `tab-dasha` | One tool, no sub-tabs: one card (tags, three benefit cards, heading), the annotated carousel. Added 2026-09-12. |
 | Sprout Society Suite | `tab-sprout` | CRM, Grant Assistant, Social Manager, Campaign Tracker as four sub-tabs. All four panels are annotated carousels as of 2026-09-12; no Sprout panel uses a Loom or screenshots now. |
 
 Tabs are named for their **subject, not their status**. "Shipped / Building" was the old axis and
@@ -123,7 +123,7 @@ screenshot. Commit trail is under "Session of 2026-09-10" in Current Portfolio S
 
 | Zone | Contents | Reasoning |
 |---|---|---|
-| Suite banner | Name, the three tool names, three framing lines | Mirrors the Sprout tab so both read as one design |
+| ~~Suite banner~~ | **Removed from all three tabs 2026-09-13** at Max's call: each tab opens straight on its tool row (TeacherAID on its card). Do not bring banners back. | |
 | Sub-tabs | Compass / CRM / Agency | Three parallel tools, which is what tabs are for |
 | Per tool | Title, subtitle, tech tags, **three benefit cards**, a heading, then a demo carousel | The cards answer "why does this matter" before the carousel answers "what does it look like". Max wrote all nine card texts. |
 | Shared, below the sub-tabs | The component table only | It describes hub-wide infrastructure rather than one tool |
@@ -653,7 +653,7 @@ until he reworks that feature in the app.**
 **Placeholder data only:** 18 fictional students, fictional employers (Harbor Piano, Maple Music
 School), fictional rates. Never the real ledger.
 
-**Copy still owed by Max:** the three benefit cards, the banner bullets and the heading were
+**Copy still owed by Max:** the three benefit cards and the heading were
 drafted by Claude at transplant time; the slide notes and captions were reviewed.
 
 **Verified headless (2026-09-12, 1280 and 390):** three tabs in order, all three `[data-demo-panel]`
@@ -750,6 +750,14 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 ## Current Portfolio State (September 2026)
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
+
+### Session of 2026-09-13, last: suite banners removed (pushed)
+
+At Max's call, the suite banners (label, tool names, three bullets) are gone from the Hub,
+TeacherAID and Sprout tabs, along with the `.suite-banner` CSS. Each tab now opens straight on its
+tool row, or on its card for TeacherAID. Nothing in the script measured the banner. Verified
+headless at 1280 and 390: no banner on any tab, all three tabs switch, carousels initialize, zero
+script errors.
 
 ### Session of 2026-09-13, late: TeacherAID on the CV, CV docx typos fixed (pushed)
 
@@ -934,7 +942,7 @@ login; no `--prod`). Production matches it after the end-of-session push.
 - The `demo/` standalones do not have the pinned title cards, hidden arrows, next cue or hover
   notes; those are page only. A re-transplant keeps working because the page rules sit outside the
   transplant markers.
-- Max still owes the copy for the TeacherAID tab's three benefit cards, banner bullets and heading.
+- Max still owes the copy for the TeacherAID tab's three benefit cards and heading.
 - Slide titles and notes on the Grant, Social and Campaign carousels are Claude's drafts; Max has
   not called them.
 - Max has been clicking through and reshaping pins, but has not signed off on the copy of: the
