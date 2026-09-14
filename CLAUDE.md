@@ -62,6 +62,7 @@ Vercel project: `ai-portfolio-landing-page` · GitHub: `mhperkins/AI-Portfolio-L
 | [build_resume.py](build_resume.py) | Rebuilds that `.docx` with python-docx, using `Academic CV - UW Madison.docx` as the style template. Export the PDF through Word. Not committed as of 2026-09-10 |
 | [Maxwell Perkins CV - AI Roles.pdf](Maxwell%20Perkins%20CV%20-%20AI%20Roles.pdf) | **The file to send** on the AI developer track (one page; `.docx` beside it). The academic CV reordered for AI tool and workflow roles. Built 2026-09-14. The `.docx` and `.pdf` are not committed (Vercel would serve them publicly), same as the Community Engagement resume |
 | [AI Roles CV.md](AI%20Roles%20CV.md) | Text source for that CV, with a NOTES section on every claim that changed and why |
+| [AI Roles Cover Letter.md](AI%20Roles%20Cover%20Letter.md) | Base cover letter for the AI track: the Composer Hub story, the training protocol, then the Sprout Suite and TeacherAID, with a per-company paragraph to swap. NOTES tie every claim to evidence in the composers-compass repo and list what must not be claimed |
 | [build_ai_cv.py](build_ai_cv.py) | Rebuilds the AI roles `.docx` from the academic CV template (falls back to the Community Engagement docx when Word has the CV open and locked) |
 | [Academic CV - UW Madison.md](Academic%20CV%20-%20UW%20Madison.md) | Academic CV draft for the UW-Madison RISE-AI posting |
 | [Academic Cover Letter - UW Madison.md](Academic%20Cover%20Letter%20-%20UW%20Madison.md) | Cover letter draft for the same posting |

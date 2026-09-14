@@ -152,10 +152,8 @@ bullet("Lets families book open lesson times from a single link.")
 heading("AI PROJECTS: THE COMPOSER HUB")
 note("AI tools that assist trained musicians in their process instead of generating music for them.", before=2)
 entry("The Composer Compass", "2026-Present", before=2)
-bullet("Evaluates each piece with an analysis agent, a structured intake, and a rubric of six dimensions plus "
-       "three modifiers.")
-bullet("Grounds evaluations in the composer's theory library (ChromaDB retrieval) and compares models on one "
-       "weighted rubric.")
+bullet("Analysis agent that works from a structured intake, MCP score tools, and retrieval over the composer's scores.")
+bullet("Trained with controlled A/B runs, a scoring rubric, and 16 prompt versions across Sonnet, Opus, and Haiku.")
 bullet("Maps the workflow from planning through sketching, drafts, and engraving in a Next.js canvas built on "
        "the Anthropic API.")
 entry("Composer CRM", "2026-Present")

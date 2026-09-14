@@ -42,8 +42,8 @@ AI tool and workflow builder. Ships production internal tools on Next.js and Sup
 *AI tools that assist trained musicians in their process instead of generating music for them.*
 
 **The Composer Compass** | 2026-Present
-- Evaluates each piece with an analysis agent, a structured intake, and a rubric of six dimensions plus three modifiers.
-- Grounds evaluations in the composer's theory library (ChromaDB retrieval) and compares models on one weighted rubric.
+- Analysis agent that works from a structured intake, MCP score tools, and retrieval over the composer's scores.
+- Trained with controlled A/B runs, a scoring rubric, and 16 prompt versions across Sonnet, Opus, and Haiku.
 - Maps the workflow from planning through sketching, drafts, and engraving in a Next.js canvas built on the Anthropic API.
 
 **Composer CRM** | 2026-Present
@@ -95,6 +95,11 @@ AI tool and workflow builder. Ships production internal tools on Next.js and Sup
   server (`sprout-crm-next/mcp/server.js`, 14 tools), TeacherAID's pg_cron email jobs and Claude
   observations (`dasha-board/CLAUDE.md`), Virtual Agency running in Claude Code
   (`virtual-agency.md`), and the Instagram approval pipeline (portfolio `CLAUDE.md`).
+- **The Compass bullets changed on Sept 14** after a check of the composers-compass training record.
+  There is no theory library in the retrieval pipeline (it holds no books; only a `score_sidecars`
+  collection exists), and the six-dimension rubric (v2.0) was never numerically scored, so both
+  claims came out. The replacements cite what ran: A/B experiments, the rubric, 16 prompt versions,
+  and Sonnet, Opus and Haiku. The UW-submitted academic CV still says "theory library".
 - **The n8n digest is past tense on purpose.** Nothing in the Sprout repo says it still runs.
 - **The Social Media Manager bullet changed.** The academic CV says it "publishes posts automatically
   on a content calendar"; the app publishes from a button on an approved card, so this version
