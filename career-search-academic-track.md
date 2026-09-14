@@ -80,8 +80,53 @@ recognize the name; handled as a separate backchannel, not by redirecting the le
 
 ---
 
+## Leads (sweep of Sept 14, 2026)
+
+National search. No open AI cluster hire in a music school was found; RISE-AI analogs have all
+closed for this cycle. Verified means the posting page itself was loaded on Sept 14.
+
+### Open now, worth applying
+
+| Institution | Role | Degree line | Review | Pay | Link | Note |
+|---|---|---|---|---|---|---|
+| UMKC Conservatory | Asst Prof, Music Composition (electroacoustic and technology-integrated), TT, Fall 2027 | "Terminal degree (DMA, PhD, or equivalent)... or equivalent professional experience (ABD considered)" | Rolling until filled (verified; posted Jul 31) | Competitive | [Chronicle](https://jobs.chronicle.com/job/38021217/), UMKC HR Job ID 60551 | Best fit. Names "AI-assisted creative practice", creative coding, algorithmic/generative composition. Wants concert-music grounding. Apply early. |
+| UC Santa Cruz | Asst Teaching Professor, Sound and Media Art (JPF02127), full time | "M.A., M.M., M.F.A. or higher" | Oct 12, 2026 | $89.4k to $116.5k | [recruit.ucsc.edu/JPF02127](https://recruit.ucsc.edu/JPF02127) | Creative coding plus "critical approaches to machine learning and AI". M.M. qualifies outright. |
+| UC Santa Cruz | Electronic Music Lecturer Pool (JPF02106), per course | "Master's Degree... in music; or four years of artistic and creative work" | Final Aug 6, 2027 | $8.9k to $10.9k per course | [recruit.ucsc.edu/JPF02106](https://recruit.ucsc.edu/JPF02106) | Course list includes "AI and Music". |
+| Stanford Music | Asst Prof, Composition, TT | "DMA or PhD... or equivalent professional distinction" | Oct 1, 2026 | $115k to $135k | [Stanford](https://facultypositions.stanford.edu/jobs/assistant-professor-of-composition-stanford-university-california-united-states) | Long shot. Computer music is secondary; no AI. |
+| Rollins College | Lecturer/Artist-in-Residence, Music Business and Entrepreneurship | "Master's degree in music or equivalent professional experience" | Priority Sep 30, 2026 | Not listed | [AcademicCareers](https://academiccareers.com/job/179087/lecturer-artist-in-residence/) | No AI; Music Major Records and the Sprout tools read as entrepreneurship. |
+| Madison College | PT Instructor Pools: Music, and Video Audio Design | Music pool: master's in music. VAD pool: master's + 4 yrs | About Jan 31, 2027 | By workload | [Workday](https://madisoncollege.wd115.myworkdayjobs.com/jobsatMadisonCollege/job/District/PT-Instructor-Pool---Visual-Communications-Media-Design_R0002302) | Local. Seen on mirrors only; Workday did not load. A foot in the classroom door. |
+
+Also open, weaker: Cal Poly SLO and San Diego State music lecturer pools (music tech / audio tracks,
+master's accepted), CSU Monterey Bay lecturer pool.
+
+**Blocked by doctorate:** Columbia, open-rank Composition and Music Technology (review Oct 1; directs
+the Computer Music Center); South Carolina composition; WPI music adjunct.
+
+**Not yet opened, check:** Univ. of Nebraska Omaha, Instructor of Music Technology and Music
+Industry (Chronicle); Berklee full-time Electronic Production faculty (Jan 2027); NC State Professor
+of the Practice, Media Arts and Production (a2ru board).
+
+### Watch next cycle (these schools hire this profile)
+
+- **Penn State ICDS AI cluster, Asst Prof Music + AI:** filled. Closest RISE-AI analog; watch for more co-hires.
+- **Virginia Tech, Asst Prof Music Technology:** closed Jan 2026. Accepted "D.M.A., M.F.A, or other terminal degree"; teaches AI/ML for audio.
+- **UT Austin Fine Arts, Asst Prof AI and Artistic Practice:** closed Feb 2026.
+- **Georgia Tech School of Arts, Entertainment, and Creative Technologies:** new school, closed Feb 2026.
+- **Michigan PAT, Computational Creativity:** its 2023 search accepted "Master's degree with substantial additional experience".
+- **Northeastern CAMD:** posted Music and AI (2021), Music Tech and AI (2022), Generative AI and Sound Design (2023).
+- **Rice universitywide AI cluster:** names music as eligible; no music posting yet.
+- **Carnegie Mellon Sound Media; Columbia CMC Lecturer in Discipline; NYU Steinhardt Visiting Asst Prof Music Technology** (doctorate required).
+
+Academic Jobs Wiki (Music Studies 2026-27) and HigherEdJobs detail pages blocked the fetcher; check
+both by hand.
+
+---
+
 ## Open Items
 
+- [ ] **UMKC:** apply early (rolling review). Needs a letter that leads on concert composition,
+      with The Composer Compass as the technology-integrated practice.
+- [ ] **UCSC Teaching Professor, Sound and Media Art:** review Oct 12.
 - [ ] Continue identifying other RISE-AI or similar interdisciplinary music-tech-and-AI faculty
       lines worth applying to under this same framing. Ongoing, not one-and-done.
 - [ ] Decide whether The Composer Compass needs a more formal writeup (a short paper-style summary)
