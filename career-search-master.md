@@ -93,13 +93,61 @@ https://github.com/mhperkins
 - Traditional corporate engineering teams
 
 ### Location/Format
-- **Preferred:** Remote
-- **Acceptable:** NYC hybrid
-- **Not acceptable:** Relocation required, in-person outside NYC
+- **Preferred:** Remote (US)
+- **Acceptable:** Madison, WI hybrid or on-site (relocating to Madison as of Sept 2026; was NYC hybrid)
+- **Not acceptable:** In-person outside Madison
 
 ### Salary Range
 - **Full-time:** $70,000 - $85,000
 - **Freelance:** $40 - $60/hour
+
+### Current Leads (sweep of Sept 14, 2026)
+
+Focus: low-code, AI tool and workflow building. Verified live on Sept 14 unless marked.
+
+**Remote, green light**
+
+| Company | Role | Pay | Link | Why |
+|---|---|---|---|---|
+| AARP | Engineer I, AI Agents | $97k to $108k | [LinkedIn](https://www.linkedin.com/jobs/view/engineer-i-ai-agents-at-aarp-4461288779) | Nonprofit. 1+ yr, self-taught OK. JSON schema outputs, RAG, Power Automate. |
+| Anthology | GTM Engineer I | $87k to $109k | [Himalayas](https://himalayas.app/companies/anthology/jobs/gtm-engineer-i) | Edtech. Claude Code named; "ability to build outweighs the credential". Open to Oct 13. |
+| Valsoft | AI Automation Engineer | Not listed | [LinkedIn](https://www.linkedin.com/jobs/view/ai-automation-engineer-at-valsoft-corporation-4389419040) | Make, Zapier, n8n, agents. 200+ applicants; apply fast. |
+| StrataBlue | Forward Deployed Operator | $70k to $85k + equity | [LinkedIn](https://www.linkedin.com/jobs/view/forward-deployed-operator-%2470k-%2485k-%2B-equity-at-stratablue-at-jack-jill-4465460491) | n8n, voice agents, Pipedrive MCP. Asks 4+ yrs ops. Recruiter-platform listing. |
+| Careerswift (CerebriOS) | AI and Workflow Automation Specialist | Not listed | [Himalayas](https://himalayas.app/companies/careerswift/jobs/ai-and-workflow-automation-specialist) | Entry level; wants automation examples. **Expires Sept 16.** |
+| Careerswift (CerebriOS) | Implementation Specialist | $65k to $90k | [Himalayas](https://himalayas.app/companies/careerswift/jobs/implementation-specialist) | Rolling tools out to nonprofit staff counts. |
+| Fusion Growth Partners | Junior Workflow Automation Engineer | Not listed | [Himalayas](https://himalayas.app/companies/fusion-growth-partners/jobs/junior-workflow-automation-engineer) | n8n, Zapier, JS, SQL. "Or a strong portfolio". Pacific hours. |
+| WorldVia Travel | AI Automation & Workflow Analyst | Not listed | [Himalayas](https://himalayas.app/companies/worldvia/jobs/ai-automation-workflow-analyst) | Wants a one-page write-up of a production automation. |
+| Noodle | Prompt Systems Engineer | $100k to $120k | [Himalayas](https://himalayas.app/companies/noodle/jobs/prompt-systems-engineer) | Edtech. Research protocols plus the Compass eval rubric. 2+ yrs. |
+| Crown Affair | Tech/AI Specialist, IT | $70k | [LinkedIn](https://www.linkedin.com/jobs/view/tech-ai-specialist-it-at-crown-affair-4463483904) | Entry level, prefers NY. |
+
+**Remote, yellow light (targeted letter):** NewRocket, Technology Trainer, Anthropic Enablement (Claude Code, MCP, Agent SDK; 3+ yrs training); CodePath, Mentor, Claude Corps ($110k to $125k, 2 to 4 yrs SWE); Idealist Consulting, AI for Nonprofits Industry Specialist ($135k to $160k, Anthropic partnership, 3 yrs consulting); Back At You, AI Operations and Tools (Claude, n8n, Make; founder story vs. 5+ yrs); Boulevard and Starbridge GTM Engineer (Claude Code, Clay, n8n; pay above target); Agiloft AI Ops Engineer (Python gap); ElevenLabs Forward Deployed Creative (music angle).
+
+**Madison area**
+
+| Employer | Role | Terms | Pay | Link | Why |
+|---|---|---|---|---|---|
+| Carex (for a fintech startup) | Founding Forward Deployed Engineer | Hybrid, 3 days Madison | Not listed | [LinkedIn](https://www.linkedin.com/jobs/view/4444146230) | Best local fit. "Formal software engineering experience is not required". Agents, automations, internal tools. |
+| Recovery.com | Advertiser Success Operations Specialist | Hybrid | $75k to $85k + Dane County stipend | [LinkedIn](https://www.linkedin.com/jobs/view/4464952170) | Ops plus CRM integrations; light on AI. |
+| American Family Insurance | Field Marketing Business Systems Specialist | Hybrid, 10 days/month | $69k to $115k | [Workday](https://amfam.wd1.myworkdayjobs.com/Careers/job/WI-Madison/Relate-Business-Systems-Specialist--Hybrid-_R39067) | Process automation. Salesforce is a learnable gap. |
+| UW-Madison WCER SimLab | Content Developer | Madison | $70k min | [LinkedIn](https://www.linkedin.com/jobs/view/4462571796) | Generative AI content plus PM. B.A./M.M. qualify. |
+| Sub-Zero Group | IT Analyst I, Enterprise Platforms | Madison | Not listed | [LinkedIn](https://www.linkedin.com/jobs/view/4441104822) | Entry level, runs AI support tools. "Or equivalent work experience". |
+| Baker Tilly | Sr. Associate, PM, Applied AI Platforms | Location to discuss | $66k to $114k | [LinkedIn](https://www.linkedin.com/jobs/view/4446282551) | Claude Enterprise and Claude Code enablement. Asks 3 yrs and a related degree. |
+| Hiebing | Digital Coordinator, Email and CRM | Hybrid | Not listed | [LinkedIn](https://www.linkedin.com/jobs/view/4463481898) | Entry level CRM automation. |
+
+Madison stretch: Pearson AI Enablement PM ($110k to $130k, apply by Oct 10, PMP helps); Esker Support Advocate (Middleton, closes Sept 23, foot in the door). Watch: UW-Madison DoIT (building AI roles), Michels Corp. (building an AI solutions team), Madison College (new GenAI programs may need instructors).
+
+**Contract and part-time**
+
+| Who | Role | Rate | Link | Why |
+|---|---|---|---|---|
+| Handshake AI | Music Professional (Fellowship) | Up to $100/hr | [Handshake](https://joinhandshake.com/ai/opportunities/music-expert-ai-trainer-(ph-ds-or-postdocs)/) | Master's minimum. Check if not already in it. |
+| Fullstack Academy | Instructor, Agentic AI (PT, 10 to 15 hr/wk) | $60/hr | [Workable](https://apply.workable.com/fullstackacademy/j/AA96144DCB) | Teaching plus AI building. Asks 3 yrs agentic work. |
+| CIMA Consulting | Associate Director of Technology (PT, 20 hr/wk) | $55 to $65/hr | [Tech Jobs for Good](https://techjobsforgood.com/jobs/35489/) | Airtable, Make, Zapier, n8n for nonprofits. Rejects AI-written applications. |
+| Weekday AI | AI Evaluation Specialist (PT contract) | $70/hr | [Workable](https://apply.workable.com/weekday-1/j/CEFD79B2D9) | Bachelor's, US. |
+| Scale AI | Subject Matter Expert | Hourly | [Greenhouse](https://job-boards.greenhouse.io/scaleai/jobs/4704285005) | Rubric and benchmark writing. |
+| Snorkel Expert Community | Arts and coding experts | Per project | [snorkel.ai](https://snorkel.ai/expert-community/) | M.M. counts; fast approval. |
+
+Partner programs open to join: Airtable Services Partner (free), Make certification, Relevance AI Agent Builder, Zapier Solution Partner. n8n Expert Partners is a closed waitlist that needs 3 n8n clients. Mercor's US music roles (Composers $60 to $110/hr) are all closed now; an assessment keeps him in the pool.
 
 ---
 
