@@ -759,6 +759,13 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
+**Google Analytics (added 2026-09-14).** The GA4 Google tag `G-ENBE32TRFZ` sits first inside
+`<head>` on `index.html`, `about.html` and `resume.html`. It is deliberately left off
+`composer-hub.html` (it redirects instantly to `index.html`, so a tag there would count every visit
+twice), the `demo/` standalones (unlinked iteration sources) and `Curriculum - UW Madison.html`. A
+new public page needs the same snippet. Tab and tool switches inside `index.html` are not tracked as
+separate page views.
+
 ### Session of 2026-09-13, last: suite banners removed, tiles under the carousels (pushed)
 
 At Max's call, the suite banners (label, tool names, three bullets) are gone from the Hub,
