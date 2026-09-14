@@ -793,9 +793,12 @@ call), page and standalone, grounded in dasha-board's `ScheduleTab.tsx`, `AddMen
 `LessonRow.tsx` and `LessonMenu.tsx`. The "Add to this day" card is gone, because the app replaced
 it with one **+ Add** button in the Schedule header. Every lesson row carries a &#8943;, and Nora
 Castellanos's is drawn open, the &#8943; highlighted in the pin color: `.ds-popmenu` pops out beside it
-into the right column with the app's menu for a completed lesson (What happened, What you worked
-on, Follow-up, Notify family, Open student; no Reschedule, which the app offers only on a scheduled
-or excused lesson). It started on Clara Voss's row and moved up to Nora's the same day at Max's
+into the right column with the app's menu for a lesson not yet logged (the four status buttons,
+Follow-up, Reschedule, Notify family, Open student; no What you worked on, which the app shows only
+once a lesson is Completed). **Later on 2026-09-14 (Max's call):** Nora's lesson went back to
+unlogged so the open menu shows every option, Reschedule included, and Clara Voss's lesson became
+the completed one, with a progress note. The day's totals did not change (1h 30m billable, 3 of 5
+logged), because Clara's 45 minutes replace Nora's. It started on Clara Voss's row and moved up to Nora's the same day at Max's
 call, so its blurb sits higher on screen. `.ds-frame` clips overflow and the week card sits above,
 so the menu starts 126px above the row with its caret level with the &#8943;, and tracks the right
 column's width; below 760px it drops in under the lesson. Sam Whitaker's excused row shows the app's Reschedule button instead of the
