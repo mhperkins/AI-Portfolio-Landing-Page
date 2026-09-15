@@ -24,7 +24,7 @@ Associate, $19-20/hr, 30 hrs/week, reports to a manager.
    - Required: bachelor's or equivalent, 1+ year coordinating complex programs or events, valid
      driver's license. Preferred: CRM systems, event registration platforms, project management
      software, evening and weekend flexibility. Every line maps to the Sprout Community Manager role.
-   - UW-Madison B.A. is a genuine alumni angle. Cover letter drafted (Sept 15) in `Priority Applications Cover Letters.md`; resume not started.
+   - UW-Madison B.A. is a genuine alumni angle. Cover letter drafted (Sept 15) in `Priority Applications Cover Letters.md`; resume drafted (Sept 15) in `Priority Applications Resumes.md`, built by `build_priority_resumes.py`.
 2. **Savanna Institute, Development & Communications Manager.** Second priority.
    - Full-time, remote within the U.S. (travel under 5%). $62,000 to $68,000. Posted Sept 4, 2026.
      **Deadline Oct 4, 2026, 11:59 pm CT.** Verified live Sept 15 on Jobs That Help.
@@ -40,7 +40,7 @@ Associate, $19-20/hr, 30 hrs/week, reports to a manager.
    - **Gap:** the 3 years. Sprout Society is under a year, so do not claim more (ops track hard rule);
      win on scope: CRM ownership, grants, donor communication, newsletters. This is a development
      and comms role, so it takes the ops track's framing, not the arts-education resume as is.
-     Cover letter drafted (Sept 15) in `Priority Applications Cover Letters.md`; resume not started.
+     Cover letter drafted (Sept 15) in `Priority Applications Cover Letters.md`; resume drafted (Sept 15) in `Priority Applications Resumes.md`, built by `build_priority_resumes.py`.
 3. **River Alliance of Wisconsin and Midwest Environmental Advocates, Development and
    Administrative Assistant.** Third priority.
    - Part-time, hourly, 20 to 24 hr/wk combined (about 10 hours for each org). $20/hr, at the pay
@@ -57,13 +57,15 @@ Associate, $19-20/hr, 30 hrs/week, reports to a manager.
    - Required: donor management and nonprofit admin experience, data accuracy, event and project
      management, commitment to water conservation and environmental protection.
    - Fit: CRM records, donor communication and events map straight from Sprout. Low altitude,
-     so the arts-education track's altitude rules apply. Cover letter drafted (Sept 15) in `Priority Applications Cover Letters.md`; resume not started.
+     so the arts-education track's altitude rules apply. Cover letter drafted (Sept 15) in `Priority Applications Cover Letters.md`; resume drafted (Sept 15) in `Priority Applications Resumes.md`, built by `build_priority_resumes.py`.
 
 ## Current State (as of September 15, 2026)
 
 **The Priority List above is the queue.** All three have cover letter drafts in
 `Priority Applications Cover Letters.md` (Savanna v2.1 carries Max's own edit; River Alliance is v1;
-WFAA v2 is its own letter built on Max's UW story). No tailored resumes yet. By deadline, River
+WFAA v2 is its own letter built on Max's UW story). Tailored resumes for all three are drafted in
+`Priority Applications Resumes.md` (build with `build_priority_resumes.py`, export PDFs through Word);
+the docx and PDF outputs are not committed, because Vercel would serve them publicly. By deadline, River
 Alliance and MEA comes due first (priority Sept 27), then Savanna Institute (Oct 4). WFAA states no
 deadline.
 
