@@ -774,7 +774,9 @@ This site is served from its Vercel default domain (ai-portfolio-landing-page.ve
 
 Max's ask: a note popping up under its pin covered the feature it describes. Every carousel's note
 now opens **above** its pin. One change in the shared `initDemoPops()`, so all eight carousels on
-`index.html` get it, and the same change in `teaching.html` on the `teaching-page` worktree.
+`index.html` get it, and the same change in `teaching.html`, committed on the `teaching-page`
+worktree as `ba6992f` (branch still unpushed, so the live site only shows the `index.html` half).
+**A future re-transplant or merge must not take the old below-the-pin `placePop()` back.**
 
 - **`placePop(mayScroll)`** places the note at `pin.top - height - 8`. The below-the-tile fallback is
   gone.
@@ -875,6 +877,10 @@ base for the final-round live class. Max's calls and the accuracy notes also sit
 - **Next conversation:** open the worktree folder and keep building there. First Max's copy review of
   all four topics, then the final-round presenter file. Merge `teaching-page` into main only when Max
   says the page is final; that merge is what adds Teaching to the live nav.
+- **The branch has one commit beyond the page itself,** `ba6992f`: the notes open above their pin, the
+  same change `index.html` shipped on main (see "notes open above their pin" above). A later session
+  in the worktree also left `demo/teach-*-demo.html` and its own `CLAUDE.md` edits uncommitted there;
+  that is the branch's copy of this file, not main's.
 - **The preview above is a snapshot** deployed before the move. Deploy new previews from the worktree
   (`vercel deploy`, never `--prod`; its `.vercel/` link was copied in, since that folder is gitignored).
 - The headless suites live in this session's scratchpad and are gone with it. Rebuild them from the
