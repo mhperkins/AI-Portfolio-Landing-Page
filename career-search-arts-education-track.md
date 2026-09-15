@@ -25,6 +25,22 @@ Associate, $19-20/hr, 30 hrs/week, reports to a manager.
      driver's license. Preferred: CRM systems, event registration platforms, project management
      software, evening and weekend flexibility. Every line maps to the Sprout Community Manager role.
    - UW-Madison B.A. is a genuine alumni angle. Materials not started.
+2. **Savanna Institute, Development & Communications Manager.** Second priority.
+   - Full-time, remote within the U.S. (travel under 5%). $62,000 to $68,000. Posted Sept 4, 2026.
+     **Deadline Oct 4, 2026, 11:59 pm CT.** Verified live Sept 15 on Jobs That Help.
+   - Posting: [Jobs That Help](https://www.jobsthathelp.com/job/savanna-institute-anywhere-remote-development-communications-manager-sep-2026/).
+     Apply with resume and cover letter on [PinPoint](https://savannainstitute.pinpointhq.com/jobs/575686)
+     (Savanna's own jobs page confirms it open; it is their only open staff role).
+   - Agroforestry nonprofit (Madison-based). Reports to the Senior Director of Advancement.
+     Processes gifts and runs the donor database (Bloomerang), fundraising reports, annual giving
+     and donor communications, donor meeting materials and prospect research, vendors and schedules.
+   - Required: 3+ years nonprofit development, communications, marketing or operations; CRM or
+     donor database experience; Google Workspace. Preferred: Bloomerang, donor stewardship,
+     design software, email marketing, CMS.
+   - **Gap:** the 3 years. Sprout Society is under a year, so do not claim more (ops track hard rule);
+     win on scope: CRM ownership, grants, donor communication, newsletters. This is a development
+     and comms role, so it takes the ops track's framing, not the arts-education resume as is.
+     Materials not started.
 
 ## Current State (as of September 10, 2026)
 
