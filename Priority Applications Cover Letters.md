@@ -39,9 +39,12 @@ coordination, budgets, Bloomerang, EveryAction, Neon.
   Barb and Dave Perkins, founded Vermont Valley Community Farm in Blue Mounds in 1994. Press calls
   them Wisconsin CSA and organic pioneers (Edible Madison: "A Birthplace of CSA"). Neither they nor
   the farm appear on Savanna's website (advisors, site search, checked Sept 15).
-- **Donors.** Sprout Society has raised over $1.5 million. About 100 regular donors and 1,000+
-  donors across fundraising campaigns. Max manages them in the CRM he built and drafts and tracks
-  donor communications there. Sprout raised the money; the letter never says Max raised it.
+- **Donors.** Sprout Society has raised over $1.5 million. Max first said about 100 regular donors
+  and 1,000+ campaign donors; his own edit of the Savanna letter says around 3,000 donors (confirm the
+  total). He manages them in a CRM he built from scratch to replace paid software, and drafts and
+  tracks donor communications there alongside Campaign Monitor. Sprout raised the money; the letter
+  never says Max raised it.
+- **Grandparents' farm is in Beloit, Wisconsin** (Max's edit).
 - **Entrepreneur framing (Max's call).** Play up Music Major Records and the breadth of the
   nonprofit operation Max covered in a short time. Volume: full for Savanna, medium for WFAA, light
   for RA (the arts-education track's flight-risk rule still applies to an hourly seat).
@@ -84,7 +87,53 @@ Five paragraphs. Bracketed slots change per job; the rest holds.
 
 ---
 
-## Savanna Institute, Development & Communications Manager: Draft v1
+## Savanna Institute, Development & Communications Manager: Draft v2.1 (current)
+
+Max's own edit (v2, Sept 15) with a light fix pass by Claude. Fixes: the role is named again at the
+end of P1; P2's broken sentence ("cover so much of, my current place of work, Sprout Society's
+operation") is rebuilt; "hosting/facilitating" loses the slash; P3's dangling "As a nonprofit, donor
+data..." becomes "Donor data is one of my core responsibilities"; the parentheses around "to replace
+paid software" come off; the portfolio link is back in the signature. Everything else is Max's
+wording.
+
+> Dear Savanna Institute Advancement Team,
+>
+> I grew up in the San Francisco Bay Area, but I spent most summers on my grandparents' farm in
+> Beloit, Wisconsin, where I gained an early appreciation for agriculture and the human effort it
+> entails. Farming runs in my family: my aunt and uncle, Barb and Dave Perkins, founded Vermont Valley
+> Community Farm in Blue Mounds and were among Wisconsin's CSA pioneers. Savanna Institute's work to
+> bring trees back onto Midwestern farms is critical to the long-term health of the land and the
+> communities that depend on it, and I would love to support it as your Development & Communications
+> Manager.
+>
+> In 2023 I founded my own company, a platform for college musicians, and ran its strategy, product,
+> marketing and finances. Running every part of a business at once gave me the foundation to take on
+> so much of Sprout Society's operation in a short time. As Community Manager of this Brooklyn
+> nonprofit, on a team of three, I handle grant research, writing and reporting, outreach and
+> membership growth, social media, and hosting and facilitating our events.
+>
+> Donor data is one of my core responsibilities. Sprout Society has raised over $1.5 million, and I
+> manage the records for around 3,000 donors in a CRM I built from scratch to replace paid software.
+> I draft and track every donor communication there, alongside Campaign Monitor, so each donor's
+> history, touchpoints and next steps live in one place. Building it with AI tools meant mapping our
+> whole donor and outreach workflow, step by step, before automating any of it. Bloomerang would be a
+> new screen for me, not a new way of thinking.
+>
+> Most weeks I move several projects at once: a grant deadline, a newsletter, our monthly showcase,
+> and the 10 to 15 events members run in our space, each with its own artists, partners and vendors
+> to keep on schedule. I do most of it independently, coordinating with our team and outside partners
+> in Google Workspace, and I am glad to travel when the work calls for it.
+>
+> I would welcome the chance to talk about how I can support your Advancement Team.
+>
+> Thank you for your time and consideration,
+> Maxwell Perkins
+> maxwellhperkins@gmail.com | 925-259-1748
+> ai-portfolio-landing-page.vercel.app
+
+---
+
+## Savanna Institute, Development & Communications Manager: Draft v1 (superseded)
 
 353 words including the signature, one page. Every required qualification is addressed; the map is under the letter.
 
