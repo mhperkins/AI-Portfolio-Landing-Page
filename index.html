@@ -3568,7 +3568,7 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
   box-shadow: 0 14px 36px rgba(0, 0, 0, 0.18);
   padding: 9px 12px 10px;
   font-family: var(--font-sans); font-size: 13px; line-height: 1.45; color: var(--tp); text-align: left;
-  pointer-events: none; opacity: 0; visibility: hidden; transform: translateY(4px);
+  pointer-events: none; opacity: 0; visibility: hidden; transform: translateY(-4px);
   transition: opacity 0.12s, transform 0.12s, visibility 0s linear 0.12s;
 }
 .demo-pop.is-on { opacity: 1; visibility: visible; transform: none; transition: opacity 0.12s, transform 0.12s; }
@@ -8566,27 +8566,38 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
         if (!t || !root.contains(t)) return null;
         return pinInfo[parseInt(t.getAttribute('data-pin-index'), 10)] || null;
       }
-      function placePop() {
+      function placePop(mayScroll) {
         if (!hot) return;
         var tr = hot.target.getBoundingClientRect();
         if (!tr.width && !tr.height) { hidePop(); return; }
         var pr = hot.pin.getBoundingClientRect();
-        // Never anchor under the pinned strip and title card.
-        var floor = 0;
-        root.querySelectorAll('.demo-caption, .demo-nav-wrap, .demo-rail-field').forEach(function (el) {
-          floor = Math.max(floor, el.getBoundingClientRect().bottom);
-        });
-        var anchor = Math.min(Math.max(pr.bottom, floor), tr.bottom);
         var pw = pop.offsetWidth, ph = pop.offsetHeight;
         var stage = root.querySelector('.demo-stage').getBoundingClientRect();
         var left = Math.min(pr.left, stage.right - pw - 8);
         left = Math.max(left, stage.left + 8, 8);
         left = Math.min(left, window.innerWidth - pw - 8);
-        var top = anchor + 8;
-        if (top + ph > window.innerHeight - 8) {
-          top = Math.max(pr.top, floor) - ph - 8;
-          if (top < floor + 8) top = Math.max(floor + 8, window.innerHeight - ph - 8);
+        // The note sits above its pin, so it never covers the feature it
+        // describes. The page's own fixed bars are the only ceiling: a note may
+        // pass over the carousel's pinned strip and title card, which is the
+        // lesser harm and the only way a pin at the top of a tall tile can have
+        // its note above it at all (that card scrolls with the page, so scrolling
+        // never opens room under it). When even that leaves no room, the page
+        // scrolls to make it. Only the opening call may scroll: a later one runs
+        // off the user's own scrolling and would yank the page back.
+        var ceil = (typeof stickyOffset === 'function' ? stickyOffset() : 0) + 8;
+        var top = pr.top - ph - 8;
+        if (top < ceil - 1 && mayScroll) {
+          var by = Math.min(ceil - top, window.scrollY);
+          if (by > 1) {
+            window.scrollBy(0, -by);
+            placePop(false);
+            // The pinned strip and title card settle a frame after the scroll,
+            // so measure once more before the note has finished fading in.
+            requestAnimationFrame(function () { placePop(false); });
+            return;
+          }
         }
+        top = Math.max(ceil, top);
         pop.style.left = Math.round(left) + 'px';
         pop.style.top = Math.round(top) + 'px';
       }
@@ -8611,7 +8622,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
           });
         }, 1000);
       }
-      function showPop(info) {
+      function showPop(info, noScroll) {
         if (!pop || !info) return;
         if (hot && hot !== info) { hot.target.classList.remove('is-hot'); hot.pin.classList.remove('is-hot'); }
         if (hot !== info) queueNoteEvent(info);
@@ -8620,7 +8631,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
         info.target.classList.add('is-hot');
         info.pin.classList.add('is-hot');
         pop.classList.add('is-on');
-        placePop();
+        placePop(!noScroll);
       }
       function hidePop() {
         if (!pop) return;
@@ -8724,10 +8735,13 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                 var cs = getComputedStyle(el);
                 if (cs.position === 'sticky') floor = Math.max(floor, (parseFloat(cs.top) || 0) + el.offsetHeight);
               });
-              var tr = info.target.getBoundingClientRect(), pr = info.pin.getBoundingClientRect();
-              window.scrollTo({ top: Math.max(0, window.scrollY + Math.min(tr.top, pr.top) - floor - 24), behavior: 'smooth' });
               dockHold = { x: e.clientX, y: e.clientY };
-              showPop(info);
+              // Open the note first: its height is the room the scroll has to
+              // leave above the tile, since the note sits above its pin.
+              showPop(info, true);
+              var tr = info.target.getBoundingClientRect(), pr = info.pin.getBoundingClientRect();
+              var room = pop.offsetHeight + 16;
+              window.scrollTo({ top: Math.max(0, window.scrollY + Math.min(tr.top, pr.top) - floor - 24 - room), behavior: 'smooth' });
             });
             dock.appendChild(b);
           });

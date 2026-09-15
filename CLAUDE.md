@@ -445,9 +445,9 @@ At Max's ask, on all eight carousels. Page only; the `demo/` standalones are unc
   (`.has-pop`, set by the script). Each note pops up beside its pin when the pin's parent element
   (its tile) is hovered, focused (tiles get `tabindex="0"`) or tapped; a tap elsewhere closes it.
   The tile gets an outline in the pin color and the pin scales up. The popover is
-  `position: fixed`, anchored under the pin but never under the pinned strip and title card, and it
-  follows scroll. **The `.demo-notes` markup is still the text source,** so notes are edited in the
-  same place as before.
+  `position: fixed`, anchored **above** the pin since 2026-09-15 (see "Notes open above their pin"),
+  and it follows scroll. **The `.demo-notes` markup is still the text source,** so notes are edited
+  in the same place as before.
 - The title card's "State of" label carries a "Hover a number for details" pill ("Tap a number" on
   touch) on slides that have pins.
 - **Verified headless (1280, and 390 with touch):** all eight carousels walk every slide by
@@ -770,7 +770,36 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
-### Session of 2026-09-15, late: Sprout CRM slide 1 shows the new Dashboard (pushed)
+### Session of 2026-09-15: notes open above their pin, on every carousel (pushed)
+
+Max's ask: a note popping up under its pin covered the feature it describes. Every carousel's note
+now opens **above** its pin. One change in the shared `initDemoPops()`, so all eight carousels on
+`index.html` get it, and the same change in `teaching.html` on the `teaching-page` worktree.
+
+- **`placePop(mayScroll)`** places the note at `pin.top - height - 8`. The below-the-tile fallback is
+  gone.
+- **The ceiling is the page's fixed chrome** (`stickyOffset()`: nav + tab bar + tool row), not the
+  carousel's own pinned strip and title card. A note may pass over that strip, which is the lesser
+  harm, and it is the only way a pin at the top of a tall tile can have its note above it at all:
+  the title card scrolls with the page, so the gap under it never grows. The pop's z-index (29) is
+  already above the strip (27) and the title card (25), and below the tool row (30).
+- **When even that leaves no room, the page scrolls to make it** (Max's call, 2026-09-15), instead of
+  dropping the note back under the tile. Only the opening call may scroll: `showPop(info, noScroll)`
+  passes `mayScroll`, while the scroll and resize listeners call `placePop()` bare, or the page would
+  yank itself back while the user scrolls. After the scroll it re-places on the next frame, because
+  the pinned layers settle a frame later.
+- **A "More below" chip leaves room for the note.** It opens the note first, then scrolls by the
+  note's height plus the old gap, so the chip's own landing does not put the pin back under the
+  ceiling.
+- The entry animation now slides down from above (`translateY(-4px)`).
+- **Verified headless (Playwright, 1280 and 390): 115 of 115 pins on `index.html`**, every one on
+  every slide of all eight carousels, reached by stepping with the `is-next` control: the note sits
+  fully above its pin, below the fixed chrome and inside the screen; zero script errors.
+  **`teaching.html` 69 of 69** at 1280. **Dock chips 5 of 5** at both widths: the chip lands its pin
+  on screen with the note above it. Screenshots checked by eye.
+- The `demo/` standalones have no popovers, so they are unchanged.
+
+
 
 Max's ask: the Sprout CRM carousel's Dashboard slide shows the new dashboard sprout-crm-next
 shipped the same day. **Max's call: it is still the Dashboard, not the Day Board,** so the page never
