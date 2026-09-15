@@ -103,7 +103,7 @@ in the lead.
 >
 > I grew up in the San Francisco Bay Area, where droughts and wildfires have become an increasing
 > problem, and I have experienced them firsthand. I also spent most summers on my grandparents' farm
-> in Beloit, Wisconsin, and earned my B.A. at UW-Madison. Now I am moving back to Madison, and I would
+> in Beloit, Wisconsin, and earned my B.A. at UW-Madison. Now I am coming back to Madison, and I would
 > love to support River Alliance of Wisconsin and Midwest Environmental Advocates as your Development
 > and Administrative Assistant.
 >
@@ -123,8 +123,8 @@ in the lead.
 > founder's calendar and inbox and keep our network of members and partners connected, which is the
 > same work as keeping your network of former staff, fellows and interns engaged.
 >
-> I am glad to work in the office in Madison, and I would welcome the chance to talk about how I can
-> support both of your teams.
+> I can start on October 19 and am glad to work in the office. I would welcome the chance to talk
+> about how I can support both of your teams.
 >
 > Thank you for your time and consideration,
 > Maxwell Perkins
@@ -138,14 +138,13 @@ in the lead.
 | Detail-oriented, disciplined, committed to data accuracy | P2 "accurate and current", "keeping donor data clean" |
 | History of event and project management | P4 |
 | Commitment to water conservation and environmental protection | P1 droughts and wildfires; P3 AI and water, data center work |
-| In-office presence in Madison | P1 moving back; P5 |
+| In-office presence in Madison; Oct 19 start | P1 coming back to Madison; P5 start Oct 19, in office |
 
 **Not claimed:** Word mail merge, bank deposits, EveryAction, Neon.
 
 ### Open calls for Max
 
-- **Start date.** The job starts Oct 19 and needs a commutable distance from Madison. When will you be
-  in Madison? If it is after Oct 19, the letter should say when.
+- ~~**Start date.**~~ Resolved Sept 15: Max can start in person in Madison on Oct 19. P5 says so.
 - **Data center line.** It names their real work (MEA's July 2026 lawsuit and data center transparency
   campaign; River Alliance's Feb 2026 testimony for a pause on new construction). Keep it, or keep the
   concern and drop the specifics?
@@ -291,9 +290,10 @@ Campaign Monitor and the AI line came out in Max's edit.
 
 Max will move to Madison once he has a job. Max's call: the letters read as a Madison candidate,
 definitely this one. Claude's limit: imply, never state residence. "Coming back to Madison" is true;
-"I live in Madison" would not be. Resume header: "Madison, WI" only if Max can interview in person on
-about a week's notice, otherwise no city. River Alliance (in office, start Oct 19): ask whether Max
-could be in Madison by Oct 19 before sending. Savanna is remote, so location does not matter.
+"I live in Madison" would not be. Max confirmed (Sept 15) he can interview in person on about a week's
+notice and start in person on Oct 19, so the resume header for these applications reads "Madison,
+WI", and the River Alliance letter says "coming back to Madison" and "I can start on October 19".
+Savanna is remote, so location does not matter there.
 
 ### Claims, with their source
 
