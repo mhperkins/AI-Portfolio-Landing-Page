@@ -59,10 +59,14 @@ Associate, $19-20/hr, 30 hrs/week, reports to a manager.
    - Fit: CRM records, donor communication and events map straight from Sprout. Low altitude,
      so the arts-education track's altitude rules apply. Materials not started.
 
-## Current State (as of September 10, 2026)
+## Current State (as of September 15, 2026)
 
-**WCO application: materials ready, not yet submitted.** Priority deadline is **September 11, 2026**
-(applications accepted after that until filled).
+**The Priority List above is the queue.** None of the three has materials yet. By deadline, River
+Alliance and MEA comes due first (priority Sept 27), then Savanna Institute (Oct 4). WFAA states no
+deadline.
+
+**WCO application: materials ready, not logged as submitted.** The Sept 11 priority date has passed,
+but the posting was still open on Sept 15 (applications accepted until filled).
 
 | Piece | Status | Where |
 |---|---|---|

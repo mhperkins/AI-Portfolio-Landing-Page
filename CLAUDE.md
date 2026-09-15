@@ -760,6 +760,47 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
+### Session of 2026-09-15: career leads audit and priority list (pushed as `36eac79`, `57911c5`, `1e51836`, `73ba557`)
+
+Career work only; no site changes.
+
+- **Audit.** Every lead in the three track docs was loaded live on Sept 15 (four parallel agents,
+  one per track slice). Employer ATS links replaced aggregator links where one exists, and each
+  track doc now lists verified job boards for its search type.
+  - **Dropped:** Careerswift AI and Workflow Automation Specialist (removed Aug 13; the Himalayas
+    "expires Sept 16" copy was stale), Noodle Prompt Systems Engineer (closed), CIMA Consulting
+    (apply link 404s), NewRocket, Back At You and Pearson (no posting exists), Wheelhouse Studios
+    (404), Historical Society Learning Facilitator (only a LinkedIn copy left).
+  - **Academic:** none of the Sept 14 leads closed. UNO, Berklee and NC State are now posted; UCSC
+    Theory & Composition pool (JPF02104) and UCSD Temporary Lecturer (JPF04495) are new. RISE-AI is
+    still open and its degree line accepts a Master's in Music.
+  - **Correction to the Sept 14 Madison College entry below:** R0002302 *is* the Video Audio Design
+    pool. Its posting title changed; only the URL keeps the Visual Communications name.
+- **Verification lessons.** Himalayas keeps expired listings, so confirm on the employer's page.
+  Lever pages block the fetcher but `api.lever.co/v0/postings/<org>` works, like the Workday JSON
+  endpoint. The `r.jina.ai/<url>` reader proxy gets past 403s on some org sites (Savanna Institute,
+  River Alliance). Midwest Environmental Advocates sits behind a security check.
+- **Priority list (Max's call),** at the top of `career-search-arts-education-track.md`:
+  1. WFAA, Engagement Program Coordinator (Madison, FT, hybrid, no deadline).
+  2. Savanna Institute, Development & Communications Manager (remote, $62k to $68k, deadline Oct 4;
+     asks 3+ years, so win on scope, never claim years).
+  3. River Alliance of Wisconsin and Midwest Environmental Advocates, Development and
+     Administrative Assistant (Madison, PT, $20/hr, priority deadline Sept 27, start Oct 19).
+- **The connected Gmail MCP is the Sprout work inbox,** not Max's personal Gmail, so application
+  confirmations and rejections are not visible to Claude.
+- Committed a Composer Hub session's uncommitted GA notes on their own as `7f1b11e`, so they did not
+  ride inside this session's commits.
+
+**Open:**
+- No materials yet for any of the three priorities.
+- WCO: materials ready, still not logged as submitted; the posting was open on Sept 15.
+- Check by hand: Overture's education coordinator role; whether Careerswift Implementation
+  Specialist is really open (its Ashby page shows only a title); UMKC's "or equivalent professional
+  experience" clause.
+
+**Next:** by deadline, the River Alliance and MEA application first (Sept 27), then Savanna (Oct 4),
+then WFAA.
+
 ### Session of 2026-09-14, evening: nav, portrait, Contact landing (pushed as `63fd62b`, `ebc5895`, `e3d5142`, `cbab937`)
 
 All at Max's call, all verified headless.
