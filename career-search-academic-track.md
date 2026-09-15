@@ -109,31 +109,45 @@ Proofread from the docx text and the exported PDFs.
 
 ---
 
-## Leads (sweep of Sept 14, 2026)
+## Leads (audit of Sept 15, 2026)
 
 National search. No open AI cluster hire in a music school was found; RISE-AI analogs have all
-closed for this cycle. Verified means the posting page itself was loaded on Sept 14.
+closed for this cycle. Every link below loaded on Sept 15 and showed an open posting. None of the
+Sept 14 leads had closed, and the three "not yet opened" roles are now posted.
 
-### Open now, worth applying
+**UW-Madison RISE-AI (JR10004513) is still open** ("accepted until the position is filled"), and its
+degree line reads "Master's in Music or other relevant terminal degree", so the M.M. meets it.
+
+### Open now, master's accepted
 
 | Institution | Role | Degree line | Review | Pay | Link | Note |
 |---|---|---|---|---|---|---|
-| UMKC Conservatory | Asst Prof, Music Composition (electroacoustic and technology-integrated), TT, Fall 2027 | "Terminal degree (DMA, PhD, or equivalent)... or equivalent professional experience (ABD considered)" | Rolling until filled (verified; posted Jul 31) | Competitive | [Chronicle](https://jobs.chronicle.com/job/38021217/), UMKC HR Job ID 60551 | Best fit. Names "AI-assisted creative practice", creative coding, algorithmic/generative composition. Wants concert-music grounding. Apply early. |
-| UC Santa Cruz | Asst Teaching Professor, Sound and Media Art (JPF02127), full time | "M.A., M.M., M.F.A. or higher" | Oct 12, 2026 | $89.4k to $116.5k | [recruit.ucsc.edu/JPF02127](https://recruit.ucsc.edu/JPF02127) | Creative coding plus "critical approaches to machine learning and AI". M.M. qualifies outright. |
-| UC Santa Cruz | Electronic Music Lecturer Pool (JPF02106), per course | "Master's Degree... in music; or four years of artistic and creative work" | Final Aug 6, 2027 | $8.9k to $10.9k per course | [recruit.ucsc.edu/JPF02106](https://recruit.ucsc.edu/JPF02106) | Course list includes "AI and Music". |
-| Stanford Music | Asst Prof, Composition, TT | "DMA or PhD... or equivalent professional distinction" | Oct 1, 2026 | $115k to $135k | [Stanford](https://facultypositions.stanford.edu/jobs/assistant-professor-of-composition-stanford-university-california-united-states) | Long shot. Computer music is secondary; no AI. |
-| Rollins College | Lecturer/Artist-in-Residence, Music Business and Entrepreneurship | "Master's degree in music or equivalent professional experience" | Priority Sep 30, 2026 | Not listed | [AcademicCareers](https://academiccareers.com/job/179087/lecturer-artist-in-residence/) | No AI; Music Major Records and the Sprout tools read as entrepreneurship. |
-| Madison College | PT Instructor Pool, Music (R0002307), per course | "Master's degree in Music OR Master's degree in related area with 18 graduate credits in Music" | Rolling; pool closes about Jan 31, 2027 | By workload | [Workday](https://madisoncollege.wd115.myworkdayjobs.com/en-US/jobsatMadisonCollege/job/XMLNAME-2019-2020-PT-Instructor-Pool---Music_R0002307) | Local. Verified Sept 14 through Workday's JSON endpoint. General education surveys, no tech. Materials drafted; see Application Log. The Video Audio Design pool is still unverified (the old link here pointed at Visual Communications, R0002302). |
+| UC Santa Cruz | Asst Teaching Professor, Sound and Media Art (JPF02127), full time | "M.A., M.M., M.F.A. or higher", plus a record of college teaching | Oct 12, 2026 | $89.4k to $116.5k | [UC Recruit](https://recruit.ucsc.edu/JPF02127) | Creative coding plus "critical approaches to machine learning and AI". |
+| Univ. of Nebraska Omaha | Instructor of Music Technology and Music Industry (2026F-00144) | "Master's degree in Music, eligible for appointment to graduate faculty" | Oct 15, 2026 | $51k | [PeopleAdmin](https://unomaha.peopleadmin.com/postings/26471) | Newly posted. Start Aug 2027. |
+| Rollins College | Lecturer/Artist-in-Residence, Music Business and Entrepreneurship | "Master's degree in music or equivalent professional experience" | Priority Sep 30, 2026 | Not listed | [Rollins](https://jobs.rollins.edu/jobs/lecturer-artist-in-residence-orlando-florida-united-states-winter-park-fl-2ad470df-71da-48fa-aa8e-bfad3d1b93ed) | No AI; Music Major Records and the Sprout tools read as entrepreneurship. |
+| UC Santa Cruz | Electronic Music Lecturer Pool (JPF02106), per course | "Master's Degree... in music; or four years of artistic and creative work" | Final Aug 6, 2027 | $8.9k to $10.9k per course | [UC Recruit](https://recruit.ucsc.edu/JPF02106) | Course list includes "AI and Music". |
+| UC Santa Cruz | Music Theory & Composition Lecturer Pool (JPF02104), per course | Same as JPF02106 | Final Aug 6, 2027 | $8.9k to $10.9k per course | [UC Recruit](https://recruit.ucsc.edu/JPF02104) | New lead. Foundational composition and analysis. Pairs with JPF02106. |
+| UC San Diego | Temporary Lecturer in Music, AY 2026-27 (JPF04495) | ABD, or "a minimum of 5 years of relevant professional experience" | Final Apr 20, 2027 | $71k to $77.6k | [UC Recruit](https://apol-recruit.ucsd.edu/JPF04495) | New lead. Areas include composition and computer music. |
+| Madison College | PT Instructor Pool, Music (R0002307), per course | "Master's degree in Music OR Master's degree in related area with 18 graduate credits in Music" | Pool closes about Jan 31, 2027 | By workload | [Workday](https://madisoncollege.wd115.myworkdayjobs.com/en-US/jobsatMadisonCollege/job/XMLNAME-2019-2020-PT-Instructor-Pool---Music_R0002307) | Local. General education surveys, no tech. Materials drafted; see Application Log. |
+| Madison College | PT Instructor Pool, Video Audio Design (R0002302) | Master's or MFA plus 4 years professional experience | Pool closes about Jan 31, 2027 | Not stated | [Workday](https://madisoncollege.wd115.myworkdayjobs.com/jobsatMadisonCollege/job/District/PT-Instructor-Pool---Visual-Communications-Media-Design_R0002302) | Local, audio. R0002302 is the right pool after all: its posting title is Video Audio Design and only the URL keeps the old name. Confirm the degree wording on the page. |
+| Cal Poly SLO | Part-Time Lecturer Pool, Music, AY 26/27 (555947) | "at least a Master's Degree in Music" | Mar 31, 2027 | Lecturer A to D scale | [Cal Poly](https://jobs.calpoly.edu/sl/en-us/job/555947) | Music technology among the lecture classes. |
+| San Diego State | Music Lecturer Pool 2026-2027 (556381) | "Graduate degree in music... and/or commensurate professional experience", plus university teaching | No close date | Lecturer A to D scale | [SDSU](https://careers.sdsu.edu/en-us/job/556381/school-of-music-and-dance-music-lecturer-pool-20262027) | Audio and Music Technology area (Pro Tools, Ableton). |
+| CSU Monterey Bay | Lecturer AY, Music and Performing Arts | "master's degree in a related field, or equivalent" | Open until filled | $6.6k to $7.5k per 3-unit course | [AcademicCareers](https://academiccareers.com/job/177001/lecturer-ay-music-and-performing-arts/) | CSUMB's own page renders empty. Recording and production not named. |
 
-Also open, weaker: Cal Poly SLO and San Diego State music lecturer pools (music tech / audio tracks,
-master's accepted), CSU Monterey Bay lecturer pool.
+### Open now, doctorate or weak fit
 
-**Blocked by doctorate:** Columbia, open-rank Composition and Music Technology (review Oct 1; directs
-the Computer Music Center); South Carolina composition; WPI music adjunct.
+| Institution | Role | Why it is a stretch | Review | Link |
+|---|---|---|---|---|
+| UMKC Conservatory | Asst Prof, Music Composition (electroacoustic and technology-integrated), Job ID 60551 | Terminal degree. The Sept 14 read showed "or equivalent professional experience (ABD considered)"; the Sept 15 extract did not, so check the page. Still the best subject fit: names "AI-assisted creative practice". | Rolling | [Chronicle](https://jobs.chronicle.com/job/38021217/) |
+| Stanford Music | Asst Prof, Composition, TT | "DMA or PhD... or equivalent professional distinction". No AI. | Oct 1, 2026 | [Stanford](https://facultypositions.stanford.edu/jobs/assistant-professor-of-composition-stanford-university-california-united-states) |
+| Berklee | Full-time Faculty, Electronic Production (R0011343) | Wants an international reputation as an electronic recording and performing artist | Until filled | [Workday](https://berklee.wd1.myworkdayjobs.com/en-US/BerkleeCareers/job/Full-time-Faculty--Electronic-Production--EDI-_R0011343) |
+| NC State | Professor of the Practice, Media Arts and Production (PG194765EP) | Terminal degree; film and transmedia, no music | Closes Sept 30, 2026 | [NC State](https://jobs.ncsu.edu/postings/233236) |
+| UC Irvine | Lecturer Pool 2026-27, Music (JPF10317) | Performance, ensembles and core academics only | Final Aug 4, 2027 | [UC Recruit](https://recruit.ap.uci.edu/JPF10317) |
 
-**Not yet opened, check:** Univ. of Nebraska Omaha, Instructor of Music Technology and Music
-Industry (Chronicle); Berklee full-time Electronic Production faculty (Jan 2027); NC State Professor
-of the Practice, Media Arts and Production (a2ru board).
+**Blocked or closed:** Columbia, open-rank Composition and Music Technology (doctorate); South
+Carolina composition (doctorate); WPI music adjunct (doctorate); Grand Rapids CC recording adjunct
+(Michigan residents only). **Unconfirmed:** Grand Canyon University adjunct, Composition Using Music
+Technology; George Mason adjunct, Applied Composition and Music Technology.
 
 ### Watch next cycle (these schools hire this profile)
 
@@ -146,8 +160,16 @@ of the Practice, Media Arts and Production (a2ru board).
 - **Rice universitywide AI cluster:** names music as eligible; no music posting yet.
 - **Carnegie Mellon Sound Media; Columbia CMC Lecturer in Discipline; NYU Steinhardt Visiting Asst Prof Music Technology** (doctorate required).
 
-Academic Jobs Wiki (Music Studies 2026-27) and HigherEdJobs detail pages blocked the fetcher; check
-both by hand.
+### Job boards for this track (verified loading Sept 15, 2026)
+
+- [Chronicle Jobs, Music](https://jobs.chronicle.com/jobs/music/): tenure-line music postings
+- [AcademicCareers, Music](https://academiccareers.com/categories/music/): catches lecturer and adjunct pools others miss
+- [a2ru Jobs](https://a2ru.org/jobs/): arts plus research and technology lines (RISE-AI was here)
+- [CMS Music Vacancy List](https://mvl.music.org/): the standard music faculty list; details need CMS membership
+- [Inside Higher Ed Careers](https://careers.insidehighered.com/): broad; use keyword search
+- UC recruiting portals ([UCSC](https://recruit.ucsc.edu/), [UCSD](https://apol-recruit.ucsd.edu/), [UCI](https://recruit.ap.uci.edu/)): UC lecturer pools that accept a master's post here first
+- [WTCS Employment](https://www.wtcsystem.edu/about/employment/): links to all 16 Wisconsin technical colleges' part-time instructor pools
+- [HigherEdJobs, Music Faculty](https://www.higheredjobs.com/faculty/search.cfm?JobCat=124): the largest board, but it renders empty to a fetcher; check by hand. Same for the Academic Jobs Wiki music page.
 
 ---
 

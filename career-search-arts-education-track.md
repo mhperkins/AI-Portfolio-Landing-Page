@@ -327,43 +327,54 @@ Bernstein's Young People's Concerts, which he watched on YouTube.
 
 ---
 
-## Madison Leads (sweep of Sept 14, 2026)
+## Madison Leads (audit of Sept 15, 2026)
 
-No open posting matches WCO closely. Most Madison arts orgs (MSO, Madison Opera, Forward, APT) list
-nothing right now.
+Every link below loaded on Sept 15 and showed an open posting. MSO, Madison Opera, Forward Theater,
+APT and Madison Children's Museum have no matching openings.
 
-### Open now, best fit
+### Open now, at or above the pay floor
 
 | Org | Role | Hours | Pay | Deadline | Link | Note |
 |---|---|---|---|---|---|---|
-| Children's Theater of Madison | Academic Year Education Assistant | PT, Saturdays | Not listed | Rolling | [ctmtheater.org](https://ctmtheater.org/get-involved/work-with-us/) | Closest to WCO: family liaison plus education admin. Ask about pay. |
-| MSCR | Recreation Field Supervisor, Arts | PT, up to 18.5 hr/wk, Mon to Thu evenings | $19.00 to $21.10/hr | None listed | [mscr.org](https://www.mscr.org/jobs/recreation-field-supervisor-arts/) | Runs youth arts classes across sites. |
-| WYSO | Social Media & Digital Content Coordinator | PT, about 20 hr/wk, Saturdays | $23 to $25/hr | None listed | [wysomusic.org](https://wysomusic.org/about-us/employment-opportunities/) | Youth orchestra comms. Needs a photo/video portfolio. |
+| Wisconsin Chamber Orchestra | Community Engagement & Education Associate | About 30 hr/wk | $19 to $20/hr | Priority date Sept 11 passed; open until filled | [WCO](https://wcoconcerts.org/meet-the-wco/careers/community-engagement-and-education-associate) ([PDF](https://wco-web.files.svdcdn.com/production/documents/position-descriptions/260821-Community-Engagement-Education-Associate.pdf)) | Still accepting. Materials ready; not logged as submitted. |
+| MSCR | Recreation Field Supervisor, Arts | Up to 18.5 hr/wk, Mon to Thu evenings | $19.00 to $21.10/hr | None listed | [MSCR](https://www.mscr.org/jobs/recreation-field-supervisor-arts/) ([apply](https://mmsd.csod.com/ux/ats/careersite/9/home/requisition/9495?c=mmsd)) | Runs youth arts classes across sites. Listed start date Sept 14 has passed. |
+| WYSO | Social Media & Digital Content Coordinator | About 20 hr/wk, Saturdays | $23 to $25/hr | None listed | [WYSO](https://wysomusic.org/about-us/employment-opportunities/) | Needs a photo and short video portfolio. |
+| Madison Community Foundation | Office Coordinator | FT, on-site | $45k to $55k | Interviewing in September, start Oct 1 | [MCF](https://madisongives.org/about/jobs/) ([PDF](https://madisongives.org/wp-content/uploads/2026/08/Office-Coordinator-2026.pdf)) | Asks 3 yrs office admin. The region's main arts funder. Apply now or skip. |
+| Madison International Partners | Volunteer Coordinator and Operations Associate | 20 to 25 hr/wk, Friday evenings | $20 to $22/hr | None listed | [MIP](https://www.internationalmadison.org/careers) | Mirrors the Sprout role; not arts. |
+| Wisconsin Foundation and Alumni Association | Engagement Program Coordinator | FT, hybrid | Not listed | None listed | [WFAA](https://www.advanceuw.org/jobs/engagement-program-coordinator/) | Entry level: bachelor's plus 1 yr events. Registration, CRM, volunteers. |
+| UW-Madison School of Education, PLACE | Event Manager | FT | $60k min | None listed | [LinkedIn](https://www.linkedin.com/jobs/view/event-manager-at-school-of-education-university-of-wisconsin-madison-4467046940) | Higher altitude: 3+ yrs events, supervises 2 FTE. |
 
-### Open now, adjacent
+### Open now, below the pay floor
 
-| Org | Role | Hours | Pay | Link | Note |
-|---|---|---|---|---|---|
-| Madison Community Foundation | Office Coordinator | FT | $45k to $55k | [Idealist](https://www.idealist.org/en/nonprofit-job/3544598822734505a9dc4f1c4749989c-office-coordinator-madison-community-foundation-madison) | Interviewing in September, starts Oct 1. Apply now. The region's main arts funder. |
-| Madison International Partners | Volunteer Coordinator and Operations Associate | PT, 20 to 25 hr/wk | $20 to $22/hr | [LinkedIn](https://www.linkedin.com/jobs/view/volunteer-coordinator-and-operations-associate-at-wisconsin-literacy-4454673451) | Mirrors the Sprout role; not arts. |
-| Wisconsin Foundation and Alumni Association | Engagement Program Coordinator | FT, hybrid | Not listed | [LinkedIn](https://www.linkedin.com/jobs/view/engagement-program-coordinator-at-wisconsin-foundation-and-alumni-association-4455487855) | Registration, events, CRM, volunteers. |
-| UW-Madison School of Education, PLACE | Event Manager | FT | $60k min | [LinkedIn](https://www.linkedin.com/jobs/view/event-manager-at-school-of-education-university-of-wisconsin-madison-4467046940) | Higher altitude: supervises 2 FTE. |
-| Wisconsin Historical Society | Learning Facilitator (LTE) | PT, 20 hr/wk | $17/hr | [LinkedIn](https://www.linkedin.com/jobs/view/learning-facilitator-lte-at-state-of-wisconsin-4452037802) | Below the pay floor. One listing said Sept 27. |
-| MMoCA | Museum Attendant | PT | Not listed | [mmoca.org](https://www.mmoca.org/employment/) | Entry point only. |
+- **Children's Theater of Madison, Academic Year Education Assistant:** $18/hr, Saturdays Oct 3 to
+  May 15. Its own timeline had interviews by Aug 31, so it may fill soon.
+  [CTM](https://ctmtheater.org/get-involved/work-with-us/) ([description](https://docs.google.com/document/d/1EZfVp4ua04IatrskIBjupDZjIyAQGIQnWthxdA3EqCQ/edit))
+- **MMoCA, Museum Attendant:** $17/hr, 5 to 15 hr/wk, always accepting.
+  [MMoCA](https://www.mmoca.org/employment/)
 
-### Unverified, check by hand
+### Dropped or unconfirmed
 
-- **Overture Center, Program Coordinator, Education & Community Engagement:** search indexes show
-  it (student matinees, school liaison, family series), but the job board blocked every fetch and
-  Overture's Paylocity feed returned no jobs. If live, it is the best WCO match on the list. Check
-  [overture.org/job-board](https://www.overture.org/job-board) or email careers@overture.org.
-- **Madison Youth Choirs:** reportedly hiring intro choir instructors for 2026-27; site blocked.
-- **Wisconsin Union, Wheelhouse Studios Program Coordinator ($50k):** posting now 404s, likely closed.
-- **Wisconsin Historical Society:** new history center opens late 2026, so education and visitor
-  hiring is likely soon.
+- **Wisconsin Union, Wheelhouse Studios Program Coordinator:** closed (404).
+- **Wisconsin Historical Society, Learning Facilitator (LTE):** only a LinkedIn copy remains; wisc.jobs
+  does not list it. $17/hr regardless. The new history center (late 2026) may bring education hiring.
+- **Overture Center, Program Coordinator, Education & Community Engagement:** no posting loaded
+  anywhere (the job board blocks fetchers, Paylocity's feed is empty). If live, it is the best WCO
+  match. Open [overture.org/job-board](https://www.overture.org/job-board) in a real browser or call
+  608.258.4141.
+- **Madison Youth Choirs, intro choir instructors 2026-27:** the homepage says hiring and links a
+  [Google Form](https://docs.google.com/forms/d/e/1FAIpQLScGl4AIOJ7JQZbMR8Kw-7q15qDOEvYhIM4laxFcA1rAqv0_VQ/viewform)
+  that needs a Google sign-in. No job description found.
 
-Blocked or not checked: Americans for the Arts Job Bank, Indeed, the League of American Orchestras
-board, Arts Wisconsin's own board, Isthmus classifieds, Madison Children's Museum.
+### Job boards for this track (verified loading Sept 15)
+
+- [Idealist, Madison WI](https://www.idealist.org/en/nonprofit-jobs-madison-wi): Madison nonprofit jobs with salaries
+- [Americans for the Arts Job Bank](https://jobbank.artsusa.org/jobs/?keywords=education): national arts admin and education
+- [League of American Orchestras Jobs Center](https://jobs.americanorchestras.org/): orchestra admin and education (WCO is a member)
+- [Jobs That Help](https://www.jobsthathelp.com/job-listings/): Wisconsin's largest nonprofit job board
+- [AFP Greater Madison](https://www.afpmadison.org/job-postings): south-central Wisconsin nonprofit roles, active weekly
+- [Create Wisconsin job board](https://createwisconsin.org/job-board/): statewide arts (formerly Arts Wisconsin); listings sit in an Airtable embed
+- [Wisconsin Arts Board jobs](https://artsboard.wisconsin.gov/Pages/Job-Opportunities.aspx): statewide arts, updated Sept 11
+- [UW-Madison jobs](https://jobs.wisc.edu/jobs/search) and [wisc.jobs](https://wisc.jobs/): Wisconsin Union, School of Education outreach, Historical Society
 
 ---
 
