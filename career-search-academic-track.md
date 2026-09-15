@@ -213,6 +213,12 @@ Technology; George Mason adjunct, Applied Composition and Music Technology.
       rewordings failed. Removing data did not fix prescription. The "Session 36 trap" is App
       Session 36. TeacherAID visuals must use placeholder data: the dasha-board repo carries the
       teacher's real name, UW employers, course codes, students and pay.
+      **Built Sept 15:** `teaching.html` on the portfolio, four topics and 54 slides, Teaching in
+      the nav of all four pages. Verified headless 69/69 plus nav 12/12. **Kept off the live site
+      until Max finalizes it:** it lives on branch `teaching-page` in the worktree folder
+      `AI Tool Portfolio - teaching-page`, not on main. Build continues there in a new
+      conversation. Details under "Session of 2026-09-15: the Teaching page" in the portfolio
+      `CLAUDE.md`. Still to build: Max's copy review and the final-round presenter file.
 - [ ] Continue identifying other RISE-AI or similar interdisciplinary music-tech-and-AI faculty
       lines worth applying to under this same framing. Ongoing, not one-and-done.
 - [ ] Decide whether The Composer Compass needs a more formal writeup (a short paper-style summary)

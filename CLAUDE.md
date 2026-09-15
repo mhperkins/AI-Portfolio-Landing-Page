@@ -38,6 +38,8 @@ Vercel project: `ai-portfolio-landing-page` · GitHub: `mhperkins/AI-Portfolio-L
 | [composer-hub.html](composer-hub.html) | **Retired 2026-09-09 — now a redirect** to `index.html#composition`. Kept, not deleted, because the old public URL may have been shared in an academic application. |
 | [about.html](about.html) | Standalone About page — linked from nav |
 | [resume.html](resume.html) | **CV page** — the academic CV rendered as a native page (was a PDF iframe until 2026-09-09). Has a print stylesheet and a DOCX download. |
+| teaching.html (**branch `teaching-page` only, not on main**) | **Teaching page**, "Music and AI Integration" (built 2026-09-15): four topics as annotated carousels on the index.html carousel system, for the UW-Madison RISE-AI committee and the final-round live class. Kept off the live site until Max finalizes it; lives in the worktree folder `AI Tool Portfolio - teaching-page`. See "Session of 2026-09-15: the Teaching page" under Current Portfolio State. |
+| [docs/wireframes/](docs/wireframes/) | Wireframes, per the global Wireframe Protocol. `2026-09-15_teaching-page.html` is the teaching page's (round 2). |
 | [Software Developer Resume.pdf](Software Developer Resume.pdf) | Software track resume. **Currently unlinked** — nothing routes to it since resume.html became the academic CV. |
 | [Academic CV - UW Madison.docx](Academic CV - UW Madison.docx) | Source of the CV page; offered as the download on resume.html |
 | [demo/compass-demo.html](demo/compass-demo.html) | **Iteration source for the Compass panel's carousel** (built 2026-09-09, transplanted 2026-09-10). Change slides here, then re-transplant. See "The Compass demo carousel" below. |
@@ -759,6 +761,65 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 ## Current Portfolio State (September 2026)
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
+
+### Session of 2026-09-15: the Teaching page, built on branch `teaching-page` (NOT on main, NOT live)
+
+**Where it lives (Max's call, 2026-09-15): off the live site until he says it is final.** Branch
+`teaching-page`, checked out as a git worktree at
+`C:\Users\maxwe\OneDrive\Desktop\Claude\Apps and Tools\AI Tool Portfolio - teaching-page\`. **Build
+there, not in this folder.** The branch commit holds `teaching.html` plus the Teaching nav link (and
+the phone name hide) on `index.html`, `about.html` and `resume.html`. Main has none of it, so the live
+nav is unchanged. The branch is not pushed. Merging it into main is what puts Teaching on the live
+site: only on Max's word.
+
+Built from a two-round wireframe (`docs/wireframes/2026-09-15_teaching-page.html`, artifact
+https://claude.ai/artifact/Qjp5iLNzACk5AVs9sGmU7c) for the UW-Madison RISE-AI committee, and as the
+base for the final-round live class. Max's calls and the accuracy notes also sit in
+`career-search-academic-track.md` under Open Items.
+
+- **The page:** "Music and AI Integration". Hero, a 15-week map (weeks 1 and 2 are these topics; the
+  selected topic lights its later weeks, named from the AIM 101 curriculum draft), a sticky topic tab
+  bar, then one card per topic: heading, a 50-minute run-of-show bar, a carousel, three cards
+  (Objective, Try it, Check yourself) and a "Goes deeper in" line. Contact block and footer.
+- **Four topics, 54 slides:** How AI works (12), Tools and workflows (11), Building with AI (12), and
+  How the tools were built, with Composer Compass (9) and TeacherAID (10) as tool tabs.
+- **Same carousel system as `index.html`, copied** (one file per page): the `[data-demo-panel]`
+  initializer, pinned strip and title card, step chips, the next cue, pin popovers, the dock, and the
+  GA events (`tab_click`, `tool_click`, `slide_view`, `note_view`, `link_landing`). Slide content is
+  `t-` prefixed under `.teach-demo`. The GA tag is in the head.
+- **One deviation from the wireframe:** no separate practice rail. In Building with AI and both build
+  stories the strip entries are the practice names (Memory, Version control, Effort, Wireframe, Verify,
+  Evaluate, Guardrails), so the lit entry is the practice. Every practice lights at least once across
+  the two builds.
+- **Build-story copy is verbatim from the repos**, checked by a research agent against file and line,
+  with em dashes replaced by colons. Each slide's caption carries its source. Do not reintroduce:
+  "handwritten" or "paper" for TeacherAID (not in the repo); "76/76" (the log says "76 checks across 6
+  harnesses"); any claim that removing data fixed prescriptive suggestions (the v5.9 rewording did;
+  Training Session 86's count removal fixed counting). TeacherAID visuals use placeholder data and
+  "[the teacher]", never the name, employers, course codes, students or pay.
+- **Nav on all four pages** gained Teaching after CV. At 360px the row then overflowed on every page, so
+  the `mhperkins.dev` name hides below 640px (`hidden sm:inline`) and the links take `ml-auto`, on
+  index, about, resume and teaching.
+- **The 15-week map is 8 + 7 columns on desktop;** fifteen columns broke week names mid-word.
+- **Verified headless (Playwright, 1280, and 390 with touch): 69/69.** Every topic and tool shows; the
+  map lights the right weeks; every pin has a note; every slide is reachable by clicking only the next
+  cue, with no cue on the last slide; every desktop pin target opens its popover; no sideways scroll;
+  zero script errors; zero em dashes. **Nav 12/12** at 1280, 390 and 360 on all four pages (one line,
+  inside the screen). Screenshots checked by eye.
+- **Preview:** https://ai-portfolio-landing-page-qxbmfzoiu-mhperkins-projects.vercel.app/teaching.html
+  (Vercel login).
+
+**Open:**
+- **Next conversation:** open the worktree folder and keep building there. First Max's copy review of
+  all four topics, then the final-round presenter file. Merge `teaching-page` into main only when Max
+  says the page is final; that merge is what adds Teaching to the live nav.
+- **The preview above is a snapshot** deployed before the move. Deploy new previews from the worktree
+  (`vercel deploy`, never `--prod`; its `.vercel/` link was copied in, since that folder is gitignored).
+- The headless suites live in this session's scratchpad and are gone with it. Rebuild them from the
+  checks listed above if needed.
+- All copy is Claude's draft from the wireframe and the research; Max has not called it.
+- The final-round presenter file (half Tools and workflows, half How the tools were built, frame D of
+  the wireframe) is not built. Activity timers are static text.
 
 ### Session of 2026-09-15: career leads audit and priority list (pushed as `36eac79`, `57911c5`, `1e51836`, `73ba557`)
 
