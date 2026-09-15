@@ -210,6 +210,67 @@ wording.
 
 ---
 
+## WFAA, Engagement Program Coordinator: Draft v1
+
+Top priority, no deadline. Apply through iCIMS
+(careers-supportuw.icims.com/jobs/1631/engagement-program-coordinator/job). Written in the voice of
+Max's Savanna edit. Breadth is medium (founder in one clause). The hook is the UW-Madison B.A.
+
+> Dear WFAA Hiring Team,
+>
+> I grew up in the San Francisco Bay Area, but I spent most summers on my grandparents' farm in
+> Beloit, Wisconsin, and earned my B.A. in composition at UW-Madison. After nearly ten years in New
+> York, I am moving back to Madison, and I would love to help other alumni stay connected to the
+> university as your Engagement Program Coordinator.
+>
+> In 2023 I founded my own company, a platform for college musicians, and running every part of it
+> prepared me to take on a wide share of Sprout Society's operation quickly. As Community Manager of
+> this Brooklyn nonprofit, I am the first point of contact for our members, partners and donors. I
+> keep their records accurate in a CRM I built from scratch to replace paid software, including
+> around 3,000 donors to an organization that has raised over $1.5 million, and I send our emails
+> through Campaign Monitor. Building the CRM with AI tools meant mapping our whole engagement
+> workflow, step by step, before automating any of it.
+>
+> Most of my week is programs and events. I built and run our sign-up and onboarding process, plan
+> and host a monthly music and art showcase, and support the events members run in our space,
+> coordinating artists, partners and vendors for each one. That work grew us from one showcase a
+> month to 10 to 15 events, bringing in over 100 new people each month.
+>
+> I am comfortable moving several programs forward at once, glad to work evenings and weekends when
+> events call for it, and I have a valid driver's license.
+>
+> I would welcome the chance to talk about how I can support your engagement programs.
+>
+> Thank you for your time and consideration,
+> Maxwell Perkins
+> maxwellhperkins@gmail.com | 925-259-1748
+> ai-portfolio-landing-page.vercel.app
+
+### Posting requirement map
+
+| Posting asks for | Where the letter meets it |
+|---|---|
+| Bachelor's degree | P1 UW-Madison B.A. |
+| 1+ year coordinating complex programs, events or engagement initiatives | P3 |
+| Valid driver's license | P4 |
+| Program operations: plans, timelines, processes | P3 sign-up and onboarding; P4 several programs at once |
+| Events: onsite support, vendors, registration, logistics | P3 |
+| Constituent relations: point of contact, records, databases | P2 |
+| Communications and marketing support | P2 Campaign Monitor |
+| CRM and event registration platforms (preferred) | P2 CRM; P3 sign-up process |
+| Evenings and weekends (preferred) | P4 |
+| Hybrid, 2+ days in the Madison office | P1 moving back to Madison |
+
+**Not claimed:** Microsoft Office, project management software, volunteer coordination, budgeting.
+
+### Open calls for Max
+
+- "Help other alumni stay connected to the university" is the hook. Does it sound like you?
+- Vermont Valley is left out: nothing in this job is agricultural.
+- Same start-date question as River Alliance: when will you be in Madison?
+
+---
+
 ## Savanna Institute, Development & Communications Manager: Draft v1 (superseded)
 
 353 words including the signature, one page. Every required qualification is addressed; the map is under the letter.
