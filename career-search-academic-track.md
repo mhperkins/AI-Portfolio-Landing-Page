@@ -180,6 +180,14 @@ Technology; George Mason adjunct, Applied Composition and Music Technology.
 - [ ] **UMKC:** apply early (rolling review). Needs a letter that leads on concert composition,
       with The Composer Compass as the technology-integrated practice.
 - [ ] **UCSC Teaching Professor, Sound and Media Art:** review Oct 12.
+- [ ] **AI teaching page (sample class) for RISE-AI.** Planning started Sept 15, 2026. A page on the
+      AI portfolio site with concise slide decks by topic: AI history and how LLMs work, building
+      with AI (project scaffolding, memory, best practices, wireframing, pitfalls), AI tools and
+      workflows applied to a musician's life, and a worked case study. Audience is the search
+      committee, but the final round requires teaching the class live to current music students,
+      so every deck must also run as a real class session. Keep it consistent with the AIM 101
+      curriculum draft and the submitted teaching statement, and within the claims the Compass
+      training record supports (see the AI roles session in the portfolio `CLAUDE.md`).
 - [ ] Continue identifying other RISE-AI or similar interdisciplinary music-tech-and-AI faculty
       lines worth applying to under this same framing. Ongoing, not one-and-done.
 - [ ] Decide whether The Composer Compass needs a more formal writeup (a short paper-style summary)
