@@ -188,6 +188,13 @@ Technology; George Mason adjunct, Applied Composition and Music Technology.
       so every deck must also run as a real class session. Keep it consistent with the AIM 101
       curriculum draft and the submitted teaching statement, and within the claims the Compass
       training record supports (see the AI roles session in the portfolio `CLAUDE.md`).
+      **Settled Sept 15 (Max):** 50-minute classes; its own page (`teaching.html`) in the top nav
+      like the CV; the four classes are the opening unit of a full 15-week course; the final-round
+      class is half Class 2 (tools and workflows) and half Class 4 (Compass case study).
+      **Wireframe:** `docs/wireframes/2026-09-15_teaching-page.html` (artifact
+      https://claude.ai/artifact/Qjp5iLNzACk5AVs9sGmU7c). Ten numbered calls await Max,
+      including the course title (drop "Vibe Coding"?) and rewriting weeks 1 and 2 of the
+      curriculum draft to hold the four classes. No site code until those calls land.
 - [ ] Continue identifying other RISE-AI or similar interdisciplinary music-tech-and-AI faculty
       lines worth applying to under this same framing. Ongoing, not one-and-done.
 - [ ] Decide whether The Composer Compass needs a more formal writeup (a short paper-style summary)
