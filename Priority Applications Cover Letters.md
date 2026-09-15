@@ -214,30 +214,45 @@ wording.
 
 ---
 
-## WFAA, Engagement Program Coordinator: Draft v2 (current)
+## WFAA, Engagement Program Coordinator: Draft v3.1 (current)
 
 Top priority, no deadline. Apply through iCIMS
 (careers-supportuw.icims.com/jobs/1631/engagement-program-coordinator/job). **Max's call: a
-different letter from the other two, built on his UW story.** The first two paragraphs are UW and
-Madison; Sprout Society is the supporting proof. v1 (template fit, UW B.A. as a one-line hook) is
-replaced.
+different letter from the other two, built on his UW story.** v3 is Max's own edit of v2 (Sept 15):
+UW School of Music, the 2014 Big Ten rugby title, "the most unique capital in the country", "it feels
+like I never left", a workflows sentence in place of the AI and Campaign Monitor lines, and a
+"Developer Portfolio" link.
+
+**Claude's fix pass (v3.1):** "a dream I had" to "a dream I'd had"; "Big 10" to "Big Ten"; the
+commas around "I tell people" removed; "After nearly 10 years in New York and returning to Madison"
+rebuilt as "Coming back to Madison after nearly 10 years in New York"; "these protocols have shaped
+my business operations and project management to be more efficient and effective" (no antecedent for
+"protocols") rebuilt as "that has made my business operations and project management more efficient
+and effective"; **the valid driver's license restored, because it is a required qualification**; the
+link label "Developer Portfolio" to "Portfolio", so a coordinator letter does not point at a developer
+career.
 
 > Dear WFAA Hiring Team,
 >
 > I grew up in California, but I spent my summers in Wisconsin with family, between my grandparents'
-> farm in Beloit and evenings on the Memorial Union Terrace. My dad is a UW-Madison alum, along with
-> dozens of others in my family, so I was a Badgers fan long before I was a student.
+> farm in Beloit and evenings at the Terrace. My dad is a UW-Madison alum, along with dozens of others
+> in my family, so I was a Badgers fan long before I was a student.
 >
-> When I became one, I studied composition, played rugby, and played shows at the Union and around
-> Madison. I have been an advocate for UW and Madison my whole life, and after nearly ten years in New
-> York, I am moving back. As your Engagement Program Coordinator, I would love to help other alumni
-> feel as connected to UW as my family always has.
+> After accepting my admission to UW's School of Music, I was so excited to be living a dream I'd had
+> since I was a little kid. I took advantage of everything Madison had to offer. In addition to being
+> a music student, I became a 2014 Big Ten champion on UW's rugby team. I played shows at the Union and
+> around Madison. I experienced and cherished what I tell people is the most unique capital in the
+> country, one that just so happens to have the greatest campus a student could ask for.
 >
-> Founding my own company in 2023 taught me to run every part of an operation at once, and it
-> prepared me for my current role as Community Manager of Sprout Society, a Brooklyn nonprofit. I am
-> the first point of contact for our members, partners and donors, and I keep the records for around
-> 3,000 donors accurate in a CRM I built from scratch, sending our emails through Campaign Monitor.
-> Building it with AI tools meant mapping our whole engagement workflow before automating any of it.
+> Coming back to Madison after nearly 10 years in New York, I am struck by how it feels like I never
+> left. As your Engagement Program Coordinator, I would love to help other alumni feel as connected to
+> UW as my family always has.
+>
+> I've learned to build workflows from the ground up, and that has made my business operations and
+> project management more efficient and effective. Founding my own company in 2023 taught me to run
+> every part of an operation, and it prepared me for my current role. As Community Manager of Sprout
+> Society, a Brooklyn nonprofit, I am the first point of contact for our members, partners and donors,
+> and I keep the records for around 3,000 donors accurate in a CRM I built from scratch.
 >
 > I also built our sign-up and onboarding process, host a monthly music and art showcase, and support
 > the events members run in our space, coordinating artists, partners and vendors for each one. That
@@ -250,36 +265,32 @@ replaced.
 > Thank you for your time and consideration,
 > Maxwell Perkins
 > maxwellhperkins@gmail.com | 925-259-1748
-> ai-portfolio-landing-page.vercel.app
+> Portfolio (linked to ai-portfolio-landing-page.vercel.app)
 
 ### Posting requirement map
 
 | Posting asks for | Where the letter meets it |
 |---|---|
-| Bachelor's degree | P2 studied composition at UW (the resume carries the B.A.) |
-| 1+ year coordinating complex programs, events or engagement initiatives | P4 |
-| Valid driver's license | P5 |
-| Program operations: plans, timelines, processes | P4 sign-up and onboarding |
-| Events: onsite support, vendors, registration, logistics | P4 |
-| Constituent relations: point of contact, records, databases | P3 |
-| Communications and marketing support | P3 Campaign Monitor |
-| CRM and event registration platforms (preferred) | P3 CRM; P4 sign-up process |
-| Evenings and weekends (preferred) | P5 |
-| Hybrid, 2+ days in the Madison office | P2 moving back |
-| Constituent experience (the role's purpose) | P1 and P2: a lifelong UW constituent from an alumni family |
+| Bachelor's degree | P2 UW School of Music (the resume carries the B.A.) |
+| 1+ year coordinating complex programs, events or engagement initiatives | P5 |
+| Valid driver's license | P6 |
+| Program operations: plans, timelines, processes | P4 workflows; P5 sign-up and onboarding |
+| Events: onsite support, vendors, registration, logistics | P5 |
+| Constituent relations: point of contact, records, databases | P4 |
+| CRM and event registration platforms (preferred) | P4 CRM; P5 sign-up process |
+| Evenings and weekends (preferred) | P6 |
+| Hybrid, 2+ days in the Madison office | P3 coming back to Madison |
+| Constituent experience (the role's purpose) | P1 to P3: a lifelong UW constituent from an alumni family |
 
 **Not claimed:** Microsoft Office, project management software, volunteer coordination, budgeting.
+Campaign Monitor and the AI line came out in Max's edit.
 
 ### Open calls for Max
 
-- "So I was a Badgers fan long before I was a student" joins the Terrace, your family and Badger
-  sports into one line. Check it sounds like you.
-- "Memorial Union Terrace" names the Terrace you meant; "the Union" covers wherever you played shows
-  (Memorial Union or Union South).
-- Rugby: the letter says "played rugby" with no team name. If it was the club team, that reads right.
-- Optional sign-off: "On, Wisconsin," above "Thank you for your time and consideration." Warm for
-  this reader; your call.
-- Same start-date question as River Alliance: when will you be in Madison?
+- "It feels like I never left" reads as if you are already back in Madison. Are you? If so, the River
+  Alliance letter's "I am moving back" and the resume header ("relocating to Madison") both change.
+- "Most unique" is his phrase; some readers flag "unique" as not taking "most". Kept as his voice.
+- Optional sign-off: "On, Wisconsin," above "Thank you for your time and consideration."
 
 ### Claims, with their source
 
@@ -289,6 +300,7 @@ replaced.
 | Beloit farm summers | Max, Sept 15 |
 | Dad and dozens of family members are UW alumni; love of Badger sports | Max, Sept 15 |
 | Music major; shows at the Union and around Madison; rugby at UW | Max, Sept 15; B.A. in `Community Engagement Resume.md` |
+| 2014 Big Ten champion on UW's rugby team | Max, Sept 15; Madison United Rugby: the Badgers won the Big 10 15s tournament in 2014 |
 | Lifelong advocate for UW and Madison | Max, Sept 15 |
 | Nearly ten years in New York | WCO letter v3 |
 | Founded company 2023 | `Academic CV - UW Madison.md` |
