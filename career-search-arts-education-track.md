@@ -41,6 +41,23 @@ Associate, $19-20/hr, 30 hrs/week, reports to a manager.
      win on scope: CRM ownership, grants, donor communication, newsletters. This is a development
      and comms role, so it takes the ops track's framing, not the arts-education resume as is.
      Materials not started.
+3. **River Alliance of Wisconsin and Midwest Environmental Advocates, Development and
+   Administrative Assistant.** Third priority.
+   - Part-time, hourly, 20 to 24 hr/wk combined (about 10 hours for each org). $20/hr, at the pay
+     floor. Madison, mainly in-office; some remote possible within commuting distance. Posted
+     Sept 11, 2026. **Priority deadline Sept 27, 2026**, then open until filled. Start Oct 19.
+     Verified live Sept 15.
+   - Posting: [River Alliance job description PDF](https://wisconsinrivers.org/wp-content/uploads/2026/09/Development-and-Administrative-Assistant-combined-1.docx.pdf)
+     (River Alliance's jobs page shows it open; "No calls, please") and
+     [AFP Greater Madison](https://www.afpmadison.org/job-postings/development-and-administrative-assistant-midwest-environmental-advocates-and-river).
+     Apply by email to jobs@wisconsinrivers.org, subject "Development and Administrative Assistant
+     Search", with resume and cover letter.
+   - Duties: enter donations and contacts in EveryAction and Neon CRM, donor letters and mailing
+     lists (Word mail merge), event logistics, admin support.
+   - Required: donor management and nonprofit admin experience, data accuracy, event and project
+     management, commitment to water conservation and environmental protection.
+   - Fit: CRM records, donor communication and events map straight from Sprout. Low altitude,
+     so the arts-education track's altitude rules apply. Materials not started.
 
 ## Current State (as of September 10, 2026)
 

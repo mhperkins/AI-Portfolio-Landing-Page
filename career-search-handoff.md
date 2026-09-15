@@ -5,7 +5,9 @@
 
 - **Top priorities across all tracks:** 1. WFAA Engagement Program Coordinator (Madison, full-time,
   hybrid). 2. Savanna Institute Development & Communications Manager (remote, $62k to $68k,
-  deadline Oct 4). Details and links sit in the Priority List at the top of
+  deadline Oct 4). 3. River Alliance of Wisconsin and Midwest Environmental Advocates Development
+  and Administrative Assistant (Madison, PT, $20/hr, priority deadline Sept 27). Details and links
+  sit in the Priority List at the top of
   `career-search-arts-education-track.md`.
 - Every lead in the three track docs was re-verified live on Sept 15; closed and dead postings were
   removed, and each track doc now lists verified job boards.
