@@ -39,10 +39,11 @@ coordination, budgets, Bloomerang, EveryAction, Neon.
   Barb and Dave Perkins, founded Vermont Valley Community Farm in Blue Mounds in 1994. Press calls
   them Wisconsin CSA and organic pioneers (Edible Madison: "A Birthplace of CSA"). Neither they nor
   the farm appear on Savanna's website (advisors, site search, checked Sept 15).
-- **Donors.** Sprout Society has raised over $1.5 million. Max first said about 100 regular donors
-  and 1,000+ campaign donors; his own edit of the Savanna letter says around 3,000 donors (confirm the
-  total). He manages them in a CRM he built from scratch to replace paid software, and drafts and
-  tracks donor communications there alongside Campaign Monitor. Sprout raised the money; the letter
+- **Donors.** Sprout Society has raised over $1.5 million. Around 3,000 all-time donors (confirmed by
+  Max). His earlier figures, not used in the letters: about 100 regular donors, 1,000+ across
+  fundraising campaigns. He manages them in
+  a CRM he built from scratch to replace paid software, drafts and tracks donor communications there,
+  and sends the emails through Campaign Monitor (confirmed). Sprout raised the money; the letter
   never says Max raised it.
 - **Grandparents' farm is in Beloit, Wisconsin** (Max's edit).
 - **Entrepreneur framing (Max's call).** Play up Music Major Records and the breadth of the
@@ -87,6 +88,82 @@ Five paragraphs. Bracketed slots change per job; the rest holds.
 
 ---
 
+## River Alliance of Wisconsin and MEA, Development and Administrative Assistant: Draft v1
+
+Due first: priority deadline Sept 27. Email to jobs@wisconsinrivers.org, subject "Development and
+Administrative Assistant Search", resume and cover letter attached. Written in the voice of Max's
+Savanna edit. Breadth is light (no founder line). The AI mention sits next to the water concern, not
+in the lead.
+
+> Dear River Alliance and MEA Hiring Team,
+>
+> I grew up in the San Francisco Bay Area, where droughts and wildfires have become an increasing
+> problem, and I have experienced them firsthand. I also spent most summers on my grandparents' farm
+> in Beloit, Wisconsin, and earned my B.A. at UW-Madison. Now I am moving back to Madison, and I would
+> love to support River Alliance of Wisconsin and Midwest Environmental Advocates as your Development
+> and Administrative Assistant.
+>
+> As Community Manager at Sprout Society, a Brooklyn nonprofit with a team of three, I keep the records
+> for around 3,000 donors accurate and current in a CRM I built from scratch to replace paid software.
+> Sprout Society has raised over $1.5 million, and I draft and track every donor communication in that
+> CRM and send our emails through Campaign Monitor. EveryAction and Neon would be new to me, but
+> keeping donor data clean would not.
+>
+> Building that CRM with AI tools meant mapping our whole donor workflow, step by step, before
+> automating any of it. Because I use AI in my daily work, I have become increasingly concerned about
+> its effect on our water supply. Seeing MEA and River Alliance lead that conversation on data centers
+> here in Wisconsin is a big part of why this role stands out to me.
+>
+> I also plan and host a monthly music and art showcase and support the 10 to 15 events members run in
+> our space, coordinating artists, partners and vendors for each one. Behind the scenes, I manage our
+> founder's calendar and inbox and keep our network of members and partners connected, which is the
+> same work as keeping your network of former staff, fellows and interns engaged.
+>
+> I am glad to work in the office in Madison, and I would welcome the chance to talk about how I can
+> support both of your teams.
+>
+> Thank you for your time and consideration,
+> Maxwell Perkins
+> maxwellhperkins@gmail.com | 925-259-1748
+
+### Posting requirement map
+
+| Posting asks for | Where the letter meets it |
+|---|---|
+| Donor management and nonprofit administration experience | P2 donor records and communications; P4 calendar, inbox, network |
+| Detail-oriented, disciplined, committed to data accuracy | P2 "accurate and current", "keeping donor data clean" |
+| History of event and project management | P4 |
+| Commitment to water conservation and environmental protection | P1 droughts and wildfires; P3 AI and water, data center work |
+| In-office presence in Madison | P1 moving back; P5 |
+
+**Not claimed:** Word mail merge, bank deposits, EveryAction, Neon.
+
+### Open calls for Max
+
+- **Start date.** The job starts Oct 19 and needs a commutable distance from Madison. When will you be
+  in Madison? If it is after Oct 19, the letter should say when.
+- **Data center line.** It names their real work (MEA's July 2026 lawsuit and data center transparency
+  campaign; River Alliance's Feb 2026 testimony for a pause on new construction). Keep it, or keep the
+  concern and drop the specifics?
+- **Portfolio link.** Left off for now: the site's hero reads "AI Developer". Add it if you want it.
+- **Vermont Valley.** Left out to keep this letter short. River Alliance has an agriculture policy
+  program, so it could go back into P1.
+
+### Claims, with their source
+
+| Claim | Source |
+|---|---|
+| Bay Area droughts and wildfires, firsthand; AI daily and concerned about water | Max, Sept 15 |
+| Beloit farm summers | Max, Sept 15 |
+| B.A. UW-Madison; moving back to Madison | `Community Engagement Resume.md`; WCO letter |
+| 3,000 donors, $1.5M, Campaign Monitor, CRM built to replace paid software | Max, Sept 15 |
+| Founder's calendar and inbox | `Operations Resume.md`; `career-search-ops-track.md` |
+| Showcase; 10 to 15 member events | `Community Engagement Resume.md` |
+| MEA data center lawsuit and transparency campaign | midwestadvocates.org; Daily Cardinal, July 2026 |
+| River Alliance data center testimony | wisconsinrivers.org/data-center-bills |
+
+---
+
 ## Savanna Institute, Development & Communications Manager: Draft v2.1 (current)
 
 Max's own edit (v2, Sept 15) with a light fix pass by Claude. Fixes: the role is named again at the
@@ -114,7 +191,7 @@ wording.
 >
 > Donor data is one of my core responsibilities. Sprout Society has raised over $1.5 million, and I
 > manage the records for around 3,000 donors in a CRM I built from scratch to replace paid software.
-> I draft and track every donor communication there, alongside Campaign Monitor, so each donor's
+> I draft and track every donor communication there and send our emails through Campaign Monitor, so each donor's
 > history, touchpoints and next steps live in one place. Building it with AI tools meant mapping our
 > whole donor and outreach workflow, step by step, before automating any of it. Bloomerang would be a
 > new screen for me, not a new way of thinking.
