@@ -50,6 +50,16 @@ coordination, budgets, Bloomerang, EveryAction, Neon.
   Context for the RA and MEA letter: MEA sued in July 2026 (for the Sierra Club) over the DNR skipping
   a full environmental review of the Port Washington AI data center; River Alliance testified in
   February 2026 for a pause on new data center construction over water use.
+- **Why water (Max, for RA and MEA).** He comes from a place where droughts and wildfires have become
+  an increasing problem and has experienced them firsthand. He uses AI in his daily workflows and has
+  become increasingly concerned about its effect on the water supply, a conversation he hopes to be
+  part of. This answers the data center tension directly: he uses the tools and shares their concern.
+  Keep it at support altitude (glad to support the organizations leading it), not policy expertise.
+- **"CSA pioneers" stays** (Max's call).
+- **Portfolio link goes in the signature** (Max's call) for Savanna and WFAA. For RA and MEA, note the
+  site's hero reads "AI Developer", a louder signal than the letter's one AI line; Max to decide.
+- **Max is editing the Savanna letter himself** and will share his version. Fit RA and WFAA to his
+  voice after that.
 - **Salutation.** Savanna's staff page lists no Senior Director of Advancement (only a Director and
   Assistant Director of Development), so the letter addresses the Advancement Team.
 
@@ -67,7 +77,7 @@ Five paragraphs. Bracketed slots change per job; the rest holds.
 
 | Slot | Savanna | WFAA | RA + MEA |
 |---|---|---|---|
-| Hook | Farm summers; Vermont Valley; trees on Midwest farms | UW-Madison B.A.; moving back to Madison; Wisconsin summers | Farm summers; Wisconsin water. **Needs one true sentence from Max on why water** |
+| Hook | Farm summers; Vermont Valley; trees on Midwest farms | UW-Madison B.A.; moving back to Madison; Wisconsin summers | Bay Area droughts and wildfires, firsthand; uses AI daily and is concerned about its water use; farm summers |
 | Breadth | Full: founder, then dev, comms and ops | Medium: founder in one clause, then programs and events | Light: no founder line, or a half clause |
 | Core proof | Donors, $1.5M, donor comms | Constituents and members; sign-up and onboarding | Donor records and data accuracy |
 | Fit | Projects, vendors, Google Workspace, independent work, travel | Events, registration, vendors, evenings and weekends, driver's license | Events with partners, mailings, in office in Madison, Oct 19 start |
@@ -109,6 +119,7 @@ Five paragraphs. Bracketed slots change per job; the rest holds.
 > Thank you for your time and consideration,
 > Maxwell Perkins
 > maxwellhperkins@gmail.com | 925-259-1748
+> ai-portfolio-landing-page.vercel.app
 
 ### Required qualification map
 
@@ -126,9 +137,6 @@ Five paragraphs. Bracketed slots change per job; the rest holds.
 ### Open calls for Max
 
 - "Doing chores and looking forward to it all year" joins your two sentences. Check it sounds like you.
-- "Among Wisconsin's CSA pioneers" is the press's framing. Keep, or say it more plainly?
-- Portfolio link: the arts-education resume omitted it as AI-forward. With AI now in the letter, it
-  shows the CRM Savanna would care about. Add it to the signature?
 - Which resume goes with it: the Community Engagement resume leads with teaching, which Savanna does
   not need. A development-first reorder is the next build.
 
