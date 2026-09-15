@@ -909,18 +909,22 @@ main script:
 - `about.html` and `resume.html` send page views only. GA's enhanced measurement already covers the
   CV DOCX download and the GitHub and LinkedIn links.
 
-**Open:**
-- **Max has not seen data arrive yet.** After the tag went live, his Realtime view showed 0 users,
-  while a headless visit to the live site sent a page view that Google accepted (204 on
-  `g/collect` for `G-ENBE32TRFZ`), so the site side works. Likely causes, not yet confirmed: the GA
-  property he was viewing is not the one that owns `G-ENBE32TRFZ` (check Admin → Data streams), or
-  a blocker in his browser.
-- **Custom dimensions are not registered.** Max still needs to add `carousel`, `slide_title`,
-  `slide_number`, `note_number`, `note_text`, `tab_name` and `tool_name` as event-scoped custom
-  dimensions. Data from before that shows event counts without those details.
+**Resolved later on 2026-09-14 (from a Composer Hub session, through the GA Admin API):**
+- **Why Max saw no data.** The property that owns `G-ENBE32TRFZ` is named **"Brooklyn, NY - Research"**
+  (`properties/297328055`), under the GA account "Asauciation". Nothing in its name says portfolio,
+  so Max was likely viewing a different property. Pick that one in the GA web UI.
+- **Custom dimensions registered** by script, all event-scoped: Tab name (`tab_name`), Tool name
+  (`tool_name`), Carousel (`carousel`), Slide number (`slide_number`), Slide title (`slide_title`),
+  Note number (`note_number`), Note text (`note_text`) and Link hash (`link_hash`). Three
+  composer-site dimensions (`click_label`, `click_context`, `click_target`) Max had registered here
+  by mistake were archived, which is GA's only form of removal. GA does not backfill: the details
+  appear only for events after registration, 24 to 48 hours later.
+- **Claude can read this property directly.** A read-only user-scope MCP server, `ga-ai-portfolio`
+  (Google's `analytics-mcp`), runs reports and realtime queries on it. Setup, credentials and
+  re-auth steps are in the Composer Hub project memory `google-analytics-mcp-servers.md`.
 
-**Next:** Max confirms events in Realtime, registers the custom dimensions, then the open copy items
-in the 2026-09-13 session below.
+**Next:** once data arrives (after Sep 15 to 16), break `tab_click`, `tool_click`, `slide_view` and
+`note_view` down by their dimensions; then the open copy items in the 2026-09-13 session below.
 
 ### Session of 2026-09-13, last: suite banners removed, tiles under the carousels (pushed)
 
