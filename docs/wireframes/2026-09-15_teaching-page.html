@@ -52,6 +52,7 @@
   body { background: var(--ground); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.5; }
   .wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 44px 96px; }
   button { font: inherit; color: inherit; }
+  code { font-family: var(--mono); font-size: .88em; }
   :focus-visible { outline: 2px solid var(--mark); outline-offset: 2px; }
 
   .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); margin: 0; }
@@ -72,7 +73,6 @@
   .meta { font-family: var(--mono); font-size: 12px; color: var(--ink-3); }
   .canvas { background: var(--paper); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
 
-  /* wireframe pieces */
   .label { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); display: flex; align-items: center; gap: 8px; margin: 0 0 8px; }
   .wf-nav { display: flex; justify-content: space-between; align-items: center; gap: 12px 20px; flex-wrap: wrap; padding: 14px 20px; border-bottom: 1px solid var(--line); }
   .logo-box { width: 150px; height: 16px; background: var(--box-2); }
@@ -81,11 +81,9 @@
   .wf-sec { padding: 22px 20px; border-bottom: 1px solid var(--line); }
   .wf-sec:last-child { border-bottom: 0; }
 
-  .hdr { display: flex; justify-content: space-between; gap: 16px 24px; flex-wrap: wrap; align-items: flex-end; }
-  .page-title { font-family: var(--display); font-weight: 700; font-size: clamp(1.7rem, 3.6vw, 2.5rem); line-height: 1.05; margin: 0 0 12px; text-wrap: balance; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .page-title { font-family: var(--display); font-weight: 700; font-size: clamp(1.8rem, 3.8vw, 2.7rem); line-height: 1.05; margin: 0 0 12px; text-wrap: balance; }
   .facts { display: flex; flex-wrap: wrap; gap: 6px; }
   .fact { font-family: var(--mono); font-size: 12px; padding: 3px 8px; border: 1px solid var(--line); color: var(--ink-2); border-radius: 3px; }
-  .btn-box { font-family: var(--mono); font-size: 13px; padding: 8px 14px; border: 1px solid var(--ink-3); border-radius: 3px; display: inline-flex; gap: 10px; align-items: center; white-space: nowrap; }
 
   .map { display: grid; grid-template-columns: repeat(15, minmax(0, 1fr)); gap: 4px; }
   .wk { border: 1px solid var(--line); background: var(--paper); padding: 6px 6px 8px; display: flex; flex-direction: column; gap: 4px; font-size: 11.5px; line-height: 1.25; color: var(--ink-2); hyphens: auto; }
@@ -102,8 +100,11 @@
   .tabs { display: flex; gap: 6px; overflow-x: auto; border-bottom: 1px solid var(--line); margin-top: 6px; }
   .tab { font: 500 13px var(--mono); padding: 10px 14px; border: 1px solid var(--line); border-bottom: 0; background: var(--box); color: var(--ink-2); white-space: nowrap; cursor: pointer; border-radius: 3px 3px 0 0; }
   .tab[aria-selected="true"] { background: var(--paper); color: var(--ink); box-shadow: inset 0 2px 0 var(--ink); }
+  .subtabs { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 16px; }
+  .subtab { font: 500 13px var(--mono); padding: 7px 12px; border: 1px solid var(--line); background: var(--paper); color: var(--ink-2); border-radius: 99px; cursor: pointer; }
+  .subtab[aria-selected="true"] { border-color: var(--ink); color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
 
-  .class-title { font-family: var(--display); font-weight: 700; font-size: clamp(1.45rem, 3vw, 2.1rem); line-height: 1.1; margin: 0 0 16px; text-wrap: balance; }
+  .topic-title { font-family: var(--display); font-weight: 700; font-size: clamp(1.45rem, 3vw, 2.1rem); line-height: 1.1; margin: 0 0 16px; text-wrap: balance; }
   .run { display: flex; gap: 3px; }
   .seg { flex-basis: 0; min-width: 0; padding: 6px 8px; background: var(--box); border: 1px solid var(--line); display: flex; flex-direction: column; }
   .seg .n { font: 500 13px var(--mono); font-variant-numeric: tabular-nums; }
@@ -119,15 +120,22 @@
   .chip[aria-current="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
   .strip-hint { font-family: var(--mono); font-size: 12px; color: var(--ink-3); margin-left: 10px; white-space: nowrap; }
 
-  .stage { border: 1px solid var(--ink-3); background: var(--paper); margin-top: 8px; padding: clamp(16px, 3vw, 34px); display: grid; grid-template-rows: auto auto 1fr; gap: 14px; aspect-ratio: 16 / 9; max-width: 100%; }
+  .rail { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; margin-top: 10px; }
+  .rail-label { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin-right: 6px; }
+  .prac { font: 12px var(--mono); padding: 3px 9px; border: 1px solid var(--line); border-radius: 99px; color: var(--ink-3); white-space: nowrap; }
+  .prac.on { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+
+  .stage { border: 1px solid var(--ink-3); background: var(--paper); margin-top: 8px; padding: clamp(16px, 3vw, 34px); display: grid; grid-template-rows: auto auto 1fr auto; gap: 14px; aspect-ratio: 16 / 9; max-width: 100%; }
   .stage-top { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; font-family: var(--mono); font-size: 12px; color: var(--ink-3); }
   .pill { border: 1px solid var(--line); border-radius: 99px; padding: 1px 9px; }
-  .stage-title { font-family: var(--display); font-weight: 700; font-size: clamp(1.4rem, 3.2vw, 2.5rem); line-height: 1.05; margin: 0; text-wrap: balance; max-width: 26ch; }
+  .stage-title { font-family: var(--display); font-weight: 700; font-size: clamp(1.4rem, 3.2vw, 2.5rem); line-height: 1.05; margin: 0; text-wrap: balance; max-width: 28ch; }
   .stage-body { display: grid; grid-template-columns: 1fr 1.1fr; gap: 24px; min-height: 0; }
   .lines { display: flex; flex-direction: column; gap: 14px; padding-top: 6px; }
   .ln { height: 12px; background: var(--box-2); border-radius: 2px; }
   .vis { position: relative; border: 1px solid var(--line); background: var(--box); display: grid; place-items: center; padding: 18px; text-align: center; font-family: var(--mono); font-size: 12.5px; color: var(--ink-2); min-height: 120px; }
   .pin { position: absolute; top: -9px; left: -9px; width: 20px; height: 20px; border-radius: 50%; background: var(--ink); color: var(--paper); font: 500 11px/20px var(--mono); text-align: center; }
+  .ev { font-family: var(--mono); font-size: 11.5px; color: var(--ink-3); margin: 0; }
+  .ev:empty { display: none; }
   @media (max-width: 760px) {
     .stage { aspect-ratio: auto; }
     .stage-body { grid-template-columns: 1fr; }
@@ -140,15 +148,17 @@
 
   .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 20px; }
   .card { border: 1px solid var(--line); padding: 14px 16px; background: var(--paper); }
-  .card h4 { font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 6px; }
+  .card h4 { font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 6px; display: flex; gap: 8px; align-items: center; }
   .card p { margin: 0; font-size: 14.5px; }
   @media (max-width: 760px) { .cards { grid-template-columns: 1fr; } }
   .deeper-line { margin-top: 14px; font-size: 14px; color: var(--ink-2); }
   .deeper-line b { font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--ink); }
+  .privacy { margin-top: 12px; padding: 10px 12px; border-left: 3px solid var(--mark); background: var(--mark-soft); font-size: 14px; display: flex; gap: 10px; align-items: flex-start; }
+  .privacy[hidden] { display: none !important; }
 
   .contact-box { height: 56px; background: var(--box); border: 1px solid var(--line); display: grid; place-items: center; font-family: var(--mono); font-size: 12px; color: var(--ink-3); }
 
-  /* phone frame */
+  /* phone */
   .split { display: grid; grid-template-columns: 390px minmax(0, 1fr); gap: 32px; align-items: start; }
   @media (max-width: 860px) { .split { grid-template-columns: 1fr; } }
   .phone { width: 390px; max-width: 100%; border: 1px solid var(--ink-3); border-radius: 18px; background: var(--paper); overflow: hidden; }
@@ -157,6 +167,7 @@
   .phone .map { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 3px; }
   .phone .wk { min-height: 34px; padding: 4px; }
   .phone .tabs .tab { padding: 8px 10px; font-size: 12px; }
+  .phone .rail { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; }
   .phone .stage { aspect-ratio: auto; padding: 14px; }
   .phone .stage-body { grid-template-columns: 1fr; }
   .phone .stage-title { font-size: 1.4rem; }
@@ -168,31 +179,46 @@
   .note p { margin: 0; }
   .note strong { display: block; }
 
-  /* slide templates */
+  /* templates */
   .tmpl-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; padding: 20px; }
   .tmpl-grid > .wide { grid-column: 1 / -1; }
   @media (max-width: 860px) { .tmpl-grid { grid-template-columns: 1fr; } }
   .tmpl .stage { margin-top: 0; }
-  .tmpl-small .stage { aspect-ratio: auto; min-height: 300px; grid-template-rows: auto auto auto; }
+  .tmpl-small .stage { aspect-ratio: auto; min-height: 320px; grid-template-rows: auto auto 1fr auto; }
   .bullets { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 10px; font-size: clamp(14px, 1.6vw, 18px); }
   .steps { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 8px; }
   .steps span { font-family: var(--mono); font-size: 12px; color: var(--ink-3); margin-left: 6px; font-variant-numeric: tabular-nums; }
   .timer { font: 500 clamp(2rem, 5vw, 3.2rem)/1 var(--mono); font-variant-numeric: tabular-nums; }
   .act-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; flex-wrap: wrap; }
-  .cut { text-decoration: line-through; text-decoration-color: var(--mark); text-decoration-thickness: 2px; color: var(--ink-3); }
-  .rule { margin: 0; padding: 10px 12px; border-left: 3px solid var(--mark); background: var(--mark-soft); font-size: 14px; display: flex; gap: 10px; align-items: flex-start; }
   .tmpl-cap { font-family: var(--mono); font-size: 12px; color: var(--ink-3); margin: 8px 0 0; }
+
+  .ba { display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: stretch; }
+  .ba > div { border: 1px solid var(--line); background: var(--box); padding: 12px; font-family: var(--mono); font-size: 12.5px; color: var(--ink-2); }
+  .ba b { display: block; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); font-weight: 500; margin-bottom: 6px; }
+  .ba .arrow { border: 0; background: none; display: grid; place-items: center; padding: 0; font-size: 18px; color: var(--ink-3); }
+  @media (max-width: 520px) { .ba { grid-template-columns: 1fr; } .ba .arrow { transform: rotate(90deg); } }
+
+  .vtl { display: grid; grid-template-columns: repeat(16, minmax(0, 1fr)); gap: 3px; align-items: end; margin-top: 6px; }
+  .vtl .v { display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 0; }
+  .vtl .bar { width: 100%; height: 34px; background: var(--box-2); border-radius: 2px; }
+  .vtl .v.flag .bar { background: var(--ink); height: 58px; }
+  .vtl .v span { font: 10.5px var(--mono); color: var(--ink-3); writing-mode: vertical-rl; transform: rotate(180deg); font-variant-numeric: tabular-nums; }
+  .flags { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+  .flags div { border-top: 2px solid var(--ink); padding-top: 6px; font-size: 13.5px; }
+  .flags b { font-family: var(--mono); font-size: 12px; font-weight: 500; display: block; }
+  @media (max-width: 520px) { .flags { grid-template-columns: 1fr; } }
 
   /* final round */
   .demo-bar { display: flex; gap: 3px; }
   .demo-bar .seg { padding: 10px 8px; }
   .demo-bar .c4 { background: var(--box-2); }
+  .demo-bar .act.c4 { background: repeating-linear-gradient(135deg, var(--box-2) 0 5px, var(--paper) 5px 10px); }
   .table-wrap { overflow-x: auto; margin-top: 16px; }
-  table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 14px; }
+  table { border-collapse: collapse; width: 100%; min-width: 600px; font-size: 14px; }
   th, td { text-align: left; padding: 9px 12px 9px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
   th { font: 500 11px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
   td.time { font-family: var(--mono); font-size: 13px; white-space: nowrap; font-variant-numeric: tabular-nums; }
-  td.from { font-family: var(--mono); font-size: 12px; color: var(--ink-2); white-space: nowrap; }
+  td.from { font-family: var(--mono); font-size: 12px; color: var(--ink-2); }
   @media (max-width: 640px) { .demo-bar { flex-direction: column; } .demo-bar .seg { flex-direction: row; justify-content: space-between; flex-basis: auto !important; } }
 
   /* calls */
@@ -207,52 +233,53 @@
 
 <div class="wrap">
   <header>
-    <p class="eyebrow">Wireframe · AI Tool Portfolio · 2026-09-15</p>
+    <p class="eyebrow">Wireframe · AI Tool Portfolio · 2026-09-15 · round 2</p>
     <h1>Teaching page</h1>
-    <p class="lede">A new page in the top nav presenting four sample classes as the opening unit of AIM 101. The search committee reads it; the final-round class is taught from the same slides. Grey boxes only: this settles structure, not styling.</p>
+    <p class="lede">Four topics that open a 15-week course in Music and AI Integration. The search committee reads the page; the final-round session is taught from the same slides. Grey boxes only: this settles structure, not styling.</p>
     <dl class="settled">
-      <div><dt>Where</dt><dd>Its own page, <code>teaching.html</code>, in the top nav beside CV</dd></div>
-      <div><dt>Class length</dt><dd>50 minutes</dd></div>
-      <div><dt>Scope</dt><dd>Four classes opening a 15-week course</dd></div>
-      <div><dt>Final-round class</dt><dd>Half of Class 2, half of Class 4</dd></div>
+      <div><dt>Name</dt><dd>Music and AI Integration</dd></div>
+      <div><dt>Where</dt><dd><code>teaching.html</code>, nav: Portfolio · About · CV · Teaching · Contact</dd></div>
+      <div><dt>Shape</dt><dd>Four topics, the core ideas taught plainly. Not class syllabi.</dd></div>
+      <div><dt>Slides</dt><dd>Lean and visual. No hard limit; trim later.</dd></div>
+      <div><dt>Carousels reused</dt><dd>Composer Compass and TeacherAID only, as build stories</dd></div>
+      <div><dt>Final-round session</dt><dd>Half Tools and workflows, half How the tools were built</dd></div>
     </dl>
-    <p class="legend"><span class="mk" aria-hidden="true">1</span> Numbered markers point to the calls listed at the bottom.</p>
+    <p class="legend"><span class="mk" aria-hidden="true">1</span> Numbered markers point to the open calls at the bottom.</p>
   </header>
 
   <!-- FRAME A -->
   <section class="frame" aria-labelledby="fa">
-    <div class="frame-head"><h2 id="fa">A · The page</h2><span class="meta">desktop · typical state · class tabs and slide numbers are clickable</span></div>
+    <div class="frame-head"><h2 id="fa">A · The page</h2><span class="meta">desktop · typical state · topic tabs, build tabs and slide numbers are clickable</span></div>
     <div class="canvas">
       <div class="wf-nav">
         <div class="logo-box" aria-label="Site name"></div>
-        <div class="nav-links"><span>Portfolio</span><span>About</span><span>CV</span><span class="cur">Teaching</span><span>Contact</span><a class="mk" href="#call-1">1</a></div>
+        <div class="nav-links"><span>Portfolio</span><span>About</span><span>CV</span><span class="cur">Teaching</span><span>Contact</span></div>
       </div>
 
       <div class="wf-sec">
-        <div class="hdr">
-          <div>
-            <p class="label">Teaching</p>
-            <div class="page-title">AIM 101 · Foundations of Human-AI Collaboration <a class="mk" href="#call-2">2</a></div>
-            <div class="facts"><span class="fact">Opening unit of a 15-week course</span><span class="fact">4 classes</span><span class="fact">50 minutes each</span><span class="fact">No coding background</span></div>
-          </div>
-          <div class="btn-box">Full curriculum <a class="mk" href="#call-7">7</a></div>
-        </div>
+        <p class="label">Teaching</p>
+        <div class="page-title">Music and AI Integration</div>
+        <div class="facts"><span class="fact">Opening topics of a 15-week course</span><span class="fact">4 topics</span><span class="fact">50 minutes each</span><span class="fact">No coding background</span></div>
       </div>
 
       <div class="wf-sec">
-        <p class="label">The 15 weeks <a class="mk" href="#call-3">3</a></p>
+        <p class="label">Where each topic goes in 15 weeks <a class="mk" href="#call-2">2</a></p>
         <div class="map" id="map"></div>
-        <div class="map-key"><span><i class="sw opening"></i>Opening unit (this page)</span><span><i class="sw deeper"></i>Weeks that go deeper on the selected class</span></div>
+        <div class="map-key"><span><i class="sw opening"></i>Opening topics (this page)</span><span><i class="sw deeper"></i>Weeks that go deeper on the selected topic</span></div>
       </div>
 
       <div class="wf-sec">
-        <div class="tabs" role="tablist" id="tabs" aria-label="Classes"></div>
-        <div style="padding-top:22px" id="classPanel" role="tabpanel">
-          <h3 class="class-title" id="classTitle"></h3>
-          <p class="label">Run of show · 50 min <a class="mk" href="#call-4">4</a></p>
+        <div class="tabs" role="tablist" id="tabs" aria-label="Topics"></div>
+        <div style="padding-top:22px" id="topicPanel" role="tabpanel">
+          <h3 class="topic-title" id="topicTitle"></h3>
+          <div class="subtabs" id="subtabs" role="tablist" aria-label="Builds"></div>
+          <p class="label">Run of show · 50 min</p>
           <div class="run" id="run"></div>
 
           <div class="strip" id="strip" aria-label="Slides"></div>
+          <div class="rail" id="rail" hidden>
+            <span class="rail-label">Practice <a class="mk" href="#call-3">3</a></span>
+          </div>
           <div class="stage" id="stage">
             <div class="stage-top"><span id="stageCount"></span><span class="pill">Hover a number for details</span></div>
             <p class="stage-title" id="stageTitle"></p>
@@ -260,14 +287,14 @@
               <div class="lines" aria-hidden="true"><div class="ln" style="width:92%"></div><div class="ln" style="width:74%"></div><div class="ln" style="width:83%"></div></div>
               <div class="vis"><span class="pin">1</span><span id="stageVis"></span></div>
             </div>
+            <p class="ev" id="stageEv"></p>
           </div>
-          <p class="label" style="margin-top:8px">Live HTML slides, same system as the portfolio carousels <a class="mk" href="#call-5">5</a></p>
-          <details class="all"><summary>All slide titles for this class</summary><ol id="allSlides"></ol></details>
+          <details class="all"><summary>All slide titles</summary><ol id="allSlides"></ol></details>
+          <p class="privacy" id="privacy" hidden><a class="mk" href="#call-5">5</a><span>Every TeacherAID visual is rebuilt with placeholder data. Nothing names the teacher, the employers, the students or any course.</span></p>
 
-          <p class="label" style="margin-top:22px">Under the slides <a class="mk" href="#call-6">6</a></p>
-          <div class="cards" style="margin-top:0">
+          <div class="cards">
             <div class="card"><h4>Objective</h4><p id="cObjective"></p></div>
-            <div class="card"><h4>In-class activity</h4><p id="cActivity"></p></div>
+            <div class="card"><h4>Activity <a class="mk" href="#call-1">1</a></h4><p id="cActivity"></p></div>
             <div class="card"><h4>Exit ticket</h4><p id="cExit"></p></div>
           </div>
           <p class="deeper-line" id="deeperLine"></p>
@@ -280,7 +307,7 @@
 
   <!-- FRAME B -->
   <section class="frame" aria-labelledby="fb">
-    <div class="frame-head"><h2 id="fb">B · The page at 390px</h2><span class="meta">phone · Class 4 selected</span></div>
+    <div class="frame-head"><h2 id="fb">B · The page at 390px</h2><span class="meta">phone · How the tools were built · TeacherAID</span></div>
     <div class="split">
       <div class="phone" aria-label="Phone wireframe">
         <div class="wf-nav">
@@ -288,11 +315,11 @@
         </div>
         <div class="wf-sec">
           <p class="label">Teaching</p>
-          <div class="page-title" style="font-size:1.6rem">AIM 101 · Foundations of Human-AI Collaboration</div>
-          <div class="facts"><span class="fact">15-week course</span><span class="fact">4 classes</span><span class="fact">50 min</span></div>
+          <div class="page-title" style="font-size:1.75rem">Music and AI Integration</div>
+          <div class="facts"><span class="fact">15-week course</span><span class="fact">4 topics</span><span class="fact">50 min</span></div>
         </div>
         <div class="wf-sec">
-          <p class="label">The 15 weeks</p>
+          <p class="label">Where each topic goes</p>
           <div class="map">
             <div class="wk opening"><b>01</b></div><div class="wk opening"><b>02</b></div><div class="wk"><b>03</b></div><div class="wk"><b>04</b></div><div class="wk"><b>05</b></div>
             <div class="wk"><b>06</b></div><div class="wk"><b>07</b></div><div class="wk"><b>08</b></div><div class="wk deeper"><b>09</b></div><div class="wk deeper"><b>10</b></div>
@@ -300,89 +327,111 @@
           </div>
         </div>
         <div class="wf-sec">
-          <div class="tabs"><span class="tab">Class 3</span><span class="tab" aria-selected="true">Class 4 · Case study</span></div>
-          <h3 class="class-title" style="margin-top:16px;font-size:1.35rem">Case study: one piece through Composer Compass</h3>
-          <div class="run">
-            <div class="seg"><span class="t">Hook</span><span class="n">5</span></div>
-            <div class="seg"><span class="t">Teach</span><span class="n">20</span></div>
-            <div class="seg act"><span class="t">Activity</span><span class="n">15</span></div>
-            <div class="seg"><span class="t">Debrief</span><span class="n">5</span></div>
-            <div class="seg"><span class="t">Exit ticket</span><span class="n">5</span></div>
-          </div>
-          <div class="strip"><button class="chip" tabindex="-1">01</button><button class="chip" aria-current="true" tabindex="-1">02</button><button class="chip" tabindex="-1">03</button><button class="chip" tabindex="-1">04</button><button class="chip" tabindex="-1">05</button><button class="chip" tabindex="-1">06</button><button class="chip" tabindex="-1">07</button></div>
+          <div class="tabs"><span class="tab">Building with AI</span><span class="tab" aria-selected="true">How the tools were built</span></div>
+          <h3 class="topic-title" style="margin-top:16px;font-size:1.35rem">How the tools were built</h3>
+          <div class="subtabs"><span class="subtab">Composer Compass</span><span class="subtab" aria-selected="true">TeacherAID</span></div>
+          <div class="strip" style="margin-top:0"><button class="chip" tabindex="-1">01</button><button class="chip" tabindex="-1">02</button><button class="chip" tabindex="-1">03</button><button class="chip" tabindex="-1">04</button><button class="chip" aria-current="true" tabindex="-1">05</button><button class="chip" tabindex="-1">06</button><button class="chip" tabindex="-1">07</button></div>
+          <div class="rail"><span class="prac">Memory</span><span class="prac">Version control</span><span class="prac">Effort</span><span class="prac">Wireframe</span><span class="prac on">Verify</span><span class="prac">Evaluate</span><span class="prac">Guardrails</span></div>
           <div class="stage">
-            <div class="stage-top"><span>Class 4 · 02 / 10</span><span class="pill">Tap a number</span></div>
-            <p class="stage-title">Teach it your aesthetic</p>
+            <div class="stage-top"><span>TeacherAID · 05 / 09</span><span class="pill">Tap a number</span></div>
+            <p class="stage-title">A green check can still be wrong</p>
             <div class="stage-body">
               <div class="lines" aria-hidden="true"><div class="ln" style="width:90%"></div><div class="ln" style="width:70%"></div></div>
-              <div class="vis"><span class="pin">1</span>Compass carousel: Aesthetic Blueprint</div>
+              <div class="vis"><span class="pin">1</span>Checks by date: 20, 37, 60, 116, 139, 166, 176, 186</div>
             </div>
+            <p class="ev">CHANGELOG.md · 2026-09-04 audit</p>
           </div>
           <div class="cards">
-            <div class="card"><h4>Objective</h4><p>Judge AI suggestions against a stated artistic goal.</p></div>
-            <div class="card"><h4>In-class activity</h4><p>Score two AI suggestions with a four-line rubric.</p></div>
+            <div class="card"><h4>Objective</h4><p>Trace the building practices through two real builds.</p></div>
+            <div class="card"><h4>Activity</h4><p>Name the practice behind a real problem.</p></div>
           </div>
         </div>
       </div>
       <div class="notes">
-        <p class="label">What changes on a phone <a class="mk" href="#call-8">8</a></p>
-        <div class="note"><span class="pin" style="position:static">1</span><p><strong>Nav wraps if it has to.</strong>Five links at 13px fit 390px; check 360px at build.</p></div>
-        <div class="note"><span class="pin" style="position:static">2</span><p><strong>The week map folds to 5 by 3</strong>and drops the week names. Numbers and fills carry it.</p></div>
-        <div class="note"><span class="pin" style="position:static">3</span><p><strong>Class tabs and slide numbers swipe</strong>on one line, like the portfolio's tool tabs.</p></div>
-        <div class="note"><span class="pin" style="position:static">4</span><p><strong>Run of show stacks</strong>into a list of five rows.</p></div>
-        <div class="note"><span class="pin" style="position:static">5</span><p><strong>Slides reflow.</strong>Title, then text, then the visual. Pins open on tap.</p></div>
-        <div class="note"><span class="pin" style="position:static">6</span><p><strong>Cards stack.</strong>Exit ticket sits below the fold here.</p></div>
+        <p class="label">What changes on a phone (approved)</p>
+        <div class="note"><span class="pin" style="position:static">1</span><p><strong>Nav wraps if it has to.</strong>Five links fit 390px; check 360px at build.</p></div>
+        <div class="note"><span class="pin" style="position:static">2</span><p><strong>The week map folds to 5 by 3</strong>and drops the week names.</p></div>
+        <div class="note"><span class="pin" style="position:static">3</span><p><strong>Topic tabs, slide numbers and the practice rail swipe</strong>on one line each.</p></div>
+        <div class="note"><span class="pin" style="position:static">4</span><p><strong>Run of show stacks</strong>into five rows.</p></div>
+        <div class="note"><span class="pin" style="position:static">5</span><p><strong>Slides reflow.</strong>Title, text, visual, source. Pins open on tap.</p></div>
+        <div class="note"><span class="pin" style="position:static">6</span><p><strong>Cards stack.</strong></p></div>
       </div>
     </div>
   </section>
 
   <!-- FRAME C -->
   <section class="frame" aria-labelledby="fc">
-    <div class="frame-head"><h2 id="fc">C · Slide templates</h2><span class="meta">one content slide, one activity slide, and the too-much-content state</span></div>
+    <div class="frame-head"><h2 id="fc">C · Slide templates</h2><span class="meta">a build-story slide, a visual-first slide, an activity slide</span></div>
     <div class="canvas">
       <div class="tmpl-grid">
         <div class="tmpl wide">
+          <div class="rail" style="margin:0 0 8px"><span class="rail-label">Practice</span><span class="prac">Memory</span><span class="prac">Version control</span><span class="prac">Effort</span><span class="prac">Wireframe</span><span class="prac">Verify</span><span class="prac">Evaluate</span><span class="prac on">Guardrails</span></div>
           <div class="stage">
-            <div class="stage-top"><span>Class 4 · 03 / 10</span><span class="pill">Hover a number for details</span></div>
-            <p class="stage-title">Say what the piece is and isn't</p>
+            <div class="stage-top"><span>Composer Compass · 05 / 09</span><span class="pill">Hover a number for details</span></div>
+            <p class="stage-title">When a rule wouldn't stick, take away the numbers</p>
             <div class="stage-body">
               <ul class="bullets">
-                <li>A constitution lists what the piece is and is not.</li>
-                <li>Every rule cites the conversation it came from.</li>
-                <li>Rules can change, and the history keeps each version.</li>
+                <li>The analysis tool handed the model raw note counts.</li>
+                <li>Four rewordings of the rule never stopped the counting.</li>
+                <li>The fix went in the tool: rankings in, counts out.</li>
               </ul>
-              <div class="vis"><span class="pin">1</span>Compass carousel: Constitution to Guide<br>(reused from the Composer Hub tab)</div>
+              <div class="ba" aria-label="Before and after">
+                <div><b>Before</b>raw counts for every pitch, interval and duration</div>
+                <div class="arrow" aria-hidden="true">→</div>
+                <div><b>After</b>pitch_classes_ranked<br>melodic_intervals_ranked<br>duration_inventory_ranked</div>
+              </div>
             </div>
+            <p class="ev">training/CHANGELOG.md · Training Session 86 · 2026-05-29</p>
           </div>
-          <p class="tmpl-cap">Content slide · title, up to three bullets, one visual · pins carry the detail a lecture would say out loud</p>
+          <p class="tmpl-cap">Build-story slide · the practice rail says which idea from Building with AI this is · the source line shows it happened</p>
+        </div>
+
+        <div class="tmpl tmpl-small">
+          <div class="stage">
+            <div class="stage-top"><span>Composer Compass · 03 / 09</span><span>visual first</span></div>
+            <p class="stage-title" style="font-size:clamp(1.3rem,2.6vw,1.9rem)">Sixteen tries at one prompt</p>
+            <div>
+              <div class="vtl" aria-label="System prompt versions v1.0 to v5.9">
+                <div class="v"><div class="bar"></div><span>v1.0</span></div>
+                <div class="v"><div class="bar"></div><span>v2.0</span></div>
+                <div class="v"><div class="bar"></div><span>v3.0</span></div>
+                <div class="v"><div class="bar"></div><span>v4.0</span></div>
+                <div class="v"><div class="bar"></div><span>v4.1</span></div>
+                <div class="v flag"><div class="bar"></div><span>v4.2</span></div>
+                <div class="v"><div class="bar"></div><span>v5.0</span></div>
+                <div class="v flag"><div class="bar"></div><span>v5.1</span></div>
+                <div class="v"><div class="bar"></div><span>v5.2</span></div>
+                <div class="v"><div class="bar"></div><span>v5.3</span></div>
+                <div class="v"><div class="bar"></div><span>v5.4</span></div>
+                <div class="v"><div class="bar"></div><span>v5.5</span></div>
+                <div class="v"><div class="bar"></div><span>v5.6</span></div>
+                <div class="v"><div class="bar"></div><span>v5.7</span></div>
+                <div class="v"><div class="bar"></div><span>v5.8</span></div>
+                <div class="v flag"><div class="bar"></div><span>v5.9</span></div>
+              </div>
+              <div class="flags">
+                <div><b>v4.2</b>Failed: one line worked as a stop command</div>
+                <div><b>v5.1</b>"Virtually correct on every observation"</div>
+                <div><b>v5.9</b>Investigative suggestions, not directives</div>
+              </div>
+            </div>
+            <p class="ev">training/CHANGELOG.md · May 2026</p>
+          </div>
+          <p class="tmpl-cap">Visual-first slide · the picture carries it, the title names it</p>
         </div>
 
         <div class="tmpl tmpl-small">
           <div class="stage">
             <div class="act-head"><span class="label" style="margin:0">Activity · pairs</span><span class="timer">15:00</span></div>
-            <p class="stage-title" style="font-size:clamp(1.3rem,2.6vw,1.9rem)">Score two AI suggestions</p>
+            <p class="stage-title" style="font-size:clamp(1.3rem,2.6vw,1.9rem)">Name the practice</p>
             <ol class="steps">
-              <li>Read the eight-bar sketch and the rubric.<span>3 min</span></li>
-              <li>Score suggestions A and B, 1 to 4 per line.<span>7 min</span></li>
-              <li>Defend one score to your partner.<span>5 min</span></li>
+              <li>Read a problem card from one of the two builds.<span>3 min</span></li>
+              <li>Name the practice that caught it, or would have.<span>7 min</span></li>
+              <li>Reveal: the practice rail lights the answer.<span>5 min</span></li>
             </ol>
+            <p class="ev">Cards: the emptied constitution, the build that passed but broke, the green check that missed five bugs</p>
           </div>
-          <p class="tmpl-cap">Activity slide · the timer is live when presenting</p>
-        </div>
-
-        <div class="tmpl tmpl-small">
-          <div class="stage">
-            <div class="stage-top"><span>Class 2 · 04 / 11</span><span>too much content</span></div>
-            <p class="stage-title" style="font-size:clamp(1.2rem,2.4vw,1.7rem)">Pattern 2: write a procedure for anything you do twice, from booking a gig to running a studio recital</p>
-            <ul class="bullets" style="font-size:15px">
-              <li>Name the task and when it starts.</li>
-              <li>List the steps in the order you do them.</li>
-              <li>Mark the steps the assistant may draft.</li>
-              <li class="cut">Mark the steps only you can decide.</li>
-              <li class="cut">Save it where the assistant reads it next time.</li>
-            </ul>
-          </div>
-          <p class="rule"><a class="mk" href="#call-9">9</a><span>Limit: title two lines, three bullets, twelve words each. The extra moves to presenter notes or a pin.</span></p>
+          <p class="tmpl-cap">Activity slide · the timer runs when presenting <a class="mk" href="#call-6">6</a></p>
         </div>
       </div>
     </div>
@@ -390,29 +439,29 @@
 
   <!-- FRAME D -->
   <section class="frame" aria-labelledby="fd">
-    <div class="frame-head"><h2 id="fd">D · The final-round class</h2><span class="meta">50 minutes · unlinked presenter file, not on the public page</span></div>
+    <div class="frame-head"><h2 id="fd">D · The final-round session</h2><span class="meta">50 minutes · unlinked presenter file, not on the public page</span></div>
     <div class="canvas">
       <div class="wf-sec">
-        <p class="label">Run of show <a class="mk" href="#call-10">10</a></p>
+        <p class="label">Run of show</p>
         <div class="demo-bar">
           <div class="seg" style="flex-grow:3"><span class="n">3</span><span class="t">Hook</span></div>
           <div class="seg" style="flex-grow:12"><span class="n">12</span><span class="t">Tools and patterns</span></div>
           <div class="seg act" style="flex-grow:10"><span class="n">10</span><span class="t">Activity</span></div>
-          <div class="seg c4" style="flex-grow:10"><span class="n">10</span><span class="t">One piece through Compass</span></div>
+          <div class="seg c4" style="flex-grow:10"><span class="n">10</span><span class="t">How Compass was built</span></div>
           <div class="seg act c4" style="flex-grow:10"><span class="n">10</span><span class="t">Activity</span></div>
           <div class="seg c4" style="flex-grow:5"><span class="n">5</span><span class="t">Exit</span></div>
         </div>
-        <div class="map-key"><span><i class="sw" style="background:var(--box)"></i>From Class 2</span><span><i class="sw" style="background:var(--box-2)"></i>From Class 4</span><span><i class="sw opening"></i>Students working</span></div>
+        <div class="map-key"><span><i class="sw" style="background:var(--box)"></i>From Tools and workflows</span><span><i class="sw" style="background:var(--box-2)"></i>From How the tools were built</span><span><i class="sw opening"></i>Students working</span></div>
         <div class="table-wrap">
           <table>
             <thead><tr><th>Time</th><th>Segment</th><th>Slides</th></tr></thead>
             <tbody>
-              <tr><td class="time">0:00 to 0:03</td><td>Hook: your week as a working musician</td><td class="from">Class 2 · 01</td></tr>
-              <tr><td class="time">0:03 to 0:15</td><td>Five kinds of AI tools and three workflow patterns</td><td class="from">Class 2 · 02 to 05</td></tr>
-              <tr><td class="time">0:15 to 0:25</td><td>Activity: one recurring task becomes a procedure</td><td class="from">Class 2 · 10</td></tr>
-              <tr><td class="time">0:25 to 0:35</td><td>One piece through Compass: blueprint, constitution, amendment</td><td class="from">Class 4 · 02 to 05</td></tr>
-              <tr><td class="time">0:35 to 0:45</td><td>Activity: score two AI suggestions</td><td class="from">Class 4 · 09</td></tr>
-              <tr><td class="time">0:45 to 0:50</td><td>Exit ticket and where the 15 weeks go</td><td class="from">Class 4 · 10</td></tr>
+              <tr><td class="time">0:00 to 0:03</td><td>Hook: your week as a working musician</td><td class="from">Tools and workflows · 01</td></tr>
+              <tr><td class="time">0:03 to 0:15</td><td>Five kinds of AI tools and three workflow patterns</td><td class="from">Tools and workflows · 02 to 05</td></tr>
+              <tr><td class="time">0:15 to 0:25</td><td>Activity: one recurring task becomes a procedure</td><td class="from">Tools and workflows · 10</td></tr>
+              <tr><td class="time">0:25 to 0:35</td><td>How Compass was built: sixteen prompts, suggestions not instructions, the numbers taken away</td><td class="from">Compass · 03 to 05</td></tr>
+              <tr><td class="time">0:35 to 0:45</td><td>Activity: name the practice</td><td class="from">TeacherAID · 08</td></tr>
+              <tr><td class="time">0:45 to 0:50</td><td>Exit ticket and where the 15 weeks go</td><td class="from">TeacherAID · 09</td></tr>
             </tbody>
           </table>
         </div>
@@ -422,39 +471,38 @@
 
   <!-- CALLS -->
   <section class="frame" aria-labelledby="fcalls">
-    <div class="frame-head"><h2 id="fcalls">Calls for Max</h2><span class="meta">each has a recommendation; answer by number</span></div>
+    <div class="frame-head"><h2 id="fcalls">Open calls</h2><span class="meta">each has a recommendation; answer by number</span></div>
     <ol class="calls">
-      <li id="call-1"><span class="mk">1</span><div><strong>Nav order</strong><p>Portfolio · About · CV · Teaching · Contact, on all three existing pages.</p><p class="rec">Recommend: Teaching right after CV.</p></div></li>
-      <li id="call-2"><span class="mk">2</span><div><strong>Course title</strong><p>The curriculum draft names AIM 101 "Intro to AI &amp; Vibe Coding". The AI track moved away from "vibe coder" framing.</p><p class="rec">Recommend: drop "Vibe Coding" here and in the draft.</p></div></li>
-      <li id="call-3"><span class="mk">3</span><div><strong>Where the four classes sit</strong><p>Three 50-minute meetings a week puts Classes 1 to 3 in week 1 and Class 4 in week 2. The draft's week 1 folds into Class 1; its week 2 topic fills the rest of week 2. Each class then points at later weeks.</p><p class="rec">Recommend: rewrite weeks 1 and 2 of the curriculum draft to match.</p></div></li>
-      <li id="call-4"><span class="mk">4</span><div><strong>Run-of-show bar</strong><p>It shows a class, not a talk, in one line and no prose.</p><p class="rec">Recommend: keep it.</p></div></li>
-      <li id="call-5"><span class="mk">5</span><div><strong>Slides as live HTML</strong><p>Same carousel, numbered strip and hover pins as the portfolio. Each class is a standalone in <code>demo/</code> that doubles as the projector deck, then copies into the page. Class 2 and 4 slides reuse the CRM, TeacherAID and Compass carousels.</p><p class="rec">Recommend: yes.</p></div></li>
-      <li id="call-6"><span class="mk">6</span><div><strong>Three cards under the slides</strong><p>Objective, activity, exit ticket. Matches the site's heading, carousel, three cards pattern.</p><p class="rec">Recommend: keep these three.</p></div></li>
-      <li id="call-7"><span class="mk">7</span><div><strong>Link the full curriculum?</strong><p><code>Curriculum - UW Madison.html</code> is in the repo, unlinked and without analytics.</p><p class="rec">Recommend: link it, after call 2 and 3 edits land in it.</p></div></li>
-      <li id="call-8"><span class="mk">8</span><div><strong>Phone layout</strong><p>The six changes listed beside frame B.</p><p class="rec">Recommend: as drawn.</p></div></li>
-      <li id="call-9"><span class="mk">9</span><div><strong>Slide limits</strong><p>Two-line title, three bullets, twelve words each. Keeps slides readable from the back of a lecture hall.</p><p class="rec">Recommend: adopt as a hard rule for all four classes.</p></div></li>
-      <li id="call-10"><span class="mk">10</span><div><strong>Two activities in 50 minutes</strong><p>Tight with a room of students you have not met. The fallback cuts the Class 2 activity to a three-minute partner share and gives Compass the time.</p><p class="rec">Recommend: plan both, rehearse the fallback.</p></div></li>
+      <li id="call-1"><span class="mk">1</span><div><strong>The Activity card's name</strong><p>These are topics, not classes. "Activity" and "Exit ticket" read as classroom terms.</p><p class="rec">Recommend: Objective · Try it · Check yourself.</p></div></li>
+      <li id="call-2"><span class="mk">2</span><div><strong>The 15-week map</strong><p>It shows this is the opening of a full course without writing a syllabus. Week names come from the curriculum draft.</p><p class="rec">Recommend: keep it.</p></div></li>
+      <li id="call-3"><span class="mk">3</span><div><strong>The practice rail</strong><p>Seven practices: Memory, Version control, Effort, Wireframe, Verify, Evaluate, Guardrails. Building with AI introduces each one; the two build stories light the one each slide shows. Every practice lights at least once.</p><p class="rec">Recommend: yes, on both topics.</p></div></li>
+      <li id="call-4"><span class="mk">4</span><div><strong>A source line on build slides</strong><p>A file and date under each build-story slide, so the committee sees these happened.</p><p class="rec">Recommend: keep it, small and grey.</p></div></li>
+      <li id="call-5"><span class="mk">5</span><div><strong>TeacherAID privacy</strong><p>The repo carries the teacher's real name, UW employers, course codes, student names and pay. A UW committee could identify the teacher from any of it.</p><p class="rec">Recommend: placeholder data in every visual, no exceptions.</p></div></li>
+      <li id="call-6"><span class="mk">6</span><div><strong>New second activity</strong><p>"Score two suggestions" no longer fits a build story. "Name the practice" ties the two halves of the final-round session together.</p><p class="rec">Recommend: use it.</p></div></li>
     </ol>
   </section>
 </div>
 
 <script>
   const WEEKS = [
-    "Classes 1 to 3", "Class 4, then constraints workshop", "Structured Writing as Interface", "Project Memory",
+    "Opening topics", "Opening topics", "Structured Writing as Interface", "Project Memory",
     "Workshop: Project Brief", "Reading Interfaces", "Specifying a Build", "How Systems Fit Together",
     "Training and Evaluation", "Workshop: Evaluation Rubric", "Workflows and Automation", "Diagnosing Failure",
     "Cost and Effort as Craft", "Guardrails by Design", "Final Presentations"
   ];
+  const PRACTICES = ["Memory", "Version control", "Effort", "Wireframe", "Verify", "Evaluate", "Guardrails"];
   const RUN = [["Hook", 5], ["Teach", 20], ["Activity", 15, true], ["Debrief", 5], ["Exit ticket", 5]];
-  const CLASSES = [
+
+  // slide: [title, visual, practice or null, source or ""]
+  const TOPICS = [
     {
-      tab: "Class 1 · How AI works",
+      tab: "How AI works",
       title: "How AI got here, and how it actually works",
       objective: "Explain in plain words how a language model produces an answer, and why it forgets and invents.",
       activity: "Be the model: the room predicts a melody note by note, then again with the opening bars covered.",
       exit: "In one sentence: why did today's demo model invent a fact?",
       weeks: [8, 12],
-      slides: [
+      parts: [{ name: null, slides: [
         ["What does \"AI\" actually mean?", "Three definitions, one room vote"],
         ["Before computers: Boole, Babbage and Lovelace", "Timeline, 1840s: Lovelace imagines the engine composing music"],
         ["Turing: the universal machine and Bletchley Park", "Timeline, 1936 to 1945"],
@@ -467,78 +515,92 @@
         ["Why models make things up", "Example: an invented citation"],
         ["Activity: be the model", "15:00 timer"],
         ["Exit ticket", "One-sentence answer"]
-      ]
+      ]}]
     },
     {
-      tab: "Class 2 · Tools and workflows",
+      tab: "Tools and workflows",
       title: "AI tools and workflows for a working musician",
       objective: "Name the kinds of AI tools and match one to a recurring task in your own musical life.",
       activity: "In pairs, turn one weekly task (practice log, booking, program notes) into a five-step procedure.",
       exit: "Which step in your procedure must stay yours, and why?",
       weeks: [3, 11],
-      slides: [
+      parts: [{ name: null, slides: [
         ["Your week as a working musician", "Room poll: tasks you repeat every week"],
         ["Five kinds of AI tools", "Grid: chat assistants, coding agents, automations, connectors, audio and notation tools"],
         ["Pattern 1: brain dump to structure", "Before and after: a messy note becomes a rehearsal plan"],
         ["Pattern 2: write a procedure for anything you do twice", "A one-page gig booking procedure"],
         ["Pattern 3: draft, review, revise", "Loop diagram: you stay the reviewer"],
-        ["Practice and rehearsal logs", "Example log with a weekly AI summary"],
-        ["Booking, outreach and newsletters", "Composer CRM carousel: Outreach slide"],
-        ["Running a teaching studio", "TeacherAID carousel: Schedule slide"],
+        ["Practice and rehearsal: a log that sums up your week", "Sample log with a weekly summary"],
+        ["Gigs and outreach: drafts you approve before they send", "Sample booking email, marked for review"],
+        ["Teaching: lesson notes and scheduling", "Sample lesson note becoming a practice plan"],
         ["Where AI stays out of the room", "Discussion: three cases"],
         ["Activity: one task becomes a procedure", "15:00 timer"],
         ["Exit ticket", "One-sentence answer"]
-      ]
+      ]}]
     },
     {
-      tab: "Class 3 · Building with AI",
+      tab: "Building with AI",
       title: "Building with AI without losing the plot",
       objective: "Set up a project so an assistant picks up where you left off, and catch its mistakes before they ship.",
       activity: "Write a five-line CLAUDE.md for a recital prep project, then sketch its practice-log screen in grey boxes.",
       exit: "Name one mistake your CLAUDE.md prevents.",
       weeks: [4, 5, 6, 7, 13],
-      slides: [
-        ["Why AI projects fall apart in week three", "A real session that lost the plot"],
-        ["The model has no memory, so write one", "Diagram: session 1, session 2, the file between them"],
-        ["CLAUDE.md: the project's rehearsal log", "Annotated CLAUDE.md excerpt"],
-        ["Changelog and handoffs: what changed, what's next", "Changelog entry beside a handoff"],
-        ["Git: the undo button", "Commit history of one feature"],
-        ["Match effort to the cost of being wrong", "Effort scale: low to max"],
-        ["Wireframe before you build", "This page's own wireframe"],
-        ["\"It worked once\" is not evidence", "Checklist: how to verify"],
-        ["Pitfalls from my own projects", "Three real incidents"],
-        ["Activity: a five-line CLAUDE.md for your recital prep", "15:00 timer"],
-        ["Exit ticket", "One-sentence answer"]
-      ]
+      parts: [{ name: null, slides: [
+        ["Why AI projects fall apart in week three", "A chat that lost the plot", null],
+        ["The model has no memory, so write one", "Diagram: session 1, session 2, the file between them", "Memory"],
+        ["CLAUDE.md: the project's rehearsal log", "Annotated CLAUDE.md excerpt", "Memory"],
+        ["The changelog: what changed and what's next", "One changelog entry, annotated", "Memory"],
+        ["Version control: the undo button", "Commit history of one feature", "Version control"],
+        ["Match effort to the cost of being wrong", "Effort scale: low to max", "Effort"],
+        ["Wireframe before you build", "This page's own wireframe", "Wireframe"],
+        ["\"It worked once\" is not evidence", "Build passed vs. works for a real user", "Verify"],
+        ["Test the AI's answers, not just the code", "A rubric and one change at a time", "Evaluate"],
+        ["Build the limits into the tool", "A rule in the prompt vs. a rule in the tool", "Guardrails"],
+        ["Activity: a five-line CLAUDE.md for your recital prep", "15:00 timer", null],
+        ["Exit ticket", "One-sentence answer", null]
+      ]}]
     },
     {
-      tab: "Class 4 · Case study",
-      title: "Case study: one piece through Composer Compass",
-      objective: "Judge AI suggestions against a stated artistic goal, and explain how a tool keeps the composer the author.",
-      activity: "In pairs, score two AI suggestions about one eight-bar sketch with a four-line rubric, then defend a score.",
-      exit: "Which suggestion would you follow, and which rubric line decided it?",
+      tab: "How the tools were built",
+      title: "How the tools were built",
+      objective: "Trace the practices from Building with AI through two real builds, including the moments they were missing.",
+      activity: "Name the practice: pairs read a real problem from one build and name the practice that caught it, or would have.",
+      exit: "Which practice would have saved you the most time on something you've already made?",
       weeks: [9, 10, 14, 15],
-      slides: [
-        ["Can AI help without writing the music?", "The question, open to the room"],
-        ["Teach it your aesthetic", "Compass carousel: Aesthetic Blueprint"],
-        ["Say what the piece is and isn't", "Compass carousel: Constitution to Guide"],
-        ["When a sketch breaks a rule", "Compass carousel: the amendment"],
-        ["From bass fugue to chaconne", "Score page and 45-second excerpt"],
-        ["Places to look, never decisions made for you", "System prompt, before and after"],
-        ["Judging a suggestion with a rubric", "Four-line rubric"],
-        ["The composer stays the author", "One line, full slide"],
-        ["Activity: score two AI suggestions", "15:00 timer"],
-        ["Exit ticket and where the course goes", "The 15-week map"]
+      parts: [
+        { name: "Composer Compass", slides: [
+          ["It started as a chat", "The first prompt beside the five-step conversation plan", null, "methodology.md · April 2026"],
+          ["I scored every run, then stopped scoring", "Rubric table: six runs, three models", "Evaluate", "Evaluation reports · 2026-05-23 to 25"],
+          ["Sixteen tries at one prompt", "Timeline v1.0 to v5.9 with three flags", "Evaluate", "training/CHANGELOG.md · May 2026"],
+          ["Suggestions, not instructions", "The same line in v5.8 and v5.9", "Guardrails", "Training Session 80 · 2026-05-29"],
+          ["When a rule wouldn't stick, take away the numbers", "Raw counts before, rankings after", "Guardrails", "Training Session 86 · 2026-05-29"],
+          ["Notes the next session can read", "The memory table and end-of-session steps", "Memory", "CLAUDE.md"],
+          ["Sketch four layouts, pick one", "Four grey-box layouts, one circled", "Wireframe", "App Session 16 · 2026-05-29"],
+          ["Back it up before you need it", "The day a Save emptied the constitution", "Version control", "training/CHANGELOG.md · 2026-05-30"],
+          ["The build passed. The app still broke.", "Session 36: \"not resolved live\". Session 41: the real cause.", "Verify", "ui-ux/CHANGELOG.md · 2026-05-31"]
+        ]},
+        { name: "TeacherAID", slides: [
+          ["What the teacher was juggling", "Before: paper grid, hour form, texts. After: one ledger.", null, "docs/SCOPE.md · 2026-09-03"],
+          ["Click through a fake app before writing code", "\"Perfect a prototype before doing any code\" · 22 corrections: 20 shipped, 2 held", "Wireframe", "CHANGELOG.md · 2026-09-03"],
+          ["The project remembers, so the chat doesn't have to", "Current State banner and the four-step session routine", "Memory", "CLAUDE.md"],
+          ["Match effort to the cost of being wrong", "Tier table; the model gate held twice", "Effort", "CLAUDE.md · 2026-09-06"],
+          ["A green check can still be wrong", "Checks by date: 20, 37, 60, 116, 139, 166, 176, 186", "Verify", "CHANGELOG.md · 2026-09-04 audit"],
+          ["Prove it without breaking it", "\"Verified without ever closing a real period\"", "Verify", "CHANGELOG.md · 2026-09-06"],
+          ["When the AI feature was the wrong shape", "Ask in three rows: chat writes, chat proposes, tap menus", "Guardrails", "DECISIONS.md · D24, D42, D56"],
+          ["Activity: name the practice", "15:00 timer", null, ""],
+          ["Exit ticket and where the course goes", "The 15-week map", null, ""]
+        ]}
       ]
     }
   ];
 
   const $ = (id) => document.getElementById(id);
   const pad = (n) => String(n).padStart(2, "0");
-  let ci = 1, si = 2;
+  const esc = (s) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+  let ti = 3, pi = 0, si = 4;
 
   function renderMap() {
-    const deeper = CLASSES[ci].weeks;
+    const deeper = TOPICS[ti].weeks;
     $("map").innerHTML = WEEKS.map((w, i) => {
       const n = i + 1;
       const cls = n <= 2 ? "opening" : deeper.includes(n) ? "deeper" : "";
@@ -547,40 +609,65 @@
   }
 
   function renderTabs() {
-    $("tabs").innerHTML = CLASSES.map((c, i) =>
-      `<button class="tab" role="tab" id="tab-${i}" aria-selected="${i === ci}" data-i="${i}">${c.tab}</button>`).join("");
+    $("tabs").innerHTML = TOPICS.map((t, i) =>
+      `<button class="tab" role="tab" id="tab-${i}" aria-selected="${i === ti}" data-i="${i}">${t.tab}</button>`).join("");
   }
 
   function renderSlide() {
-    const c = CLASSES[ci], s = c.slides[si];
-    $("stageCount").textContent = `Class ${ci + 1} · ${pad(si + 1)} / ${pad(c.slides.length)}`;
+    const t = TOPICS[ti], part = t.parts[pi], s = part.slides[si];
+    const where = part.name || t.tab;
+    $("stageCount").textContent = `${where} · ${pad(si + 1)} / ${pad(part.slides.length)}`;
     $("stageTitle").textContent = s[0];
     $("stageVis").textContent = s[1];
+    $("stageEv").textContent = s[3] || "";
     $("strip").querySelectorAll(".chip").forEach((b, i) => b.setAttribute("aria-current", i === si));
+    const hasRail = part.slides.some((x) => x[2] !== undefined);
+    $("rail").hidden = !hasRail;
+    $("rail").querySelectorAll(".prac").forEach((p) => p.classList.toggle("on", p.dataset.p === s[2]));
   }
 
-  function renderClass() {
-    const c = CLASSES[ci];
-    $("classTitle").textContent = c.title;
-    $("run").innerHTML = RUN.map(([t, m, act]) =>
-      `<div class="seg${act ? " act" : ""}" style="flex-grow:${m}"><span class="n">${m}</span><span class="t">${t}</span></div>`).join("");
-    $("strip").innerHTML = c.slides.map((s, i) =>
-      `<button class="chip" data-s="${i}" title="${s[0].replace(/"/g, "&quot;")}" aria-label="Slide ${i + 1}: ${s[0].replace(/"/g, "&quot;")}">${pad(i + 1)}</button>`).join("") +
+  function renderPart() {
+    const part = TOPICS[ti].parts[pi];
+    $("strip").innerHTML = part.slides.map((s, i) =>
+      `<button class="chip" data-s="${i}" title="${esc(s[0])}" aria-label="Slide ${i + 1}: ${esc(s[0])}">${pad(i + 1)}</button>`).join("") +
       `<span class="strip-hint">Click to step through</span>`;
-    $("allSlides").innerHTML = c.slides.map((s) => `<li>${s[0]}</li>`).join("");
-    $("cObjective").textContent = c.objective;
-    $("cActivity").textContent = c.activity;
-    $("cExit").textContent = c.exit;
-    $("deeperLine").innerHTML = "<b>Goes deeper in</b> " + c.weeks.map((w) => `Week ${w}, ${WEEKS[w - 1]}`).join(" · ");
-    $("classPanel").setAttribute("aria-labelledby", `tab-${ci}`);
+    $("allSlides").innerHTML = part.slides.map((s) => `<li>${esc(s[0])}</li>`).join("");
+    $("subtabs").querySelectorAll(".subtab").forEach((b, i) => b.setAttribute("aria-selected", i === pi));
+    $("privacy").hidden = part.name !== "TeacherAID";
     renderSlide();
   }
+
+  function renderTopic() {
+    const t = TOPICS[ti];
+    $("topicTitle").textContent = t.title;
+    const named = t.parts.filter((p) => p.name);
+    $("subtabs").hidden = named.length === 0;
+    $("subtabs").innerHTML = named.map((p, i) =>
+      `<button class="subtab" role="tab" aria-selected="${i === pi}" data-p="${i}">${p.name}</button>`).join("");
+    $("run").innerHTML = RUN.map(([name, m, act]) =>
+      `<div class="seg${act ? " act" : ""}" style="flex-grow:${m}"><span class="n">${m}</span><span class="t">${name}</span></div>`).join("");
+    $("cObjective").textContent = t.objective;
+    $("cActivity").textContent = t.activity;
+    $("cExit").textContent = t.exit;
+    $("deeperLine").innerHTML = "<b>Goes deeper in</b> " + t.weeks.map((w) => `Week ${w}, ${WEEKS[w - 1]}`).join(" · ");
+    $("topicPanel").setAttribute("aria-labelledby", `tab-${ti}`);
+    renderPart();
+  }
+
+  // build the rail pills once, after the label
+  $("rail").insertAdjacentHTML("beforeend", PRACTICES.map((p) => `<span class="prac" data-p="${p}">${p}</span>`).join(""));
 
   $("tabs").addEventListener("click", (e) => {
     const b = e.target.closest(".tab");
     if (!b) return;
-    ci = Number(b.dataset.i); si = 0;
-    renderTabs(); renderMap(); renderClass();
+    ti = Number(b.dataset.i); pi = 0; si = 0;
+    renderTabs(); renderMap(); renderTopic();
+  });
+  $("subtabs").addEventListener("click", (e) => {
+    const b = e.target.closest(".subtab");
+    if (!b) return;
+    pi = Number(b.dataset.p); si = 0;
+    renderPart();
   });
   $("strip").addEventListener("click", (e) => {
     const b = e.target.closest(".chip");
@@ -589,5 +676,5 @@
     renderSlide();
   });
 
-  renderTabs(); renderMap(); renderClass();
+  renderTabs(); renderMap(); renderTopic();
 </script>

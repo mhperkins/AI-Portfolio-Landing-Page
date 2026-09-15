@@ -195,6 +195,24 @@ Technology; George Mason adjunct, Applied Composition and Music Technology.
       https://claude.ai/artifact/Qjp5iLNzACk5AVs9sGmU7c). Ten numbered calls await Max,
       including the course title (drop "Vibe Coding"?) and rewriting weeks 1 and 2 of the
       curriculum draft to hold the four classes. No site code until those calls land.
+      **Max's calls on the wireframe (Sept 15):** the whole thing is called "Music and AI
+      Integration". Not "classes" and not detailed syllabi: the educational core of each topic,
+      with slides as lean as possible. Keep the run-of-show bar and the three cards. Only the
+      TeacherAID and Composer Compass carousels appear, and not verbatim: they show how each tool
+      was built with the practices from the building topic, not how to use it. No curriculum link.
+      Phone layout approved. No hard slide limit; concise and visual, trimmed later. Nav order
+      Portfolio · About · CV · Teaching · Contact approved.
+      **Wireframe round 2 (same file and artifact):** four topics (How AI works, Tools and
+      workflows, Building with AI, How the tools were built). The last has Composer Compass (9
+      slides) and TeacherAID (7 slides plus activity and exit) build stories, grounded in both
+      repos, with a practice rail (Memory, Version control, Effort, Wireframe, Verify, Evaluate,
+      Guardrails) and a source line per slide. Six open calls on the page.
+      **Accuracy, found in the build research:** the curriculum draft's guardrail paragraph merges
+      two fixes. Rewording the prompt (v5.9, Training Session 80) fixed prescriptive suggestions;
+      removing raw note counts from `analyze_score` (Session 86) fixed counting, after four
+      rewordings failed. Removing data did not fix prescription. The "Session 36 trap" is App
+      Session 36. TeacherAID visuals must use placeholder data: the dasha-board repo carries the
+      teacher's real name, UW employers, course codes, students and pay.
 - [ ] Continue identifying other RISE-AI or similar interdisciplinary music-tech-and-AI faculty
       lines worth applying to under this same framing. Ongoing, not one-and-done.
 - [ ] Decide whether The Composer Compass needs a more formal writeup (a short paper-style summary)
