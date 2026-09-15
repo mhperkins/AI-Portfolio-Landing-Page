@@ -10,6 +10,22 @@ Associate, $19-20/hr, 30 hrs/week, reports to a manager.
 
 ---
 
+## Priority List (set by Max, September 15, 2026)
+
+1. **Wisconsin Foundation and Alumni Association, Engagement Program Coordinator.** Top priority.
+   - Full-time, hybrid Madison (at least 2 days a week in office). Pay not listed. Posted Aug 19,
+     2026; no deadline stated. Verified live Sept 15.
+   - Posting: [Jobs That Help](https://www.jobsthathelp.com/job/wisconsin-foundation-and-alumni-association-wfaa-madison-wi-engagement-program-coordinator-aug-2026/)
+     and [WFAA](https://www.advanceuw.org/jobs/engagement-program-coordinator/). Apply through
+     [iCIMS](https://careers-supportuw.icims.com/jobs/1631/engagement-program-coordinator/job).
+   - Supports Alumni Relations and Engagement programs: program planning and timelines, onsite
+     event support, vendors and volunteers, constituent inquiries, database and communications
+     administration, program marketing materials.
+   - Required: bachelor's or equivalent, 1+ year coordinating complex programs or events, valid
+     driver's license. Preferred: CRM systems, event registration platforms, project management
+     software, evening and weekend flexibility. Every line maps to the Sprout Community Manager role.
+   - UW-Madison B.A. is a genuine alumni angle. Materials not started.
+
 ## Current State (as of September 10, 2026)
 
 **WCO application: materials ready, not yet submitted.** Priority deadline is **September 11, 2026**
@@ -336,12 +352,12 @@ APT and Madison Children's Museum have no matching openings.
 
 | Org | Role | Hours | Pay | Deadline | Link | Note |
 |---|---|---|---|---|---|---|
+| **Wisconsin Foundation and Alumni Association** | **Engagement Program Coordinator (top priority)** | FT, hybrid (2+ days in office) | Not listed | None listed; posted Aug 19 | [Jobs That Help](https://www.jobsthathelp.com/job/wisconsin-foundation-and-alumni-association-wfaa-madison-wi-engagement-program-coordinator-aug-2026/) ([apply](https://careers-supportuw.icims.com/jobs/1631/engagement-program-coordinator/job)) | Bachelor's plus 1 yr programs or events. CRM and event registration preferred. See Priority List. |
 | Wisconsin Chamber Orchestra | Community Engagement & Education Associate | About 30 hr/wk | $19 to $20/hr | Priority date Sept 11 passed; open until filled | [WCO](https://wcoconcerts.org/meet-the-wco/careers/community-engagement-and-education-associate) ([PDF](https://wco-web.files.svdcdn.com/production/documents/position-descriptions/260821-Community-Engagement-Education-Associate.pdf)) | Still accepting. Materials ready; not logged as submitted. |
 | MSCR | Recreation Field Supervisor, Arts | Up to 18.5 hr/wk, Mon to Thu evenings | $19.00 to $21.10/hr | None listed | [MSCR](https://www.mscr.org/jobs/recreation-field-supervisor-arts/) ([apply](https://mmsd.csod.com/ux/ats/careersite/9/home/requisition/9495?c=mmsd)) | Runs youth arts classes across sites. Listed start date Sept 14 has passed. |
 | WYSO | Social Media & Digital Content Coordinator | About 20 hr/wk, Saturdays | $23 to $25/hr | None listed | [WYSO](https://wysomusic.org/about-us/employment-opportunities/) | Needs a photo and short video portfolio. |
 | Madison Community Foundation | Office Coordinator | FT, on-site | $45k to $55k | Interviewing in September, start Oct 1 | [MCF](https://madisongives.org/about/jobs/) ([PDF](https://madisongives.org/wp-content/uploads/2026/08/Office-Coordinator-2026.pdf)) | Asks 3 yrs office admin. The region's main arts funder. Apply now or skip. |
 | Madison International Partners | Volunteer Coordinator and Operations Associate | 20 to 25 hr/wk, Friday evenings | $20 to $22/hr | None listed | [MIP](https://www.internationalmadison.org/careers) | Mirrors the Sprout role; not arts. |
-| Wisconsin Foundation and Alumni Association | Engagement Program Coordinator | FT, hybrid | Not listed | None listed | [WFAA](https://www.advanceuw.org/jobs/engagement-program-coordinator/) | Entry level: bachelor's plus 1 yr events. Registration, CRM, volunteers. |
 | UW-Madison School of Education, PLACE | Event Manager | FT | $60k min | None listed | [LinkedIn](https://www.linkedin.com/jobs/view/event-manager-at-school-of-education-university-of-wisconsin-madison-4467046940) | Higher altitude: 3+ yrs events, supervises 2 FTE. |
 
 ### Open now, below the pay floor

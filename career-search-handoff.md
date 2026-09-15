@@ -1,6 +1,14 @@
 ﻿# Career Search & Portfolio — Handoff Notes
 **Last updated: September 14, 2026**
 
+## Update: September 15, 2026
+
+- **Top priority across all tracks:** WFAA Engagement Program Coordinator (Madison, full-time,
+  hybrid). Details and links sit in the Priority List at the top of
+  `career-search-arts-education-track.md`.
+- Every lead in the three track docs was re-verified live on Sept 15; closed and dead postings were
+  removed, and each track doc now lists verified job boards.
+
 ## Update: September 14, 2026
 
 All three tracks are active. Each track doc holds its own current state; the sections below this
