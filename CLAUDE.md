@@ -679,9 +679,15 @@ The Sprout CRM panel's Loom and its four-screenshot strip are gone. The panel is
 carousel from `demo/sprout-crm-demo.html`, which a parallel session built (delivery note in
 `sprout-crm-next/docs/deliveries/2026-09/2026-09-12/`). **That file stays the iteration source.**
 
-- **Slides:** Dashboard, Contacts, Events Portal (tagged New), Newsletter, Outreach/Claude MCP.
+- **Slides:** Day Board, Contacts, Events Portal (tagged New), Newsletter, Outreach/Claude MCP.
   Placeholder data only; Sprout N Tell Vol. 4 is the one real name. The Problem / Solution /
   Outcome cards sit below it (moved there 2026-09-13; copy unchanged).
+- **Slide 1 is the Day Board (2026-09-15),** rebuilt from the Day view of
+  `sprout-crm-next/components/DayBoard.jsx`, which replaced the CRM's Dashboard that day. Its
+  classes are the app's `db-` names, scoped under `.sprout-demo` on the page, and `data-nav`
+  stays `dashboard`. The app's hatched rail on Sprout calendar rows is solid grey here, because
+  the carousels carry no dashes. The old `.sp-stats`, `.sp-act` and `.sp-evrow` CSS is unused
+  now, left in place.
 - **Look:** Sprout's own palette and Lato (added to the Google Fonts link), a black nav strip with
   the wordmark, cyan active tab, fuchsia pins. Tokens live on `.sprout-demo`; app chrome is `sp-`.
 - **Everything is scoped under `.sprout-demo`.** The standalone has unprefixed helpers (`.ph`,
@@ -761,6 +767,30 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 ## Current Portfolio State (September 2026)
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
+
+### Session of 2026-09-15, late: Sprout CRM slide 1 becomes the Day Board (pushed)
+
+Max's ask: the Sprout CRM carousel's Dashboard slide shows the new Day Board, which sprout-crm-next
+shipped the same day (its CHANGELOG, "Day Board replaces the CRM dashboard").
+
+- **Slide 1 in `index.html` and `demo/sprout-crm-demo.html`** now rebuilds the Day view: the header
+  summary with Day / Week and + Add task, the day bar, On the calendar (Co-Working on the Sprout
+  calendar, a run-of-show call), five tasks in priority order (three done, struck through with
+  Undo; Imani Shaw 4d late and moved at midnight), then the week meters by category in Google
+  Calendar colors, the Sprout calendar total and the weekly bank. The nav entry reads Day Board.
+- Same placeholder world as the other slides: Tuesday, September 1, 2026, with Rosa Delgado, Imani
+  Shaw, Quiet Hours Social, Maya Chen and Kai Brennan.
+- **5 pins:** the header, the calendar rows, the task list, the week meters, the weekly bank. The
+  title, state line and notes are Claude's drafts; Max has not called them.
+- Swapped in by a scratchpad script (slide range, CSS before the ContactDetail block, nav label).
+  `git diff --stat` confirmed nothing else moved.
+- **Verified headless (1280, and 390 with touch): 57/57.** Five slides, the nav lit and reading Day
+  Board, two columns at 1280 and one at 390, 5 pins and 5 notes, every pin's tile opens its
+  popover in view, no pin clipped, no overflow, no dashed borders, the next cue walks all five
+  slides, the strip stays one line (51px), zero script errors, em dash counts unchanged. The
+  standalone shows its notes row. Screenshots checked by eye.
+
+**Open:** Max's copy call on the slide's title, state line and five notes.
 
 ### Session of 2026-09-15: the Teaching page, built on branch `teaching-page` (NOT on main, NOT live)
 

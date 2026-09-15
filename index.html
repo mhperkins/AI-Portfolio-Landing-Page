@@ -2330,6 +2330,75 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
 .sprout-demo .sp-evdate b { display: block; font-size: 16px; font-weight: 900; }
 .sprout-demo .sp-evdate span { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--g400); }
 
+/* Day Board (slide 1), from the DB_STYLES block in
+   sprout-crm-next/components/DayBoard.jsx, scaled to the carousel like the
+   other screens. Category colors are Google Calendar's (lib/dayBoard.js CATS). */
+.sprout-demo .db { --black: #030000; --white: #F7F7F6; --line: #E3E3DD; --soft: #EFEFEA; --sunk: #F1F1EC; --dim: #5F5F57; --faint: #9A9A90; --ok: #15804A; --crit: #B3005F; --crit-bg: #FBE6F1; --warn: #8A6100; --warn-bg: #FAF0D6; --c-events: #E67C73; --c-outreach: #039BE5; --c-admin: #616161; --c-grants: #F6BF26; }
+.sprout-demo .db .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; }
+.sprout-demo .db-eyebrow { font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); font-weight: 700; }
+.sprout-demo .db-top { display: flex; gap: 12px 18px; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; padding-bottom: 12px; border-bottom: 2px solid var(--black); margin-bottom: 16px; }
+.sprout-demo .db-top h1 { font-size: 25px; font-weight: 900; letter-spacing: -0.02em; line-height: 1.05; margin: 2px 0 0; }
+.sprout-demo .db-sum { display: flex; flex-wrap: wrap; gap: 3px 12px; margin-top: 6px; color: var(--dim); font-size: 11.5px; }
+.sprout-demo .db-sum b { color: var(--black); }
+.sprout-demo .db-sum .crit b { color: var(--crit); }
+.sprout-demo .db-top-r { display: flex; gap: 7px; align-items: center; flex-wrap: wrap; }
+.sprout-demo .db-nav { display: inline-flex; gap: 3px; }
+.sprout-demo .db-seg { display: inline-flex; border: 1.5px solid var(--line); border-radius: 999px; padding: 2px; background: #fff; }
+.sprout-demo .db-seg span { padding: 3px 11px; border-radius: 999px; font-size: 11px; font-weight: 700; color: var(--dim); }
+.sprout-demo .db-seg span.on { background: var(--black); color: var(--white); }
+.sprout-demo .db-act { display: inline-block; font-size: 11px; font-weight: 700; border: 1px solid var(--line); background: #fff; color: #2c2c26; border-radius: 5px; padding: 5px 9px; white-space: nowrap; line-height: 1.2; }
+.sprout-demo .db-act.pri { background: var(--black); color: var(--white); border-color: var(--black); }
+.sprout-demo .db-act.lg { font-size: 12px; padding: 7px 13px; }
+.sprout-demo .db-act.off { opacity: 0.45; }
+.sprout-demo .db-act.ok { background: var(--ok); border-color: var(--ok); color: #fff; }
+.sprout-demo .db-undo { font-size: 11px; color: var(--dim); text-decoration: underline; text-underline-offset: 2px; }
+.sprout-demo .db-grid2 { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 14px; align-items: start; }
+.sprout-demo .db-stack { display: grid; gap: 14px; min-width: 0; }
+.sprout-demo .db-card { background: #fff; border: 1.5px solid var(--g200); border-radius: 8px; box-shadow: var(--sh-sm); min-width: 0; }
+.sprout-demo .db-pad { padding: 12px 14px; }
+.sprout-demo .db-sub { color: var(--dim); font-size: 11px; margin: 0; }
+.sprout-demo .db-daybar { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 11px 14px; border-bottom: 1px solid var(--line); }
+.sprout-demo .db-big { font-size: 17px; font-weight: 700; white-space: nowrap; }
+.sprout-demo .db-group { padding: 10px 14px 3px; display: flex; gap: 7px; align-items: baseline; }
+.sprout-demo .db-group span { text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--faint); }
+.sprout-demo .db-rows { list-style: none; margin: 0; padding: 0; }
+.sprout-demo .db-row { display: grid; grid-template-columns: 50px 4px minmax(0, 1fr) auto; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--soft); align-items: start; }
+.sprout-demo .db-rows > .db-row:last-child { border-bottom: 0; }
+.sprout-demo .db-t { font-size: 10.5px; color: var(--dim); padding-top: 2px; }
+.sprout-demo .db-rail { width: 4px; border-radius: 2px; align-self: stretch; min-height: 30px; background: var(--cat, #B9B9AE); }
+.sprout-demo .db-rail.sprout { background: #CFCFC6; }
+.sprout-demo .db-name { font-weight: 700; font-size: 13px; overflow-wrap: anywhere; display: flex; flex-wrap: wrap; gap: 3px 6px; align-items: baseline; }
+.sprout-demo .db-row.done .db-name > span:first-child { color: var(--dim); text-decoration: line-through; text-decoration-thickness: 2px; }
+.sprout-demo .db-row.cal .db-name { font-weight: 400; }
+.sprout-demo .db-meta { font-size: 11px; color: var(--dim); margin-top: 1px; overflow-wrap: anywhere; }
+.sprout-demo .db-row.done .db-meta { color: var(--faint); }
+.sprout-demo .db-acts { display: flex; gap: 5px; margin-top: 7px; flex-wrap: wrap; align-items: center; }
+.sprout-demo .db-flag { font-size: 9.5px; font-weight: 700; padding: 1px 5px; border-radius: 3px; white-space: nowrap; }
+.sprout-demo .db-flag.crit { background: var(--crit-bg); color: var(--crit); }
+.sprout-demo .db-linkline { font-size: 11px; color: #3b3b34; margin-top: 5px; padding: 5px 8px; background: var(--sunk); border-radius: 4px; }
+.sprout-demo .db-linkline b { font-weight: 700; color: var(--black); }
+.sprout-demo .db-rowmenu { font-size: 17px; line-height: 1; color: var(--dim); padding: 0 5px 6px; }
+.sprout-demo .db-meters { display: grid; gap: 10px; margin-top: 8px; }
+.sprout-demo .db-mtop { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-size: 11.5px; }
+.sprout-demo .db-mtop small { color: var(--faint); font-size: 9.5px; margin-left: 4px; }
+.sprout-demo .db-sw { display: inline-block; width: 9px; height: 9px; border-radius: 2px; background: var(--cat); vertical-align: -1px; margin-right: 5px; }
+.sprout-demo .db-mval { font-weight: 600; font-size: 10.5px; white-space: nowrap; }
+.sprout-demo .db-track { height: 6px; border-radius: 4px; background: var(--sunk); margin-top: 5px; overflow: hidden; border: 1px solid var(--soft); }
+.sprout-demo .db-fill { height: 100%; border-radius: 4px; background: var(--cat); }
+.sprout-demo .db-mfoot { font-size: 10.5px; color: var(--dim); margin-top: 3px; }
+.sprout-demo .db-totline { display: flex; justify-content: space-between; align-items: baseline; gap: 4px 8px; flex-wrap: wrap; margin-top: 4px; }
+.sprout-demo .db-brk { display: grid; gap: 3px; margin-top: 8px; font-size: 11.5px; }
+.sprout-demo .db-brk div { display: flex; justify-content: space-between; gap: 10px; border-top: 1px solid var(--soft); padding-top: 3px; }
+.sprout-demo .db-brk div:first-child { border-top: 0; padding-top: 0; }
+.sprout-demo .db-minibank { list-style: none; padding: 0; display: grid; gap: 5px; margin: 8px 0 10px; }
+.sprout-demo .db-minibank li { font-size: 11.5px; overflow-wrap: anywhere; }
+.sprout-demo .demo-pin.db-pin-tr { left: auto; right: -10px; }
+@media (max-width: 760px) {
+  .sprout-demo .db-grid2 { grid-template-columns: minmax(0, 1fr); }
+  .sprout-demo .db-row { grid-template-columns: 34px 3px minmax(0, 1fr) auto; gap: 7px; padding: 9px 9px; }
+  .sprout-demo .db-t { font-size: 9.5px; }
+}
+
 /* detail side panel (ContactDetail), inside the frame */
 .sprout-demo .sp-dim { position: absolute; inset: 0; background: rgba(3, 0, 0, 0.3); z-index: 4; }
 .sprout-demo .sp-panel { position: absolute; top: 0; right: 0; bottom: 0; width: 47%; min-width: 320px; background: #fff; z-index: 5; box-shadow: -8px 0 40px rgba(0, 0, 0, 0.13); display: flex; flex-direction: column; overflow: hidden; }
@@ -5938,7 +6007,7 @@ Max</textarea>
             <div class="sprout-demo" data-demo-panel tabindex="-1">
               <div class="demo-nav-wrap">
                 <div class="sp-navbrand"><div class="sp-navbrand-name">Sprout Society</div><div class="sp-navbrand-sub">CRM</div></div>
-                <button class="demo-nav-item is-active" data-nav="dashboard" data-slide="0">Dashboard</button>
+                <button class="demo-nav-item is-active" data-nav="dashboard" data-slide="0">Day Board</button>
                 <button class="demo-nav-item" data-nav="contacts" data-slide="1">Contacts</button>
                 <button class="demo-nav-item" data-nav="portal" data-slide="2">Events Portal <span class="sp-navnew">New</span></button>
                 <button class="demo-nav-item" data-nav="newsletter" data-slide="3">Newsletter</button>
@@ -5965,62 +6034,185 @@ Max</textarea>
                   <button class="demo-side-arrow demo-side-prev" data-demo-prev aria-label="Previous slide">&#8249;</button>
                   <button class="demo-side-arrow demo-side-next" data-demo-next aria-label="Next slide">&#8250;</button>
 
-                  <!-- ============ SLIDE 1 · DASHBOARD ================================ -->
+                  <!-- ============ SLIDE 1 · DAY BOARD ================================ -->
+                  <!-- Rebuilt 2026-09-15 from sprout-crm-next/components/DayBoard.jsx (Day
+                       view), the day the sidebar's Dashboard became the Day Board. Placeholder
+                       people and tasks; category colors are Google Calendar's, from
+                       lib/dayBoard.js CATS. The app marks Sprout calendar rows with a hatched
+                       rail; here it is solid grey, because the carousels carry no dashes. -->
                   <section class="demo-car-slide is-on" data-nav="dashboard"
-                           data-contrib="Open the CRM and the day is already sorted: who to follow up with, what is overdue, and what is coming up."
-                           data-state-label="State of the CRM"
-                           data-state="Tuesday, September 1 &middot; 6 actions due in the next two weeks &middot; 2 overdue &middot; Sprout N Tell Vol. 4 in 10 days."
-                           data-title="Dashboard: who needs attention today">
+                           data-contrib="Open the CRM and the day is already planned: the calendar, the follow-ups due, and the hours they take."
+                           data-state-label="State of the day"
+                           data-state="Tuesday, September 1 &middot; 3 of 5 tasks done &middot; 1 follow-up carried from Monday &middot; Sprout N Tell Vol. 4 in 10 days."
+                           data-title="Day Board: the day and the week at a glance">
                     <div class="demo-notes">
-                      <div class="demo-note"><span class="demo-pin-n">1</span><span>The four counts at the top show total contacts, active relationships, and how many follow-ups are overdue or due this week.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">2</span><span>Every follow-up due in the next two weeks, for people, organizations, and events alike, lines up in order of its due date.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">3</span><span>Anything past due moves into its own box with how many days late it is, so a missed follow-up never hides in the longer list.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">4</span><span>Upcoming events sit beside the follow-ups, including booking requests that are not on the calendar yet.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">1</span><span>The header sums up the day in hours of tasks, tasks done, what is left in the weekly bank and overdue follow-ups, and switches between Day and Week views.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">2</span><span>Both Google calendars read straight in, and time on the shared Sprout calendar keeps its own total instead of counting toward your hours.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">3</span><span>Every CRM follow-up lands as a one-hour task with Complete, Push and Follow up, a finished task stays on the list with Undo, and anything not done moves to the next day at midnight.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">4</span><span>Hours for the week add up by category in Google Calendar's colors, shown as done out of what the week asks for, with no targets.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">5</span><span>Follow-ups due this week and anything carried over wait in a ranked weekly bank until they are placed on a day.</span></div>
                     </div>
                     <div class="sp-frame">
-                      <div class="sp-page">
-                        <div class="sp-hd">
+                      <div class="sp-page db">
+                        <header class="db-top demo-pinned"><span class="demo-pin db-pin-tr">1</span>
                           <div>
-                            <h1 class="sp-ttl">Dashboard</h1>
-                            <div class="sp-sub">Tuesday, September 1, 2026</div>
-                          </div>
-                          <div class="sp-actions"><span class="sp-btn sp-btn-blk">+ Log Touchpoint</span></div>
-                        </div>
-
-                        <div class="sp-stats demo-pinned"><span class="demo-pin">1</span>
-                          <div class="sp-stat"><div class="sp-stat-lbl">Total Contacts</div><div class="sp-stat-val">1,284</div><div class="sp-stat-meta">42 organizations</div></div>
-                          <div class="sp-stat"><div class="sp-stat-lbl">Active Relationships</div><div class="sp-stat-val" style="color: var(--cyan);">186</div><div class="sp-stat-meta">of 1,284 contacts</div></div>
-                          <div class="sp-stat"><div class="sp-stat-lbl">Overdue</div><div class="sp-stat-val" style="color: var(--fuchsia);">2</div><div class="sp-stat-meta">need contact now</div></div>
-                          <div class="sp-stat"><div class="sp-stat-lbl">Due This Week</div><div class="sp-stat-val" style="color: var(--acid);">6</div><div class="sp-stat-meta">actions in 14 days</div></div>
-                        </div>
-
-                        <div class="sp-cols">
-                          <div class="sp-card demo-pinned"><span class="demo-pin">2</span>
-                            <div class="sp-card-hd"><span class="sp-card-ttl">&#128197; Next Actions</span><span class="sp-card-meta">next 14 days</span></div>
-                            <div class="sp-card-bd">
-                              <div class="sp-act"><div class="sp-act-main"><div class="sp-act-name">Rosa Delgado</div><div class="sp-act-meta">Send set times to the Vol. 4 lineup</div></div><span class="sp-due due-today">today</span></div>
-                              <div class="sp-act"><div class="sp-act-main"><div class="sp-act-name">Sprout N Tell Vol. 4<span class="sp-act-kind">&#128197; event</span></div><div class="sp-act-meta">Confirm the sound engineer</div></div><span class="sp-due due-soon">in 2d</span></div>
-                              <div class="sp-act"><div class="sp-act-main"><div class="sp-act-name">Maya Chen</div><div class="sp-act-meta">Invite to Vol. 4 as a reader</div></div><span class="sp-due due-soon">in 3d</span></div>
-                              <div class="sp-act"><div class="sp-act-main"><div class="sp-act-name">Kai Brennan</div><div class="sp-act-meta">Thank-you note for the scholarship gift</div></div><span class="sp-due due-soon">in 5d</span></div>
-                              <div class="sp-act"><div class="sp-act-main"><div class="sp-act-name">Low Tide Records<span class="sp-act-kind">&#127970; org</span></div><div class="sp-act-meta">Pitch a co-hosted listening party</div></div><span class="sp-due due-soon">in 9d</span></div>
+                            <div class="db-eyebrow">Tuesday &middot; Today</div>
+                            <h1>September 1</h1>
+                            <div class="db-sum">
+                              <span><b class="mono">5.5</b> hrs of tasks today</span>
+                              <span><b class="mono">3 / 5</b> done</span>
+                              <span><b class="mono">4</b> in the weekly bank</span>
+                              <span class="crit"><b class="mono">1</b> overdue follow-up</span>
                             </div>
                           </div>
+                          <div class="db-top-r">
+                            <span class="db-nav"><span class="db-act">&#8249;</span><span class="db-act off">Today</span><span class="db-act">&#8250;</span></span>
+                            <span class="db-seg"><span class="on">Day</span><span>Week</span></span>
+                            <span class="db-act pri lg">+ Add task</span>
+                          </div>
+                        </header>
 
-                          <div class="sp-stack">
-                            <div class="sp-card demo-pinned"><span class="demo-pin">3</span>
-                              <div class="sp-card-hd"><span class="sp-card-ttl">&#9888; Overdue Actions</span></div>
-                              <div class="sp-card-bd">
-                                <div class="sp-act"><div class="sp-act-main"><div class="sp-act-name">Imani Shaw</div><div class="sp-act-meta">Follow up on the membership scholarship</div></div><span class="sp-due due-over">4d overdue</span></div>
-                                <div class="sp-act"><div class="sp-act-main"><div class="sp-act-name">Quiet Hours Social<span class="sp-act-kind">&#127970; org</span></div><div class="sp-act-meta">Send the host portal link</div></div><span class="sp-due due-over">2d overdue</span></div>
+                        <div class="db-grid2">
+                          <div class="db-stack">
+                            <div class="db-card">
+                              <div class="db-daybar">
+                                <div><div class="db-eyebrow">Sprout hours today</div><div class="db-big mono">5h 30m</div></div>
+                                <div style="text-align: right;"><div class="db-eyebrow">Done</div><div class="db-big mono">3 / 5</div></div>
+                              </div>
+
+                              <div class="demo-pinned"><span class="demo-pin">2</span>
+                                <div class="db-group db-eyebrow">On the calendar</div>
+                                <ul class="db-rows">
+                                  <li class="db-row cal">
+                                    <div class="db-t mono">10am</div>
+                                    <div class="db-rail sprout"></div>
+                                    <div>
+                                      <div class="db-name"><span>Co-Working</span></div>
+                                      <div class="db-meta">Until 4pm &middot; Sprout calendar &middot; not in your hours</div>
+                                    </div>
+                                    <span></span>
+                                  </li>
+                                  <li class="db-row cal">
+                                    <div class="db-t mono">2pm</div>
+                                    <div class="db-rail" style="--cat: var(--c-events);"></div>
+                                    <div>
+                                      <div class="db-name"><span>Vol. 4 run-of-show call</span></div>
+                                      <div class="db-meta">Until 2:30pm &middot; Your calendar &middot; Events &amp; Programs</div>
+                                    </div>
+                                    <span></span>
+                                  </li>
+                                </ul>
+                              </div>
+
+                              <div class="demo-pinned"><span class="demo-pin">3</span>
+                                <div class="db-group db-eyebrow">To do today <span>in priority order</span></div>
+                                <ul class="db-rows">
+                                  <li class="db-row done">
+                                    <div class="db-t mono">1 hr</div>
+                                    <div class="db-rail" style="--cat: var(--c-events);"></div>
+                                    <div>
+                                      <div class="db-name"><span>Rosa Delgado</span></div>
+                                      <div class="db-meta">Events &amp; Programs &middot; Follow-up &middot; Send set times to the Vol. 4 lineup</div>
+                                      <div class="db-acts"><span class="db-act ok">&#10003; Done</span><span class="db-undo">Undo</span></div>
+                                    </div>
+                                    <span class="db-rowmenu">&#8943;</span>
+                                  </li>
+                                  <li class="db-row">
+                                    <div class="db-t mono">1 hr</div>
+                                    <div class="db-rail" style="--cat: var(--c-outreach);"></div>
+                                    <div>
+                                      <div class="db-name"><span>Imani Shaw</span><span class="db-flag crit mono">4d late</span></div>
+                                      <div class="db-meta">Outreach &middot; Follow-up &middot; Follow up on the membership scholarship</div>
+                                      <div class="db-linkline">Not done <b>Mon 8/31</b>, moved here at midnight</div>
+                                      <div class="db-acts"><span class="db-act pri">Complete</span><span class="db-act">Push</span><span class="db-act">Follow up</span></div>
+                                    </div>
+                                    <span class="db-rowmenu">&#8943;</span>
+                                  </li>
+                                  <li class="db-row done">
+                                    <div class="db-t mono">1 hr</div>
+                                    <div class="db-rail" style="--cat: var(--c-events);"></div>
+                                    <div>
+                                      <div class="db-name"><span>Quiet Hours Social</span></div>
+                                      <div class="db-meta">Events &amp; Programs &middot; Follow-up &middot; Send the host portal link</div>
+                                      <div class="db-acts"><span class="db-act ok">&#10003; Done</span><span class="db-undo">Undo</span></div>
+                                    </div>
+                                    <span class="db-rowmenu">&#8943;</span>
+                                  </li>
+                                  <li class="db-row">
+                                    <div class="db-t mono">2 hrs</div>
+                                    <div class="db-rail" style="--cat: var(--c-grants);"></div>
+                                    <div>
+                                      <div class="db-name"><span>Draft the fall grant report</span></div>
+                                      <div class="db-meta">Grants &amp; Fundraising &middot; Task</div>
+                                      <div class="db-acts"><span class="db-act pri">Complete</span><span class="db-act">Push</span><span class="db-act">Follow up</span></div>
+                                    </div>
+                                    <span class="db-rowmenu">&#8943;</span>
+                                  </li>
+                                  <li class="db-row done">
+                                    <div class="db-t mono">30 min</div>
+                                    <div class="db-rail" style="--cat: var(--c-admin);"></div>
+                                    <div>
+                                      <div class="db-name"><span>Order Vol. 4 wristbands</span></div>
+                                      <div class="db-meta">Admin &middot; Task</div>
+                                      <div class="db-acts"><span class="db-act ok">&#10003; Done</span><span class="db-undo">Undo</span></div>
+                                    </div>
+                                    <span class="db-rowmenu">&#8943;</span>
+                                  </li>
+                                </ul>
                               </div>
                             </div>
-                            <div class="sp-card demo-pinned"><span class="demo-pin">4</span>
-                              <div class="sp-card-hd"><span class="sp-card-ttl">&#128467; Upcoming Events</span><span class="sp-btn sp-btn-ghost sp-btn-xs">View all</span></div>
-                              <div class="sp-card-bd" style="padding-top: 4px; padding-bottom: 4px;">
-                                <div class="sp-evrow"><div class="sp-evdate"><b>1</b><span>Sep</span></div><div class="sp-act-main"><div class="sp-act-name">Co-Working &#128257;</div><div class="sp-small">Weekly on Tuesdays &middot; 10:00am&ndash;4:00pm</div></div><span class="sp-tag t-up">Upcoming</span></div>
-                                <div class="sp-evrow"><div class="sp-evdate"><b>11</b><span>Sep</span></div><div class="sp-act-main"><div class="sp-act-name">Sprout N Tell Vol. 4</div><div class="sp-small">7:00pm&ndash;10:00pm &middot; 11 people &middot; 7 confirmed</div></div><span class="sp-tag t-up">Upcoming</span></div>
-                                <div class="sp-evrow"><div class="sp-evdate"><b>18</b><span>Sep</span></div><div class="sp-act-main"><div class="sp-act-name">Fern &amp; Fold Zine Night</div><div class="sp-small">Booking request &middot; not on the calendar yet</div></div><span class="sp-tag t-pend">Pending</span></div>
+                          </div>
+
+                          <div class="db-stack">
+                            <div class="db-card db-pad demo-pinned"><span class="demo-pin">4</span>
+                              <div class="db-eyebrow">This week so far</div>
+                              <div class="db-totline"><span class="db-big mono">6.5 / 21 hrs</span><span class="db-sub">done of what the week asks for</span></div>
+                              <div class="db-meters">
+                                <div style="--cat: var(--c-events);">
+                                  <div class="db-mtop"><span><span class="db-sw"></span>Events &amp; Programs<small>Flamingo</small></span><span class="db-mval mono">3 / 8 hrs</span></div>
+                                  <div class="db-track"><div class="db-fill" style="width: 37.5%;"></div></div>
+                                  <div class="db-mfoot">3 follow-ups, 2 tasks, 1 calendar item</div>
+                                </div>
+                                <div style="--cat: var(--c-outreach);">
+                                  <div class="db-mtop"><span><span class="db-sw"></span>Outreach<small>Peacock</small></span><span class="db-mval mono">1 / 5 hrs</span></div>
+                                  <div class="db-track"><div class="db-fill" style="width: 20%;"></div></div>
+                                  <div class="db-mfoot">4 follow-ups, 1 task</div>
+                                </div>
+                                <div style="--cat: var(--c-admin);">
+                                  <div class="db-mtop"><span><span class="db-sw"></span>Admin<small>Graphite</small></span><span class="db-mval mono">1.5 / 3 hrs</span></div>
+                                  <div class="db-track"><div class="db-fill" style="width: 50%;"></div></div>
+                                  <div class="db-mfoot">3 tasks</div>
+                                </div>
+                                <div style="--cat: var(--c-grants);">
+                                  <div class="db-mtop"><span><span class="db-sw"></span>Grants &amp; Fundraising<small>Banana</small></span><span class="db-mval mono">1 / 5 hrs</span></div>
+                                  <div class="db-track"><div class="db-fill" style="width: 20%;"></div></div>
+                                  <div class="db-mfoot">1 follow-up, 1 task, 1 calendar item</div>
+                                </div>
                               </div>
+                            </div>
+
+                            <div class="db-card db-pad">
+                              <div class="db-eyebrow">Sprout calendar this week</div>
+                              <div class="db-totline"><span class="db-big mono">14h 00m</span><span class="db-sub">Its own total. Not in your hours.</span></div>
+                              <div class="db-brk">
+                                <div><span>Co-Working</span><span class="mono">12h 00m</span></div>
+                                <div><span>Open Studio</span><span class="mono">2h 00m</span></div>
+                              </div>
+                            </div>
+
+                            <div class="db-card db-pad demo-pinned"><span class="demo-pin">5</span>
+                              <div class="db-eyebrow">Weekly bank</div>
+                              <div class="db-totline">
+                                <span class="db-big"><span class="mono">4</span> tasks &middot; <span class="mono">5</span> hrs</span>
+                                <span class="db-sub">not on a day yet</span>
+                              </div>
+                              <ul class="db-minibank">
+                                <li style="--cat: var(--c-outreach);"><span class="db-sw"></span>Maya Chen: Invite to Vol. 4 as a reader</li>
+                                <li style="--cat: var(--c-grants);"><span class="db-sw"></span>Kai Brennan: Thank-you note for the scholarship gift</li>
+                                <li style="--cat: var(--c-events);"><span class="db-sw"></span>Vol. 5 flyer</li>
+                                <li class="db-sub">and 1 more</li>
+                              </ul>
+                              <span class="db-act">Plan the week</span>
                             </div>
                           </div>
                         </div>
