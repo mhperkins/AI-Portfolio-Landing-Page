@@ -62,8 +62,8 @@ Associate, $19-20/hr, 30 hrs/week, reports to a manager.
 ## Current State (as of September 15, 2026)
 
 **The Priority List above is the queue.** All three have cover letter drafts in
-`Priority Applications Cover Letters.md` (Savanna v2.1 carries Max's own edit; River Alliance and
-WFAA are v1). No tailored resumes yet. By deadline, River
+`Priority Applications Cover Letters.md` (Savanna v2.1 carries Max's own edit; River Alliance is v1;
+WFAA v2 is its own letter built on Max's UW story). No tailored resumes yet. By deadline, River
 Alliance and MEA comes due first (priority Sept 27), then Savanna Institute (Oct 4). WFAA states no
 deadline.
 

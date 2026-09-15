@@ -46,6 +46,10 @@ coordination, budgets, Bloomerang, EveryAction, Neon.
   and sends the emails through Campaign Monitor (confirmed). Sprout raised the money; the letter
   never says Max raised it.
 - **Grandparents' farm is in Beloit, Wisconsin** (Max's edit).
+- **UW story (Max, for WFAA).** Grew up with evenings on the Terrace every summer while visiting
+  Wisconsin family from California. Loves Badger sports. His dad and dozens of other family members
+  are UW alumni. As a music major he played many shows at the Union and around Madison. Played rugby
+  at UW. A lifelong advocate for Madison and UW.
 - **Entrepreneur framing (Max's call).** Play up Music Major Records and the breadth of the
   nonprofit operation Max covered in a short time. Volume: full for Savanna, medium for WFAA, light
   for RA (the arts-education track's flight-risk rule still applies to an hourly seat).
@@ -210,36 +214,38 @@ wording.
 
 ---
 
-## WFAA, Engagement Program Coordinator: Draft v1
+## WFAA, Engagement Program Coordinator: Draft v2 (current)
 
 Top priority, no deadline. Apply through iCIMS
-(careers-supportuw.icims.com/jobs/1631/engagement-program-coordinator/job). Written in the voice of
-Max's Savanna edit. Breadth is medium (founder in one clause). The hook is the UW-Madison B.A.
+(careers-supportuw.icims.com/jobs/1631/engagement-program-coordinator/job). **Max's call: a
+different letter from the other two, built on his UW story.** The first two paragraphs are UW and
+Madison; Sprout Society is the supporting proof. v1 (template fit, UW B.A. as a one-line hook) is
+replaced.
 
 > Dear WFAA Hiring Team,
 >
-> I grew up in the San Francisco Bay Area, but I spent most summers on my grandparents' farm in
-> Beloit, Wisconsin, and earned my B.A. in composition at UW-Madison. After nearly ten years in New
-> York, I am moving back to Madison, and I would love to help other alumni stay connected to the
-> university as your Engagement Program Coordinator.
+> I grew up in California, but I spent my summers in Wisconsin with family, between my grandparents'
+> farm in Beloit and evenings on the Memorial Union Terrace. My dad is a UW-Madison alum, along with
+> dozens of others in my family, so I was a Badgers fan long before I was a student.
 >
-> In 2023 I founded my own company, a platform for college musicians, and running every part of it
-> prepared me to take on a wide share of Sprout Society's operation quickly. As Community Manager of
-> this Brooklyn nonprofit, I am the first point of contact for our members, partners and donors. I
-> keep their records accurate in a CRM I built from scratch to replace paid software, including
-> around 3,000 donors to an organization that has raised over $1.5 million, and I send our emails
-> through Campaign Monitor. Building the CRM with AI tools meant mapping our whole engagement
-> workflow, step by step, before automating any of it.
+> When I became one, I studied composition, played rugby, and played shows at the Union and around
+> Madison. I have been an advocate for UW and Madison my whole life, and after nearly ten years in New
+> York, I am moving back. As your Engagement Program Coordinator, I would love to help other alumni
+> feel as connected to UW as my family always has.
 >
-> Most of my week is programs and events. I built and run our sign-up and onboarding process, plan
-> and host a monthly music and art showcase, and support the events members run in our space,
-> coordinating artists, partners and vendors for each one. That work grew us from one showcase a
-> month to 10 to 15 events, bringing in over 100 new people each month.
+> Founding my own company in 2023 taught me to run every part of an operation at once, and it
+> prepared me for my current role as Community Manager of Sprout Society, a Brooklyn nonprofit. I am
+> the first point of contact for our members, partners and donors, and I keep the records for around
+> 3,000 donors accurate in a CRM I built from scratch, sending our emails through Campaign Monitor.
+> Building it with AI tools meant mapping our whole engagement workflow before automating any of it.
 >
-> I am comfortable moving several programs forward at once, glad to work evenings and weekends when
-> events call for it, and I have a valid driver's license.
+> I also built our sign-up and onboarding process, host a monthly music and art showcase, and support
+> the events members run in our space, coordinating artists, partners and vendors for each one. That
+> work grew us from one showcase a month to 10 to 15 events, bringing in over 100 new people each
+> month.
 >
-> I would welcome the chance to talk about how I can support your engagement programs.
+> I am glad to work evenings and weekends when events call for it, and I have a valid driver's
+> license. I would welcome the chance to talk about how I can support your engagement programs.
 >
 > Thank you for your time and consideration,
 > Maxwell Perkins
@@ -250,24 +256,44 @@ Max's Savanna edit. Breadth is medium (founder in one clause). The hook is the U
 
 | Posting asks for | Where the letter meets it |
 |---|---|
-| Bachelor's degree | P1 UW-Madison B.A. |
-| 1+ year coordinating complex programs, events or engagement initiatives | P3 |
-| Valid driver's license | P4 |
-| Program operations: plans, timelines, processes | P3 sign-up and onboarding; P4 several programs at once |
-| Events: onsite support, vendors, registration, logistics | P3 |
-| Constituent relations: point of contact, records, databases | P2 |
-| Communications and marketing support | P2 Campaign Monitor |
-| CRM and event registration platforms (preferred) | P2 CRM; P3 sign-up process |
-| Evenings and weekends (preferred) | P4 |
-| Hybrid, 2+ days in the Madison office | P1 moving back to Madison |
+| Bachelor's degree | P2 studied composition at UW (the resume carries the B.A.) |
+| 1+ year coordinating complex programs, events or engagement initiatives | P4 |
+| Valid driver's license | P5 |
+| Program operations: plans, timelines, processes | P4 sign-up and onboarding |
+| Events: onsite support, vendors, registration, logistics | P4 |
+| Constituent relations: point of contact, records, databases | P3 |
+| Communications and marketing support | P3 Campaign Monitor |
+| CRM and event registration platforms (preferred) | P3 CRM; P4 sign-up process |
+| Evenings and weekends (preferred) | P5 |
+| Hybrid, 2+ days in the Madison office | P2 moving back |
+| Constituent experience (the role's purpose) | P1 and P2: a lifelong UW constituent from an alumni family |
 
 **Not claimed:** Microsoft Office, project management software, volunteer coordination, budgeting.
 
 ### Open calls for Max
 
-- "Help other alumni stay connected to the university" is the hook. Does it sound like you?
-- Vermont Valley is left out: nothing in this job is agricultural.
+- "So I was a Badgers fan long before I was a student" joins the Terrace, your family and Badger
+  sports into one line. Check it sounds like you.
+- "Memorial Union Terrace" names the Terrace you meant; "the Union" covers wherever you played shows
+  (Memorial Union or Union South).
+- Rugby: the letter says "played rugby" with no team name. If it was the club team, that reads right.
+- Optional sign-off: "On, Wisconsin," above "Thank you for your time and consideration." Warm for
+  this reader; your call.
 - Same start-date question as River Alliance: when will you be in Madison?
+
+### Claims, with their source
+
+| Claim | Source |
+|---|---|
+| Grew up in California; summers visiting Wisconsin family; evenings on the Terrace | Max, Sept 15 |
+| Beloit farm summers | Max, Sept 15 |
+| Dad and dozens of family members are UW alumni; love of Badger sports | Max, Sept 15 |
+| Music major; shows at the Union and around Madison; rugby at UW | Max, Sept 15; B.A. in `Community Engagement Resume.md` |
+| Lifelong advocate for UW and Madison | Max, Sept 15 |
+| Nearly ten years in New York | WCO letter v3 |
+| Founded company 2023 | `Academic CV - UW Madison.md` |
+| 3,000 donors, CRM built from scratch, Campaign Monitor | Max, Sept 15 |
+| Sign-up and onboarding; showcase; one to 10 to 15 events; 100+ new people a month | `Community Engagement Resume.md` |
 
 ---
 
