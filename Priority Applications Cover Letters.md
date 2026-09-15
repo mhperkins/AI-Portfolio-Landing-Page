@@ -285,12 +285,15 @@ career.
 **Not claimed:** Microsoft Office, project management software, volunteer coordination, budgeting.
 Campaign Monitor and the AI line came out in Max's edit.
 
-### Open calls for Max
+**Final (Max's call, Sept 15): leave this letter as v3.1.**
 
-- "It feels like I never left" reads as if you are already back in Madison. Are you? If so, the River
-  Alliance letter's "I am moving back" and the resume header ("relocating to Madison") both change.
-- "Most unique" is his phrase; some readers flag "unique" as not taking "most". Kept as his voice.
-- Optional sign-off: "On, Wisconsin," above "Thank you for your time and consideration."
+### Relocation stance (Sept 15)
+
+Max will move to Madison once he has a job. Max's call: the letters read as a Madison candidate,
+definitely this one. Claude's limit: imply, never state residence. "Coming back to Madison" is true;
+"I live in Madison" would not be. Resume header: "Madison, WI" only if Max can interview in person on
+about a week's notice, otherwise no city. River Alliance (in office, start Oct 19): ask whether Max
+could be in Madison by Oct 19 before sending. Savanna is remote, so location does not matter.
 
 ### Claims, with their source
 
