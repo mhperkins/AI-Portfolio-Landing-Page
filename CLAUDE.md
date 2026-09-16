@@ -52,7 +52,7 @@ Vercel project: `ai-portfolio-landing-page` · GitHub: `mhperkins/AI-Portfolio-L
 | [demo/campaign-demo.html](demo/campaign-demo.html) | **Iteration source for the Campaign Tracker panel's carousel** (5 annotated slides, transplanted 2026-09-12). |
 | [demo/assets/](demo/assets/) | Carousel assets: `chaconne-p1.webp` (copied from the composer portfolio's score previews) and `chaconne-excerpt.mp3`, the 45-second cut from 8:25 of the Chaconne recording that slide 5 plays in both copies. |
 | [images/](images/) | Screenshots and assets. `maxwell-portrait-500/800.webp` is the color on-stage portrait from the composer portfolio's About section (copied 2026-09-14 from `composers-compass/portfolio/site/assets/portfolio/maxwell-about-portrait-*`), shown beside the About text on `about.html` and the home page. Not the black and white piano hero photo. |
-| [career/](career/README.md) | **Everything for the job search** (moved here 2026-09-16): `tracks/` (the five career-search docs), `base/` (AI roles CV and base letter, ops resume), `applications/<YYYY-MM-org>/` (one folder per application: `resume.md`, `letter.md`, `notes.md`, built `.docx` and `.pdf`), and `build.py`, which builds them all. **Start at `career/README.md`**: the application index, the source format and the build rules. `.gitignore` keeps it out of git (OneDrive is its only backup) and `.vercelignore` keeps it off the site. |
+| [career/](career/README.md) | **Everything for the job search** (moved here 2026-09-16): `tracks/` (the five career-search docs), `base/` (AI roles CV and base letter, ops resume), `applications/<YYYY-MM-org>/` (one folder per application: `job.md` with the posting link and a short job summary, `resume.md`, `letter.md`, `notes.md`, built `.docx` and `.pdf`), and `build.py`, which builds them all. **Start at `career/README.md`**: the application index, the source format and the build rules. `.gitignore` keeps it out of git (OneDrive is its only backup) and `.vercelignore` keeps it off the site. |
 
 ---
 
@@ -800,6 +800,9 @@ no site changes.
   place (his curly apostrophes kept, link label now Portfolio). The root Savanna resume copy matched
   its rebuild, went to the Recycle Bin, and its PDF was rebuilt (one page).
 - The three priority letters are dated Sept 16. Update the `Date:` line on the day each goes out.
+- **Every application folder has a `job.md`** (Max's ask): posting and apply links, location and hours,
+  pay, deadline, status, and a short summary checked against the posting. WCO has none: Max got the
+  rejection on 2026-09-16, and its status is Rejected in the README and the track doc.
 
 ### Session of 2026-09-15: cover letters and resumes for the three priority applications (pushed)
 
@@ -1007,7 +1010,7 @@ Career work only; no site changes.
 **Open:**
 - ~~No materials yet for any of the three priorities.~~ Drafted later the same day; see "cover
   letters and resumes for the three priority applications" above.
-- WCO: materials ready, still not logged as submitted; the posting was open on Sept 15.
+- ~~WCO: materials ready, still not logged as submitted.~~ Rejected (Max, 2026-09-16).
 - Check by hand: Overture's education coordinator role; whether Careerswift Implementation
   Specialist is really open (its Ashby page shows only a title); UMKC's "or equivalent professional
   experience" clause.
@@ -1129,7 +1132,7 @@ session shipped the GA and About work below at the same time.
 - Company paragraphs for the top AI leads. Careerswift's AI and Workflow Automation Specialist
   posting expires Sept 16.
 - Check the Overture coordinator role by hand. The WCO application has not been logged as
-  submitted since Sept 10.
+  submitted since Sept 10. (Rejected, 2026-09-16.)
 
 **Next:** apply to the top AI leads with the CV and letter, writing a company paragraph for each.
 
