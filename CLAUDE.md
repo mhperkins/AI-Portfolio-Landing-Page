@@ -792,9 +792,10 @@ no site changes.
 **Open:**
 - **`career/` is gitignored (Max's call),** so it lives only on disk and in OneDrive, with no version
   history. The public GitHub history still holds every career file committed before 2026-09-16.
-- **The WFAA resume is two pages now:** only the Availability line spills over. Max is fixing the
-  margins himself, in Word. The build then skips that docx, so copy any text changes into its
-  `resume.md` before a rebuild.
+- **WFAA resume:** Hudson Table (Event Host, 2021 to 2023, from Max's older resumes) replaced the
+  teaching and studio entries, at Max's call, for customer service and event experience. That brought
+  it back to one page. Max had planned to fix the margins himself in Word. If he does, the build skips
+  that docx, so copy any text changes into its `resume.md` before a rebuild.
 - Max's own WFAA letter (`OneDrive\Documents\Dear WFAA Hiring Team.docx`) was updated to v3.1 in
   place (his curly apostrophes kept, link label now Portfolio). The root Savanna resume copy matched
   its rebuild, went to the Recycle Bin, and its PDF was rebuilt (one page).
