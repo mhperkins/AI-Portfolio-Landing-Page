@@ -2137,6 +2137,9 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
    ========================================================================== */
 .demo-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin: 0 0 16px; }
 .demo-note { display: flex; gap: 10px; align-items: flex-start; background: white; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; box-shadow: var(--shadow); font-family: var(--font-sans); font-size: 13px; line-height: 1.45; color: var(--tp); }
+.demo-bul { margin: 0; padding-left: 1.05em; list-style: disc; }
+.demo-bul li + li { margin-top: 3px; }
+.demo-bul li::marker { color: var(--demo-pin-color, var(--amber)); }
 .demo-pin, .demo-pin-n { width: 22px; height: 22px; border-radius: 50%; background: var(--amber); color: white; font-family: var(--font-sans); font-size: 11.5px; font-weight: 700; line-height: 22px; text-align: center; flex: none; }
 .demo-pin { position: absolute; top: -10px; left: -10px; z-index: 6; box-shadow: 0 0 0 2px white, 0 2px 8px rgba(28, 25, 23, .25); pointer-events: none; }
 .demo-pinned { position: relative; }
@@ -3780,8 +3783,8 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
         <!-- ============ SLIDE 1 · AESTHETIC BLUEPRINT ==================== -->
         <section class="demo-car-slide is-on" data-title="The Aesthetic Blueprint">
           <div class="demo-notes">
-            <div class="demo-note"><span class="demo-pin-n">1</span><span>Voice, influences and tendencies describe how you already write, and the assistant carries them into every session on every piece.</span></div>
-            <div class="demo-note"><span class="demo-pin-n">2</span><span>Parameters mark what you favor and what you are exploring, and Philosophy sets the ground rules, like naming a departure from your aesthetic instead of filtering it out.</span></div>
+            <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Voice, influences and tendencies: how you already write</li> <li>The assistant carries them into every session, on every piece</li></ul></div></div>
+            <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Parameters: what you favor and what you are exploring</li> <li>Philosophy: the ground rules</li> <li>Example: name a departure from your aesthetic instead of filtering it out</li></ul></div></div>
           </div>
           <div class="demo-row">
             <div class="dnode" style="flex: 1 1 100%;">
@@ -3831,9 +3834,9 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
         <!-- ============ SLIDE 2 · INTAKE ================================= -->
         <section class="demo-car-slide" data-title="Intake: the form and the conversation">
           <div class="demo-notes">
-            <div class="demo-note"><span class="demo-pin-n">1</span><span>In Dialogue, the assistant asks one question at a time about what the piece is for, and each answer shapes the next question.</span></div>
-            <div class="demo-note"><span class="demo-pin-n">2</span><span>Form holds the same intake as labeled sections to fill in directly, and Import brings in notes you have already written.</span></div>
-            <div class="demo-note"><span class="demo-pin-n">3</span><span>Build intake compiles either one into a single artifact, led by the analytical question that every later step works from.</span></div>
+            <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Dialogue: one question at a time about what the piece is for</li> <li>Each answer shapes the next question</li></ul></div></div>
+            <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Form: the same intake as labeled sections you fill in</li> <li>Import: bring in notes you already wrote</li></ul></div></div>
+            <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Build intake compiles either one into a single artifact</li> <li>Led by the analytical question every later step works from</li></ul></div></div>
           </div>
           <div class="demo-row" style="gap: 16px;">
 
@@ -3923,8 +3926,8 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
         <!-- ============ SLIDE 3 · CONSTITUTION TO GUIDE =================== -->
         <section class="demo-car-slide" data-title="Constitution to Guide">
           <div class="demo-notes">
-            <div class="demo-note"><span class="demo-pin-n">1</span><span>Each decision becomes a numbered rule that cites its source, Save version and History keep every earlier draft, and Reconcile resolves rules that contradict each other.</span></div>
-            <div class="demo-note"><span class="demo-pin-n">2</span><span>The Guide reads the constitution and returns a one-sheet of observations, suggestions and recommended paths, with the reasoning and the full guide a click away.</span></div>
+            <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Each decision becomes a numbered rule that cites its source</li> <li>Save version and History keep every earlier draft</li> <li>Reconcile resolves rules that contradict each other</li></ul></div></div>
+            <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>The Guide reads the constitution</li> <li>Returns a one-sheet: observations, suggestions, recommended paths</li> <li>The reasoning and full guide are a click away</li></ul></div></div>
           </div>
           <div class="demo-row" style="gap: 0;">
 
@@ -4010,9 +4013,9 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
         <!-- ============ SLIDE 4 · SKETCHES TO FINAL DRAFT ================= -->
         <section class="demo-car-slide" data-title="Sketches to final draft">
           <div class="demo-notes">
-            <div class="demo-note"><span class="demo-pin-n">1</span><span>Sketches upload as MusicXML and render as readable score on the canvas, so the assistant can weigh them against the constitution.</span></div>
-            <div class="demo-note"><span class="demo-pin-n">2</span><span>When a sketch pushes against a rule, the assistant raises it in Dialogue and proposes a decision, and nothing changes until you commit it, with the old rule kept in History.</span></div>
-            <div class="demo-note"><span class="demo-pin-n">3</span><span>A full draft uploads as XML for a complete analysis, read section by section so even a long score fits.</span></div>
+            <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Sketches upload as MusicXML</li> <li>They render as readable score on the canvas</li> <li>The assistant weighs them against the constitution</li></ul></div></div>
+            <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>A sketch pushes against a rule: the assistant raises it in Dialogue</li> <li>It proposes a decision; nothing changes until you commit it</li> <li>The old rule stays in History</li></ul></div></div>
+            <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Upload a full draft as XML for a complete analysis</li> <li>Read section by section, so even a long score fits</li></ul></div></div>
           </div>
           <div class="demo-row" style="gap: 0;">
 
@@ -4138,9 +4141,9 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
         <!-- ============ SLIDE 5 · ENGRAVING ASSISTANT ==================== -->
         <section class="demo-car-slide" data-title="The engraving assistant">
           <div class="demo-notes">
-            <div class="demo-note"><span class="demo-pin-n">1</span><span>The house style starts from a publisher's conventions or your own, and one profile drives both the canvas preview and the exported PDF.</span></div>
-            <div class="demo-note"><span class="demo-pin-n">2</span><span>The assistant checks the draft against that house style and returns a checklist, each issue flagged by bar number with its fix.</span></div>
-            <div class="demo-note"><span class="demo-pin-n">3</span><span>The engraved score and its recording close the chain, kept on the canvas with every decision that shaped the piece.</span></div>
+            <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>House style starts from a publisher's conventions or your own</li> <li>One profile drives both the canvas preview and the exported PDF</li></ul></div></div>
+            <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>The assistant checks the draft against the house style</li> <li>Returns a checklist: each issue flagged by bar number, with its fix</li></ul></div></div>
+            <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>The engraved score and its recording close the chain</li> <li>Kept on the canvas with every decision that shaped the piece</li></ul></div></div>
           </div>
           <div class="demo-row" style="gap: 0;">
 
@@ -4314,9 +4317,9 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
                            data-state-label="State of the relationship"
                            data-state="Jordan Ma &middot; clarinetist and composer in Tide Quartet &middot; warm, and confirmed for Groove Theory II.">
                     <div class="demo-notes">
-                      <div class="demo-note"><span class="demo-pin-n">1</span><span>Every contact keeps its touchpoint log, follow-ups, notes and concerts in tabs on one record.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">2</span><span>One record holds their contact details, several roles at once, instruments, a relationship status from Cold to Active that drives the health score on the list, and a prospect flag.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">3</span><span>Assign a contact to ensembles and concerts right on their record, and a concert added here saves straight to that concert's lineup.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>One record per contact</li> <li>Tabs: touchpoint log, follow-ups, notes, concerts</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Contact details and instruments</li> <li>Several roles at once</li> <li>Relationship status from Cold to Active, which drives the list's health score</li> <li>Prospect flag</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Assign ensembles and concerts right on the record</li> <li>A concert added here saves straight to its lineup</li></ul></div></div>
                     </div>
                     <div class="cframe">
                       <div class="cpage">
@@ -4475,9 +4478,9 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
                            data-state-label="State of the relationship"
                            data-state="Sofia Lindqvist &middot; quiet since August &middot; Email 1 of the reconnect sequence, ready to send.">
                     <div class="demo-notes">
-                      <div class="demo-note"><span class="demo-pin-n">1</span><span>The Outreach queue gathers new prospects and anyone past their follow-up cadence, and picks the reconnect or follow-up email for each.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">2</span><span>The draft is your own template with the contact's name filled in, and the bracketed parts are left for you to make specific.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">3</span><span>Mark sent logs the email on the contact and lines up the follow-up, and Not now sets the person aside for 30 days.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>The queue gathers new prospects and anyone past their follow-up cadence</li> <li>Picks the reconnect or follow-up email for each</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>The draft is your own template, name filled in</li> <li>Bracketed parts are left for you to make specific</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Mark sent: logs the email on the contact and lines up the follow-up</li> <li>Not now: sets the person aside for 30 days</li></ul></div></div>
                     </div>
                     <div class="cframe">
                       <div class="cpage">
@@ -4565,9 +4568,9 @@ Max</textarea>
                            data-state="Groove Theory II &middot; 8 of 10 essentials answered &middot; the venue filled the rest in on Sep 2."
                            data-title="Concerts: the booking portal">
                     <div class="demo-notes">
-                      <div class="demo-note"><span class="demo-pin-n">1</span><span>The booking portal is a nine-section form for the venue or host, and it tracks the ten essentials a concert cannot go ahead without.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">2</span><span>One private link opens the form for whoever needs it, and New link or Remove shuts the old one off.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">3</span><span>Answers come back into the CRM section by section, fill in the booking protocol on the concert page, and copy out in one click.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>A nine-section form for the venue or host</li> <li>Tracks the ten essentials a concert cannot go ahead without</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>One private link opens the form for whoever needs it</li> <li>New link or Remove shuts the old one off</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Answers come back into the CRM section by section</li> <li>They fill in the booking protocol on the concert page</li> <li>Copy them out in one click</li></ul></div></div>
                     </div>
                     <div class="cframe cframe-full">
                       <div class="cpage">
@@ -4693,8 +4696,8 @@ Max</textarea>
                            data-state="11 items &middot; 4 done &middot; one overdue, and the show sitting on Oct 18."
                            data-title="Concerts: the checklist and calendar">
                     <div class="demo-notes">
-                      <div class="demo-note"><span class="demo-pin-n">1</span><span>Every checklist item carries a due date, and overdue or upcoming ones also show on the CRM dashboard, next to every contact's follow-ups.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">2</span><span>Click a day to add an item, click an item to edit or finish it, and drag it to another day to move its date.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Every checklist item has a due date</li> <li>Overdue and upcoming items also show on the CRM dashboard, beside contact follow-ups</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Click a day: add an item</li> <li>Click an item: edit or finish it</li> <li>Drag it to another day: move its date</li></ul></div></div>
                     </div>
                     <div class="cframe cframe-full">
                       <div class="cpage">
@@ -4798,8 +4801,8 @@ Max</textarea>
                            data-state="7 on the bill &middot; 5 confirmed &middot; two still to answer."
                            data-title="Concerts: the lineup and RSVPs">
                     <div class="demo-notes">
-                      <div class="demo-note"><span class="demo-pin-n">1</span><span>The lineup is built from your contacts, and tapping RSVP writes the answer back onto that person's record.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">2</span><span>Each person's RSVP toggles between open and confirmed, and the confirmed count on the concert page updates with it.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>The lineup is built from your contacts</li> <li>Tapping RSVP writes the answer back onto that person's record</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Each RSVP toggles between open and confirmed</li> <li>The concert page's confirmed count updates with it</li></ul></div></div>
                     </div>
                     <div class="cframe cframe-full">
                       <div class="cpage">
@@ -4865,8 +4868,8 @@ Max</textarea>
                            data-state="6 messages logged &middot; one still awaiting a reply from the venue."
                            data-title="Concerts: the communications log">
                     <div class="demo-notes">
-                      <div class="demo-note"><span class="demo-pin-n">1</span><span>Log each email, call or text about the concert, and naming a contact also writes the touchpoint onto that person's history.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">2</span><span>Each entry records the date, what was said, how and with whom, and a status of Sent, Replied, Confirmed or Awaiting, and threads still waiting on a reply are counted on the concert list and in the page header.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Log each email, call or text about the concert</li> <li>Naming a contact adds the touchpoint to their history</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Each entry: date, what was said, how, and with whom</li> <li>Status: Sent, Replied, Confirmed or Awaiting</li> <li>Threads awaiting a reply are counted on the concert list and in the page header</li></ul></div></div>
                     </div>
                     <div class="cframe cframe-full">
                       <div class="cpage">
@@ -4955,9 +4958,9 @@ Max</textarea>
                            data-state-label="State of the issue"
                            data-state="Studio Notes, October 2026 &middot; headline polished and live in the preview &middot; not yet sent.">
                     <div class="demo-notes">
-                      <div class="demo-note"><span class="demo-pin-n">1</span><span>Write each section rough, and Polish has the marketing agent rewrite it in your voice for you to use or discard.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">2</span><span>Send a test to yourself first, then send to any contact group once the issue is marked Approved.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">3</span><span>The preview renders the finished email as you type, at phone or web width.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Write each section rough</li> <li>Polish: the marketing agent rewrites it in your voice</li> <li>Use it or discard it</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Send a test to yourself first</li> <li>Once the issue is Approved, send to any contact group</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Renders the finished email as you type</li> <li>Phone or web width</li></ul></div></div>
                     </div>
                     <div class="cframe cframe-full">
                       <div class="cpage">
@@ -5162,8 +5165,8 @@ Max</textarea>
                            data-state-label="What gets created"
                            data-state="Music Marketing &middot; job description, system prompt, and empty sprints and deliverables folders.">
                     <div class="demo-notes">
-                      <div class="demo-note"><span class="demo-pin-n">1</span><span>You describe the job in plain language, Claude Code asks what the employee must not touch and who signs off, then writes its job description, system prompt and folders.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">2</span><span>Putting one to work takes one request naming the employee and the job, and nothing it produces sends without your sign-off.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Describe the job in plain language</li> <li>Claude Code asks what the employee must not touch and who signs off</li> <li>Then it writes the job description, system prompt and folders</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>One request names the employee and the job</li> <li>Nothing it produces sends without your sign-off</li></ul></div></div>
                     </div>
                     <div class="aterm demo-pinned"><span class="demo-pin">1</span>
                       <div class="aterm-head">
@@ -5196,8 +5199,8 @@ Max</textarea>
                            data-state-label="State of the sprint"
                            data-state="Sprint 01, Groove Theory &middot; complete, pending Maxwell&rsquo;s sends.">
                     <div class="demo-notes">
-                      <div class="demo-note"><span class="demo-pin-n">1</span><span>The job description is the contract: what the employee owns, its writing rules, what is out of scope, and which tools it may use.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">2</span><span>Each sprint file records what the employee shipped for one campaign, here three tiers of outreach copy, and its status until you send.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>The job description is the contract</li> <li>What the employee owns and its writing rules</li> <li>What is out of scope and which tools it may use</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Each sprint file records one campaign's work</li> <li>Here: three tiers of outreach copy</li> <li>Tracks status until you send</li></ul></div></div>
                     </div>
                     <div class="adoc-grid">
 
@@ -5412,11 +5415,11 @@ Max</textarea>
                          data-state="Tuesday, Sep 15 &middot; 3 of 5 lessons logged &middot; Monday still has lessons to catch up on."
                          data-title="Schedule: logging today">
                   <div class="demo-notes">
-                    <div class="demo-note"><span class="demo-pin-n">1</span><span>+ Add puts practice time, the gym, a one-off lesson, anything else with its own name, or a new student on the calendar, from the Day, Week or Month view.</span></div>
-                    <div class="demo-note"><span class="demo-pin-n">2</span><span>Lessons left unlogged in the last two weeks collect here by day, and Continue opens that day as one short review, so catching up takes a few taps and a half-finished day picks up where the teacher left off.</span></div>
-                    <div class="demo-note"><span class="demo-pin-n">3</span><span>Every tap feeds the week's running hour totals, measured against the teacher's own limits for teaching, university work and study.</span></div>
-                    <div class="demo-note"><span class="demo-pin-n">4</span><span>After each lesson the teacher taps Completed, Late cancel, No-show or Excused, and that one tap decides whether the hour gets paid.</span></div>
-                    <div class="demo-note"><span class="demo-pin-n">5</span><span>The &#8943; on any lesson opens everything for it in one place: what happened, the progress note, a follow-up, rescheduling a lesson that has not happened yet, email or texts with a message to the family ready, and the student's profile.</span></div>
+                    <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>+ Add puts anything on the calendar: practice time, the gym, a one-off lesson, a new student</li> <li>Works from the Day, Week or Month view</li></ul></div></div>
+                    <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Lessons left unlogged in the last two weeks collect here by day</li> <li>Continue opens a day as one short review</li> <li>Catching up takes a few taps; a half-finished day picks up where it stopped</li></ul></div></div>
+                    <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Every tap feeds the week's running hour totals</li> <li>Measured against the teacher's own limits for teaching, university work and study</li></ul></div></div>
+                    <div class="demo-note"><span class="demo-pin-n">4</span><div><ul class="demo-bul"><li>After each lesson, one tap: Completed, Late cancel, No-show or Excused</li> <li>That tap decides whether the hour gets paid</li></ul></div></div>
+                    <div class="demo-note"><span class="demo-pin-n">5</span><div><ul class="demo-bul"><li>The &#8943; opens everything for a lesson in one place</li> <li>What happened, the progress note, a follow-up</li> <li>Reschedule a lesson that has not happened yet</li> <li>Email or text the family with a message ready, or open the student's profile</li></ul></div></div>
                   </div>
                   <div class="ds-frame">
                     <div class="ds-page">
@@ -5568,8 +5571,8 @@ Max</textarea>
                          data-state="13 lessons &middot; $416.25 &middot; frozen the moment it is submitted."
                          data-title="Hours: review and submit">
                   <div class="demo-notes">
-                    <div class="demo-note"><span class="demo-pin-n">1</span><span>Before submitting, the teacher sees the exact sheet the employer receives, date by date, with an X for any student who had no lesson.</span></div>
-                    <div class="demo-note"><span class="demo-pin-n">2</span><span>Submitting locks the pay period for good, so a later correction becomes an adjustment in the next period instead of changing hours already sent.</span></div>
+                    <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Before submitting, see the exact sheet the employer receives</li> <li>Date by date, with an X for any student with no lesson</li></ul></div></div>
+                    <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Submitting locks the pay period for good</li> <li>A later correction becomes an adjustment in the next period</li></ul></div></div>
                   </div>
                   <div class="ds-frame" style="min-height: 670px;">
                     <div class="ds-page">
@@ -5650,8 +5653,8 @@ Max</textarea>
                          data-state="Nora Castellanos &middot; Harbor Piano &middot; 1.5 hours logged this pay period, recital piece nearly ready."
                          data-title="Students: roster and profile">
                   <div class="demo-notes">
-                    <div class="demo-note"><span class="demo-pin-n">1</span><span>The roster groups every student under who pays for the lessons, the teacher's private studio or each employer, and flags anyone going idle or cancelling often.</span></div>
-                    <div class="demo-note"><span class="demo-pin-n">2</span><span>Each profile builds itself from logged lessons: level, hours this pay period, repertoire progress and lesson notes.</span></div>
+                    <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Students grouped by who pays: the private studio or each employer</li> <li>Flags anyone going idle or cancelling often</li></ul></div></div>
+                    <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Each profile builds itself from logged lessons</li> <li>Level, hours this pay period, repertoire progress, lesson notes</li></ul></div></div>
                   </div>
                   <div class="ds-frame">
                     <div class="ds-page">
@@ -5741,8 +5744,8 @@ Max</textarea>
                          data-state="Wednesday, Thursday and Friday afternoons open &middot; existing lessons blocked out automatically."
                          data-title="Booking: the teacher's side">
                   <div class="demo-notes">
-                    <div class="demo-note"><span class="demo-pin-n">1</span><span>One private link lets families book themselves in, and the teacher decides whether families can also claim a regular weekly time.</span></div>
-                    <div class="demo-note"><span class="demo-pin-n">2</span><span>The teacher taps the half hours open for lessons, and existing lessons are already blocked out so nothing double-books.</span></div>
+                    <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>One private link lets families book themselves in</li> <li>The teacher decides whether they can also claim a regular weekly time</li></ul></div></div>
+                    <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Tap the half hours open for lessons</li> <li>Existing lessons are already blocked out, so nothing double-books</li></ul></div></div>
                   </div>
                   <div class="ds-frame">
                     <div class="ds-page">
@@ -5811,9 +5814,9 @@ Max</textarea>
                          data-state="Arlo Bennett &middot; Thursdays at 5:00 &middot; 7 of the next 8 weeks free, the taken week named up front."
                          data-title="Booking: the family's side">
                   <div class="demo-notes">
-                    <div class="demo-note"><span class="demo-pin-n">1</span><span>The family picks a lesson length first, and the grid shows only the start times that length fits.</span></div>
-                    <div class="demo-note"><span class="demo-pin-n">2</span><span>The week shows open times and nothing else, so the teacher's own calendar is never visible to the public.</span></div>
-                    <div class="demo-note"><span class="demo-pin-n">3</span><span>They choose a one-off lesson or a regular weekly time, and any week already taken is named before they book.</span></div>
+                    <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>The family picks a lesson length first</li> <li>The grid shows only start times that length fits</li></ul></div></div>
+                    <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>The week shows open times and nothing else</li> <li>The teacher's own calendar is never public</li></ul></div></div>
+                    <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Choose a one-off lesson or a regular weekly time</li> <li>Any week already taken is named before booking</li></ul></div></div>
                   </div>
                   <div class="ds-frame">
                     <div class="ds-urlbar"><i></i><i></i><i></i><span>https://&hellip;/book/lessons-7f3a2c</span></div>
@@ -5880,10 +5883,10 @@ Max</textarea>
                          data-state="$4,000 to $5,000 a month &middot; the TA stipend covers most of it &middot; 4 to 6 teaching hours a week close the gap."
                          data-title="Business: what the semester has to earn">
                   <div class="demo-notes">
-                    <div class="demo-note"><span class="demo-pin-n">1</span><span>The teacher sets a monthly income range, and any stipend comes off the top to show what teaching still has to earn.</span></div>
-                    <div class="demo-note"><span class="demo-pin-n">2</span><span>Each scenario turns that amount into weekly teaching hours at private rates, contract rates, or a mix of both.</span></div>
-                    <div class="demo-note"><span class="demo-pin-n">3</span><span>The income floor restates the target as a number of students, so a thinning roster shows up before a short month does.</span></div>
-                    <div class="demo-note"><span class="demo-pin-n">4</span><span>The totals show how many hours each week are already fixed and how much time is left for practice.</span></div>
+                    <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Set a monthly income range</li> <li>Any stipend comes off the top</li> <li>Shows what teaching still has to earn</li></ul></div></div>
+                    <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Each scenario turns that amount into weekly teaching hours</li> <li>At private rates, contract rates, or a mix</li></ul></div></div>
+                    <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>The income floor restates the target as a number of students</li> <li>A thinning roster shows up before a short month does</li></ul></div></div>
+                    <div class="demo-note"><span class="demo-pin-n">4</span><div><ul class="demo-bul"><li>Hours each week already fixed</li> <li>Time left for practice</li></ul></div></div>
                   </div>
                   <div class="ds-frame">
                     <div class="ds-page">
@@ -6046,11 +6049,11 @@ Max</textarea>
                            data-state="Tuesday, September 1 &middot; 3 of 5 tasks done &middot; 1 follow-up carried from Monday &middot; Sprout N Tell Vol. 4 in 10 days."
                            data-title="Dashboard: the day and the week at a glance">
                     <div class="demo-notes">
-                      <div class="demo-note"><span class="demo-pin-n">1</span><span>The header sums up the day in hours of tasks, tasks done, what is left in the weekly bank and overdue follow-ups, and switches between Day and Week views.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">2</span><span>Both Google calendars read straight in, and time on the shared Sprout calendar keeps its own total instead of counting toward your hours.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">3</span><span>Every CRM follow-up lands as a one-hour task with Complete, Push and Follow up, a finished task stays on the list with Undo, and anything not done moves to the next day at midnight.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">4</span><span>Hours for the week add up by category in Google Calendar's colors, shown as done out of what the week asks for, with no targets.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">5</span><span>Follow-ups due this week and anything carried over wait in a ranked weekly bank until they are placed on a day.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>The day at a glance: hours of tasks, tasks done, weekly bank left, overdue follow-ups</li> <li>Switches between Day and Week views</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Both Google calendars read straight in</li> <li>Time on the shared Sprout calendar keeps its own total, not counted toward your hours</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Every CRM follow-up lands as a one-hour task</li> <li>Complete, Push or Follow up; finished tasks stay on the list with Undo</li> <li>Anything not done moves to the next day at midnight</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">4</span><div><ul class="demo-bul"><li>The week's hours add up by category, in Google Calendar's colors</li> <li>Shown as done out of what the week asks for, with no targets</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">5</span><div><ul class="demo-bul"><li>Follow-ups due this week and anything carried over wait here, ranked</li> <li>They stay until placed on a day</li></ul></div></div>
                     </div>
                     <div class="sp-frame">
                       <div class="sp-page db">
@@ -6227,8 +6230,8 @@ Max</textarea>
                            data-state="Maya Chen &middot; Community and a Member &middot; warm &middot; found Sprout through a friend performing at Vol. 3."
                            data-title="Contacts: buckets, types, and the history behind each person">
                     <div class="demo-notes">
-                      <div class="demo-note"><span class="demo-pin-n">1</span><span>Opening anyone shows who they are to Sprout at a glance: how warm the relationship is, their type and bucket, how they heard about Sprout, and the events and groups they belong to.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">2</span><span>Next actions sit above a dated log of every conversation, so each follow-up comes with the history behind it.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Opening a contact shows who they are to Sprout at a glance</li> <li>Relationship warmth, type and bucket</li> <li>How they heard about Sprout</li> <li>Their events and groups</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Next actions sit above a dated log of every conversation</li> <li>Each follow-up comes with its history</li></ul></div></div>
                     </div>
                     <div class="sp-frame">
                       <div class="sp-page" style="min-height: 560px;">
@@ -6322,11 +6325,11 @@ Max</textarea>
                            data-state="Sprout N Tell Vol. 4 &middot; 10 days out &middot; 8 of 8 acts sent their bios &middot; 1 checklist item overdue."
                            data-title="Events Portal: one page for the whole night">
                     <div class="demo-notes">
-                      <div class="demo-note"><span class="demo-pin-n">1</span><span>The host gets one private link to fill in the event's details, and every answer lands back on this page.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">2</span><span>Each act sends its bio through one shared form link, and the submissions build the night's program.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">3</span><span>A dated checklist counts down to the night and flags anything overdue, like flyers that should already be up.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">4</span><span>Everyone performing, hosting, or attending links to their contact record, with a check mark once they confirm.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">5</span><span>Every link the night needs, from sign-in to the lobby slideshow, sits beside the event's media, with each flyer and sign ready to download.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>The host gets one private link to fill in the event's details</li> <li>Every answer lands back on this page</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Each act sends its bio through one shared form link</li> <li>The submissions build the night's program</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>A dated checklist counts down to the night</li> <li>Flags anything overdue, like flyers that should already be up</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">4</span><div><ul class="demo-bul"><li>Performers, hosts and attendees link to their contact records</li> <li>A check mark once they confirm</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">5</span><div><ul class="demo-bul"><li>Every link the night needs, from sign-in to the lobby slideshow</li> <li>Sits beside the event's media</li> <li>Each flyer and sign ready to download</li></ul></div></div>
                     </div>
                     <div class="sp-frame">
                       <div class="sp-page">
@@ -6474,10 +6477,10 @@ Max</textarea>
                            data-state="Sprout Monthly &middot; September 2026 &middot; headline polished &middot; Vol. 4 being dragged above the announcement."
                            data-title="Newsletter: rough notes in, a branded email out">
                     <div class="demo-notes">
-                      <div class="demo-note"><span class="demo-pin-n">1</span><span>Rough notes typed into any field come back polished by Claude in Sprout's voice, ready to use or discard.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">2</span><span>Each part of the email is a block that drags into a new order, like moving the Vol. 4 feature above the announcement.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">3</span><span>A test copy goes to the team first, and the issue goes out to the chosen lists only once it is approved.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">4</span><span>The preview shows the finished email as it is written and follows whichever field is being edited.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Type rough notes into any field</li> <li>Claude polishes them in Sprout's voice, ready to use or discard</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Each part of the email is a draggable block</li> <li>Example: move the Vol. 4 feature above the announcement</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>A test copy goes to the team first</li> <li>The issue goes to the chosen lists only once approved</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">4</span><div><ul class="demo-bul"><li>Shows the finished email as it is written</li> <li>Follows whichever field is being edited</li></ul></div></div>
                     </div>
                     <div class="sp-frame">
                       <div class="sp-page">
@@ -6563,10 +6566,10 @@ Max</textarea>
                            data-state="Low Tide Records &middot; Tier B prospect &middot; the first message rewritten as a Vol. 4 invitation."
                            data-title="Outreach/Claude MCP: Claude finds the people, you make the call">
                     <div class="demo-notes">
-                      <div class="demo-note"><span class="demo-pin-n">1</span><span>Claude works as Sprout's Outreach Manager through a custom MCP server, following a plain-language protocol to find people and groups worth knowing, like new followers, local collectives, and past guests.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">2</span><span>Overview counts the work, Research Briefs and Sprints hold Claude's research and planned campaigns, Deliverables logs what it has shipped, and Activity lists every touchpoint logged in the CRM.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">3</span><span>Claude checks the CRM so nobody gets added twice, then researches each fit and sorts it into Tier A, B, or C with a primary contact.</span></div>
-                      <div class="demo-note"><span class="demo-pin-n">4</span><span>Claude drafts the first message in Sprout's voice for the team to edit, rewrite with a prompt, or skip, and nothing sends on its own.</span></div>
+                      <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Claude works as Sprout's Outreach Manager through a custom MCP server</li> <li>Follows a plain-language protocol</li> <li>Finds people and groups worth knowing: new followers, local collectives, past guests</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Overview: counts the work</li> <li>Research Briefs and Sprints: Claude's research and planned campaigns</li> <li>Deliverables: what it has shipped</li> <li>Activity: every touchpoint logged in the CRM</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Claude checks the CRM so nobody gets added twice</li> <li>Researches each fit</li> <li>Sorts it into Tier A, B or C with a primary contact</li></ul></div></div>
+                      <div class="demo-note"><span class="demo-pin-n">4</span><div><ul class="demo-bul"><li>Claude drafts the first message in Sprout's voice</li> <li>The team edits it, rewrites it with a prompt, or skips it</li> <li>Nothing sends on its own</li></ul></div></div>
                     </div>
                     <div class="sp-frame">
                       <div class="sp-page">
@@ -6698,10 +6701,10 @@ Max</textarea>
                data-state="Tuesday, September 1 &middot; 6 grants &middot; $44,000 in asks &middot; 2 due within 30 days."
                data-title="Grant Pipeline: every application at a glance">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>The counts at the top show how many grants are active or being written, the total asked across every funder, and how many are due within 30 days.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Each deadline shows the days left and changes color as it gets closer, so the most urgent application stands out in red.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>A progress bar tracks how many of each application's questions have answers and flags any that still have gaps.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">4</span><span>Every grant carries its one next step, from emailing a program officer to sending the impact report after an award.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Grants active or being written</li> <li>Total asked across every funder</li> <li>Grants due within 30 days</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Each deadline shows the days left</li> <li>Color shifts as it gets closer; the most urgent is red</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>A progress bar counts each application's answered questions</li> <li>Flags any that still have gaps</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">4</span><div><ul class="demo-bul"><li>Every grant carries its one next step</li> <li>From emailing a program officer to sending the impact report after an award</li></ul></div></div>
         </div>
         <div class="gf-frame">
           <div class="gf-page">
@@ -6820,10 +6823,10 @@ Max</textarea>
                data-state="Belonging Initiative &middot; Hudson Wellness Trust &middot; scored 21 of 25 &middot; 6 questions and 4 tasks ready to import."
                data-title="Import from Claude: research in, workspace out">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>In its own conversation, Claude follows plain-language research protocols to find grants with live web search, checking every link, deadline, and eligibility rule on the funder's own page.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Claude hands back the whole grant profile as JSON, with every question and its character limit, the tasks, and the framing notes, ready to paste in.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Before anything imports, the preview shows the ask, the deadline, and the framing note from Claude's funder research: past grantees from public tax filings, the words reviewers respond to, and a clear go or no-go.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">4</span><span>One click turns the profile into a full grant workspace, with its questions, tasks, and framing notes already in place.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>In its own conversation, Claude follows plain-language research protocols</li> <li>Finds grants with live web search</li> <li>Checks every link, deadline and eligibility rule on the funder's own page</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Claude hands back the whole grant profile as JSON</li> <li>Every question with its character limit, the tasks, the framing notes</li> <li>Ready to paste in</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Preview before import: the ask, the deadline, the framing note</li> <li>Past grantees from public tax filings</li> <li>The words reviewers respond to</li> <li>A clear go or no-go</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">4</span><div><ul class="demo-bul"><li>One click builds a full grant workspace</li> <li>Questions, tasks and framing notes already in place</li></ul></div></div>
         </div>
         <div class="gf-frame">
           <div class="gf-page">
@@ -6901,8 +6904,8 @@ Max</textarea>
                data-state="Brooklyn Neighbors Fund &middot; Tier 1 &middot; verdict: go &middot; brief linked August 27."
                data-title="Research Brief: know the funder first">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Framing notes from the research stay pinned above every tab, so every answer starts from the same angle.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>The brief covers everything before writing starts: who the funder is, how well Sprout fits and whether to apply, what past grantees from public tax filings have in common, the words to use and avoid, how the application gets scored, and the one question worth asking the program officer.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Framing notes from the research stay pinned above every tab</li> <li>Every answer starts from the same angle</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Who the funder is, and whether Sprout fits and should apply</li> <li>What past grantees from public tax filings have in common</li> <li>Words to use and avoid, and how the application gets scored</li> <li>The one question worth asking the program officer</li></ul></div></div>
         </div>
         <div class="gf-frame">
           <div class="gf-page">
@@ -6986,10 +6989,10 @@ One question only: does peer connection fit Civic Life or Health and Wellbeing?<
                data-state="7 of 9 answered &middot; 3 gaps to fill &middot; the impact answer is near its limit."
                data-title="Questions: drafts, limits, and gaps">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>The tracker shows how many questions have answers, how complete the application is, and how many gaps are left to fill.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Every application opens with the same standard org details, the name, website, and founding year, kept consistent with Sprout's org profile so they go into any grant as written.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Each question gets its own card: the funder's prompt with a writing hint, a draft box that counts characters against the limit, Edit and delete, History to bring back any earlier version, and Paste to drop in a new draft from Claude.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">4</span><span>Anything nobody has confirmed yet stays in the draft as highlighted, bracketed text, like the attendance totals here, and each card counts its gaps so none slip into the submitted application.</span></div>        </div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Questions answered</li> <li>How complete the application is</li> <li>Gaps left to fill</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Every application opens with the standard org details: name, website, founding year</li> <li>Kept consistent with Sprout's org profile</li> <li>They go into any grant as written</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>The funder's prompt with a writing hint</li> <li>A draft box that counts characters against the limit</li> <li>Edit and delete; History brings back any earlier version</li> <li>Paste drops in a new draft from Claude</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">4</span><div><ul class="demo-bul"><li>Anything unconfirmed stays in the draft as highlighted, bracketed text, like these attendance totals</li> <li>Each card counts its gaps</li> <li>None slip into the submitted application</li></ul></div></div>        </div>
         <div class="gf-frame">
           <div class="gf-page">
             <div class="gf-ws-hd is-compact">
@@ -7112,7 +7115,7 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
                data-state="6 open tasks &middot; 2 high priority due this week &middot; 2 done."
                data-title="Tasks: what stands between draft and submit">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Every step between draft and submit becomes a task with a priority and a due date ahead of the deadline, Add Task drops in a new one, and checked-off steps stay on the list crossed out as a record of what is done.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Every step between draft and submit becomes a task</li> <li>Each has a priority and a due date ahead of the deadline</li> <li>Add Task drops in a new one</li> <li>Checked-off steps stay, crossed out, as a record</li></ul></div></div>
         </div>
         <div class="gf-frame">
           <div class="gf-page">
@@ -7231,8 +7234,8 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
                data-state="Neighborhood Connection Grant 2026 &middot; 9 answers &middot; ready to paste into the portal."
                data-title="Export: one block for the portal">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Every grant keeps its essentials in one header: the name and funder, where the application stands, the ask, the deadline with days left, and a link straight to the funder's application portal, so submitting is one click away once the answers are copied.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>The export lays out every answer in the portal's question order under a header with the grant, funder, amount, and deadline, and Copy All puts the whole application on the clipboard, ready to paste into the funder's portal.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>The grant's essentials in one header: name, funder, status, ask</li> <li>The deadline with days left</li> <li>A link straight to the funder's portal, so submitting is one click once answers are copied</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Every answer in the portal's question order</li> <li>Under a header with grant, funder, amount and deadline</li> <li>Copy All puts the whole application on the clipboard, ready to paste</li></ul></div></div>
         </div>
         <div class="gf-frame">
           <div class="gf-page">
@@ -7387,9 +7390,9 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
                data-state="Tuesday, September 1 &middot; 2 posts waiting for approval &middot; 4 scheduled &middot; the Vol. 4 promo starts Thursday."
                data-title="Dashboard: what needs a yes today">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>The counts show how many posts are drafts, waiting for approval, scheduled, and already published.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Posts waiting for approval come first, each with its caption, time, and hashtags, and an Approve button right on the card.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>The next scheduled posts line up below, each showing who approved it and a button to publish it to Instagram.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Posts in draft</li> <li>Waiting for approval</li> <li>Scheduled</li> <li>Published</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Posts waiting for approval come first</li> <li>Each shows its caption, time and hashtags</li> <li>Approve right on the card</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Next scheduled posts line up below</li> <li>Each shows who approved it</li> <li>A button publishes it to Instagram</li></ul></div></div>
         </div>
         <div class="so-frame so-cut" style="--cut: 1120px;">
           <div class="so-page">
@@ -7504,9 +7507,9 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
                data-state="Scheduled tab &middot; the Vol. 4 lineup post publishing now &middot; approved by the comms lead."
                data-title="Content Queue: nothing posts without a yes">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Every post moves through five stages from Draft to Published, and each tab shows how many posts sit in that stage.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Every post travels the same path from the app to Instagram: drafted, approved with the approver's address stamped on the card, scheduled, then published from the card itself with one click.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>One click publishes a scheduled post straight to Instagram: the app sends the caption, hashtags, and graphic through a Composio connection, waits for Instagram to finish processing, then publishes and saves the post's Instagram ID.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Every post moves through five stages, Draft to Published</li> <li>Each tab counts the posts in its stage</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Every post takes the same path to Instagram</li> <li>Drafted, then approved with the approver's address stamped on the card</li> <li>Scheduled, then published from the card in one click</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>One click publishes a scheduled post to Instagram</li> <li>Caption, hashtags and graphic go through a Composio connection</li> <li>The app waits for Instagram to finish processing, publishes, and saves the post's Instagram ID</li></ul></div></div>
         </div>
         <div class="so-frame so-cut" style="--cut: 900px;">
           <div class="so-page">
@@ -7594,9 +7597,9 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
                data-state="September 2026 &middot; 11 posts planned &middot; Sprout N Tell Vol. 4 on the 11th."
                data-title="Calendar: posts and events in one view">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Every post appears on the day it goes out, colored by where it stands, from draft to published.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Events share the calendar with the posts, so the team can time each promo to the night it promotes.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Opening a day lists every post and event on it, with a button to add another event.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Every post appears on the day it goes out</li> <li>Colored by stage, from draft to published</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Events share the calendar with posts</li> <li>Time each promo to the night it promotes</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Open a day to list its posts and events</li> <li>A button adds another event</li></ul></div></div>
         </div>
         <div class="so-frame">
           <div class="so-page">
@@ -7711,9 +7714,9 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
                data-state="Vol. 4 lineup announcement &middot; image uploaded &middot; set for Tuesday, September 8 at 6pm."
                data-title="Create Post: a draft in one form">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>The caption goes here, hashtags included, with a separate field for internal notes the audience never sees.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Everything Instagram needs besides the caption sits together: the media type, when the post goes out, and the graphic, uploaded to Sprout's own storage or pasted as a link, which Instagram pulls from when it publishes.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Create Draft saves the post to the queue, where it waits for approval before anything can publish.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>The caption, hashtags included</li> <li>A separate field for internal notes the audience never sees</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Everything Instagram needs besides the caption: media type, post time, graphic</li> <li>Upload the graphic to Sprout's storage or paste a link</li> <li>Instagram pulls it from there when it publishes</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Create Draft saves the post to the queue</li> <li>It waits for approval before anything can publish</li></ul></div></div>
         </div>
         <div class="so-frame">
           <div class="so-page">
@@ -7791,9 +7794,9 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                data-state="All time &middot; 64 published &middot; 1 so far this month &middot; 3 posts in the week of August 30."
                data-title="Analytics: the posting record">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Import from Instagram pulls in posts published outside the planner, so the record covers the whole account.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>A bar chart counts posts published each week, and clicking a bar lists that week's posts.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Every published post appears with its type, date, and Instagram post ID, and filters by image, video, or carousel.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Import from Instagram pulls in posts published outside the planner</li> <li>The record covers the whole account</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>A bar chart counts posts published each week</li> <li>Click a bar to list that week's posts</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Every published post with its type, date and Instagram post ID</li> <li>Filter by image, video or carousel</li></ul></div></div>
         </div>
         <div class="so-frame">
           <div class="so-page">
@@ -7989,9 +7992,9 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                data-state="Saturday, September 12 &middot; the morning after Sprout N Tell Vol. 4 &middot; 347 scans across 5 codes."
                data-title="Dashboard: one event, every code">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Each event gets its own tab, from a one-night show to weekly Co-Working, so its codes stay together.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>The counts show scans for the selected code today, over the last seven days, and all time.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Every code for the event appears as a tile with its placement and total scans, and clicking one opens its details.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Each event gets its own tab, from a one-night show to weekly Co-Working</li> <li>Its codes stay together</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Scans for the selected code</li> <li>Today, the last seven days, and all time</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Every code for the event as a tile</li> <li>Shows placement and total scans</li> <li>Click one to open its details</li></ul></div></div>
         </div>
         <div class="qt-frame qt-clip">
           <div class="qt-page">
@@ -8038,9 +8041,9 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                data-state="Door Sign-In leads with 142 scans &middot; the street flyer brought in 37."
                data-title="QR Codes: which placement worked">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Each placement, from the front door sign to the Instagram bio, has its own code and scan total to compare side by side.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Each code downloads as a PNG, ready to drop onto a flyer, sign, or slide.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Each scan adds one to that code's count for the day, then sends the phone on to wherever the code points.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Each placement has its own code, from the front door sign to the Instagram bio</li> <li>Compare scan totals side by side</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Each code downloads as a PNG</li> <li>Ready for a flyer, sign or slide</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Each scan adds one to that code's count for the day</li> <li>Then sends the phone on to wherever the code points</li></ul></div></div>
         </div>
         <div class="qt-frame">
           <div class="qt-page">
@@ -8081,7 +8084,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                data-state="Street Flyer &middot; posted August 30 &middot; scans peaked the two days before the show."
                data-title="Daily Scans: when it worked">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>The whole display follows one code, here the street flyer: scans today, this week, and all time, then a day-by-day chart where scans start the day the flyers went up and peak just before the show.</span></div>        </div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>The whole display follows one code, here the street flyer</li> <li>Scans today, this week and all time</li> <li>A day-by-day chart: scans start when the flyers went up and peak just before the show</li></ul></div></div>        </div>
         <div class="demo-pinned"><span class="demo-pin">1</span>
         <div class="qt-frame">
           <div class="qt-page">
@@ -8153,8 +8156,8 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                data-state="Fern &amp; Fold Zine Night &middot; September 18 &middot; adding the code for its window poster."
                data-title="Manage Events: a new code in seconds">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Add Event creates a new event with a name, date, and promoter, and gives it its own tab on the dashboard.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Each new code gets a label, a placement type, and the link it should send people to, and its code ID fills itself in from the event name, year, and label, so nobody has to make one up.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Add Event: a name, date and promoter</li> <li>The event gets its own dashboard tab</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Each new code gets a label, a placement type and a destination link</li> <li>Its code ID fills itself in from event name, year and label</li> <li>Nobody has to make one up</li></ul></div></div>
         </div>
         <div class="qt-frame">
           <!-- the dashboard, dimmed behind the drawer -->
@@ -8261,7 +8264,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                data-state="Street Flyer &middot; the show is over &middot; now sends people to the Vol. 5 interest form."
                data-title="Update Live: change a printed code">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Each printed code is one tile: a scan opens its own tracking link and adds to the day's count, the destination field and Update Live repoint every flyer already on the street without reprinting, and Move hands the code to another event.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Each printed code is one tile</li> <li>A scan opens its tracking link and adds to the day's count</li> <li>Change the destination and Update Live repoints every flyer already on the street, no reprint</li> <li>Move hands the code to another event</li></ul></div></div>
         </div>
         <div class="qt-frame qt-clip qt-clip-tall">
           <div class="qt-drawer qt-drawer-full">
@@ -8627,7 +8630,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
         if (hot && hot !== info) { hot.target.classList.remove('is-hot'); hot.pin.classList.remove('is-hot'); }
         if (hot !== info) queueNoteEvent(info);
         hot = info;
-        pop.innerHTML = '<span class="demo-pin-n">' + info.n + '</span><span class="demo-pop-txt">' + info.html + '</span>';
+        pop.innerHTML = '<span class="demo-pin-n">' + info.n + '</span><div class="demo-pop-txt">' + info.html + '</div>';
         info.target.classList.add('is-hot');
         info.pin.classList.add('is-hot');
         pop.classList.add('is-on');

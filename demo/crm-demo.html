@@ -578,6 +578,9 @@ button { cursor: pointer; font-family: var(--font-sans); }
    ========================================================================== */
 .demo-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin: 0 0 16px; }
 .demo-note { display: flex; gap: 10px; align-items: flex-start; background: white; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; box-shadow: var(--shadow); font-family: var(--font-sans); font-size: 13px; line-height: 1.45; color: var(--tp); }
+.demo-bul { margin: 0; padding-left: 1.05em; list-style: disc; }
+.demo-bul li + li { margin-top: 3px; }
+.demo-bul li::marker { color: var(--demo-pin-color, var(--amber)); }
 .demo-pin, .demo-pin-n { width: 22px; height: 22px; border-radius: 50%; background: var(--amber); color: white; font-family: var(--font-sans); font-size: 11.5px; font-weight: 700; line-height: 22px; text-align: center; flex: none; }
 .demo-pin { position: absolute; top: -10px; left: -10px; z-index: 6; box-shadow: 0 0 0 2px white, 0 2px 8px rgba(28, 25, 23, .25); pointer-events: none; }
 .demo-pinned { position: relative; }
@@ -664,9 +667,9 @@ button { cursor: pointer; font-family: var(--font-sans); }
                data-state="Jordan Ma &middot; clarinetist and composer in Tide Quartet &middot; warm, and confirmed for Groove Theory II."
                data-title="Contacts: editing a person's profile">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Every contact keeps its touchpoint log, follow-ups, notes and concerts in tabs on one record.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>One record holds their contact details, several roles at once, instruments, a relationship status from Cold to Active that drives the health score on the list, and a prospect flag.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Assign a contact to ensembles and concerts right on their record, and a concert added here saves straight to that concert's lineup.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>One record per contact</li> <li>Tabs: touchpoint log, follow-ups, notes, concerts</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Contact details and instruments</li> <li>Several roles at once</li> <li>Relationship status from Cold to Active, which drives the list's health score</li> <li>Prospect flag</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Assign ensembles and concerts right on the record</li> <li>A concert added here saves straight to its lineup</li></ul></div></div>
         </div>
         <div class="cframe">
           <div class="cpage">
@@ -826,9 +829,9 @@ button { cursor: pointer; font-family: var(--font-sans); }
                data-state="Sofia Lindqvist &middot; quiet since August &middot; Email 1 of the reconnect sequence, ready to send."
                data-title="Outreach: the reconnect draft">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>The Outreach queue gathers new prospects and anyone past their follow-up cadence, and picks the reconnect or follow-up email for each.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>The draft is your own template with the contact's name filled in, and the bracketed parts are left for you to make specific.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Mark sent logs the email on the contact and lines up the follow-up, and Not now sets the person aside for 30 days.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>The queue gathers new prospects and anyone past their follow-up cadence</li> <li>Picks the reconnect or follow-up email for each</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>The draft is your own template, name filled in</li> <li>Bracketed parts are left for you to make specific</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Mark sent: logs the email on the contact and lines up the follow-up</li> <li>Not now: sets the person aside for 30 days</li></ul></div></div>
         </div>
         <div class="cframe">
           <div class="cpage">
@@ -917,9 +920,9 @@ Max</textarea>
                data-state="Groove Theory II &middot; 8 of 10 essentials answered &middot; the venue filled the rest in on Sep 2."
                data-title="Concerts: the booking portal">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>The booking portal is a nine-section form for the venue or host, and it tracks the ten essentials a concert cannot go ahead without.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>One private link opens the form for whoever needs it, and New link or Remove shuts the old one off.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Answers come back into the CRM section by section, fill in the booking protocol on the concert page, and copy out in one click.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>A nine-section form for the venue or host</li> <li>Tracks the ten essentials a concert cannot go ahead without</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>One private link opens the form for whoever needs it</li> <li>New link or Remove shuts the old one off</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Answers come back into the CRM section by section</li> <li>They fill in the booking protocol on the concert page</li> <li>Copy them out in one click</li></ul></div></div>
         </div>
         <div class="cframe cframe-full">
           <div class="cpage">
@@ -1045,8 +1048,8 @@ Max</textarea>
                data-state="11 items &middot; 4 done &middot; one overdue, and the show sitting on Oct 18."
                data-title="Concerts: the checklist and calendar">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Every checklist item carries a due date, and overdue or upcoming ones also show on the CRM dashboard, next to every contact's follow-ups.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Click a day to add an item, click an item to edit or finish it, and drag it to another day to move its date.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Every checklist item has a due date</li> <li>Overdue and upcoming items also show on the CRM dashboard, beside contact follow-ups</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Click a day: add an item</li> <li>Click an item: edit or finish it</li> <li>Drag it to another day: move its date</li></ul></div></div>
         </div>
         <div class="cframe cframe-full">
           <div class="cpage">
@@ -1150,8 +1153,8 @@ Max</textarea>
                data-state="7 on the bill &middot; 5 confirmed &middot; two still to answer."
                data-title="Concerts: the lineup and RSVPs">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>The lineup is built from your contacts, and tapping RSVP writes the answer back onto that person's record.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Each person's RSVP toggles between open and confirmed, and the confirmed count on the concert page updates with it.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>The lineup is built from your contacts</li> <li>Tapping RSVP writes the answer back onto that person's record</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Each RSVP toggles between open and confirmed</li> <li>The concert page's confirmed count updates with it</li></ul></div></div>
         </div>
         <div class="cframe cframe-full">
           <div class="cpage">
@@ -1217,8 +1220,8 @@ Max</textarea>
                data-state="6 messages logged &middot; one still awaiting a reply from the venue."
                data-title="Concerts: the communications log">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Log each email, call or text about the concert, and naming a contact also writes the touchpoint onto that person's history.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Each entry records the date, what was said, how and with whom, and a status of Sent, Replied, Confirmed or Awaiting, and threads still waiting on a reply are counted on the concert list and in the page header.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Log each email, call or text about the concert</li> <li>Naming a contact adds the touchpoint to their history</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Each entry: date, what was said, how, and with whom</li> <li>Status: Sent, Replied, Confirmed or Awaiting</li> <li>Threads awaiting a reply are counted on the concert list and in the page header</li></ul></div></div>
         </div>
         <div class="cframe cframe-full">
           <div class="cpage">
@@ -1308,9 +1311,9 @@ Max</textarea>
                data-state="Studio Notes, October 2026 &middot; headline polished and live in the preview &middot; not yet sent."
                data-title="Newsletter: brain-dump to a live render">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Write each section rough, and Polish has the marketing agent rewrite it in your voice for you to use or discard.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Send a test to yourself first, then send to any contact group once the issue is marked Approved.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>The preview renders the finished email as you type, at phone or web width.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Write each section rough</li> <li>Polish: the marketing agent rewrites it in your voice</li> <li>Use it or discard it</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Send a test to yourself first</li> <li>Once the issue is Approved, send to any contact group</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Renders the finished email as you type</li> <li>Phone or web width</li></ul></div></div>
         </div>
         <div class="cframe cframe-full">
           <div class="cpage">

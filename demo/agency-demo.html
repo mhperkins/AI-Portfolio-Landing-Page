@@ -444,6 +444,9 @@ button { cursor: pointer; font-family: var(--font-sans); }
    ========================================================================== */
 .demo-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin: 0 0 16px; }
 .demo-note { display: flex; gap: 10px; align-items: flex-start; background: white; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; box-shadow: var(--shadow); font-family: var(--font-sans); font-size: 13px; line-height: 1.45; color: var(--tp); }
+.demo-bul { margin: 0; padding-left: 1.05em; list-style: disc; }
+.demo-bul li + li { margin-top: 3px; }
+.demo-bul li::marker { color: var(--demo-pin-color, var(--amber)); }
 .demo-pin, .demo-pin-n { width: 22px; height: 22px; border-radius: 50%; background: var(--amber); color: white; font-family: var(--font-sans); font-size: 11.5px; font-weight: 700; line-height: 22px; text-align: center; flex: none; }
 .demo-pin { position: absolute; top: -10px; left: -10px; z-index: 6; box-shadow: 0 0 0 2px white, 0 2px 8px rgba(28, 25, 23, .25); pointer-events: none; }
 .demo-pinned { position: relative; }
@@ -502,8 +505,8 @@ button { cursor: pointer; font-family: var(--font-sans); }
       <!-- ============ SLIDE 1 · CREATING AN EMPLOYEE ==================== -->
       <section class="demo-car-slide is-on" data-title="Creating an employee">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>You describe the job in plain language, Claude Code asks what the employee must not touch and who signs off, then writes its job description, system prompt and folders.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Putting one to work takes one request naming the employee and the job, and nothing it produces sends without your sign-off.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Describe the job in plain language</li> <li>Claude Code asks what the employee must not touch and who signs off</li> <li>Then it writes the job description, system prompt and folders</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>One request names the employee and the job</li> <li>Nothing it produces sends without your sign-off</li></ul></div></div>
         </div>
         <div class="aterm demo-pinned"><span class="demo-pin">1</span>
           <div class="aterm-head">
@@ -532,8 +535,8 @@ button { cursor: pointer; font-family: var(--font-sans); }
       <!-- ============ SLIDE 2 · JOB DESCRIPTION + SPRINT ================= -->
       <section class="demo-car-slide" data-title="Job description and sprint record">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>The job description is the contract: what the employee owns, its writing rules, what is out of scope, and which tools it may use.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Each sprint file records what the employee shipped for one campaign, here three tiers of outreach copy, and its status until you send.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>The job description is the contract</li> <li>What the employee owns and its writing rules</li> <li>What is out of scope and which tools it may use</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Each sprint file records one campaign's work</li> <li>Here: three tiers of outreach copy</li> <li>Tracks status until you send</li></ul></div></div>
         </div>
         <div class="adoc-grid">
 

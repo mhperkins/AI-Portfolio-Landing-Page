@@ -421,6 +421,9 @@ body {
 /* numbered notes and pins, verbatim from dasha-demo.html, recolored below */
 .demo-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin: 0 0 16px; }
 .demo-note { display: flex; gap: 10px; align-items: flex-start; background: white; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; box-shadow: var(--shadow); font-family: var(--font-sans); font-size: 13px; line-height: 1.45; color: var(--tp); }
+.demo-bul { margin: 0; padding-left: 1.05em; list-style: disc; }
+.demo-bul li + li { margin-top: 3px; }
+.demo-bul li::marker { color: var(--demo-pin-color, var(--amber)); }
 .demo-pin, .demo-pin-n { width: 22px; height: 22px; border-radius: 50%; background: var(--amber); color: white; font-family: var(--font-sans); font-size: 11.5px; font-weight: 700; line-height: 22px; text-align: center; flex: none; }
 .demo-pin { position: absolute; top: -10px; left: -10px; z-index: 6; box-shadow: 0 0 0 2px white, 0 2px 8px rgba(28, 25, 23, .25); pointer-events: none; }
 .demo-pinned { position: relative; }
@@ -591,11 +594,11 @@ body {
                data-state="Tuesday, September 1 &middot; 3 of 5 tasks done &middot; 1 follow-up carried from Monday &middot; Sprout N Tell Vol. 4 in 10 days."
                data-title="Dashboard: the day and the week at a glance">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>The header sums up the day in hours of tasks, tasks done, what is left in the weekly bank and overdue follow-ups, and switches between Day and Week views.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Both Google calendars read straight in, and time on the shared Sprout calendar keeps its own total instead of counting toward your hours.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Every CRM follow-up lands as a one-hour task with Complete, Push and Follow up, a finished task stays on the list with Undo, and anything not done moves to the next day at midnight.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">4</span><span>Hours for the week add up by category in Google Calendar's colors, shown as done out of what the week asks for, with no targets.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">5</span><span>Follow-ups due this week and anything carried over wait in a ranked weekly bank until they are placed on a day.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>The day at a glance: hours of tasks, tasks done, weekly bank left, overdue follow-ups</li> <li>Switches between Day and Week views</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Both Google calendars read straight in</li> <li>Time on the shared Sprout calendar keeps its own total, not counted toward your hours</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Every CRM follow-up lands as a one-hour task</li> <li>Complete, Push or Follow up; finished tasks stay on the list with Undo</li> <li>Anything not done moves to the next day at midnight</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">4</span><div><ul class="demo-bul"><li>The week's hours add up by category, in Google Calendar's colors</li> <li>Shown as done out of what the week asks for, with no targets</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">5</span><div><ul class="demo-bul"><li>Follow-ups due this week and anything carried over wait here, ranked</li> <li>They stay until placed on a day</li></ul></div></div>
         </div>
         <div class="sp-frame">
           <div class="sp-page db">
@@ -772,8 +775,8 @@ body {
                data-state="Maya Chen &middot; Community and a Member &middot; warm &middot; found Sprout through a friend performing at Vol. 3."
                data-title="Contacts: buckets, types, and the history behind each person">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Opening anyone shows who they are to Sprout at a glance: how warm the relationship is, their type and bucket, how they heard about Sprout, and the events and groups they belong to.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Next actions sit above a dated log of every conversation, so each follow-up comes with the history behind it.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Opening a contact shows who they are to Sprout at a glance</li> <li>Relationship warmth, type and bucket</li> <li>How they heard about Sprout</li> <li>Their events and groups</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Next actions sit above a dated log of every conversation</li> <li>Each follow-up comes with its history</li></ul></div></div>
         </div>
         <div class="sp-frame">
           <div class="sp-page" style="min-height: 560px;">
@@ -867,11 +870,11 @@ body {
                data-state="Sprout N Tell Vol. 4 &middot; 10 days out &middot; 8 of 8 acts sent their bios &middot; 1 checklist item overdue."
                data-title="Events Portal: one page for the whole night">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>The host gets one private link to fill in the event's details, and every answer lands back on this page.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Each act sends its bio through one shared form link, and the submissions build the night's program.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>A dated checklist counts down to the night and flags anything overdue, like flyers that should already be up.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">4</span><span>Everyone performing, hosting, or attending links to their contact record, with a check mark once they confirm.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">5</span><span>Every link the night needs, from sign-in to the lobby slideshow, sits beside the event's media, with each flyer and sign ready to download.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>The host gets one private link to fill in the event's details</li> <li>Every answer lands back on this page</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Each act sends its bio through one shared form link</li> <li>The submissions build the night's program</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>A dated checklist counts down to the night</li> <li>Flags anything overdue, like flyers that should already be up</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">4</span><div><ul class="demo-bul"><li>Performers, hosts and attendees link to their contact records</li> <li>A check mark once they confirm</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">5</span><div><ul class="demo-bul"><li>Every link the night needs, from sign-in to the lobby slideshow</li> <li>Sits beside the event's media</li> <li>Each flyer and sign ready to download</li></ul></div></div>
         </div>
         <div class="sp-frame">
           <div class="sp-page">
@@ -1019,10 +1022,10 @@ body {
                data-state="Sprout Monthly &middot; September 2026 &middot; headline polished &middot; Vol. 4 being dragged above the announcement."
                data-title="Newsletter: rough notes in, a branded email out">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Rough notes typed into any field come back polished by Claude in Sprout's voice, ready to use or discard.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Each part of the email is a block that drags into a new order, like moving the Vol. 4 feature above the announcement.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>A test copy goes to the team first, and the issue goes out to the chosen lists only once it is approved.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">4</span><span>The preview shows the finished email as it is written and follows whichever field is being edited.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Type rough notes into any field</li> <li>Claude polishes them in Sprout's voice, ready to use or discard</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Each part of the email is a draggable block</li> <li>Example: move the Vol. 4 feature above the announcement</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>A test copy goes to the team first</li> <li>The issue goes to the chosen lists only once approved</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">4</span><div><ul class="demo-bul"><li>Shows the finished email as it is written</li> <li>Follows whichever field is being edited</li></ul></div></div>
         </div>
         <div class="sp-frame">
           <div class="sp-page">
@@ -1108,10 +1111,10 @@ body {
                data-state="Low Tide Records &middot; Tier B prospect &middot; the first message rewritten as a Vol. 4 invitation."
                data-title="Outreach/Claude MCP: Claude finds the people, you make the call">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Claude works as Sprout's Outreach Manager through a custom MCP server, following a plain-language protocol to find people and groups worth knowing, like new followers, local collectives, and past guests.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Overview counts the work, Research Briefs and Sprints hold Claude's research and planned campaigns, Deliverables logs what it has shipped, and Activity lists every touchpoint logged in the CRM.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Claude checks the CRM so nobody gets added twice, then researches each fit and sorts it into Tier A, B, or C with a primary contact.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">4</span><span>Claude drafts the first message in Sprout's voice for the team to edit, rewrite with a prompt, or skip, and nothing sends on its own.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Claude works as Sprout's Outreach Manager through a custom MCP server</li> <li>Follows a plain-language protocol</li> <li>Finds people and groups worth knowing: new followers, local collectives, past guests</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Overview: counts the work</li> <li>Research Briefs and Sprints: Claude's research and planned campaigns</li> <li>Deliverables: what it has shipped</li> <li>Activity: every touchpoint logged in the CRM</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Claude checks the CRM so nobody gets added twice</li> <li>Researches each fit</li> <li>Sorts it into Tier A, B or C with a primary contact</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">4</span><div><ul class="demo-bul"><li>Claude drafts the first message in Sprout's voice</li> <li>The team edits it, rewrites it with a prompt, or skips it</li> <li>Nothing sends on its own</li></ul></div></div>
         </div>
         <div class="sp-frame">
           <div class="sp-page">

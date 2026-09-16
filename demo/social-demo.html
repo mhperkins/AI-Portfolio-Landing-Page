@@ -90,6 +90,9 @@ body {
 /* numbered notes and pins, verbatim from dasha-demo.html, recolored below */
 .demo-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin: 0 0 16px; }
 .demo-note { display: flex; gap: 10px; align-items: flex-start; background: white; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; box-shadow: var(--shadow); font-family: var(--font-sans); font-size: 13px; line-height: 1.45; color: var(--tp); }
+.demo-bul { margin: 0; padding-left: 1.05em; list-style: disc; }
+.demo-bul li + li { margin-top: 3px; }
+.demo-bul li::marker { color: var(--demo-pin-color, var(--amber)); }
 .demo-pin, .demo-pin-n { width: 22px; height: 22px; border-radius: 50%; background: var(--amber); color: white; font-family: var(--font-sans); font-size: 11.5px; font-weight: 700; line-height: 22px; text-align: center; flex: none; }
 .demo-pin { position: absolute; top: -10px; left: -10px; z-index: 6; box-shadow: 0 0 0 2px white, 0 2px 8px rgba(28, 25, 23, .25); pointer-events: none; }
 .demo-pinned { position: relative; }
@@ -464,9 +467,9 @@ body {
                data-state="Tuesday, September 1 &middot; 2 posts waiting for approval &middot; 4 scheduled &middot; the Vol. 4 promo starts Thursday."
                data-title="Dashboard: what needs a yes today">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>The counts show how many posts are drafts, waiting for approval, scheduled, and already published.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Posts waiting for approval come first, each with its caption, time, and hashtags, and an Approve button right on the card.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>The next scheduled posts line up below, each showing who approved it and a button to publish it to Instagram.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Posts in draft</li> <li>Waiting for approval</li> <li>Scheduled</li> <li>Published</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Posts waiting for approval come first</li> <li>Each shows its caption, time and hashtags</li> <li>Approve right on the card</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Next scheduled posts line up below</li> <li>Each shows who approved it</li> <li>A button publishes it to Instagram</li></ul></div></div>
         </div>
         <div class="so-frame so-cut" style="--cut: 1120px;">
           <div class="so-page">
@@ -581,9 +584,9 @@ body {
                data-state="Scheduled tab &middot; the Vol. 4 lineup post publishing now &middot; approved by the comms lead."
                data-title="Content Queue: nothing posts without a yes">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Every post moves through five stages from Draft to Published, and each tab shows how many posts sit in that stage.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Every post travels the same path from the app to Instagram: drafted, approved with the approver's address stamped on the card, scheduled, then published from the card itself with one click.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>One click publishes a scheduled post straight to Instagram: the app sends the caption, hashtags, and graphic through a Composio connection, waits for Instagram to finish processing, then publishes and saves the post's Instagram ID.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Every post moves through five stages, Draft to Published</li> <li>Each tab counts the posts in its stage</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Every post takes the same path to Instagram</li> <li>Drafted, then approved with the approver's address stamped on the card</li> <li>Scheduled, then published from the card in one click</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>One click publishes a scheduled post to Instagram</li> <li>Caption, hashtags and graphic go through a Composio connection</li> <li>The app waits for Instagram to finish processing, publishes, and saves the post's Instagram ID</li></ul></div></div>
         </div>
         <div class="so-frame so-cut" style="--cut: 900px;">
           <div class="so-page">
@@ -671,9 +674,9 @@ body {
                data-state="September 2026 &middot; 11 posts planned &middot; Sprout N Tell Vol. 4 on the 11th."
                data-title="Calendar: posts and events in one view">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Every post appears on the day it goes out, colored by where it stands, from draft to published.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Events share the calendar with the posts, so the team can time each promo to the night it promotes.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Opening a day lists every post and event on it, with a button to add another event.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Every post appears on the day it goes out</li> <li>Colored by stage, from draft to published</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Events share the calendar with posts</li> <li>Time each promo to the night it promotes</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Open a day to list its posts and events</li> <li>A button adds another event</li></ul></div></div>
         </div>
         <div class="so-frame">
           <div class="so-page">
@@ -788,9 +791,9 @@ body {
                data-state="Vol. 4 lineup announcement &middot; image uploaded &middot; set for Tuesday, September 8 at 6pm."
                data-title="Create Post: a draft in one form">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>The caption goes here, hashtags included, with a separate field for internal notes the audience never sees.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Everything Instagram needs besides the caption sits together: the media type, when the post goes out, and the graphic, uploaded to Sprout's own storage or pasted as a link, which Instagram pulls from when it publishes.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Create Draft saves the post to the queue, where it waits for approval before anything can publish.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>The caption, hashtags included</li> <li>A separate field for internal notes the audience never sees</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Everything Instagram needs besides the caption: media type, post time, graphic</li> <li>Upload the graphic to Sprout's storage or paste a link</li> <li>Instagram pulls it from there when it publishes</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Create Draft saves the post to the queue</li> <li>It waits for approval before anything can publish</li></ul></div></div>
         </div>
         <div class="so-frame">
           <div class="so-page">
@@ -868,9 +871,9 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                data-state="All time &middot; 64 published &middot; 1 so far this month &middot; 3 posts in the week of August 30."
                data-title="Analytics: the posting record">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Import from Instagram pulls in posts published outside the planner, so the record covers the whole account.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>A bar chart counts posts published each week, and clicking a bar lists that week's posts.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Every published post appears with its type, date, and Instagram post ID, and filters by image, video, or carousel.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Import from Instagram pulls in posts published outside the planner</li> <li>The record covers the whole account</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>A bar chart counts posts published each week</li> <li>Click a bar to list that week's posts</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Every published post with its type, date and Instagram post ID</li> <li>Filter by image, video or carousel</li></ul></div></div>
         </div>
         <div class="so-frame">
           <div class="so-page">

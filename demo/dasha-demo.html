@@ -436,6 +436,9 @@ button { cursor: pointer; font-family: var(--font-sans); }
    ========================================================================== */
 .demo-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin: 0 0 16px; }
 .demo-note { display: flex; gap: 10px; align-items: flex-start; background: white; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; box-shadow: var(--shadow); font-family: var(--font-sans); font-size: 13px; line-height: 1.45; color: var(--tp); }
+.demo-bul { margin: 0; padding-left: 1.05em; list-style: disc; }
+.demo-bul li + li { margin-top: 3px; }
+.demo-bul li::marker { color: var(--demo-pin-color, var(--amber)); }
 .demo-pin, .demo-pin-n { width: 22px; height: 22px; border-radius: 50%; background: var(--amber); color: white; font-family: var(--font-sans); font-size: 11.5px; font-weight: 700; line-height: 22px; text-align: center; flex: none; }
 .demo-pin { position: absolute; top: -10px; left: -10px; z-index: 6; box-shadow: 0 0 0 2px white, 0 2px 8px rgba(28, 25, 23, .25); pointer-events: none; }
 .demo-pinned { position: relative; }
@@ -503,11 +506,11 @@ button { cursor: pointer; font-family: var(--font-sans); }
                data-state="Tuesday, Sep 15 &middot; 3 of 5 lessons logged &middot; Monday still has lessons to catch up on."
                data-title="Schedule: logging today">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>+ Add puts practice time, the gym, a one-off lesson, anything else with its own name, or a new student on the calendar, from the Day, Week or Month view.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Lessons left unlogged in the last two weeks collect here by day, and Continue opens that day as one short review, so catching up takes a few taps and a half-finished day picks up where the teacher left off.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>Every tap feeds the week's running hour totals, measured against the teacher's own limits for teaching, university work and study.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">4</span><span>After each lesson the teacher taps Completed, Late cancel, No-show or Excused, and that one tap decides whether the hour gets paid.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">5</span><span>The &#8943; on any lesson opens everything for it in one place: what happened, the progress note, a follow-up, rescheduling a lesson that has not happened yet, email or texts with a message to the family ready, and the student's profile.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>+ Add puts anything on the calendar: practice time, the gym, a one-off lesson, a new student</li> <li>Works from the Day, Week or Month view</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Lessons left unlogged in the last two weeks collect here by day</li> <li>Continue opens a day as one short review</li> <li>Catching up takes a few taps; a half-finished day picks up where it stopped</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Every tap feeds the week's running hour totals</li> <li>Measured against the teacher's own limits for teaching, university work and study</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">4</span><div><ul class="demo-bul"><li>After each lesson, one tap: Completed, Late cancel, No-show or Excused</li> <li>That tap decides whether the hour gets paid</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">5</span><div><ul class="demo-bul"><li>The &#8943; opens everything for a lesson in one place</li> <li>What happened, the progress note, a follow-up</li> <li>Reschedule a lesson that has not happened yet</li> <li>Email or text the family with a message ready, or open the student's profile</li></ul></div></div>
         </div>
         <div class="ds-frame">
           <div class="ds-page">
@@ -659,8 +662,8 @@ button { cursor: pointer; font-family: var(--font-sans); }
                data-state="13 lessons &middot; $416.25 &middot; frozen the moment it is submitted."
                data-title="Hours: review and submit">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>Before submitting, the teacher sees the exact sheet the employer receives, date by date, with an X for any student who had no lesson.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Submitting locks the pay period for good, so a later correction becomes an adjustment in the next period instead of changing hours already sent.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Before submitting, see the exact sheet the employer receives</li> <li>Date by date, with an X for any student with no lesson</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Submitting locks the pay period for good</li> <li>A later correction becomes an adjustment in the next period</li></ul></div></div>
         </div>
         <div class="ds-frame" style="min-height: 670px;">
           <div class="ds-page">
@@ -741,8 +744,8 @@ button { cursor: pointer; font-family: var(--font-sans); }
                data-state="Nora Castellanos &middot; Harbor Piano &middot; 1.5 hours logged this pay period, recital piece nearly ready."
                data-title="Students: roster and profile">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>The roster groups every student under who pays for the lessons, the teacher's private studio or each employer, and flags anyone going idle or cancelling often.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Each profile builds itself from logged lessons: level, hours this pay period, repertoire progress and lesson notes.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Students grouped by who pays: the private studio or each employer</li> <li>Flags anyone going idle or cancelling often</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Each profile builds itself from logged lessons</li> <li>Level, hours this pay period, repertoire progress, lesson notes</li></ul></div></div>
         </div>
         <div class="ds-frame">
           <div class="ds-page">
@@ -832,8 +835,8 @@ button { cursor: pointer; font-family: var(--font-sans); }
                data-state="Wednesday, Thursday and Friday afternoons open &middot; existing lessons blocked out automatically."
                data-title="Booking: the teacher's side">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>One private link lets families book themselves in, and the teacher decides whether families can also claim a regular weekly time.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>The teacher taps the half hours open for lessons, and existing lessons are already blocked out so nothing double-books.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>One private link lets families book themselves in</li> <li>The teacher decides whether they can also claim a regular weekly time</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Tap the half hours open for lessons</li> <li>Existing lessons are already blocked out, so nothing double-books</li></ul></div></div>
         </div>
         <div class="ds-frame">
           <div class="ds-page">
@@ -902,9 +905,9 @@ button { cursor: pointer; font-family: var(--font-sans); }
                data-state="Arlo Bennett &middot; Thursdays at 5:00 &middot; 7 of the next 8 weeks free, the taken week named up front."
                data-title="Booking: the family's side">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>The family picks a lesson length first, and the grid shows only the start times that length fits.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>The week shows open times and nothing else, so the teacher's own calendar is never visible to the public.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>They choose a one-off lesson or a regular weekly time, and any week already taken is named before they book.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>The family picks a lesson length first</li> <li>The grid shows only start times that length fits</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>The week shows open times and nothing else</li> <li>The teacher's own calendar is never public</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Choose a one-off lesson or a regular weekly time</li> <li>Any week already taken is named before booking</li></ul></div></div>
         </div>
         <div class="ds-frame">
           <div class="ds-urlbar"><i></i><i></i><i></i><span>https://&hellip;/book/lessons-7f3a2c</span></div>
@@ -971,10 +974,10 @@ button { cursor: pointer; font-family: var(--font-sans); }
                data-state="$4,000 to $5,000 a month &middot; the TA stipend covers most of it &middot; 4 to 6 teaching hours a week close the gap."
                data-title="Business: what the semester has to earn">
         <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><span>The teacher sets a monthly income range, and any stipend comes off the top to show what teaching still has to earn.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><span>Each scenario turns that amount into weekly teaching hours at private rates, contract rates, or a mix of both.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><span>The income floor restates the target as a number of students, so a thinning roster shows up before a short month does.</span></div>
-          <div class="demo-note"><span class="demo-pin-n">4</span><span>The totals show how many hours each week are already fixed and how much time is left for practice.</span></div>
+          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Set a monthly income range</li> <li>Any stipend comes off the top</li> <li>Shows what teaching still has to earn</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Each scenario turns that amount into weekly teaching hours</li> <li>At private rates, contract rates, or a mix</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>The income floor restates the target as a number of students</li> <li>A thinning roster shows up before a short month does</li></ul></div></div>
+          <div class="demo-note"><span class="demo-pin-n">4</span><div><ul class="demo-bul"><li>Hours each week already fixed</li> <li>Time left for practice</li></ul></div></div>
         </div>
         <div class="ds-frame">
           <div class="ds-page">

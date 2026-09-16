@@ -759,6 +759,22 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
+### Session of 2026-09-16: every numbered note is a bullet list (pushed)
+
+Max's ask: same info, faster to read. All 115 notes on `index.html` and the same 115 in the eight
+`demo/` standalones are now 2 to 4 short bullets each, no end periods. Claude did the split; the
+facts are unchanged.
+
+- **Markup:** `<span class="demo-pin-n">N</span><div><ul class="demo-bul"><li>...</li></ul></div>`.
+  A new note must use this shape. `initDemoPops()` still copies the note's HTML, now into a
+  `div.demo-pop-txt` (a list cannot sit in a span).
+- `.demo-bul` sets `list-style: disc` itself (Tailwind's preflight strips it) and colors the
+  markers with the pin color. Added beside `.demo-note` in the page and every standalone.
+- **Verified headless (1280 and 390):** every popover on every slide of all eight carousels shows
+  its bullet list inside the screen; each standalone's notes row shows disc bullets; zero script
+  errors; no em dashes added. Screenshots checked by eye.
+- **Not done:** `teaching.html` on the `teaching-page` branch still uses sentence notes.
+
 ### Session of 2026-09-16: career files reorganized into `career/`, kept off the site and out of git
 
 Max's ask: organize the application scaffold now that there are six applications. Career work only;
