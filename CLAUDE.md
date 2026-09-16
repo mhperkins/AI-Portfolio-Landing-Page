@@ -436,7 +436,8 @@ At Max's ask, on all eight carousels. Page only; the `demo/` standalones are unc
   The tile gets an outline in the pin color and the pin scales up. The popover is
   `position: fixed`, anchored **above** the pin since 2026-09-15 (see "Notes open above their pin"),
   and it follows scroll. **The `.demo-notes` markup is still the text source,** so notes are edited
-  in the same place as before.
+  in the same place as before. Since 2026-09-16 each note is a bullet list (`ul.demo-bul`), not a
+  sentence; see that day's session.
 - The title card's "State of" label carries a "Hover a number for details" pill ("Tap a number" on
   touch) on slides that have pins.
 - **Verified headless (1280, and 390 with touch):** all eight carousels walk every slide by
@@ -638,8 +639,9 @@ until he reworks that feature in the app.**
 
 - **The nav strip sits inside the stage, below the title header** (Max's call), as a square band.
   Scoped as `.dasha-demo .demo-stage .demo-nav-wrap`, so the CRM and Agency strips are untouched.
-- **Annotations.** Each slide has one-sentence numbered notes (`.demo-notes`) and a matching amber
-  pin (`.demo-pin`) on the feature. One sentence per note, Max's rule. On the page the notes row is
+- **Annotations.** Each slide has numbered notes (`.demo-notes`) and a matching amber
+  pin (`.demo-pin`) on the feature. Each note is 2 to 4 short bullets since 2026-09-16 (Max's call;
+  it was one sentence per note before). On the page the notes row is
   hidden and each note pops up on its tile (2026-09-13, "Strip navigation and hover notes"); the
   standalone still shows the row.
 - **Schedule slide order (2026-09-13, Max's call):** the lesson carrying the log buttons (pin 4 since 2026-09-14),
@@ -984,8 +986,8 @@ base for the final-round live class. Max's calls and the accuracy notes also sit
 - **Next conversation:** open the worktree folder and keep building there. First Max's copy review of
   all four topics, then the final-round presenter file. Merge `teaching-page` into main only when Max
   says the page is final; that merge is what adds Teaching to the live nav.
-- **The branch has one commit beyond the page itself,** `ba6992f`: the notes open above their pin, the
-  same change `index.html` shipped on main (see "notes open above their pin" above). A later session
+- **The branch has two commits beyond the page itself,** both mirroring changes main shipped:
+  `ba6992f` (notes open above their pin) and `d7dbc67` (notes are bullet lists). A later session
   in the worktree also left `demo/teach-*-demo.html` and its own `CLAUDE.md` edits uncommitted there;
   that is the branch's copy of this file, not main's.
 - **The preview above is a snapshot** deployed before the move. Deploy new previews from the worktree
