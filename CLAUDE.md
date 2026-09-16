@@ -66,6 +66,8 @@ Vercel project: `ai-portfolio-landing-page` · GitHub: `mhperkins/AI-Portfolio-L
 | [AI Roles CV.md](AI%20Roles%20CV.md) | Text source for that CV, with a NOTES section on every claim that changed and why |
 | [AI Roles Cover Letter.md](AI%20Roles%20Cover%20Letter.md) | Base cover letter for the AI track: the Composer Hub story, the training protocol, then the Sprout Suite and TeacherAID, with a per-company paragraph to swap. NOTES tie every claim to evidence in the composers-compass repo and list what must not be claimed |
 | [build_ai_cv.py](build_ai_cv.py) | Rebuilds the AI roles `.docx` from the academic CV template (falls back to the Community Engagement docx when Word has the CV open and locked) |
+| [Priority Applications Cover Letters.md](Priority%20Applications%20Cover%20Letters.md) | The three priority applications (WFAA, Savanna Institute, River Alliance and MEA): posting comparison, settled facts, the letter template, each letter with its requirement map and claim sources |
+| [Priority Applications Resumes.md](Priority%20Applications%20Resumes.md) and [build_priority_resumes.py](build_priority_resumes.py) | Text source for the three tailored resumes; the script parses the md and builds `Maxwell Perkins Resume - <org>.docx`. Export PDFs through Word. Outputs are not committed |
 | [Academic CV - UW Madison.md](Academic%20CV%20-%20UW%20Madison.md) | Academic CV draft for the UW-Madison RISE-AI posting |
 | [Academic Cover Letter - UW Madison.md](Academic%20Cover%20Letter%20-%20UW%20Madison.md) | Cover letter draft for the same posting |
 | [Teaching Statement - UW Madison.md](Teaching%20Statement%20-%20UW%20Madison.md) | Required teaching statement for the same posting |
@@ -770,6 +772,57 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
+### Session of 2026-09-15: cover letters and resumes for the three priority applications (pushed)
+
+Career work only; no site changes. Commits `f049f07` through `a0ed07e`. Everything lives in
+`Priority Applications Cover Letters.md` (comparison, facts, template, letters, claim maps) and
+`Priority Applications Resumes.md` (text source plus NOTES), built by `build_priority_resumes.py`.
+
+- **Compared the three postings** (WFAA, Savanna Institute, River Alliance and MEA) from the live
+  text, then one template: hook, breadth, shared core proof, job fit, close.
+- **Letters:**
+  - **Savanna v2.1:** Max's own edit plus a fix pass. Addresses every required qualification, one page.
+  - **River Alliance and MEA v1:** in Max's voice, with the water hook, "coming back to Madison" and an
+    Oct 19 start.
+  - **WFAA v3.1, final (Max's call):** a separate letter built on his UW story (Terrace summers,
+    alumni family, 2014 Big Ten rugby title, shows at the Union). The driver's license line was
+    restored because the posting requires it.
+- **New facts from Max, recorded in the letters file:**
+  - Family and farm: summers on his grandparents' farm in Beloit; his aunt and uncle Barb and Dave
+    Perkins founded Vermont Valley Community Farm and were Wisconsin CSA pioneers (not on Savanna's
+    site). He grew up in the Bay Area with droughts and wildfires.
+  - Sprout: over $1.5 million raised and around 3,000 all-time donors, in a CRM he built from scratch
+    to replace paid software, with emails sent through Campaign Monitor.
+  - UW: his dad and dozens of family members are alumni.
+- **Framing calls (Max's):**
+  - Play up the entrepreneur breadth (full for Savanna, medium for WFAA, light for River Alliance).
+  - Include AI, framed as understanding the workflow, one mention, never the lead. Claude advised
+    omitting it for River Alliance and MEA: MEA sued over the Port Washington AI data center in July
+    2026, and River Alliance testified for a data center pause. Max chose to pair it with his concern
+    about AI's water use instead.
+  - Letters read as a Madison candidate but never state residence. Max will move once hired, can
+    interview in person on a week's notice, and can start Oct 19. Resume headers read "Madison, WI".
+- **Resumes:**
+  - One page each, checked by eye in the exported PDFs. Savanna leads with development operations;
+    River Alliance is written at assistant level; WFAA opens with UW. The WFAA resume has no AI
+    wording, matching Max's letter edit.
+  - The docx and PDF outputs are **not committed**, so Vercel does not serve them.
+- **Word export lesson:** a hidden COM instance hung on the OneDrive copy. It worked after copying
+  the docx to the scratchpad and setting `DisplayAlerts = 0`. Only the new WINWORD process was
+  killed; Max's open Word window was left alone.
+
+**Open:**
+- River Alliance letter (due Sept 27): keep the data center specifics? Add the portfolio link? Put
+  Vermont Valley back in?
+- Resumes: Microsoft Office on the WFAA and River Alliance Tools lines? Is the PMP still in progress
+  (it would help Savanna)?
+- LinkedIn headline still reads "Vibe Coder / AI Developer"; every resume links to it.
+- Max has not reviewed the resumes yet.
+
+**Next:** Max reviews the resumes and answers the open calls. Then submit River Alliance and MEA by
+email (subject "Development and Administrative Assistant Search") by Sept 27, Savanna on PinPoint by
+Oct 4, and WFAA on iCIMS. Log each submission in `career-search-arts-education-track.md`.
+
 ### Session of 2026-09-15: notes open above their pin, on every carousel (pushed)
 
 Max's ask: a note popping up under its pin covered the feature it describes. Every carousel's note
@@ -921,7 +974,8 @@ Career work only; no site changes.
   ride inside this session's commits.
 
 **Open:**
-- No materials yet for any of the three priorities.
+- ~~No materials yet for any of the three priorities.~~ Drafted later the same day; see "cover
+  letters and resumes for the three priority applications" above.
 - WCO: materials ready, still not logged as submitted; the posting was open on Sept 15.
 - Check by hand: Overture's education coordinator role; whether Careerswift Implementation
   Specialist is really open (its Ashby page shows only a title); UMKC's "or equivalent professional
