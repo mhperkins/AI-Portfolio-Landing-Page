@@ -773,7 +773,11 @@ facts are unchanged.
 - **Verified headless (1280 and 390):** every popover on every slide of all eight carousels shows
   its bullet list inside the screen; each standalone's notes row shows disc bullets; zero script
   errors; no em dashes added. Screenshots checked by eye.
-- **Not done:** `teaching.html` on the `teaching-page` branch still uses sentence notes.
+- **Teaching page too:** `teaching.html` got the same treatment on the `teaching-page` branch
+  (commit `d7dbc67`, not pushed), 69 of 69 popovers verified at 1280 and 390. Notes quoting a repo
+  keep the quote word for word, split into a lead-in bullet and the quote. The worktree's
+  untracked `demo/teach-*-demo.html` standalones were updated to match but left uncommitted,
+  like the rest of that session's work there.
 
 ### Session of 2026-09-16: career files reorganized into `career/`, kept off the site and out of git
 
