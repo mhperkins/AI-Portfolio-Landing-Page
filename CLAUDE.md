@@ -1666,6 +1666,11 @@ opportunistically: watch for other postings similar to RISE-AI and apply under t
 
 Targeting on the AI track (updated 2026-09-14): AI tool and workflow builder roles, including AI automation, internal tools, low-code, solutions and forward deployed, and automation-focused GTM engineering. Remote, or Madison hybrid. Not "vibe coder" framing. Send `career/base/ai-roles/Maxwell Perkins CV - AI Roles.pdf` with a company-specific copy of `career/base/ai-roles/cover-letter-base.md`.
 
+**Hudson Table over music work (Max's rule, 2026-09-16):** when a posting doesn't involve music, and
+especially for event jobs, a resume uses Event Host, Hudson Table (2021-2023) in place of the teaching
+and studio entries. Wording and sources are in `career/README.md`. Applied to the WFAA, Savanna and
+River Alliance resumes.
+
 The Sprout Suite (CRM + Grant Assistant + Social Manager + Campaign Tracker) is the portfolio centerpiece — four interconnected tools for one real nonprofit, one Supabase backend, actively used in production. Frame as a system, not a list.
 
 The MCP server and The Composer Compass training protocol are the strongest technical differentiators for AI dev roles specifically. The MCP server shows Claude API tool use with real data. The training protocol shows rubric design, structured evaluation, and agent architecture thinking — not just "I called the API."
