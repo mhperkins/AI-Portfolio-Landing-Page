@@ -781,7 +781,7 @@ facts are unchanged.
   untracked `demo/teach-*-demo.html` standalones were updated to match but left uncommitted,
   like the rest of that session's work there.
 
-### Session of 2026-09-16: career files reorganized into `career/`, kept off the site and out of git
+### Session of 2026-09-16: career files reorganized into `career/`, one-version rule, WFAA applied
 
 Max's ask: organize the application scaffold now that there are six applications. Career work only;
 no site changes.
@@ -811,20 +811,35 @@ no site changes.
 - `Academic CV - UW Madison.docx` stays at the root: `resume.html` offers it as the download.
   `Curriculum - UW Madison.html` moved into the RISE-AI folder, so the site no longer serves it.
 
+- **One-version rule (after Max once sent a resume with typos).** `career/build.py` now builds,
+  checks and freezes: `check` fails on a docx that differs from its source, a stale PDF, anything over
+  one page, or any extra file; every build and send logs to the folder's `versions.md`; `sent` freezes
+  the submitted PDFs read-only in `sent/<date>/` and blocks rebuilds. Tested on a copy with a planted
+  typo, a stale PDF and an "(old)" file: all caught. Stray copies in `Documents` and `Downloads`
+  went to the Recycle Bin (the WFAA v3.1 letter, an old RISE-AI letter draft, a duplicate CV, and
+  Max's Savanna letter, which he chose to drop for v2.1). The submitted RISE-AI letter and CV moved into
+  `rise-ai/sent/2026-09-09/`. `Desktop\Resume and Cover Letters\` is ignored (Max's call).
+- **Every application folder has a `job.md`:** posting and apply links, location and hours, pay,
+  deadline, status, and a short summary. WCO has none: Max got the rejection on 2026-09-16.
+- **Hudson Table rule:** see Career Context.
+- **WFAA: applied 2026-09-16** through iCIMS, as PDFs. The frozen copies are in
+  `career/applications/2026-09-wfaa/sent/2026-09-16/`.
+  - The letter is v3.2 plus Max's proofread edits, with no portfolio link.
+  - The resume, in date order: Sprout, Music Major Records, Hudson Table, teaching.
+  - The Sprout Suite, CRM, Social Media Manager and Grant Finder link to their portfolio tabs; those
+    links were tested live. The header has LinkedIn only.
+  - Checked against the live posting. Word's spell check found 0 errors.
+
 **Open:**
 - **`career/` is gitignored (Max's call),** so it lives only on disk and in OneDrive, with no version
   history. The public GitHub history still holds every career file committed before 2026-09-16.
-- **WFAA resume:** Hudson Table (Event Host, 2021 to 2023, from Max's older resumes) replaced the
-  teaching and studio entries, at Max's call, for customer service and event experience. That brought
-  it back to one page. Max had planned to fix the margins himself in Word. If he does, the build skips
-  that docx, so copy any text changes into its `resume.md` before a rebuild.
-- Max's own WFAA letter (`OneDrive\Documents\Dear WFAA Hiring Team.docx`) was updated to v3.1 in
-  place (his curly apostrophes kept, link label now Portfolio). The root Savanna resume copy matched
-  its rebuild, went to the Recycle Bin, and its PDF was rebuilt (one page).
-- The three priority letters are dated Sept 16. Update the `Date:` line on the day each goes out.
-- **Every application folder has a `job.md`** (Max's ask): posting and apply links, location and hours,
-  pay, deadline, status, and a short summary checked against the posting. WCO has none: Max got the
-  rejection on 2026-09-16, and its status is Rejected in the README and the track doc.
+- **Next: River Alliance and MEA** (priority deadline Sept 27), then Savanna Institute (Oct 4). Both
+  are drafted with Hudson Table, and Max hasn't proofread either. Update each letter's `Date:` line on
+  send day.
+- **WFAA follow-up:** if asked where he lives now, Max can interview in person on about a week's notice
+  and start as early as Oct 19.
+- **Open question:** does the AI roles CV follow the Hudson Table rule? It still lists teaching and the
+  studio.
 
 ### Session of 2026-09-15: cover letters and resumes for the three priority applications (pushed)
 
