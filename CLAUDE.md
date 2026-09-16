@@ -1669,6 +1669,18 @@ opportunistically: watch for other postings similar to RISE-AI and apply under t
 
 Targeting on the AI track (updated 2026-09-14): AI tool and workflow builder roles, including AI automation, internal tools, low-code, solutions and forward deployed, and automation-focused GTM engineering. Remote, or Madison hybrid. Not "vibe coder" framing. Send `career/base/ai-roles/Maxwell Perkins CV - AI Roles.pdf` with a company-specific copy of `career/base/ai-roles/cover-letter-base.md`.
 
+**🛑 One version of every application file, always current (Max's hard rule, 2026-09-16).** Max once
+sent a resume with typos because two copies existed. This can never happen again:
+- Each `career/applications/<app>/` folder holds exactly one `.docx` and one `.pdf` per document, and
+  they are the latest version. Never leave a backup, "old" or draft copy anywhere, in `career/` or in
+  `Documents`, `Downloads` or the Desktop. Scratch copies get deleted the same session.
+- Build only with `python career/build.py <app> -m "what changed"`. It exports the PDF, logs
+  `versions.md` and runs the check. When Max edits in Word, copy the edits into the source right away.
+- **Run `python career/build.py check --all` at the end of every career session and report the
+  result.** Any FAIL is fixed before the session ends.
+- After Max submits, run `python career/build.py sent <app>`. It freezes the PDFs read-only in `sent/`.
+- Details are in `career/README.md` under "The one-version rule".
+
 **Hudson Table over music work (Max's rule, 2026-09-16):** when a posting doesn't involve music, and
 especially for event jobs, a resume uses Event Host, Hudson Table (2021-2023) in place of the teaching
 and studio entries. Wording and sources are in `career/README.md`. Applied to the WFAA, Savanna and
