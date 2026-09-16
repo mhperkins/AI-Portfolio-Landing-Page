@@ -52,25 +52,7 @@ Vercel project: `ai-portfolio-landing-page` · GitHub: `mhperkins/AI-Portfolio-L
 | [demo/campaign-demo.html](demo/campaign-demo.html) | **Iteration source for the Campaign Tracker panel's carousel** (5 annotated slides, transplanted 2026-09-12). |
 | [demo/assets/](demo/assets/) | Carousel assets: `chaconne-p1.webp` (copied from the composer portfolio's score previews) and `chaconne-excerpt.mp3`, the 45-second cut from 8:25 of the Chaconne recording that slide 5 plays in both copies. |
 | [images/](images/) | Screenshots and assets. `maxwell-portrait-500/800.webp` is the color on-stage portrait from the composer portfolio's About section (copied 2026-09-14 from `composers-compass/portfolio/site/assets/portfolio/maxwell-about-portrait-*`), shown beside the About text on `about.html` and the home page. Not the black and white piano hero photo. |
-| [career-search-handoff.md](career-search-handoff.md) | Snapshot of career search status — context for Claude sessions |
-| [career-search-master.md](career-search-master.md) | AI/dev track — full ongoing career strategy document |
-| [career-search-ops-track.md](career-search-ops-track.md) | Arts/nonprofit operations track — hard rules, story, proof points, application log |
-| [career-search-academic-track.md](career-search-academic-track.md) | Academic music technology & AI track — hard rules, story, proof points, application log |
-| [career-search-arts-education-track.md](career-search-arts-education-track.md) | Arts nonprofit community engagement & education sub-track of the ops track. Current State section at the top; holds the WCO letter, application answers, and research notes |
-| [Operations Resume.md](Operations%20Resume.md) | Resume draft for the ops track (do not send the dev PDF on this track) |
-| [Community Engagement Resume.md](Community%20Engagement%20Resume.md) | Text source for the arts-education resume, in the academic CV's format |
-| [Madison College CV.md](Madison%20College%20CV.md) and [Madison College Cover Letter.md](Madison%20College%20Cover%20Letter.md) | Text sources for the Madison College PT Instructor Pool, Music application (drafted 2026-09-14, not submitted). `build_madison_college.py` builds `Maxwell Perkins CV - Madison College.docx` and the matching cover letter; export both PDFs through Word. Status and framing calls live in `career-search-academic-track.md` |
-| [Maxwell Perkins Resume - Community Engagement.pdf](Maxwell%20Perkins%20Resume%20-%20Community%20Engagement.pdf) | **The file to send** on the arts-education track (one page; `.docx` beside it). Not committed as of 2026-09-10 |
-| [build_resume.py](build_resume.py) | Rebuilds that `.docx` with python-docx, using `Academic CV - UW Madison.docx` as the style template. Export the PDF through Word. Not committed as of 2026-09-10 |
-| [Maxwell Perkins CV - AI Roles.pdf](Maxwell%20Perkins%20CV%20-%20AI%20Roles.pdf) | **The file to send** on the AI developer track (one page; `.docx` beside it). The academic CV reordered for AI tool and workflow roles. Built 2026-09-14. The `.docx` and `.pdf` are not committed (Vercel would serve them publicly), same as the Community Engagement resume |
-| [AI Roles CV.md](AI%20Roles%20CV.md) | Text source for that CV, with a NOTES section on every claim that changed and why |
-| [AI Roles Cover Letter.md](AI%20Roles%20Cover%20Letter.md) | Base cover letter for the AI track: the Composer Hub story, the training protocol, then the Sprout Suite and TeacherAID, with a per-company paragraph to swap. NOTES tie every claim to evidence in the composers-compass repo and list what must not be claimed |
-| [build_ai_cv.py](build_ai_cv.py) | Rebuilds the AI roles `.docx` from the academic CV template (falls back to the Community Engagement docx when Word has the CV open and locked) |
-| [Priority Applications Cover Letters.md](Priority%20Applications%20Cover%20Letters.md) | The three priority applications (WFAA, Savanna Institute, River Alliance and MEA): posting comparison, settled facts, the letter template, each letter with its requirement map and claim sources |
-| [Priority Applications Resumes.md](Priority%20Applications%20Resumes.md) and [build_priority_resumes.py](build_priority_resumes.py) | Text source for the three tailored resumes; the script parses the md and builds `Maxwell Perkins Resume - <org>.docx`. Export PDFs through Word. Outputs are not committed |
-| [Academic CV - UW Madison.md](Academic%20CV%20-%20UW%20Madison.md) | Academic CV draft for the UW-Madison RISE-AI posting |
-| [Academic Cover Letter - UW Madison.md](Academic%20Cover%20Letter%20-%20UW%20Madison.md) | Cover letter draft for the same posting |
-| [Teaching Statement - UW Madison.md](Teaching%20Statement%20-%20UW%20Madison.md) | Required teaching statement for the same posting |
+| [career/](career/README.md) | **Everything for the job search** (moved here 2026-09-16): `tracks/` (the five career-search docs), `base/` (AI roles CV and base letter, ops resume), `applications/<YYYY-MM-org>/` (one folder per application: `resume.md`, `letter.md`, `notes.md`, built `.docx` and `.pdf`), and `build.py`, which builds them all. **Start at `career/README.md`**: the application index, the source format and the build rules. `.gitignore` keeps it out of git (OneDrive is its only backup) and `.vercelignore` keeps it off the site. |
 
 ---
 
@@ -92,6 +74,11 @@ without waiting to be asked.** Vercel only builds production on a push, so a ses
 on preview deploys leaves the live site behind. Stage named files, never `-A`.
 
 Push to main. Vercel picks it up automatically. No build command, no output directory to configure — Vercel serves the files directly.
+
+**Vercel serves every file in the repo except what `.vercelignore` lists** (`career/`, `docs/`,
+`.claude/`, every `.md` and `.py`). Until 2026-09-16 there was no such file, and the career docs,
+cover letters and application PDFs were all public at the site URL. A new non-site file type needs
+a line there.
 
 To test locally: open `index.html` in a browser, or run `npx serve .` if you need a local server for relative path testing.
 
@@ -772,9 +759,52 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
+### Session of 2026-09-16: career files reorganized into `career/`, kept off the site and out of git
+
+Max's ask: organize the application scaffold now that there are six applications. Career work only;
+no site changes.
+
+- **Found:** the site served every career file publicly (for example
+  `/career-search-master.md` returned 200), and the GitHub repo is public too.
+- **New layout** (details in `career/README.md`): the five track docs in `career/tracks/`, the AI
+  roles CV and base letter plus the ops resume in `career/base/`, and one folder per application in
+  `career/applications/` (RISE-AI, WCO, Madison College, River Alliance and MEA, Savanna, WFAA). The
+  two "Priority Applications" files were split into per-application `resume.md`, `letter.md` and
+  `notes.md`, plus `applications/priority-three-overview.md`. The WCO letter drafts, answers and
+  research moved out of the arts-education track doc into `applications/2026-09-wco/notes.md`.
+- **One build script, `career/build.py`,** replaces the four `build_*.py`. It builds letters too, so
+  every application now has its cover letter as a .docx and .pdf (the WFAA letter was never built
+  before). Its template is `career/template.docx`, a copy of the site's CV docx, so Word locking the
+  original no longer matters.
+  - **Verified:** each rebuilt docx matches the old script's output paragraph for paragraph (text,
+    styles, spacing, runs), except a 1pt gap under the AI CV's Skills section and Max's WFAA edits.
+    All PDFs export at one page, except the WFAA resume (see Open).
+  - **Word edits win:** a built docx is stamped with its source's time, and the build skips any
+    docx saved later, so Max's Word edits never get overwritten.
+- **The WCO `.docx` committed on Sept 10 was stale** (older wording, wider margins). The PDF matched
+  the script. The rebuilt docx matches the PDF again.
+- **Max's WFAA resume edits in Word** (the Union ensembles line, the Music Major Records and NYU
+  bullets, a longer Tools line with Microsoft Office, Trello, Asana and Canva Pro) are in
+  `resume.md`, with three typos fixed. His Word copy went to the Recycle Bin after the comparison.
+- `Academic CV - UW Madison.docx` stays at the root: `resume.html` offers it as the download.
+  `Curriculum - UW Madison.html` moved into the RISE-AI folder, so the site no longer serves it.
+
+**Open:**
+- **`career/` is gitignored (Max's call),** so it lives only on disk and in OneDrive, with no version
+  history. The public GitHub history still holds every career file committed before 2026-09-16.
+- **The WFAA resume is two pages now:** only the Availability line spills over. Max is fixing the
+  margins himself, in Word. The build then skips that docx, so copy any text changes into its
+  `resume.md` before a rebuild.
+- Max's own WFAA letter (`OneDrive\Documents\Dear WFAA Hiring Team.docx`) was updated to v3.1 in
+  place (his curly apostrophes kept, link label now Portfolio). The root Savanna resume copy matched
+  its rebuild, went to the Recycle Bin, and its PDF was rebuilt (one page).
+- The three priority letters are dated Sept 16. Update the `Date:` line on the day each goes out.
+
 ### Session of 2026-09-15: cover letters and resumes for the three priority applications (pushed)
 
-Career work only; no site changes. Commits `f049f07` through `a0ed07e`. Everything lives in
+Career work only; no site changes. Commits `f049f07` through `a0ed07e`. The files named below were
+reorganized into `career/applications/` on 2026-09-16.
+Everything lived in
 `Priority Applications Cover Letters.md` (comparison, facts, template, letters, claim maps) and
 `Priority Applications Resumes.md` (text source plus NOTES), built by `build_priority_resumes.py`.
 
@@ -1633,7 +1663,7 @@ opportunistically: watch for other postings similar to RISE-AI and apply under t
 
 ## Career Context
 
-Targeting on the AI track (updated 2026-09-14): AI tool and workflow builder roles, including AI automation, internal tools, low-code, solutions and forward deployed, and automation-focused GTM engineering. Remote, or Madison hybrid. Not "vibe coder" framing. Send `Maxwell Perkins CV - AI Roles.pdf` with a company-specific copy of `AI Roles Cover Letter.md`.
+Targeting on the AI track (updated 2026-09-14): AI tool and workflow builder roles, including AI automation, internal tools, low-code, solutions and forward deployed, and automation-focused GTM engineering. Remote, or Madison hybrid. Not "vibe coder" framing. Send `career/base/ai-roles/Maxwell Perkins CV - AI Roles.pdf` with a company-specific copy of `career/base/ai-roles/cover-letter-base.md`.
 
 The Sprout Suite (CRM + Grant Assistant + Social Manager + Campaign Tracker) is the portfolio centerpiece — four interconnected tools for one real nonprofit, one Supabase backend, actively used in production. Frame as a system, not a list.
 

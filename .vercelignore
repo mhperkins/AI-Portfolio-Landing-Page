@@ -1,0 +1,6 @@
+# Not part of the site. Vercel serves every other file in the repo.
+career/
+docs/
+.claude/
+*.md
+*.py

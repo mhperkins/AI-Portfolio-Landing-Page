@@ -8,3 +8,6 @@
 .env*.local
 
 .vercel
+
+# Job search files: private, kept off GitHub and the site (see .vercelignore)
+career/
