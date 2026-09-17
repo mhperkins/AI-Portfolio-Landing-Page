@@ -764,6 +764,34 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
+### Session of 2026-09-17, last: Turing AI evaluator CV
+
+Career work only; no site changes. New folder `career/applications/2026-09-turing/`: Turing, Jr. AI
+Evaluator, remote US contract, 16 weeks, $30 to $50/hr. CV only, **not sent yet**.
+
+- **The base AI roles CV does not fit an evaluator job:** it leads with tool building. The CV is built
+  from the Innodata CV instead (evaluation first, Hudson Table for the music entries), with research,
+  fact-checking and summarizing added, because the posting asks for them.
+- **The Composer Compass entry is now the agent training story** (Max's call: the process, not the
+  specifics). Six bullets: the protocol, benchmarking against finished pieces, fact-checking, the
+  model comparison, prompt iteration across 16 versions, and the piece it guides now. An agent
+  checked every claim against `composers-compass/training/`; the sources sit in the folder's NOTES.
+- **Max's calls on claims, now a rule in `career/README.md`:** describe how a tool is meant to work,
+  keep evaluation work at the process level, and leave off or reframe anything that reads as a
+  misstep. So the named model errors, the Haiku failure and the "reduced only" hedge came out, and the
+  UW CV's "theory library" line can stay.
+  - Corrections the check found anyway: "76 checks across 6 harnesses" were app UI tests, not model
+    evaluation, and identical-condition repeat runs do exist.
+- **The Sprout Suite entry lists all four tools,** one bullet each (Max's call).
+- **Eligibility:** "Can be a student or a fresher" is permission, not a requirement (a first read of the
+  posting had it backwards). The real gate is an established Gemini App account with 10 or more
+  education-focused conversations, validated before joining, not at application. Max has one Gemini
+  chat and some notebooks; he is starting real study conversations and applying anyway.
+- `check --all`: OK on all eight folders.
+
+**Next:** Max sends it, then `python career/build.py sent turing`. Open: his call on the new Sprout
+funder-research bullet and on "Microsoft Excel and Word" in Skills.
+
 ### Session of 2026-09-17, last: Innodata application sent
 
 Career work, plus one site fix. **Max applied Sept 17** through Greenhouse to Innodata's Generative
