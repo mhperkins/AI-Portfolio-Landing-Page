@@ -761,6 +761,24 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
+### Session of 2026-09-17, later: River Alliance and MEA application sent
+
+Career work only. **Max emailed it on Sept 17** to jobs@wisconsinrivers.org, with both PDFs attached.
+The submitted copies are frozen in `career/applications/2026-09-river-alliance-mea/sent/2026-09-17/`.
+
+- **Final changes before sending (Max's calls):**
+  - Resume: added "Support donor stewardship for a fundraising program that has raised over $1.5
+    million to date." It's Sprout's all-time total, not money Max raised himself.
+  - Resume: side margins widened from 46pt to 58pt (`Format: margins=58,36`).
+  - Resume: "Team of three" cut. The letter keeps it, because it explains how much Max handles.
+  - Resume: "agile project management" became "agile workflows".
+  - Both documents: the LinkedIn link now reads just "LinkedIn".
+  - Grammar fixes: a serial comma in the CRM bullet, and the run-on "and" in the letter's closing.
+  - Letter: "your team" became "your teams", because the job serves two organizations.
+- `check --all`: OK on every folder.
+
+**Next:** the Savanna Institute application (Oct 4). Max hasn't proofread it yet.
+
 ### Session of 2026-09-17: River Alliance and MEA application locked
 
 Career work only; no site changes. Everything below lives in `career/`, which is gitignored.
@@ -793,9 +811,7 @@ Career work only; no site changes. Everything below lives in `career/`, which is
 - `check --all`: OK on every folder.
 
 **Open:**
-- **Send River Alliance and MEA** (priority deadline Sept 27). Email jobs@wisconsinrivers.org, subject
-  "Development and Administrative Assistant Search", with two separate PDFs. Update the date line if
-  it goes out after Sept 17, then run `sent`.
+- ~~Send River Alliance and MEA.~~ Sent Sept 17 (see above).
 - **Confirm the PMP is still in progress** before an interview. It is listed on this resume.
 - **Next:** the Savanna Institute application (Oct 4). Max hasn't proofread it yet.
 
@@ -871,7 +887,7 @@ no site changes.
 **Open:**
 - **`career/` is gitignored (Max's call),** so it lives only on disk and in OneDrive, with no version
   history. The public GitHub history still holds every career file committed before 2026-09-16.
-- **Next: River Alliance and MEA** (priority deadline Sept 27; **locked Sept 17**, see above), then
+- **Next: River Alliance and MEA** (**sent Sept 17**, see above), then
   Savanna Institute (Oct 4), drafted with Hudson Table and not proofread yet. Update each letter's `Date:` line on
   send day.
 - **WFAA follow-up:** if asked where he lives now, Max can interview in person on about a week's notice
