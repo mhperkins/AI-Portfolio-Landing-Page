@@ -761,6 +761,44 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
+### Session of 2026-09-17: River Alliance and MEA application locked
+
+Career work only; no site changes. Everything below lives in `career/`, which is gitignored.
+
+- **Research:** neither River Alliance nor MEA is against AI. Both fight unchecked data center growth:
+  - River Alliance testified in Feb 2026 for a pause on construction.
+  - MEA sued in July over Port Washington's environmental review, and sued Racine for data center records.
+  - Neither says anything about using AI sustainably.
+- **Max's call: no AI anywhere in this application,** in either the letter or the resume.
+- **New letter strategy (Max's):**
+  - It doesn't recap the resume. The opening gives one line on experience.
+  - Then a story: Bay Area droughts, the Beloit farm, and Vermont Valley Community Farm.
+  - Then character: a systems person who learns quickly, shown by the Salt + Charcoal kitchen story
+    (dishwasher to cook in weeks). EveryAction and Neon are tied to the Sprout CRM strategy.
+  - The close explains the part-time ask: Max composes and will be teaching music in Madison.
+  - The numbering restarted at Max's voiced draft, and **v9 is final**.
+  - "Michelin-reviewed" was dropped because it couldn't be confirmed.
+- **Resume, final:**
+  - Jobs in date order (Sprout, Music Major Records, Hudson Table), with the Composer entry and
+    Interests cut.
+  - The CRM became a Sprout bullet ("Led the project to build..."). Music Major Records gained an
+    agile / Trello bullet.
+  - Trello and Microsoft Office added to Tools. PMP (in progress) added under Certifications.
+  - Availability now reads "Part-time, 20 to 24 hours a week; in person in Madison starting in October".
+- **Standing rule (Max's call):** the Sprout CRM and Suite are dated 2026 on every resume from now
+  on. The Savanna resume and the AI roles CV were updated. The sent WCO and WFAA copies keep 2025.
+  The rule is recorded in `career/README.md`.
+- **Lesson:** editing `letter.md` while Max had unsaved edits open made VS Code drop his edits once.
+  Don't touch a source file Max has open until he says it's saved.
+- `check --all`: OK on every folder.
+
+**Open:**
+- **Send River Alliance and MEA** (priority deadline Sept 27). Email jobs@wisconsinrivers.org, subject
+  "Development and Administrative Assistant Search", with two separate PDFs. Update the date line if
+  it goes out after Sept 17, then run `sent`.
+- **Confirm the PMP is still in progress** before an interview. It is listed on this resume.
+- **Next:** the Savanna Institute application (Oct 4). Max hasn't proofread it yet.
+
 ### Session of 2026-09-16: every numbered note is a bullet list (pushed)
 
 Max's ask: same info, faster to read. All 115 notes on `index.html` and the same 115 in the eight
@@ -833,8 +871,8 @@ no site changes.
 **Open:**
 - **`career/` is gitignored (Max's call),** so it lives only on disk and in OneDrive, with no version
   history. The public GitHub history still holds every career file committed before 2026-09-16.
-- **Next: River Alliance and MEA** (priority deadline Sept 27), then Savanna Institute (Oct 4). Both
-  are drafted with Hudson Table, and Max hasn't proofread either. Update each letter's `Date:` line on
+- **Next: River Alliance and MEA** (priority deadline Sept 27; **locked Sept 17**, see above), then
+  Savanna Institute (Oct 4), drafted with Hudson Table and not proofread yet. Update each letter's `Date:` line on
   send day.
 - **WFAA follow-up:** if asked where he lives now, Max can interview in person on about a week's notice
   and start as early as Oct 19.
