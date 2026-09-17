@@ -764,10 +764,11 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
-### Session of 2026-09-17, last: Turing AI evaluator CV
+### Session of 2026-09-17, last: Turing AI evaluator application sent
 
 Career work only; no site changes. New folder `career/applications/2026-09-turing/`: Turing, Jr. AI
-Evaluator, remote US contract, 16 weeks, $30 to $50/hr. CV only, **not sent yet**.
+Evaluator, remote US contract, 16 weeks, $30 to $50/hr. **Max sent it Sept 17** through the Betterteam
+form, with the CV and a short cover letter; the frozen copies are in `sent/2026-09-17/`.
 
 - **The base AI roles CV does not fit an evaluator job:** it leads with tool building. The CV is built
   from the Innodata CV instead (evaluation first, Hudson Table for the music entries), with research,
@@ -789,8 +790,14 @@ Evaluator, remote US contract, 16 weeks, $30 to $50/hr. CV only, **not sent yet*
   chat and some notebooks; he is starting real study conversations and applying anyway.
 - `check --all`: OK on all eight folders.
 
-**Next:** Max sends it, then `python career/build.py sent turing`. Open: his call on the new Sprout
-funder-research bullet and on "Microsoft Excel and Word" in Skills.
+- **The cover letter** (added at Max's ask, then cut to about 240 words because it is optional): the
+  posting's duties in order, the Compass named as a composition assistant that analyzes rather than
+  generates, and one paragraph on finishing the master's in 2022 and turning toward AI since. Max cut
+  "designed an evaluation, not just run one" as reading overqualified for a junior contract role.
+- **No rate stated.** The form does not ask, and the posting names $30 to $50/hr.
+
+**Next:** Max needs 10 or more genuine education-focused Gemini App chats before any onboarding check.
+Open: his call on the new Sprout funder-research bullet and on "Microsoft Excel and Word" in Skills.
 
 ### Session of 2026-09-17, last: Innodata application sent
 
