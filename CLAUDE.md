@@ -64,6 +64,9 @@ Vercel project: `ai-portfolio-landing-page` · GitHub: `mhperkins/AI-Portfolio-L
 - **No JavaScript frameworks.** Vanilla JS only, inline in `<script>` tags at the bottom of the body.
 - **One file per page.** index.html, about.html, and resume.html are self-contained. Do not split into partials or components.
 - **No em dashes.** Use commas, periods, or restructure the sentence.
+- **Links out of a document open in a new tab (Max's rule, 2026-09-17).** On `resume.html` every body link
+  carries `target="_blank" rel="noopener"`, including the walkthrough links into `index.html`. Site nav
+  links stay same-tab.
 
 ---
 
