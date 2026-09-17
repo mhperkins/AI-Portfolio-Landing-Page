@@ -764,6 +764,37 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
+### Session of 2026-09-17, last: Clasp AI Labs Engineer drafted
+
+Career work only; no site changes. New folder `career/applications/2026-09-clasp/`: Clasp, AI Labs
+Engineer, listed remote with a Boston base, full-time, $85k to $110k plus equity. **Drafted, not sent.**
+
+- **Ashby postings render empty to a fetcher.** The full text comes from the job board API:
+  `https://api.ashbyhq.com/posting-api/job-board/<org>?includeCompensation=true` returns every posting
+  with `descriptionPlain`. Reuse it, like the Workday JSON endpoint.
+- **The closest posting yet to Max's actual work.** AI Labs builds internal tools for Clasp's own staff
+  (over 70% use one weekly) and wants agents with "instructions, tools, guardrails, evaluations, and
+  human handoffs". That is the Sprout Suite and the Compass training protocol. It is an explicit L1
+  role that closes with "You do not need to check every box above to apply".
+- **Max's calls:**
+  - **The letter leads on the portfolio as a live demo:** the site is the posting's "evidence you can
+    ship", with no login, and the letter deep-links `#tab-sprout` and `#composition`.
+  - **Full-stack range in his own words:** building in Claude Code taught him the whole stack and he
+    reasons across it, with his depth in APIs and integrations, experiments and testing, and the Sprout
+    Suite as the shipped, daily-used end-to-end proof. Both documents say this.
+  - **Brooklyn, with no relocation note,** and the letter commits to frequent Boston travel. Madison is
+    a possibility rather than a plan, and this role is one of the things that would keep him in New York.
+- **The remote policy is the gate:** Eastern or Central time on Boston hours, within an hour of an
+  airport with daily Boston flights, "targeting the broader New England area to start". Brooklyn clears
+  it; Madison would not.
+- **Page fit:** the CV needed three passes to hold one page. Composer CRM cut, Virtual Agency collapsed
+  to one line, the Compass canvas bullet cut. The teaching entry stays against the Hudson Table default,
+  because the posting's fourth duty is helping colleagues build with AI.
+- `check --all`: OK on all nine folders.
+
+**Open:** Max's proofread; whether to name a salary; the LinkedIn headline still reads "Vibe Coder /
+AI Developer" and both documents link to it.
+
 ### Session of 2026-09-17, last: Turing AI evaluator application sent
 
 Career work only; no site changes. New folder `career/applications/2026-09-turing/`: Turing, Jr. AI
