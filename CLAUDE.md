@@ -764,6 +764,30 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
+### Session of 2026-09-17, last: Innodata application sent
+
+Career work, plus one site fix. **Max applied Sept 17** through Greenhouse to Innodata's Generative
+AI Associate role (remote, part-time, $15/hr), with a CV and no cover letter. The frozen copy is in
+`career/applications/2026-09-innodata/sent/2026-09-17/`.
+
+- **New CV, built from the AI roles CV (Max's calls):**
+  - Handshake AI comes first, then research and applied systems.
+  - No music focus: Hudson Table replaces teaching and the studio job, and TeacherAID, the Composer
+    CRM and Virtual Agency are cut.
+  - The summary leads with writing and a humanities master's, because the job does.
+  - Max confirmed two new lines: "edit copy for clarity and tone" and "Native English speaker".
+  - The Composer Compass title links to `#composition`, and The Sprout Suite to `#tab-sprout`.
+- **New rule (Max's, always):** every link opens in a new tab or window.
+  - `career/build.py` now sets this on every docx link.
+  - On `resume.html`, the two walkthrough links now open a new tab (commit `37e3dfa`, pushed).
+  - A PDF can't force it; the viewer decides. Chrome and Edge open PDF links in the same tab unless
+    the reader Ctrl-clicks.
+- **`career/template.docx` had hidden link entries** from an older document (maxwellhenrymusic.com
+  among them). They never showed in the text. They're removed, so new builds are clean; older
+  folders lose theirs on their next rebuild.
+- **Open:** the posting reads "Remote - Minnesota" and may only accept Minnesota residents.
+- `check --all`: OK on every folder.
+
 ### Session of 2026-09-17, later: River Alliance and MEA application sent
 
 Career work only. **Max emailed it on Sept 17** to jobs@wisconsinrivers.org, with both PDFs attached.
