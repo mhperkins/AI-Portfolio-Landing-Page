@@ -777,8 +777,17 @@ Engineer, listed remote with a Boston base, full-time, $85k to $110k plus equity
   human handoffs". That is the Sprout Suite and the Compass training protocol. It is an explicit L1
   role that closes with "You do not need to check every box above to apply".
 - **Max's calls:**
-  - **The letter leads on the portfolio as a live demo:** the site is the posting's "evidence you can
-    ship", with no login, and the letter deep-links `#tab-sprout` and `#composition`.
+  - **The letter is the portfolio, in bullets.** One opening paragraph, then a short bullet per tab
+    naming the tool and who uses it, then short bullets on the development process written to the
+    posting's own duties. **The tool bullets do not explain how anything works; the CV carries that.**
+    Deep links to all three tabs (`#tab-sprout`, `#tab-dasha`, `#composition`).
+  - **Two tools are professional, one is the pet project (Max's framing).** The Sprout Suite leads as
+    internal tooling for a team; **TeacherAID is called out on its own** as a full product with one
+    real user in production; the Composer Hub is named as Max's own project and as where agent design
+    and evaluation get tried first.
+  - **`career/build.py` gained bullet support in cover letters** for this: `render_letter()` renders a
+    body line starting with `- ` as a List Bullet paragraph, with a bold `**Lead:**` and links inside
+    it. No other letter uses bullets, so nothing else changed.
   - **Full-stack range in his own words:** building in Claude Code taught him the whole stack and he
     reasons across it, with his depth in APIs and integrations, experiments and testing, and the Sprout
     Suite as the shipped, daily-used end-to-end proof. Both documents say this.
@@ -787,7 +796,8 @@ Engineer, listed remote with a Boston base, full-time, $85k to $110k plus equity
 - **The remote policy is the gate:** Eastern or Central time on Boston hours, within an hour of an
   airport with daily Boston flights, "targeting the broader New England area to start". Brooklyn clears
   it; Madison would not.
-- **Page fit:** the CV needed three passes to hold one page. Composer CRM cut, Virtual Agency collapsed
+- **Page fit:** both documents needed trimming. The letter's bullets were cut about a third and its
+  closing full-stack paragraph became the last bullet. The CV needed three passes. Composer CRM cut, Virtual Agency collapsed
   to one line, the Compass canvas bullet cut. The teaching entry stays against the Hudson Table default,
   because the posting's fourth duty is helping colleagues build with AI.
 - `check --all`: OK on all nine folders.
