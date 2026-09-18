@@ -764,6 +764,29 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
+### Session of 2026-09-18: Career Desk, a local app for the job search
+
+Career work only; no site changes. New project folder `../career-desk/` (**its own `CLAUDE.md` is the
+current state**). It is a local app over `career/`, never deployed, because `career/` is private and this
+repo is public.
+
+- **Board:** every application folder in Not started, Drafted, Sent, Interview and Closed. Each card opens a
+  popup with the job summary, the posting links, and actions for its status. "+ New application" reads a
+  posting and has Claude write its `job.md`.
+- **Workspace:** one screen for the drafting loop. Claude drafts; Max edits and saves versions; a review marks
+  the live preview (red grammar, blue rewrite, amber claim or rule); Apply saves the accepted marks. Sign off
+  runs `career/build.py`, and Mark as sent runs `build.py sent`.
+- **Claude inside** through the API (`claude-opus-5`), with the `career/README.md` rules and the new
+  **`career/profile.md`** (Max's standing facts, verified against his transcripts) in every call. After each
+  save or sign-off, a write-back appends new calls to the application's `notes.md` and standing facts to
+  `profile.md`, append only.
+- **`build.py` fix:** an exact folder name now wins, so `2026-09-turing` no longer also builds
+  `2026-09-turing-music`.
+- Wireframe: `../career-desk/docs/wireframes/2026-09-18_career-desk.html`.
+
+**Open:** Madison College's letter is at v3 in the app and not yet signed off, so `check --all` fails on
+that folder until it is. Turing music sits in Sent on the board but was not sent.
+
 ### Session of 2026-09-17, last: five AI builder applications, four sent
 
 Career work only; no site changes. One posting closed, two applications went out, two are drafted.
