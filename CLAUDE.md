@@ -811,9 +811,22 @@ of this work and Makai $115k to $130k, so **$100,000, or a $90,000 to $105,000 r
 Brady Martz and Estrada publish nothing, and Brady Martz is a regional accounting firm, so its band may
 run lower. Never state a single low number: the stated figure becomes the ceiling.
 
-**Open:** Brady Martz's data and privacy duty is not on the CV (spelling out "row-level security" cost the page); it is interview material. Estrada prefers
-cloud platform experience (Azure, AWS, GCP) that Max does not have, and Makai asked for a CS
-background he does not have; neither is claimed anywhere.
+**Open:** Brady Martz's data and privacy duty is not on the CV (spelling out "row-level security" cost
+the page); it is interview material. Estrada prefers cloud platform experience (Azure, AWS, GCP) that
+Max does not have, and Makai asked for a CS background he does not have; neither is claimed anywhere.
+No salary figure was given to any of the four.
+
+**Next session (Max, Sept 17): the applications that were already waiting.**
+1. **Savanna Institute, Development & Communications Manager, due Oct 4.** Drafted since Sept 15 and
+   **never proofread**. `applications/2026-09-savanna-institute/`.
+2. **Madison College, PT Music Instructor pool.** Drafted; blocked on Max pulling unofficial
+   transcripts from NYU and UW-Madison, and on his calls on three cover letter lines.
+3. **Watch for replies** from the four sent Sept 17. If one asks for a rate, see the salary note above.
+
+**The pattern to reuse for any new AI builder role:** copy `applications/2026-09-clasp/` (CV and the
+portfolio-led bullet letter), change the `Output:` lines and the salutation, then retarget a handful of
+lines to the posting's own words. Read the posting through the employer's API, never the rendered page:
+Ashby and Workable both return the full text as JSON, and Workday does too.
 
 ### Session of 2026-09-17, last: Turing AI evaluator application sent
 
