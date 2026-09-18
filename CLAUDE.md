@@ -764,46 +764,52 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
-### Session of 2026-09-17, last: Clasp AI Labs Engineer drafted
+### Session of 2026-09-17, last: five AI builder applications, two sent
 
-Career work only; no site changes. New folder `career/applications/2026-09-clasp/`: Clasp, AI Labs
-Engineer, listed remote with a Boston base, full-time, $85k to $110k plus equity. **Drafted, not sent.**
+Career work only; no site changes. One posting closed, two applications went out, two are drafted.
 
-- **Ashby postings render empty to a fetcher.** The full text comes from the job board API:
-  `https://api.ashbyhq.com/posting-api/job-board/<org>?includeCompensation=true` returns every posting
-  with `descriptionPlain`. Reuse it, like the Workday JSON endpoint.
-- **The closest posting yet to Max's actual work.** AI Labs builds internal tools for Clasp's own staff
-  (over 70% use one weekly) and wants agents with "instructions, tools, guardrails, evaluations, and
-  human handoffs". That is the Sprout Suite and the Compass training protocol. It is an explicit L1
-  role that closes with "You do not need to check every box above to apply".
-- **Max's calls:**
-  - **The letter is the portfolio, in bullets.** One opening paragraph, then a short bullet per tab
-    naming the tool and who uses it, then short bullets on the development process written to the
-    posting's own duties. **The tool bullets do not explain how anything works; the CV carries that.**
-    Deep links to all three tabs (`#tab-sprout`, `#tab-dasha`, `#composition`).
-  - **Two tools are professional, one is the pet project (Max's framing).** The Sprout Suite leads as
-    internal tooling for a team; **TeacherAID is called out on its own** as a full product with one
-    real user in production; the Composer Hub is named as Max's own project and as where agent design
-    and evaluation get tried first.
-  - **`career/build.py` gained bullet support in cover letters** for this: `render_letter()` renders a
-    body line starting with `- ` as a List Bullet paragraph, with a bold `**Lead:**` and links inside
-    it. No other letter uses bullets, so nothing else changed.
-  - **Full-stack range in his own words:** building in Claude Code taught him the whole stack and he
-    reasons across it, with his depth in APIs and integrations, experiments and testing, and the Sprout
-    Suite as the shipped, daily-used end-to-end proof. Both documents say this.
-  - **Brooklyn, with no relocation note,** and the letter commits to frequent Boston travel. Madison is
-    a possibility rather than a plan, and this role is one of the things that would keep him in New York.
-- **The remote policy is the gate:** Eastern or Central time on Boston hours, within an hour of an
-  airport with daily Boston flights, "targeting the broader New England area to start". Brooklyn clears
-  it; Madison would not.
-- **Page fit:** both documents needed trimming. The letter's bullets were cut about a third and its
-  closing full-stack paragraph became the last bullet. The CV needed three passes. Composer CRM cut, Virtual Agency collapsed
-  to one line, the Compass canvas bullet cut. The teaching entry stays against the Hudson Table default,
-  because the posting's fourth duty is helping colleagues build with AI.
-- `check --all`: OK on all nine folders.
+| Folder | Role | Status |
+|---|---|---|
+| `2026-09-clasp/` | Clasp, AI Labs Engineer | **Posting closed** before Max could submit |
+| `2026-09-ease/` | Ease Health, Software Engineer (remote NYC) | **Applied Sept 17**, CV only |
+| `2026-09-makai-labs/` | Makai Labs, AI Engineer (contract, $115k to $130k) | **Applied Sept 17**, CV + 2 form answers |
+| `2026-09-brady-martz/` | Brady Martz, AI Prototyping Engineer (remote US) | Drafted |
+| `2026-09-estrada-eci/` | Estrada Consulting, AI Solution Architect (remote US, W2) | Drafted |
 
-**Open:** Max's proofread; whether to name a salary; the LinkedIn headline still reads "Vibe Coder /
-AI Developer" and both documents link to it.
+- **Ashby postings render empty to a fetcher.** The text comes from
+  `https://api.ashbyhq.com/posting-api/job-board/<org>?includeCompensation=true` (`descriptionPlain`).
+  **Workable** has the same pattern: `https://apply.workable.com/api/v1/accounts/<org>/jobs/<shortcode>`.
+  Both are now the way to read a posting, like the Workday JSON endpoint.
+- **The Clasp materials became the base for the whole set.** `career/README.md` names the
+  portfolio-led bullet letter at `applications/2026-09-clasp/letter.md` as the base for AI builder
+  roles, by pointer rather than a copy, so the two shapes cannot drift.
+- **Max's calls on the letter, which now define that shape:** one opening paragraph pointing at the
+  portfolio, a short bullet per tool naming what it is and who uses it, then process bullets written
+  to the posting's own duties with a colon after each label. **No worked examples in the process
+  bullets: the portfolio is the example.** The tool bullets are never cut for page fit; page fit comes
+  from the `Format:` line.
+- **Each copy is tailored, not just renamed.** Makai leads its skills line with Python (their hard
+  requirement) and says "benchmarked"; Brady Martz says "prototyped" and "non-technical users" and
+  ends its documentation bullet on handoff; Estrada names Anthropic Claude outright, labels Claude
+  Code as AI-assisted development, and reframes the walkthroughs as client demos.
+- **Form answers, saved with their sources** in each folder's `notes.md`: the AI stack (models,
+  harness, tooling, and why), the Sprout CRM project answer, and for Ease and Makai a production
+  experience answer and an AI/ML tooling answer. **Every technical claim was checked against the
+  repos**, and two were corrected: the program page is built from the artists' submissions with a
+  template rather than rendered live, and there is no automatic email importer, only the
+  `google-workspace` MCP used in a session.
+- **`career/build.py` gained bullet support in cover letters.** `render_letter()` renders a body line
+  starting with `- ` as a List Bullet paragraph, with a bold `**Lead:**` and links inside it.
+- **Two standing rules from Max:** **always use the Oxford comma** unless grammar forbids it (now in
+  `career/README.md` and in project memory), and every link opens in a new window.
+- **Verified:** `check --all` OK on all twelve folders; every CV and letter one page; no letter body
+  mentions another company; zero em dashes; the five portfolio deep links on the CVs tested live by
+  Max. His LinkedIn headline no longer reads "Vibe Coder / AI Developer".
+
+**Open:** Max's proofread of Brady Martz and Estrada. Brady Martz's data and privacy duty is not on
+the CV (spelling out "row-level security" cost the page); it is interview material. Estrada prefers
+cloud platform experience (Azure, AWS, GCP) that Max does not have, and Makai asked for a CS
+background he does not have; neither is claimed anywhere.
 
 ### Session of 2026-09-17, last: Turing AI evaluator application sent
 
