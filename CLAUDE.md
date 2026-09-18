@@ -50,6 +50,7 @@ Vercel project: `ai-portfolio-landing-page` · GitHub: `mhperkins/AI-Portfolio-L
 | [demo/grant-demo.html](demo/grant-demo.html) | **Iteration source for the Grant Finder panel's carousel** (6 annotated slides, transplanted 2026-09-12). See "The Grant, Social and Campaign carousels" below. |
 | [demo/social-demo.html](demo/social-demo.html) | **Iteration source for the Social Planner panel's carousel** (5 annotated slides, transplanted 2026-09-12). |
 | [demo/campaign-demo.html](demo/campaign-demo.html) | **Iteration source for the Campaign Tracker panel's carousel** (5 annotated slides, transplanted 2026-09-12). |
+| [demo/career-desk-demo.html](demo/career-desk-demo.html) | **Iteration source for the Career Desk tab's walkthrough** (built and transplanted 2026-09-18; re-transplant its CSS, MARKUP and SCRIPT blocks). A tutorial, not a feature tour (Max's call): 5 slides over the app's two screens (Board twice, then the Workspace three times), each dimmed except **one highlighted step at a time, its blurb open as a popup beside it** (Max's calls: 3 at once was too much, and the job card is its own click). Next and Back step within a slide; a slide's last step moves to the next slide. On a phone the popup pins to the screen bottom and each step scrolls its highlight into view, 12 steps in the order of the work, from a posting link to Mark as sent. A first 7-slide feature version was too much at once; do not go back to it. Root `.desk-demo`, prefix `cd-`; a transplant also copies the TRANSPLANT SCRIPT block, which places the popups (`data-at`), runs the steps, and switches to the pinned phone popup below 700px. Placeholder world only: applicant Riley Chen, invented employers. Copy is Claude's draft. |
 | [demo/assets/](demo/assets/) | Carousel assets: `chaconne-p1.webp` (copied from the composer portfolio's score previews) and `chaconne-excerpt.mp3`, the 45-second cut from 8:25 of the Chaconne recording that slide 5 plays in both copies. |
 | [images/](images/) | Screenshots and assets. `maxwell-portrait-500/800.webp` is the color on-stage portrait from the composer portfolio's About section (copied 2026-09-14 from `composers-compass/portfolio/site/assets/portfolio/maxwell-about-portrait-*`), shown beside the About text on `about.html` and the home page. Not the black and white piano hero photo. |
 | [career/](career/README.md) | **Everything for the job search** (moved here 2026-09-16): `tracks/` (the five career-search docs), `base/` (AI roles CV and base letter, ops resume), `applications/<YYYY-MM-org>/` (one folder per application: `job.md` with the posting link and a short job summary, `resume.md`, `letter.md`, `notes.md`, built `.docx` and `.pdf`), and `build.py`, which builds them all. **Start at `career/README.md`**: the application index, the source format and the build rules. `.gitignore` keeps it out of git (OneDrive is its only backup) and `.vercelignore` keeps it off the site. |
@@ -96,6 +97,7 @@ The page has tabbed sections. The sticky tab nav sits outside the hero section s
 | The Composer Hub | `tab-hub` | Composer Compass, Composer CRM, Virtual Agency as three sub-tabs, then the component table. Default tab. |
 | TeacherAID | `tab-dasha` | One tool, no sub-tabs: one card (tags, heading, the annotated carousel, then three benefit cards). Added 2026-09-12. |
 | Sprout Society Suite | `tab-sprout` | CRM, Grant Assistant, Social Manager, Campaign Tracker as four sub-tabs. All four panels are annotated carousels as of 2026-09-12; no Sprout panel uses a Loom or screenshots now. |
+| Career Desk | `tab-career` | One tool, no sub-tabs, like TeacherAID: heading, the walkthrough, three benefit cards. Added 2026-09-18. `#career-desk` lands on it. |
 
 Tabs are named for their **subject, not their status**. "Shipped / Building" was the old axis and
 it filed the Hub under unfinished. Do not go back to it. Workflow was removed on 2026-09-09 and
@@ -763,6 +765,32 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 ## Current Portfolio State (September 2026)
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
+
+### Session of 2026-09-18, last: the Career Desk tab (pushed)
+
+Max's ask: a slideshow for Career Desk, built standalone first, then its own tab after the Sprout Suite.
+
+- **It is a walkthrough, not a feature tour (Max's calls, settled over four rounds):** a first 7-slide
+  version with a notes row was too much at once; three open popups per slide was still too much. It is
+  now 5 slides over the app's two screens (Board, Board with the job card, Workspace for Draft, Review,
+  and Sign off and send), dimmed except **one highlight at a time with its blurb open beside it**, 12
+  steps in the order of the work, ending on Mark as sent. Next and Back step within a slide; a slide's
+  last step moves on; the last step offers Start over. Do not go back to hover notes or several popups.
+- **The strip reads 1 · Add the job to 4 · Sign off and send, then a disabled "5 · Career search"
+  with a Soon badge** (Max's call: an upcoming feature).
+- **Page-only details:** `.desk-demo` joined the card and `--demo-pin-top` selector lists; the popup
+  script sits in its own `<script>` at the end of the page; the chat labels are `.cd-tag`, because the
+  page's own `.tag` class restyled `.tag`; strip items are 12px with 8px padding so the five stages, the
+  step chips and the hint hold one line (47px) in the 874px strip.
+- **Tab bar on a phone:** four tabs wrapped each name over two or three lines, so below 640px names stay
+  whole and the tabs wrap two to a row (`div.tab-row`, 91px at 390).
+- Heading, the three benefit cards and all blurbs are Claude's drafts; Max has not called them. Placeholder
+  world only (applicant Riley Chen, invented employers); never the real `career/` folder.
+- **Verified headless (1280 and 390):** four tabs, the new one shows and hides with the others, all 12
+  steps come up in order with one highlight and one popup each, no popup covers its highlight at desktop
+  widths, Start over returns to step 1, `#career-desk` lands on the tab, TeacherAID and Sprout carousels
+  still initialize, no sideways scroll, zero script errors, em dash count unchanged. Screenshots checked
+  by eye.
 
 ### Session of 2026-09-18: Madison College transcripts, degree fix, Career Desk context
 

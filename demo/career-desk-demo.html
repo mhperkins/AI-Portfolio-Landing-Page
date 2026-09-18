@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Career Desk &middot; Demo carousel</title>
+<style>
+/* ==========================================================================
+   Career Desk demo carousel.
+
+   Standalone iteration source, same convention as grant-demo.html and the
+   other demo/ files: nothing here is wired into index.html yet.
+
+   Two class families:
+   - `demo-` is the shared carousel scaffolding, copied verbatim from
+     grant-demo.html so a transplant can reuse the rules already on the page.
+     It reads its colors from variables, so the Career Desk look comes from
+     the token block on `.desk-demo` plus a short override block.
+   - `cd-` is the Career Desk app chrome, lifted from
+     career-desk/public/style.css (top bar, board, card popup, new
+     application panel, workspace, marks, preview, versions drawer). `cd-`
+     does not collide with `sp-`, `gf-`, `so-`, `qt-`, `ds-`, `t-`, `c`, `a`
+     or `d`.
+
+   Everything between the TRANSPLANT CSS markers starts with `.desk-demo`,
+   so that block copies onto the portfolio page as is. Tokens sit on
+   `.desk-demo`, not :root, so they cannot leak into the dark page.
+
+   All data is placeholder. The applicant (Riley Chen), every employer, role,
+   posting, letter and note is invented; links use .example domains. The real
+   career/ folder is private and never appears here.
+
+   It is a walkthrough, not a feature tour (Max's call, 2026-09-18): four
+   slides across the app's two screens, three highlighted steps per slide,
+   each step's blurb open as a popup beside it, in the order you would do
+   the work. Highlights and popups are the app's ink, not a color: red, blue
+   and amber are the review marks' colors in the app.
+
+   A transplant also copies the script between the TRANSPLANT SCRIPT markers,
+   which places the popups.
+
+   House rule: no em dashes anywhere on this page, and no dashed lines.
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 32px 20px 64px;
+  background: #F3F4F5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.demo-wrap { max-width: 1180px; margin: 0 auto; }
+
+/* --- page heading (scaffolding only; drop this on transplant) ------------- */
+.demo-scaffold { margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+.demo-scaffold h1 { font-size: 30px; font-weight: 700; margin: 0 0 6px; letter-spacing: -0.02em; }
+.demo-scaffold p { margin: 0; color: var(--ts); font-size: 14px; max-width: 70ch; }
+
+/* ==========================================================================
+   Shared carousel scaffolding. Verbatim from grant-demo.html.
+   ========================================================================== */
+.demo-nav-wrap { display: flex; gap: 4px; flex-wrap: wrap; background: var(--ch); border-radius: 10px; padding: 10px 10px; margin-bottom: 14px; }
+.demo-nav-item { font-family: var(--font-sans); font-size: 13px; font-weight: 500; padding: 8px 14px; border-radius: 6px; border: none; background: none; color: var(--tm); display: flex; align-items: center; gap: 7px; transition: background 0.15s, color 0.15s; }
+.demo-nav-item:hover:not(:disabled) { color: var(--cream); background: rgba(255, 255, 255, 0.06); }
+.demo-nav-item.is-active { color: var(--cream); background: rgba(180, 83, 9, 0.32); }
+.demo-nav-item:disabled { cursor: default; opacity: 0.55; }
+.demo-nav-soon { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; background: rgba(255, 255, 255, 0.12); color: var(--cream); padding: 1px 7px; border-radius: 8px; }
+.demo-nav-hint { margin-left: auto; align-self: center; display: inline-flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); border: 1px solid rgba(217, 119, 6, 0.55); border-radius: 20px; padding: 4px 11px; pointer-events: none; white-space: nowrap; }
+.demo-nav-hint svg { width: 10px; height: 10px; display: block; flex-shrink: 0; color: var(--amber-lt); }
+@media (max-width: 660px) { .demo-nav-hint { display: none; } }
+
+.demo-stage { position: relative; border: 1px solid var(--border); border-radius: 10px; background: white; box-shadow: var(--shadow); overflow: hidden; }
+.demo-canvas { background-color: var(--warm); background-image: repeating-linear-gradient(to bottom, rgba(139, 115, 85, 0.10) 0px, rgba(139, 115, 85, 0.10) 1px, transparent 1px, transparent 10px); background-size: 100% 90px; padding: 28px 24px; min-height: 400px; position: relative; }
+.demo-side-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 20; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); background: rgba(255, 255, 255, 0.94); color: var(--ts); font-size: 17px; line-height: 1; box-shadow: var(--shadow-lg); transition: opacity 0.18s, color 0.18s, border-color 0.18s; }
+.demo-side-arrow:hover:not(:disabled) { color: var(--amber); border-color: var(--amber-lt); }
+.demo-side-arrow:disabled { opacity: 0.25; cursor: default; }
+.demo-side-prev { left: 6px; }
+.demo-side-next { right: 6px; }
+.demo-car-slide { display: none; }
+.demo-car-slide.is-on { display: block; animation: demoFade 220ms ease-out; }
+@keyframes demoFade { from { opacity: 0; } to { opacity: 1; } }
+.demo-caption { border-bottom: 1px solid var(--border); background: white; padding: 18px 22px 16px; display: flex; flex-direction: column; gap: 10px; }
+.demo-cap-col { flex: 0 0 auto; }
+.demo-slide-title { font-family: var(--font-serif); font-size: 28px; font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; color: var(--tp); margin: 0; }
+.demo-cap-label { font-size: 9.5px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--tm); margin-bottom: 3px; }
+.demo-cap-state { font-family: var(--font-serif); font-size: 16px; line-height: 1.35; color: var(--tp); }
+.demo-controls { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 14px; }
+.demo-arrow { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: white; color: var(--ts); font-size: 15px; box-shadow: var(--shadow); }
+.demo-arrow:disabled { opacity: 0.35; }
+.demo-count { font-size: 12px; color: var(--tm); letter-spacing: 0.1em; font-variant-numeric: tabular-nums; }
+.demo-title { font-family: var(--font-serif); font-size: 19px; font-weight: 600; text-align: center; flex: 1; }
+
+/* numbered notes and pins, verbatim from dasha-demo.html, recolored below */
+.demo-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin: 0 0 16px; }
+.demo-note { display: flex; gap: 10px; align-items: flex-start; background: white; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; box-shadow: var(--shadow); font-family: var(--font-sans); font-size: 13px; line-height: 1.45; color: var(--tp); }
+.demo-bul { margin: 0; padding-left: 1.05em; list-style: disc; }
+.demo-bul li + li { margin-top: 3px; }
+.demo-bul li::marker { color: var(--demo-pin-color, var(--amber)); }
+.demo-pin, .demo-pin-n { width: 22px; height: 22px; border-radius: 50%; background: var(--amber); color: white; font-family: var(--font-sans); font-size: 11.5px; font-weight: 700; line-height: 22px; text-align: center; flex: none; }
+.demo-pin { position: absolute; top: -10px; left: -10px; z-index: 6; box-shadow: 0 0 0 2px white, 0 2px 8px rgba(28, 25, 23, .25); pointer-events: none; }
+.demo-pinned { position: relative; }
+
+@media (max-width: 760px) {
+  .demo-canvas { padding: 18px 12px; }
+  .demo-side-arrow { width: 32px; height: 32px; font-size: 15px; }
+  .demo-side-prev { left: 2px; }
+  .demo-side-next { right: 2px; }
+  .demo-title { font-size: 15px; }
+  .demo-slide-title { font-size: 20px; }
+  .demo-caption { padding: 14px 16px 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .demo-car-slide.is-on { animation: none; }
+}
+
+/* ===== TRANSPLANT CSS START ===== */
+.desk-demo {
+  /* names the shared demo- rules expect, mapped to Career Desk's palette */
+  --ch:        #24272C;
+  --cream:     #F3F4F5;
+  --amber:     #24272C;
+  --amber-lt:  #C9CCD1;
+  --border:    #DFE2E6;
+  --tp:        #24272C;
+  --ts:        #6C717A;
+  --tm:        #9AA0A8;
+  --warm:      #E6E8EB;
+  --font-serif: 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-sans:  'Segoe UI', system-ui, -apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --shadow:    0 2px 10px rgba(36, 39, 44, 0.08);
+  --shadow-lg: 0 10px 32px rgba(36, 39, 44, 0.18);
+  --demo-pin-color: #24272C;
+
+  /* Career Desk's own tokens, from career-desk/public/style.css (light theme) */
+  --cd-bg:   #F3F4F5;
+  --cd-box:  #FFFFFF;
+  --cd-line: #C9CCD1;
+  --cd-ink:  #24272C;
+  --cd-dim:  #6C717A;
+  --cd-fill: #E6E8EB;
+  --cd-acc:  #3B5B8C;
+  --cd-ok:   #2F7A4B;
+  --cd-warn: #A8640F;
+  --cd-bad:  #B3372F;
+  --cd-g:    #C0392B;
+  --cd-r:    #2F63B8;
+  --cd-c:    #C77D12;
+  --cd-mono: Consolas, ui-monospace, Menlo, 'Courier New', monospace;
+  --cd-doc:  Calibri, Carlito, 'Segoe UI', system-ui, sans-serif;
+
+  color: var(--tp);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.45;
+}
+.desk-demo button { cursor: pointer; font-family: var(--font-sans); }
+
+/* ==========================================================================
+   Overrides of the shared scaffolding. The nav strip is Career Desk's top
+   bar laid out as sections: ink bar, wordmark, the selected item inverted
+   the way the app's selected document tab is.
+   ========================================================================== */
+.desk-demo .demo-nav-wrap { align-items: center; padding: 8px 10px; position: sticky; top: var(--demo-pin-top, 0px); z-index: 20; }
+.desk-demo .demo-nav-item { font-size: 12px; font-weight: 600; padding: 7px 8px; color: rgba(243, 244, 245, 0.55); }
+.desk-demo .demo-nav-item:hover:not(:disabled) { color: var(--cd-bg); background: rgba(243, 244, 245, 0.08); }
+.desk-demo .demo-nav-item.is-active { color: var(--cd-ink); background: var(--cd-bg); }
+.desk-demo .demo-nav-hint { border-color: rgba(201, 204, 209, 0.55); font-weight: 700; padding: 4px 9px; }
+/* the strip holds five stages, the step chips and the hint on one line in
+   the portfolio card's 874px strip */
+.desk-demo .demo-nav-soon { padding: 1px 6px; }
+.desk-demo .cd-navbrand { padding: 2px 10px 2px 4px; margin-right: 2px; border-right: 1px solid rgba(243, 244, 245, 0.14); font-size: 13px; font-weight: 700; color: var(--cd-bg); white-space: nowrap; }
+
+.desk-demo .demo-canvas {
+  background-color: var(--cd-bg);
+  background-image: radial-gradient(rgba(36, 39, 44, 0.07) 1px, transparent 1px);
+  background-size: 18px 18px;
+  padding: 28px 26px;
+}
+.desk-demo .demo-slide-title { font-weight: 700; font-size: 26px; letter-spacing: -0.02em; line-height: 1.2; }
+.desk-demo .demo-cap-label { font-weight: 700; letter-spacing: 0.1em; }
+.desk-demo .demo-cap-state { font-size: 15px; color: var(--ts); }
+.desk-demo .demo-title { font-weight: 700; font-size: 16px; }
+.desk-demo .demo-side-arrow:hover:not(:disabled) { color: var(--cd-ink); border-color: var(--cd-ink); }
+
+/* The nav strip pins at --demo-pin-top. Sticky dies under any overflow:
+   hidden ancestor, so the stage clips with overflow: clip. */
+.desk-demo .demo-stage { border-top: 4px solid var(--cd-ink); overflow: clip; display: flow-root; }
+
+/* ==========================================================================
+   The walkthrough (Max's calls, 2026-09-18): each slide is one of the app's
+   two screens, dimmed except one highlighted part at a time, with that
+   part's blurb open beside it as a popup. Next steps through the slide's
+   highlights one by one, then on to the next slide. Unlike the other carousels, the blurbs are
+   always open, not hover notes, and they run in the order you would do the
+   work, from a posting link to a sent application. The script at the bottom
+   places each popup beside its highlight; below 700px the popups stack under
+   the screen instead.
+   .cd-hl must come before the .cd-btn rules so a highlighted button keeps
+   its own background.
+   ========================================================================== */
+.desk-demo .cd-tour { position: relative; }
+.desk-demo .cd-veil { position: absolute; inset: 0; background: rgba(243, 244, 245, 0.66); z-index: 5; border-radius: 8px; pointer-events: none; }
+.desk-demo .cd-hl { position: relative; }
+.desk-demo .cd-hl.is-cur { z-index: 6; outline: 2px solid var(--cd-ink); outline-offset: 3px; border-radius: 6px; }
+.desk-demo :where(.cd-hl.is-cur) { background-color: var(--cd-bg); }
+.desk-demo .cd-hl:not(.is-cur) > .cd-hl-n, .desk-demo .cd-call:not(.is-cur) { display: none; }
+.desk-demo .cd-call-nav { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 9px; }
+.desk-demo .cd-call-nav button { white-space: nowrap; }
+.desk-demo .cd-call-nav .cd-call-next { margin-top: 0; }
+.desk-demo .cd-call-back { border: 1px solid var(--cd-line); background: #fff; color: var(--cd-ink); border-radius: 6px; padding: 4px 10px; font-size: 12px; }
+.desk-demo .cd-hl-n { position: absolute; top: -14px; left: -14px; z-index: 7; width: 22px; height: 22px; border-radius: 50%; background: var(--cd-ink); color: #fff; font-size: 11.5px; font-weight: 700; line-height: 22px; text-align: center; box-shadow: 0 0 0 2px #fff; }
+.desk-demo .cd-hl-n.at-tr { left: auto; right: -14px; }
+.desk-demo .cd-calls { display: contents; }
+.desk-demo .cd-call { position: absolute; z-index: 8; width: 256px; display: flex; gap: 9px; align-items: flex-start; background: #fff; border: 1.5px solid var(--cd-ink); border-radius: 10px; box-shadow: var(--shadow-lg); padding: 10px 12px 11px; font-size: 12.5px; line-height: 1.45; color: var(--cd-ink); }
+.desk-demo .cd-call-n { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--cd-ink); color: #fff; font-size: 11.5px; font-weight: 700; line-height: 22px; text-align: center; }
+.desk-demo .cd-call-body { flex: 1; min-width: 0; }
+.desk-demo .cd-call-t { font-weight: 700; margin: 1px 0 4px; }
+.desk-demo .cd-call .demo-bul { margin: 0; padding-left: 1.05em; list-style: disc; }
+.desk-demo .cd-call .demo-bul li + li { margin-top: 3px; }
+.desk-demo .cd-call .demo-bul li::marker { color: var(--cd-ink); }
+.desk-demo .cd-call-next { margin-top: 9px; border: 1px solid var(--cd-ink); background: var(--cd-ink); color: #fff; border-radius: 6px; padding: 4px 12px; font-size: 12px; font-weight: 600; }
+.desk-demo .cd-call-next:hover { background: #3a3f46; }
+/* Phone and narrow cards: no room beside a highlight, so the popup pins to
+   the bottom of the screen while the walkthrough is in view, and each step
+   scrolls its highlight into view above it. */
+.desk-demo .cd-tour.is-list .cd-call { position: sticky; bottom: 12px; width: auto; margin-top: 10px; box-shadow: var(--shadow-lg); }
+
+/* ==========================================================================
+   App chrome, from career-desk/public/style.css.
+   ========================================================================== */
+.desk-demo .cd-frame { background: var(--cd-bg); border: 1px solid var(--cd-line); border-radius: 8px; box-shadow: var(--shadow); position: relative; }
+/* The frame does not clip, so corner pins on its bars stay whole; its first
+   bar rounds its own top corners instead. */
+.desk-demo .cd-frame > :first-child { border-radius: 7px 7px 0 0; }
+.desk-demo .cd-grow { flex: 1; }
+.desk-demo .cd-lbl { font-size: 10.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--cd-dim); margin: 0; }
+.desk-demo .cd-hint { font-size: 12px; color: var(--cd-dim); margin: 0; }
+.desk-demo .cd-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.desk-demo .cd-btn { display: inline-flex; align-items: center; gap: 4px; border: 1px solid var(--cd-line); border-radius: 6px; padding: 4px 10px; font-size: 12.5px; background: var(--cd-box); color: var(--cd-ink); white-space: nowrap; }
+.desk-demo .cd-btn.pri { background: var(--cd-ink); color: var(--cd-bg); border-color: var(--cd-ink); }
+.desk-demo .cd-btn.ghost { border-color: transparent; background: none; }
+.desk-demo .cd-btn.sm { padding: 2px 8px; font-size: 11.5px; }
+.desk-demo .cd-link { color: var(--cd-acc); text-decoration: underline; font-size: 12px; }
+.desk-demo .cd-pill { display: inline-block; font-size: 10.5px; border-radius: 99px; padding: 1px 8px; background: var(--cd-fill); color: var(--cd-dim); white-space: nowrap; }
+.desk-demo .cd-pill.ok { color: var(--cd-ok); background: rgba(47, 122, 75, 0.14); }
+.desk-demo .cd-pill.warn { color: var(--cd-warn); background: rgba(168, 100, 15, 0.16); }
+.desk-demo .cd-pill.bad { color: var(--cd-bad); background: rgba(179, 55, 47, 0.14); }
+.desk-demo .cd-input { border: 1px solid var(--cd-line); border-radius: 6px; padding: 7px 9px; background: var(--cd-box); font-size: 12.5px; color: var(--cd-ink); overflow-wrap: anywhere; }
+
+/* top bar */
+.desk-demo .cd-top { display: flex; align-items: center; gap: 12px; padding: 9px 14px; border-bottom: 1px solid var(--cd-line); background: var(--cd-box); }
+.desk-demo .cd-brand { font-weight: 700; font-size: 13.5px; }
+
+/* board */
+.desk-demo .cd-next { display: flex; gap: 10px; flex-wrap: wrap; padding: 11px 14px; border-bottom: 1px solid var(--cd-line); }
+.desk-demo .cd-next-item { border: 1px solid var(--cd-line); background: var(--cd-box); border-radius: 6px; padding: 7px 10px; font-size: 12.5px; flex: 1 1 200px; }
+.desk-demo .cd-next-item b { font-weight: 600; }
+.desk-demo .cd-board-scroll { overflow-x: auto; }
+.desk-demo .cd-board { display: grid; grid-template-columns: repeat(5, minmax(148px, 1fr)); gap: 10px; padding: 14px; align-items: start; min-width: 800px; position: relative; }
+.desk-demo .cd-col { background: #EDEEF0; border-radius: 8px; padding: 7px; min-height: 110px; }
+.desk-demo .cd-col h2 { font-size: 12.5px; font-weight: 700; margin: 2px 4px 7px; display: flex; justify-content: space-between; }
+.desk-demo .cd-col h2 small { color: var(--cd-dim); font-weight: 400; font-size: 12px; }
+.desk-demo .cd-card { background: var(--cd-box); border: 1px solid var(--cd-line); border-radius: 6px; padding: 7px 8px; margin-bottom: 7px; font-size: 12.5px; }
+.desk-demo .cd-card:last-child { margin-bottom: 0; }
+.desk-demo .cd-card.act { border-color: var(--cd-ink); }
+.desk-demo .cd-card.is-new { box-shadow: 0 0 0 2px var(--cd-ok); border-color: var(--cd-ok); }
+.desk-demo .cd-org { font-weight: 600; line-height: 1.3; }
+.desk-demo .cd-role { color: var(--cd-dim); font-size: 11.5px; line-height: 1.35; }
+.desk-demo .cd-meta { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 5px; }
+
+/* card popup, drawn where the app puts it: beside the clicked card */
+.desk-demo .cd-boardarea { position: relative; min-height: 460px; }
+.desk-demo .cd-pop { position: absolute; z-index: 8; top: 10px; left: calc(40% + 12px); width: 340px; background: var(--cd-box); border: 1px solid var(--cd-line); border-radius: 10px; box-shadow: 0 10px 32px rgba(0, 0, 0, .22); font-size: 12.5px; }
+.desk-demo .cd-pop-ph { padding: 11px 13px 9px; border-bottom: 1px solid var(--cd-line); }
+.desk-demo .cd-pop-ph b { font-size: 14px; }
+.desk-demo .cd-pop-facts { padding: 9px 13px; display: grid; gap: 3px; }
+.desk-demo .cd-pop-facts p { margin: 0; }
+.desk-demo .cd-pop-sum { margin-top: 5px; }
+.desk-demo .cd-pop-sum ul { margin: 0 0 4px; padding-left: 18px; }
+.desk-demo .cd-pop-acts { border-top: 1px solid var(--cd-line); padding: 5px; display: grid; }
+.desk-demo .cd-act { display: flex; justify-content: space-between; gap: 8px; padding: 6px 9px; border-radius: 6px; }
+.desk-demo .cd-act.pri { font-weight: 600; background: var(--cd-fill); }
+.desk-demo .cd-act small { color: var(--cd-dim); font-weight: 400; }
+.desk-demo .cd-select { margin-left: auto; border: 1px solid var(--cd-line); border-radius: 5px; padding: 1px 6px; font-size: 12px; background: var(--cd-box); }
+.desk-demo .cd-board-dim { opacity: .55; }
+
+/* new application panel */
+.desk-demo .cd-newpanel { padding: 13px 14px; border-bottom: 1px solid var(--cd-line); background: var(--cd-box); display: grid; gap: 10px; }
+.desk-demo .cd-newgrid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.desk-demo .cd-newgrid .cd-lbl { margin-bottom: 4px; }
+.desk-demo .cd-tpls { display: grid; grid-template-columns: repeat(2, 1fr); gap: 7px; }
+.desk-demo .cd-tpl { border: 1px solid var(--cd-line); border-radius: 6px; padding: 7px 9px; font-size: 12px; background: var(--cd-box); line-height: 1.35; }
+.desk-demo .cd-tpl.on { border-color: var(--cd-ink); box-shadow: inset 0 0 0 1px var(--cd-ink); }
+.desk-demo .cd-tpl b { display: block; }
+.desk-demo .cd-tpl span { color: var(--cd-dim); }
+.desk-demo .cd-status { font-size: 12px; color: var(--cd-dim); }
+.desk-demo .cd-status.ok { color: var(--cd-ok); }
+
+/* a markdown file, shown as a document card */
+.desk-demo .cd-file { background: var(--cd-box); border: 1px solid var(--cd-line); border-radius: 8px; box-shadow: var(--shadow); }
+.desk-demo .cd-file-head { border-radius: 7px 7px 0 0; display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--cd-ink); color: rgba(243, 244, 245, .8); font-family: var(--cd-mono); font-size: 11px; overflow-wrap: anywhere; }
+.desk-demo .cd-file-head b { color: #fff; font-weight: 600; }
+.desk-demo .cd-file-body { padding: 11px 14px 13px; font-family: var(--cd-mono); font-size: 11.5px; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--cd-ink); }
+.desk-demo .cd-file-body .h { font-weight: 700; }
+.desk-demo .cd-file-body .add { background: rgba(47, 122, 75, 0.12); color: #235c39; display: block; border-left: 3px solid var(--cd-ok); padding-left: 7px; margin-left: -10px; }
+.desk-demo .cd-file-body .dim { color: var(--cd-dim); }
+.desk-demo .cd-files { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); align-items: start; }
+
+/* workspace */
+.desk-demo .cd-appbar { display: flex; gap: 9px; align-items: center; flex-wrap: wrap; padding: 8px 14px; border-bottom: 1px solid var(--cd-line); background: var(--cd-box); font-size: 12.5px; }
+.desk-demo .cd-appbar .t { font-weight: 700; }
+.desk-demo .cd-appbar .r { color: var(--cd-dim); }
+.desk-demo .cd-vstrip { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; padding: 6px 14px; border-bottom: 1px solid var(--cd-line); }
+.desk-demo .cd-tabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.desk-demo .cd-tab { font-size: 12px; padding: 2px 10px; border-radius: 5px; border: 1px solid var(--cd-line); background: var(--cd-box); }
+.desk-demo .cd-tab.on { background: var(--cd-ink); color: var(--cd-bg); border-color: var(--cd-ink); }
+.desk-demo .cd-ws { display: flex; min-height: 470px; position: relative; }
+.desk-demo .cd-ws-tall { min-height: 640px; }
+.desk-demo .cd-wcol { flex: 1 1 0; min-width: 0; border-right: 1px solid var(--cd-line); display: flex; flex-direction: column; background: var(--cd-bg); }
+.desk-demo .cd-wcol:last-child { border-right: 0; }
+.desk-demo .cd-wcol.chat { flex: 0 0 300px; }
+.desk-demo .cd-colhead { display: flex; align-items: center; gap: 8px; padding: 7px 11px; border-bottom: 1px solid var(--cd-line); flex-wrap: wrap; min-height: 38px; }
+.desk-demo .cd-colhead > .cd-lbl { flex: 1; }
+.desk-demo .cd-colbody { flex: 1; padding: 10px 11px; }
+.desk-demo .cd-cbtn { font-size: 12px; line-height: 1; border: 1px solid var(--cd-line); background: var(--cd-box); color: var(--cd-dim); border-radius: 5px; padding: 3px 7px; }
+.desk-demo .cd-wcol.collapsed { flex: 0 0 34px; }
+.desk-demo .cd-wcol.collapsed .cd-colhead { border: 0; justify-content: center; padding: 12px 0; }
+.desk-demo .cd-vlabel { writing-mode: vertical-rl; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--cd-dim); }
+
+/* chat */
+.desk-demo .cd-turns { padding: 10px 11px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.desk-demo .cd-msg { border-radius: 8px; padding: 7px 9px; font-size: 12.5px; line-height: 1.45; }
+.desk-demo .cd-msg.user { background: var(--cd-fill); align-self: flex-end; max-width: 92%; }
+.desk-demo .cd-msg.assistant { border: 1px solid var(--cd-line); background: var(--cd-box); }
+.desk-demo .cd-msg .cd-tag { display: block; font-size: 10px; color: var(--cd-dim); margin-bottom: 2px; }
+.desk-demo .cd-sys { font-size: 11px; color: var(--cd-dim); text-align: center; }
+.desk-demo .cd-composer { border-top: 1px solid var(--cd-line); padding: 8px 11px 11px; display: grid; gap: 6px; }
+.desk-demo .cd-quick { display: flex; flex-wrap: wrap; gap: 4px; }
+.desk-demo .cd-quick span:not(.cd-hl-n) { font-size: 11px; border: 1px solid var(--cd-line); border-radius: 99px; padding: 1px 8px; background: var(--cd-box); white-space: nowrap; }
+.desk-demo .cd-textarea { border: 1px solid var(--cd-line); border-radius: 6px; padding: 7px 9px; background: var(--cd-box); font-size: 12px; color: var(--cd-dim); min-height: 46px; }
+
+/* marks */
+.desk-demo .cd-marksbox { border-top: 1px solid var(--cd-line); padding: 8px 11px; display: grid; gap: 6px; }
+.desk-demo .cd-marks { display: grid; gap: 4px; }
+.desk-demo .cd-mk-row { display: flex; gap: 6px; align-items: flex-start; font-size: 11.5px; border: 1px solid var(--cd-line); border-radius: 6px; padding: 5px 7px; background: var(--cd-box); line-height: 1.4; }
+.desk-demo .cd-mk-row .txt { flex: 1; min-width: 0; }
+.desk-demo .cd-mk-row .txt small { display: block; color: var(--cd-dim); font-size: 11px; }
+.desk-demo .cd-mk-row.rejected .txt { opacity: .5; text-decoration: line-through; }
+.desk-demo .cd-n { display: inline-grid; place-items: center; min-width: 18px; height: 18px; border-radius: 9px; color: #fff; font-size: 10px; font-weight: 700; flex: none; padding: 0 4px; }
+.desk-demo .cd-n.g { background: var(--cd-g); } .desk-demo .cd-n.r { background: var(--cd-r); } .desk-demo .cd-n.c { background: var(--cd-c); }
+.desk-demo .cd-tog { border: 1px solid var(--cd-line); border-radius: 4px; padding: 0 6px; font-size: 11px; background: var(--cd-box); color: var(--cd-dim); flex: none; }
+.desk-demo .cd-tog.on { background: var(--cd-ink); color: var(--cd-bg); border-color: var(--cd-ink); }
+
+/* editor */
+.desk-demo .cd-editor { font-family: var(--cd-mono); font-size: 11.5px; line-height: 1.6; padding: 10px; white-space: pre-wrap; overflow-wrap: break-word; border: 1px solid var(--cd-line); border-radius: 6px; background: var(--cd-box); color: var(--cd-ink); }
+.desk-demo .cd-editor .dim { color: var(--cd-dim); }
+
+/* preview */
+.desk-demo .cd-legend { display: flex; gap: 8px; font-size: 10.5px; }
+.desk-demo .cd-k::before { content: ""; display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 4px; vertical-align: -1px; }
+.desk-demo .cd-k.g::before { background: var(--cd-g); } .desk-demo .cd-k.r::before { background: var(--cd-r); } .desk-demo .cd-k.c::before { background: var(--cd-c); }
+.desk-demo .cd-mtog { font-size: 11px; color: var(--cd-dim); display: flex; gap: 4px; align-items: center; }
+.desk-demo .cd-mtog i { width: 11px; height: 11px; border-radius: 2px; background: var(--cd-ink); display: inline-block; position: relative; }
+.desk-demo .cd-mtog i::after { content: ""; position: absolute; left: 3.5px; top: 1px; width: 3px; height: 6px; border: solid #fff; border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); }
+.desk-demo .cd-pagewrap { background: var(--cd-fill); border-radius: 6px; padding: 12px; }
+.desk-demo .cd-sheet { background: #fff; color: #000; font-family: var(--cd-doc); font-size: 11.5px; line-height: 1.4; box-shadow: 0 1px 4px rgba(0, 0, 0, .25); padding: 30px 34px; }
+.desk-demo .cd-sheet p { margin: 0 0 8px; }
+.desk-demo .cd-sheet .nm { font-size: 17px; font-weight: 700; margin-bottom: 2px; }
+.desk-demo .cd-sheet .hd { font-size: 10.5px; margin-bottom: 12px; }
+.desk-demo .cd-sheet .dl { color: #1F4E79; }
+.desk-demo .cd-mk del { text-decoration: line-through; }
+.desk-demo .cd-mk ins { text-decoration: none; }
+.desk-demo .cd-mk sup { font: bold 7.5px 'Segoe UI', sans-serif; color: #fff; border-radius: 3px; padding: 0 3px; margin-left: 1px; }
+.desk-demo .cd-mk-g del, .desk-demo .cd-mk-g ins { color: var(--cd-g); }
+.desk-demo .cd-mk-g ins { text-decoration: underline wavy var(--cd-g) 1px; }
+.desk-demo .cd-mk-g sup { background: var(--cd-g); }
+.desk-demo .cd-mk-r del, .desk-demo .cd-mk-r ins { color: var(--cd-r); }
+.desk-demo .cd-mk-r ins { background: rgba(47, 99, 184, .1); }
+.desk-demo .cd-mk-r sup { background: var(--cd-r); }
+.desk-demo .cd-mk-c del { color: #9A5D05; }
+.desk-demo .cd-mk-c ins { color: #9A5D05; background: rgba(199, 125, 18, .14); }
+.desk-demo .cd-mk-c sup { background: var(--cd-c); }
+.desk-demo .cd-mk.rej del { text-decoration: none; color: #000; }
+.desk-demo .cd-mk.rej ins, .desk-demo .cd-mk.rej sup { display: none; }
+
+
+.desk-demo .cd-toast { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); background: var(--cd-ink); color: var(--cd-bg); padding: 7px 13px; border-radius: 8px; font-size: 12.5px; white-space: nowrap; box-shadow: var(--shadow-lg); }
+/* the card popup opens beside the Harbor Point card, as the app places it */
+.desk-demo .cd-boardarea .cd-pop { top: 76px; left: calc(20% + 8px); width: 300px; }
+.desk-demo .cd-boardarea.is-plain { min-height: 0; }
+/* room for the number badge on a highlight whose label starts at its corner */
+.desk-demo .cd-newgrid > .cd-hl { padding: 8px 8px 6px 16px; }
+.desk-demo .cd-boardarea { min-height: 440px; }
+
+@media (max-width: 760px) {
+  .desk-demo .demo-canvas { padding: 18px 14px; }
+  .desk-demo .cd-ws { flex-direction: column; min-height: 0; }
+  .desk-demo .cd-wcol, .desk-demo .cd-wcol.chat { flex: 0 0 auto; border-right: 0; border-bottom: 1px solid var(--cd-line); }
+  .desk-demo .cd-boardarea { min-height: 0; }
+  .desk-demo .cd-boardarea .cd-pop, .desk-demo .cd-pop { position: relative; top: auto; left: auto; width: auto; margin: 0 14px 14px; }
+  .desk-demo .cd-tpls { grid-template-columns: 1fr; }
+  .desk-demo .cd-sheet { padding: 20px 18px; }
+  .desk-demo .cd-toast { position: relative; left: auto; bottom: auto; transform: none; margin: 10px auto; width: max-content; max-width: 90%; white-space: normal; }
+}
+@media (max-width: 640px) {
+  /* one swipeable line on a phone, as on the other carousels */
+  .desk-demo .demo-nav-wrap { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .desk-demo .demo-nav-wrap::-webkit-scrollbar { display: none; }
+  .desk-demo .demo-nav-item { flex-shrink: 0; white-space: nowrap; }
+}
+/* ===== TRANSPLANT CSS END ===== */
+</style>
+</head>
+<body data-demo-standalone>
+<div class="demo-wrap desk-demo" data-demo-panel tabindex="-1">
+
+  <!-- Scaffolding. Not part of the transplant. -->
+  <div class="demo-scaffold">
+    <h1>Career Desk: from a job posting to a sent application</h1>
+    <p>A walkthrough of the job search app in twelve steps across its two screens, the board and the workspace. The applicant, employers, posting and letter here are placeholder.</p>
+  </div>
+  <!-- ===== TRANSPLANT MARKUP START ===== -->
+
+  <div class="demo-nav-wrap">
+    <div class="cd-navbrand">Career Desk</div>
+    <button class="demo-nav-item is-active" data-nav="add" data-slide="0">1 &middot; Add the job</button>
+    <button class="demo-nav-item" data-nav="draft" data-slide="2">2 &middot; Draft</button>
+    <button class="demo-nav-item" data-nav="review" data-slide="3">3 &middot; Review</button>
+    <button class="demo-nav-item" data-nav="send" data-slide="4">4 &middot; Sign off and send</button>
+    <button class="demo-nav-item" disabled>5 &middot; Career search <span class="demo-nav-soon">Soon</span></button>
+    <span class="demo-nav-hint">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>
+      Click to step through
+    </span>
+  </div>
+
+  <div class="demo-stage">
+    <div class="demo-caption">
+      <h4 class="demo-slide-title" data-demo-contrib></h4>
+      <div class="demo-cap-col">
+        <div class="demo-cap-label" data-demo-state-label></div>
+        <div class="demo-cap-state" data-demo-state></div>
+      </div>
+    </div>
+
+    <div class="demo-canvas">
+      <button class="demo-side-arrow demo-side-prev" data-demo-prev aria-label="Previous slide">&#8249;</button>
+      <button class="demo-side-arrow demo-side-next" data-demo-next aria-label="Next slide">&#8250;</button>
+
+      <!-- ============ SLIDE 1 · ADD THE JOB (the board) ================== -->
+      <section class="demo-car-slide is-on" data-nav="add"
+               data-contrib="Add a job in one step: paste the link, pick a starting point."
+               data-state-label="State of the application"
+               data-state="Harbor Point Music School &middot; Part-time Theory Instructor &middot; due October 2 &middot; added to Not started."
+               data-title="Step 1: add the job">
+        <div class="cd-tour">
+          <div class="cd-frame">
+            <div class="cd-veil"></div>
+            <div class="cd-top"><span class="cd-brand">Career Desk</span><span class="cd-grow"></span><span class="cd-btn pri">+ New application</span></div>
+            <div class="cd-newpanel">
+              <div class="cd-lbl">New application</div>
+              <div class="cd-newgrid">
+                <div class="cd-hl" data-hl="1"><span class="cd-hl-n">1</span>
+                  <div class="cd-lbl">Posting link</div>
+                  <div class="cd-input">https://jobs.example.com/harbor-point/theory-instructor</div>
+                  <div style="margin: 6px 0;"><span class="cd-link">Or paste the posting text</span></div>
+                  <p class="cd-hint">Claude reads the posting and writes job.md in a new folder.</p>
+                </div>
+                <div class="cd-hl" data-hl="2"><span class="cd-hl-n">2</span>
+                  <div class="cd-lbl">Start from</div>
+                  <div class="cd-tpls" role="radiogroup" aria-label="Template">
+                    <div class="cd-tpl"><b>AI builder</b><span>Portfolio-led resume and letter</span></div>
+                    <div class="cd-tpl"><b>Nonprofit ops</b><span>Operations resume and letter</span></div>
+                    <div class="cd-tpl on"><b>Academic / teaching</b><span>Teaching CV and letter</span></div>
+                    <div class="cd-tpl"><b>CV only</b><span>Resume, no letter</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="cd-row">
+                <span class="cd-btn pri">Add to Not started</span>
+                <span class="cd-btn">Add and draft now</span>
+                <span class="cd-btn ghost">Cancel</span>
+                <span class="cd-status ok">Added Harbor Point Music School to Not started &#10003;</span>
+              </div>
+            </div>
+            <div class="cd-boardarea is-plain">
+              <div class="cd-board-scroll">
+                <div class="cd-board">
+                  <section class="cd-col">
+                    <h2>Not started <small>2</small></h2>
+                    <div class="cd-card"><div class="cd-org">Northfield Library Foundation</div><div class="cd-role">Development Associate</div><div class="cd-meta"><span class="cd-pill warn">Due Sep 29</span><span class="cd-pill">no drafts yet</span></div></div>
+                    <div class="cd-card act"><div class="cd-org">Harbor Point Music School</div><div class="cd-role">Part-time Theory Instructor</div><div class="cd-meta"><span class="cd-pill warn">Due Oct 2</span><span class="cd-pill">no drafts yet</span></div></div>
+                  </section>
+                  <section class="cd-col">
+                    <h2>Drafted <small>2</small></h2>
+                    <div class="cd-card"><div class="cd-org">Lakeshore Arts Council</div><div class="cd-role">Program Coordinator</div><div class="cd-meta"><span class="cd-pill">Due Oct 9</span><span class="cd-pill">resume + letter</span></div></div>
+                    <div class="cd-card"><div class="cd-org">Brightline Labs</div><div class="cd-role">AI Workflow Engineer</div><div class="cd-meta"><span class="cd-pill">resume</span></div></div>
+                  </section>
+                  <section class="cd-col">
+                    <h2>Sent <small>2</small></h2>
+                    <div class="cd-card"><div class="cd-org">Quillworks</div><div class="cd-role">Content Evaluator</div><div class="cd-meta"><span class="cd-pill ok">Sent Sep 17</span></div></div>
+                    <div class="cd-card"><div class="cd-org">Cedar Valley Youth Orchestra</div><div class="cd-role">Education Associate</div><div class="cd-meta"><span class="cd-pill ok">Sent Sep 16</span></div></div>
+                  </section>
+                  <section class="cd-col">
+                    <h2>Interview <small>1</small></h2>
+                    <div class="cd-card"><div class="cd-org">Maple Street Theater</div><div class="cd-role">Operations Manager</div><div class="cd-meta"><span class="cd-pill ok">Sent Sep 4</span></div></div>
+                  </section>
+                  <section class="cd-col">
+                    <h2>Closed <small>1</small></h2>
+                    <div class="cd-card"><div class="cd-org">Riverbend Conservancy</div><div class="cd-role">Communications Assistant</div><div class="cd-meta"><span class="cd-pill">Posting closed</span></div></div>
+                  </section>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="cd-calls">
+            <div class="cd-call" data-for="1" data-at="below"><span class="cd-call-n">1</span><div class="cd-call-body"><div class="cd-call-t">Paste the posting link</div><ul class="demo-bul"><li>Claude reads the posting and writes up the job</li> <li>Pay, deadline, and what the job asks for</li> <li>Works with the big job boards, or paste the text</li></ul></div></div>
+            <div class="cd-call" data-for="2" data-at="below"><span class="cd-call-n">2</span><div class="cd-call-body"><div class="cd-call-t">Pick a starting point</div><ul class="demo-bul"><li>An earlier application that fits this kind of job</li> <li>Its resume and letter become version 1</li></ul><button class="cd-call-next" data-demo-next>Next: the job card &#8250;</button></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 2 · THE JOB CARD (the board) ================ -->
+      <section class="demo-car-slide" data-nav="add"
+               data-contrib="Every job gets one card that carries everything about it."
+               data-state-label="State of the application"
+               data-state="Harbor Point Music School &middot; Not started &middot; due October 2 &middot; written up from the posting."
+               data-title="Step 1: the job card">
+        <div class="cd-tour">
+          <div class="cd-frame">
+            <div class="cd-veil"></div>
+            <div class="cd-top"><span class="cd-brand">Career Desk</span><span class="cd-grow"></span><span class="cd-btn pri">+ New application</span></div>
+            <div class="cd-boardarea is-card">
+              <div class="cd-board-scroll">
+                <div class="cd-board">
+                  <section class="cd-col">
+                    <h2>Not started <small>2</small></h2>
+                    <div class="cd-card"><div class="cd-org">Northfield Library Foundation</div><div class="cd-role">Development Associate</div><div class="cd-meta"><span class="cd-pill warn">Due Sep 29</span><span class="cd-pill">no drafts yet</span></div></div>
+                    <div class="cd-card act"><div class="cd-org">Harbor Point Music School</div><div class="cd-role">Part-time Theory Instructor</div><div class="cd-meta"><span class="cd-pill warn">Due Oct 2</span><span class="cd-pill">no drafts yet</span></div></div>
+                  </section>
+                  <section class="cd-col">
+                    <h2>Drafted <small>2</small></h2>
+                    <div class="cd-card"><div class="cd-org">Lakeshore Arts Council</div><div class="cd-role">Program Coordinator</div><div class="cd-meta"><span class="cd-pill">Due Oct 9</span><span class="cd-pill">resume + letter</span></div></div>
+                    <div class="cd-card"><div class="cd-org">Brightline Labs</div><div class="cd-role">AI Workflow Engineer</div><div class="cd-meta"><span class="cd-pill">resume</span></div></div>
+                  </section>
+                  <section class="cd-col">
+                    <h2>Sent <small>2</small></h2>
+                    <div class="cd-card"><div class="cd-org">Quillworks</div><div class="cd-role">Content Evaluator</div><div class="cd-meta"><span class="cd-pill ok">Sent Sep 17</span></div></div>
+                    <div class="cd-card"><div class="cd-org">Cedar Valley Youth Orchestra</div><div class="cd-role">Education Associate</div><div class="cd-meta"><span class="cd-pill ok">Sent Sep 16</span></div></div>
+                  </section>
+                  <section class="cd-col">
+                    <h2>Interview <small>1</small></h2>
+                    <div class="cd-card"><div class="cd-org">Maple Street Theater</div><div class="cd-role">Operations Manager</div><div class="cd-meta"><span class="cd-pill ok">Sent Sep 4</span></div></div>
+                  </section>
+                  <section class="cd-col">
+                    <h2>Closed <small>1</small></h2>
+                    <div class="cd-card"><div class="cd-org">Riverbend Conservancy</div><div class="cd-role">Communications Assistant</div><div class="cd-meta"><span class="cd-pill">Posting closed</span></div></div>
+                  </section>
+                </div>
+              </div>
+              <div class="cd-pop cd-hl" data-hl="3" role="dialog" aria-label="Application"><span class="cd-hl-n">3</span>
+                <div class="cd-pop-ph"><b>Harbor Point Music School</b><div class="cd-role">Part-time Theory Instructor</div><div style="margin-top: 6px;"><span class="cd-pill">Not started</span></div></div>
+                <div class="cd-pop-facts">
+                  <p>Portland, OR &middot; in person, two evenings a week</p>
+                  <p>Pay: $38 to $44 an hour</p>
+                  <p>Deadline: October 2, 2026</p>
+                  <div class="cd-pop-sum"><p>Teaches Music Theory I and II in the evening program for adult learners.</p></div>
+                  <p><span class="cd-link">Job posting &#8599;</span></p>
+                </div>
+                <div class="cd-pop-acts">
+                  <div class="cd-act pri">Draft with Claude <small>Starts from the template, then Claude tailors it</small></div>
+                  <div class="cd-act">Open posting</div>
+                  <div class="cd-act">Move to Closed <small>Not applying</small></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="cd-calls">
+            <div class="cd-call" data-for="3" data-at="right"><span class="cd-call-n">3</span><div class="cd-call-body"><div class="cd-call-t">Everything about the job, in one card</div><ul class="demo-bul"><li>Where, pay and deadline, read from the posting</li> <li>A short summary of what the job asks for</li> <li>The posting link, one click away</li> <li>Draft with Claude starts from your template</li></ul><button class="cd-call-next" data-demo-next>Next: Draft &#8250;</button></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 3 · DRAFT (the workspace) ==================== -->
+      <section class="demo-car-slide" data-nav="draft"
+               data-contrib="Draft with Claude beside you, in a chat that already knows the job."
+               data-state-label="State of the letter"
+               data-state="Harbor Point &middot; letter v5 &middot; Claude's tailored draft, then your own edits."
+               data-title="Step 2: draft">
+        <div class="cd-tour">
+          <div class="cd-frame">
+            <div class="cd-veil"></div>
+            <div class="cd-appbar">
+              <span class="cd-btn">&#8592; Board</span>
+              <span class="t">Harbor Point Music School</span>
+              <span class="cd-btn">Job facts &#9662;</span>
+              <span class="cd-pill">Drafted</span>
+              <span class="cd-grow"></span>
+              <span class="cd-btn">Versions &#9656;</span>
+              <span class="cd-btn">Mark as sent</span>
+              <span class="cd-btn pri">Sign off</span>
+            </div>
+            <div class="cd-vstrip">
+              <div class="cd-tabs" role="tablist"><span class="cd-tab">Resume</span><span class="cd-tab on">Letter</span><span class="cd-tab">+ Form answers</span></div>
+              <span class="cd-grow"></span>
+              <span class="cd-status">v5 &middot; saved 2:20 PM</span>
+            </div>
+            <div class="cd-ws">
+              <section class="cd-wcol chat">
+                <div class="cd-colhead"><span class="cd-lbl">Claude</span><span class="cd-cbtn">&#171;</span></div>
+                <div class="cd-turns cd-hl" data-hl="4"><span class="cd-hl-n">4</span>
+                  <div class="cd-msg user"><span class="cd-tag">You &middot; Letter &middot; 2:02 PM</span>Tailor the letter to this posting. Keep it to one page.</div>
+                  <div class="cd-msg assistant"><span class="cd-tag">Claude &middot; Letter &middot; 2:03 PM</span>Done. It now leads with the evening program for adult learners, names Theory I and II, and gives your curriculum ideas their own paragraph, since the posting asks for them.</div>
+                  <div class="cd-sys">Saved Claude's draft as v4</div>
+                </div>
+                <div class="cd-composer">
+                  <div class="cd-quick cd-hl" data-hl="6"><span class="cd-hl-n">6</span><span>Review this version</span><span>Proofread only</span><span>Check against the posting</span><span>Fit to one page</span><span>Tailor to the posting</span></div>
+                  <div class="cd-textarea">Ask for a review, push back on a mark, or say what to change&hellip;</div>
+                  <div class="cd-row"><span class="cd-btn pri">Send</span></div>
+                </div>
+              </section>
+              <section class="cd-wcol cd-hl" data-hl="5"><span class="cd-hl-n">5</span>
+                <div class="cd-colhead"><span class="cd-lbl" style="padding-left: 12px;">Your text</span><span class="cd-btn sm">Save version</span><span class="cd-cbtn">&#171;</span></div>
+                <div class="cd-colbody">
+<div class="cd-editor"><span class="dim">Output: Riley Chen Cover Letter - Harbor Point
+Contact: Portland, OR | riley.chen@example.com | 555-0142
+Date: September 18, 2026</span>
+
+Dear Hiring Committee,
+
+Adults who come back to music bring questions a textbook never answers, and those questions are why I teach. I am applying for the Part-time Theory Instructor position in Harbor Point Music School's evening program.
+
+For ten years I have taught theory, ear training and composition in private studios and community classes, to students from eight to seventy. I build each lesson around music my students already love, so every rule arrive with a sound attached.
+
+For Theory I and II, I would open each unit with a listening session and close it with a short composition, so students hear a concept before they name it.
+
+Thank you for your time and consideration,
+Riley Chen</div>
+                </div>
+              </section>
+              <section class="cd-wcol">
+                <div class="cd-colhead"><span class="cd-lbl">Preview</span><span class="cd-pill ok">about 1 page</span></div>
+                <div class="cd-colbody">
+                  <div class="cd-pagewrap">
+                    <div class="cd-sheet">
+                      <div class="nm">Riley Chen</div>
+                      <div class="hd">Portland, OR &nbsp;|&nbsp; riley.chen@example.com &nbsp;|&nbsp; 555-0142</div>
+                      <p>September 18, 2026</p>
+                      <p>Dear Hiring Committee,</p>
+                      <p>Adults who come back to music bring questions a textbook never answers, and those questions are why I teach. I am applying for the Part-time Theory Instructor position in Harbor Point Music School's evening program.</p>
+                      <p>For ten years I have taught theory, ear training and composition in private studios and community classes, to students from eight to seventy&hellip;</p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+          <div class="cd-calls">
+            <div class="cd-call" data-for="4" data-at="right"><span class="cd-call-n">4</span><div class="cd-call-body"><div class="cd-call-t">Claude drafts</div><ul class="demo-bul"><li>It already knows the job, your notes, and your standing facts</li> <li>Ask for changes in plain words</li> <li>Every full draft it writes saves as a new version</li></ul></div></div>
+            <div class="cd-call" data-for="5" data-at="right"><span class="cd-call-n">5</span><div class="cd-call-body"><div class="cd-call-t">Make it yours</div><ul class="demo-bul"><li>Edit the text yourself, any time</li> <li>Save version keeps every step</li></ul></div></div>
+            <div class="cd-call" data-for="6" data-at="right"><span class="cd-call-n">6</span><div class="cd-call-body"><div class="cd-call-t">Ask for a review</div><ul class="demo-bul"><li>One click for the common asks</li> <li>Review, proofread, check against the posting, fit to one page</li></ul><button class="cd-call-next" data-demo-next>Next: Review &#8250;</button></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 4 · REVIEW (the workspace) =================== -->
+      <section class="demo-car-slide" data-nav="review"
+               data-contrib="Ask for a review, then keep only the marks you agree with."
+               data-state-label="State of the review"
+               data-state="Letter v5 &middot; 3 marks &middot; 2 kept, 1 rejected &middot; about 1 page."
+               data-title="Step 3: review">
+        <div class="cd-tour">
+          <div class="cd-frame">
+            <div class="cd-veil"></div>
+            <div class="cd-appbar">
+              <span class="cd-btn">&#8592; Board</span>
+              <span class="t">Harbor Point Music School</span>
+              <span class="cd-btn">Job facts &#9662;</span>
+              <span class="cd-pill">Drafted</span>
+              <span class="cd-grow"></span>
+              <span class="cd-btn cd-hl" data-hl="9"><span class="cd-hl-n">9</span>Versions &#9656;</span>
+              <span class="cd-btn">Mark as sent</span>
+              <span class="cd-btn pri">Sign off</span>
+            </div>
+            <div class="cd-vstrip">
+              <div class="cd-tabs" role="tablist"><span class="cd-tab">Resume</span><span class="cd-tab on">Letter</span><span class="cd-tab">+ Form answers</span></div>
+              <span class="cd-grow"></span>
+              <span class="cd-status">v5 &middot; 3 marks</span>
+            </div>
+            <div class="cd-ws">
+              <section class="cd-wcol chat">
+                <div class="cd-colhead"><span class="cd-lbl">Claude</span><span class="cd-cbtn">&#171;</span></div>
+                <div class="cd-turns">
+                  <div class="cd-msg user"><span class="cd-tag">You &middot; Letter &middot; 2:24 PM</span>Review this letter against the posting and my rules. Mark what should change.</div>
+                  <div class="cd-msg assistant"><span class="cd-tag">Claude &middot; Letter &middot; 2:25 PM</span>Three marks: a grammar fix, an optional rewrite of the opening, and a claim. Your profile lists six years of teaching, and the letter says ten.</div>
+                </div>
+                <div class="cd-marksbox cd-hl" data-hl="8"><span class="cd-hl-n">8</span>
+                  <div class="cd-row"><span class="cd-lbl" style="padding-left: 10px;">3 marks on the letter</span><span class="cd-grow"></span><span class="cd-link">Clear marks</span></div>
+                  <div class="cd-marks">
+                    <div class="cd-mk-row"><span class="cd-n g">1</span><span class="txt">The verb must agree with &ldquo;every rule&rdquo;<small>&#8594; every rule arrives</small></span><span class="cd-tog on">&#10003;</span><span class="cd-tog">&#10005;</span></div>
+                    <div class="cd-mk-row rejected"><span class="cd-n r">2</span><span class="txt">Lead with the program, then the reason<small>&#8594; I am applying to teach Theory I and II&hellip;</small></span><span class="cd-tog">&#10003;</span><span class="cd-tog on">&#10005;</span></div>
+                    <div class="cd-mk-row"><span class="cd-n c">3</span><span class="txt">Profile says six years of teaching<small>&#8594; For six years</small></span><span class="cd-tog on">&#10003;</span><span class="cd-tog">&#10005;</span></div>
+                  </div>
+                  <span class="cd-btn pri" style="justify-self: start;">Apply</span>
+                </div>
+              </section>
+              <section class="cd-wcol">
+                <div class="cd-colhead"><span class="cd-lbl">Your text</span><span class="cd-btn sm">Save version</span><span class="cd-cbtn">&#171;</span></div>
+                <div class="cd-colbody">
+<div class="cd-editor"><span class="dim">Output: Riley Chen Cover Letter - Harbor Point
+Contact: Portland, OR | riley.chen@example.com | 555-0142
+Date: September 18, 2026</span>
+
+Dear Hiring Committee,
+
+Adults who come back to music bring questions a textbook never answers, and those questions are why I teach&hellip;</div>
+                </div>
+              </section>
+              <section class="cd-wcol cd-hl" data-hl="7"><span class="cd-hl-n at-tr">7</span>
+                <div class="cd-colhead"><span class="cd-lbl">Preview</span><span class="cd-pill ok">about 1 page</span><span class="cd-legend"><span class="cd-k g">grammar</span><span class="cd-k r">rewrite</span><span class="cd-k c">claim</span></span></div>
+                <div class="cd-colbody">
+                  <div class="cd-pagewrap">
+                    <div class="cd-sheet">
+                      <div class="nm">Riley Chen</div>
+                      <div class="hd">Portland, OR &nbsp;|&nbsp; riley.chen@example.com &nbsp;|&nbsp; 555-0142</div>
+                      <p>September 18, 2026</p>
+                      <p>Dear Hiring Committee,</p>
+                      <p><span class="cd-mk cd-mk-r rej"><del>Adults who come back to music bring questions a textbook never answers, and those questions are why I teach.</del><ins> I am applying to teach Theory I and II&hellip;</ins><sup>2</sup></span> I am applying for the Part-time Theory Instructor position in Harbor Point Music School's evening program.</p>
+                      <p><span class="cd-mk cd-mk-c"><del>For ten years</del><ins>For six years</ins><sup>3</sup></span> I have taught theory, ear training and composition in private studios and community classes, to students from eight to seventy. I build each lesson around music my students already love, so every rule <span class="cd-mk cd-mk-g"><del>arrive</del><ins>arrives</ins><sup>1</sup></span> with a sound attached.</p>
+                      <p>For Theory I and II, I would open each unit with a listening session and close it with a short composition, so students hear a concept before they name it.</p>
+                      <p style="margin: 0;">Thank you for your time and consideration,</p>
+                      <p style="font-weight: 700; margin: 0;">Riley Chen</p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+          <div class="cd-calls">
+            <div class="cd-call" data-for="7" data-at="left"><span class="cd-call-n">7</span><div class="cd-call-body"><div class="cd-call-t">Claude marks the page</div><ul class="demo-bul"><li>The preview is laid out like the final file</li> <li>Red for grammar, blue for a rewrite</li> <li>Amber for a claim your profile can't back up</li></ul></div></div>
+            <div class="cd-call" data-for="8" data-at="right"><span class="cd-call-n">8</span><div class="cd-call-body"><div class="cd-call-t">Keep what you agree with</div><ul class="demo-bul"><li>A check or an X on each mark</li> <li>Push back in the chat when you disagree</li> <li>Apply saves the kept marks as the next version</li></ul></div></div>
+            <div class="cd-call" data-for="9" data-at="below-end"><span class="cd-call-n">9</span><div class="cd-call-body"><div class="cd-call-t">Nothing is lost</div><ul class="demo-bul"><li>Every version, newest first</li> <li>Compare any two, or restore an old one</li></ul><button class="cd-call-next" data-demo-next>Next: Sign off and send &#8250;</button></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 5 · SIGN OFF AND SEND (the workspace) ======== -->
+      <section class="demo-car-slide" data-nav="send"
+               data-contrib="Sign off, submit, and mark it sent."
+               data-state-label="State of the application"
+               data-state="Letter v6 &middot; signed off at one page &middot; sent September 18."
+               data-title="Step 4: sign off and send">
+        <div class="cd-tour">
+          <div class="cd-frame">
+            <div class="cd-veil"></div>
+            <div class="cd-appbar">
+              <span class="cd-btn">&#8592; Board</span>
+              <span class="t">Harbor Point Music School</span>
+              <span class="cd-btn">Job facts &#9662;</span>
+              <span class="cd-pill">Drafted</span>
+              <span class="cd-grow"></span>
+              <span class="cd-btn">Versions &#9656;</span>
+              <span class="cd-btn cd-hl" data-hl="12"><span class="cd-hl-n">12</span>Mark as sent</span>
+              <span class="cd-btn pri cd-hl" data-hl="10"><span class="cd-hl-n at-tr">10</span>Signed off v6 &#10003;</span>
+            </div>
+            <div class="cd-vstrip">
+              <div class="cd-tabs" role="tablist"><span class="cd-tab">Resume &#10003;</span><span class="cd-tab on">Letter &#10003;</span><span class="cd-tab">+ Form answers</span></div>
+              <span class="cd-grow"></span>
+              <span class="cd-status">v6 &middot; signed off</span>
+            </div>
+            <div class="cd-ws">
+              <section class="cd-wcol chat">
+                <div class="cd-colhead"><span class="cd-lbl">Claude</span><span class="cd-cbtn">&#171;</span></div>
+                <div class="cd-turns">
+                  <div class="cd-msg user"><span class="cd-tag">You &middot; Letter &middot; 2:26 PM</span>Keeping my opening. Applying 1 and 3.</div>
+                  <div class="cd-sys">Applied 2 marks as v6</div>
+                </div>
+              </section>
+              <section class="cd-wcol">
+                <div class="cd-colhead"><span class="cd-lbl">Your text</span><span class="cd-btn sm">Save version</span><span class="cd-cbtn">&#171;</span></div>
+                <div class="cd-colbody">
+<div class="cd-editor"><span class="dim">Output: Riley Chen Cover Letter - Harbor Point
+Contact: Portland, OR | riley.chen@example.com | 555-0142
+Date: September 18, 2026</span>
+
+Dear Hiring Committee,
+
+Adults who come back to music bring questions a textbook never answers, and those questions are why I teach&hellip;
+
+For six years I have taught theory&hellip;</div>
+                </div>
+              </section>
+              <section class="cd-wcol">
+                <div class="cd-colhead"><span class="cd-lbl">Preview</span><span class="cd-pill ok">about 1 page</span></div>
+                <div class="cd-colbody">
+                  <div class="cd-pagewrap">
+                    <div class="cd-sheet">
+                      <div class="nm">Riley Chen</div>
+                      <div class="hd">Portland, OR &nbsp;|&nbsp; riley.chen@example.com &nbsp;|&nbsp; 555-0142</div>
+                      <p>September 18, 2026</p>
+                      <p>Dear Hiring Committee,</p>
+                      <p>Adults who come back to music bring questions a textbook never answers, and those questions are why I teach. I am applying for the Part-time Theory Instructor position in Harbor Point Music School's evening program.</p>
+                      <p>For six years I have taught theory, ear training and composition&hellip;</p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <div class="cd-toast cd-hl" data-hl="11" role="status"><span class="cd-hl-n">11</span>Notes updated: 2 notes for this job, 1 profile fact</div>
+            </div>
+          </div>
+          <div class="cd-calls">
+            <div class="cd-call" data-for="10" data-at="below-end"><span class="cd-call-n">10</span><div class="cd-call-body"><div class="cd-call-t">Sign off</div><ul class="demo-bul"><li>Builds the Word file and the PDF</li> <li>Checks both match the text word for word</li> <li>Warns if the page count runs over</li></ul></div></div>
+            <div class="cd-call" data-for="11" data-at="above"><span class="cd-call-n">11</span><div class="cd-call-body"><div class="cd-call-t">It remembers</div><ul class="demo-bul"><li>Claude rereads the chat and the changes</li> <li>Calls for this job go into its notes</li> <li>Facts true for every job go into your profile, for the next application</li></ul></div></div>
+            <div class="cd-call" data-for="12" data-at="below-end"><span class="cd-call-n">12</span><div class="cd-call-body"><div class="cd-call-t">Submit and mark it sent</div><ul class="demo-bul"><li>Send the PDFs, then click Mark as sent</li> <li>A read-only copy of exactly what went out is kept</li> <li>The card moves to Sent</li></ul><button class="cd-call-next" data-cd-restart>Start over &#8634;</button></div></div>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /.demo-canvas -->
+  </div><!-- /.demo-stage -->
+
+  <div class="demo-controls">
+    <button class="demo-arrow" data-demo-prev aria-label="Previous slide">&#8249;</button>
+    <div class="demo-title" data-demo-title></div>
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <span class="demo-count" data-demo-count></span>
+      <button class="demo-arrow" data-demo-next aria-label="Next slide">&#8250;</button>
+    </div>
+  </div>
+  <!-- ===== TRANSPLANT MARKUP END ===== -->
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // Same initializer as grant-demo.html: captions live on each slide's data
+  // attributes, and every query is scoped to this panel.
+  var root = document.querySelector('.desk-demo[data-demo-panel]');
+  if (!root) return;
+
+  var slides = Array.prototype.slice.call(root.querySelectorAll('.demo-car-slide'));
+  var navItems = Array.prototype.slice.call(root.querySelectorAll('.demo-nav-item[data-slide]'));
+  var prevBtns = Array.prototype.slice.call(root.querySelectorAll('[data-demo-prev]'));
+  var nextBtns = Array.prototype.slice.call(root.querySelectorAll('[data-demo-next]'));
+  var elContrib    = root.querySelector('[data-demo-contrib]');
+  var elState      = root.querySelector('[data-demo-state]');
+  var elStateLabel = root.querySelector('[data-demo-state-label]');
+  var elTitle      = root.querySelector('[data-demo-title]');
+  var elCount      = root.querySelector('[data-demo-count]');
+  var strip        = root.querySelector('.demo-nav-wrap');
+
+  var current = 0;
+
+  function measureStrip() {
+    if (strip && strip.offsetHeight) root.style.setProperty('--demo-strip-h', strip.offsetHeight + 'px');
+  }
+
+  function show(i) {
+    if (i < 0 || i >= slides.length) return;
+    current = i;
+    var slide = slides[i];
+
+    slides.forEach(function (s, n) { s.classList.toggle('is-on', n === i); });
+
+    var group = slide.getAttribute('data-nav');
+    navItems.forEach(function (b) {
+      b.classList.toggle('is-active', b.getAttribute('data-nav') === group);
+    });
+
+    if (elContrib) elContrib.textContent = slide.getAttribute('data-contrib') || '';
+    if (elStateLabel) elStateLabel.innerHTML = slide.getAttribute('data-state-label') || '';
+    if (elState) {
+      elState.innerHTML = slide.getAttribute('data-state') || '';
+      var col = elState.closest('.demo-cap-col');
+      if (col) col.hidden = !slide.getAttribute('data-state');
+    }
+    if (elTitle) elTitle.textContent = slide.getAttribute('data-title') || '';
+    if (elCount) {
+      elCount.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+    }
+    prevBtns.forEach(function (el) { el.disabled = (i === 0); });
+    nextBtns.forEach(function (el) { el.disabled = (i === slides.length - 1); });
+  }
+
+  navItems.forEach(function (b) {
+    b.addEventListener('click', function () { show(parseInt(b.getAttribute('data-slide'), 10)); });
+  });
+  prevBtns.forEach(function (el) { el.addEventListener('click', function () { show(current - 1); }); });
+  nextBtns.forEach(function (el) { el.addEventListener('click', function () { show(current + 1); }); });
+
+  function onKey(e) {
+    if (e.key === 'ArrowLeft') show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  }
+  root.addEventListener('mousedown', function () { root.focus({ preventScroll: true }); });
+  if (document.body.hasAttribute('data-demo-standalone')) {
+    document.addEventListener('keydown', onKey);
+  } else {
+    root.addEventListener('keydown', onKey);
+  }
+
+  measureStrip();
+  window.addEventListener('resize', measureStrip);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureStrip);
+
+  show(0);
+})();
+</script>
+
+<!-- ===== TRANSPLANT SCRIPT START ===== -->
+<script>
+(function () {
+  'use strict';
+
+  // The walkthrough popups. Each .cd-call names its highlight (data-for, the
+  // highlight's data-hl) and a side (data-at: right, left, below, below-end,
+  // above, or free: inside the slide's [data-free] column, the one part of
+  // the screen with no highlight). It sits 14px off that side, clamped inside the tour, and pushed
+  // down past any popup already placed, so the three never overlap. Below
+  // 700px of tour width the popups become a list under the screen instead.
+  // A ResizeObserver re-places them whenever a slide shows (display: none to
+  // block is a resize), the window resizes, or fonts land.
+  var root = document.querySelector('.desk-demo[data-demo-panel]');
+  if (!root) return;
+  var GAP = 14, LIST_BELOW = 700;
+
+  function place(tour) {
+    if (!tour.offsetWidth) return;
+    var calls = Array.prototype.slice.call(tour.querySelectorAll('.cd-call.is-cur'));
+    var list = tour.offsetWidth < LIST_BELOW;
+    tour.classList.toggle('is-list', list);
+    if (list) { calls.forEach(function (c) { c.style.left = c.style.top = ''; }); return; }
+    var box = tour.getBoundingClientRect();
+    var W = tour.offsetWidth, placed = [];
+    calls.forEach(function (c) {
+      var t = tour.querySelector('[data-hl="' + c.getAttribute('data-for') + '"]');
+      if (!t) return;
+      var r = t.getBoundingClientRect();
+      var tl = r.left - box.left, tt = r.top - box.top, tw = r.width, th = r.height;
+      var w = c.offsetWidth, h = c.offsetHeight, x, y;
+      switch (c.getAttribute('data-at')) {
+        case 'left':      x = tl - w - GAP; y = tt; break;
+        case 'below':     x = tl; y = tt + th + GAP; break;
+        case 'below-end': x = tl + tw - w; y = tt + th + GAP; break;
+        case 'above':     x = tl + tw / 2 - w / 2; y = tt - h - GAP; break;
+        case 'free':      // centered in the slide's unhighlighted column, level with its highlight
+          var f = tour.querySelector('[data-free]');
+          var fr = f ? f.getBoundingClientRect() : r;
+          x = fr.left - box.left + (fr.width - w) / 2; y = tt; break;
+        default:          x = tl + tw + GAP; y = tt;
+      }
+      x = Math.max(0, Math.min(x, W - w));
+      y = Math.max(0, y);
+      var moved = true;
+      while (moved) {
+        moved = false;
+        placed.forEach(function (p) {
+          if (x < p.x + p.w && x + w > p.x && y < p.y + p.h + 10 && y + h + 10 > p.y) { y = p.y + p.h + 10; moved = true; }
+        });
+      }
+      c.style.left = x + 'px'; c.style.top = y + 'px';
+      placed.push({ x: x, y: y, w: w, h: h });
+    });
+  }
+
+  // One step at a time: only the current highlight and its popup show. Each
+  // popup but a slide's last gets Back and Next buttons here; the last keeps
+  // its own button, which moves to the next slide.
+  function setStep(tour, k) {
+    var calls = tour.querySelectorAll('.cd-call');
+    var moved = tour._step !== undefined && tour._step !== k;
+    tour._step = k;
+    Array.prototype.forEach.call(calls, function (c, n) {
+      c.classList.toggle('is-cur', n === k);
+      var t = tour.querySelector('[data-hl="' + c.getAttribute('data-for') + '"]');
+      if (t) t.classList.toggle('is-cur', n === k);
+    });
+    place(tour);
+    if (moved && tour.classList.contains('is-list')) {
+      var cur = tour.querySelector('.cd-hl.is-cur');
+      if (cur) cur.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }
+  }
+  var tours = Array.prototype.slice.call(root.querySelectorAll('.cd-tour'));
+  tours.forEach(function (tour) {
+    var calls = tour.querySelectorAll('.cd-call');
+    Array.prototype.forEach.call(calls, function (c, n) {
+      var body = c.querySelector('.cd-call-body');
+      var own = body.querySelector('.cd-call-next');
+      var nav = document.createElement('div');
+      nav.className = 'cd-call-nav';
+      if (n > 0) {
+        var back = document.createElement('button');
+        back.type = 'button'; back.className = 'cd-call-back'; back.innerHTML = '&#8249; Back';
+        back.addEventListener('click', function () { setStep(tour, n - 1); });
+        nav.appendChild(back);
+      }
+      if (n < calls.length - 1) {
+        var next = document.createElement('button');
+        next.type = 'button'; next.className = 'cd-call-next'; next.innerHTML = 'Next &#8250;';
+        next.addEventListener('click', function () { setStep(tour, n + 1); });
+        nav.appendChild(next);
+      } else if (own) {
+        nav.appendChild(own);
+      }
+      if (nav.children.length) body.appendChild(nav);
+    });
+    setStep(tour, 0);
+  });
+  function placeAll() { tours.forEach(place); }
+  // A slide that comes back into view starts again at its first step.
+  if (window.ResizeObserver) {
+    var ro = new ResizeObserver(function (entries) {
+      entries.forEach(function (e) {
+        var t = e.target, w = t.offsetWidth;
+        if (w && !t._shown) setStep(t, 0); else place(t);
+        t._shown = !!w;
+      });
+    });
+    tours.forEach(function (t) { ro.observe(t); });
+  }
+  window.addEventListener('resize', placeAll);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeAll);
+  placeAll();
+
+  // The last popup's button goes back to step 1 through the first strip item.
+  Array.prototype.slice.call(root.querySelectorAll('[data-cd-restart]')).forEach(function (b) {
+    b.addEventListener('click', function () {
+      var first = root.querySelector('.demo-nav-item[data-slide="0"]');
+      if (first) first.click();
+    });
+  });
+})();
+</script>
+<!-- ===== TRANSPLANT SCRIPT END ===== -->
+</body>
+</html>
