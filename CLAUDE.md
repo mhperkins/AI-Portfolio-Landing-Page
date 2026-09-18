@@ -764,7 +764,7 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
-### Session of 2026-09-17, last: five AI builder applications, two sent
+### Session of 2026-09-17, last: five AI builder applications, four sent
 
 Career work only; no site changes. One posting closed, two applications went out, two are drafted.
 
@@ -773,8 +773,8 @@ Career work only; no site changes. One posting closed, two applications went out
 | `2026-09-clasp/` | Clasp, AI Labs Engineer | **Posting closed** before Max could submit |
 | `2026-09-ease/` | Ease Health, Software Engineer (remote NYC) | **Applied Sept 17**, CV only |
 | `2026-09-makai-labs/` | Makai Labs, AI Engineer (contract, $115k to $130k) | **Applied Sept 17**, CV + 2 form answers |
-| `2026-09-brady-martz/` | Brady Martz, AI Prototyping Engineer (remote US) | Drafted |
-| `2026-09-estrada-eci/` | Estrada Consulting, AI Solution Architect (remote US, W2) | Drafted |
+| `2026-09-brady-martz/` | Brady Martz, AI Prototyping Engineer (remote US) | **Applied Sept 17**, CV + letter |
+| `2026-09-estrada-eci/` | Estrada Consulting, AI Solution Architect (remote US, W2) | **Applied Sept 17**, CV + letter |
 
 - **Ashby postings render empty to a fetcher.** The text comes from
   `https://api.ashbyhq.com/posting-api/job-board/<org>?includeCompensation=true` (`descriptionPlain`).
@@ -806,8 +806,12 @@ Career work only; no site changes. One posting closed, two applications went out
   mentions another company; zero em dashes; the five portfolio deep links on the CVs tested live by
   Max. His LinkedIn headline no longer reads "Vibe Coder / AI Developer".
 
-**Open:** Max's proofread of Brady Martz and Estrada. Brady Martz's data and privacy duty is not on
-the CV (spelling out "row-level security" cost the page); it is interview material. Estrada prefers
+**Salary, if any of them asks:** Clasp published $85k to $110k for an explicitly early-career version
+of this work and Makai $115k to $130k, so **$100,000, or a $90,000 to $105,000 range**, is defensible.
+Brady Martz and Estrada publish nothing, and Brady Martz is a regional accounting firm, so its band may
+run lower. Never state a single low number: the stated figure becomes the ceiling.
+
+**Open:** Brady Martz's data and privacy duty is not on the CV (spelling out "row-level security" cost the page); it is interview material. Estrada prefers
 cloud platform experience (Azure, AWS, GCP) that Max does not have, and Makai asked for a CS
 background he does not have; neither is claimed anywhere.
 
