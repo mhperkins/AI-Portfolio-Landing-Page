@@ -41,7 +41,7 @@ Vercel project: `ai-portfolio-landing-page` · GitHub: `mhperkins/AI-Portfolio-L
 | teaching.html (**branch `teaching-page` only, not on main**) | **Teaching page**, "Music and AI Integration" (built 2026-09-15): four topics as annotated carousels on the index.html carousel system, for the UW-Madison RISE-AI committee and the final-round live class. Kept off the live site until Max finalizes it; lives in the worktree folder `AI Tool Portfolio - teaching-page`. See "Session of 2026-09-15: the Teaching page" under Current Portfolio State. |
 | [docs/wireframes/](docs/wireframes/) | Wireframes, per the global Wireframe Protocol. `2026-09-15_teaching-page.html` is the teaching page's (round 2). |
 | [Software Developer Resume.pdf](Software Developer Resume.pdf) | Software track resume. **Currently unlinked** — nothing routes to it since resume.html became the academic CV. |
-| [Academic CV - UW Madison.docx](Academic CV - UW Madison.docx) | Source of the CV page; offered as the download on resume.html |
+| [Academic CV - UW Madison.docx](Academic CV - UW Madison.docx) | Source of the CV page; offered as the download on resume.html. Degree line reads Certificate in Business since 2026-09-18 |
 | [demo/compass-demo.html](demo/compass-demo.html) | **Iteration source for the Compass panel's carousel** (built 2026-09-09, transplanted 2026-09-10). Change slides here, then re-transplant. See "The Compass demo carousel" below. |
 | [demo/crm-demo.html](demo/crm-demo.html) | **Iteration source for the CRM panel's carousel** (7 slides, transplanted 2026-09-10). See "The CRM and Agency carousels" below. |
 | [demo/agency-demo.html](demo/agency-demo.html) | **Iteration source for the Virtual Agency panel's carousel** (2 slides, transplanted 2026-09-10). |
@@ -763,6 +763,35 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 ## Current Portfolio State (September 2026)
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
+
+### Session of 2026-09-18: Madison College transcripts, degree fix, Career Desk context
+
+Career work plus one site fix. Ran alongside the Career Desk build session below.
+
+- **Madison College posting re-read live** (Workday JSON, R0002307, still open). Its full text now sits in
+  `applications/2026-09-madison-college/job.md` under "Posting text", so Career Desk reviews against it.
+- **Both unofficial transcripts are in** `applications/2026-09-madison-college/transcripts/` (NYU M.M. and
+  UW-Madison B.A.). Supplied attachments go in a `transcripts/` subfolder, which `check` skips (now a README
+  rule). The course map is in that folder's `notes.md`. What changes the Sept 14 framing:
+  - NYU **African-American Music: Its Origins and Influence** (A) and UW **Black Music Ensemble** (A, 2014),
+    led by the late Richard Davis (Max's account), so Black American Music is no longer a no-claim area.
+  - UW Musical Cultures-World (Latin America and the Caribbean) backs World Music.
+  - **Max's emphasis:** the two NYU songwriting history courses (Songwriting History and Criticism, and the
+    14 Songs seminar).
+- **UW degree now reads "B.A., Music Composition, Certificate in Business"** (Max's call; the transcript
+  says Certificate, not Minor). Changed on `resume.html` and the `Academic CV - UW Madison.docx` download
+  (`2a66864`, pushed), in `profile.md`, and in every unsent resume (Madison, Savanna, Turing Music, Clasp,
+  the AI roles base), all rebuilt. Sent copies keep "Minor" and stay frozen.
+- **`career/profile.md`** (new): Max's standing facts, fed to Career Desk's Claude on every turn. Facts
+  settled in a Claude Code session go there; calls for one job go in that folder's `notes.md`.
+- **RISE-AI's submitted files** (CV and letter docx, Sept 9) were stranded in a stray `career/career/`
+  folder. Moved to `applications/2026-09-uw-madison-rise-ai/sent/2026-09-09/`, read-only; the stray folder
+  is gone.
+- The Anthropic API key lives in `../career-desk/.env`. `.vercelignore` now lists `.env*` (`b165674`).
+
+**Next (Max):** write the Madison College CV and letter with the transcript material. Draft here in Claude
+Code, where the repos and this history are loaded, then iterate in Career Desk. Still open from Sept 14:
+the salutation (the Associate Dean's name), and the LinkedIn headline.
 
 ### Session of 2026-09-18: Career Desk, a local app for the job search
 
