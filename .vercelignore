@@ -4,3 +4,6 @@ docs/
 .claude/
 *.md
 *.py
+
+# Env files hold secrets
+.env*
