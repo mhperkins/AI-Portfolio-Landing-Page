@@ -865,6 +865,45 @@ Social's button stays in view 500px into the card; then the full suite again, 0 
 - `demo/agency-demo.html` is still the pinned carousel.
 - `teaching.html` (branch `teaching-page`): decide whether it gets the tour treatment before it merges.
 
+### Session of 2026-09-19: low-code AI role sweep, the UI/UX question, Deepgram drafted
+
+Career work only; no site changes. Max asked for a bigger push on low-code AI developer roles, and
+whether the portfolio works for entry-level UI/UX roles.
+
+- **Deepgram, People AI & Automation Engineer** (remote US) drafted in
+  `career/applications/2026-09-deepgram/`: `job.md` with the full posting text, `resume.md`,
+  `letter.md`, `notes.md`, and both documents built to one page. **Not sent.** It shows on the
+  Career Desk board under Drafted.
+  - **Why this one first:** the posting has **no required-qualifications section at all**. No degree,
+    no years, no stack. The only stated bar is "an early-career engineer". Posted Sept 11, read Sept
+    19 through the Ashby posting API.
+  - **The angle, and it is the point of the letter:** Max built his tools for the operations job he
+    was already doing. This role is an engineer embedded in People Ops beside the Head of People, and
+    almost every applicant will be an engineer who has never run an ops function. The CV's summary
+    leads with operations for the same reason, and the onboarding claim from `profile.md` answers the
+    posting's "Build an AI-first onboarding experience" duty.
+  - **Domain color:** Deepgram is voice AI, so the studio entry went back on the CV as one low line.
+  - Built on the Clasp portfolio-led bullet letter, per `career/README.md`. Page fit took four builds
+    and came out of margins and wording; **no entry or claim was cut to make the page.**
+  - `check --all`: OK on all 15 folders, no notes.
+- **Three targeting changes from the sweep,** logged in `tracks/career-search-master.md`: drop GTM
+  Engineer (every US posting on the Cargo board is 3+ years), filter on the words "early career"
+  rather than "junior" (broad junior hiring is being cut because of AI coding tools), and weight
+  Built In and employer ATS boards over the Himalayas automation feed, which is mostly staffing shops.
+- **The UI/UX question, answered: not for a role titled UX Designer, yes for the engineering-side
+  titles** (Design Engineer, UX Engineer, Front-end Product Engineer). The portfolio proves interface
+  work in code: nine hand-built tours, eight design-token systems that do not leak into each other,
+  390px responsive work, keyboard-reachable controls, the wireframe protocol, and GA events showing
+  which slides and notes people actually open. It has no Figma, no research artifacts, and no written
+  case studies, which is what a UX Designer screen filters on. **Open (Max's call):** whether to build
+  that second track, which would mean a design-engineer CV variant and one written case study, with
+  the GA data as its outcome.
+
+**Open for Max on Deepgram:** send the letter or not (the Ashby form may have no field), whether to
+mention the Madison move at all given the role is remote, whether the studio entry stays, and the
+one process bullet in the letter that is Claude's phrasing rather than his ("Measure whether it
+helped"). All four are listed in that folder's `notes.md`.
+
 ### Session of 2026-09-18: the Composer CRM tour (standalone; transplanted 2026-09-19)
 
 Max's ask: the Composer CRM slideshow as a one-at-a-time tutorial like Career Desk, all information kept,
