@@ -784,6 +784,11 @@ Max's ask: a slideshow for Career Desk, built standalone first, then its own tab
   step chips and the hint hold one line (47px) in the 874px strip.
 - **Tab bar on a phone:** four tabs wrapped each name over two or three lines, so below 640px names stay
   whole and the tabs wrap two to a row (`div.tab-row`, 91px at 390).
+- **Full screen (Max's call, same day):** in the 874px card the workspace read as condensed, so the tab
+  shows the walkthrough as a preview under a **Start the walkthrough** gate. Starting opens it over the page
+  (`.is-full`: fixed, 16px from the window edges, max 1440px wide, the page dimmed behind, page scroll
+  locked) at step 1; Close, Esc or a click on the backdrop puts it back and restores the scroll, so the
+  reader never leaves the tab. Inside, `--demo-pin-top` is 0. Phones skip the gate and run inline.
 - Heading, the three benefit cards and all blurbs are Claude's drafts; Max has not called them. Placeholder
   world only (applicant Riley Chen, invented employers); never the real `career/` folder.
 - **Verified headless (1280 and 390):** four tabs, the new one shows and hides with the others, all 12

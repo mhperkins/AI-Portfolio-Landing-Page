@@ -394,7 +394,28 @@ body {
 .desk-demo .cd-newgrid > .cd-hl { padding: 8px 8px 6px 16px; }
 .desk-demo .cd-boardarea { min-height: 440px; }
 
+/* ==========================================================================
+   Full screen (Max's call, 2026-09-18). In the portfolio card the screens are
+   too condensed, so the walkthrough starts from a gate over the preview and
+   opens over the page at nearly full window size, then closes back to the
+   same spot on the tab. Inside, the strip and title card pin to the top of
+   the overlay's own scroll, so --demo-pin-top is 0. Phones skip the gate and
+   run inline, since the page is already full width there.
+   ========================================================================== */
+.desk-demo { position: relative; }
+.desk-demo .cd-gate { position: absolute; inset: 0; z-index: 40; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: rgba(243, 244, 245, 0.55); backdrop-filter: blur(1.5px); border-radius: inherit; }
+.desk-demo .cd-gate-btn { border: 0; background: var(--cd-ink); color: #fff; border-radius: 10px; padding: 13px 24px; font-size: 16px; font-weight: 700; box-shadow: var(--shadow-lg); }
+.desk-demo .cd-gate-btn:hover { background: #3a3f46; }
+.desk-demo .cd-gate-sub { font-size: 12.5px; color: var(--cd-ink); background: rgba(255, 255, 255, 0.85); border-radius: 20px; padding: 3px 12px; }
+.desk-demo .cd-close { display: none; }
+.desk-demo.is-full { position: fixed; inset: 16px; z-index: 1000; max-width: 1440px; margin: 0 auto; padding: 18px; background: var(--cd-bg); border-radius: 14px; overflow: auto; overscroll-behavior: contain; --demo-pin-top: 0px; box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5); }
+.desk-demo.is-full .cd-gate { display: none; }
+.desk-demo.is-full .cd-close { display: inline-flex; margin-left: 10px; align-self: center; border: 1px solid rgba(243, 244, 245, 0.35); background: none; color: var(--cd-bg); border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.desk-demo.is-full .cd-close:hover { background: rgba(243, 244, 245, 0.12); }
+.cd-backdrop { position: fixed; inset: 0; z-index: 999; background: rgba(8, 13, 8, 0.9); }
+
 @media (max-width: 760px) {
+  .desk-demo .cd-gate { display: none; }
   .desk-demo .demo-canvas { padding: 18px 14px; }
   .desk-demo .cd-ws { flex-direction: column; min-height: 0; }
   .desk-demo .cd-wcol, .desk-demo .cd-wcol.chat { flex: 0 0 auto; border-right: 0; border-bottom: 1px solid var(--cd-line); }
@@ -434,6 +455,7 @@ body {
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>
       Click to step through
     </span>
+    <button type="button" class="cd-close" data-cd-close aria-label="Close the walkthrough">&#10005; Close</button>
   </div>
 
   <div class="demo-stage">
@@ -821,6 +843,11 @@ For six years I have taught theory&hellip;</div>
     </div><!-- /.demo-canvas -->
   </div><!-- /.demo-stage -->
 
+  <div class="cd-gate">
+    <button type="button" class="cd-gate-btn" data-cd-start>Start the walkthrough &#8250;</button>
+    <span class="cd-gate-sub">12 steps &middot; opens full screen &middot; Esc to close</span>
+  </div>
+
   <div class="demo-controls">
     <button class="demo-arrow" data-demo-prev aria-label="Previous slide">&#8249;</button>
     <div class="demo-title" data-demo-title></div>
@@ -1026,6 +1053,37 @@ For six years I have taught theory&hellip;</div>
   window.addEventListener('resize', placeAll);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeAll);
   placeAll();
+
+  // Full screen: the gate's button opens the walkthrough over the page at
+  // step 1; Close, Esc or a click on the backdrop puts it back in the tab and
+  // restores the page's scroll, so the reader lands where they left.
+  var backdrop = null, savedY = 0;
+  function openFull() {
+    savedY = window.scrollY;
+    backdrop = document.createElement('div');
+    backdrop.className = 'cd-backdrop';
+    backdrop.addEventListener('click', closeFull);
+    document.body.appendChild(backdrop);
+    document.documentElement.style.overflow = 'hidden';
+    root.classList.add('is-full');
+    root.scrollTop = 0;
+    var first = root.querySelector('.demo-nav-item[data-slide="0"]');
+    if (first) first.click();
+    tours.forEach(function (t) { setStep(t, 0); });
+    root.focus({ preventScroll: true });
+    window.dispatchEvent(new Event('resize'));
+  }
+  function closeFull() {
+    if (!root.classList.contains('is-full')) return;
+    root.classList.remove('is-full');
+    if (backdrop) { backdrop.remove(); backdrop = null; }
+    document.documentElement.style.overflow = '';
+    window.scrollTo(0, savedY);
+    window.dispatchEvent(new Event('resize'));
+  }
+  Array.prototype.slice.call(root.querySelectorAll('[data-cd-start]')).forEach(function (b) { b.addEventListener('click', openFull); });
+  Array.prototype.slice.call(root.querySelectorAll('[data-cd-close]')).forEach(function (b) { b.addEventListener('click', closeFull); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeFull(); });
 
   // The last popup's button goes back to step 1 through the first strip item.
   Array.prototype.slice.call(root.querySelectorAll('[data-cd-restart]')).forEach(function (b) {
