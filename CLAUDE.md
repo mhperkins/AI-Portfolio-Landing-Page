@@ -848,10 +848,20 @@ reproduces: nav 390px at 390); every local link resolves; all 16 old hashes and 
 land right; `#contact` lands clear. Fixed in the same pass on `resume.html`: five job titles used em
 dashes (now middots) and the "See the Composer Hub" button opened in the same tab.
 
+**Start buttons always in view (2026-09-19, last).** A tall preview centred its gate button below the
+screen (Social sat at 954px in a 900px window). One shared rule now tops every gate instead of centring
+it (`padding: clamp(28px, 11vh, 120px) 16px 24px`, listed per root so it beats each gate's own
+`justify-content`), and each gate's two children sit in a new `.demo-gate-in` wrapper that is
+`position: sticky` at `--demo-pin-top + 16px`, so the button follows the scroll under the pinned bars
+instead of scrolling away. Page only; the `demo/` standalones keep their centred gates. A bottom-fixed
+bar was the alternative and was not built: it would need script to know when its card is on screen.
+Verified headless at 1280x900, 1280x700, 1440x820, 960x900 and 820x640: all nine buttons sit below the
+fixed chrome, inside the window and clickable (nothing over them), each one opens and Esc closes, and
+Social's button stays in view 500px into the card; then the full suite again, 0 failures.
+
 **Other open items:**
 - `Academic CV - UW Madison.docx` (the CV page's download) still has 7 em dashes. It is the submitted
   CV's source, so it waits for Max's call.
-- At 1280x900 the Social tour's Start button sits just below the fold (954px); the reader scrolls to it.
 - `demo/agency-demo.html` is still the pinned carousel.
 - `teaching.html` (branch `teaching-page`): decide whether it gets the tour treatment before it merges.
 

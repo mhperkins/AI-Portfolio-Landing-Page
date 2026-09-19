@@ -4454,6 +4454,21 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
 @media (max-width: 760px) {
   #compassDemo .cc-gate { display: none; }
 }
+
+/* Every Start gate, one rule. A tall preview centred its button below the
+   screen (Social sat at 954px in a 900px window), so the button sits near the
+   preview's top instead, and .demo-gate-in sticks it under the pinned bars
+   while the preview scrolls past. Listed per root so it wins over each gate's
+   own justify-content. */
+.desk-demo .cd-gate, .dasha-demo .ta-gate, .sprout-demo .sc-gate,
+.grant-demo .gt-gate, .social-demo .st-gate, .campaign-demo .ct-gate,
+.agency-demo .ag-gate, .crm-demo .hc-gate, #compassDemo .cc-gate {
+  justify-content: flex-start; padding: clamp(28px, 11vh, 120px) 16px 24px;
+}
+.demo-gate-in {
+  position: sticky; top: calc(var(--demo-pin-top, 0px) + 16px);
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
   </style>
 </head>
 <body class="font-sans antialiased" style="color: #c4d4de; background: radial-gradient(ellipse 120% 60% at 50% 0%, #0f1f10 0%, #080d08 65%) #080d08;">
@@ -5087,10 +5102,10 @@ Groove is a spine. Never reduce it to "prefers simple rhythms."</div>
     </div>
   </div>
 
-  <div class="cc-gate">
-    <button type="button" class="cc-gate-btn" data-cc-start>Start the tutorial &#8250;</button>
-    <span class="cc-gate-sub">13 steps &middot; opens full screen &middot; Esc to close</span>
-  </div>
+  <div class="cc-gate"><div class="demo-gate-in">
+      <button type="button" class="cc-gate-btn" data-cc-start>Start the tutorial &#8250;</button>
+      <span class="cc-gate-sub">13 steps &middot; opens full screen &middot; Esc to close</span>
+    </div></div>
             </div>
             <div class="grid md:grid-cols-3 gap-5 mt-8">
               <div class="border border-white/8 rounded-lg p-5 bg-white/[0.02]">
@@ -5954,10 +5969,10 @@ Max</textarea>
 
   </div><!-- /.demo-stage -->
 
-  <div class="hc-gate">
-    <button type="button" class="hc-gate-btn" data-hc-start>Start the tour &#8250;</button>
-    <span class="hc-gate-sub">18 steps &middot; opens full screen &middot; Esc to close</span>
-  </div>
+  <div class="hc-gate"><div class="demo-gate-in">
+      <button type="button" class="hc-gate-btn" data-hc-start>Start the tour &#8250;</button>
+      <span class="hc-gate-sub">18 steps &middot; opens full screen &middot; Esc to close</span>
+    </div></div>
             </div>
             <div class="grid md:grid-cols-3 gap-5 mt-8">
               <div class="border border-white/8 rounded-lg p-5 bg-white/[0.02]">
@@ -6172,10 +6187,10 @@ Max</textarea>
                 </div><!-- /.demo-canvas -->
               </div><!-- /.demo-stage -->
 
-              <div class="ag-gate">
-                <button type="button" class="ag-gate-btn" data-ag-start>Start the walkthrough &#8250;</button>
-                <span class="ag-gate-sub">12 steps &middot; opens full screen &middot; Esc to close</span>
-              </div>
+              <div class="ag-gate"><div class="demo-gate-in">
+                  <button type="button" class="ag-gate-btn" data-ag-start>Start the walkthrough &#8250;</button>
+                  <span class="ag-gate-sub">12 steps &middot; opens full screen &middot; Esc to close</span>
+                </div></div>
 
               <div class="demo-controls">
                 <button class="demo-arrow" data-demo-prev aria-label="Previous slide">&#8249;</button>
@@ -6858,10 +6873,10 @@ Max</textarea>
               </div><!-- /.demo-canvas -->
             </div><!-- /.demo-stage -->
 
-            <div class="ta-gate">
-              <button type="button" class="ta-gate-btn" data-ta-start>Start the tour &#8250;</button>
-              <span class="ta-gate-sub">18 steps &middot; opens full screen &middot; Esc to close</span>
-            </div>
+            <div class="ta-gate"><div class="demo-gate-in">
+                <button type="button" class="ta-gate-btn" data-ta-start>Start the tour &#8250;</button>
+                <span class="ta-gate-sub">18 steps &middot; opens full screen &middot; Esc to close</span>
+              </div></div>
 
             <div class="demo-controls">
               <button class="demo-arrow" data-demo-prev aria-label="Previous slide">&#8249;</button>
@@ -7545,10 +7560,10 @@ Max</textarea>
 
               </div><!-- /.demo-stage -->
 
-              <div class="sc-gate">
-                <button type="button" class="sc-gate-btn" data-sc-start>Start the tour &#8250;</button>
-                <span class="sc-gate-sub">20 steps &middot; opens full screen &middot; Esc to close</span>
-              </div>
+              <div class="sc-gate"><div class="demo-gate-in">
+                  <button type="button" class="sc-gate-btn" data-sc-start>Start the tour &#8250;</button>
+                  <span class="sc-gate-sub">20 steps &middot; opens full screen &middot; Esc to close</span>
+                </div></div>
 
               <div class="demo-controls">
                 <button class="demo-arrow" data-demo-prev aria-label="Previous slide">&#8249;</button>
@@ -8254,10 +8269,10 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
 
   </div><!-- /.demo-stage -->
 
-  <div class="gt-gate">
-    <button type="button" class="gt-gate-btn" data-gt-start>Start the tour &#8250;</button>
-    <span class="gt-gate-sub">17 steps &middot; opens full screen &middot; Esc to close</span>
-  </div>
+  <div class="gt-gate"><div class="demo-gate-in">
+      <button type="button" class="gt-gate-btn" data-gt-start>Start the tour &#8250;</button>
+      <span class="gt-gate-sub">17 steps &middot; opens full screen &middot; Esc to close</span>
+    </div></div>
 
   <div class="demo-controls">
     <button class="demo-arrow" data-demo-prev aria-label="Previous slide">&#8249;</button>
@@ -8864,10 +8879,10 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
 
   </div><!-- /.demo-stage -->
 
-  <div class="st-gate">
-    <button type="button" class="st-gate-btn" data-st-start>Start the tour &#8250;</button>
-    <span class="st-gate-sub">15 steps &middot; opens full screen &middot; Esc to close</span>
-  </div>
+  <div class="st-gate"><div class="demo-gate-in">
+      <button type="button" class="st-gate-btn" data-st-start>Start the tour &#8250;</button>
+      <span class="st-gate-sub">15 steps &middot; opens full screen &middot; Esc to close</span>
+    </div></div>
 
   <div class="demo-controls">
     <button class="demo-arrow" data-demo-prev aria-label="Previous slide">&#8249;</button>
@@ -9322,10 +9337,10 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
 
   </div><!-- /.demo-stage -->
 
-  <div class="ct-gate">
-    <button type="button" class="ct-gate-btn" data-ct-start>Start the tour &#8250;</button>
-    <span class="ct-gate-sub">10 steps &middot; opens full screen &middot; Esc to close</span>
-  </div>
+  <div class="ct-gate"><div class="demo-gate-in">
+      <button type="button" class="ct-gate-btn" data-ct-start>Start the tour &#8250;</button>
+      <span class="ct-gate-sub">10 steps &middot; opens full screen &middot; Esc to close</span>
+    </div></div>
 
   <div class="demo-controls">
     <button class="demo-arrow" data-demo-prev aria-label="Previous slide">&#8249;</button>
@@ -9769,10 +9784,10 @@ For six years I have taught theory&hellip;</div>
     </div><!-- /.demo-canvas -->
   </div><!-- /.demo-stage -->
 
-  <div class="cd-gate">
-    <button type="button" class="cd-gate-btn" data-cd-start>Start the walkthrough &#8250;</button>
-    <span class="cd-gate-sub">12 steps &middot; opens full screen &middot; Esc to close</span>
-  </div>
+  <div class="cd-gate"><div class="demo-gate-in">
+      <button type="button" class="cd-gate-btn" data-cd-start>Start the walkthrough &#8250;</button>
+      <span class="cd-gate-sub">12 steps &middot; opens full screen &middot; Esc to close</span>
+    </div></div>
 
   <div class="demo-controls">
     <button class="demo-arrow" data-demo-prev aria-label="Previous slide">&#8249;</button>
