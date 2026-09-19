@@ -716,8 +716,8 @@ and hover pops are gone from this carousel. The same session changed the shared 
 - **Pinned layers are measured where they rest** (their CSS `top`), because right after a slide change a shorter
   slide holds the strip higher for a frame.
 - Verified headless at 1280, 960 and 390 on all four tours: 1758 of 1761. The 3 failures are already on the live
-  site and only at 960: TeacherAID step 6's popup covers its highlight, and Career Desk step 1's popup runs 3px
-  past the overlay. Open.
+  site and only at 960: TeacherAID step 6's popup covers its highlight (open), and Career Desk step 1's popup
+  ran 3px past the overlay (fixed 2026-09-19).
 
 The Sprout CRM panel's Loom and its four-screenshot strip are gone. The panel is now the five-slide
 carousel from `demo/sprout-crm-demo.html`, which a parallel session built (delivery note in
@@ -860,8 +860,18 @@ Max's ask: the next item on `docs/slideshow-tutorial-checklist.md`, then put the
   447, Campaign 302, zero failures. Career Desk, Agency and Sprout CRM re-verified clean; TeacherAID fails only
   its known 960 step 6.
 
-**Open:** Max reviews the three tours and their 42 popup titles. TeacherAID step 6 at 960 (popup over its
-highlight). Compass and Hub CRM are the last two carousels not yet tours on the page.
+Pushed as `62dafc9`. The build script lived in that session's scratchpad and is gone; the built files hold
+everything, and a screen change now means editing a `-tour-demo.html` and the page by hand, as for Agency.
+
+**Open:**
+- Max reviews the three tours and their 42 popup titles.
+- TeacherAID step 6 at 960: its popup covers its highlight (already live).
+- `demo/career-desk-demo.html` still lacks Back across slides (the page has it).
+- `demo/compass-tutorial-demo.html` is still untracked, from another session.
+
+**Next:** transplant the last two carousels as tours: Composer Compass (`demo/compass-tutorial-demo.html`,
+done and verified) and Composer CRM (`demo/crm-tour-demo.html`, committed; needs Back across slides and a
+check at 960 first). Tracker: `docs/slideshow-tutorial-checklist.md`.
 
 ### Session of 2026-09-18, final: the Sprout CRM tour (pushed)
 
@@ -880,15 +890,14 @@ is the tracker for the tour rollout**; start there.
 
 **Open:**
 - Max reviews the Sprout CRM tour and its 20 popup titles.
-- At 960 wide, already live: TeacherAID step 6's popup covers its highlight; Career Desk step 1's popup
-  runs 3px past the overlay.
+- At 960 wide, already live: TeacherAID step 6's popup covers its highlight. ~~Career Desk step 1's popup
+  runs 3px past the overlay.~~ Fixed 2026-09-19.
 - `demo/career-desk-demo.html` still lacks Back across slides (the page has it).
 - Still untracked from another session: `demo/compass-tutorial-demo.html` (done, not transplanted).
   `demo/crm-tour-demo.html` is committed now; see the Composer CRM tour session above.
 
-**Next:** build Grant Finder, Social Planner and Campaign Tracker as standalone tours
-(`demo/<name>-tour-demo.html`, prefixes free to pick), then transplant the three together. Grant's
-Pipeline column highlights (`.demo-col` overlays) need care.
+~~**Next:** build Grant Finder, Social Planner and Campaign Tracker as standalone tours.~~ Done and live
+2026-09-19; see the session above.
 
 ### Session of 2026-09-18, latest: the Virtual Agency tour (pushed)
 
