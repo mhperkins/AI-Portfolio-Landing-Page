@@ -2,7 +2,7 @@
 
 Goal (Max, 2026-09-18): every slideshow on the portfolio site works like the Career Desk one, as an
 interactive tutorial that can open full screen. Tick a box when it is true on disk, and add the commit.
-Status as of 2026-09-18.
+Status as of 2026-09-19.
 
 ## Done means (the Career Desk standard)
 
@@ -34,10 +34,10 @@ Career Desk tab (commits `c094867` and `aebf85b`).
 | 3 | Composer CRM | Composer Hub | `demo/crm-tour-demo.html` | 18 | Yes | No |
 | 4 | Virtual Agency | Composer Hub | none; built straight on the page (source `demo/agency-demo.html`) | 12 | Yes | Committed (`5c40aed`) |
 | 5 | TeacherAID | TeacherAID | none; built straight on the page (source `demo/dasha-demo.html`) | 18 | Yes | Committed (`5c40aed`) |
-| 6 | Sprout CRM | Sprout Suite | `demo/sprout-crm-tour-demo.html` | 20 | Yes | Committed, not pushed |
-| 7 | Grant Finder | Sprout Suite | not started (source `demo/grant-demo.html`) | 17 | No | No |
-| 8 | Social Planner | Sprout Suite | not started (source `demo/social-demo.html`) | 15 | No | No |
-| 9 | Campaign Tracker | Sprout Suite | not started (source `demo/campaign-demo.html`) | 10 | No | No |
+| 6 | Sprout CRM | Sprout Suite | `demo/sprout-crm-tour-demo.html` | 20 | Yes | **Yes** (`7607b3b`) |
+| 7 | Grant Finder | Sprout Suite | `demo/grant-tour-demo.html` | 17 | Yes | **Yes** (see item 7) |
+| 8 | Social Planner | Sprout Suite | `demo/social-tour-demo.html` | 15 | Yes | **Yes** (see item 7) |
+| 9 | Campaign Tracker | Sprout Suite | `demo/campaign-tour-demo.html` | 10 | Yes | **Yes** (see item 7) |
 
 Step counts for rows 4 to 9 are the notes in each standalone; each note becomes one step.
 
@@ -46,7 +46,7 @@ Step counts for rows 4 to 9 are the notes in each standalone; each note becomes 
 - [ ] **1. Career Desk:** Back across slides is now in the shared `initTour()` on the page (2026-09-18, with
       the Sprout CRM transplant), so Career Desk, Agency, TeacherAID and Sprout CRM all have it. Left: the
       standalone `demo/career-desk-demo.html` still lacks it. Also found at 960 wide, already on the
-      live site: Career Desk step 1's popup runs 3px past the overlay's bottom, and TeacherAID step 6's
+      live site: ~~Career Desk step 1's popup runs 3px past the overlay's bottom~~ (fixed 2026-09-19), and TeacherAID step 6's
       popup covers its highlight
 - [ ] **2. Composer Compass:** standalone done and verified (306 checks). Left: transplant into `index.html`
       over the current Compass panel, then verify on the page
@@ -64,10 +64,24 @@ Step counts for rows 4 to 9 are the notes in each standalone; each note becomes 
       `initTour(root, 'sc')` once `initTour()` gains Back across slides. Popup titles are Claude's drafts.
       Transplanted 2026-09-18 over the Sprout CRM panel; page verified at 1280, 960 and 390 (every step
       forward and back, Start over, Esc, `#crm`, the other Sprout carousels). Left: Max's look, push
-- [ ] **7. Grant Finder:** build, then transplant. Pipeline pins 2 to 4 highlight whole columns through
-      `.demo-col` overlays, so a column must be able to be the highlight
-- [ ] **8. Social Planner:** build, then transplant
-- [ ] **9. Campaign Tracker:** build, then transplant
+- [x] **7, 8, 9. Grant Finder, Social Planner, Campaign Tracker** (2026-09-19): built together by one
+      script (`build_tours.py`, in that session's scratchpad) from `demo/<name>-demo.html` into
+      `demo/<name>-tour-demo.html`, then the same conversion run on the page's own markup. Prefixes `gt`, `st`,
+      `ct`, on the shared `initTour()`. Popup sides picked headless (first side clear of the highlight and
+      inside the stage at 1280 and 960). Popup titles are Claude's drafts. Verified headless at 1280 and 960
+      full screen and 390 with touch, standalone and page: Grant 505, Social 447, Campaign 302, zero failures.
+      Left: Max's look.
+      - **Grant's column steps (2 to 4):** the `.demo-col` overlay is the highlight, sized to its header cell;
+        the column's cells rise above it (`gt-lit`). On a phone the pipeline scrolls sideways to the column.
+      - **Whole-screen steps** (Grant Tasks, Campaign Daily Scans) keep a 270px right gutter for the popup
+        (`-gutter`, `data-at="end"`), as the Agency tour does.
+      - **In full screen these three tours' title cards scroll away,** so a tall highlight and its popup fit
+        together; only the strip pins.
+      - **Social lifts its `so-cut` height caps** in full screen and on a phone: step 3's card sat past the cap.
+      - **Shared `initTour()` changes (all seven tours):** a popup below the screen grows the tour to hold it
+        (fixes Career Desk step 1's 3px overrun), a scroll box that scrolls sideways is scrolled to the
+        highlight, and the Back label reads the strip item's text without icons or badges. Career Desk,
+        Agency, TeacherAID and Sprout CRM re-verified on the page: all pass but TeacherAID step 6 at 960 (item 1)
 
 Also decide: does `teaching.html` (branch `teaching-page`, not live) get the same treatment before it merges?
 

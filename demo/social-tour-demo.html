@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sprout Social Content Manager &middot; Guided tour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   Social Planner as a guided tour (built 2026-09-18), made by script from
+   social-demo.html on the Sprout CRM tour pattern: every pin became a
+   highlight (st-hl, data-hl) and every note that step's popup (st-call,
+   data-for, data-at picks the side), 15 steps numbered across the tool.
+   The only new copy is a short title per popup. social-demo.html stays the
+   source of the screens; on index.html it runs as initTour(root, 'st').
+
+   Sprout Social Content Manager demo carousel.
+
+   Standalone iteration source, same convention as sprout-crm-demo.html and
+   crm-demo.html: nothing here is wired into index.html yet. It replaces the
+   Loom embed on the Social Media Manager panel once it is settled.
+
+   Two class families:
+   - `demo-` is the shared carousel scaffolding, copied verbatim from
+     sprout-crm-demo.html so the transplant can reuse the rules already on
+     the page. It reads its colors from variables, so the Sprout look comes
+     from the token block on `.social-demo` plus a short override block,
+     never from edits to the shared rules.
+   - `so-` is the V2 app chrome, lifted from the styles constant in
+     sprout-social-tool/components/SocialManager.jsx (post cards, queue tabs,
+     calendar, analytics chart). Every `so-` rule and every override is
+     scoped under `.social-demo`, so the whole block transplants verbatim.
+     `so-` does not collide with Sprout CRM's `sp-`, Composer CRM's `c`,
+     Compass's `d`, or Agency's `a`.
+
+   Tokens sit on `.social-demo`, not :root, so they cannot leak into the dark
+   portfolio page after the transplant.
+
+   All data is placeholder. Sprout N Tell Vol. 4 is the one real event name;
+   every caption, approver, post ID, and graphic around it is invented.
+
+   House rule: no em dashes anywhere on this page.
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 32px 20px 64px;
+  background: #F7F7F6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.demo-wrap { max-width: 1180px; margin: 0 auto; }
+
+/* --- page heading (scaffolding only; drop this on transplant) ------------- */
+.demo-scaffold { margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+.demo-scaffold h1 { font-size: 30px; font-weight: 900; margin: 0 0 6px; letter-spacing: -0.02em; }
+.demo-scaffold p { margin: 0; color: var(--ts); font-size: 14px; max-width: 70ch; }
+
+/* ==========================================================================
+   Shared carousel scaffolding. Verbatim from crm-demo.html.
+   ========================================================================== */
+.demo-nav-wrap { display: flex; gap: 4px; flex-wrap: wrap; background: var(--ch); border-radius: 10px; padding: 10px 10px; margin-bottom: 14px; }
+.demo-nav-item { font-family: var(--font-sans); font-size: 13px; font-weight: 500; padding: 8px 14px; border-radius: 6px; border: none; background: none; color: var(--tm); display: flex; align-items: center; gap: 7px; transition: background 0.15s, color 0.15s; }
+.demo-nav-item:hover:not(:disabled) { color: var(--cream); background: rgba(255, 255, 255, 0.06); }
+.demo-nav-item.is-active { color: var(--cream); background: rgba(180, 83, 9, 0.32); }
+.demo-nav-item:disabled { cursor: default; opacity: 0.55; }
+.demo-nav-soon { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; background: rgba(255, 255, 255, 0.12); color: var(--cream); padding: 1px 7px; border-radius: 8px; }
+.demo-nav-hint { margin-left: auto; align-self: center; display: inline-flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); border: 1px solid rgba(217, 119, 6, 0.55); border-radius: 20px; padding: 4px 11px; pointer-events: none; white-space: nowrap; }
+.demo-nav-hint svg { width: 10px; height: 10px; display: block; flex-shrink: 0; color: var(--amber-lt); }
+@media (max-width: 660px) { .demo-nav-hint { display: none; } }
+
+.demo-stage { position: relative; border: 1px solid var(--border); border-radius: 10px; background: white; box-shadow: var(--shadow); overflow: hidden; }
+.demo-canvas { background-color: var(--warm); background-image: repeating-linear-gradient(to bottom, rgba(139, 115, 85, 0.10) 0px, rgba(139, 115, 85, 0.10) 1px, transparent 1px, transparent 10px); background-size: 100% 90px; padding: 28px 24px; min-height: 400px; position: relative; }
+.demo-side-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 20; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); background: rgba(255, 255, 255, 0.94); color: var(--ts); font-size: 17px; line-height: 1; box-shadow: var(--shadow-lg); transition: opacity 0.18s, color 0.18s, border-color 0.18s; }
+.demo-side-arrow:hover:not(:disabled) { color: var(--amber); border-color: var(--amber-lt); }
+.demo-side-arrow:disabled { opacity: 0.25; cursor: default; }
+.demo-side-prev { left: 6px; }
+.demo-side-next { right: 6px; }
+.demo-car-slide { display: none; }
+.demo-car-slide.is-on { display: block; animation: demoFade 220ms ease-out; }
+@keyframes demoFade { from { opacity: 0; } to { opacity: 1; } }
+.demo-caption { border-bottom: 1px solid var(--border); background: white; padding: 18px 22px 16px; display: flex; flex-direction: column; gap: 10px; }
+.demo-cap-col { flex: 0 0 auto; }
+.demo-slide-title { font-family: var(--font-serif); font-size: 28px; font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; color: var(--tp); margin: 0; }
+.demo-cap-label { font-size: 9.5px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--tm); margin-bottom: 3px; }
+.demo-cap-state { font-family: var(--font-serif); font-size: 16px; line-height: 1.35; color: var(--tp); }
+.demo-controls { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 14px; }
+.demo-arrow { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: white; color: var(--ts); font-size: 15px; box-shadow: var(--shadow); }
+.demo-arrow:disabled { opacity: 0.35; }
+.demo-count { font-size: 12px; color: var(--tm); letter-spacing: 0.1em; font-variant-numeric: tabular-nums; }
+.demo-title { font-family: var(--font-serif); font-size: 19px; font-weight: 600; text-align: center; flex: 1; }
+
+/* numbered notes and pins, verbatim from dasha-demo.html, recolored below */
+.demo-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin: 0 0 16px; }
+.demo-note { display: flex; gap: 10px; align-items: flex-start; background: white; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; box-shadow: var(--shadow); font-family: var(--font-sans); font-size: 13px; line-height: 1.45; color: var(--tp); }
+.demo-bul { margin: 0; padding-left: 1.05em; list-style: disc; }
+.demo-bul li + li { margin-top: 3px; }
+.demo-bul li::marker { color: var(--demo-pin-color, var(--amber)); }
+.demo-pin, .demo-pin-n { width: 22px; height: 22px; border-radius: 50%; background: var(--amber); color: white; font-family: var(--font-sans); font-size: 11.5px; font-weight: 700; line-height: 22px; text-align: center; flex: none; }
+.demo-pin { position: absolute; top: -10px; left: -10px; z-index: 6; box-shadow: 0 0 0 2px white, 0 2px 8px rgba(28, 25, 23, .25); pointer-events: none; }
+.demo-pinned { position: relative; }
+
+/* shared scaffolding at phone width, verbatim from sprout-crm-demo.html */
+@media (max-width: 760px) {
+  .demo-canvas { padding: 18px 12px; }
+  .demo-side-arrow { width: 32px; height: 32px; font-size: 15px; }
+  .demo-side-prev { left: 2px; }
+  .demo-side-next { right: 2px; }
+  .demo-title { font-size: 15px; }
+  .demo-slide-title { font-size: 20px; }
+  .demo-caption { padding: 14px 16px 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .demo-car-slide.is-on { animation: none; }
+}
+
+/* ===== TRANSPLANT CSS START ===== */
+/* Everything from here to the END marker is scoped under .social-demo and
+   copies into index.html verbatim. The shared demo- rules above are already
+   on the page. */
+
+.social-demo {
+  /* names the shared demo- rules expect, mapped to the Sprout palette */
+  --ch:        #030000;
+  --cream:     #F7F7F6;
+  --amber:     #2a8ca0;
+  --amber-lt:  #73C4D6;
+  --border:    #E5E7EB;
+  --tp:        #030000;
+  --ts:        #4B5563;
+  --tm:        #9CA3AF;
+  --warm:      #F3F4F6;
+  --font-serif: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-sans:  'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --shadow:    0 4px 14px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.13);
+
+  /* Sprout's own tokens, from SocialManager.jsx styles (same as the CRM) */
+  --ink:        #030000;
+  --paper:      #F7F7F6;
+  --cyan:       #73C4D6;
+  --cyan-dk:    #2a8ca0;
+  --fuchsia:    #E10098;
+  --acid:       #C6C902;
+  --banana:     #FAD100;
+  --cyan-lt:    #C7E7EF;
+  --acid-lt:    #E9E99A;
+  --fuchsia-lt: #FFCDF0;
+  --banana-lt:  #FEF4C1;
+  --g50:  #F9FAFB;
+  --g100: #F3F4F6;
+  --g200: #E5E7EB;
+  --g300: #D1D5DB;
+  --g400: #9CA3AF;
+  --g500: #6B7280;
+  --g600: #4B5563;
+  --g800: #1F2937;
+  --sh-sm: 0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+  --sh:    0 4px 14px rgba(0,0,0,0.08);
+  --sh-lg: 0 12px 40px rgba(0,0,0,0.13);
+
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.social-demo button { cursor: pointer; font-family: var(--font-sans); }
+
+/* ==========================================================================
+   Sprout overrides of the shared scaffolding, same as sprout-crm-demo.html.
+   The nav strip becomes the planner's black sidebar laid on its side:
+   uppercase wordmark, cyan active row, fuchsia count badge. The stage picks
+   up the acid rule.
+   ========================================================================== */
+.social-demo .demo-nav-wrap { align-items: center; padding: 8px 10px; }
+.social-demo .demo-nav-item { font-size: 12.5px; font-weight: 700; color: rgba(247, 247, 246, 0.55); padding: 8px 10px; gap: 6px; }
+.social-demo .demo-nav-item:hover:not(:disabled) { color: var(--paper); background: rgba(247, 247, 246, 0.07); }
+.social-demo .demo-nav-item.is-active { color: var(--ink); background: var(--cyan); }
+.social-demo .demo-nav-hint { border-color: rgba(115, 196, 214, 0.6); font-weight: 700; }
+.social-demo .demo-nav-hint svg { color: var(--cyan); }
+.social-demo .so-navbrand { padding: 2px 14px 2px 6px; margin-right: 6px; border-right: 1px solid rgba(247, 247, 246, 0.1); line-height: 1.2; }
+.social-demo .so-navbrand-name { font-size: 10px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper); }
+.social-demo .so-navbrand-sub { font-size: 8.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); margin-top: 2px; }
+.social-demo .so-navico { font-weight: 900; font-size: 13px; line-height: 1; }
+.social-demo .so-navbadge { background: var(--fuchsia); color: #fff; border-radius: 10px; padding: 1px 6px; font-size: 9px; font-weight: 900; min-width: 18px; text-align: center; line-height: 1.4; }
+.social-demo .demo-nav-item.is-active .so-navbadge { background: var(--ink); color: var(--paper); }
+@media (max-width: 1100px) { .social-demo .so-navbrand { display: none; } }
+
+.social-demo .demo-stage { border-top: 4px solid var(--acid); }
+.social-demo .demo-canvas {
+  background-color: var(--paper);
+  background-image: radial-gradient(rgba(3, 0, 0, 0.07) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+.social-demo .demo-slide-title { font-weight: 900; font-size: 26px; letter-spacing: -0.02em; line-height: 1.2; }
+.social-demo .demo-cap-label { font-weight: 700; letter-spacing: 0.12em; }
+.social-demo .demo-cap-state { font-size: 15px; color: var(--g600); }
+.social-demo .demo-title { font-weight: 900; font-size: 16px; }
+.social-demo .demo-side-arrow:hover:not(:disabled) { color: var(--ink); border-color: var(--cyan); }
+
+.social-demo .demo-notes { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.social-demo .demo-note { font-size: 12px; }
+.social-demo .demo-pin, .social-demo .demo-pin-n { background: var(--fuchsia); font-weight: 900; }
+
+/* Two pinned layers. The nav strip pins at --demo-pin-top (unset here, so 0;
+   on the portfolio it sits under the tab and tool rows), and the notes row
+   pins directly under it at --demo-pin-top + --demo-strip-h. The script
+   measures the strip into --demo-strip-h. Sticky dies under any overflow:
+   hidden ancestor, so the stage clips with overflow: clip instead. */
+.social-demo .demo-nav-wrap { position: sticky; top: var(--demo-pin-top, 0px); z-index: 20; }
+.social-demo .demo-stage { overflow: clip; display: flow-root; }
+.social-demo .demo-notes { position: sticky; top: calc(var(--demo-pin-top, 0px) + var(--demo-strip-h, 0px)); z-index: 30; margin: -12px -26px 16px; padding: 12px 26px; background: rgba(247, 247, 246, 0.94); backdrop-filter: blur(4px); }
+@media (max-width: 760px) { .social-demo .demo-notes { margin: -10px -14px 14px; padding: 10px 14px; } }
+@media (max-width: 640px) {
+  .social-demo .demo-notes { position: static; }
+  /* one swipeable line instead of three wrapped rows */
+  .social-demo .demo-nav-wrap { flex-wrap: nowrap; overflow-x: auto; }
+  .social-demo .demo-nav-item { flex-shrink: 0; white-space: nowrap; }
+}
+
+/* ==========================================================================
+   Content Manager app chrome (from SocialManager.jsx styles).
+   ========================================================================== */
+.social-demo .so-frame { position: relative; background: #fff; border: 1.5px solid var(--g200); border-radius: 12px; box-shadow: var(--shadow-lg); overflow: hidden; }
+.social-demo .so-page { padding: 26px 28px 28px; background: var(--paper); }
+.social-demo .so-pg-hd { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 22px; }
+.social-demo .so-pg-ttl { font-size: 23px; font-weight: 900; letter-spacing: -0.01em; line-height: 1.25; }
+.social-demo .so-pg-sub { font-size: 12px; color: var(--g600); margin-top: 3px; }
+.social-demo .so-pg-ctl { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+/* a tall screen cut off with a fade, like the CRM demo's clipped dashboard */
+.social-demo .so-cut { max-height: var(--cut, 900px); }
+.social-demo .so-cut::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 90px; background: linear-gradient(to bottom, rgba(247, 247, 246, 0), var(--paper) 85%); pointer-events: none; z-index: 3; }
+
+.social-demo .so-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 22px; }
+.social-demo .so-stat { background: #fff; border-radius: 10px; padding: 15px 17px; border: 1.5px solid var(--g200); min-width: 0; }
+.social-demo .so-stat-lbl { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--g400); margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.social-demo .so-stat-val { font-size: 25px; font-weight: 900; color: var(--ink); line-height: 1.3; }
+
+.social-demo .so-card { background: #fff; border-radius: 11px; border: 1.5px solid var(--g200); margin-bottom: 12px; box-shadow: var(--sh-sm); min-width: 0; }
+.social-demo .so-card-hd { padding: 13px 17px; border-bottom: 1px solid var(--g100); display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.social-demo .so-card-ttl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--g600); }
+.social-demo .so-card-bd { padding: 15px 17px; }
+.social-demo .so-card-hint { font-size: 11px; color: var(--g400); font-weight: 700; }
+.social-demo .so-card-approve { border-left: 3px solid var(--fuchsia); }
+
+.social-demo .so-btn { display: inline-flex; align-items: center; gap: 5px; padding: 8px 14px; border-radius: 7px; border: none; font-size: 12px; font-weight: 700; font-family: var(--font-sans); letter-spacing: 0.02em; white-space: nowrap; line-height: 1.3; }
+.social-demo .so-btn-blk { background: var(--ink); color: var(--paper); }
+.social-demo .so-btn-cyan { background: var(--cyan); color: var(--ink); }
+.social-demo .so-btn-acid { background: var(--acid); color: var(--ink); }
+.social-demo .so-btn-ghost { background: transparent; color: var(--g600); border: 1.5px solid var(--g200); }
+.social-demo .so-btn-danger { background: #FEE2E2; color: #B91C1C; }
+.social-demo .so-btn-sm { padding: 5px 10px; font-size: 11px; border-radius: 5px; }
+.social-demo .so-btn-busy { opacity: 0.5; }
+.social-demo .so-btn-block { width: 100%; justify-content: center; margin-top: 4px; }
+
+/* forms (.fg .fl .fi .fs .fta .frow) */
+.social-demo .so-fg { margin-bottom: 13px; min-width: 0; }
+.social-demo .so-fl { display: block; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--g600); margin-bottom: 4px; }
+.social-demo .so-fi { display: block; width: 100%; min-width: 0; padding: 8px 11px; border: 1.5px solid var(--g200); border-radius: 6px; font-size: 13px; font-family: var(--font-sans); color: var(--ink); background: #fff; line-height: 1.45; }
+.social-demo .so-fi.is-focus { border-color: var(--cyan); box-shadow: 0 0 0 2px rgba(115, 196, 214, 0.15); }
+.social-demo .so-fta { min-height: 100px; line-height: 1.6; white-space: pre-line; }
+.social-demo .so-fsel, .social-demo .so-fdate { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.social-demo .so-fsel i, .social-demo .so-fdate i { font-style: normal; font-size: 10px; color: var(--g600); flex-shrink: 0; }
+.social-demo .so-fdate i { font-size: 13px; }
+.social-demo .so-ellip { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.social-demo .so-frow { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; }
+.social-demo .so-media-hd { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+.social-demo .so-mtabs { display: flex; gap: 3px; }
+.social-demo .so-mtab { padding: 2px 10px; border-radius: 4px; border: 1.5px solid var(--g200); background: #fff; color: var(--g600); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
+.social-demo .so-mtab.on { background: var(--ink); color: #fff; }
+.social-demo .so-create { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; align-items: start; }
+.social-demo .so-create-btns { display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
+
+/* tabs */
+.social-demo .so-tabs { display: flex; border-bottom: 2px solid var(--g200); margin-bottom: 18px; gap: 1px; }
+.social-demo .so-tab { padding: 8px 14px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--g400); border-bottom: 2px solid transparent; margin-bottom: -2px; white-space: nowrap; }
+.social-demo .so-tab.on { color: var(--ink); border-bottom-color: var(--cyan); }
+.social-demo .so-tab-count { display: inline-block; background: var(--g200); color: var(--g600); border-radius: 8px; padding: 0 5px; font-size: 9px; margin-left: 3px; }
+.social-demo .so-tab.on .so-tab-count { background: var(--cyan); color: var(--ink); }
+
+/* status and media type tags (.tag-*) */
+.social-demo .so-tag { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 20px; font-size: 9px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; }
+.social-demo .so-tag-draft     { background: var(--banana-lt); color: #7a5c00; }
+.social-demo .so-tag-pending   { background: var(--fuchsia-lt); color: #8b005c; }
+.social-demo .so-tag-approved  { background: var(--acid-lt); color: #3a3d00; }
+.social-demo .so-tag-scheduled { background: var(--cyan-lt); color: #155e6e; }
+.social-demo .so-tag-published { background: var(--g100); color: var(--g600); }
+.social-demo .so-tag-image     { background: var(--cyan-lt); color: #155e6e; }
+.social-demo .so-tag-video     { background: var(--fuchsia-lt); color: #8b005c; }
+.social-demo .so-tag-carousel  { background: var(--acid-lt); color: #3a3d00; }
+
+/* post card (PostCard) */
+.social-demo .so-post { background: #fff; border: 1.5px solid var(--g200); border-radius: 10px; padding: 14px 16px; margin-bottom: 8px; box-shadow: var(--sh-sm); min-width: 0; }
+.social-demo .so-post:last-child { margin-bottom: 0; }
+.social-demo .so-post.so-approval { border-left: 3px solid var(--fuchsia); }
+.social-demo .so-post-hd { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; gap: 10px; }
+.social-demo .so-post-id { display: flex; align-items: center; gap: 10px; }
+.social-demo .so-thumb { width: 52px; height: 52px; border-radius: 7px; border: 1px solid var(--g200); flex-shrink: 0; font-size: 7.5px; }
+.social-demo .so-caption { font-size: 13px; color: var(--ink); line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin: 0 0 10px; }
+.social-demo .so-meta { display: flex; align-items: center; gap: 4px 12px; font-size: 11px; color: var(--g400); flex-wrap: wrap; }
+.social-demo .so-meta .so-approver { color: var(--g600); }
+.social-demo .so-post-actions { display: flex; gap: 6px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--g100); flex-wrap: wrap; }
+
+/* placeholder graphics: gradients with a word or two, never real photos */
+.social-demo .so-ph { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: #fff; font-weight: 900; line-height: 1.05; letter-spacing: 0.03em; text-transform: uppercase; overflow: hidden; }
+.social-demo .so-ph1 { background: linear-gradient(135deg, #73C4D6, #2a8ca0); }
+.social-demo .so-ph2 { background: linear-gradient(135deg, #E10098, #7a1fa2); }
+.social-demo .so-ph3 { background: linear-gradient(135deg, #C6C902, #5f8f1a); }
+.social-demo .so-ph4 { background: linear-gradient(135deg, #FAD100, #e0701b); }
+.social-demo .so-ph5 { background: linear-gradient(135deg, #1F2937, #4B5563); }
+.social-demo .so-ph6 { background: linear-gradient(135deg, #2a8ca0, #C6C902); }
+.social-demo .so-ph7 { background: linear-gradient(135deg, #E10098, #FAD100); }
+.social-demo .so-ph8 { background: linear-gradient(135deg, #7a1fa2, #73C4D6); }
+
+/* pin placements, so a pin never sits on the label it points at */
+.social-demo .so-pin-tr { left: auto; right: -10px; }
+.social-demo .so-pin-up { top: -18px; }
+.social-demo .so-pin-end { left: auto; right: -28px; top: 50%; margin-top: -11px; }
+.social-demo .so-pin-before { left: -30px; top: 50%; margin-top: -11px; }
+
+/* toast (.toast .t-ok), held inside the frame instead of the viewport */
+.social-demo .so-toast { position: absolute; bottom: 22px; right: 22px; padding: 11px 17px; border-radius: 8px; font-size: 13px; font-weight: 700; z-index: 5; box-shadow: var(--sh-lg); background: var(--ink); color: var(--paper); white-space: nowrap; }
+
+/* calendar */
+.social-demo .so-cal-card { padding: 24px 28px 28px; }
+.social-demo .so-cal-nav { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 20px; }
+.social-demo .so-cal-month { font-weight: 900; font-size: 16px; }
+.social-demo .so-cal-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; }
+.social-demo .so-cal-dh { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--g400); text-align: center; padding: 5px 0; }
+.social-demo .so-cal-cell { min-height: 100px; border: 1.5px solid var(--g200); border-radius: 7px; padding: 6px 7px; background: #fff; min-width: 0; }
+.social-demo .so-cal-cell.today { border-color: var(--cyan); background: rgba(115, 196, 214, 0.05); }
+.social-demo .so-cal-cell.other { background: var(--g50); opacity: 0.5; }
+.social-demo .so-cal-num { font-size: 11px; font-weight: 700; color: var(--g600); margin-bottom: 3px; }
+.social-demo .so-cal-num.today { color: var(--cyan); }
+.social-demo .so-chip { display: block; font-size: 9px; font-weight: 700; padding: 2px 5px; border-radius: 3px; margin-bottom: 2px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 100%; line-height: 1.5; }
+.social-demo .so-chip-event { background: var(--acid-lt); color: #3a3d00; }
+.social-demo .so-cal-more { font-size: 9px; color: var(--g400); font-weight: 700; padding-left: 2px; white-space: nowrap; }
+.social-demo .so-legend { display: flex; gap: 6px; margin-top: 16px; margin-bottom: 4px; flex-wrap: wrap; align-items: center; }
+.social-demo .so-legend-lbl { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--g400); margin-right: 2px; }
+
+/* day modal, floated over the calendar without the page dim */
+.social-demo .so-daymodal { position: absolute; right: 30px; bottom: 30px; width: 330px; max-width: calc(100% - 60px); background: #fff; border-radius: 14px; border: 1px solid var(--g200); box-shadow: 0 28px 70px rgba(3, 0, 0, 0.26), 0 6px 18px rgba(3, 0, 0, 0.10); z-index: 4; }
+.social-demo .so-m-hd { padding: 17px 21px 13px; border-bottom: 1px solid var(--g200); display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.social-demo .so-m-ttl { font-size: 14px; font-weight: 900; }
+.social-demo .so-m-close { font-size: 20px; color: var(--g400); line-height: 1; }
+.social-demo .so-m-bd { padding: 17px 21px; }
+.social-demo .so-m-sec { margin-bottom: 14px; }
+.social-demo .so-m-lbl { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--g400); margin-bottom: 8px; }
+.social-demo .so-m-row { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; border: 1.5px solid var(--g200); margin-bottom: 6px; background: #fafafa; min-width: 0; }
+.social-demo .so-m-cap { font-size: 13px; font-weight: 700; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.social-demo .so-m-go { font-size: 12px; color: var(--g400); }
+.social-demo .so-m-ev { align-items: flex-start; justify-content: space-between; }
+.social-demo .so-m-ev-t { font-size: 13px; font-weight: 700; }
+.social-demo .so-m-ev-n { font-size: 12px; color: var(--g600); margin-top: 2px; }
+.social-demo .so-m-del { color: #B91C1C; font-size: 14px; padding: 2px 6px; line-height: 1.2; }
+
+/* analytics: weekly bar chart */
+.social-demo .so-chart { display: flex; gap: 8px; }
+.social-demo .so-yaxis { display: flex; flex-direction: column; justify-content: space-between; height: 182px; padding-bottom: 22px; min-width: 22px; text-align: right; flex-shrink: 0; }
+.social-demo .so-yaxis span { font-size: 9px; color: var(--g400); font-weight: 700; line-height: 1; }
+.social-demo .so-bars-scroll { flex: 1; min-width: 0; overflow-x: auto; padding-bottom: 4px; }
+.social-demo .so-bars-in { position: relative; min-width: 492px; }
+.social-demo .so-gridlines { position: absolute; top: 0; left: 0; right: 0; height: 160px; display: flex; flex-direction: column; justify-content: space-between; pointer-events: none; }
+.social-demo .so-gridlines div { border-top: 1px solid var(--g200); width: 100%; }
+.social-demo .so-bars { display: flex; gap: 5px; align-items: flex-end; height: 160px; }
+.social-demo .so-bar { width: 36px; flex-shrink: 0; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; }
+.social-demo .so-bar i { display: block; width: 100%; min-height: 6px; border-radius: 4px 4px 0 0; background: var(--cyan); }
+.social-demo .so-bar.on i { background: var(--ink); }
+.social-demo .so-xlabels { display: flex; gap: 5px; margin-top: 4px; }
+.social-demo .so-xlabels span { width: 36px; flex-shrink: 0; text-align: center; font-size: 9px; color: var(--g400); font-weight: 700; overflow: hidden; white-space: nowrap; }
+.social-demo .so-week { margin-top: 16px; padding: 12px 14px; background: var(--g50); border-radius: 8px; border: 1.5px solid var(--g200); }
+.social-demo .so-week-lbl { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--g600); margin-bottom: 10px; }
+.social-demo .so-week-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; min-width: 0; }
+.social-demo .so-week-row + .so-week-row { border-top: 1px solid var(--g200); }
+.social-demo .so-week-thumb { width: 40px; height: 40px; border-radius: 6px; border: 1px solid var(--g200); flex-shrink: 0; font-size: 6px; }
+.social-demo .so-week-main { flex: 1; min-width: 0; }
+.social-demo .so-week-cap { font-size: 13px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.social-demo .so-week-sub { font-size: 11px; color: var(--g400); margin-top: 2px; }
+
+/* analytics: published posts table */
+.social-demo .so-tbl-scroll { overflow-x: auto; }
+.social-demo .so-tbl { width: 100%; min-width: 540px; border-collapse: collapse; font-size: 12px; }
+.social-demo .so-tbl th { padding: 9px 14px; text-align: left; font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--g400); border-bottom: 1.5px solid var(--g200); background: var(--g50); white-space: nowrap; }
+.social-demo .so-tbl td { padding: 10px 14px; border-bottom: 1px solid var(--g100); vertical-align: middle; }
+.social-demo .so-tbl tr:last-child td { border-bottom: none; }
+.social-demo .so-td-cap { max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 700; }
+.social-demo .so-td-date { color: var(--g600); white-space: nowrap; }
+.social-demo .so-td-id { color: var(--g400); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 10px; white-space: nowrap; }
+
+/* the uploaded lineup graphic on Create Post, built in CSS */
+.social-demo .so-flyer { width: 200px; max-width: 100%; aspect-ratio: 1 / 1; margin-top: 8px; border-radius: 8px; border: 1.5px solid var(--g200); background: linear-gradient(160deg, #73C4D6 0%, #73C4D6 46%, #E10098 46%, #FAD100 100%); padding: 13px 14px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; text-transform: uppercase; line-height: 1.05; }
+.social-demo .so-flyer-pre { font-size: 7px; font-weight: 900; letter-spacing: 0.14em; color: var(--ink); }
+.social-demo .so-flyer-name { font-size: 21px; font-weight: 900; color: #FAD100; text-shadow: 0 1.5px 0 var(--ink); margin-top: 5px; letter-spacing: -0.01em; }
+.social-demo .so-flyer-vol { font-size: 30px; font-weight: 900; color: #fff; text-shadow: 0 1.5px 0 var(--ink); }
+.social-demo .so-flyer-when { font-size: 8px; font-weight: 900; color: var(--ink); letter-spacing: 0.06em; margin-bottom: 4px; }
+.social-demo .so-flyer-acts { font-size: 7px; font-weight: 900; color: #fff; letter-spacing: 0.04em; line-height: 1.4; }
+
+@media (max-width: 760px) {
+  .social-demo .demo-slide-title { font-size: 20px; }
+  .social-demo .so-page { padding: 16px 14px 18px; }
+  .social-demo .so-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .social-demo .so-create { grid-template-columns: minmax(0, 1fr); }
+  .social-demo .so-tabs { flex-wrap: wrap; }
+  .social-demo .so-cal-card { padding: 16px 14px 18px; }
+  /* the floating day modal would cover most of a narrow calendar */
+  /* relative, not static: it stays in flow under the calendar and still
+     anchors its pin */
+  .social-demo .so-daymodal { position: relative; right: auto; bottom: auto; width: auto; max-width: none; margin-top: 12px; box-shadow: var(--sh); }
+}
+@media (max-width: 640px) {
+  .social-demo .so-cal-cell { min-height: 54px; padding: 4px 3px; border-radius: 5px; }
+  .social-demo .so-cal-num { font-size: 10px; margin-bottom: 2px; }
+  .social-demo .so-cal-dh { letter-spacing: 0; }
+  /* chip text is unreadable this narrow: keep the colored bars */
+  .social-demo .so-chip { font-size: 0; height: 5px; padding: 0; line-height: 0; }
+  .social-demo .so-cal-more { font-size: 8px; padding-left: 0; overflow: hidden; text-overflow: ellipsis; }
+  .social-demo .so-frow { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .social-demo .so-toast { right: 14px; bottom: 14px; }
+}
+
+/* ==========================================================================
+   The guided tour, same logic as sprout-crm-tour-demo.html and the page's
+   shared initTour(root, 'st'). Each slide wraps its screen in .st-tour: a
+   veil dims the screen but for one highlight (.st-hl, data-hl) with its
+   popup (.st-call, data-for) open beside it, on the side data-at names.
+   A highlight that holds the whole screen hides the veil inside it.
+   ========================================================================== */
+.social-demo .st-tour { position: relative; }
+.social-demo .st-veil { position: absolute; inset: 0; background: rgba(247, 247, 246, 0.74); z-index: 5; border-radius: inherit; pointer-events: none; }
+.social-demo .st-hl.is-cur .st-veil { display: none; }
+.social-demo .st-hl { position: relative; }
+.social-demo .st-hl.is-cur { z-index: 6; outline: 2px solid var(--fuchsia); outline-offset: 3px; border-radius: 6px; }
+.social-demo :where(.st-hl.is-cur) { background-color: var(--paper); }
+.social-demo .st-hl:not(.is-cur) > .st-hl-n, .social-demo .st-call:not(.is-cur) { display: none; }
+.social-demo .st-hl-n { position: absolute; top: -10px; left: -10px; z-index: 7; width: 22px; height: 22px; border-radius: 50%; background: var(--fuchsia); color: #fff; font-size: 11.5px; font-weight: 900; line-height: 22px; text-align: center; letter-spacing: 0; text-transform: none; box-shadow: 0 0 0 2px #fff; }
+.social-demo .st-hl-n.at-tr { left: auto; right: -10px; }
+.social-demo .st-hl-n.at-corner { left: -13px; top: -13px; }
+.social-demo .st-hl-n.at-up { top: -18px; }
+.social-demo .st-calls { display: contents; }
+.social-demo .st-call { position: absolute; z-index: 8; width: 256px; display: flex; gap: 9px; align-items: flex-start; background: #fff; border: 1.5px solid var(--ink); border-radius: 10px; box-shadow: var(--shadow-lg); padding: 10px 12px 11px; font-size: 12.5px; line-height: 1.45; color: var(--ink); text-align: left; }
+.social-demo .st-call-n { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--fuchsia); color: #fff; font-size: 11.5px; font-weight: 900; line-height: 22px; text-align: center; }
+.social-demo .st-call-body { flex: 1; min-width: 0; }
+.social-demo .st-call-t { font-size: 15px; font-weight: 900; letter-spacing: -0.01em; line-height: 1.2; margin: 2px 0 5px; }
+.social-demo .st-call .demo-bul li::marker { color: var(--fuchsia); }
+.social-demo .st-call-nav { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 9px; }
+.social-demo .st-call-nav button { white-space: nowrap; }
+.social-demo .st-call-next { border: 1px solid var(--ink); background: var(--ink); color: var(--paper); border-radius: 6px; padding: 4px 12px; font-size: 12px; font-weight: 700; }
+.social-demo .st-call-next:hover { background: var(--g800); border-color: var(--g800); }
+.social-demo .st-call-back { border: 1px solid var(--g200); background: #fff; color: var(--ink); border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 700; }
+.social-demo .st-call-back:hover { border-color: var(--cyan); }
+/* Phone and narrow screens: the popup pins to the bottom of the screen while
+   the tour is in view, and each step scrolls its highlight into view above it. */
+/* A slide whose one highlight is the whole screen keeps a gutter on the
+   right for its popup (data-at="end"), as the Agency tour does. */
+.social-demo .st-tour.st-gutter:not(.is-list) { padding-right: 270px; }
+.social-demo .st-tour.is-list .st-call { position: sticky; bottom: 12px; width: auto; margin-top: 10px; }
+/* The tour lifts the Dashboard and Queue height caps, in full screen and on
+   a phone, so no highlight runs past the cut (step 3 on a phone was hidden). */
+.social-demo.is-full .so-cut, .social-demo .st-tour.is-list .so-cut { max-height: none; }
+.social-demo.is-full .so-cut::after, .social-demo .st-tour.is-list .so-cut::after { display: none; }
+
+/* Full screen, same as the Career Desk tab (commit aebf85b). The tour shows
+   as a preview under a Start gate; starting opens it over the page at nearly
+   full window size at step 1, and Close, Esc or a click on the backdrop puts
+   it back and restores the page's scroll. Phones skip the gate and run inline. */
+.social-demo { position: relative; }
+.social-demo .st-gate { position: absolute; inset: 0; z-index: 40; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: rgba(247, 247, 246, 0.55); backdrop-filter: blur(1.5px); border-radius: 10px; }
+.social-demo .st-gate-btn { border: 0; background: var(--ink); color: var(--paper); border-radius: 10px; padding: 13px 24px; font-size: 16px; font-weight: 900; box-shadow: var(--shadow-lg); }
+.social-demo .st-gate-btn:hover { background: var(--g800); }
+.social-demo .st-gate-sub { font-size: 12.5px; font-weight: 700; color: var(--ink); background: rgba(255, 255, 255, 0.85); border-radius: 20px; padding: 3px 12px; }
+.social-demo .st-close { display: none; }
+.social-demo.is-full { position: fixed; inset: 16px; z-index: 1000; max-width: 1440px; margin: 0 auto; padding: 18px; background: var(--paper); border-radius: 14px; overflow: auto; overscroll-behavior: contain; --demo-pin-top: 0px; box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5); }
+.social-demo.is-full .st-gate, .social-demo.is-full .demo-scaffold { display: none; }
+/* In full screen only the strip pins; the title card scrolls away, so a tall
+   highlight and its popup fit on screen together. */
+.social-demo.is-full .demo-caption { position: static; }
+.social-demo.is-full .st-close { display: inline-flex; margin-left: 10px; align-self: center; border: 1px solid rgba(247, 247, 246, 0.35); background: none; color: var(--paper); border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.social-demo.is-full .st-close:hover { background: rgba(247, 247, 246, 0.12); }
+.st-backdrop { position: fixed; inset: 0; z-index: 999; background: rgba(3, 0, 0, 0.88); }
+@media (max-width: 760px) {
+  .social-demo .st-gate { display: none; }
+}
+/* ===== TRANSPLANT CSS END ===== */
+</style>
+</head>
+<body data-demo-standalone>
+<div class="demo-wrap social-demo" data-demo-panel tabindex="-1">
+
+  <!-- Scaffolding. Not part of the transplant. -->
+  <div class="demo-scaffold">
+    <h1>Sprout Social: every post approved before it goes out</h1>
+    <p>A guided tour of the Instagram planner in 15 steps: the dashboard, the approval queue, the calendar, a new post, and analytics. Every caption, approver, and post ID here is placeholder.</p>
+  </div>
+
+  <!-- ===== TRANSPLANT MARKUP START ===== -->
+
+  <!-- ====================================================================
+       SECTION NAV STRIP: the planner sidebar, laid on its side
+       ==================================================================== -->
+  <div class="demo-nav-wrap">
+    <div class="so-navbrand"><div class="so-navbrand-name">Sprout Social</div><div class="so-navbrand-sub">Content Manager</div></div>
+    <button class="demo-nav-item is-active" data-nav="dashboard" data-slide="0"><span class="so-navico">&#8962;</span>Dashboard</button>
+    <button class="demo-nav-item" data-nav="queue" data-slide="1"><span class="so-navico">&#8801;</span>Content Queue <span class="so-navbadge">2</span></button>
+    <button class="demo-nav-item" data-nav="calendar" data-slide="2"><span class="so-navico">&#9633;</span>Calendar</button>
+    <button class="demo-nav-item" data-nav="create" data-slide="3"><span class="so-navico">+</span>Create Post</button>
+    <button class="demo-nav-item" data-nav="analytics" data-slide="4"><span class="so-navico">&#8599;</span>Analytics</button>
+    <span class="demo-nav-hint">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>
+      Click any section
+    </span>
+    <button type="button" class="st-close" data-st-close aria-label="Close the tour">&#10005; Close</button>
+  </div>
+
+  <!-- ====================================================================
+       THE STAGE
+       ==================================================================== -->
+  <div class="demo-stage">
+    <div class="demo-caption">
+      <h4 class="demo-slide-title" data-demo-contrib></h4>
+      <div class="demo-cap-col">
+        <div class="demo-cap-label" data-demo-state-label></div>
+        <div class="demo-cap-state" data-demo-state></div>
+      </div>
+    </div>
+
+    <div class="demo-canvas">
+      <button class="demo-side-arrow demo-side-prev" data-demo-prev aria-label="Previous slide">&#8249;</button>
+      <button class="demo-side-arrow demo-side-next" data-demo-next aria-label="Next slide">&#8250;</button>
+
+      <!-- ============ SLIDE 1 · DASHBOARD ================================ -->
+      <section class="demo-car-slide is-on" data-nav="dashboard"
+               data-contrib="Open the planner and see what is waiting on you: posts to approve and what goes out next."
+               data-state-label="State of the pipeline"
+               data-state="Tuesday, September 1 &middot; 2 posts waiting for approval &middot; 4 scheduled &middot; the Vol. 4 promo starts Thursday."
+               data-title="Dashboard: what needs a yes today">
+        <div class="st-tour">
+        <div class="so-frame so-cut" style="--cut: 1120px;"><div class="st-veil"></div>
+          <div class="so-page">
+            <div class="so-pg-hd">
+              <div>
+                <div class="so-pg-ttl">Dashboard</div>
+                <div class="so-pg-sub">Your content pipeline at a glance.</div>
+              </div>
+              <span class="so-btn so-btn-blk">+ New Post</span>
+            </div>
+
+            <div class="so-stats st-hl" data-hl="1"><span class="st-hl-n">1</span>
+              <div class="so-stat"><div class="so-stat-lbl">Drafts</div><div class="so-stat-val">3</div></div>
+              <div class="so-stat"><div class="so-stat-lbl">Pending Approval</div><div class="so-stat-val">2</div></div>
+              <div class="so-stat"><div class="so-stat-lbl">Scheduled</div><div class="so-stat-val">4</div></div>
+              <div class="so-stat"><div class="so-stat-lbl">Published</div><div class="so-stat-val">64</div></div>
+            </div>
+
+            <div class="so-card so-card-approve st-hl" data-hl="2"><span class="st-hl-n">2</span>
+              <div class="so-card-hd">
+                <div class="so-card-ttl">&#9203; Needs Your Approval</div>
+                <span class="so-tag so-tag-pending">2 pending</span>
+              </div>
+              <div class="so-card-bd">
+                <div class="so-post so-approval">
+                  <div class="so-post-hd">
+                    <div class="so-post-id"><span class="so-thumb so-ph so-ph2">Meet<br>the<br>artists</span><span class="so-tag so-tag-pending">Pending Approval</span></div>
+                    <span class="so-btn so-btn-danger so-btn-sm">&#10005;</span>
+                  </div>
+                  <p class="so-caption">Meet the artists on the walls at Vol. 4: Mara Lin paints the quiet parts of city life, and Jonah Reyes makes zines about growing up and growing back. Come see their work up close on Friday, September 11. &#127793;</p>
+                  <div class="so-meta">
+                    <span>&#128197; 9/5/2026, 12:00:00 PM</span>
+                    <span>&#128444; image</span>
+                    <span>#SproutSociety #SproutNTell #CommunityHeals</span>
+                  </div>
+                  <div class="so-post-actions"><span class="so-btn so-btn-ghost so-btn-sm">Edit</span><span class="so-btn so-btn-cyan so-btn-sm">&#10003; Approve</span></div>
+                </div>
+                <div class="so-post so-approval">
+                  <div class="so-post-hd">
+                    <div class="so-post-id"><span class="so-thumb so-ph so-ph6">Co&#8209;<br>Working</span><span class="so-tag so-tag-pending">Pending Approval</span></div>
+                    <span class="so-btn so-btn-danger so-btn-sm">&#10005;</span>
+                  </div>
+                  <p class="so-caption">Quiet hours are for everyone. Co-Working is open every Tuesday from 10 to 4: bring a laptop, a journal, or just yourself. Swipe for a look inside. &#128155;</p>
+                  <div class="so-meta">
+                    <span>&#128197; 9/8/2026, 9:00:00 AM</span>
+                    <span>&#128444; carousel</span>
+                    <span>#SproutSociety #MentalWellness #CoWorking</span>
+                  </div>
+                  <div class="so-post-actions"><span class="so-btn so-btn-ghost so-btn-sm">Edit</span><span class="so-btn so-btn-cyan so-btn-sm">&#10003; Approve</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="so-card st-hl" data-hl="3"><span class="st-hl-n">3</span>
+              <div class="so-card-hd">
+                <div class="so-card-ttl">&#128197; Upcoming Scheduled</div>
+              </div>
+              <div class="so-card-bd">
+                <div class="so-post">
+                  <div class="so-post-hd">
+                    <div class="so-post-id"><span class="so-thumb so-ph so-ph7">Save<br>the<br>date</span><span class="so-tag so-tag-scheduled">Scheduled</span></div>
+                    <span class="so-btn so-btn-danger so-btn-sm">&#10005;</span>
+                  </div>
+                  <p class="so-caption">Save the date: Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room full of people who get it. Come as you are.</p>
+                  <div class="so-meta">
+                    <span>&#128197; 9/3/2026, 6:00:00 PM</span>
+                    <span>&#128444; image</span>
+                    <span>#SproutSociety #SproutNTell #CommunityHeals</span>
+                    <span class="so-approver">&#10003; comms@sproutsociety.example</span>
+                  </div>
+                  <div class="so-post-actions"><span class="so-btn so-btn-ghost so-btn-sm">Edit</span><span class="so-btn so-btn-acid so-btn-sm">&#128640; Publish to Instagram</span></div>
+                </div>
+                <div class="so-post">
+                  <div class="so-post-hd">
+                    <div class="so-post-id"><span class="so-thumb so-ph so-ph1">Vol. 4<br>line<br>up</span><span class="so-tag so-tag-scheduled">Scheduled</span></div>
+                    <span class="so-btn so-btn-danger so-btn-sm">&#10005;</span>
+                  </div>
+                  <p class="so-caption">The Vol. 4 lineup is here! Ada Kim, The Low Hums, Velvet Static, Sam Ortega, Mara Lin, and Jonah Reyes. Friday, September 11 at Sprout Society. Bring a friend. &#127793;</p>
+                  <div class="so-meta">
+                    <span>&#128197; 9/8/2026, 6:00:00 PM</span>
+                    <span>&#128444; image</span>
+                    <span>#SproutSociety #SproutNTell #CommunityHeals&#8230;</span>
+                    <span class="so-approver">&#10003; comms@sproutsociety.example</span>
+                  </div>
+                  <div class="so-post-actions"><span class="so-btn so-btn-ghost so-btn-sm">Edit</span><span class="so-btn so-btn-acid so-btn-sm">&#128640; Publish to Instagram</span></div>
+                </div>
+                <div class="so-post">
+                  <div class="so-post-hd">
+                    <div class="so-post-id"><span class="so-thumb so-ph so-ph8">To&#8209;<br>morrow</span><span class="so-tag so-tag-scheduled">Scheduled</span></div>
+                    <span class="so-btn so-btn-danger so-btn-sm">&#10005;</span>
+                  </div>
+                  <p class="so-caption">Tomorrow night: six acts, one room, and a whole lot of heart. Doors open at 7. We saved you a seat.</p>
+                  <div class="so-meta">
+                    <span>&#128197; 9/10/2026, 12:00:00 PM</span>
+                    <span>&#128444; video</span>
+                    <span class="so-approver">&#10003; comms@sproutsociety.example</span>
+                  </div>
+                  <div class="so-post-actions"><span class="so-btn so-btn-ghost so-btn-sm">Edit</span><span class="so-btn so-btn-acid so-btn-sm">&#128640; Publish to Instagram</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="st-calls">
+            <div class="st-call" data-for="1" data-at="below-end"><span class="st-call-n">1</span><div class="st-call-body"><div class="st-call-t">Posts by stage</div><ul class="demo-bul"><li>Posts in draft</li> <li>Waiting for approval</li> <li>Scheduled</li> <li>Published</li></ul></div></div>
+            <div class="st-call" data-for="2" data-at="below-end"><span class="st-call-n">2</span><div class="st-call-body"><div class="st-call-t">Approve from the dashboard</div><ul class="demo-bul"><li>Posts waiting for approval come first</li> <li>Each shows its caption, time and hashtags</li> <li>Approve right on the card</li></ul></div></div>
+            <div class="st-call" data-for="3" data-at="above"><span class="st-call-n">3</span><div class="st-call-body"><div class="st-call-t">What goes out next</div><ul class="demo-bul"><li>Next scheduled posts line up below</li> <li>Each shows who approved it</li> <li>A button publishes it to Instagram</li></ul><button class="st-call-next" data-demo-next>Next: Content Queue &#8250;</button></div></div>
+        </div>
+        </div><!-- /.st-tour -->
+      </section>
+
+      <!-- ============ SLIDE 2 · CONTENT QUEUE ============================ -->
+      <!-- Cards run in created order, newest first, the way QueueView lists
+           them. The lineup post is the one drafted on slide 4. -->
+      <section class="demo-car-slide" data-nav="queue"
+               data-contrib="Every post moves through the same steps, and nothing reaches Instagram until someone approves it."
+               data-state-label="State of the queue"
+               data-state="Scheduled tab &middot; the Vol. 4 lineup post publishing now &middot; approved by the comms lead."
+               data-title="Content Queue: nothing posts without a yes">
+        <div class="st-tour">
+        <div class="so-frame so-cut" style="--cut: 900px;"><div class="st-veil"></div>
+          <div class="so-page">
+            <div class="so-pg-hd">
+              <div>
+                <div class="so-pg-ttl">Content Queue</div>
+                <div class="so-pg-sub">Move posts through the approval pipeline.</div>
+              </div>
+            </div>
+
+            <div class="so-tabs st-hl" data-hl="4"><span class="st-hl-n at-up">4</span>
+              <span class="so-tab">Draft<span class="so-tab-count">3</span></span>
+              <span class="so-tab">Pending Approval<span class="so-tab-count">2</span></span>
+              <span class="so-tab">Approved<span class="so-tab-count">1</span></span>
+              <span class="so-tab on">Scheduled<span class="so-tab-count">4</span></span>
+              <span class="so-tab">Published<span class="so-tab-count">64</span></span>
+            </div>
+
+            <div class="so-post st-hl" data-hl="5"><span class="st-hl-n">5</span>
+              <div class="so-post-hd">
+                <div class="so-post-id"><span class="so-thumb so-ph so-ph1">Vol. 4<br>line<br>up</span><span class="so-tag so-tag-scheduled">Scheduled</span></div>
+                <span class="so-btn so-btn-danger so-btn-sm">&#10005;</span>
+              </div>
+              <p class="so-caption">The Vol. 4 lineup is here! Ada Kim, The Low Hums, Velvet Static, Sam Ortega, Mara Lin, and Jonah Reyes. Friday, September 11 at Sprout Society. Bring a friend. &#127793;</p>
+              <div class="so-meta">
+                <span>&#128197; 9/8/2026, 6:00:00 PM</span>
+                <span>&#128444; image</span>
+                <span>#SproutSociety #SproutNTell #CommunityHeals&#8230;</span>
+                <span class="so-approver">&#10003; comms@sproutsociety.example</span>
+              </div>
+              <div class="so-post-actions"><span class="so-btn so-btn-ghost so-btn-sm">Edit</span><span class="so-btn so-btn-acid so-btn-sm so-btn-busy">Working&#8230;</span></div>
+            </div>
+            <div class="so-post">
+              <div class="so-post-hd">
+                <div class="so-post-id"><span class="so-thumb so-ph so-ph7">Save<br>the<br>date</span><span class="so-tag so-tag-scheduled">Scheduled</span></div>
+                <span class="so-btn so-btn-danger so-btn-sm">&#10005;</span>
+              </div>
+              <p class="so-caption">Save the date: Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room full of people who get it. Come as you are.</p>
+              <div class="so-meta">
+                <span>&#128197; 9/3/2026, 6:00:00 PM</span>
+                <span>&#128444; image</span>
+                <span>#SproutSociety #SproutNTell #CommunityHeals</span>
+                <span class="so-approver">&#10003; comms@sproutsociety.example</span>
+              </div>
+              <div class="so-post-actions"><span class="so-btn so-btn-ghost so-btn-sm">Edit</span><span class="so-btn so-btn-acid so-btn-sm st-hl" data-hl="6"><span class="st-hl-n at-tr">6</span>&#128640; Publish to Instagram</span></div>
+            </div>
+            <div class="so-post">
+              <div class="so-post-hd">
+                <div class="so-post-id"><span class="so-thumb so-ph so-ph8">To&#8209;<br>morrow</span><span class="so-tag so-tag-scheduled">Scheduled</span></div>
+                <span class="so-btn so-btn-danger so-btn-sm">&#10005;</span>
+              </div>
+              <p class="so-caption">Tomorrow night: six acts, one room, and a whole lot of heart. Doors open at 7. We saved you a seat.</p>
+              <div class="so-meta">
+                <span>&#128197; 9/10/2026, 12:00:00 PM</span>
+                <span>&#128444; video</span>
+                <span class="so-approver">&#10003; comms@sproutsociety.example</span>
+              </div>
+              <div class="so-post-actions"><span class="so-btn so-btn-ghost so-btn-sm">Edit</span><span class="so-btn so-btn-acid so-btn-sm">&#128640; Publish to Instagram</span></div>
+            </div>
+            <div class="so-post">
+              <div class="so-post-hd">
+                <div class="so-post-id"><span class="so-thumb so-ph so-ph4">To&#8209;<br>night</span><span class="so-tag so-tag-scheduled">Scheduled</span></div>
+                <span class="so-btn so-btn-danger so-btn-sm">&#10005;</span>
+              </div>
+              <p class="so-caption">Tonight! Doors open at 7. Sprout N Tell Vol. 4 starts now, and there is room for you.</p>
+              <div class="so-meta">
+                <span>&#128197; 9/11/2026, 5:00:00 PM</span>
+                <span>&#128444; image</span>
+                <span class="so-approver">&#10003; comms@sproutsociety.example</span>
+              </div>
+              <div class="so-post-actions"><span class="so-btn so-btn-ghost so-btn-sm">Edit</span><span class="so-btn so-btn-acid so-btn-sm">&#128640; Publish to Instagram</span></div>
+            </div>
+          </div>
+          <div class="so-toast">Published to Instagram!</div>
+        </div>
+        <div class="st-calls">
+            <div class="st-call" data-for="4" data-at="below-end"><span class="st-call-n">4</span><div class="st-call-body"><div class="st-call-t">Five stages, Draft to Published</div><ul class="demo-bul"><li>Every post moves through five stages, Draft to Published</li> <li>Each tab counts the posts in its stage</li></ul></div></div>
+            <div class="st-call" data-for="5" data-at="below-end"><span class="st-call-n">5</span><div class="st-call-body"><div class="st-call-t">One path to Instagram</div><ul class="demo-bul"><li>Every post takes the same path to Instagram</li> <li>Drafted, then approved with the approver's address stamped on the card</li> <li>Scheduled, then published from the card in one click</li></ul></div></div>
+            <div class="st-call" data-for="6" data-at="right"><span class="st-call-n">6</span><div class="st-call-body"><div class="st-call-t">Publish in one click</div><ul class="demo-bul"><li>One click publishes a scheduled post to Instagram</li> <li>Caption, hashtags and graphic go through a Composio connection</li> <li>The app waits for Instagram to finish processing, publishes, and saves the post's Instagram ID</li></ul><button class="st-call-next" data-demo-next>Next: Calendar &#8250;</button></div></div>
+        </div>
+        </div><!-- /.st-tour -->
+      </section>
+
+      <!-- ============ SLIDE 3 · CALENDAR ================================= -->
+      <!-- Month view follows CalendarView: two items per cell, posts before
+           events, "+N more" for the rest, captions cut at 15 characters and
+           event titles at 12. -->
+      <section class="demo-car-slide" data-nav="calendar"
+               data-contrib="Posts and events share one calendar, so every promo lands before the night it promotes."
+               data-state-label="State of the month"
+               data-state="September 2026 &middot; 11 posts planned &middot; Sprout N Tell Vol. 4 on the 11th."
+               data-title="Calendar: posts and events in one view">
+        <div class="st-tour">
+        <div class="so-frame"><div class="st-veil"></div>
+          <div class="so-page">
+            <div class="so-pg-hd">
+              <div>
+                <div class="so-pg-ttl">Calendar</div>
+                <div class="so-pg-sub">View and manage your content schedule.</div>
+              </div>
+              <div class="so-pg-ctl" style="gap: 5px;"><span class="so-btn so-btn-blk so-btn-sm">Month</span><span class="so-btn so-btn-ghost so-btn-sm">Week</span></div>
+            </div>
+
+            <div class="so-card so-cal-card" style="margin-bottom: 0;">
+              <div class="so-cal-nav">
+                <span class="so-btn so-btn-ghost so-btn-sm">&larr; Prev</span>
+                <div class="so-cal-month">September 2026</div>
+                <span class="so-btn so-btn-ghost so-btn-sm">Next &rarr;</span>
+              </div>
+              <div class="so-cal-grid">
+                <div class="so-cal-dh">Sun</div><div class="so-cal-dh">Mon</div><div class="so-cal-dh">Tue</div><div class="so-cal-dh">Wed</div><div class="so-cal-dh">Thu</div><div class="so-cal-dh">Fri</div><div class="so-cal-dh">Sat</div>
+
+                <!-- week 1 -->
+                <div class="so-cal-cell other"><div class="so-cal-num">30</div></div>
+                <div class="so-cal-cell other"><div class="so-cal-num">31</div></div>
+                <div class="so-cal-cell today"><div class="so-cal-num today">1</div><span class="so-chip so-tag-published">Hello, Septembe&#8230;</span><span class="so-chip so-chip-event">&#128204; Co-Working</span></div>
+                <div class="so-cal-cell"><div class="so-cal-num">2</div></div>
+                <div class="so-cal-cell st-hl" data-hl="7"><span class="st-hl-n at-tr">7</span><div class="so-cal-num">3</div><span class="so-chip so-tag-scheduled">Save the date: &#8230;</span></div>
+                <div class="so-cal-cell"><div class="so-cal-num">4</div></div>
+                <div class="so-cal-cell"><div class="so-cal-num">5</div><span class="so-chip so-tag-pending">Meet the artist&#8230;</span></div>
+
+                <!-- week 2 -->
+                <div class="so-cal-cell"><div class="so-cal-num">6</div></div>
+                <div class="so-cal-cell"><div class="so-cal-num">7</div></div>
+                <div class="so-cal-cell"><div class="so-cal-num">8</div><span class="so-chip so-tag-scheduled">The Vol. 4 line&#8230;</span><span class="so-chip so-tag-pending">Quiet hours are&#8230;</span><div class="so-cal-more">+1 more</div></div>
+                <div class="so-cal-cell"><div class="so-cal-num">9</div></div>
+                <div class="so-cal-cell"><div class="so-cal-num">10</div><span class="so-chip so-tag-scheduled">Tomorrow night:&#8230;</span></div>
+                <div class="so-cal-cell st-hl" data-hl="8"><span class="st-hl-n at-tr">8</span><div class="so-cal-num">11</div><span class="so-chip so-tag-scheduled">Tonight! Doors &#8230;</span><span class="so-chip so-chip-event">&#128204; Sprout N Tel&#8230;</span></div>
+                <div class="so-cal-cell"><div class="so-cal-num">12</div><span class="so-chip so-tag-draft">Thank you for s&#8230;</span></div>
+
+                <!-- week 3 -->
+                <div class="so-cal-cell"><div class="so-cal-num">13</div><span class="so-chip so-tag-approved">Self-care Sunda&#8230;</span></div>
+                <div class="so-cal-cell"><div class="so-cal-num">14</div></div>
+                <div class="so-cal-cell"><div class="so-cal-num">15</div><span class="so-chip so-chip-event">&#128204; Co-Working</span></div>
+                <div class="so-cal-cell"><div class="so-cal-num">16</div></div>
+                <div class="so-cal-cell"><div class="so-cal-num">17</div><span class="so-chip so-tag-draft">Zines, glue sti&#8230;</span></div>
+                <div class="so-cal-cell"><div class="so-cal-num">18</div><span class="so-chip so-chip-event">&#128204; Fern &amp; Fold &#8230;</span></div>
+                <div class="so-cal-cell"><div class="so-cal-num">19</div></div>
+
+                <!-- week 4 -->
+                <div class="so-cal-cell"><div class="so-cal-num">20</div></div>
+                <div class="so-cal-cell"><div class="so-cal-num">21</div></div>
+                <div class="so-cal-cell"><div class="so-cal-num">22</div><span class="so-chip so-chip-event">&#128204; Co-Working</span></div>
+                <div class="so-cal-cell"><div class="so-cal-num">23</div></div>
+                <div class="so-cal-cell"><div class="so-cal-num">24</div><span class="so-chip so-tag-draft">Checking in wit&#8230;</span></div>
+                <div class="so-cal-cell"><div class="so-cal-num">25</div></div>
+                <div class="so-cal-cell"><div class="so-cal-num">26</div></div>
+
+                <!-- week 5 -->
+                <div class="so-cal-cell"><div class="so-cal-num">27</div></div>
+                <div class="so-cal-cell"><div class="so-cal-num">28</div></div>
+                <div class="so-cal-cell"><div class="so-cal-num">29</div><span class="so-chip so-chip-event">&#128204; Co-Working</span></div>
+                <div class="so-cal-cell"><div class="so-cal-num">30</div></div>
+                <div class="so-cal-cell other"><div class="so-cal-num">1</div></div>
+                <div class="so-cal-cell other"><div class="so-cal-num">2</div></div>
+                <div class="so-cal-cell other"><div class="so-cal-num">3</div></div>
+              </div>
+
+              <div class="so-legend">
+                <span class="so-legend-lbl">Filter:</span>
+                <span class="so-tag so-tag-draft">Draft</span>
+                <span class="so-tag so-tag-pending">Pending Approval</span>
+                <span class="so-tag so-tag-approved">Approved</span>
+                <span class="so-tag so-tag-scheduled">Scheduled</span>
+                <span class="so-tag so-tag-published">Published</span>
+              </div>
+            </div>
+
+            <!-- day modal for September 11 -->
+            <div class="so-daymodal st-hl" data-hl="9"><span class="st-hl-n">9</span>
+              <div class="so-m-hd">
+                <div class="so-m-ttl">September 11, 2026</div>
+                <span class="so-m-close">&#10005;</span>
+              </div>
+              <div class="so-m-bd">
+                <div class="so-m-sec">
+                  <div class="so-m-lbl">Posts</div>
+                  <div class="so-m-row"><span class="so-tag so-tag-scheduled">Scheduled</span><span class="so-m-cap">Tonight! Doors open at 7. Sprout N Tell Vol. 4 starts n</span><span class="so-m-go">&rarr;</span></div>
+                </div>
+                <div class="so-m-sec">
+                  <div class="so-m-lbl">Events</div>
+                  <div class="so-m-row so-m-ev">
+                    <div>
+                      <div class="so-m-ev-t">&#128204; Sprout N Tell Vol. 4</div>
+                      <div class="so-m-ev-n">7 to 10pm &middot; six acts &middot; doors at 7</div>
+                    </div>
+                    <span class="so-m-del">&#10005;</span>
+                  </div>
+                </div>
+                <span class="so-btn so-btn-ghost so-btn-sm so-btn-block">+ Add Event</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="st-calls">
+            <div class="st-call" data-for="7" data-at="right"><span class="st-call-n">7</span><div class="st-call-body"><div class="st-call-t">Posts on the day they go out</div><ul class="demo-bul"><li>Every post appears on the day it goes out</li> <li>Colored by stage, from draft to published</li></ul></div></div>
+            <div class="st-call" data-for="8" data-at="left"><span class="st-call-n">8</span><div class="st-call-body"><div class="st-call-t">Events on the same calendar</div><ul class="demo-bul"><li>Events share the calendar with posts</li> <li>Time each promo to the night it promotes</li></ul></div></div>
+            <div class="st-call" data-for="9" data-at="right"><span class="st-call-n">9</span><div class="st-call-body"><div class="st-call-t">Open a day</div><ul class="demo-bul"><li>Open a day to list its posts and events</li> <li>A button adds another event</li></ul><button class="st-call-next" data-demo-next>Next: Create Post &#8250;</button></div></div>
+        </div>
+        </div><!-- /.st-tour -->
+      </section>
+
+      <!-- ============ SLIDE 4 · CREATE POST ============================== -->
+      <!-- After an upload, CanvaMediaPicker stores the file and flips back to
+           the URL tab with the public link and a preview, so that is the
+           state shown. The host is elided. -->
+      <section class="demo-car-slide" data-nav="create"
+               data-contrib="Write the caption, add the graphic, and pick a time. It saves as a draft until it is approved."
+               data-state-label="State of the post"
+               data-state="Vol. 4 lineup announcement &middot; image uploaded &middot; set for Tuesday, September 8 at 6pm."
+               data-title="Create Post: a draft in one form">
+        <div class="st-tour">
+        <div class="so-frame"><div class="st-veil"></div>
+          <div class="so-page">
+            <div class="so-pg-hd">
+              <div>
+                <div class="so-pg-ttl">Create Post</div>
+                <div class="so-pg-sub">Draft a new Instagram post.</div>
+              </div>
+            </div>
+
+            <div class="so-create">
+              <div>
+                <div class="so-fg">
+                  <label class="so-fl">Caption *</label>
+                  <div class="so-fi so-fta is-focus st-hl" data-hl="10"><span class="st-hl-n">10</span>The Vol. 4 lineup is here! &#127793;
+
+Ada Kim &middot; The Low Hums &middot; Velvet Static &middot; Sam Ortega &middot; Mara Lin &middot; Jonah Reyes
+
+Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room full of people who get it. Come as you are, and bring a friend.
+
+#SproutSociety #SproutNTell #CommunityHeals #MentalWellness</div>
+                </div>
+                <div class="so-fg">
+                  <label class="so-fl">Internal Notes</label>
+                  <div class="so-fi">Tag all six acts once they send their handles.</div>
+                </div>
+              </div>
+
+              <div class="st-hl" data-hl="11"><span class="st-hl-n at-tr">11</span>
+                <div class="so-frow">
+                  <div class="so-fg">
+                    <label class="so-fl">Media Type</label>
+                    <div class="so-fi so-fsel"><span>Image</span><i>&#9662;</i></div>
+                  </div>
+                  <div class="so-fg">
+                    <label class="so-fl">Schedule Time</label>
+                    <div class="so-fi so-fdate"><span class="so-ellip">09/08/2026, 06:00 PM</span><i>&#128197;</i></div>
+                  </div>
+                </div>
+                <div class="so-fg">
+                  <div class="so-media-hd">
+                    <label class="so-fl" style="margin-bottom: 0;">Media</label>
+                    <div class="so-mtabs"><span class="so-mtab on">URL</span><span class="so-mtab">&#8593; Upload</span></div>
+                  </div>
+                  <div class="so-fi so-ellip">https://&#8230;/storage/v1/object/public/post-images/1788300512093_k2j9x4.png</div>
+                  <div class="so-flyer" role="img" aria-label="Placeholder lineup graphic for Sprout N Tell Vol. 4">
+                    <div>
+                      <div class="so-flyer-pre">Sprout Society presents</div>
+                      <div class="so-flyer-name">Sprout N Tell</div>
+                      <div class="so-flyer-vol">Vol. 4</div>
+                    </div>
+                    <div>
+                      <div class="so-flyer-when">Fri Sep 11 &middot; 7 to 10pm &middot; Brooklyn</div>
+                      <div class="so-flyer-acts">Ada Kim &middot; The Low Hums<br>Velvet Static &middot; Sam Ortega<br>Mara Lin &middot; Jonah Reyes</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="so-create-btns">
+              <span class="so-btn so-btn-blk st-hl" data-hl="12"><span class="st-hl-n">12</span>+ Create Draft</span>
+              <span class="so-btn so-btn-ghost">Cancel</span>
+            </div>
+          </div>
+        </div>
+        <div class="st-calls">
+            <div class="st-call" data-for="10" data-at="right"><span class="st-call-n">10</span><div class="st-call-body"><div class="st-call-t">Caption and internal notes</div><ul class="demo-bul"><li>The caption, hashtags included</li> <li>A separate field for internal notes the audience never sees</li></ul></div></div>
+            <div class="st-call" data-for="11" data-at="left"><span class="st-call-n">11</span><div class="st-call-body"><div class="st-call-t">What Instagram needs</div><ul class="demo-bul"><li>Everything Instagram needs besides the caption: media type, post time, graphic</li> <li>Upload the graphic to Sprout's storage or paste a link</li> <li>Instagram pulls it from there when it publishes</li></ul></div></div>
+            <div class="st-call" data-for="12" data-at="above"><span class="st-call-n">12</span><div class="st-call-body"><div class="st-call-t">Saved as a draft</div><ul class="demo-bul"><li>Create Draft saves the post to the queue</li> <li>It waits for approval before anything can publish</li></ul><button class="st-call-next" data-demo-next>Next: Analytics &#8250;</button></div></div>
+        </div>
+        </div><!-- /.st-tour -->
+      </section>
+
+      <!-- ============ SLIDE 5 · ANALYTICS ================================ -->
+      <!-- Weeks start on Sunday, as AnalyticsView groups them. The chart and
+           the table are separate tabs in the app; the slide shows both. -->
+      <section class="demo-car-slide" data-nav="analytics"
+               data-contrib="See the posting rhythm week by week, and pull past Instagram posts in so the record is complete."
+               data-state-label="State of the account"
+               data-state="All time &middot; 64 published &middot; 1 so far this month &middot; 3 posts in the week of August 30."
+               data-title="Analytics: the posting record">
+        <div class="st-tour">
+        <div class="so-frame"><div class="st-veil"></div>
+          <div class="so-page">
+            <div class="so-pg-hd">
+              <div>
+                <div class="so-pg-ttl">Analytics</div>
+                <div class="so-pg-sub">Instagram performance overview.</div>
+              </div>
+              <div class="so-pg-ctl">
+                <span class="so-btn so-btn-ghost so-btn-sm">7 Days</span>
+                <span class="so-btn so-btn-ghost so-btn-sm">30 Days</span>
+                <span class="so-btn so-btn-ghost so-btn-sm">90 Days</span>
+                <span class="so-btn so-btn-blk so-btn-sm">All Time</span>
+                <span class="so-btn so-btn-cyan so-btn-sm st-hl" data-hl="13"><span class="st-hl-n at-tr">13</span>&#128229; Import from Instagram</span>
+              </div>
+            </div>
+
+            <div class="so-stats">
+              <div class="so-stat"><div class="so-stat-lbl">Published</div><div class="so-stat-val">64</div></div>
+              <div class="so-stat"><div class="so-stat-lbl">This Month</div><div class="so-stat-val">1</div></div>
+              <div class="so-stat"><div class="so-stat-lbl">Scheduled</div><div class="so-stat-val">4</div></div>
+              <div class="so-stat"><div class="so-stat-lbl">In Pipeline</div><div class="so-stat-val">6</div></div>
+            </div>
+
+            <div class="so-tabs">
+              <span class="so-tab on">Overview</span>
+              <span class="so-tab">All Posts</span>
+            </div>
+
+            <div class="so-card st-hl" data-hl="14"><span class="st-hl-n">14</span>
+              <div class="so-card-hd">
+                <div class="so-card-ttl">Posts published per week</div>
+                <div class="so-card-hint">Click a bar to see posts</div>
+              </div>
+              <div class="so-card-bd">
+                <div class="so-chart">
+                  <div class="so-yaxis"><span>8</span><span>4</span><span>0</span></div>
+                  <div class="so-bars-scroll">
+                    <div class="so-bars-in">
+                      <div class="so-gridlines"><div></div><div></div><div></div></div>
+                      <div class="so-bars">
+                        <div class="so-bar" title="Jun 14: 5 posts"><i style="height: 62.5%;"></i></div>
+                        <div class="so-bar" title="Jun 21: 6 posts"><i style="height: 75%;"></i></div>
+                        <div class="so-bar" title="Jun 28: 4 posts"><i style="height: 50%;"></i></div>
+                        <div class="so-bar" title="Jul 5: 5 posts"><i style="height: 62.5%;"></i></div>
+                        <div class="so-bar" title="Jul 12: 7 posts"><i style="height: 87.5%;"></i></div>
+                        <div class="so-bar" title="Jul 19: 6 posts"><i style="height: 75%;"></i></div>
+                        <div class="so-bar" title="Jul 26: 4 posts"><i style="height: 50%;"></i></div>
+                        <div class="so-bar" title="Aug 2: 5 posts"><i style="height: 62.5%;"></i></div>
+                        <div class="so-bar" title="Aug 9: 6 posts"><i style="height: 75%;"></i></div>
+                        <div class="so-bar" title="Aug 16: 5 posts"><i style="height: 62.5%;"></i></div>
+                        <div class="so-bar" title="Aug 23: 8 posts"><i style="height: 100%;"></i></div>
+                        <div class="so-bar on" title="Aug 30: 3 posts"><i style="height: 37.5%;"></i></div>
+                      </div>
+                      <div class="so-xlabels">
+                        <span>Jun 14</span><span>Jun 21</span><span>Jun 28</span><span>Jul 5</span><span>Jul 12</span><span>Jul 19</span><span>Jul 26</span><span>Aug 2</span><span>Aug 9</span><span>Aug 16</span><span>Aug 23</span><span>Aug 30</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="so-week">
+                  <div class="so-week-lbl">Week of Aug 30 &middot; 3 posts</div>
+                  <div class="so-week-row">
+                    <span class="so-week-thumb so-ph so-ph3">Rest</span>
+                    <div class="so-week-main"><div class="so-week-cap">Sunday reset: rest counts as progress too. Take five minutes for yourself</div><div class="so-week-sub">image &middot; 8/30/2026</div></div>
+                    <span class="so-tag so-tag-image">image</span>
+                  </div>
+                  <div class="so-week-row">
+                    <span class="so-week-thumb so-ph so-ph6">Tue</span>
+                    <div class="so-week-main"><div class="so-week-cap">A look inside Tuesday Co-Working: coffee, quiet, and good company.</div><div class="so-week-sub">video &middot; 8/31/2026</div></div>
+                    <span class="so-tag so-tag-video">video</span>
+                  </div>
+                  <div class="so-week-row">
+                    <span class="so-week-thumb so-ph so-ph4">Sep</span>
+                    <div class="so-week-main"><div class="so-week-cap">Hello, September. A new month to slow down, check in, and grow together</div><div class="so-week-sub">carousel &middot; 9/1/2026</div></div>
+                    <span class="so-tag so-tag-carousel">carousel</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="so-card st-hl" data-hl="15" style="margin-bottom: 0;"><span class="st-hl-n">15</span>
+              <div class="so-card-hd">
+                <div class="so-card-ttl">All Published Posts</div>
+                <div class="so-pg-ctl" style="gap: 5px;">
+                  <span class="so-btn so-btn-blk so-btn-sm">All</span>
+                  <span class="so-btn so-btn-ghost so-btn-sm">Image</span>
+                  <span class="so-btn so-btn-ghost so-btn-sm">Video</span>
+                  <span class="so-btn so-btn-ghost so-btn-sm">Carousel</span>
+                </div>
+              </div>
+              <div class="so-tbl-scroll">
+                <table class="so-tbl">
+                  <thead><tr><th>Caption</th><th>Type</th><th>Published</th><th>IG Post ID</th></tr></thead>
+                  <tbody>
+                    <tr><td><div class="so-td-cap">Hello, September. A new month to slow down, check in, and grow together.</div></td><td><span class="so-tag so-tag-carousel">carousel</span></td><td class="so-td-date">9/1/2026</td><td class="so-td-id">17984312055670021</td></tr>
+                    <tr><td><div class="so-td-cap">A look inside Tuesday Co-Working: coffee, quiet, and good company.</div></td><td><span class="so-tag so-tag-video">video</span></td><td class="so-td-date">8/31/2026</td><td class="so-td-id">17865203391148837</td></tr>
+                    <tr><td><div class="so-td-cap">Sunday reset: rest counts as progress too. Take five minutes for yourself today.</div></td><td><span class="so-tag so-tag-image">image</span></td><td class="so-td-date">8/30/2026</td><td class="so-td-id">18032957714406652</td></tr>
+                    <tr><td><div class="so-td-cap">Thank you to everyone who came out to the summer open mic. You made the room glow.</div></td><td><span class="so-tag so-tag-image">image</span></td><td class="so-td-date">8/27/2026</td><td class="so-td-id">17921446630087195</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="st-calls">
+            <div class="st-call" data-for="13" data-at="left"><span class="st-call-n">13</span><div class="st-call-body"><div class="st-call-t">The whole account on record</div><ul class="demo-bul"><li>Import from Instagram pulls in posts published outside the planner</li> <li>The record covers the whole account</li></ul></div></div>
+            <div class="st-call" data-for="14" data-at="below-end"><span class="st-call-n">14</span><div class="st-call-body"><div class="st-call-t">Posts per week</div><ul class="demo-bul"><li>A bar chart counts posts published each week</li> <li>Click a bar to list that week's posts</li></ul></div></div>
+            <div class="st-call" data-for="15" data-at="above"><span class="st-call-n">15</span><div class="st-call-body"><div class="st-call-t">Every published post</div><ul class="demo-bul"><li>Every published post with its type, date and Instagram post ID</li> <li>Filter by image, video or carousel</li></ul><button class="st-call-next" data-st-restart>Start over &#8634;</button></div></div>
+        </div>
+        </div><!-- /.st-tour -->
+      </section>
+
+          </div><!-- /.demo-canvas -->
+
+  </div><!-- /.demo-stage -->
+
+  <div class="st-gate">
+    <button type="button" class="st-gate-btn" data-st-start>Start the tour &#8250;</button>
+    <span class="st-gate-sub">15 steps &middot; opens full screen &middot; Esc to close</span>
+  </div>
+
+  <div class="demo-controls">
+    <button class="demo-arrow" data-demo-prev aria-label="Previous slide">&#8249;</button>
+    <div class="demo-title" data-demo-title></div>
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <span class="demo-count" data-demo-count></span>
+      <button class="demo-arrow" data-demo-next aria-label="Next slide">&#8250;</button>
+    </div>
+  </div>
+  <!-- ===== TRANSPLANT MARKUP END ===== -->
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // Same initializer shape as the CRM and Agency carousels in index.html:
+  // captions live on each slide's data attributes, and a nav entry can span a
+  // run of slides. Every query is
+  // scoped to this panel so it never counts another carousel's slides.
+  var root = document.querySelector('.social-demo[data-demo-panel]');
+  if (!root) return;
+
+  var slides = Array.prototype.slice.call(root.querySelectorAll('.demo-car-slide'));
+  var navItems = Array.prototype.slice.call(root.querySelectorAll('.demo-nav-item[data-slide]'));
+  var prevBtns = Array.prototype.slice.call(root.querySelectorAll('[data-demo-prev]'));
+  var nextBtns = Array.prototype.slice.call(root.querySelectorAll('[data-demo-next]'));
+  var elContrib    = root.querySelector('[data-demo-contrib]');
+  var elState      = root.querySelector('[data-demo-state]');
+  var elStateLabel = root.querySelector('[data-demo-state-label]');
+  var elTitle      = root.querySelector('[data-demo-title]');
+  var elCount      = root.querySelector('[data-demo-count]');
+
+  var current = 0;
+
+  function show(i) {
+    if (i < 0 || i >= slides.length) return;
+    current = i;
+    var slide = slides[i];
+
+    slides.forEach(function (s, n) { s.classList.toggle('is-on', n === i); });
+
+    var group = slide.getAttribute('data-nav');
+    navItems.forEach(function (b) {
+      b.classList.toggle('is-active', b.getAttribute('data-nav') === group);
+    });
+
+    if (elContrib) elContrib.textContent = slide.getAttribute('data-contrib') || '';
+    if (elStateLabel) elStateLabel.innerHTML = slide.getAttribute('data-state-label') || '';
+    if (elState) {
+      elState.innerHTML = slide.getAttribute('data-state') || '';
+      var col = elState.closest('.demo-cap-col');
+      if (col) col.hidden = !slide.getAttribute('data-state');
+    }
+    if (elTitle) elTitle.textContent = slide.getAttribute('data-title') || '';
+    if (elCount) {
+      elCount.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+    }
+    prevBtns.forEach(function (el) { el.disabled = (i === 0); });
+    nextBtns.forEach(function (el) { el.disabled = (i === slides.length - 1); });
+  }
+
+  navItems.forEach(function (b) {
+    b.addEventListener('click', function () { show(parseInt(b.getAttribute('data-slide'), 10)); });
+  });
+  prevBtns.forEach(function (el) { el.addEventListener('click', function () { show(current - 1); }); });
+  nextBtns.forEach(function (el) { el.addEventListener('click', function () { show(current + 1); }); });
+
+  // Arrow keys belong to the carousel, not the page, so they never hijack
+  // scrolling on the portfolio. The standalone page also listens on document.
+  function onKey(e) {
+    if (e.key === 'ArrowLeft') show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  }
+  root.addEventListener('mousedown', function () { root.focus({ preventScroll: true }); });
+  if (document.body.hasAttribute('data-demo-standalone')) {
+    document.addEventListener('keydown', onKey);
+  } else {
+    root.addEventListener('keydown', onKey);
+  }
+
+  // The notes row pins under the nav strip, so it needs the strip's height.
+  // On the portfolio page measureTabBar() does this; the standalone does it
+  // here, on load and on resize (the strip changes height when it wraps).
+  var strip = root.querySelector('.demo-nav-wrap');
+  function measureStrip() {
+    if (strip) root.style.setProperty('--demo-strip-h', strip.offsetHeight + 'px');
+  }
+  measureStrip();
+  window.addEventListener('resize', measureStrip);
+  window.addEventListener('load', measureStrip);
+
+  show(0);
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  // The tour: initTour() from index.html (Career Desk, Agency, TeacherAID,
+  // Sprout CRM), with the prefix st. See the comments there.
+  var GAP = 14, LIST_BELOW = 700;
+  function initTour(root, p) {
+  if (!root) return;
+
+  function place(tour) {
+    if (!tour.offsetWidth) return;
+    // A column highlight (Grant's pipeline) is an overlay sized to its
+    // header cell, so it outlines the whole column.
+    tour.querySelectorAll('.demo-col[data-col]').forEach(function (c) {
+      var cell = c.parentElement.querySelector('.' + c.getAttribute('data-col'));
+      var br = c.parentElement.getBoundingClientRect();
+      if (!cell || !br.width) return;
+      var cr = cell.getBoundingClientRect();
+      c.style.left = Math.round(cr.left - br.left) + 'px';
+      c.style.width = Math.round(cr.width) + 'px';
+    });
+    var calls = Array.prototype.slice.call(tour.querySelectorAll('.' + p + '-call.is-cur'));
+    var list = tour.offsetWidth < LIST_BELOW;
+    tour.classList.toggle('is-list', list);
+    if (list) { tour.style.paddingBottom = ''; calls.forEach(function (c) { c.style.left = c.style.top = ''; }); return; }
+    var box = tour.getBoundingClientRect();
+    var W = tour.offsetWidth, placed = [];
+    calls.forEach(function (c) {
+      var t = tour.querySelector('[data-hl="' + c.getAttribute('data-for') + '"]');
+      if (!t) return;
+      var r = t.getBoundingClientRect();
+      var tl = r.left - box.left, tt = r.top - box.top, tw = r.width, th = r.height;
+      var w = c.offsetWidth, h = c.offsetHeight, x, y;
+      switch (c.getAttribute('data-at')) {
+        case 'left':      x = tl - w - GAP; y = tt; break;
+        case 'below':     x = tl; y = tt + th + GAP; break;
+        case 'below-end': x = tl + tw - w; y = tt + th + GAP; break;
+        case 'above':     x = tl + tw / 2 - w / 2; y = tt - h - GAP; break;
+        case 'end':       x = W - w; y = tt; break;
+        case 'free':      // centered in the slide's unhighlighted column, level with its highlight
+          var f = tour.querySelector('[data-free]');
+          var fr = f ? f.getBoundingClientRect() : r;
+          x = fr.left - box.left + (fr.width - w) / 2; y = tt; break;
+        default:          x = tl + tw + GAP; y = tt;
+      }
+      x = Math.max(0, Math.min(x, W - w));
+      y = Math.max(0, y);
+      var moved = true;
+      while (moved) {
+        moved = false;
+        placed.forEach(function (q) {
+          if (x < q.x + q.w && x + w > q.x && y < q.y + q.h + 10 && y + h + 10 > q.y) { y = q.y + q.h + 10; moved = true; }
+        });
+      }
+      c.style.left = x + 'px'; c.style.top = y + 'px';
+      placed.push({ x: x, y: y, w: w, h: h });
+    });
+    var pad = parseFloat(tour.style.paddingBottom) || 0, need = 0;
+    placed.forEach(function (q) { need = Math.max(need, q.y + q.h + 16); });
+    var extra = Math.max(0, Math.ceil(need - (tour.offsetHeight - pad)));
+    if (extra !== pad) tour.style.paddingBottom = extra ? extra + 'px' : '';
+  }
+
+  // One step at a time: only the current highlight and its popup show. Each
+  // popup but a slide's last gets Back and Next buttons here; the last keeps
+  // its own button, which moves to the next slide.
+  function setStep(tour, k, force) {
+    var calls = tour.querySelectorAll('.' + p + '-call');
+    var moved = force || (tour._step !== undefined && tour._step !== k);
+    tour._step = k;
+    Array.prototype.forEach.call(calls, function (c, n) {
+      c.classList.toggle('is-cur', n === k);
+      var t = tour.querySelector('[data-hl="' + c.getAttribute('data-for') + '"]');
+      if (t) t.classList.toggle('is-cur', n === k);
+      if (t && t.hasAttribute('data-col')) {
+        t.parentElement.querySelectorAll('.' + t.getAttribute('data-col')).forEach(function (cell) { cell.classList.toggle(p + '-lit', n === k); });
+      }
+    });
+    place(tour);
+    var cur = tour.querySelector('.' + p + '-hl.is-cur');
+    if (!moved || !cur) return;
+    // A highlight inside a scroll box of its own (TeacherAID's Hours dialog on
+    // a phone) is first scrolled into that box.
+    for (var a = cur.parentElement; a && a !== tour; a = a.parentElement) {
+      if (a.scrollHeight > a.clientHeight + 1 && /auto|scroll/.test(getComputedStyle(a).overflowY)) {
+        var ar = a.getBoundingClientRect(), hr = cur.getBoundingClientRect();
+        if (hr.bottom > ar.bottom || hr.top < ar.top) a.scrollTop += hr.top - ar.top - 12;
+      }
+      if (a.scrollWidth > a.clientWidth + 1 && /auto|scroll/.test(getComputedStyle(a).overflowX)) {
+        var ax = a.getBoundingClientRect(), hx = cur.getBoundingClientRect();
+        if (hx.right > ax.right || hx.left < ax.left) a.scrollLeft += hx.left - ax.left - 12;
+      }
+    }
+    // Tall slides (the Agency job description, TeacherAID's Schedule): bring
+    // the highlight and its popup into view, clear of whichever pinned layer
+    // sits lowest (TeacherAID pins its strip under the title card). Full
+    // screen scrolls the overlay, not the page. On a phone the popup is
+    // pinned to the bottom of the screen, so it sets the floor.
+    var full = root.classList.contains('is-full');
+    var list = tour.classList.contains('is-list');
+    // A slide that just came in (force) folds in the scroll alignUnderPin()
+    // started, so one scroll lands the new slide under a pinned strip and
+    // its first highlight in view; two smooth scrolls would fight. A strip
+    // that scrolls with the page is brought back into view instead.
+    // A pinned layer is measured where it rests once stuck (its CSS top),
+    // not where it sits this frame: right after a slide change the shorter
+    // slide can hold it higher for a frame (TeacherAID's Hours on a phone).
+    var base = full ? root.getBoundingClientRect().top + root.clientTop : 0;
+    function pinnedBottom(el) {
+      return Math.max(el.getBoundingClientRect().bottom, base + (parseFloat(getComputedStyle(el).top) || 0) + el.offsetHeight);
+    }
+    var pre = 0, pin = root.querySelector('.demo-nav-wrap');
+    if (force && pin) {
+      if (getComputedStyle(pin).position === 'sticky') {
+        var nx = pin.nextElementSibling;
+        var d = nx ? nx.getBoundingClientRect().top - (pinnedBottom(pin) + (parseFloat(getComputedStyle(pin).marginBottom) || 0)) : 0;
+        if (d < -1) pre = d;
+      } else if (!list) {
+        pre = Math.min(0, pin.getBoundingClientRect().top - 6 - base);
+      }
+    }
+    var top = base;
+    root.querySelectorAll('.demo-caption, .demo-nav-wrap').forEach(function (el) {
+      if (getComputedStyle(el).position === 'sticky') top = Math.max(top, pinnedBottom(el));
+    });
+    top += list ? 14 : 24;
+    var call = tour.querySelector('.' + p + '-call.is-cur');
+    var cr = call ? call.getBoundingClientRect() : null;
+    var bottom = (full ? root.getBoundingClientRect().bottom : window.innerHeight) - (list && cr ? cr.height + 24 : 16);
+    var r = cur.getBoundingClientRect();
+    var high = (list || !cr ? r.top : Math.min(r.top, cr.top)) - pre;
+    var low = (list || !cr ? r.bottom : Math.max(r.bottom, cr.bottom)) - pre;
+    var dy = high < top ? high - top : (low > bottom ? Math.min(low - bottom, high - top) : 0);
+    if (dy + pre) (full ? root : window).scrollBy({ top: dy + pre, behavior: 'smooth' });
+  }
+  // A slide's first step goes back to the previous slide, landing on its
+  // last step, so Back walks the whole tour in reverse. Every tour here is
+  // one per slide, so it turns the slide through the carousel's own
+  // previous control.
+  var tours = Array.prototype.slice.call(root.querySelectorAll('.' + p + '-tour'));
+  var slideEls = Array.prototype.slice.call(root.querySelectorAll('.demo-car-slide'));
+  var prevCtl = root.querySelector('[data-demo-prev]');
+  tours.forEach(function (tour, ti) {
+    var calls = tour.querySelectorAll('.' + p + '-call');
+    var prevSlide = ti > 0 ? tours[ti - 1].closest('.demo-car-slide') : null;
+    var backAcross = prevCtl && prevSlide && slideEls.indexOf(prevSlide) === slideEls.indexOf(tour.closest('.demo-car-slide')) - 1;
+    Array.prototype.forEach.call(calls, function (c, n) {
+      var body = c.querySelector('.' + p + '-call-body');
+      var own = body.querySelector('.' + p + '-call-next');
+      var nav = document.createElement('div');
+      nav.className = p + '-call-nav';
+      if (n === 0 && backAcross) {
+        var item = root.querySelector('.demo-nav-item[data-nav="' + prevSlide.getAttribute('data-nav') + '"]');
+        var name = item ? Array.prototype.filter.call(item.childNodes, function (x) { return x.nodeType === 3; }).map(function (x) { return x.textContent; }).join('').trim() : '';
+        var prev = document.createElement('button');
+        prev.type = 'button'; prev.className = p + '-call-back';
+        prev.innerHTML = '&#8249; Back' + (name ? ': ' + name : '');
+        prev.addEventListener('click', function () {
+          tours[ti - 1]._startAt = 'last';
+          prevCtl.click();
+        });
+        nav.appendChild(prev);
+      }
+      if (n > 0) {
+        var back = document.createElement('button');
+        back.type = 'button'; back.className = p + '-call-back'; back.innerHTML = '&#8249; Back';
+        back.addEventListener('click', function () { setStep(tour, n - 1); });
+        nav.appendChild(back);
+      }
+      if (n < calls.length - 1) {
+        var next = document.createElement('button');
+        next.type = 'button'; next.className = p + '-call-next'; next.innerHTML = 'Next &#8250;';
+        next.addEventListener('click', function () { setStep(tour, n + 1); });
+        nav.appendChild(next);
+      } else if (own) {
+        nav.appendChild(own);
+      }
+      if (nav.children.length) body.appendChild(nav);
+    });
+    setStep(tour, 0);
+  });
+  function placeAll() { tours.forEach(place); }
+  // A slide that comes back into view starts again at its first step, or at
+  // its last when a Back button brought it back. When a slide change
+  // brought it (a strip item, a step chip, an arrow key or a popup's
+  // button, never a tab switch), it also scrolls to that step.
+  var turnedAt = -1e9;
+  function markTurn() { turnedAt = Date.now(); }
+  root.addEventListener('click', function (e) {
+    if (e.target.closest('.demo-nav-item, .demo-nav-step, [data-demo-prev], [data-demo-next], [data-' + p + '-restart]')) markTurn();
+  }, true);
+  root.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') markTurn();
+  }, true);
+  if (window.ResizeObserver) {
+    var ro = new ResizeObserver(function (entries) {
+      entries.forEach(function (e) {
+        var t = e.target, w = t.offsetWidth;
+        if (w && !t._shown) {
+          setStep(t, t._startAt === 'last' ? t.querySelectorAll('.' + p + '-call').length - 1 : 0, Date.now() - turnedAt < 600);
+          t._startAt = null;
+        } else place(t);
+        t._shown = !!w;
+      });
+    });
+    tours.forEach(function (t) { ro.observe(t); });
+  }
+  window.addEventListener('resize', placeAll);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeAll);
+  placeAll();
+
+  // Full screen: the gate's button opens the walkthrough over the page at
+  // step 1; Close, Esc or a click on the backdrop puts it back in the tab and
+  // restores the page's scroll, so the reader lands where they left.
+  var backdrop = null, savedY = 0;
+  function openFull() {
+    savedY = window.scrollY;
+    backdrop = document.createElement('div');
+    backdrop.className = p + '-backdrop';
+    backdrop.addEventListener('click', closeFull);
+    document.body.appendChild(backdrop);
+    document.documentElement.style.overflow = 'hidden';
+    root.classList.add('is-full');
+    root.scrollTop = 0;
+    var first = root.querySelector('.demo-nav-item[data-slide="0"]');
+    if (first) first.click();
+    tours.forEach(function (t) { setStep(t, 0); });
+    root.focus({ preventScroll: true });
+    window.dispatchEvent(new Event('resize'));
+  }
+  function closeFull() {
+    if (!root.classList.contains('is-full')) return;
+    root.classList.remove('is-full');
+    if (backdrop) { backdrop.remove(); backdrop = null; }
+    document.documentElement.style.overflow = '';
+    window.scrollTo(0, savedY);
+    window.dispatchEvent(new Event('resize'));
+  }
+  Array.prototype.slice.call(root.querySelectorAll('[data-' + p + '-start]')).forEach(function (b) { b.addEventListener('click', openFull); });
+  Array.prototype.slice.call(root.querySelectorAll('[data-' + p + '-close]')).forEach(function (b) { b.addEventListener('click', closeFull); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeFull(); });
+
+  // The last popup's button goes back to step 1 through the first strip item.
+  Array.prototype.slice.call(root.querySelectorAll('[data-' + p + '-restart]')).forEach(function (b) {
+    b.addEventListener('click', function () {
+      var first = root.querySelector('.demo-nav-item[data-slide="0"]');
+      if (first) first.click();
+    });
+  });
+  }
+  initTour(document.querySelector('.social-demo[data-demo-panel]'), 'st');
+})();
+</script>
+
+</body>
+</html>

@@ -52,6 +52,7 @@ Vercel project: `ai-portfolio-landing-page` · GitHub: `mhperkins/AI-Portfolio-L
 | [demo/grant-demo.html](demo/grant-demo.html) | **Iteration source for the Grant Finder panel's carousel** (6 annotated slides, transplanted 2026-09-12). See "The Grant, Social and Campaign carousels" below. |
 | [demo/social-demo.html](demo/social-demo.html) | **Iteration source for the Social Planner panel's carousel** (5 annotated slides, transplanted 2026-09-12). |
 | [demo/campaign-demo.html](demo/campaign-demo.html) | **Iteration source for the Campaign Tracker panel's carousel** (5 annotated slides, transplanted 2026-09-12). |
+| [demo/grant-tour-demo.html](demo/grant-tour-demo.html), [demo/social-tour-demo.html](demo/social-tour-demo.html), [demo/campaign-tour-demo.html](demo/campaign-tour-demo.html) | **The three carousels above as guided tours** (built and transplanted 2026-09-19), 17, 15 and 10 steps, prefixes `gt`, `st`, `ct`. Made by script from their `-demo.html` sources, which stay the source of the screens. See "The Grant, Social and Campaign carousels". |
 | [demo/career-desk-demo.html](demo/career-desk-demo.html) | **Iteration source for the Career Desk tab's walkthrough** (built and transplanted 2026-09-18; re-transplant its CSS, MARKUP and SCRIPT blocks). A tutorial, not a feature tour (Max's call): 5 slides over the app's two screens (Board twice, then the Workspace three times), each dimmed except **one highlighted step at a time, its blurb open as a popup beside it** (Max's calls: 3 at once was too much, and the job card is its own click). Next and Back step within a slide; a slide's last step moves to the next slide. On a phone the popup pins to the screen bottom and each step scrolls its highlight into view, 12 steps in the order of the work, from a posting link to Mark as sent. A first 7-slide feature version was too much at once; do not go back to it. Root `.desk-demo`, prefix `cd-`; a transplant also copies the TRANSPLANT SCRIPT block, which places the popups (`data-at`), runs the steps, and switches to the pinned phone popup below 700px. Placeholder world only: applicant Riley Chen, invented employers. Copy is Claude's draft. |
 | [demo/assets/](demo/assets/) | Carousel assets: `chaconne-p1.webp` (copied from the composer portfolio's score previews) and `chaconne-excerpt.mp3`, the 45-second cut from 8:25 of the Chaconne recording that slide 5 plays in both copies. |
 | [images/](images/) | Screenshots and assets. `maxwell-portrait-500/800.webp` is the color on-stage portrait from the composer portfolio's About section (copied 2026-09-14 from `composers-compass/portfolio/site/assets/portfolio/maxwell-about-portrait-*`), shown beside the About text on `about.html` and the home page. Not the black and white piano hero photo. |
@@ -755,6 +756,12 @@ still advances on its own, zero script errors, no new em dashes.
 
 ## The Grant, Social and Campaign carousels (transplanted 2026-09-12)
 
+**Guided tours since 2026-09-19,** like Sprout CRM: every pin a highlight, every note its popup word for word
+plus a title (Claude's draft), a Start gate that opens full screen, inline on phones, on the shared
+`initTour()` as `gt`, `st` and `ct`. The notes rows and hover pops are gone from these carousels. Details and
+the tour-specific CSS calls (Grant's column highlights, the whole-screen gutter, title cards that scroll away in
+full screen, Social's lifted height caps) are in `docs/slideshow-tutorial-checklist.md`, item 7.
+
 The last three Sprout panels, built the same way as the Sprout CRM carousel: one standalone per tool
 in `demo/`, then copied into `index.html` by script. **The standalones stay the iteration sources.**
 Each carries `TRANSPLANT CSS START / END` and `TRANSPLANT MARKUP START / END` markers; a
@@ -838,6 +845,23 @@ then a full-screen pop out like Career Desk's. Built as `demo/crm-tour-demo.html
 **Open:** Back across slides (the page's shared `initTour()` has it; this file's script predates it), a
 check at 960, Max's look and the popup titles, then transplant. Tracked as item 3 of
 `docs/slideshow-tutorial-checklist.md`.
+
+### Session of 2026-09-19: Grant, Social and Campaign tours (pushed)
+
+Max's ask: the next item on `docs/slideshow-tutorial-checklist.md`, then put them on the site once they pass.
+
+- **All three Sprout tours built and transplanted together:** `demo/grant-tour-demo.html` (17 steps),
+  `social-tour-demo.html` (15) and `campaign-tour-demo.html` (10), then the same script conversion run on
+  the page's own panels. Popup titles are Claude's drafts; the note text is unchanged.
+- **Shared `initTour()` changed for all seven tours:** a popup that sits below the screen grows the tour to
+  hold it (this also fixed Career Desk step 1's 3px overrun at 960), a sideways scroll box is scrolled to its
+  highlight, and the Back label drops strip icons and badges.
+- **Verified headless (1280 and 960 full screen, 390 with touch), standalone and page:** Grant 505, Social
+  447, Campaign 302, zero failures. Career Desk, Agency and Sprout CRM re-verified clean; TeacherAID fails only
+  its known 960 step 6.
+
+**Open:** Max reviews the three tours and their 42 popup titles. TeacherAID step 6 at 960 (popup over its
+highlight). Compass and Hub CRM are the last two carousels not yet tours on the page.
 
 ### Session of 2026-09-18, final: the Sprout CRM tour (pushed)
 

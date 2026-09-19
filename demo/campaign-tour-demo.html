@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sprout Society Campaign Tracker &middot; Guided tour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   Campaign Tracker as a guided tour (built 2026-09-18), made by script from
+   campaign-demo.html on the Sprout CRM tour pattern: every pin became a
+   highlight (ct-hl, data-hl) and every note that step's popup (ct-call,
+   data-for, data-at picks the side), 10 steps numbered across the tool.
+   The only new copy is a short title per popup. campaign-demo.html stays the
+   source of the screens; on index.html it runs as initTour(root, 'ct').
+
+   Sprout Society Campaign Tracker demo carousel.
+
+   Standalone iteration source, same convention as sprout-crm-demo.html and
+   crm-demo.html: nothing here is wired into index.html yet. It replaces the
+   Loom on the Campaign Tracker panel once it is settled.
+
+   Two class families:
+   - `demo-` is the shared carousel scaffolding, copied verbatim from
+     sprout-crm-demo.html so the transplant can reuse the rules already on the
+     page. It reads its colors from variables, so the Sprout look comes from the
+     token block on `.campaign-demo` plus a scoped override block, never from
+     edits to the shared rules.
+   - `qt-` is the Campaign Tracker chrome. Its layout is lifted from
+     qr-tracker/public/index.html and scaled to about 85% so the dashboard
+     fits the card. The real tracker is dark slate; this carousel was
+     repainted in the Sprout palette (2026-09-12, at Max's ask) so it matches
+     the CRM, Grant and Social carousels beside it.
+
+   Tokens sit on `.campaign-demo`, not :root, so they cannot leak into the
+   portfolio page after the transplant. Every rule between the TRANSPLANT CSS
+   markers starts with `.campaign-demo`, so that block copies verbatim.
+
+   QR images are decorative inline SVG patterns (finder squares plus a fixed
+   pseudo-random fill). They encode nothing. Lato from Google Fonts is the
+   only external request; no chart library.
+
+   All data is placeholder. Sprout N Tell Vol. 4 is the one real event name;
+   every code, count, and link around it is invented.
+
+   House rule: no em dashes anywhere on this page.
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 32px 20px 64px;
+  background: #F7F7F6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.demo-wrap { max-width: 1180px; margin: 0 auto; }
+
+/* --- page heading (scaffolding only; drop this on transplant) ------------- */
+.demo-scaffold { margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+.demo-scaffold h1 { font-size: 30px; font-weight: 900; margin: 0 0 6px; letter-spacing: -0.02em; color: #030000; }
+.demo-scaffold p { margin: 0; color: var(--ts); font-size: 14px; max-width: 70ch; }
+
+/* ==========================================================================
+   Shared carousel scaffolding. Verbatim from sprout-crm-demo.html.
+   ========================================================================== */
+.demo-nav-wrap { display: flex; gap: 4px; flex-wrap: wrap; background: var(--ch); border-radius: 10px; padding: 10px 10px; margin-bottom: 14px; }
+.demo-nav-item { font-family: var(--font-sans); font-size: 13px; font-weight: 500; padding: 8px 14px; border-radius: 6px; border: none; background: none; color: var(--tm); display: flex; align-items: center; gap: 7px; transition: background 0.15s, color 0.15s; }
+.demo-nav-item:hover:not(:disabled) { color: var(--cream); background: rgba(255, 255, 255, 0.06); }
+.demo-nav-item.is-active { color: var(--cream); background: rgba(180, 83, 9, 0.32); }
+.demo-nav-item:disabled { cursor: default; opacity: 0.55; }
+.demo-nav-soon { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; background: rgba(255, 255, 255, 0.12); color: var(--cream); padding: 1px 7px; border-radius: 8px; }
+.demo-nav-hint { margin-left: auto; align-self: center; display: inline-flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); border: 1px solid rgba(217, 119, 6, 0.55); border-radius: 20px; padding: 4px 11px; pointer-events: none; white-space: nowrap; }
+.demo-nav-hint svg { width: 10px; height: 10px; display: block; flex-shrink: 0; color: var(--amber-lt); }
+@media (max-width: 660px) { .demo-nav-hint { display: none; } }
+
+.demo-stage { position: relative; border: 1px solid var(--border); border-radius: 10px; background: white; box-shadow: var(--shadow); overflow: hidden; }
+.demo-canvas { background-color: var(--warm); background-image: repeating-linear-gradient(to bottom, rgba(139, 115, 85, 0.10) 0px, rgba(139, 115, 85, 0.10) 1px, transparent 1px, transparent 10px); background-size: 100% 90px; padding: 28px 24px; min-height: 400px; position: relative; }
+.demo-side-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 20; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); background: rgba(255, 255, 255, 0.94); color: var(--ts); font-size: 17px; line-height: 1; box-shadow: var(--shadow-lg); transition: opacity 0.18s, color 0.18s, border-color 0.18s; }
+.demo-side-arrow:hover:not(:disabled) { color: var(--amber); border-color: var(--amber-lt); }
+.demo-side-arrow:disabled { opacity: 0.25; cursor: default; }
+.demo-side-prev { left: 6px; }
+.demo-side-next { right: 6px; }
+.demo-car-slide { display: none; }
+.demo-car-slide.is-on { display: block; animation: demoFade 220ms ease-out; }
+@keyframes demoFade { from { opacity: 0; } to { opacity: 1; } }
+.demo-caption { border-bottom: 1px solid var(--border); background: white; padding: 18px 22px 16px; display: flex; flex-direction: column; gap: 10px; }
+.demo-cap-col { flex: 0 0 auto; }
+.demo-slide-title { font-family: var(--font-serif); font-size: 28px; font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; color: var(--tp); margin: 0; }
+.demo-cap-label { font-size: 9.5px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--tm); margin-bottom: 3px; }
+.demo-cap-state { font-family: var(--font-serif); font-size: 16px; line-height: 1.35; color: var(--tp); }
+.demo-controls { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 14px; }
+.demo-arrow { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: white; color: var(--ts); font-size: 15px; box-shadow: var(--shadow); }
+.demo-arrow:disabled { opacity: 0.35; }
+.demo-count { font-size: 12px; color: var(--tm); letter-spacing: 0.1em; font-variant-numeric: tabular-nums; }
+.demo-title { font-family: var(--font-serif); font-size: 19px; font-weight: 600; text-align: center; flex: 1; }
+
+/* numbered notes and pins, verbatim from sprout-crm-demo.html, recolored below */
+.demo-notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin: 0 0 16px; }
+.demo-note { display: flex; gap: 10px; align-items: flex-start; background: white; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; box-shadow: var(--shadow); font-family: var(--font-sans); font-size: 13px; line-height: 1.45; color: var(--tp); }
+.demo-bul { margin: 0; padding-left: 1.05em; list-style: disc; }
+.demo-bul li + li { margin-top: 3px; }
+.demo-bul li::marker { color: var(--demo-pin-color, var(--amber)); }
+.demo-pin, .demo-pin-n { width: 22px; height: 22px; border-radius: 50%; background: var(--amber); color: white; font-family: var(--font-sans); font-size: 11.5px; font-weight: 700; line-height: 22px; text-align: center; flex: none; }
+.demo-pin { position: absolute; top: -10px; left: -10px; z-index: 6; box-shadow: 0 0 0 2px white, 0 2px 8px rgba(28, 25, 23, .25); pointer-events: none; }
+.demo-pinned { position: relative; }
+
+@media (max-width: 760px) {
+  .demo-canvas { padding: 18px 12px; }
+  .demo-side-arrow { width: 32px; height: 32px; font-size: 15px; }
+  .demo-side-prev { left: 2px; }
+  .demo-side-next { right: 2px; }
+  .demo-title { font-size: 15px; }
+  .demo-slide-title { font-size: 20px; }
+  .demo-caption { padding: 14px 16px 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .demo-car-slide.is-on { animation: none; }
+}
+
+/* ===== TRANSPLANT CSS START ===== */
+.campaign-demo {
+  /* names the shared demo- rules expect, mapped to the Sprout palette. The
+     layout follows qr-tracker/public/index.html; the colors are the suite's,
+     so this panel reads as one set with the CRM, Grant and Social carousels. */
+  --ch:        #030000;
+  --cream:     #F7F7F6;
+  --amber:     #2a8ca0;
+  --amber-lt:  #73C4D6;
+  --border:    #E5E7EB;
+  --tp:        #030000;
+  --ts:        #4B5563;
+  --tm:        #9CA3AF;
+  --warm:      #F3F4F6;
+  --font-serif: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-sans:  'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --shadow:    0 4px 14px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.13);
+
+  /* Sprout's own tokens, the same set the other Sprout carousels carry */
+  --ink:        #030000;
+  --paper:      #F7F7F6;
+  --cyan:       #73C4D6;
+  --cyan-dk:    #2a8ca0;
+  --fuchsia:    #E10098;
+  --acid:       #C6C902;
+  --banana:     #FAD100;
+  --cyan-lt:    #C7E7EF;
+  --acid-lt:    #E9E99A;
+  --fuchsia-lt: #FFCDF0;
+  --banana-lt:  #FEF4C1;
+  --g50:  #F9FAFB;
+  --g100: #F3F4F6;
+  --g200: #E5E7EB;
+  --g300: #D1D5DB;
+  --g400: #9CA3AF;
+  --g500: #6B7280;
+  --g600: #4B5563;
+  --g800: #1F2937;
+  --sh-sm: 0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.campaign-demo button { cursor: pointer; font-family: var(--font-sans); }
+
+/* --- scaffolding overrides: the Sprout strip, stage and pins -------------- */
+.campaign-demo .demo-nav-wrap { align-items: center; padding: 8px 10px; position: sticky; top: var(--demo-pin-top, 0px); z-index: 20; }
+.campaign-demo .demo-nav-item { font-size: 12.5px; font-weight: 700; color: rgba(247, 247, 246, 0.55); padding: 8px 12px; }
+.campaign-demo .demo-nav-item:hover:not(:disabled) { color: var(--paper); background: rgba(247, 247, 246, 0.07); }
+.campaign-demo .demo-nav-item.is-active { color: var(--ink); background: var(--cyan); }
+.campaign-demo .demo-nav-hint { border-color: rgba(115, 196, 214, 0.6); font-weight: 700; }
+.campaign-demo .demo-nav-hint svg { color: var(--cyan); }
+.campaign-demo .qt-navbrand { padding: 2px 14px 2px 6px; margin-right: 6px; border-right: 1px solid rgba(247, 247, 246, 0.1); line-height: 1.2; }
+.campaign-demo .qt-navbrand-name { font-size: 10px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper); }
+.campaign-demo .qt-navbrand-sub { font-size: 8.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); margin-top: 2px; }
+
+.campaign-demo .demo-stage { border-top: 4px solid var(--acid); overflow: clip; display: flow-root; }
+.campaign-demo .demo-canvas {
+  background-color: var(--paper);
+  background-image: radial-gradient(rgba(3, 0, 0, 0.07) 1px, transparent 1px);
+  background-size: 18px 18px;
+  padding: 28px 26px;
+}
+.campaign-demo .demo-slide-title { font-weight: 900; font-size: 26px; letter-spacing: -0.02em; line-height: 1.2; }
+.campaign-demo .demo-cap-label { font-weight: 700; letter-spacing: 0.12em; }
+.campaign-demo .demo-cap-state { font-size: 15px; color: var(--g600); }
+.campaign-demo .demo-title { font-weight: 900; font-size: 16px; }
+.campaign-demo .demo-side-arrow:hover:not(:disabled) { color: var(--ink); border-color: var(--cyan); }
+
+.campaign-demo .demo-notes { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); position: sticky; top: calc(var(--demo-pin-top, 0px) + var(--demo-strip-h, 0px)); z-index: 30; margin: -12px -26px 16px; padding: 12px 26px; background: rgba(247, 247, 246, 0.94); backdrop-filter: blur(4px); }
+.campaign-demo .demo-note { font-size: 12px; }
+.campaign-demo .demo-pin, .campaign-demo .demo-pin-n { background: var(--fuchsia); font-weight: 900; }
+
+/* --- the app window ------------------------------------------------------ */
+.campaign-demo .qt-frame { position: relative; background: var(--paper); border: 1.5px solid var(--g200); border-radius: 12px; box-shadow: var(--shadow-lg); overflow: hidden; }
+.campaign-demo .qt-page { padding: 26px 22px 24px; }
+.campaign-demo .qt-clip { max-height: 600px; overflow: hidden; }
+.campaign-demo .qt-clip-tall { max-height: 820px; }
+.campaign-demo .qt-clip::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 90px; background: linear-gradient(to bottom, rgba(247, 247, 246, 0), var(--paper)); pointer-events: none; z-index: 3; }
+
+/* header */
+.campaign-demo .qt-hdr { position: relative; text-align: center; margin-bottom: 26px; }
+.campaign-demo .qt-h1 { font-size: 27px; font-weight: 900; letter-spacing: -0.01em; color: var(--ink); margin: 0; line-height: 1.2; }
+.campaign-demo .qt-hdr-sub { color: var(--g600); margin: 5px 0 0; font-size: 13px; }
+.campaign-demo .qt-badge { display: inline-block; margin-top: 8px; background: var(--cyan-lt); border-radius: 20px; padding: 3px 11px; font-size: 11px; font-weight: 700; color: #155e6e; }
+.campaign-demo .qt-manage { position: absolute; top: 0; right: 0; background: #fff; border: 1.5px solid var(--g200); color: var(--g600); border-radius: 7px; padding: 6px 13px; font-size: 11.5px; font-weight: 700; display: flex; align-items: center; gap: 5px; }
+
+/* event tabs */
+.campaign-demo .qt-tabs { display: flex; gap: 7px; flex-wrap: wrap; margin: 0 0 20px; }
+.campaign-demo .qt-tab { background: #fff; border: 1.5px solid var(--g200); color: var(--g600); border-radius: 7px; padding: 6px 12px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.campaign-demo .qt-tab span { opacity: 0.6; font-weight: 400; }
+.campaign-demo .qt-tab-on { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+
+/* stat cards */
+.campaign-demo .qt-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 17px; margin-bottom: 17px; }
+.campaign-demo .qt-stat { background: #fff; border: 1.5px solid var(--g200); border-radius: 10px; padding: 18px 20px; display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.campaign-demo .qt-stat-lbl { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--g400); }
+.campaign-demo .qt-stat-val { font-size: 35px; font-weight: 900; color: var(--ink); line-height: 1; }
+.campaign-demo .qt-stat-sub { font-size: 11px; color: var(--g600); }
+
+/* QR tile grid */
+.campaign-demo .qt-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 17px; margin-bottom: 17px; }
+.campaign-demo .qt-tile { background: #fff; border: 1.5px solid var(--g200); border-radius: 11px; box-shadow: var(--sh-sm); padding: 17px; display: flex; flex-direction: column; align-items: center; gap: 12px; min-width: 0; }
+.campaign-demo .qt-tile-on { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(115, 196, 214, 0.22); }
+.campaign-demo .qt-tile-box { background: #fff; border: 1.5px solid var(--g100); border-radius: 7px; padding: 7px; line-height: 0; }
+.campaign-demo .qt-qr { display: block; width: 102px; height: 102px; fill: var(--ink); }
+.campaign-demo .qt-tile-label { font-size: 12px; font-weight: 700; color: var(--ink); text-align: center; }
+.campaign-demo .qt-tile-type { font-size: 10px; color: var(--g400); text-align: center; margin-top: -8px; }
+.campaign-demo .qt-tile-count { font-size: 20px; font-weight: 900; color: var(--cyan-dk); line-height: 1.1; }
+.campaign-demo .qt-tile-small { color: var(--g400); font-size: 9.5px; margin-top: -10px; }
+
+/* selected code detail */
+.campaign-demo .qt-detail { background: #fff; border: 1.5px solid var(--g200); border-radius: 11px; box-shadow: var(--sh-sm); padding: 24px; display: flex; gap: 27px; align-items: flex-start; flex-wrap: wrap; }
+.campaign-demo .qt-qrbox { background: #fff; border: 1.5px solid var(--g200); border-radius: 10px; padding: 12px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 9px; }
+.campaign-demo .qt-qr-lg { width: 153px; height: 153px; }
+.campaign-demo .qt-dl-btn { background: var(--ink); color: var(--paper); border-radius: 7px; padding: 7px 15px; font-size: 11px; font-weight: 700; width: 100%; text-align: center; }
+.campaign-demo .qt-info { flex: 1; min-width: 220px; }
+.campaign-demo .qt-info-h2 { font-size: 15px; font-weight: 900; color: var(--ink); margin: 0 0 10px; }
+.campaign-demo .qt-dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 5px 14px; font-size: 12px; margin: 0; }
+.campaign-demo .qt-dl dt { color: var(--g500); font-weight: 700; }
+.campaign-demo .qt-dl dd { color: var(--ink); word-break: break-all; margin: 0; }
+.campaign-demo .qt-dl .qt-dd-url { font-size: 10.5px; color: var(--cyan-dk); }
+.campaign-demo .qt-note { margin-top: 16px; background: var(--g50); border-left: 3px solid var(--cyan); padding: 10px 14px; border-radius: 0 7px 7px 0; font-size: 11px; color: var(--g600); line-height: 1.55; }
+.campaign-demo .qt-note strong { color: var(--ink); }
+
+/* chart card: a static rebuild of the tracker's bar chart */
+.campaign-demo .qt-chart-card { background: #fff; border: 1.5px solid var(--g200); border-radius: 11px; box-shadow: var(--sh-sm); padding: 20px; }
+.campaign-demo .qt-chart-h2 { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--g600); margin: 0 0 14px; }
+.campaign-demo .qt-ranges { display: flex; gap: 6px; margin-bottom: 17px; }
+.campaign-demo .qt-range { background: #fff; border: 1.5px solid var(--g200); color: var(--g600); border-radius: 20px; padding: 3px 11px; font-size: 11px; font-weight: 700; }
+.campaign-demo .qt-range-on { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+/* rtl on the scroller only: a phone opens the chart at its right end, where
+   the scans are, without any script. The chart itself reads ltr. */
+.campaign-demo .qt-chart-scroll { overflow-x: auto; padding-top: 18px; margin-top: -18px; direction: rtl; }
+.campaign-demo .qt-chart { direction: ltr; display: grid; grid-template-columns: 22px minmax(0, 1fr); grid-template-rows: 204px 22px; min-width: 520px; font-size: 11px; color: var(--g400); }
+.campaign-demo .qt-chart-y { position: relative; }
+.campaign-demo .qt-chart-y span { position: absolute; right: 8px; transform: translateY(50%); line-height: 1; }
+.campaign-demo .qt-chart-plot { position: relative; border-top: 1px solid var(--g200); background-image: linear-gradient(to top, var(--g200) 1px, transparent 1px); background-size: 100% calc(100% / 7); background-position: left bottom; }
+.campaign-demo .qt-bars { position: absolute; inset: 0; display: flex; align-items: flex-end; }
+.campaign-demo .qt-bar-slot { flex: 1 1 0; min-width: 0; height: 100%; display: flex; align-items: flex-end; justify-content: center; }
+.campaign-demo .qt-bar { width: 72%; background: var(--cyan); border-radius: 4px 4px 0 0; }
+.campaign-demo .qt-chart-x { grid-column: 2; display: flex; }
+.campaign-demo .qt-chart-x span { flex: 1 1 0; min-width: 0; position: relative; }
+.campaign-demo .qt-chart-x b { position: absolute; top: 6px; left: 50%; transform: translateX(-50%); font-weight: 400; white-space: nowrap; }
+.campaign-demo .qt-updated { text-align: center; margin: 24px 0 0; font-size: 10.5px; color: var(--g400); }
+
+/* manage drawer */
+.campaign-demo .qt-behind { position: absolute; inset: 0; overflow: hidden; }
+.campaign-demo .qt-overlay { position: absolute; inset: 0; background: rgba(3, 0, 0, 0.35); z-index: 1; }
+.campaign-demo .qt-drawer { position: relative; z-index: 2; margin-left: auto; width: 58%; background: var(--paper); border-left: 1.5px solid var(--g200); box-shadow: -8px 0 40px rgba(0, 0, 0, 0.13); }
+.campaign-demo .qt-drawer-full { width: 100%; border-left: none; box-shadow: none; }
+.campaign-demo .qt-mgr-hd { padding: 16px 20px; background: #fff; border-bottom: 1px solid var(--g200); display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.campaign-demo .qt-mgr-h2 { font-size: 14px; font-weight: 900; color: var(--ink); margin: 0; }
+.campaign-demo .qt-mgr-x { color: var(--g400); font-size: 19px; line-height: 1; padding: 0 4px; }
+.campaign-demo .qt-mgr-body { padding: 17px 20px 20px; }
+.campaign-demo .qt-sec-hd { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 20px 0 12px; }
+.campaign-demo .qt-sec-hd-first { margin-top: 0; }
+.campaign-demo .qt-sec-ttl { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--g600); }
+.campaign-demo .qt-btn { background: #fff; border: 1.5px solid var(--g200); color: var(--g600); border-radius: 5px; padding: 4px 10px; font-size: 10.5px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 4px; white-space: nowrap; flex-shrink: 0; line-height: 1.4; }
+.campaign-demo .qt-btn-primary { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.campaign-demo .qt-btn-pressed { background: var(--g800); border-color: var(--g800); box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.35); }
+.campaign-demo .qt-btn-danger { background: #FEE2E2; border-color: #FEE2E2; color: #B91C1C; }
+.campaign-demo .qt-btn-success { background: var(--acid); border-color: var(--acid); color: var(--ink); }
+.campaign-demo .qt-btn-sm { font-size: 10px; padding: 3px 8px; }
+.campaign-demo .qt-btn-row { font-size: 10px; padding: 5px 10px; }
+.campaign-demo .qt-evrow { background: #fff; border: 1.5px solid var(--g200); border-radius: 10px; box-shadow: var(--sh-sm); margin-bottom: 10px; overflow: hidden; }
+.campaign-demo .qt-evrow-hd { display: flex; align-items: center; gap: 10px; padding: 11px 14px; }
+.campaign-demo .qt-chev { color: var(--g400); font-size: 10px; display: inline-block; }
+.campaign-demo .qt-evrow-open .qt-chev { transform: rotate(90deg); color: var(--cyan-dk); }
+.campaign-demo .qt-evrow-name { flex: 1; min-width: 0; font-size: 12px; font-weight: 900; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.campaign-demo .qt-evrow-meta { font-size: 10px; color: var(--g500); white-space: nowrap; }
+.campaign-demo .qt-evrow-body { padding: 0 14px 14px; border-top: 1px solid var(--g100); }
+.campaign-demo .qt-evrow-fields { margin-top: 12px; }
+.campaign-demo .qt-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.campaign-demo .qt-field { margin-bottom: 10px; min-width: 0; }
+.campaign-demo .qt-field-end { display: flex; align-items: flex-end; }
+.campaign-demo .qt-field-end .qt-btn { width: 100%; padding-top: 7px; padding-bottom: 7px; }
+.campaign-demo .qt-label { display: block; font-size: 8.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--g600); margin-bottom: 4px; }
+.campaign-demo .qt-input { display: block; width: 100%; min-width: 0; background: #fff; border: 1.5px solid var(--g200); border-radius: 6px; color: var(--ink); padding: 6px 10px; font-size: 12px; line-height: 1.45; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.campaign-demo .qt-input-sm { font-size: 10.5px; padding: 5px 8px; flex: 1 1 auto; }
+.campaign-demo .qt-input-focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(115, 196, 214, 0.18); }
+.campaign-demo .qt-input-auto { color: var(--cyan-dk); background: var(--g50); }
+.campaign-demo .qt-select { display: flex; justify-content: space-between; gap: 6px; }
+.campaign-demo .qt-select i { font-style: normal; color: var(--g400); }
+.campaign-demo .qt-caret { display: inline-block; width: 1px; height: 12px; background: var(--cyan-dk); vertical-align: -2px; margin-left: 1px; }
+.campaign-demo .qt-addform { background: rgba(115, 196, 214, 0.06); border: 1.5px solid var(--cyan); border-radius: 8px; padding: 14px; margin-top: 10px; }
+.campaign-demo .qt-actions { display: flex; gap: 7px; margin-top: 3px; }
+.campaign-demo .qt-codes { margin-top: 12px; }
+.campaign-demo .qt-code { background: var(--g50); border: 1px solid var(--g200); border-radius: 8px; padding: 10px 14px; margin-bottom: 7px; display: flex; flex-direction: column; gap: 7px; }
+.campaign-demo .qt-code-top, .campaign-demo .qt-code-line { display: flex; align-items: center; gap: 7px; min-width: 0; }
+.campaign-demo .qt-code-top { gap: 10px; }
+.campaign-demo .qt-code-info { flex: 1; min-width: 0; }
+.campaign-demo .qt-code-label { font-size: 11.5px; font-weight: 900; color: var(--ink); }
+/* A pinned code tile gets extra top padding so its pin clears the label. The
+   pin cannot move further out: .qt-evrow clips, with only 10px beside a tile on phones. */
+.campaign-demo .qt-code.demo-pinned { padding-top: 16px; }
+.campaign-demo .qt-code-meta { font-size: 10px; color: var(--g400); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.campaign-demo .qt-code-hi { border-color: var(--cyan); background: rgba(115, 196, 214, 0.08); }
+.campaign-demo .qt-toast { position: absolute; right: 20px; bottom: 20px; z-index: 5; background: var(--ink); border-radius: 8px; padding: 10px 17px; font-size: 12px; font-weight: 700; color: var(--paper); box-shadow: var(--shadow-lg); white-space: nowrap; }
+
+/* "How a scan works" box on the Update Live slide, in the .sp-explain pattern */
+.campaign-demo .qt-explain { background: #fff; border: 1px solid var(--border); border-left: 5px solid var(--acid); border-radius: 0 10px 10px 0; box-shadow: var(--shadow); padding: 14px 18px 16px; margin: 0 0 16px; }
+.campaign-demo .qt-explain-ttl { font-size: 10px; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; color: var(--g600); margin-bottom: 6px; }
+.campaign-demo .qt-explain p { margin: 0 0 10px; font-size: 13px; line-height: 1.55; color: var(--ink); }
+.campaign-demo .qt-explain ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; counter-reset: qtstep; }
+.campaign-demo .qt-explain li { counter-increment: qtstep; display: flex; gap: 9px; font-size: 12px; line-height: 1.5; color: var(--g800); }
+.campaign-demo .qt-explain li::before { content: counter(qtstep); flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--ink); color: var(--acid); font-size: 11.5px; font-weight: 900; line-height: 22px; text-align: center; }
+.campaign-demo .qt-explain li b { color: var(--ink); font-weight: 900; }
+
+@media (max-width: 1100px) {
+  .campaign-demo .qt-navbrand { display: none; }
+}
+@media (max-width: 760px) {
+  .campaign-demo .demo-canvas { padding: 18px 14px; }
+  .campaign-demo .demo-slide-title { font-size: 20px; }
+  .campaign-demo .demo-notes { margin: -10px -14px 14px; padding: 10px 14px; }
+  .campaign-demo .qt-page { padding: 16px 14px 18px; }
+  .campaign-demo .qt-h1 { font-size: 21px; padding: 0 36px; }
+  .campaign-demo .qt-manage-lbl { display: none; }
+  .campaign-demo .qt-manage { padding: 6px 9px; }
+  .campaign-demo .qt-hdr { margin-bottom: 18px; }
+  .campaign-demo .qt-tab { font-size: 11px; padding: 5px 10px; }
+  .campaign-demo .qt-stats { gap: 8px; }
+  .campaign-demo .qt-stat { padding: 10px; border-radius: 10px; }
+  .campaign-demo .qt-stat-lbl { font-size: 8px; }
+  .campaign-demo .qt-stat-val { font-size: 22px; }
+  .campaign-demo .qt-stat-sub { font-size: 9.5px; }
+  .campaign-demo .qt-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .campaign-demo .qt-tile { padding: 12px 8px; }
+  .campaign-demo .qt-qr { width: 84px; height: 84px; }
+  .campaign-demo .qt-qr-lg { width: 132px; height: 132px; }
+  .campaign-demo .qt-detail { padding: 16px; gap: 16px; }
+  .campaign-demo .qt-info { min-width: 0; flex-basis: 100%; }
+  .campaign-demo .qt-chart-card { padding: 14px; }
+  .campaign-demo .qt-behind, .campaign-demo .qt-overlay { display: none; }
+  .campaign-demo .qt-drawer { width: 100%; border-left: none; box-shadow: none; }
+  .campaign-demo .qt-mgr-hd { padding: 14px; }
+  .campaign-demo .qt-mgr-body { padding: 14px; }
+  .campaign-demo .qt-evrow-hd { padding: 10px; gap: 7px; }
+  .campaign-demo .qt-evrow-body { padding: 0 10px 10px; }
+  .campaign-demo .qt-row { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .campaign-demo .qt-addform { padding: 10px; }
+  .campaign-demo .qt-code { padding: 9px 10px; }
+  .campaign-demo .qt-explain ol { grid-template-columns: minmax(0, 1fr); }
+  .campaign-demo .qt-toast { right: 12px; bottom: 12px; }
+}
+@media (max-width: 640px) {
+  .campaign-demo .demo-notes { position: static; }
+  .campaign-demo .demo-nav-wrap { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .campaign-demo .demo-nav-wrap::-webkit-scrollbar { display: none; }
+  .campaign-demo .demo-nav-item { flex-shrink: 0; white-space: nowrap; }
+}
+
+/* ==========================================================================
+   The guided tour, same logic as sprout-crm-tour-demo.html and the page's
+   shared initTour(root, 'ct'). Each slide wraps its screen in .ct-tour: a
+   veil dims the screen but for one highlight (.ct-hl, data-hl) with its
+   popup (.ct-call, data-for) open beside it, on the side data-at names.
+   A highlight that holds the whole screen hides the veil inside it.
+   ========================================================================== */
+.campaign-demo .ct-tour { position: relative; }
+.campaign-demo .ct-veil { position: absolute; inset: 0; background: rgba(247, 247, 246, 0.74); z-index: 5; border-radius: inherit; pointer-events: none; }
+.campaign-demo .ct-hl.is-cur .ct-veil { display: none; }
+.campaign-demo .ct-hl { position: relative; }
+.campaign-demo .ct-hl.is-cur { z-index: 6; outline: 2px solid var(--fuchsia); outline-offset: 3px; border-radius: 6px; }
+.campaign-demo :where(.ct-hl.is-cur) { background-color: var(--paper); }
+.campaign-demo .ct-hl:not(.is-cur) > .ct-hl-n, .campaign-demo .ct-call:not(.is-cur) { display: none; }
+.campaign-demo .ct-hl-n { position: absolute; top: -10px; left: -10px; z-index: 7; width: 22px; height: 22px; border-radius: 50%; background: var(--fuchsia); color: #fff; font-size: 11.5px; font-weight: 900; line-height: 22px; text-align: center; letter-spacing: 0; text-transform: none; box-shadow: 0 0 0 2px #fff; }
+.campaign-demo .ct-hl-n.at-tr { left: auto; right: -10px; }
+.campaign-demo .ct-hl-n.at-corner { left: -13px; top: -13px; }
+.campaign-demo .ct-hl-n.at-up { top: -18px; }
+.campaign-demo .ct-calls { display: contents; }
+.campaign-demo .ct-call { position: absolute; z-index: 8; width: 256px; display: flex; gap: 9px; align-items: flex-start; background: #fff; border: 1.5px solid var(--ink); border-radius: 10px; box-shadow: var(--shadow-lg); padding: 10px 12px 11px; font-size: 12.5px; line-height: 1.45; color: var(--ink); text-align: left; }
+.campaign-demo .ct-call-n { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--fuchsia); color: #fff; font-size: 11.5px; font-weight: 900; line-height: 22px; text-align: center; }
+.campaign-demo .ct-call-body { flex: 1; min-width: 0; }
+.campaign-demo .ct-call-t { font-size: 15px; font-weight: 900; letter-spacing: -0.01em; line-height: 1.2; margin: 2px 0 5px; }
+.campaign-demo .ct-call .demo-bul li::marker { color: var(--fuchsia); }
+.campaign-demo .ct-call-nav { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 9px; }
+.campaign-demo .ct-call-nav button { white-space: nowrap; }
+.campaign-demo .ct-call-next { border: 1px solid var(--ink); background: var(--ink); color: var(--paper); border-radius: 6px; padding: 4px 12px; font-size: 12px; font-weight: 700; }
+.campaign-demo .ct-call-next:hover { background: var(--g800); border-color: var(--g800); }
+.campaign-demo .ct-call-back { border: 1px solid var(--g200); background: #fff; color: var(--ink); border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 700; }
+.campaign-demo .ct-call-back:hover { border-color: var(--cyan); }
+/* Phone and narrow screens: the popup pins to the bottom of the screen while
+   the tour is in view, and each step scrolls its highlight into view above it. */
+/* A slide whose one highlight is the whole screen keeps a gutter on the
+   right for its popup (data-at="end"), as the Agency tour does. */
+.campaign-demo .ct-tour.ct-gutter:not(.is-list) { padding-right: 270px; }
+.campaign-demo .ct-tour.is-list .ct-call { position: sticky; bottom: 12px; width: auto; margin-top: 10px; }
+
+/* Full screen, same as the Career Desk tab (commit aebf85b). The tour shows
+   as a preview under a Start gate; starting opens it over the page at nearly
+   full window size at step 1, and Close, Esc or a click on the backdrop puts
+   it back and restores the page's scroll. Phones skip the gate and run inline. */
+.campaign-demo { position: relative; }
+.campaign-demo .ct-gate { position: absolute; inset: 0; z-index: 40; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: rgba(247, 247, 246, 0.55); backdrop-filter: blur(1.5px); border-radius: 10px; }
+.campaign-demo .ct-gate-btn { border: 0; background: var(--ink); color: var(--paper); border-radius: 10px; padding: 13px 24px; font-size: 16px; font-weight: 900; box-shadow: var(--shadow-lg); }
+.campaign-demo .ct-gate-btn:hover { background: var(--g800); }
+.campaign-demo .ct-gate-sub { font-size: 12.5px; font-weight: 700; color: var(--ink); background: rgba(255, 255, 255, 0.85); border-radius: 20px; padding: 3px 12px; }
+.campaign-demo .ct-close { display: none; }
+.campaign-demo.is-full { position: fixed; inset: 16px; z-index: 1000; max-width: 1440px; margin: 0 auto; padding: 18px; background: var(--paper); border-radius: 14px; overflow: auto; overscroll-behavior: contain; --demo-pin-top: 0px; box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5); }
+.campaign-demo.is-full .ct-gate, .campaign-demo.is-full .demo-scaffold { display: none; }
+/* In full screen only the strip pins; the title card scrolls away, so a tall
+   highlight and its popup fit on screen together. */
+.campaign-demo.is-full .demo-caption { position: static; }
+.campaign-demo.is-full .ct-close { display: inline-flex; margin-left: 10px; align-self: center; border: 1px solid rgba(247, 247, 246, 0.35); background: none; color: var(--paper); border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.campaign-demo.is-full .ct-close:hover { background: rgba(247, 247, 246, 0.12); }
+.ct-backdrop { position: fixed; inset: 0; z-index: 999; background: rgba(3, 0, 0, 0.88); }
+@media (max-width: 760px) {
+  .campaign-demo .ct-gate { display: none; }
+}
+/* ===== TRANSPLANT CSS END ===== */
+</style>
+</head>
+<body data-demo-standalone>
+<div class="demo-wrap campaign-demo" data-demo-panel tabindex="-1">
+
+  <!-- Scaffolding. Not part of the transplant. -->
+  <div class="demo-scaffold">
+    <h1>Campaign Tracker: which flyer actually worked</h1>
+    <p>A guided tour of Sprout Society's QR scan dashboard in 10 steps: one event, a code for every placement, daily scans, adding codes, and changing where a printed code sends people. Every count and link here is placeholder.</p>
+  </div>
+  <!-- ===== TRANSPLANT MARKUP START ===== -->
+
+  <!-- Decorative QR patterns, defined once and reused. They encode nothing. -->
+  <svg width="0" height="0" style="position: absolute;" aria-hidden="true" focusable="false">
+    <symbol id="qt-qr-a" viewBox="0 0 25 25"><path d="M0 0h7v1h-7zM14 0h1v1h-1zM18 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM8 1h1v1h-1zM11 1h1v1h-1zM14 1h3v1h-3zM18 1h1v1h-1zM24 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM8 2h2v1h-2zM11 2h1v1h-1zM14 2h1v1h-1zM18 2h1v1h-1zM20 2h3v1h-3zM24 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM9 3h1v1h-1zM11 3h2v1h-2zM15 3h2v1h-2zM18 3h1v1h-1zM20 3h3v1h-3zM24 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM9 4h1v1h-1zM13 4h1v1h-1zM16 4h1v1h-1zM18 4h1v1h-1zM20 4h3v1h-3zM24 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM8 5h2v1h-2zM13 5h1v1h-1zM16 5h1v1h-1zM18 5h1v1h-1zM24 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h7v1h-7zM9 7h2v1h-2zM13 7h4v1h-4zM1 8h1v1h-1zM3 8h1v1h-1zM5 8h2v1h-2zM8 8h2v1h-2zM12 8h3v1h-3zM18 8h1v1h-1zM21 8h2v1h-2zM24 8h1v1h-1zM1 9h4v1h-4zM9 9h1v1h-1zM18 9h1v1h-1zM23 9h2v1h-2zM2 10h1v1h-1zM4 10h1v1h-1zM6 10h1v1h-1zM8 10h2v1h-2zM13 10h1v1h-1zM15 10h2v1h-2zM18 10h2v1h-2zM23 10h2v1h-2zM4 11h1v1h-1zM8 11h1v1h-1zM10 11h2v1h-2zM18 11h2v1h-2zM21 11h2v1h-2zM24 11h1v1h-1zM0 12h4v1h-4zM5 12h3v1h-3zM9 12h1v1h-1zM11 12h3v1h-3zM15 12h1v1h-1zM18 12h3v1h-3zM22 12h1v1h-1zM24 12h1v1h-1zM4 13h2v1h-2zM8 13h4v1h-4zM18 13h1v1h-1zM20 13h3v1h-3zM24 13h1v1h-1zM5 14h2v1h-2zM9 14h1v1h-1zM11 14h1v1h-1zM16 14h7v1h-7zM1 15h1v1h-1zM3 15h1v1h-1zM5 15h1v1h-1zM7 15h6v1h-6zM15 15h1v1h-1zM17 15h1v1h-1zM20 15h1v1h-1zM23 15h1v1h-1zM0 16h3v1h-3zM4 16h3v1h-3zM8 16h3v1h-3zM15 16h6v1h-6zM23 16h1v1h-1zM8 17h2v1h-2zM12 17h1v1h-1zM15 17h2v1h-2zM20 17h1v1h-1zM22 17h1v1h-1zM0 18h7v1h-7zM10 18h3v1h-3zM15 18h2v1h-2zM18 18h1v1h-1zM20 18h1v1h-1zM22 18h2v1h-2zM0 19h1v1h-1zM6 19h1v1h-1zM8 19h1v1h-1zM11 19h4v1h-4zM16 19h1v1h-1zM20 19h2v1h-2zM23 19h2v1h-2zM0 20h1v1h-1zM2 20h3v1h-3zM6 20h1v1h-1zM15 20h7v1h-7zM23 20h1v1h-1zM0 21h1v1h-1zM2 21h3v1h-3zM6 21h1v1h-1zM8 21h1v1h-1zM11 21h1v1h-1zM13 21h3v1h-3zM17 21h2v1h-2zM20 21h5v1h-5zM0 22h1v1h-1zM2 22h3v1h-3zM6 22h1v1h-1zM9 22h1v1h-1zM11 22h2v1h-2zM14 22h2v1h-2zM22 22h3v1h-3zM0 23h1v1h-1zM6 23h1v1h-1zM8 23h1v1h-1zM10 23h3v1h-3zM15 23h4v1h-4zM21 23h4v1h-4zM0 24h7v1h-7zM9 24h1v1h-1zM12 24h6v1h-6zM20 24h1v1h-1zM22 24h2v1h-2z"/></symbol>
+    <symbol id="qt-qr-b" viewBox="0 0 25 25"><path d="M0 0h7v1h-7zM10 0h4v1h-4zM18 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM10 1h2v1h-2zM16 1h1v1h-1zM18 1h1v1h-1zM24 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM9 2h2v1h-2zM14 2h3v1h-3zM18 2h1v1h-1zM20 2h3v1h-3zM24 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM8 3h3v1h-3zM12 3h4v1h-4zM18 3h1v1h-1zM20 3h3v1h-3zM24 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM12 4h1v1h-1zM14 4h1v1h-1zM18 4h1v1h-1zM20 4h3v1h-3zM24 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM9 5h2v1h-2zM12 5h5v1h-5zM18 5h1v1h-1zM24 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h7v1h-7zM10 7h1v1h-1zM12 7h2v1h-2zM15 7h1v1h-1zM0 8h1v1h-1zM5 8h8v1h-8zM15 8h1v1h-1zM18 8h1v1h-1zM20 8h2v1h-2zM23 8h1v1h-1zM1 9h1v1h-1zM3 9h1v1h-1zM5 9h1v1h-1zM7 9h1v1h-1zM10 9h3v1h-3zM16 9h1v1h-1zM19 9h1v1h-1zM23 9h2v1h-2zM3 10h1v1h-1zM5 10h3v1h-3zM10 10h3v1h-3zM14 10h1v1h-1zM16 10h2v1h-2zM19 10h1v1h-1zM21 10h2v1h-2zM1 11h1v1h-1zM3 11h2v1h-2zM7 11h3v1h-3zM12 11h1v1h-1zM14 11h1v1h-1zM16 11h1v1h-1zM18 11h2v1h-2zM23 11h2v1h-2zM2 12h3v1h-3zM6 12h2v1h-2zM10 12h1v1h-1zM13 12h3v1h-3zM18 12h1v1h-1zM21 12h1v1h-1zM0 13h6v1h-6zM9 13h3v1h-3zM14 13h4v1h-4zM19 13h2v1h-2zM22 13h1v1h-1zM0 14h4v1h-4zM5 14h2v1h-2zM8 14h4v1h-4zM15 14h1v1h-1zM17 14h1v1h-1zM19 14h4v1h-4zM24 14h1v1h-1zM0 15h1v1h-1zM2 15h4v1h-4zM7 15h3v1h-3zM11 15h2v1h-2zM15 15h3v1h-3zM19 15h2v1h-2zM24 15h1v1h-1zM1 16h1v1h-1zM3 16h1v1h-1zM6 16h6v1h-6zM13 16h2v1h-2zM16 16h5v1h-5zM8 17h1v1h-1zM13 17h1v1h-1zM16 17h1v1h-1zM20 17h2v1h-2zM24 17h1v1h-1zM0 18h7v1h-7zM9 18h1v1h-1zM16 18h1v1h-1zM18 18h1v1h-1zM20 18h3v1h-3zM24 18h1v1h-1zM0 19h1v1h-1zM6 19h1v1h-1zM8 19h1v1h-1zM11 19h1v1h-1zM14 19h3v1h-3zM20 19h1v1h-1zM22 19h1v1h-1zM24 19h1v1h-1zM0 20h1v1h-1zM2 20h3v1h-3zM6 20h1v1h-1zM12 20h2v1h-2zM16 20h6v1h-6zM24 20h1v1h-1zM0 21h1v1h-1zM2 21h3v1h-3zM6 21h1v1h-1zM10 21h1v1h-1zM12 21h4v1h-4zM17 21h1v1h-1zM21 21h3v1h-3zM0 22h1v1h-1zM2 22h3v1h-3zM6 22h1v1h-1zM11 22h2v1h-2zM15 22h2v1h-2zM18 22h1v1h-1zM20 22h4v1h-4zM0 23h1v1h-1zM6 23h1v1h-1zM13 23h2v1h-2zM16 23h3v1h-3zM21 23h2v1h-2zM24 23h1v1h-1zM0 24h7v1h-7zM8 24h1v1h-1zM13 24h2v1h-2zM16 24h1v1h-1zM18 24h7v1h-7z"/></symbol>
+    <symbol id="qt-qr-c" viewBox="0 0 25 25"><path d="M0 0h7v1h-7zM8 0h1v1h-1zM10 0h2v1h-2zM15 0h2v1h-2zM18 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM8 1h1v1h-1zM10 1h1v1h-1zM12 1h2v1h-2zM18 1h1v1h-1zM24 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM10 2h2v1h-2zM13 2h2v1h-2zM18 2h1v1h-1zM20 2h3v1h-3zM24 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM9 3h1v1h-1zM11 3h2v1h-2zM14 3h1v1h-1zM18 3h1v1h-1zM20 3h3v1h-3zM24 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM8 4h1v1h-1zM11 4h2v1h-2zM18 4h1v1h-1zM20 4h3v1h-3zM24 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM8 5h2v1h-2zM14 5h2v1h-2zM18 5h1v1h-1zM24 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h7v1h-7zM9 7h3v1h-3zM1 8h3v1h-3zM5 8h3v1h-3zM9 8h2v1h-2zM12 8h1v1h-1zM14 8h2v1h-2zM18 8h2v1h-2zM22 8h1v1h-1zM3 9h3v1h-3zM7 9h2v1h-2zM10 9h2v1h-2zM14 9h3v1h-3zM18 9h1v1h-1zM20 9h2v1h-2zM23 9h1v1h-1zM1 10h1v1h-1zM6 10h1v1h-1zM8 10h1v1h-1zM12 10h3v1h-3zM19 10h2v1h-2zM0 11h2v1h-2zM3 11h1v1h-1zM5 11h1v1h-1zM11 11h1v1h-1zM15 11h2v1h-2zM21 11h1v1h-1zM0 12h1v1h-1zM2 12h1v1h-1zM6 12h4v1h-4zM18 12h1v1h-1zM20 12h2v1h-2zM2 13h2v1h-2zM10 13h1v1h-1zM13 13h1v1h-1zM15 13h3v1h-3zM21 13h1v1h-1zM2 14h1v1h-1zM4 14h6v1h-6zM11 14h1v1h-1zM14 14h1v1h-1zM17 14h2v1h-2zM20 14h1v1h-1zM22 14h3v1h-3zM1 15h1v1h-1zM4 15h1v1h-1zM7 15h2v1h-2zM11 15h1v1h-1zM14 15h1v1h-1zM19 15h2v1h-2zM23 15h2v1h-2zM0 16h2v1h-2zM3 16h1v1h-1zM6 16h1v1h-1zM9 16h1v1h-1zM11 16h1v1h-1zM14 16h7v1h-7zM23 16h2v1h-2zM9 17h1v1h-1zM12 17h1v1h-1zM14 17h3v1h-3zM20 17h3v1h-3zM0 18h7v1h-7zM10 18h1v1h-1zM12 18h3v1h-3zM16 18h1v1h-1zM18 18h1v1h-1zM20 18h2v1h-2zM0 19h1v1h-1zM6 19h1v1h-1zM8 19h1v1h-1zM10 19h1v1h-1zM12 19h3v1h-3zM16 19h1v1h-1zM20 19h1v1h-1zM23 19h1v1h-1zM0 20h1v1h-1zM2 20h3v1h-3zM6 20h1v1h-1zM12 20h1v1h-1zM16 20h6v1h-6zM23 20h1v1h-1zM0 21h1v1h-1zM2 21h3v1h-3zM6 21h1v1h-1zM9 21h1v1h-1zM12 21h1v1h-1zM14 21h1v1h-1zM21 21h1v1h-1zM23 21h2v1h-2zM0 22h1v1h-1zM2 22h3v1h-3zM6 22h1v1h-1zM8 22h1v1h-1zM10 22h3v1h-3zM17 22h1v1h-1zM20 22h2v1h-2zM23 22h2v1h-2zM0 23h1v1h-1zM6 23h1v1h-1zM9 23h2v1h-2zM13 23h2v1h-2zM17 23h2v1h-2zM20 23h2v1h-2zM23 23h2v1h-2zM0 24h7v1h-7zM8 24h1v1h-1zM10 24h1v1h-1zM13 24h2v1h-2zM16 24h1v1h-1zM22 24h1v1h-1zM24 24h1v1h-1z"/></symbol>
+    <symbol id="qt-qr-d" viewBox="0 0 25 25"><path d="M0 0h7v1h-7zM8 0h2v1h-2zM11 0h1v1h-1zM13 0h1v1h-1zM16 0h1v1h-1zM18 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM9 1h3v1h-3zM18 1h1v1h-1zM24 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM8 2h2v1h-2zM14 2h1v1h-1zM18 2h1v1h-1zM20 2h3v1h-3zM24 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM13 3h3v1h-3zM18 3h1v1h-1zM20 3h3v1h-3zM24 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM9 4h1v1h-1zM13 4h2v1h-2zM18 4h1v1h-1zM20 4h3v1h-3zM24 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM8 5h5v1h-5zM16 5h1v1h-1zM18 5h1v1h-1zM24 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h7v1h-7zM10 7h1v1h-1zM13 7h2v1h-2zM16 7h1v1h-1zM2 8h1v1h-1zM5 8h3v1h-3zM10 8h1v1h-1zM15 8h5v1h-5zM21 8h1v1h-1zM23 8h1v1h-1zM0 9h2v1h-2zM4 9h2v1h-2zM8 9h1v1h-1zM10 9h1v1h-1zM12 9h2v1h-2zM16 9h4v1h-4zM23 9h1v1h-1zM6 10h4v1h-4zM11 10h1v1h-1zM14 10h2v1h-2zM17 10h2v1h-2zM21 10h2v1h-2zM0 11h2v1h-2zM3 11h3v1h-3zM8 11h1v1h-1zM10 11h1v1h-1zM13 11h1v1h-1zM15 11h1v1h-1zM0 12h1v1h-1zM2 12h1v1h-1zM6 12h2v1h-2zM11 12h1v1h-1zM14 12h3v1h-3zM3 13h2v1h-2zM7 13h1v1h-1zM9 13h1v1h-1zM11 13h1v1h-1zM14 13h3v1h-3zM18 13h5v1h-5zM0 14h1v1h-1zM6 14h1v1h-1zM10 14h1v1h-1zM14 14h2v1h-2zM18 14h2v1h-2zM23 14h1v1h-1zM7 15h1v1h-1zM9 15h2v1h-2zM13 15h1v1h-1zM16 15h2v1h-2zM19 15h2v1h-2zM24 15h1v1h-1zM0 16h1v1h-1zM3 16h10v1h-10zM15 16h6v1h-6zM24 16h1v1h-1zM8 17h1v1h-1zM14 17h1v1h-1zM16 17h1v1h-1zM20 17h1v1h-1zM22 17h2v1h-2zM0 18h7v1h-7zM11 18h2v1h-2zM14 18h3v1h-3zM18 18h1v1h-1zM20 18h3v1h-3zM24 18h1v1h-1zM0 19h1v1h-1zM6 19h1v1h-1zM9 19h4v1h-4zM14 19h1v1h-1zM16 19h1v1h-1zM20 19h2v1h-2zM24 19h1v1h-1zM0 20h1v1h-1zM2 20h3v1h-3zM6 20h1v1h-1zM9 20h1v1h-1zM16 20h5v1h-5zM23 20h1v1h-1zM0 21h1v1h-1zM2 21h3v1h-3zM6 21h1v1h-1zM8 21h2v1h-2zM11 21h1v1h-1zM14 21h1v1h-1zM16 21h1v1h-1zM19 21h1v1h-1zM21 21h2v1h-2zM0 22h1v1h-1zM2 22h3v1h-3zM6 22h1v1h-1zM8 22h1v1h-1zM10 22h1v1h-1zM17 22h1v1h-1zM19 22h2v1h-2zM22 22h2v1h-2zM0 23h1v1h-1zM6 23h1v1h-1zM8 23h2v1h-2zM11 23h1v1h-1zM19 23h3v1h-3zM23 23h1v1h-1zM0 24h7v1h-7zM9 24h1v1h-1zM12 24h1v1h-1zM16 24h1v1h-1zM20 24h2v1h-2zM23 24h1v1h-1z"/></symbol>
+  </svg>
+
+  <!-- ====================================================================
+       SECTION NAV STRIP
+       ==================================================================== -->
+  <div class="demo-nav-wrap">
+    <div class="qt-navbrand"><div class="qt-navbrand-name">Sprout Society</div><div class="qt-navbrand-sub">Campaign Tracker</div></div>
+    <button class="demo-nav-item is-active" data-nav="dashboard" data-slide="0">Dashboard</button>
+    <button class="demo-nav-item" data-nav="codes" data-slide="1">QR Codes</button>
+    <button class="demo-nav-item" data-nav="scans" data-slide="2">Daily Scans</button>
+    <button class="demo-nav-item" data-nav="manage" data-slide="3">Manage Events</button>
+    <button class="demo-nav-item" data-nav="live" data-slide="4">Update Live</button>
+    <span class="demo-nav-hint">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>
+      Click any section
+    </span>
+    <button type="button" class="ct-close" data-ct-close aria-label="Close the tour">&#10005; Close</button>
+  </div>
+
+  <!-- ====================================================================
+       THE STAGE
+       ==================================================================== -->
+  <div class="demo-stage">
+    <div class="demo-caption">
+      <h4 class="demo-slide-title" data-demo-contrib></h4>
+      <div class="demo-cap-col">
+        <div class="demo-cap-label" data-demo-state-label></div>
+        <div class="demo-cap-state" data-demo-state></div>
+      </div>
+    </div>
+
+    <div class="demo-canvas">
+      <button class="demo-side-arrow demo-side-prev" data-demo-prev aria-label="Previous slide">&#8249;</button>
+      <button class="demo-side-arrow demo-side-next" data-demo-next aria-label="Next slide">&#8250;</button>
+
+      <!-- ============ SLIDE 1 · DASHBOARD ================================ -->
+      <section class="demo-car-slide is-on" data-nav="dashboard"
+               data-contrib="Every flyer, sign, and link gets its own QR code, so you can see which ones people actually scan."
+               data-state-label="State of the campaign"
+               data-state="Saturday, September 12 &middot; the morning after Sprout N Tell Vol. 4 &middot; 347 scans across 5 codes."
+               data-title="Dashboard: one event, every code">
+        <div class="ct-tour">
+        <div class="qt-frame qt-clip"><div class="ct-veil"></div>
+          <div class="qt-page">
+            <div class="qt-hdr">
+              <span class="qt-manage">&#9881; <span class="qt-manage-lbl">Manage Events</span></span>
+              <h1 class="qt-h1">Sprout N Tell Vol. 4</h1>
+              <p class="qt-hdr-sub">QR Code Scan Tracker &middot; Sprout Society</p>
+              <span class="qt-badge">September 11, 2026</span>
+            </div>
+
+            <div class="qt-tabs ct-hl" data-hl="1"><span class="ct-hl-n">1</span>
+              <span class="qt-tab qt-tab-on">Sprout N Tell Vol. 4 <span>Sep 11, 2026</span></span>
+              <span class="qt-tab">Fern &amp; Fold Zine Night <span>Sep 18, 2026</span></span>
+              <span class="qt-tab">Co-Working <span>Weekly</span></span>
+              <span class="qt-tab">Sprout N Tell Vol. 3 <span>Jul 24, 2026</span></span>
+            </div>
+
+            <div class="qt-stats ct-hl" data-hl="2"><span class="ct-hl-n">2</span>
+              <div class="qt-stat"><span class="qt-stat-lbl">Today</span><span class="qt-stat-val">4</span><span class="qt-stat-sub">scans so far</span></div>
+              <div class="qt-stat"><span class="qt-stat-lbl">Last 7 Days</span><span class="qt-stat-val">131</span><span class="qt-stat-sub">total scans</span></div>
+              <div class="qt-stat"><span class="qt-stat-lbl">All Time</span><span class="qt-stat-val">142</span><span class="qt-stat-sub">total scans</span></div>
+            </div>
+
+            <div class="qt-grid ct-hl" data-hl="3"><span class="ct-hl-n">3</span>
+              <div class="qt-tile qt-tile-on"><div class="qt-tile-box"><svg class="qt-qr" aria-hidden="true"><use href="#qt-qr-a"/></svg></div><div class="qt-tile-label">Door Sign-In</div><div class="qt-tile-type">Signage &middot; Front door</div><div class="qt-tile-count">142</div><small class="qt-tile-small">total scans</small></div>
+              <div class="qt-tile"><div class="qt-tile-box"><svg class="qt-qr" aria-hidden="true"><use href="#qt-qr-b"/></svg></div><div class="qt-tile-label">Program Notes</div><div class="qt-tile-type">Signage &middot; Tables</div><div class="qt-tile-count">88</div><small class="qt-tile-small">total scans</small></div>
+              <div class="qt-tile"><div class="qt-tile-box"><svg class="qt-qr" aria-hidden="true"><use href="#qt-qr-c"/></svg></div><div class="qt-tile-label">Street Flyer</div><div class="qt-tile-type">Print &middot; Flyer</div><div class="qt-tile-count">37</div><small class="qt-tile-small">total scans</small></div>
+              <div class="qt-tile"><div class="qt-tile-box"><svg class="qt-qr" aria-hidden="true"><use href="#qt-qr-d"/></svg></div><div class="qt-tile-label">Instagram Bio</div><div class="qt-tile-type">Social &middot; Instagram</div><div class="qt-tile-count">61</div><small class="qt-tile-small">total scans</small></div>
+              <div class="qt-tile"><div class="qt-tile-box"><svg class="qt-qr" aria-hidden="true"><use href="#qt-qr-a"/></svg></div><div class="qt-tile-label">Lobby TV</div><div class="qt-tile-type">Screen &middot; Slide show</div><div class="qt-tile-count">19</div><small class="qt-tile-small">total scans</small></div>
+            </div>
+
+            <div class="qt-detail">
+              <div class="qt-qrbox"><svg class="qt-qr qt-qr-lg" aria-hidden="true"><use href="#qt-qr-a"/></svg><span class="qt-dl-btn">Download PNG</span></div>
+              <div class="qt-info"><h2 class="qt-info-h2">Door Sign-In</h2></div>
+            </div>
+          </div>
+        </div>
+        <div class="ct-calls">
+            <div class="ct-call" data-for="1" data-at="below-end"><span class="ct-call-n">1</span><div class="ct-call-body"><div class="ct-call-t">One tab per event</div><ul class="demo-bul"><li>Each event gets its own tab, from a one-night show to weekly Co-Working</li> <li>Its codes stay together</li></ul></div></div>
+            <div class="ct-call" data-for="2" data-at="below-end"><span class="ct-call-n">2</span><div class="ct-call-body"><div class="ct-call-t">Scans for one code</div><ul class="demo-bul"><li>Scans for the selected code</li> <li>Today, the last seven days, and all time</li></ul></div></div>
+            <div class="ct-call" data-for="3" data-at="above"><span class="ct-call-n">3</span><div class="ct-call-body"><div class="ct-call-t">Every code as a tile</div><ul class="demo-bul"><li>Every code for the event as a tile</li> <li>Shows placement and total scans</li> <li>Click one to open its details</li></ul><button class="ct-call-next" data-demo-next>Next: QR Codes &#8250;</button></div></div>
+        </div>
+        </div><!-- /.ct-tour -->
+      </section>
+
+      <!-- ============ SLIDE 2 · QR CODES ================================= -->
+      <section class="demo-car-slide" data-nav="codes"
+               data-contrib="Compare placements side by side and see which spot earned its print budget."
+               data-state-label="State of the codes"
+               data-state="Door Sign-In leads with 142 scans &middot; the street flyer brought in 37."
+               data-title="QR Codes: which placement worked">
+        <div class="ct-tour">
+        <div class="qt-frame"><div class="ct-veil"></div>
+          <div class="qt-page">
+            <div class="qt-grid ct-hl" data-hl="4"><span class="ct-hl-n">4</span>
+              <div class="qt-tile qt-tile-on"><div class="qt-tile-box"><svg class="qt-qr" aria-hidden="true"><use href="#qt-qr-a"/></svg></div><div class="qt-tile-label">Door Sign-In</div><div class="qt-tile-type">Signage &middot; Front door</div><div class="qt-tile-count">142</div><small class="qt-tile-small">total scans</small></div>
+              <div class="qt-tile"><div class="qt-tile-box"><svg class="qt-qr" aria-hidden="true"><use href="#qt-qr-b"/></svg></div><div class="qt-tile-label">Program Notes</div><div class="qt-tile-type">Signage &middot; Tables</div><div class="qt-tile-count">88</div><small class="qt-tile-small">total scans</small></div>
+              <div class="qt-tile"><div class="qt-tile-box"><svg class="qt-qr" aria-hidden="true"><use href="#qt-qr-c"/></svg></div><div class="qt-tile-label">Street Flyer</div><div class="qt-tile-type">Print &middot; Flyer</div><div class="qt-tile-count">37</div><small class="qt-tile-small">total scans</small></div>
+              <div class="qt-tile"><div class="qt-tile-box"><svg class="qt-qr" aria-hidden="true"><use href="#qt-qr-d"/></svg></div><div class="qt-tile-label">Instagram Bio</div><div class="qt-tile-type">Social &middot; Instagram</div><div class="qt-tile-count">61</div><small class="qt-tile-small">total scans</small></div>
+              <div class="qt-tile"><div class="qt-tile-box"><svg class="qt-qr" aria-hidden="true"><use href="#qt-qr-a"/></svg></div><div class="qt-tile-label">Lobby TV</div><div class="qt-tile-type">Screen &middot; Slide show</div><div class="qt-tile-count">19</div><small class="qt-tile-small">total scans</small></div>
+            </div>
+
+            <div class="qt-detail">
+              <div class="qt-qrbox ct-hl" data-hl="5"><span class="ct-hl-n">5</span>
+                <svg class="qt-qr qt-qr-lg" aria-hidden="true"><use href="#qt-qr-a"/></svg>
+                <span class="qt-dl-btn">Download PNG</span>
+              </div>
+              <div class="qt-info">
+                <h2 class="qt-info-h2">Door Sign-In</h2>
+                <dl class="qt-dl">
+                  <dt>Event</dt><dd>Sprout N Tell Vol. 4</dd>
+                  <dt>Date</dt><dd>September 11, 2026</dd>
+                  <dt>Type</dt><dd>Signage &middot; Front door</dd>
+                  <dt>Tracks to</dt><dd class="qt-dd-url">sproutsociety.example/track?qr=sprout-n-tell-vol-4-2026-door-sign-in</dd>
+                </dl>
+                <div class="qt-note ct-hl" data-hl="6"><span class="ct-hl-n">6</span>
+                  <strong>Live tracking active.</strong> Each scan adds one to this code's daily count, then redirects to the destination. Data refreshes each time this dashboard is opened.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ct-calls">
+            <div class="ct-call" data-for="4" data-at="below-end"><span class="ct-call-n">4</span><div class="ct-call-body"><div class="ct-call-t">A code per placement</div><ul class="demo-bul"><li>Each placement has its own code, from the front door sign to the Instagram bio</li> <li>Compare scan totals side by side</li></ul></div></div>
+            <div class="ct-call" data-for="5" data-at="right"><span class="ct-call-n">5</span><div class="ct-call-body"><div class="ct-call-t">Download as a PNG</div><ul class="demo-bul"><li>Each code downloads as a PNG</li> <li>Ready for a flyer, sign or slide</li></ul></div></div>
+            <div class="ct-call" data-for="6" data-at="above"><span class="ct-call-n">6</span><div class="ct-call-body"><div class="ct-call-t">How a scan counts</div><ul class="demo-bul"><li>Each scan adds one to that code's count for the day</li> <li>Then sends the phone on to wherever the code points</li></ul><button class="ct-call-next" data-demo-next>Next: Daily Scans &#8250;</button></div></div>
+        </div>
+        </div><!-- /.ct-tour -->
+      </section>
+
+      <!-- ============ SLIDE 3 · DAILY SCANS ============================== -->
+      <section class="demo-car-slide" data-nav="scans"
+               data-contrib="See when a code did its job: scans by day, from the week the flyers went up to the night of the show."
+               data-state-label="State of the flyer"
+               data-state="Street Flyer &middot; posted August 30 &middot; scans peaked the two days before the show."
+               data-title="Daily Scans: when it worked">
+        <div class="ct-tour ct-gutter">
+        <div class="ct-hl" data-hl="7"><span class="ct-hl-n">7</span>
+        <div class="qt-frame"><div class="ct-veil"></div>
+          <div class="qt-page">
+            <div class="qt-stats">
+              <div class="qt-stat"><span class="qt-stat-lbl">Today</span><span class="qt-stat-val">1</span><span class="qt-stat-sub">scans so far</span></div>
+              <div class="qt-stat"><span class="qt-stat-lbl">Last 7 Days</span><span class="qt-stat-val">21</span><span class="qt-stat-sub">total scans</span></div>
+              <div class="qt-stat"><span class="qt-stat-lbl">All Time</span><span class="qt-stat-val">37</span><span class="qt-stat-sub">total scans</span></div>
+            </div>
+
+            <div class="qt-chart-card">
+              <h2 class="qt-chart-h2">Daily Scans &middot; Street Flyer</h2>
+              <div class="qt-ranges" style="display: inline-flex;">
+                <span class="qt-range">30d</span><span class="qt-range">60d</span><span class="qt-range">90d</span><span class="qt-range qt-range-on">All</span>
+              </div>
+              <div class="qt-chart-scroll">
+                <div class="qt-chart" role="img" aria-label="Daily scans for Street Flyer, August 14 to September 12: none until August 30, then two or three a day, peaking at 6 and 7 on September 9 and 10.">
+                  <div class="qt-chart-y">
+                    <span style="bottom: 0%;">0</span><span style="bottom: 14.286%;">1</span><span style="bottom: 28.571%;">2</span><span style="bottom: 42.857%;">3</span><span style="bottom: 57.143%;">4</span><span style="bottom: 71.429%;">5</span><span style="bottom: 85.714%;">6</span><span style="bottom: 100%;">7</span>
+                  </div>
+                  <div class="qt-chart-plot">
+                    <div class="qt-bars">
+                      <!-- Aug 14 to Aug 29: no scans -->
+                      <span class="qt-bar-slot"></span><span class="qt-bar-slot"></span><span class="qt-bar-slot"></span><span class="qt-bar-slot"></span>
+                      <span class="qt-bar-slot"></span><span class="qt-bar-slot"></span><span class="qt-bar-slot"></span><span class="qt-bar-slot"></span>
+                      <span class="qt-bar-slot"></span><span class="qt-bar-slot"></span><span class="qt-bar-slot"></span><span class="qt-bar-slot"></span>
+                      <span class="qt-bar-slot"></span><span class="qt-bar-slot"></span><span class="qt-bar-slot"></span><span class="qt-bar-slot"></span>
+                      <!-- Aug 30 to Sep 5: 3 2 2 2 2 2 3 (16) -->
+                      <span class="qt-bar-slot"><i class="qt-bar" style="height: 42.857%;"></i></span>
+                      <span class="qt-bar-slot"><i class="qt-bar" style="height: 28.571%;"></i></span>
+                      <span class="qt-bar-slot"><i class="qt-bar" style="height: 28.571%;"></i></span>
+                      <span class="qt-bar-slot"><i class="qt-bar" style="height: 28.571%;"></i></span>
+                      <span class="qt-bar-slot"><i class="qt-bar" style="height: 28.571%;"></i></span>
+                      <span class="qt-bar-slot"><i class="qt-bar" style="height: 28.571%;"></i></span>
+                      <span class="qt-bar-slot"><i class="qt-bar" style="height: 42.857%;"></i></span>
+                      <!-- Sep 6 to Sep 12: 1 2 2 6 7 2 1 (21) -->
+                      <span class="qt-bar-slot"><i class="qt-bar" style="height: 14.286%;"></i></span>
+                      <span class="qt-bar-slot"><i class="qt-bar" style="height: 28.571%;"></i></span>
+                      <span class="qt-bar-slot"><i class="qt-bar" style="height: 28.571%;"></i></span>
+                      <span class="qt-bar-slot"><i class="qt-bar" style="height: 85.714%;"></i></span>
+                      <span class="qt-bar-slot"><i class="qt-bar" style="height: 100%;"></i></span>
+                      <span class="qt-bar-slot"><i class="qt-bar" style="height: 28.571%;"></i></span>
+                      <span class="qt-bar-slot"><i class="qt-bar" style="height: 14.286%;"></i></span>
+                    </div>
+                  </div>
+                  <div class="qt-chart-x">
+                    <span><b>Aug 14</b></span><span></span><span></span><span></span>
+                    <span><b>Aug 18</b></span><span></span><span></span><span></span>
+                    <span><b>Aug 22</b></span><span></span><span></span><span></span>
+                    <span><b>Aug 26</b></span><span></span><span></span><span></span>
+                    <span><b>Aug 30</b></span><span></span><span></span><span></span>
+                    <span><b>Sep 3</b></span><span></span><span></span><span></span>
+                    <span><b>Sep 7</b></span><span></span><span></span><span></span>
+                    <span><b>Sep 11</b></span><span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <p class="qt-updated">Live data &middot; Street Flyer &middot; Last refreshed 9/12/2026, 9:41 AM</p>
+          </div>
+        </div>
+        </div><!-- /pin 1: the whole display -->
+        <div class="ct-calls">
+            <div class="ct-call" data-for="7" data-at="end"><span class="ct-call-n">7</span><div class="ct-call-body"><div class="ct-call-t">One code, day by day</div><ul class="demo-bul"><li>The whole display follows one code, here the street flyer</li> <li>Scans today, this week and all time</li> <li>A day-by-day chart: scans start when the flyers went up and peak just before the show</li></ul><button class="ct-call-next" data-demo-next>Next: Manage Events &#8250;</button></div></div>
+        </div>
+        </div><!-- /.ct-tour -->
+      </section>
+
+      <!-- ============ SLIDE 4 · MANAGE EVENTS ============================ -->
+      <section class="demo-car-slide" data-nav="manage"
+               data-contrib="Add an event, then give each flyer, sign, and post its own code in a few fields."
+               data-state-label="State of the next event"
+               data-state="Fern &amp; Fold Zine Night &middot; September 18 &middot; adding the code for its window poster."
+               data-title="Manage Events: a new code in seconds">
+        <div class="ct-tour">
+        <div class="qt-frame"><div class="ct-veil"></div>
+          <!-- the dashboard, dimmed behind the drawer -->
+          <div class="qt-behind" aria-hidden="true">
+            <div class="qt-page">
+              <div class="qt-hdr">
+                <h1 class="qt-h1">Sprout N Tell Vol. 4</h1>
+                <p class="qt-hdr-sub">QR Code Scan Tracker &middot; Sprout Society</p>
+                <span class="qt-badge">September 11, 2026</span>
+              </div>
+              <div class="qt-tabs">
+                <span class="qt-tab qt-tab-on">Sprout N Tell Vol. 4 <span>Sep 11, 2026</span></span>
+                <span class="qt-tab">Fern &amp; Fold Zine Night <span>Sep 18, 2026</span></span>
+                <span class="qt-tab">Co-Working <span>Weekly</span></span>
+              </div>
+              <div class="qt-stats">
+                <div class="qt-stat"><span class="qt-stat-lbl">Today</span><span class="qt-stat-val">4</span><span class="qt-stat-sub">scans so far</span></div>
+                <div class="qt-stat"><span class="qt-stat-lbl">Last 7 Days</span><span class="qt-stat-val">131</span><span class="qt-stat-sub">total scans</span></div>
+                <div class="qt-stat"><span class="qt-stat-lbl">All Time</span><span class="qt-stat-val">142</span><span class="qt-stat-sub">total scans</span></div>
+              </div>
+              <div class="qt-grid">
+                <div class="qt-tile qt-tile-on"><div class="qt-tile-box"><svg class="qt-qr" aria-hidden="true"><use href="#qt-qr-a"/></svg></div><div class="qt-tile-label">Door Sign-In</div><div class="qt-tile-type">Signage &middot; Front door</div><div class="qt-tile-count">142</div><small class="qt-tile-small">total scans</small></div>
+                <div class="qt-tile"><div class="qt-tile-box"><svg class="qt-qr" aria-hidden="true"><use href="#qt-qr-b"/></svg></div><div class="qt-tile-label">Program Notes</div><div class="qt-tile-type">Signage &middot; Tables</div><div class="qt-tile-count">88</div><small class="qt-tile-small">total scans</small></div>
+                <div class="qt-tile"><div class="qt-tile-box"><svg class="qt-qr" aria-hidden="true"><use href="#qt-qr-c"/></svg></div><div class="qt-tile-label">Street Flyer</div><div class="qt-tile-type">Print &middot; Flyer</div><div class="qt-tile-count">37</div><small class="qt-tile-small">total scans</small></div>
+                <div class="qt-tile"><div class="qt-tile-box"><svg class="qt-qr" aria-hidden="true"><use href="#qt-qr-d"/></svg></div><div class="qt-tile-label">Instagram Bio</div><div class="qt-tile-type">Social &middot; Instagram</div><div class="qt-tile-count">61</div><small class="qt-tile-small">total scans</small></div>
+              </div>
+            </div>
+          </div>
+          <div class="qt-overlay"></div>
+
+          <!-- the Manage Events drawer -->
+          <div class="qt-drawer">
+            <div class="qt-mgr-hd">
+              <h2 class="qt-mgr-h2">&#9881; Manage Events &amp; QR Codes</h2>
+              <span class="qt-mgr-x">&times;</span>
+            </div>
+            <div class="qt-mgr-body">
+              <div class="qt-sec-hd qt-sec-hd-first">
+                <span class="qt-sec-ttl">Events (4)</span>
+                <span class="qt-btn qt-btn-primary ct-hl" data-hl="8"><span class="ct-hl-n">8</span>+ Add Event</span>
+              </div>
+
+              <div class="qt-evrow">
+                <div class="qt-evrow-hd"><span class="qt-chev">&#9654;</span><span class="qt-evrow-name">Sprout N Tell Vol. 4</span><span class="qt-evrow-meta">Sep 11, 2026 &middot; 5 codes</span><span class="qt-btn qt-btn-danger qt-btn-sm">Delete</span></div>
+              </div>
+
+              <div class="qt-evrow qt-evrow-open">
+                <div class="qt-evrow-hd"><span class="qt-chev">&#9654;</span><span class="qt-evrow-name">Fern &amp; Fold Zine Night</span><span class="qt-evrow-meta">Sep 18, 2026 &middot; 1 code</span><span class="qt-btn qt-btn-danger qt-btn-sm">Delete</span></div>
+                <div class="qt-evrow-body">
+                  <div class="qt-evrow-fields">
+                    <div class="qt-row">
+                      <div class="qt-field"><span class="qt-label">Name</span><span class="qt-input">Fern &amp; Fold Zine Night</span></div>
+                      <div class="qt-field"><span class="qt-label">Date</span><span class="qt-input">Sep 18, 2026</span></div>
+                    </div>
+                    <div class="qt-row">
+                      <div class="qt-field"><span class="qt-label">Promoter</span><span class="qt-input">Sprout Society</span></div>
+                      <div class="qt-field qt-field-end"><span class="qt-btn qt-btn-success">Save Changes</span></div>
+                    </div>
+                  </div>
+
+                  <div class="qt-sec-hd" style="margin-top: 14px;">
+                    <span class="qt-sec-ttl">QR Codes</span>
+                    <span class="qt-btn">+ Add QR Code</span>
+                  </div>
+
+                  <div class="qt-addform ct-hl" data-hl="9"><span class="ct-hl-n">9</span>
+                    <div class="qt-row">
+                      <div class="qt-field"><span class="qt-label">Label *</span><span class="qt-input">Window Poster</span></div>
+                      <div class="qt-field"><span class="qt-label">Type</span><span class="qt-input">Print &middot; Poster</span></div>
+                    </div>
+                    <div class="qt-field"><span class="qt-label">Destination URL *</span><span class="qt-input qt-input-focus">https://forms.example/fern-and-fold-rsvp<span class="qt-caret"></span></span></div>
+                    <div class="qt-field"><span class="qt-label">Code ID (auto)</span><span class="qt-input qt-input-auto">fern-and-fold-zine-night-2026-window-poster</span></div>
+                    <div class="qt-actions"><span class="qt-btn qt-btn-primary">Save QR Code</span><span class="qt-btn">Cancel</span></div>
+                  </div>
+
+                  <div class="qt-codes">
+                    <div class="qt-code">
+                      <div class="qt-code-top">
+                        <div class="qt-code-info"><div class="qt-code-label">Instagram Post</div><div class="qt-code-meta">Social &middot; Instagram &middot; ID: fern-and-fold-zine-night-2026-instagram-post</div></div>
+                        <span class="qt-btn qt-btn-danger qt-btn-sm">Delete</span>
+                      </div>
+                      <div class="qt-code-line"><span class="qt-input qt-input-sm">https://forms.example/fern-and-fold-rsvp</span><span class="qt-btn qt-btn-primary qt-btn-row">&#8593; Update Live</span></div>
+                      <div class="qt-code-line"><span class="qt-input qt-input-sm qt-select">Sprout N Tell Vol. 4<i>&#9662;</i></span><span class="qt-btn qt-btn-row">&#8594; Move</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="qt-evrow">
+                <div class="qt-evrow-hd"><span class="qt-chev">&#9654;</span><span class="qt-evrow-name">Co-Working</span><span class="qt-evrow-meta">Weekly &middot; 2 codes</span><span class="qt-btn qt-btn-danger qt-btn-sm">Delete</span></div>
+              </div>
+              <div class="qt-evrow">
+                <div class="qt-evrow-hd"><span class="qt-chev">&#9654;</span><span class="qt-evrow-name">Sprout N Tell Vol. 3</span><span class="qt-evrow-meta">Jul 24, 2026 &middot; 4 codes</span><span class="qt-btn qt-btn-danger qt-btn-sm">Delete</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ct-calls">
+            <div class="ct-call" data-for="8" data-at="left"><span class="ct-call-n">8</span><div class="ct-call-body"><div class="ct-call-t">Add an event</div><ul class="demo-bul"><li>Add Event: a name, date and promoter</li> <li>The event gets its own dashboard tab</li></ul></div></div>
+            <div class="ct-call" data-for="9" data-at="left"><span class="ct-call-n">9</span><div class="ct-call-body"><div class="ct-call-t">New codes name themselves</div><ul class="demo-bul"><li>Each new code gets a label, a placement type and a destination link</li> <li>Its code ID fills itself in from event name, year and label</li> <li>Nobody has to make one up</li></ul><button class="ct-call-next" data-demo-next>Next: Update Live &#8250;</button></div></div>
+        </div>
+        </div><!-- /.ct-tour -->
+      </section>
+
+      <!-- ============ SLIDE 5 · UPDATE LIVE ============================== -->
+      <section class="demo-car-slide" data-nav="live"
+               data-contrib="Point a code somewhere new after it is printed, and every flyer already on the street follows."
+               data-state-label="State of the flyer"
+               data-state="Street Flyer &middot; the show is over &middot; now sends people to the Vol. 5 interest form."
+               data-title="Update Live: change a printed code">
+        <div class="ct-tour">
+        <div class="qt-frame qt-clip qt-clip-tall"><div class="ct-veil"></div>
+          <div class="qt-drawer qt-drawer-full">
+            <div class="qt-mgr-hd">
+              <h2 class="qt-mgr-h2">&#9881; Manage Events &amp; QR Codes</h2>
+              <span class="qt-mgr-x">&times;</span>
+            </div>
+            <div class="qt-mgr-body">
+              <div class="qt-sec-hd qt-sec-hd-first">
+                <span class="qt-sec-ttl">Events (4)</span>
+                <span class="qt-btn qt-btn-primary">+ Add Event</span>
+              </div>
+
+              <div class="qt-evrow qt-evrow-open">
+                <div class="qt-evrow-hd"><span class="qt-chev">&#9654;</span><span class="qt-evrow-name">Sprout N Tell Vol. 4</span><span class="qt-evrow-meta">Sep 11, 2026 &middot; 5 codes</span><span class="qt-btn qt-btn-danger qt-btn-sm">Delete</span></div>
+                <div class="qt-evrow-body">
+                  <div class="qt-evrow-fields">
+                    <div class="qt-row">
+                      <div class="qt-field"><span class="qt-label">Name</span><span class="qt-input">Sprout N Tell Vol. 4</span></div>
+                      <div class="qt-field"><span class="qt-label">Date</span><span class="qt-input">Sep 11, 2026</span></div>
+                    </div>
+                    <div class="qt-row">
+                      <div class="qt-field"><span class="qt-label">Promoter</span><span class="qt-input">Sprout Society</span></div>
+                      <div class="qt-field qt-field-end"><span class="qt-btn qt-btn-success">Save Changes</span></div>
+                    </div>
+                  </div>
+
+                  <div class="qt-sec-hd" style="margin-top: 14px;">
+                    <span class="qt-sec-ttl">QR Codes</span>
+                    <span class="qt-btn">+ Add QR Code</span>
+                  </div>
+
+                  <div class="qt-codes">
+                    <div class="qt-code qt-code-hi ct-hl" data-hl="10"><span class="ct-hl-n">10</span>
+                      <div class="qt-code-top">
+                        <div class="qt-code-info"><div class="qt-code-label">Street Flyer</div><div class="qt-code-meta">Print &middot; Flyer &middot; ID: sprout-n-tell-vol-4-2026-street-flyer</div></div>
+                        <span class="qt-btn qt-btn-danger qt-btn-sm">Delete</span>
+                      </div>
+                      <div class="qt-code-line"><span class="qt-input qt-input-sm qt-input-focus">https://forms.example/sprout-n-tell-vol-5-interest<span class="qt-caret"></span></span><span class="qt-btn qt-btn-primary qt-btn-pressed qt-btn-row">&#8593; Update Live</span></div>
+                      <div class="qt-code-line"><span class="qt-input qt-input-sm qt-select">Fern &amp; Fold Zine Night<i>&#9662;</i></span><span class="qt-btn qt-btn-row">&#8594; Move</span></div>
+                    </div>
+                    <div class="qt-code">
+                      <div class="qt-code-top">
+                        <div class="qt-code-info"><div class="qt-code-label">Door Sign-In</div><div class="qt-code-meta">Signage &middot; Front door &middot; ID: sprout-n-tell-vol-4-2026-door-sign-in</div></div>
+                        <span class="qt-btn qt-btn-danger qt-btn-sm">Delete</span>
+                      </div>
+                      <div class="qt-code-line"><span class="qt-input qt-input-sm">https://forms.example/sprout-n-tell-vol-4-sign-in</span><span class="qt-btn qt-btn-primary qt-btn-row">&#8593; Update Live</span></div>
+                      <div class="qt-code-line"><span class="qt-input qt-input-sm qt-select">Fern &amp; Fold Zine Night<i>&#9662;</i></span><span class="qt-btn qt-btn-row">&#8594; Move</span></div>
+                    </div>
+                    <div class="qt-code">
+                      <div class="qt-code-top">
+                        <div class="qt-code-info"><div class="qt-code-label">Program Notes</div><div class="qt-code-meta">Signage &middot; Tables &middot; ID: sprout-n-tell-vol-4-2026-program-notes</div></div>
+                        <span class="qt-btn qt-btn-danger qt-btn-sm">Delete</span>
+                      </div>
+                      <div class="qt-code-line"><span class="qt-input qt-input-sm">https://sproutsociety.example/vol-4-program</span><span class="qt-btn qt-btn-primary qt-btn-row">&#8593; Update Live</span></div>
+                      <div class="qt-code-line"><span class="qt-input qt-input-sm qt-select">Fern &amp; Fold Zine Night<i>&#9662;</i></span><span class="qt-btn qt-btn-row">&#8594; Move</span></div>
+                    </div>
+                    <div class="qt-code">
+                      <div class="qt-code-top">
+                        <div class="qt-code-info"><div class="qt-code-label">Instagram Bio</div><div class="qt-code-meta">Social &middot; Instagram &middot; ID: sprout-n-tell-vol-4-2026-instagram-bio</div></div>
+                        <span class="qt-btn qt-btn-danger qt-btn-sm">Delete</span>
+                      </div>
+                      <div class="qt-code-line"><span class="qt-input qt-input-sm">https://sproutsociety.example/events</span><span class="qt-btn qt-btn-primary qt-btn-row">&#8593; Update Live</span></div>
+                      <div class="qt-code-line"><span class="qt-input qt-input-sm qt-select">Fern &amp; Fold Zine Night<i>&#9662;</i></span><span class="qt-btn qt-btn-row">&#8594; Move</span></div>
+                    </div>
+                    <div class="qt-code">
+                      <div class="qt-code-top">
+                        <div class="qt-code-info"><div class="qt-code-label">Lobby TV</div><div class="qt-code-meta">Screen &middot; Slide show &middot; ID: sprout-n-tell-vol-4-2026-lobby-tv</div></div>
+                        <span class="qt-btn qt-btn-danger qt-btn-sm">Delete</span>
+                      </div>
+                      <div class="qt-code-line"><span class="qt-input qt-input-sm">https://sproutsociety.example/vol-4-lineup</span><span class="qt-btn qt-btn-primary qt-btn-row">&#8593; Update Live</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="qt-toast">&#10003; Destination updated live</div>
+        </div>
+        <div class="ct-calls">
+            <div class="ct-call" data-for="10" data-at="below-end"><span class="ct-call-n">10</span><div class="ct-call-body"><div class="ct-call-t">Repoint without reprinting</div><ul class="demo-bul"><li>Each printed code is one tile</li> <li>A scan opens its tracking link and adds to the day's count</li> <li>Change the destination and Update Live repoints every flyer already on the street, no reprint</li> <li>Move hands the code to another event</li></ul><button class="ct-call-next" data-ct-restart>Start over &#8634;</button></div></div>
+        </div>
+        </div><!-- /.ct-tour -->
+      </section>
+
+    </div><!-- /.demo-canvas -->
+
+  </div><!-- /.demo-stage -->
+
+  <div class="ct-gate">
+    <button type="button" class="ct-gate-btn" data-ct-start>Start the tour &#8250;</button>
+    <span class="ct-gate-sub">10 steps &middot; opens full screen &middot; Esc to close</span>
+  </div>
+
+  <div class="demo-controls">
+    <button class="demo-arrow" data-demo-prev aria-label="Previous slide">&#8249;</button>
+    <div class="demo-title" data-demo-title></div>
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <span class="demo-count" data-demo-count></span>
+      <button class="demo-arrow" data-demo-next aria-label="Next slide">&#8250;</button>
+    </div>
+  </div>
+  <!-- ===== TRANSPLANT MARKUP END ===== -->
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // Same initializer shape as the CRM and Agency carousels in index.html:
+  // captions live on each slide's data attributes, and a nav entry can span a
+  // run of slides. Every query is scoped to this panel so it never counts
+  // another carousel's slides.
+  var root = document.querySelector('.campaign-demo[data-demo-panel]');
+  if (!root) return;
+
+  var slides = Array.prototype.slice.call(root.querySelectorAll('.demo-car-slide'));
+  var navItems = Array.prototype.slice.call(root.querySelectorAll('.demo-nav-item[data-slide]'));
+  var prevBtns = Array.prototype.slice.call(root.querySelectorAll('[data-demo-prev]'));
+  var nextBtns = Array.prototype.slice.call(root.querySelectorAll('[data-demo-next]'));
+  var elContrib    = root.querySelector('[data-demo-contrib]');
+  var elState      = root.querySelector('[data-demo-state]');
+  var elStateLabel = root.querySelector('[data-demo-state-label]');
+  var elTitle      = root.querySelector('[data-demo-title]');
+  var elCount      = root.querySelector('[data-demo-count]');
+
+  var current = 0;
+
+  function show(i) {
+    if (i < 0 || i >= slides.length) return;
+    current = i;
+    var slide = slides[i];
+
+    slides.forEach(function (s, n) { s.classList.toggle('is-on', n === i); });
+
+    var group = slide.getAttribute('data-nav');
+    navItems.forEach(function (b) {
+      b.classList.toggle('is-active', b.getAttribute('data-nav') === group);
+    });
+
+    if (elContrib) elContrib.textContent = slide.getAttribute('data-contrib') || '';
+    if (elStateLabel) elStateLabel.innerHTML = slide.getAttribute('data-state-label') || '';
+    if (elState) {
+      elState.innerHTML = slide.getAttribute('data-state') || '';
+      var col = elState.closest('.demo-cap-col');
+      if (col) col.hidden = !slide.getAttribute('data-state');
+    }
+    if (elTitle) elTitle.textContent = slide.getAttribute('data-title') || '';
+    if (elCount) {
+      elCount.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+    }
+    prevBtns.forEach(function (el) { el.disabled = (i === 0); });
+    nextBtns.forEach(function (el) { el.disabled = (i === slides.length - 1); });
+  }
+
+  navItems.forEach(function (b) {
+    b.addEventListener('click', function () { show(parseInt(b.getAttribute('data-slide'), 10)); });
+  });
+  prevBtns.forEach(function (el) { el.addEventListener('click', function () { show(current - 1); }); });
+  nextBtns.forEach(function (el) { el.addEventListener('click', function () { show(current + 1); }); });
+
+  // Arrow keys belong to the carousel, not the page, so they never hijack
+  // scrolling on the portfolio. The standalone page also listens on document.
+  function onKey(e) {
+    if (e.key === 'ArrowLeft') show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  }
+  root.addEventListener('mousedown', function () { root.focus({ preventScroll: true }); });
+  if (document.body.hasAttribute('data-demo-standalone')) {
+    document.addEventListener('keydown', onKey);
+  } else {
+    root.addEventListener('keydown', onKey);
+  }
+
+  // The notes row pins under the nav strip, so it needs the strip's height.
+  // On the portfolio page measureTabBar() does this job instead.
+  function measureStrip() {
+    var strip = root.querySelector('.demo-nav-wrap');
+    if (strip && strip.offsetHeight) root.style.setProperty('--demo-strip-h', strip.offsetHeight + 'px');
+  }
+  measureStrip();
+  window.addEventListener('resize', measureStrip);
+
+  show(0);
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  // The tour: initTour() from index.html (Career Desk, Agency, TeacherAID,
+  // Sprout CRM), with the prefix ct. See the comments there.
+  var GAP = 14, LIST_BELOW = 700;
+  function initTour(root, p) {
+  if (!root) return;
+
+  function place(tour) {
+    if (!tour.offsetWidth) return;
+    // A column highlight (Grant's pipeline) is an overlay sized to its
+    // header cell, so it outlines the whole column.
+    tour.querySelectorAll('.demo-col[data-col]').forEach(function (c) {
+      var cell = c.parentElement.querySelector('.' + c.getAttribute('data-col'));
+      var br = c.parentElement.getBoundingClientRect();
+      if (!cell || !br.width) return;
+      var cr = cell.getBoundingClientRect();
+      c.style.left = Math.round(cr.left - br.left) + 'px';
+      c.style.width = Math.round(cr.width) + 'px';
+    });
+    var calls = Array.prototype.slice.call(tour.querySelectorAll('.' + p + '-call.is-cur'));
+    var list = tour.offsetWidth < LIST_BELOW;
+    tour.classList.toggle('is-list', list);
+    if (list) { tour.style.paddingBottom = ''; calls.forEach(function (c) { c.style.left = c.style.top = ''; }); return; }
+    var box = tour.getBoundingClientRect();
+    var W = tour.offsetWidth, placed = [];
+    calls.forEach(function (c) {
+      var t = tour.querySelector('[data-hl="' + c.getAttribute('data-for') + '"]');
+      if (!t) return;
+      var r = t.getBoundingClientRect();
+      var tl = r.left - box.left, tt = r.top - box.top, tw = r.width, th = r.height;
+      var w = c.offsetWidth, h = c.offsetHeight, x, y;
+      switch (c.getAttribute('data-at')) {
+        case 'left':      x = tl - w - GAP; y = tt; break;
+        case 'below':     x = tl; y = tt + th + GAP; break;
+        case 'below-end': x = tl + tw - w; y = tt + th + GAP; break;
+        case 'above':     x = tl + tw / 2 - w / 2; y = tt - h - GAP; break;
+        case 'end':       x = W - w; y = tt; break;
+        case 'free':      // centered in the slide's unhighlighted column, level with its highlight
+          var f = tour.querySelector('[data-free]');
+          var fr = f ? f.getBoundingClientRect() : r;
+          x = fr.left - box.left + (fr.width - w) / 2; y = tt; break;
+        default:          x = tl + tw + GAP; y = tt;
+      }
+      x = Math.max(0, Math.min(x, W - w));
+      y = Math.max(0, y);
+      var moved = true;
+      while (moved) {
+        moved = false;
+        placed.forEach(function (q) {
+          if (x < q.x + q.w && x + w > q.x && y < q.y + q.h + 10 && y + h + 10 > q.y) { y = q.y + q.h + 10; moved = true; }
+        });
+      }
+      c.style.left = x + 'px'; c.style.top = y + 'px';
+      placed.push({ x: x, y: y, w: w, h: h });
+    });
+    var pad = parseFloat(tour.style.paddingBottom) || 0, need = 0;
+    placed.forEach(function (q) { need = Math.max(need, q.y + q.h + 16); });
+    var extra = Math.max(0, Math.ceil(need - (tour.offsetHeight - pad)));
+    if (extra !== pad) tour.style.paddingBottom = extra ? extra + 'px' : '';
+  }
+
+  // One step at a time: only the current highlight and its popup show. Each
+  // popup but a slide's last gets Back and Next buttons here; the last keeps
+  // its own button, which moves to the next slide.
+  function setStep(tour, k, force) {
+    var calls = tour.querySelectorAll('.' + p + '-call');
+    var moved = force || (tour._step !== undefined && tour._step !== k);
+    tour._step = k;
+    Array.prototype.forEach.call(calls, function (c, n) {
+      c.classList.toggle('is-cur', n === k);
+      var t = tour.querySelector('[data-hl="' + c.getAttribute('data-for') + '"]');
+      if (t) t.classList.toggle('is-cur', n === k);
+      if (t && t.hasAttribute('data-col')) {
+        t.parentElement.querySelectorAll('.' + t.getAttribute('data-col')).forEach(function (cell) { cell.classList.toggle(p + '-lit', n === k); });
+      }
+    });
+    place(tour);
+    var cur = tour.querySelector('.' + p + '-hl.is-cur');
+    if (!moved || !cur) return;
+    // A highlight inside a scroll box of its own (TeacherAID's Hours dialog on
+    // a phone) is first scrolled into that box.
+    for (var a = cur.parentElement; a && a !== tour; a = a.parentElement) {
+      if (a.scrollHeight > a.clientHeight + 1 && /auto|scroll/.test(getComputedStyle(a).overflowY)) {
+        var ar = a.getBoundingClientRect(), hr = cur.getBoundingClientRect();
+        if (hr.bottom > ar.bottom || hr.top < ar.top) a.scrollTop += hr.top - ar.top - 12;
+      }
+      if (a.scrollWidth > a.clientWidth + 1 && /auto|scroll/.test(getComputedStyle(a).overflowX)) {
+        var ax = a.getBoundingClientRect(), hx = cur.getBoundingClientRect();
+        if (hx.right > ax.right || hx.left < ax.left) a.scrollLeft += hx.left - ax.left - 12;
+      }
+    }
+    // Tall slides (the Agency job description, TeacherAID's Schedule): bring
+    // the highlight and its popup into view, clear of whichever pinned layer
+    // sits lowest (TeacherAID pins its strip under the title card). Full
+    // screen scrolls the overlay, not the page. On a phone the popup is
+    // pinned to the bottom of the screen, so it sets the floor.
+    var full = root.classList.contains('is-full');
+    var list = tour.classList.contains('is-list');
+    // A slide that just came in (force) folds in the scroll alignUnderPin()
+    // started, so one scroll lands the new slide under a pinned strip and
+    // its first highlight in view; two smooth scrolls would fight. A strip
+    // that scrolls with the page is brought back into view instead.
+    // A pinned layer is measured where it rests once stuck (its CSS top),
+    // not where it sits this frame: right after a slide change the shorter
+    // slide can hold it higher for a frame (TeacherAID's Hours on a phone).
+    var base = full ? root.getBoundingClientRect().top + root.clientTop : 0;
+    function pinnedBottom(el) {
+      return Math.max(el.getBoundingClientRect().bottom, base + (parseFloat(getComputedStyle(el).top) || 0) + el.offsetHeight);
+    }
+    var pre = 0, pin = root.querySelector('.demo-nav-wrap');
+    if (force && pin) {
+      if (getComputedStyle(pin).position === 'sticky') {
+        var nx = pin.nextElementSibling;
+        var d = nx ? nx.getBoundingClientRect().top - (pinnedBottom(pin) + (parseFloat(getComputedStyle(pin).marginBottom) || 0)) : 0;
+        if (d < -1) pre = d;
+      } else if (!list) {
+        pre = Math.min(0, pin.getBoundingClientRect().top - 6 - base);
+      }
+    }
+    var top = base;
+    root.querySelectorAll('.demo-caption, .demo-nav-wrap').forEach(function (el) {
+      if (getComputedStyle(el).position === 'sticky') top = Math.max(top, pinnedBottom(el));
+    });
+    top += list ? 14 : 24;
+    var call = tour.querySelector('.' + p + '-call.is-cur');
+    var cr = call ? call.getBoundingClientRect() : null;
+    var bottom = (full ? root.getBoundingClientRect().bottom : window.innerHeight) - (list && cr ? cr.height + 24 : 16);
+    var r = cur.getBoundingClientRect();
+    var high = (list || !cr ? r.top : Math.min(r.top, cr.top)) - pre;
+    var low = (list || !cr ? r.bottom : Math.max(r.bottom, cr.bottom)) - pre;
+    var dy = high < top ? high - top : (low > bottom ? Math.min(low - bottom, high - top) : 0);
+    if (dy + pre) (full ? root : window).scrollBy({ top: dy + pre, behavior: 'smooth' });
+  }
+  // A slide's first step goes back to the previous slide, landing on its
+  // last step, so Back walks the whole tour in reverse. Every tour here is
+  // one per slide, so it turns the slide through the carousel's own
+  // previous control.
+  var tours = Array.prototype.slice.call(root.querySelectorAll('.' + p + '-tour'));
+  var slideEls = Array.prototype.slice.call(root.querySelectorAll('.demo-car-slide'));
+  var prevCtl = root.querySelector('[data-demo-prev]');
+  tours.forEach(function (tour, ti) {
+    var calls = tour.querySelectorAll('.' + p + '-call');
+    var prevSlide = ti > 0 ? tours[ti - 1].closest('.demo-car-slide') : null;
+    var backAcross = prevCtl && prevSlide && slideEls.indexOf(prevSlide) === slideEls.indexOf(tour.closest('.demo-car-slide')) - 1;
+    Array.prototype.forEach.call(calls, function (c, n) {
+      var body = c.querySelector('.' + p + '-call-body');
+      var own = body.querySelector('.' + p + '-call-next');
+      var nav = document.createElement('div');
+      nav.className = p + '-call-nav';
+      if (n === 0 && backAcross) {
+        var item = root.querySelector('.demo-nav-item[data-nav="' + prevSlide.getAttribute('data-nav') + '"]');
+        var name = item ? Array.prototype.filter.call(item.childNodes, function (x) { return x.nodeType === 3; }).map(function (x) { return x.textContent; }).join('').trim() : '';
+        var prev = document.createElement('button');
+        prev.type = 'button'; prev.className = p + '-call-back';
+        prev.innerHTML = '&#8249; Back' + (name ? ': ' + name : '');
+        prev.addEventListener('click', function () {
+          tours[ti - 1]._startAt = 'last';
+          prevCtl.click();
+        });
+        nav.appendChild(prev);
+      }
+      if (n > 0) {
+        var back = document.createElement('button');
+        back.type = 'button'; back.className = p + '-call-back'; back.innerHTML = '&#8249; Back';
+        back.addEventListener('click', function () { setStep(tour, n - 1); });
+        nav.appendChild(back);
+      }
+      if (n < calls.length - 1) {
+        var next = document.createElement('button');
+        next.type = 'button'; next.className = p + '-call-next'; next.innerHTML = 'Next &#8250;';
+        next.addEventListener('click', function () { setStep(tour, n + 1); });
+        nav.appendChild(next);
+      } else if (own) {
+        nav.appendChild(own);
+      }
+      if (nav.children.length) body.appendChild(nav);
+    });
+    setStep(tour, 0);
+  });
+  function placeAll() { tours.forEach(place); }
+  // A slide that comes back into view starts again at its first step, or at
+  // its last when a Back button brought it back. When a slide change
+  // brought it (a strip item, a step chip, an arrow key or a popup's
+  // button, never a tab switch), it also scrolls to that step.
+  var turnedAt = -1e9;
+  function markTurn() { turnedAt = Date.now(); }
+  root.addEventListener('click', function (e) {
+    if (e.target.closest('.demo-nav-item, .demo-nav-step, [data-demo-prev], [data-demo-next], [data-' + p + '-restart]')) markTurn();
+  }, true);
+  root.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') markTurn();
+  }, true);
+  if (window.ResizeObserver) {
+    var ro = new ResizeObserver(function (entries) {
+      entries.forEach(function (e) {
+        var t = e.target, w = t.offsetWidth;
+        if (w && !t._shown) {
+          setStep(t, t._startAt === 'last' ? t.querySelectorAll('.' + p + '-call').length - 1 : 0, Date.now() - turnedAt < 600);
+          t._startAt = null;
+        } else place(t);
+        t._shown = !!w;
+      });
+    });
+    tours.forEach(function (t) { ro.observe(t); });
+  }
+  window.addEventListener('resize', placeAll);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeAll);
+  placeAll();
+
+  // Full screen: the gate's button opens the walkthrough over the page at
+  // step 1; Close, Esc or a click on the backdrop puts it back in the tab and
+  // restores the page's scroll, so the reader lands where they left.
+  var backdrop = null, savedY = 0;
+  function openFull() {
+    savedY = window.scrollY;
+    backdrop = document.createElement('div');
+    backdrop.className = p + '-backdrop';
+    backdrop.addEventListener('click', closeFull);
+    document.body.appendChild(backdrop);
+    document.documentElement.style.overflow = 'hidden';
+    root.classList.add('is-full');
+    root.scrollTop = 0;
+    var first = root.querySelector('.demo-nav-item[data-slide="0"]');
+    if (first) first.click();
+    tours.forEach(function (t) { setStep(t, 0); });
+    root.focus({ preventScroll: true });
+    window.dispatchEvent(new Event('resize'));
+  }
+  function closeFull() {
+    if (!root.classList.contains('is-full')) return;
+    root.classList.remove('is-full');
+    if (backdrop) { backdrop.remove(); backdrop = null; }
+    document.documentElement.style.overflow = '';
+    window.scrollTo(0, savedY);
+    window.dispatchEvent(new Event('resize'));
+  }
+  Array.prototype.slice.call(root.querySelectorAll('[data-' + p + '-start]')).forEach(function (b) { b.addEventListener('click', openFull); });
+  Array.prototype.slice.call(root.querySelectorAll('[data-' + p + '-close]')).forEach(function (b) { b.addEventListener('click', closeFull); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeFull(); });
+
+  // The last popup's button goes back to step 1 through the first strip item.
+  Array.prototype.slice.call(root.querySelectorAll('[data-' + p + '-restart]')).forEach(function (b) {
+    b.addEventListener('click', function () {
+      var first = root.querySelector('.demo-nav-item[data-slide="0"]');
+      if (first) first.click();
+    });
+  });
+  }
+  initTour(document.querySelector('.campaign-demo[data-demo-panel]'), 'ct');
+})();
+</script>
+
+</body>
+</html>

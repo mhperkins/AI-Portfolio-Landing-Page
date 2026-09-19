@@ -3952,6 +3952,194 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
 @media (max-width: 760px) {
   .sprout-demo .sc-gate { display: none; }
 }
+
+/* ==========================================================================
+   The guided tour, same logic as sprout-crm-tour-demo.html and the page's
+   shared initTour(root, 'gt'). Each slide wraps its screen in .gt-tour: a
+   veil dims the screen but for one highlight (.gt-hl, data-hl) with its
+   popup (.gt-call, data-for) open beside it, on the side data-at names.
+   A highlight that holds the whole screen hides the veil inside it.
+   ========================================================================== */
+.grant-demo .gt-tour { position: relative; }
+.grant-demo .gt-veil { position: absolute; inset: 0; background: rgba(247, 247, 246, 0.74); z-index: 5; border-radius: inherit; pointer-events: none; }
+.grant-demo .gt-hl.is-cur .gt-veil { display: none; }
+.grant-demo .gt-hl { position: relative; }
+.grant-demo .gt-hl.is-cur { z-index: 6; outline: 2px solid var(--fuchsia); outline-offset: 3px; border-radius: 6px; }
+.grant-demo :where(.gt-hl.is-cur) { background-color: var(--paper); }
+.grant-demo .gt-hl:not(.is-cur) > .gt-hl-n, .grant-demo .gt-call:not(.is-cur) { display: none; }
+.grant-demo .gt-hl-n { position: absolute; top: -10px; left: -10px; z-index: 7; width: 22px; height: 22px; border-radius: 50%; background: var(--fuchsia); color: #fff; font-size: 11.5px; font-weight: 900; line-height: 22px; text-align: center; letter-spacing: 0; text-transform: none; box-shadow: 0 0 0 2px #fff; }
+.grant-demo .gt-hl-n.at-tr { left: auto; right: -10px; }
+.grant-demo .gt-hl-n.at-corner { left: -13px; top: -13px; }
+.grant-demo .gt-hl-n.at-up { top: -18px; }
+.grant-demo .gt-calls { display: contents; }
+.grant-demo .gt-call { position: absolute; z-index: 8; width: 256px; display: flex; gap: 9px; align-items: flex-start; background: #fff; border: 1.5px solid var(--ink); border-radius: 10px; box-shadow: var(--sh-lg); padding: 10px 12px 11px; font-size: 12.5px; line-height: 1.45; color: var(--ink); text-align: left; }
+.grant-demo .gt-call-n { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--fuchsia); color: #fff; font-size: 11.5px; font-weight: 900; line-height: 22px; text-align: center; }
+.grant-demo .gt-call-body { flex: 1; min-width: 0; }
+.grant-demo .gt-call-t { font-size: 15px; font-weight: 900; letter-spacing: -0.01em; line-height: 1.2; margin: 2px 0 5px; }
+.grant-demo .gt-call .demo-bul li::marker { color: var(--fuchsia); }
+.grant-demo .gt-call-nav { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 9px; }
+.grant-demo .gt-call-nav button { white-space: nowrap; }
+.grant-demo .gt-call-next { border: 1px solid var(--ink); background: var(--ink); color: var(--paper); border-radius: 6px; padding: 4px 12px; font-size: 12px; font-weight: 700; }
+.grant-demo .gt-call-next:hover { background: var(--g800); border-color: var(--g800); }
+.grant-demo .gt-call-back { border: 1px solid var(--g200); background: #fff; color: var(--ink); border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 700; }
+.grant-demo .gt-call-back:hover { border-color: var(--cyan); }
+/* Phone and narrow screens: the popup pins to the bottom of the screen while
+   the tour is in view, and each step scrolls its highlight into view above it. */
+/* A slide whose one highlight is the whole screen keeps a gutter on the
+   right for its popup (data-at="end"), as the Agency tour does. */
+.grant-demo .gt-tour.gt-gutter:not(.is-list) { padding-right: 270px; }
+.grant-demo .gt-tour.is-list .gt-call { position: sticky; bottom: 12px; width: auto; margin-top: 10px; }
+/* A whole column of the pipeline as one highlight: the .demo-col overlay
+   fills the column band above the veil, and the column's cells (.gt-lit)
+   sit above the overlay. The engine sizes the overlay to its header cell. */
+.grant-demo .demo-col.gt-hl { position: absolute; pointer-events: none; }
+.grant-demo .demo-col.gt-hl.is-cur { background: #fff; }
+.grant-demo .gt-lit { position: relative; z-index: 7; }
+.grant-demo .demo-col .gt-hl-n { top: 4px; left: auto; right: 4px; }
+
+/* Full screen, same as the Career Desk tab (commit aebf85b). The tour shows
+   as a preview under a Start gate; starting opens it over the page at nearly
+   full window size at step 1, and Close, Esc or a click on the backdrop puts
+   it back and restores the page's scroll. Phones skip the gate and run inline. */
+.grant-demo { position: relative; }
+.grant-demo .gt-gate { position: absolute; inset: 0; z-index: 40; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: rgba(247, 247, 246, 0.55); backdrop-filter: blur(1.5px); border-radius: 10px; }
+.grant-demo .gt-gate-btn { border: 0; background: var(--ink); color: var(--paper); border-radius: 10px; padding: 13px 24px; font-size: 16px; font-weight: 900; box-shadow: var(--sh-lg); }
+.grant-demo .gt-gate-btn:hover { background: var(--g800); }
+.grant-demo .gt-gate-sub { font-size: 12.5px; font-weight: 700; color: var(--ink); background: rgba(255, 255, 255, 0.85); border-radius: 20px; padding: 3px 12px; }
+.grant-demo .gt-close { display: none; }
+.grant-demo.is-full { position: fixed; inset: 16px; z-index: 1000; max-width: 1440px; margin: 0 auto; padding: 18px; background: var(--paper); border-radius: 14px; overflow: auto; overscroll-behavior: contain; --demo-pin-top: 0px; box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5); }
+.grant-demo.is-full .gt-gate, .grant-demo.is-full .demo-scaffold { display: none; }
+/* In full screen only the strip pins; the title card scrolls away, so a tall
+   highlight and its popup fit on screen together. */
+.grant-demo.is-full .demo-caption { position: static; }
+.grant-demo.is-full .gt-close { display: inline-flex; margin-left: 10px; align-self: center; border: 1px solid rgba(247, 247, 246, 0.35); background: none; color: var(--paper); border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.grant-demo.is-full .gt-close:hover { background: rgba(247, 247, 246, 0.12); }
+.gt-backdrop { position: fixed; inset: 0; z-index: 999; background: rgba(3, 0, 0, 0.88); }
+@media (max-width: 760px) {
+  .grant-demo .gt-gate { display: none; }
+}
+
+/* ==========================================================================
+   The guided tour, same logic as sprout-crm-tour-demo.html and the page's
+   shared initTour(root, 'st'). Each slide wraps its screen in .st-tour: a
+   veil dims the screen but for one highlight (.st-hl, data-hl) with its
+   popup (.st-call, data-for) open beside it, on the side data-at names.
+   A highlight that holds the whole screen hides the veil inside it.
+   ========================================================================== */
+.social-demo .st-tour { position: relative; }
+.social-demo .st-veil { position: absolute; inset: 0; background: rgba(247, 247, 246, 0.74); z-index: 5; border-radius: inherit; pointer-events: none; }
+.social-demo .st-hl.is-cur .st-veil { display: none; }
+.social-demo .st-hl { position: relative; }
+.social-demo .st-hl.is-cur { z-index: 6; outline: 2px solid var(--fuchsia); outline-offset: 3px; border-radius: 6px; }
+.social-demo :where(.st-hl.is-cur) { background-color: var(--paper); }
+.social-demo .st-hl:not(.is-cur) > .st-hl-n, .social-demo .st-call:not(.is-cur) { display: none; }
+.social-demo .st-hl-n { position: absolute; top: -10px; left: -10px; z-index: 7; width: 22px; height: 22px; border-radius: 50%; background: var(--fuchsia); color: #fff; font-size: 11.5px; font-weight: 900; line-height: 22px; text-align: center; letter-spacing: 0; text-transform: none; box-shadow: 0 0 0 2px #fff; }
+.social-demo .st-hl-n.at-tr { left: auto; right: -10px; }
+.social-demo .st-hl-n.at-corner { left: -13px; top: -13px; }
+.social-demo .st-hl-n.at-up { top: -18px; }
+.social-demo .st-calls { display: contents; }
+.social-demo .st-call { position: absolute; z-index: 8; width: 256px; display: flex; gap: 9px; align-items: flex-start; background: #fff; border: 1.5px solid var(--ink); border-radius: 10px; box-shadow: var(--shadow-lg); padding: 10px 12px 11px; font-size: 12.5px; line-height: 1.45; color: var(--ink); text-align: left; }
+.social-demo .st-call-n { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--fuchsia); color: #fff; font-size: 11.5px; font-weight: 900; line-height: 22px; text-align: center; }
+.social-demo .st-call-body { flex: 1; min-width: 0; }
+.social-demo .st-call-t { font-size: 15px; font-weight: 900; letter-spacing: -0.01em; line-height: 1.2; margin: 2px 0 5px; }
+.social-demo .st-call .demo-bul li::marker { color: var(--fuchsia); }
+.social-demo .st-call-nav { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 9px; }
+.social-demo .st-call-nav button { white-space: nowrap; }
+.social-demo .st-call-next { border: 1px solid var(--ink); background: var(--ink); color: var(--paper); border-radius: 6px; padding: 4px 12px; font-size: 12px; font-weight: 700; }
+.social-demo .st-call-next:hover { background: var(--g800); border-color: var(--g800); }
+.social-demo .st-call-back { border: 1px solid var(--g200); background: #fff; color: var(--ink); border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 700; }
+.social-demo .st-call-back:hover { border-color: var(--cyan); }
+/* Phone and narrow screens: the popup pins to the bottom of the screen while
+   the tour is in view, and each step scrolls its highlight into view above it. */
+/* A slide whose one highlight is the whole screen keeps a gutter on the
+   right for its popup (data-at="end"), as the Agency tour does. */
+.social-demo .st-tour.st-gutter:not(.is-list) { padding-right: 270px; }
+.social-demo .st-tour.is-list .st-call { position: sticky; bottom: 12px; width: auto; margin-top: 10px; }
+/* The tour lifts the Dashboard and Queue height caps, in full screen and on
+   a phone, so no highlight runs past the cut (step 3 on a phone was hidden). */
+.social-demo.is-full .so-cut, .social-demo .st-tour.is-list .so-cut { max-height: none; }
+.social-demo.is-full .so-cut::after, .social-demo .st-tour.is-list .so-cut::after { display: none; }
+
+/* Full screen, same as the Career Desk tab (commit aebf85b). The tour shows
+   as a preview under a Start gate; starting opens it over the page at nearly
+   full window size at step 1, and Close, Esc or a click on the backdrop puts
+   it back and restores the page's scroll. Phones skip the gate and run inline. */
+.social-demo { position: relative; }
+.social-demo .st-gate { position: absolute; inset: 0; z-index: 40; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: rgba(247, 247, 246, 0.55); backdrop-filter: blur(1.5px); border-radius: 10px; }
+.social-demo .st-gate-btn { border: 0; background: var(--ink); color: var(--paper); border-radius: 10px; padding: 13px 24px; font-size: 16px; font-weight: 900; box-shadow: var(--shadow-lg); }
+.social-demo .st-gate-btn:hover { background: var(--g800); }
+.social-demo .st-gate-sub { font-size: 12.5px; font-weight: 700; color: var(--ink); background: rgba(255, 255, 255, 0.85); border-radius: 20px; padding: 3px 12px; }
+.social-demo .st-close { display: none; }
+.social-demo.is-full { position: fixed; inset: 16px; z-index: 1000; max-width: 1440px; margin: 0 auto; padding: 18px; background: var(--paper); border-radius: 14px; overflow: auto; overscroll-behavior: contain; --demo-pin-top: 0px; box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5); }
+.social-demo.is-full .st-gate, .social-demo.is-full .demo-scaffold { display: none; }
+/* In full screen only the strip pins; the title card scrolls away, so a tall
+   highlight and its popup fit on screen together. */
+.social-demo.is-full .demo-caption { position: static; }
+.social-demo.is-full .st-close { display: inline-flex; margin-left: 10px; align-self: center; border: 1px solid rgba(247, 247, 246, 0.35); background: none; color: var(--paper); border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.social-demo.is-full .st-close:hover { background: rgba(247, 247, 246, 0.12); }
+.st-backdrop { position: fixed; inset: 0; z-index: 999; background: rgba(3, 0, 0, 0.88); }
+@media (max-width: 760px) {
+  .social-demo .st-gate { display: none; }
+}
+
+/* ==========================================================================
+   The guided tour, same logic as sprout-crm-tour-demo.html and the page's
+   shared initTour(root, 'ct'). Each slide wraps its screen in .ct-tour: a
+   veil dims the screen but for one highlight (.ct-hl, data-hl) with its
+   popup (.ct-call, data-for) open beside it, on the side data-at names.
+   A highlight that holds the whole screen hides the veil inside it.
+   ========================================================================== */
+.campaign-demo .ct-tour { position: relative; }
+.campaign-demo .ct-veil { position: absolute; inset: 0; background: rgba(247, 247, 246, 0.74); z-index: 5; border-radius: inherit; pointer-events: none; }
+.campaign-demo .ct-hl.is-cur .ct-veil { display: none; }
+.campaign-demo .ct-hl { position: relative; }
+.campaign-demo .ct-hl.is-cur { z-index: 6; outline: 2px solid var(--fuchsia); outline-offset: 3px; border-radius: 6px; }
+.campaign-demo :where(.ct-hl.is-cur) { background-color: var(--paper); }
+.campaign-demo .ct-hl:not(.is-cur) > .ct-hl-n, .campaign-demo .ct-call:not(.is-cur) { display: none; }
+.campaign-demo .ct-hl-n { position: absolute; top: -10px; left: -10px; z-index: 7; width: 22px; height: 22px; border-radius: 50%; background: var(--fuchsia); color: #fff; font-size: 11.5px; font-weight: 900; line-height: 22px; text-align: center; letter-spacing: 0; text-transform: none; box-shadow: 0 0 0 2px #fff; }
+.campaign-demo .ct-hl-n.at-tr { left: auto; right: -10px; }
+.campaign-demo .ct-hl-n.at-corner { left: -13px; top: -13px; }
+.campaign-demo .ct-hl-n.at-up { top: -18px; }
+.campaign-demo .ct-calls { display: contents; }
+.campaign-demo .ct-call { position: absolute; z-index: 8; width: 256px; display: flex; gap: 9px; align-items: flex-start; background: #fff; border: 1.5px solid var(--ink); border-radius: 10px; box-shadow: var(--shadow-lg); padding: 10px 12px 11px; font-size: 12.5px; line-height: 1.45; color: var(--ink); text-align: left; }
+.campaign-demo .ct-call-n { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--fuchsia); color: #fff; font-size: 11.5px; font-weight: 900; line-height: 22px; text-align: center; }
+.campaign-demo .ct-call-body { flex: 1; min-width: 0; }
+.campaign-demo .ct-call-t { font-size: 15px; font-weight: 900; letter-spacing: -0.01em; line-height: 1.2; margin: 2px 0 5px; }
+.campaign-demo .ct-call .demo-bul li::marker { color: var(--fuchsia); }
+.campaign-demo .ct-call-nav { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 9px; }
+.campaign-demo .ct-call-nav button { white-space: nowrap; }
+.campaign-demo .ct-call-next { border: 1px solid var(--ink); background: var(--ink); color: var(--paper); border-radius: 6px; padding: 4px 12px; font-size: 12px; font-weight: 700; }
+.campaign-demo .ct-call-next:hover { background: var(--g800); border-color: var(--g800); }
+.campaign-demo .ct-call-back { border: 1px solid var(--g200); background: #fff; color: var(--ink); border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 700; }
+.campaign-demo .ct-call-back:hover { border-color: var(--cyan); }
+/* Phone and narrow screens: the popup pins to the bottom of the screen while
+   the tour is in view, and each step scrolls its highlight into view above it. */
+/* A slide whose one highlight is the whole screen keeps a gutter on the
+   right for its popup (data-at="end"), as the Agency tour does. */
+.campaign-demo .ct-tour.ct-gutter:not(.is-list) { padding-right: 270px; }
+.campaign-demo .ct-tour.is-list .ct-call { position: sticky; bottom: 12px; width: auto; margin-top: 10px; }
+
+/* Full screen, same as the Career Desk tab (commit aebf85b). The tour shows
+   as a preview under a Start gate; starting opens it over the page at nearly
+   full window size at step 1, and Close, Esc or a click on the backdrop puts
+   it back and restores the page's scroll. Phones skip the gate and run inline. */
+.campaign-demo { position: relative; }
+.campaign-demo .ct-gate { position: absolute; inset: 0; z-index: 40; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: rgba(247, 247, 246, 0.55); backdrop-filter: blur(1.5px); border-radius: 10px; }
+.campaign-demo .ct-gate-btn { border: 0; background: var(--ink); color: var(--paper); border-radius: 10px; padding: 13px 24px; font-size: 16px; font-weight: 900; box-shadow: var(--shadow-lg); }
+.campaign-demo .ct-gate-btn:hover { background: var(--g800); }
+.campaign-demo .ct-gate-sub { font-size: 12.5px; font-weight: 700; color: var(--ink); background: rgba(255, 255, 255, 0.85); border-radius: 20px; padding: 3px 12px; }
+.campaign-demo .ct-close { display: none; }
+.campaign-demo.is-full { position: fixed; inset: 16px; z-index: 1000; max-width: 1440px; margin: 0 auto; padding: 18px; background: var(--paper); border-radius: 14px; overflow: auto; overscroll-behavior: contain; --demo-pin-top: 0px; box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5); }
+.campaign-demo.is-full .ct-gate, .campaign-demo.is-full .demo-scaffold { display: none; }
+/* In full screen only the strip pins; the title card scrolls away, so a tall
+   highlight and its popup fit on screen together. */
+.campaign-demo.is-full .demo-caption { position: static; }
+.campaign-demo.is-full .ct-close { display: inline-flex; margin-left: 10px; align-self: center; border: 1px solid rgba(247, 247, 246, 0.35); background: none; color: var(--paper); border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.campaign-demo.is-full .ct-close:hover { background: rgba(247, 247, 246, 0.12); }
+.ct-backdrop { position: fixed; inset: 0; z-index: 999; background: rgba(3, 0, 0, 0.88); }
+@media (max-width: 760px) {
+  .campaign-demo .ct-gate { display: none; }
+}
 /* ==========================================================================
    Nav-driven carousels and hover notes (2026-09-13).
 
@@ -7223,6 +7411,7 @@ Max</textarea>
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>
       Click to step through
     </span>
+    <button type="button" class="gt-close" data-gt-close aria-label="Close the tour">&#10005; Close</button>
   </div>
 
   <!-- ====================================================================
@@ -7247,13 +7436,8 @@ Max</textarea>
                data-state-label="State of the pipeline"
                data-state="Tuesday, September 1 &middot; 6 grants &middot; $44,000 in asks &middot; 2 due within 30 days."
                data-title="Grant Pipeline: every application at a glance">
-        <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Grants active or being written</li> <li>Total asked across every funder</li> <li>Grants due within 30 days</li></ul></div></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Each deadline shows the days left</li> <li>Color shifts as it gets closer; the most urgent is red</li></ul></div></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>A progress bar counts each application's answered questions</li> <li>Flags any that still have gaps</li></ul></div></div>
-          <div class="demo-note"><span class="demo-pin-n">4</span><div><ul class="demo-bul"><li>Every grant carries its one next step</li> <li>From emailing a program officer to sending the impact report after an award</li></ul></div></div>
-        </div>
-        <div class="gf-frame">
+        <div class="gt-tour">
+        <div class="gf-frame"><div class="gt-veil"></div>
           <div class="gf-page">
             <div class="gf-hd">
               <div>
@@ -7263,7 +7447,7 @@ Max</textarea>
               <span class="gf-btn gf-btn-blk">&#65291; Add Grant</span>
             </div>
 
-            <div class="gf-stats demo-pinned"><span class="demo-pin">1</span>
+            <div class="gf-stats gt-hl" data-hl="1"><span class="gt-hl-n">1</span>
               <div class="gf-stat"><div class="gf-stat-lbl">Active Grants</div><div class="gf-stat-val">5</div><div class="gf-stat-meta">of 6 total</div></div>
               <div class="gf-stat"><div class="gf-stat-lbl">Total Ask</div><div class="gf-stat-val is-sm">$44,000</div><div class="gf-stat-meta">across all funders</div></div>
               <div class="gf-stat"><div class="gf-stat-lbl">In Progress</div><div class="gf-stat-val" style="color: var(--cyan);">2</div><div class="gf-stat-meta">being written now</div></div>
@@ -7276,10 +7460,10 @@ Max</textarea>
                   <span class="gf-c-name">Grant / Funder</span>
                   <span class="gf-c-status">Status</span>
                   <span class="gf-c-amount">Amount</span>
-                  <span class="gf-c-deadline">Deadline<span class="demo-pin is-inline" data-pin-for="gf-c-deadline">2</span></span>
-                  <span class="gf-c-progress">Progress<span class="demo-pin is-inline" data-pin-for="gf-c-progress">3</span></span>
+                  <span class="gf-c-deadline">Deadline</span>
+                  <span class="gf-c-progress">Progress</span>
                   <span class="gf-c-brief">Brief</span>
-                  <span class="gf-c-next">Next Action<span class="demo-pin is-inline" data-pin-for="gf-c-next">4</span></span>
+                  <span class="gf-c-next">Next Action</span>
                   <span class="gf-c-actions"></span>
                 </div>
 
@@ -7352,13 +7536,20 @@ Max</textarea>
                 <!-- Column overlays for pins 2 to 4, so each outlines its whole column.
                      The page script sizes them to their header cell; the standalone,
                      which shows the notes row instead, leaves them at zero width. -->
-                <div class="demo-col" data-col="gf-c-deadline"></div>
-                <div class="demo-col" data-col="gf-c-progress"></div>
-                <div class="demo-col" data-col="gf-c-next"></div>
+                <div class="demo-col gt-hl" data-col="gf-c-deadline" data-hl="2"><span class="gt-hl-n">2</span></div>
+                <div class="demo-col gt-hl" data-col="gf-c-progress" data-hl="3"><span class="gt-hl-n">3</span></div>
+                <div class="demo-col gt-hl" data-col="gf-c-next" data-hl="4"><span class="gt-hl-n">4</span></div>
               </div>
             </div>
           </div>
         </div>
+        <div class="gt-calls">
+            <div class="gt-call" data-for="1" data-at="below-end"><span class="gt-call-n">1</span><div class="gt-call-body"><div class="gt-call-t">The pipeline at a glance</div><ul class="demo-bul"><li>Grants active or being written</li> <li>Total asked across every funder</li> <li>Grants due within 30 days</li></ul></div></div>
+            <div class="gt-call" data-for="2" data-at="right"><span class="gt-call-n">2</span><div class="gt-call-body"><div class="gt-call-t">Days left on every deadline</div><ul class="demo-bul"><li>Each deadline shows the days left</li> <li>Color shifts as it gets closer; the most urgent is red</li></ul></div></div>
+            <div class="gt-call" data-for="3" data-at="right"><span class="gt-call-n">3</span><div class="gt-call-body"><div class="gt-call-t">How far along each one is</div><ul class="demo-bul"><li>A progress bar counts each application's answered questions</li> <li>Flags any that still have gaps</li></ul></div></div>
+            <div class="gt-call" data-for="4" data-at="left"><span class="gt-call-n">4</span><div class="gt-call-body"><div class="gt-call-t">One next step per grant</div><ul class="demo-bul"><li>Every grant carries its one next step</li> <li>From emailing a program officer to sending the impact report after an award</li></ul><button class="gt-call-next" data-demo-next>Next: Import from Claude &#8250;</button></div></div>
+        </div>
+        </div><!-- /.gt-tour -->
       </section>
 
       <!-- ============ SLIDE 2 · IMPORT FROM CLAUDE ======================= -->
@@ -7369,13 +7560,8 @@ Max</textarea>
                data-state-label="State of the import"
                data-state="Belonging Initiative &middot; Hudson Wellness Trust &middot; scored 21 of 25 &middot; 6 questions and 4 tasks ready to import."
                data-title="Import from Claude: research in, workspace out">
-        <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>In its own conversation, Claude follows plain-language research protocols</li> <li>Finds grants with live web search</li> <li>Checks every link, deadline and eligibility rule on the funder's own page</li></ul></div></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Claude hands back the whole grant profile as JSON</li> <li>Every question with its character limit, the tasks, the framing notes</li> <li>Ready to paste in</li></ul></div></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Preview before import: the ask, the deadline, the framing note</li> <li>Past grantees from public tax filings</li> <li>The words reviewers respond to</li> <li>A clear go or no-go</li></ul></div></div>
-          <div class="demo-note"><span class="demo-pin-n">4</span><div><ul class="demo-bul"><li>One click builds a full grant workspace</li> <li>Questions, tasks and framing notes already in place</li></ul></div></div>
-        </div>
-        <div class="gf-frame">
+        <div class="gt-tour">
+        <div class="gf-frame"><div class="gt-veil"></div>
           <div class="gf-page">
             <div class="gf-hd">
               <div>
@@ -7392,9 +7578,9 @@ Max</textarea>
             <div class="gf-card">
               <div class="gf-card-hd"><span class="gf-card-ttl">Paste Grant Profile JSON</span></div>
               <div class="gf-card-bd">
-                <div class="gf-howto demo-pinned"><span class="demo-pin" style="left: auto; right: -10px;">1</span><b>How to use:</b> In this conversation, ask Claude to <i>"build a grant profile JSON for [funder name]"</i>. Claude will generate a complete profile. Copy the JSON output, paste it below, and click Import.</div>
+                <div class="gf-howto gt-hl" data-hl="5"><span class="gt-hl-n at-tr">5</span><b>How to use:</b> In this conversation, ask Claude to <i>"build a grant profile JSON for [funder name]"</i>. Claude will generate a complete profile. Copy the JSON output, paste it below, and click Import.</div>
                 <span class="gf-import-lbl">Grant Profile JSON</span>
-                <div class="gf-import-zone is-active demo-pinned"><span class="demo-pin" style="left: auto; right: -10px;">2</span>
+                <div class="gf-import-zone is-active gt-hl" data-hl="6"><span class="gt-hl-n at-tr">6</span>
 <pre class="gf-import-ta">{
   "grantName": "Belonging Initiative",
   "funder": "Hudson Wellness Trust",
@@ -7422,7 +7608,7 @@ Max</textarea>
 }</pre>
                 </div>
 
-                <div class="gf-preview demo-pinned"><span class="demo-pin">3</span>
+                <div class="gf-preview gt-hl" data-hl="7"><span class="gt-hl-n">7</span>
                   <div class="gf-preview-name">Belonging Initiative</div>
                   <div class="gf-preview-funder">Hudson Wellness Trust</div>
                   <div class="gf-preview-row">
@@ -7435,13 +7621,20 @@ Max</textarea>
                 </div>
 
                 <div class="gf-import-btns">
-                  <span class="gf-btn gf-btn-acid demo-pinned"><span class="demo-pin">4</span>&#10003; Import Grant Profile</span>
+                  <span class="gf-btn gf-btn-acid gt-hl" data-hl="8"><span class="gt-hl-n">8</span>&#10003; Import Grant Profile</span>
                   <span class="gf-btn gf-btn-ghost gf-btn-sm">Clear</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="gt-calls">
+            <div class="gt-call" data-for="5" data-at="below-end"><span class="gt-call-n">5</span><div class="gt-call-body"><div class="gt-call-t">Claude does the research</div><ul class="demo-bul"><li>In its own conversation, Claude follows plain-language research protocols</li> <li>Finds grants with live web search</li> <li>Checks every link, deadline and eligibility rule on the funder's own page</li></ul></div></div>
+            <div class="gt-call" data-for="6" data-at="below-end"><span class="gt-call-n">6</span><div class="gt-call-body"><div class="gt-call-t">The grant profile as JSON</div><ul class="demo-bul"><li>Claude hands back the whole grant profile as JSON</li> <li>Every question with its character limit, the tasks, the framing notes</li> <li>Ready to paste in</li></ul></div></div>
+            <div class="gt-call" data-for="7" data-at="above"><span class="gt-call-n">7</span><div class="gt-call-body"><div class="gt-call-t">Check it before it lands</div><ul class="demo-bul"><li>Preview before import: the ask, the deadline, the framing note</li> <li>Past grantees from public tax filings</li> <li>The words reviewers respond to</li> <li>A clear go or no-go</li></ul></div></div>
+            <div class="gt-call" data-for="8" data-at="above"><span class="gt-call-n">8</span><div class="gt-call-body"><div class="gt-call-t">A workspace in one click</div><ul class="demo-bul"><li>One click builds a full grant workspace</li> <li>Questions, tasks and framing notes already in place</li></ul><button class="gt-call-next" data-demo-next>Next: Research Brief &#8250;</button></div></div>
+        </div>
+        </div><!-- /.gt-tour -->
       </section>
 
       <!-- ============ SLIDE 3 · RESEARCH BRIEF =========================== -->
@@ -7450,11 +7643,8 @@ Max</textarea>
                data-state-label="State of the research"
                data-state="Brooklyn Neighbors Fund &middot; Tier 1 &middot; verdict: go &middot; brief linked August 27."
                data-title="Research Brief: know the funder first">
-        <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Framing notes from the research stay pinned above every tab</li> <li>Every answer starts from the same angle</li></ul></div></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Who the funder is, and whether Sprout fits and should apply</li> <li>What past grantees from public tax filings have in common</li> <li>Words to use and avoid, and how the application gets scored</li> <li>The one question worth asking the program officer</li></ul></div></div>
-        </div>
-        <div class="gf-frame">
+        <div class="gt-tour">
+        <div class="gf-frame"><div class="gt-veil"></div>
           <div class="gf-page">
             <div class="gf-back"><span class="gf-btn gf-btn-ghost gf-btn-sm">&larr; Back to Pipeline</span></div>
 
@@ -7477,7 +7667,7 @@ Max</textarea>
               </div>
             </div>
 
-            <div class="gf-framing demo-pinned"><span class="demo-pin">1</span>
+            <div class="gf-framing gt-hl" data-hl="9"><span class="gt-hl-n">9</span>
               <div class="gf-framing-lbl">&#128204; Framing Notes</div>
               <div class="gf-framing-txt">Lead with community building: belonging, a third space, neighborhood life. Keep clinical words out (therapy, counseling, treatment). Applications are read by residents on the advisory council, so write plainly, not like a grant professional. Use the funder's own words: 'neighbors supporting neighbors', 'resident-led', 'participatory'. The one belief a reviewer should walk away with: Sprout Society is of this neighborhood, not just serving it.</div>
             </div>
@@ -7491,7 +7681,7 @@ Max</textarea>
               <span class="gf-tab">Export</span>
             </div>
 
-            <div class="gf-card demo-pinned"><span class="demo-pin gf-pin-corner">2</span>
+            <div class="gf-card gt-hl" data-hl="10"><span class="gt-hl-n at-corner">10</span>
               <div class="gf-card-hd">
                 <span class="gf-card-ttl">Funder Research Brief</span>
                 <div class="gf-card-acts">
@@ -7527,6 +7717,11 @@ One question only: does peer connection fit Civic Life or Health and Wellbeing?<
             </div>
           </div>
         </div>
+        <div class="gt-calls">
+            <div class="gt-call" data-for="9" data-at="below-end"><span class="gt-call-n">9</span><div class="gt-call-body"><div class="gt-call-t">Framing that stays in view</div><ul class="demo-bul"><li>Framing notes from the research stay pinned above every tab</li> <li>Every answer starts from the same angle</li></ul></div></div>
+            <div class="gt-call" data-for="10" data-at="above"><span class="gt-call-n">10</span><div class="gt-call-body"><div class="gt-call-t">The funder research brief</div><ul class="demo-bul"><li>Who the funder is, and whether Sprout fits and should apply</li> <li>What past grantees from public tax filings have in common</li> <li>Words to use and avoid, and how the application gets scored</li> <li>The one question worth asking the program officer</li></ul><button class="gt-call-next" data-demo-next>Next: Questions &#8250;</button></div></div>
+        </div>
+        </div><!-- /.gt-tour -->
       </section>
 
       <!-- ============ SLIDE 4 · QUESTIONS ================================ -->
@@ -7535,12 +7730,8 @@ One question only: does peer connection fit Civic Life or Health and Wellbeing?<
                data-state-label="State of the application"
                data-state="7 of 9 answered &middot; 3 gaps to fill &middot; the impact answer is near its limit."
                data-title="Questions: drafts, limits, and gaps">
-        <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Questions answered</li> <li>How complete the application is</li> <li>Gaps left to fill</li></ul></div></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Every application opens with the standard org details: name, website, founding year</li> <li>Kept consistent with Sprout's org profile</li> <li>They go into any grant as written</li></ul></div></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>The funder's prompt with a writing hint</li> <li>A draft box that counts characters against the limit</li> <li>Edit and delete; History brings back any earlier version</li> <li>Paste drops in a new draft from Claude</li></ul></div></div>
-          <div class="demo-note"><span class="demo-pin-n">4</span><div><ul class="demo-bul"><li>Anything unconfirmed stays in the draft as highlighted, bracketed text, like these attendance totals</li> <li>Each card counts its gaps</li> <li>None slip into the submitted application</li></ul></div></div>        </div>
-        <div class="gf-frame">
+        <div class="gt-tour">
+        <div class="gf-frame"><div class="gt-veil"></div>
           <div class="gf-page">
             <div class="gf-ws-hd is-compact">
               <div class="gf-ws-top">
@@ -7574,7 +7765,7 @@ One question only: does peer connection fit Civic Life or Health and Wellbeing?<
               <span class="gf-tab">Export</span>
             </div>
 
-            <div class="gf-tracker demo-pinned"><span class="demo-pin">1</span>
+            <div class="gf-tracker gt-hl" data-hl="11"><span class="gt-hl-n">11</span>
               <div class="gf-tr-stat"><strong>7</strong> of <strong>9</strong> answered</div>
               <div class="gf-tr-bar"><i style="width: 78%;"></i></div>
               <div class="gf-tr-stat"><strong>78%</strong> complete</div>
@@ -7586,7 +7777,7 @@ One question only: does peer connection fit Civic Life or Health and Wellbeing?<
             </div>
 
             <!-- (a) complete, well under its limit -->
-            <div class="gf-qe demo-pinned"><span class="demo-pin gf-pin-corner">2</span>
+            <div class="gf-qe gt-hl" data-hl="12"><span class="gt-hl-n at-corner">12</span>
               <div class="gf-qe-hd"><div class="gf-qe-row">
                 <div class="gf-qe-main">
                   <div class="gf-qe-cat">org info</div>
@@ -7605,7 +7796,7 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
             </div>
 
             <!-- (b) complete, being edited -->
-            <div class="gf-qe is-focus demo-pinned"><span class="demo-pin gf-pin-corner">3</span>
+            <div class="gf-qe is-focus gt-hl" data-hl="13"><span class="gt-hl-n at-corner">13</span>
               <div class="gf-qe-hd"><div class="gf-qe-row">
                 <div class="gf-qe-main">
                   <div class="gf-qe-cat">narrative</div>
@@ -7622,7 +7813,7 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
             </div>
 
             <!-- (c) answered, with two gaps, near its limit -->
-            <div class="gf-qe demo-pinned"><span class="demo-pin gf-pin-corner">4</span>
+            <div class="gf-qe gt-hl" data-hl="14"><span class="gt-hl-n at-corner">14</span>
               <div class="gf-qe-hd"><div class="gf-qe-row">
                 <div class="gf-qe-main">
                   <div class="gf-qe-cat">impact</div>
@@ -7653,6 +7844,13 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
             </div>
           </div>
         </div>
+        <div class="gt-calls">
+            <div class="gt-call" data-for="11" data-at="below-end"><span class="gt-call-n">11</span><div class="gt-call-body"><div class="gt-call-t">Where the application stands</div><ul class="demo-bul"><li>Questions answered</li> <li>How complete the application is</li> <li>Gaps left to fill</li></ul></div></div>
+            <div class="gt-call" data-for="12" data-at="below-end"><span class="gt-call-n">12</span><div class="gt-call-body"><div class="gt-call-t">The standard org details</div><ul class="demo-bul"><li>Every application opens with the standard org details: name, website, founding year</li> <li>Kept consistent with Sprout's org profile</li> <li>They go into any grant as written</li></ul></div></div>
+            <div class="gt-call" data-for="13" data-at="below-end"><span class="gt-call-n">13</span><div class="gt-call-body"><div class="gt-call-t">Draft against the limit</div><ul class="demo-bul"><li>The funder's prompt with a writing hint</li> <li>A draft box that counts characters against the limit</li> <li>Edit and delete; History brings back any earlier version</li> <li>Paste drops in a new draft from Claude</li></ul></div></div>
+            <div class="gt-call" data-for="14" data-at="above"><span class="gt-call-n">14</span><div class="gt-call-body"><div class="gt-call-t">Gaps stay visible</div><ul class="demo-bul"><li>Anything unconfirmed stays in the draft as highlighted, bracketed text, like these attendance totals</li> <li>Each card counts its gaps</li> <li>None slip into the submitted application</li></ul><button class="gt-call-next" data-demo-next>Next: Tasks &#8250;</button></div></div>
+        </div>
+        </div><!-- /.gt-tour -->
       </section>
 
       <!-- ============ SLIDE 5 · TASKS ==================================== -->
@@ -7661,10 +7859,8 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
                data-state-label="State of the work"
                data-state="6 open tasks &middot; 2 high priority due this week &middot; 2 done."
                data-title="Tasks: what stands between draft and submit">
-        <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Every step between draft and submit becomes a task</li> <li>Each has a priority and a due date ahead of the deadline</li> <li>Add Task drops in a new one</li> <li>Checked-off steps stay, crossed out, as a record</li></ul></div></div>
-        </div>
-        <div class="gf-frame">
+        <div class="gt-tour gt-gutter">
+        <div class="gf-frame"><div class="gt-veil"></div>
           <div class="gf-page">
             <div class="gf-ws-hd is-compact">
               <div class="gf-ws-top">
@@ -7698,7 +7894,7 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
               <span class="gf-tab">Export</span>
             </div>
 
-            <div class="gf-card demo-pinned"><span class="demo-pin gf-pin-corner">1</span>
+            <div class="gf-card gt-hl" data-hl="15"><span class="gt-hl-n at-corner">15</span>
               <div class="gf-card-hd">
                 <span class="gf-card-ttl">Tasks &amp; Next Steps</span>
                 <span class="gf-btn gf-btn-ghost gf-btn-sm">&#65291; Add Task</span>
@@ -7772,6 +7968,10 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
             </div>
           </div>
         </div>
+        <div class="gt-calls">
+            <div class="gt-call" data-for="15" data-at="end"><span class="gt-call-n">15</span><div class="gt-call-body"><div class="gt-call-t">Every step to submission</div><ul class="demo-bul"><li>Every step between draft and submit becomes a task</li> <li>Each has a priority and a due date ahead of the deadline</li> <li>Add Task drops in a new one</li> <li>Checked-off steps stay, crossed out, as a record</li></ul><button class="gt-call-next" data-demo-next>Next: Export &#8250;</button></div></div>
+        </div>
+        </div><!-- /.gt-tour -->
       </section>
 
       <!-- ============ SLIDE 6 · EXPORT =================================== -->
@@ -7780,13 +7980,10 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
                data-state-label="State of the submission"
                data-state="Neighborhood Connection Grant 2026 &middot; 9 answers &middot; ready to paste into the portal."
                data-title="Export: one block for the portal">
-        <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>The grant's essentials in one header: name, funder, status, ask</li> <li>The deadline with days left</li> <li>A link straight to the funder's portal, so submitting is one click once answers are copied</li></ul></div></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Every answer in the portal's question order</li> <li>Under a header with grant, funder, amount and deadline</li> <li>Copy All puts the whole application on the clipboard, ready to paste</li></ul></div></div>
-        </div>
-        <div class="gf-frame">
+        <div class="gt-tour">
+        <div class="gf-frame"><div class="gt-veil"></div>
           <div class="gf-page">
-            <div class="gf-ws-hd is-compact demo-pinned"><span class="demo-pin gf-pin-corner">1</span>
+            <div class="gf-ws-hd is-compact gt-hl" data-hl="16"><span class="gt-hl-n at-corner">16</span>
               <div class="gf-ws-top">
                 <div>
                   <div class="gf-ws-name">Neighborhood Connection Grant 2026</div>
@@ -7818,7 +8015,7 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
               <span class="gf-tab on">Export</span>
             </div>
 
-            <div class="gf-card demo-pinned"><span class="demo-pin gf-pin-corner">2</span>
+            <div class="gf-card gt-hl" data-hl="17"><span class="gt-hl-n at-corner">17</span>
               <div class="gf-card-hd">
                 <span class="gf-card-ttl">Export Answers</span>
                 <div class="gf-card-acts"><span class="gf-btn gf-btn-blk gf-btn-sm">&#128203; Copy All</span></div>
@@ -7856,11 +8053,21 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
           </div>
           <div class="gf-toast" role="status">Copied to clipboard &#10003;</div>
         </div>
+        <div class="gt-calls">
+            <div class="gt-call" data-for="16" data-at="below-end"><span class="gt-call-n">16</span><div class="gt-call-body"><div class="gt-call-t">The essentials in one header</div><ul class="demo-bul"><li>The grant's essentials in one header: name, funder, status, ask</li> <li>The deadline with days left</li> <li>A link straight to the funder's portal, so submitting is one click once answers are copied</li></ul></div></div>
+            <div class="gt-call" data-for="17" data-at="above"><span class="gt-call-n">17</span><div class="gt-call-body"><div class="gt-call-t">Copy the whole application</div><ul class="demo-bul"><li>Every answer in the portal's question order</li> <li>Under a header with grant, funder, amount and deadline</li> <li>Copy All puts the whole application on the clipboard, ready to paste</li></ul><button class="gt-call-next" data-gt-restart>Start over &#8634;</button></div></div>
+        </div>
+        </div><!-- /.gt-tour -->
       </section>
 
           </div><!-- /.demo-canvas -->
 
   </div><!-- /.demo-stage -->
+
+  <div class="gt-gate">
+    <button type="button" class="gt-gate-btn" data-gt-start>Start the tour &#8250;</button>
+    <span class="gt-gate-sub">17 steps &middot; opens full screen &middot; Esc to close</span>
+  </div>
 
   <div class="demo-controls">
     <button class="demo-arrow" data-demo-prev aria-label="Previous slide">&#8249;</button>
@@ -7912,6 +8119,7 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>
       Click to step through
     </span>
+    <button type="button" class="st-close" data-st-close aria-label="Close the tour">&#10005; Close</button>
   </div>
 
   <!-- ====================================================================
@@ -7936,12 +8144,8 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
                data-state-label="State of the pipeline"
                data-state="Tuesday, September 1 &middot; 2 posts waiting for approval &middot; 4 scheduled &middot; the Vol. 4 promo starts Thursday."
                data-title="Dashboard: what needs a yes today">
-        <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Posts in draft</li> <li>Waiting for approval</li> <li>Scheduled</li> <li>Published</li></ul></div></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Posts waiting for approval come first</li> <li>Each shows its caption, time and hashtags</li> <li>Approve right on the card</li></ul></div></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Next scheduled posts line up below</li> <li>Each shows who approved it</li> <li>A button publishes it to Instagram</li></ul></div></div>
-        </div>
-        <div class="so-frame so-cut" style="--cut: 1120px;">
+        <div class="st-tour">
+        <div class="so-frame so-cut" style="--cut: 1120px;"><div class="st-veil"></div>
           <div class="so-page">
             <div class="so-pg-hd">
               <div>
@@ -7951,14 +8155,14 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
               <span class="so-btn so-btn-blk">+ New Post</span>
             </div>
 
-            <div class="so-stats demo-pinned"><span class="demo-pin">1</span>
+            <div class="so-stats st-hl" data-hl="1"><span class="st-hl-n">1</span>
               <div class="so-stat"><div class="so-stat-lbl">Drafts</div><div class="so-stat-val">3</div></div>
               <div class="so-stat"><div class="so-stat-lbl">Pending Approval</div><div class="so-stat-val">2</div></div>
               <div class="so-stat"><div class="so-stat-lbl">Scheduled</div><div class="so-stat-val">4</div></div>
               <div class="so-stat"><div class="so-stat-lbl">Published</div><div class="so-stat-val">64</div></div>
             </div>
 
-            <div class="so-card so-card-approve demo-pinned"><span class="demo-pin">2</span>
+            <div class="so-card so-card-approve st-hl" data-hl="2"><span class="st-hl-n">2</span>
               <div class="so-card-hd">
                 <div class="so-card-ttl">&#9203; Needs Your Approval</div>
                 <span class="so-tag so-tag-pending">2 pending</span>
@@ -7993,7 +8197,7 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
               </div>
             </div>
 
-            <div class="so-card demo-pinned"><span class="demo-pin">3</span>
+            <div class="so-card st-hl" data-hl="3"><span class="st-hl-n">3</span>
               <div class="so-card-hd">
                 <div class="so-card-ttl">&#128197; Upcoming Scheduled</div>
               </div>
@@ -8043,6 +8247,12 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
             </div>
           </div>
         </div>
+        <div class="st-calls">
+            <div class="st-call" data-for="1" data-at="below-end"><span class="st-call-n">1</span><div class="st-call-body"><div class="st-call-t">Posts by stage</div><ul class="demo-bul"><li>Posts in draft</li> <li>Waiting for approval</li> <li>Scheduled</li> <li>Published</li></ul></div></div>
+            <div class="st-call" data-for="2" data-at="below-end"><span class="st-call-n">2</span><div class="st-call-body"><div class="st-call-t">Approve from the dashboard</div><ul class="demo-bul"><li>Posts waiting for approval come first</li> <li>Each shows its caption, time and hashtags</li> <li>Approve right on the card</li></ul></div></div>
+            <div class="st-call" data-for="3" data-at="above"><span class="st-call-n">3</span><div class="st-call-body"><div class="st-call-t">What goes out next</div><ul class="demo-bul"><li>Next scheduled posts line up below</li> <li>Each shows who approved it</li> <li>A button publishes it to Instagram</li></ul><button class="st-call-next" data-demo-next>Next: Content Queue &#8250;</button></div></div>
+        </div>
+        </div><!-- /.st-tour -->
       </section>
 
       <!-- ============ SLIDE 2 · CONTENT QUEUE ============================ -->
@@ -8053,12 +8263,8 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
                data-state-label="State of the queue"
                data-state="Scheduled tab &middot; the Vol. 4 lineup post publishing now &middot; approved by the comms lead."
                data-title="Content Queue: nothing posts without a yes">
-        <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Every post moves through five stages, Draft to Published</li> <li>Each tab counts the posts in its stage</li></ul></div></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Every post takes the same path to Instagram</li> <li>Drafted, then approved with the approver's address stamped on the card</li> <li>Scheduled, then published from the card in one click</li></ul></div></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>One click publishes a scheduled post to Instagram</li> <li>Caption, hashtags and graphic go through a Composio connection</li> <li>The app waits for Instagram to finish processing, publishes, and saves the post's Instagram ID</li></ul></div></div>
-        </div>
-        <div class="so-frame so-cut" style="--cut: 900px;">
+        <div class="st-tour">
+        <div class="so-frame so-cut" style="--cut: 900px;"><div class="st-veil"></div>
           <div class="so-page">
             <div class="so-pg-hd">
               <div>
@@ -8067,7 +8273,7 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
               </div>
             </div>
 
-            <div class="so-tabs demo-pinned"><span class="demo-pin so-pin-up">1</span>
+            <div class="so-tabs st-hl" data-hl="4"><span class="st-hl-n at-up">4</span>
               <span class="so-tab">Draft<span class="so-tab-count">3</span></span>
               <span class="so-tab">Pending Approval<span class="so-tab-count">2</span></span>
               <span class="so-tab">Approved<span class="so-tab-count">1</span></span>
@@ -8075,7 +8281,7 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
               <span class="so-tab">Published<span class="so-tab-count">64</span></span>
             </div>
 
-            <div class="so-post demo-pinned"><span class="demo-pin">2</span>
+            <div class="so-post st-hl" data-hl="5"><span class="st-hl-n">5</span>
               <div class="so-post-hd">
                 <div class="so-post-id"><span class="so-thumb so-ph so-ph1">Vol. 4<br>line<br>up</span><span class="so-tag so-tag-scheduled">Scheduled</span></div>
                 <span class="so-btn so-btn-danger so-btn-sm">&#10005;</span>
@@ -8101,7 +8307,7 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
                 <span>#SproutSociety #SproutNTell #CommunityHeals</span>
                 <span class="so-approver">&#10003; comms@sproutsociety.example</span>
               </div>
-              <div class="so-post-actions"><span class="so-btn so-btn-ghost so-btn-sm">Edit</span><span class="so-btn so-btn-acid so-btn-sm demo-pinned"><span class="demo-pin so-pin-tr">3</span>&#128640; Publish to Instagram</span></div>
+              <div class="so-post-actions"><span class="so-btn so-btn-ghost so-btn-sm">Edit</span><span class="so-btn so-btn-acid so-btn-sm st-hl" data-hl="6"><span class="st-hl-n at-tr">6</span>&#128640; Publish to Instagram</span></div>
             </div>
             <div class="so-post">
               <div class="so-post-hd">
@@ -8132,6 +8338,12 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
           </div>
           <div class="so-toast">Published to Instagram!</div>
         </div>
+        <div class="st-calls">
+            <div class="st-call" data-for="4" data-at="below-end"><span class="st-call-n">4</span><div class="st-call-body"><div class="st-call-t">Five stages, Draft to Published</div><ul class="demo-bul"><li>Every post moves through five stages, Draft to Published</li> <li>Each tab counts the posts in its stage</li></ul></div></div>
+            <div class="st-call" data-for="5" data-at="below-end"><span class="st-call-n">5</span><div class="st-call-body"><div class="st-call-t">One path to Instagram</div><ul class="demo-bul"><li>Every post takes the same path to Instagram</li> <li>Drafted, then approved with the approver's address stamped on the card</li> <li>Scheduled, then published from the card in one click</li></ul></div></div>
+            <div class="st-call" data-for="6" data-at="right"><span class="st-call-n">6</span><div class="st-call-body"><div class="st-call-t">Publish in one click</div><ul class="demo-bul"><li>One click publishes a scheduled post to Instagram</li> <li>Caption, hashtags and graphic go through a Composio connection</li> <li>The app waits for Instagram to finish processing, publishes, and saves the post's Instagram ID</li></ul><button class="st-call-next" data-demo-next>Next: Calendar &#8250;</button></div></div>
+        </div>
+        </div><!-- /.st-tour -->
       </section>
 
       <!-- ============ SLIDE 3 · CALENDAR ================================= -->
@@ -8143,12 +8355,8 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
                data-state-label="State of the month"
                data-state="September 2026 &middot; 11 posts planned &middot; Sprout N Tell Vol. 4 on the 11th."
                data-title="Calendar: posts and events in one view">
-        <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Every post appears on the day it goes out</li> <li>Colored by stage, from draft to published</li></ul></div></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Events share the calendar with posts</li> <li>Time each promo to the night it promotes</li></ul></div></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Open a day to list its posts and events</li> <li>A button adds another event</li></ul></div></div>
-        </div>
-        <div class="so-frame">
+        <div class="st-tour">
+        <div class="so-frame"><div class="st-veil"></div>
           <div class="so-page">
             <div class="so-pg-hd">
               <div>
@@ -8172,7 +8380,7 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
                 <div class="so-cal-cell other"><div class="so-cal-num">31</div></div>
                 <div class="so-cal-cell today"><div class="so-cal-num today">1</div><span class="so-chip so-tag-published">Hello, Septembe&#8230;</span><span class="so-chip so-chip-event">&#128204; Co-Working</span></div>
                 <div class="so-cal-cell"><div class="so-cal-num">2</div></div>
-                <div class="so-cal-cell demo-pinned"><span class="demo-pin so-pin-tr">1</span><div class="so-cal-num">3</div><span class="so-chip so-tag-scheduled">Save the date: &#8230;</span></div>
+                <div class="so-cal-cell st-hl" data-hl="7"><span class="st-hl-n at-tr">7</span><div class="so-cal-num">3</div><span class="so-chip so-tag-scheduled">Save the date: &#8230;</span></div>
                 <div class="so-cal-cell"><div class="so-cal-num">4</div></div>
                 <div class="so-cal-cell"><div class="so-cal-num">5</div><span class="so-chip so-tag-pending">Meet the artist&#8230;</span></div>
 
@@ -8182,7 +8390,7 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
                 <div class="so-cal-cell"><div class="so-cal-num">8</div><span class="so-chip so-tag-scheduled">The Vol. 4 line&#8230;</span><span class="so-chip so-tag-pending">Quiet hours are&#8230;</span><div class="so-cal-more">+1 more</div></div>
                 <div class="so-cal-cell"><div class="so-cal-num">9</div></div>
                 <div class="so-cal-cell"><div class="so-cal-num">10</div><span class="so-chip so-tag-scheduled">Tomorrow night:&#8230;</span></div>
-                <div class="so-cal-cell demo-pinned"><span class="demo-pin so-pin-tr">2</span><div class="so-cal-num">11</div><span class="so-chip so-tag-scheduled">Tonight! Doors &#8230;</span><span class="so-chip so-chip-event">&#128204; Sprout N Tel&#8230;</span></div>
+                <div class="so-cal-cell st-hl" data-hl="8"><span class="st-hl-n at-tr">8</span><div class="so-cal-num">11</div><span class="so-chip so-tag-scheduled">Tonight! Doors &#8230;</span><span class="so-chip so-chip-event">&#128204; Sprout N Tel&#8230;</span></div>
                 <div class="so-cal-cell"><div class="so-cal-num">12</div><span class="so-chip so-tag-draft">Thank you for s&#8230;</span></div>
 
                 <!-- week 3 -->
@@ -8224,7 +8432,7 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
             </div>
 
             <!-- day modal for September 11 -->
-            <div class="so-daymodal demo-pinned"><span class="demo-pin">3</span>
+            <div class="so-daymodal st-hl" data-hl="9"><span class="st-hl-n">9</span>
               <div class="so-m-hd">
                 <div class="so-m-ttl">September 11, 2026</div>
                 <span class="so-m-close">&#10005;</span>
@@ -8249,6 +8457,12 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
             </div>
           </div>
         </div>
+        <div class="st-calls">
+            <div class="st-call" data-for="7" data-at="right"><span class="st-call-n">7</span><div class="st-call-body"><div class="st-call-t">Posts on the day they go out</div><ul class="demo-bul"><li>Every post appears on the day it goes out</li> <li>Colored by stage, from draft to published</li></ul></div></div>
+            <div class="st-call" data-for="8" data-at="left"><span class="st-call-n">8</span><div class="st-call-body"><div class="st-call-t">Events on the same calendar</div><ul class="demo-bul"><li>Events share the calendar with posts</li> <li>Time each promo to the night it promotes</li></ul></div></div>
+            <div class="st-call" data-for="9" data-at="right"><span class="st-call-n">9</span><div class="st-call-body"><div class="st-call-t">Open a day</div><ul class="demo-bul"><li>Open a day to list its posts and events</li> <li>A button adds another event</li></ul><button class="st-call-next" data-demo-next>Next: Create Post &#8250;</button></div></div>
+        </div>
+        </div><!-- /.st-tour -->
       </section>
 
       <!-- ============ SLIDE 4 · CREATE POST ============================== -->
@@ -8260,12 +8474,8 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
                data-state-label="State of the post"
                data-state="Vol. 4 lineup announcement &middot; image uploaded &middot; set for Tuesday, September 8 at 6pm."
                data-title="Create Post: a draft in one form">
-        <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>The caption, hashtags included</li> <li>A separate field for internal notes the audience never sees</li></ul></div></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Everything Instagram needs besides the caption: media type, post time, graphic</li> <li>Upload the graphic to Sprout's storage or paste a link</li> <li>Instagram pulls it from there when it publishes</li></ul></div></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Create Draft saves the post to the queue</li> <li>It waits for approval before anything can publish</li></ul></div></div>
-        </div>
-        <div class="so-frame">
+        <div class="st-tour">
+        <div class="so-frame"><div class="st-veil"></div>
           <div class="so-page">
             <div class="so-pg-hd">
               <div>
@@ -8278,7 +8488,7 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
               <div>
                 <div class="so-fg">
                   <label class="so-fl">Caption *</label>
-                  <div class="so-fi so-fta is-focus demo-pinned"><span class="demo-pin">1</span>The Vol. 4 lineup is here! &#127793;
+                  <div class="so-fi so-fta is-focus st-hl" data-hl="10"><span class="st-hl-n">10</span>The Vol. 4 lineup is here! &#127793;
 
 Ada Kim &middot; The Low Hums &middot; Velvet Static &middot; Sam Ortega &middot; Mara Lin &middot; Jonah Reyes
 
@@ -8292,7 +8502,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                 </div>
               </div>
 
-              <div class="demo-pinned"><span class="demo-pin so-pin-tr">2</span>
+              <div class="st-hl" data-hl="11"><span class="st-hl-n at-tr">11</span>
                 <div class="so-frow">
                   <div class="so-fg">
                     <label class="so-fl">Media Type</label>
@@ -8325,11 +8535,17 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
             </div>
 
             <div class="so-create-btns">
-              <span class="so-btn so-btn-blk demo-pinned"><span class="demo-pin">3</span>+ Create Draft</span>
+              <span class="so-btn so-btn-blk st-hl" data-hl="12"><span class="st-hl-n">12</span>+ Create Draft</span>
               <span class="so-btn so-btn-ghost">Cancel</span>
             </div>
           </div>
         </div>
+        <div class="st-calls">
+            <div class="st-call" data-for="10" data-at="right"><span class="st-call-n">10</span><div class="st-call-body"><div class="st-call-t">Caption and internal notes</div><ul class="demo-bul"><li>The caption, hashtags included</li> <li>A separate field for internal notes the audience never sees</li></ul></div></div>
+            <div class="st-call" data-for="11" data-at="left"><span class="st-call-n">11</span><div class="st-call-body"><div class="st-call-t">What Instagram needs</div><ul class="demo-bul"><li>Everything Instagram needs besides the caption: media type, post time, graphic</li> <li>Upload the graphic to Sprout's storage or paste a link</li> <li>Instagram pulls it from there when it publishes</li></ul></div></div>
+            <div class="st-call" data-for="12" data-at="above"><span class="st-call-n">12</span><div class="st-call-body"><div class="st-call-t">Saved as a draft</div><ul class="demo-bul"><li>Create Draft saves the post to the queue</li> <li>It waits for approval before anything can publish</li></ul><button class="st-call-next" data-demo-next>Next: Analytics &#8250;</button></div></div>
+        </div>
+        </div><!-- /.st-tour -->
       </section>
 
       <!-- ============ SLIDE 5 · ANALYTICS ================================ -->
@@ -8340,12 +8556,8 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                data-state-label="State of the account"
                data-state="All time &middot; 64 published &middot; 1 so far this month &middot; 3 posts in the week of August 30."
                data-title="Analytics: the posting record">
-        <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Import from Instagram pulls in posts published outside the planner</li> <li>The record covers the whole account</li></ul></div></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>A bar chart counts posts published each week</li> <li>Click a bar to list that week's posts</li></ul></div></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Every published post with its type, date and Instagram post ID</li> <li>Filter by image, video or carousel</li></ul></div></div>
-        </div>
-        <div class="so-frame">
+        <div class="st-tour">
+        <div class="so-frame"><div class="st-veil"></div>
           <div class="so-page">
             <div class="so-pg-hd">
               <div>
@@ -8357,7 +8569,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                 <span class="so-btn so-btn-ghost so-btn-sm">30 Days</span>
                 <span class="so-btn so-btn-ghost so-btn-sm">90 Days</span>
                 <span class="so-btn so-btn-blk so-btn-sm">All Time</span>
-                <span class="so-btn so-btn-cyan so-btn-sm demo-pinned"><span class="demo-pin so-pin-tr">1</span>&#128229; Import from Instagram</span>
+                <span class="so-btn so-btn-cyan so-btn-sm st-hl" data-hl="13"><span class="st-hl-n at-tr">13</span>&#128229; Import from Instagram</span>
               </div>
             </div>
 
@@ -8373,7 +8585,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
               <span class="so-tab">All Posts</span>
             </div>
 
-            <div class="so-card demo-pinned"><span class="demo-pin">2</span>
+            <div class="so-card st-hl" data-hl="14"><span class="st-hl-n">14</span>
               <div class="so-card-hd">
                 <div class="so-card-ttl">Posts published per week</div>
                 <div class="so-card-hint">Click a bar to see posts</div>
@@ -8426,7 +8638,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
               </div>
             </div>
 
-            <div class="so-card demo-pinned" style="margin-bottom: 0;"><span class="demo-pin">3</span>
+            <div class="so-card st-hl" data-hl="15" style="margin-bottom: 0;"><span class="st-hl-n">15</span>
               <div class="so-card-hd">
                 <div class="so-card-ttl">All Published Posts</div>
                 <div class="so-pg-ctl" style="gap: 5px;">
@@ -8450,11 +8662,22 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
             </div>
           </div>
         </div>
+        <div class="st-calls">
+            <div class="st-call" data-for="13" data-at="left"><span class="st-call-n">13</span><div class="st-call-body"><div class="st-call-t">The whole account on record</div><ul class="demo-bul"><li>Import from Instagram pulls in posts published outside the planner</li> <li>The record covers the whole account</li></ul></div></div>
+            <div class="st-call" data-for="14" data-at="below-end"><span class="st-call-n">14</span><div class="st-call-body"><div class="st-call-t">Posts per week</div><ul class="demo-bul"><li>A bar chart counts posts published each week</li> <li>Click a bar to list that week's posts</li></ul></div></div>
+            <div class="st-call" data-for="15" data-at="above"><span class="st-call-n">15</span><div class="st-call-body"><div class="st-call-t">Every published post</div><ul class="demo-bul"><li>Every published post with its type, date and Instagram post ID</li> <li>Filter by image, video or carousel</li></ul><button class="st-call-next" data-st-restart>Start over &#8634;</button></div></div>
+        </div>
+        </div><!-- /.st-tour -->
       </section>
 
           </div><!-- /.demo-canvas -->
 
   </div><!-- /.demo-stage -->
+
+  <div class="st-gate">
+    <button type="button" class="st-gate-btn" data-st-start>Start the tour &#8250;</button>
+    <span class="st-gate-sub">15 steps &middot; opens full screen &middot; Esc to close</span>
+  </div>
 
   <div class="demo-controls">
     <button class="demo-arrow" data-demo-prev aria-label="Previous slide">&#8249;</button>
@@ -8514,6 +8737,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>
       Click to step through
     </span>
+    <button type="button" class="ct-close" data-ct-close aria-label="Close the tour">&#10005; Close</button>
   </div>
 
   <!-- ====================================================================
@@ -8538,12 +8762,8 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                data-state-label="State of the campaign"
                data-state="Saturday, September 12 &middot; the morning after Sprout N Tell Vol. 4 &middot; 347 scans across 5 codes."
                data-title="Dashboard: one event, every code">
-        <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Each event gets its own tab, from a one-night show to weekly Co-Working</li> <li>Its codes stay together</li></ul></div></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Scans for the selected code</li> <li>Today, the last seven days, and all time</li></ul></div></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Every code for the event as a tile</li> <li>Shows placement and total scans</li> <li>Click one to open its details</li></ul></div></div>
-        </div>
-        <div class="qt-frame qt-clip">
+        <div class="ct-tour">
+        <div class="qt-frame qt-clip"><div class="ct-veil"></div>
           <div class="qt-page">
             <div class="qt-hdr">
               <span class="qt-manage">&#9881; <span class="qt-manage-lbl">Manage Events</span></span>
@@ -8552,20 +8772,20 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
               <span class="qt-badge">September 11, 2026</span>
             </div>
 
-            <div class="qt-tabs demo-pinned"><span class="demo-pin">1</span>
+            <div class="qt-tabs ct-hl" data-hl="1"><span class="ct-hl-n">1</span>
               <span class="qt-tab qt-tab-on">Sprout N Tell Vol. 4 <span>Sep 11, 2026</span></span>
               <span class="qt-tab">Fern &amp; Fold Zine Night <span>Sep 18, 2026</span></span>
               <span class="qt-tab">Co-Working <span>Weekly</span></span>
               <span class="qt-tab">Sprout N Tell Vol. 3 <span>Jul 24, 2026</span></span>
             </div>
 
-            <div class="qt-stats demo-pinned"><span class="demo-pin">2</span>
+            <div class="qt-stats ct-hl" data-hl="2"><span class="ct-hl-n">2</span>
               <div class="qt-stat"><span class="qt-stat-lbl">Today</span><span class="qt-stat-val">4</span><span class="qt-stat-sub">scans so far</span></div>
               <div class="qt-stat"><span class="qt-stat-lbl">Last 7 Days</span><span class="qt-stat-val">131</span><span class="qt-stat-sub">total scans</span></div>
               <div class="qt-stat"><span class="qt-stat-lbl">All Time</span><span class="qt-stat-val">142</span><span class="qt-stat-sub">total scans</span></div>
             </div>
 
-            <div class="qt-grid demo-pinned"><span class="demo-pin">3</span>
+            <div class="qt-grid ct-hl" data-hl="3"><span class="ct-hl-n">3</span>
               <div class="qt-tile qt-tile-on"><div class="qt-tile-box"><svg class="qt-qr" aria-hidden="true"><use href="#qt-qr-a"/></svg></div><div class="qt-tile-label">Door Sign-In</div><div class="qt-tile-type">Signage &middot; Front door</div><div class="qt-tile-count">142</div><small class="qt-tile-small">total scans</small></div>
               <div class="qt-tile"><div class="qt-tile-box"><svg class="qt-qr" aria-hidden="true"><use href="#qt-qr-b"/></svg></div><div class="qt-tile-label">Program Notes</div><div class="qt-tile-type">Signage &middot; Tables</div><div class="qt-tile-count">88</div><small class="qt-tile-small">total scans</small></div>
               <div class="qt-tile"><div class="qt-tile-box"><svg class="qt-qr" aria-hidden="true"><use href="#qt-qr-c"/></svg></div><div class="qt-tile-label">Street Flyer</div><div class="qt-tile-type">Print &middot; Flyer</div><div class="qt-tile-count">37</div><small class="qt-tile-small">total scans</small></div>
@@ -8579,6 +8799,12 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
             </div>
           </div>
         </div>
+        <div class="ct-calls">
+            <div class="ct-call" data-for="1" data-at="below-end"><span class="ct-call-n">1</span><div class="ct-call-body"><div class="ct-call-t">One tab per event</div><ul class="demo-bul"><li>Each event gets its own tab, from a one-night show to weekly Co-Working</li> <li>Its codes stay together</li></ul></div></div>
+            <div class="ct-call" data-for="2" data-at="below-end"><span class="ct-call-n">2</span><div class="ct-call-body"><div class="ct-call-t">Scans for one code</div><ul class="demo-bul"><li>Scans for the selected code</li> <li>Today, the last seven days, and all time</li></ul></div></div>
+            <div class="ct-call" data-for="3" data-at="above"><span class="ct-call-n">3</span><div class="ct-call-body"><div class="ct-call-t">Every code as a tile</div><ul class="demo-bul"><li>Every code for the event as a tile</li> <li>Shows placement and total scans</li> <li>Click one to open its details</li></ul><button class="ct-call-next" data-demo-next>Next: QR Codes &#8250;</button></div></div>
+        </div>
+        </div><!-- /.ct-tour -->
       </section>
 
       <!-- ============ SLIDE 2 · QR CODES ================================= -->
@@ -8587,14 +8813,10 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                data-state-label="State of the codes"
                data-state="Door Sign-In leads with 142 scans &middot; the street flyer brought in 37."
                data-title="QR Codes: which placement worked">
-        <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Each placement has its own code, from the front door sign to the Instagram bio</li> <li>Compare scan totals side by side</li></ul></div></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Each code downloads as a PNG</li> <li>Ready for a flyer, sign or slide</li></ul></div></div>
-          <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Each scan adds one to that code's count for the day</li> <li>Then sends the phone on to wherever the code points</li></ul></div></div>
-        </div>
-        <div class="qt-frame">
+        <div class="ct-tour">
+        <div class="qt-frame"><div class="ct-veil"></div>
           <div class="qt-page">
-            <div class="qt-grid demo-pinned"><span class="demo-pin">1</span>
+            <div class="qt-grid ct-hl" data-hl="4"><span class="ct-hl-n">4</span>
               <div class="qt-tile qt-tile-on"><div class="qt-tile-box"><svg class="qt-qr" aria-hidden="true"><use href="#qt-qr-a"/></svg></div><div class="qt-tile-label">Door Sign-In</div><div class="qt-tile-type">Signage &middot; Front door</div><div class="qt-tile-count">142</div><small class="qt-tile-small">total scans</small></div>
               <div class="qt-tile"><div class="qt-tile-box"><svg class="qt-qr" aria-hidden="true"><use href="#qt-qr-b"/></svg></div><div class="qt-tile-label">Program Notes</div><div class="qt-tile-type">Signage &middot; Tables</div><div class="qt-tile-count">88</div><small class="qt-tile-small">total scans</small></div>
               <div class="qt-tile"><div class="qt-tile-box"><svg class="qt-qr" aria-hidden="true"><use href="#qt-qr-c"/></svg></div><div class="qt-tile-label">Street Flyer</div><div class="qt-tile-type">Print &middot; Flyer</div><div class="qt-tile-count">37</div><small class="qt-tile-small">total scans</small></div>
@@ -8603,7 +8825,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
             </div>
 
             <div class="qt-detail">
-              <div class="qt-qrbox demo-pinned"><span class="demo-pin">2</span>
+              <div class="qt-qrbox ct-hl" data-hl="5"><span class="ct-hl-n">5</span>
                 <svg class="qt-qr qt-qr-lg" aria-hidden="true"><use href="#qt-qr-a"/></svg>
                 <span class="qt-dl-btn">Download PNG</span>
               </div>
@@ -8615,13 +8837,19 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                   <dt>Type</dt><dd>Signage &middot; Front door</dd>
                   <dt>Tracks to</dt><dd class="qt-dd-url">sproutsociety.example/track?qr=sprout-n-tell-vol-4-2026-door-sign-in</dd>
                 </dl>
-                <div class="qt-note demo-pinned"><span class="demo-pin">3</span>
+                <div class="qt-note ct-hl" data-hl="6"><span class="ct-hl-n">6</span>
                   <strong>Live tracking active.</strong> Each scan adds one to this code's daily count, then redirects to the destination. Data refreshes each time this dashboard is opened.
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="ct-calls">
+            <div class="ct-call" data-for="4" data-at="below-end"><span class="ct-call-n">4</span><div class="ct-call-body"><div class="ct-call-t">A code per placement</div><ul class="demo-bul"><li>Each placement has its own code, from the front door sign to the Instagram bio</li> <li>Compare scan totals side by side</li></ul></div></div>
+            <div class="ct-call" data-for="5" data-at="right"><span class="ct-call-n">5</span><div class="ct-call-body"><div class="ct-call-t">Download as a PNG</div><ul class="demo-bul"><li>Each code downloads as a PNG</li> <li>Ready for a flyer, sign or slide</li></ul></div></div>
+            <div class="ct-call" data-for="6" data-at="above"><span class="ct-call-n">6</span><div class="ct-call-body"><div class="ct-call-t">How a scan counts</div><ul class="demo-bul"><li>Each scan adds one to that code's count for the day</li> <li>Then sends the phone on to wherever the code points</li></ul><button class="ct-call-next" data-demo-next>Next: Daily Scans &#8250;</button></div></div>
+        </div>
+        </div><!-- /.ct-tour -->
       </section>
 
       <!-- ============ SLIDE 3 · DAILY SCANS ============================== -->
@@ -8630,10 +8858,9 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                data-state-label="State of the flyer"
                data-state="Street Flyer &middot; posted August 30 &middot; scans peaked the two days before the show."
                data-title="Daily Scans: when it worked">
-        <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>The whole display follows one code, here the street flyer</li> <li>Scans today, this week and all time</li> <li>A day-by-day chart: scans start when the flyers went up and peak just before the show</li></ul></div></div>        </div>
-        <div class="demo-pinned"><span class="demo-pin">1</span>
-        <div class="qt-frame">
+        <div class="ct-tour ct-gutter">
+        <div class="ct-hl" data-hl="7"><span class="ct-hl-n">7</span>
+        <div class="qt-frame"><div class="ct-veil"></div>
           <div class="qt-page">
             <div class="qt-stats">
               <div class="qt-stat"><span class="qt-stat-lbl">Today</span><span class="qt-stat-val">1</span><span class="qt-stat-sub">scans so far</span></div>
@@ -8694,6 +8921,10 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
           </div>
         </div>
         </div><!-- /pin 1: the whole display -->
+        <div class="ct-calls">
+            <div class="ct-call" data-for="7" data-at="end"><span class="ct-call-n">7</span><div class="ct-call-body"><div class="ct-call-t">One code, day by day</div><ul class="demo-bul"><li>The whole display follows one code, here the street flyer</li> <li>Scans today, this week and all time</li> <li>A day-by-day chart: scans start when the flyers went up and peak just before the show</li></ul><button class="ct-call-next" data-demo-next>Next: Manage Events &#8250;</button></div></div>
+        </div>
+        </div><!-- /.ct-tour -->
       </section>
 
       <!-- ============ SLIDE 4 · MANAGE EVENTS ============================ -->
@@ -8702,11 +8933,8 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                data-state-label="State of the next event"
                data-state="Fern &amp; Fold Zine Night &middot; September 18 &middot; adding the code for its window poster."
                data-title="Manage Events: a new code in seconds">
-        <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Add Event: a name, date and promoter</li> <li>The event gets its own dashboard tab</li></ul></div></div>
-          <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Each new code gets a label, a placement type and a destination link</li> <li>Its code ID fills itself in from event name, year and label</li> <li>Nobody has to make one up</li></ul></div></div>
-        </div>
-        <div class="qt-frame">
+        <div class="ct-tour">
+        <div class="qt-frame"><div class="ct-veil"></div>
           <!-- the dashboard, dimmed behind the drawer -->
           <div class="qt-behind" aria-hidden="true">
             <div class="qt-page">
@@ -8744,7 +8972,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
             <div class="qt-mgr-body">
               <div class="qt-sec-hd qt-sec-hd-first">
                 <span class="qt-sec-ttl">Events (4)</span>
-                <span class="qt-btn qt-btn-primary demo-pinned"><span class="demo-pin">1</span>+ Add Event</span>
+                <span class="qt-btn qt-btn-primary ct-hl" data-hl="8"><span class="ct-hl-n">8</span>+ Add Event</span>
               </div>
 
               <div class="qt-evrow">
@@ -8770,7 +8998,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                     <span class="qt-btn">+ Add QR Code</span>
                   </div>
 
-                  <div class="qt-addform demo-pinned"><span class="demo-pin">2</span>
+                  <div class="qt-addform ct-hl" data-hl="9"><span class="ct-hl-n">9</span>
                     <div class="qt-row">
                       <div class="qt-field"><span class="qt-label">Label *</span><span class="qt-input">Window Poster</span></div>
                       <div class="qt-field"><span class="qt-label">Type</span><span class="qt-input">Print &middot; Poster</span></div>
@@ -8802,6 +9030,11 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
             </div>
           </div>
         </div>
+        <div class="ct-calls">
+            <div class="ct-call" data-for="8" data-at="left"><span class="ct-call-n">8</span><div class="ct-call-body"><div class="ct-call-t">Add an event</div><ul class="demo-bul"><li>Add Event: a name, date and promoter</li> <li>The event gets its own dashboard tab</li></ul></div></div>
+            <div class="ct-call" data-for="9" data-at="left"><span class="ct-call-n">9</span><div class="ct-call-body"><div class="ct-call-t">New codes name themselves</div><ul class="demo-bul"><li>Each new code gets a label, a placement type and a destination link</li> <li>Its code ID fills itself in from event name, year and label</li> <li>Nobody has to make one up</li></ul><button class="ct-call-next" data-demo-next>Next: Update Live &#8250;</button></div></div>
+        </div>
+        </div><!-- /.ct-tour -->
       </section>
 
       <!-- ============ SLIDE 5 · UPDATE LIVE ============================== -->
@@ -8810,10 +9043,8 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                data-state-label="State of the flyer"
                data-state="Street Flyer &middot; the show is over &middot; now sends people to the Vol. 5 interest form."
                data-title="Update Live: change a printed code">
-        <div class="demo-notes">
-          <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Each printed code is one tile</li> <li>A scan opens its tracking link and adds to the day's count</li> <li>Change the destination and Update Live repoints every flyer already on the street, no reprint</li> <li>Move hands the code to another event</li></ul></div></div>
-        </div>
-        <div class="qt-frame qt-clip qt-clip-tall">
+        <div class="ct-tour">
+        <div class="qt-frame qt-clip qt-clip-tall"><div class="ct-veil"></div>
           <div class="qt-drawer qt-drawer-full">
             <div class="qt-mgr-hd">
               <h2 class="qt-mgr-h2">&#9881; Manage Events &amp; QR Codes</h2>
@@ -8845,7 +9076,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                   </div>
 
                   <div class="qt-codes">
-                    <div class="qt-code qt-code-hi demo-pinned"><span class="demo-pin">1</span>
+                    <div class="qt-code qt-code-hi ct-hl" data-hl="10"><span class="ct-hl-n">10</span>
                       <div class="qt-code-top">
                         <div class="qt-code-info"><div class="qt-code-label">Street Flyer</div><div class="qt-code-meta">Print &middot; Flyer &middot; ID: sprout-n-tell-vol-4-2026-street-flyer</div></div>
                         <span class="qt-btn qt-btn-danger qt-btn-sm">Delete</span>
@@ -8891,11 +9122,20 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
           </div>
           <div class="qt-toast">&#10003; Destination updated live</div>
         </div>
+        <div class="ct-calls">
+            <div class="ct-call" data-for="10" data-at="below-end"><span class="ct-call-n">10</span><div class="ct-call-body"><div class="ct-call-t">Repoint without reprinting</div><ul class="demo-bul"><li>Each printed code is one tile</li> <li>A scan opens its tracking link and adds to the day's count</li> <li>Change the destination and Update Live repoints every flyer already on the street, no reprint</li> <li>Move hands the code to another event</li></ul><button class="ct-call-next" data-ct-restart>Start over &#8634;</button></div></div>
+        </div>
+        </div><!-- /.ct-tour -->
       </section>
 
     </div><!-- /.demo-canvas -->
 
   </div><!-- /.demo-stage -->
+
+  <div class="ct-gate">
+    <button type="button" class="ct-gate-btn" data-ct-start>Start the tour &#8250;</button>
+    <span class="ct-gate-sub">10 steps &middot; opens full screen &middot; Esc to close</span>
+  </div>
 
   <div class="demo-controls">
     <button class="demo-arrow" data-demo-prev aria-label="Previous slide">&#8249;</button>
@@ -10471,10 +10711,20 @@ For six years I have taught theory&hellip;</div>
 
   function place(tour) {
     if (!tour.offsetWidth) return;
+    // A column highlight (Grant's pipeline) is an overlay sized to its
+    // header cell, so it outlines the whole column.
+    tour.querySelectorAll('.demo-col[data-col]').forEach(function (c) {
+      var cell = c.parentElement.querySelector('.' + c.getAttribute('data-col'));
+      var br = c.parentElement.getBoundingClientRect();
+      if (!cell || !br.width) return;
+      var cr = cell.getBoundingClientRect();
+      c.style.left = Math.round(cr.left - br.left) + 'px';
+      c.style.width = Math.round(cr.width) + 'px';
+    });
     var calls = Array.prototype.slice.call(tour.querySelectorAll('.' + p + '-call.is-cur'));
     var list = tour.offsetWidth < LIST_BELOW;
     tour.classList.toggle('is-list', list);
-    if (list) { calls.forEach(function (c) { c.style.left = c.style.top = ''; }); return; }
+    if (list) { tour.style.paddingBottom = ''; calls.forEach(function (c) { c.style.left = c.style.top = ''; }); return; }
     var box = tour.getBoundingClientRect();
     var W = tour.offsetWidth, placed = [];
     calls.forEach(function (c) {
@@ -10507,6 +10757,10 @@ For six years I have taught theory&hellip;</div>
       c.style.left = x + 'px'; c.style.top = y + 'px';
       placed.push({ x: x, y: y, w: w, h: h });
     });
+    var pad = parseFloat(tour.style.paddingBottom) || 0, need = 0;
+    placed.forEach(function (q) { need = Math.max(need, q.y + q.h + 16); });
+    var extra = Math.max(0, Math.ceil(need - (tour.offsetHeight - pad)));
+    if (extra !== pad) tour.style.paddingBottom = extra ? extra + 'px' : '';
   }
 
   // One step at a time: only the current highlight and its popup show. Each
@@ -10520,6 +10774,9 @@ For six years I have taught theory&hellip;</div>
       c.classList.toggle('is-cur', n === k);
       var t = tour.querySelector('[data-hl="' + c.getAttribute('data-for') + '"]');
       if (t) t.classList.toggle('is-cur', n === k);
+      if (t && t.hasAttribute('data-col')) {
+        t.parentElement.querySelectorAll('.' + t.getAttribute('data-col')).forEach(function (cell) { cell.classList.toggle(p + '-lit', n === k); });
+      }
     });
     place(tour);
     var cur = tour.querySelector('.' + p + '-hl.is-cur');
@@ -10530,6 +10787,10 @@ For six years I have taught theory&hellip;</div>
       if (a.scrollHeight > a.clientHeight + 1 && /auto|scroll/.test(getComputedStyle(a).overflowY)) {
         var ar = a.getBoundingClientRect(), hr = cur.getBoundingClientRect();
         if (hr.bottom > ar.bottom || hr.top < ar.top) a.scrollTop += hr.top - ar.top - 12;
+      }
+      if (a.scrollWidth > a.clientWidth + 1 && /auto|scroll/.test(getComputedStyle(a).overflowX)) {
+        var ax = a.getBoundingClientRect(), hx = cur.getBoundingClientRect();
+        if (hx.right > ax.right || hx.left < ax.left) a.scrollLeft += hx.left - ax.left - 12;
       }
     }
     // Tall slides (the Agency job description, TeacherAID's Schedule): bring
@@ -10592,7 +10853,7 @@ For six years I have taught theory&hellip;</div>
       nav.className = p + '-call-nav';
       if (n === 0 && backAcross) {
         var item = root.querySelector('.demo-nav-item[data-nav="' + prevSlide.getAttribute('data-nav') + '"]');
-        var name = item && item.firstChild ? item.firstChild.textContent.trim() : '';
+        var name = item ? Array.prototype.filter.call(item.childNodes, function (x) { return x.nodeType === 3; }).map(function (x) { return x.textContent; }).join('').trim() : '';
         var prev = document.createElement('button');
         prev.type = 'button'; prev.className = p + '-call-back';
         prev.innerHTML = '&#8249; Back' + (name ? ': ' + name : '');
@@ -10693,6 +10954,9 @@ For six years I have taught theory&hellip;</div>
   initTour(document.querySelector('.agency-demo[data-demo-panel]'), 'ag');
   initTour(document.querySelector('.dasha-demo[data-demo-panel]'), 'ta');
   initTour(document.querySelector('.sprout-demo[data-demo-panel]'), 'sc');
+  initTour(document.querySelector('.grant-demo[data-demo-panel]'), 'gt');
+  initTour(document.querySelector('.social-demo[data-demo-panel]'), 'st');
+  initTour(document.querySelector('.campaign-demo[data-demo-panel]'), 'ct');
 })();
 </script>
 
