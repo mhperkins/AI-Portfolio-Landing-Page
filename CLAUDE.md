@@ -797,6 +797,23 @@ Max's ask: a slideshow for Career Desk, built standalone first, then its own tab
   still initialize, no sideways scroll, zero script errors, em dash count unchanged. Screenshots checked
   by eye.
 
+### Session of 2026-09-18, late: Madison College sent, page length is a note
+
+Career work plus Career Desk fixes. Ran before the Career Desk tab session above.
+
+- **Madison College applied Sept 18** through Workday: the CV and cover letter, frozen in
+  `applications/2026-09-madison-college/sent/2026-09-18/` (Mark as sent in Career Desk). `job.md` Status
+  updated.
+- **The Website link** on both documents now reads `https://www.maxwellhenrymusic.com/`. The CV's link had no
+  `https://`, so it was broken. Checked inside every docx and PDF.
+- **The letter fits one page** with `Format: margins=54,54` (0.75 inch sides; 0.85 inch was not enough).
+- **Page length no longer blocks anything (Max's call: content first, format later).** `build.py check` prints
+  a document over one page as `NOTE`, not `FAIL`, and `sent` goes through. Career Desk signs off a multi-page
+  PDF with an info banner saying so. Rule recorded in `career/README.md` and Career Desk's `CLAUDE.md`.
+- **Career Desk's server only picks up code changes on restart.** A browser hard reload is not enough. Start
+  it with `Start Career Desk.cmd`; a copy launched from a Claude Code shell dies when that shell exits.
+- `check --all`: OK on every folder, no notes.
+
 ### Session of 2026-09-18: Madison College transcripts, degree fix, Career Desk context
 
 Career work plus one site fix. Ran alongside the Career Desk build session below.
@@ -822,9 +839,8 @@ Career work plus one site fix. Ran alongside the Career Desk build session below
   is gone.
 - The Anthropic API key lives in `../career-desk/.env`. `.vercelignore` now lists `.env*` (`b165674`).
 
-**Next (Max):** write the Madison College CV and letter with the transcript material. Draft here in Claude
-Code, where the repos and this history are loaded, then iterate in Career Desk. Still open from Sept 14:
-the salutation (the Associate Dean's name), and the LinkedIn headline.
+~~**Next (Max):** write the Madison College CV and letter.~~ **Sent Sept 18** (see "Madison College sent"
+above). Still open from Sept 14: the LinkedIn headline.
 
 ### Session of 2026-09-18: Career Desk, a local app for the job search
 
@@ -846,8 +862,9 @@ repo is public.
   `2026-09-turing-music`.
 - Wireframe: `../career-desk/docs/wireframes/2026-09-18_career-desk.html`.
 
-**Open:** Madison College's letter is at v3 in the app and not yet signed off, so `check --all` fails on
-that folder until it is. Turing music sits in Sent on the board but was not sent.
+**Open:** ~~Madison College's letter not signed off~~ (signed off and sent Sept 18). **Turing music still
+sits in Sent on the board but was not sent** (no `sent/` folder); move it back to Drafted, or Mark as sent
+if it went out.
 
 ### Session of 2026-09-17, last: five AI builder applications, four sent
 
