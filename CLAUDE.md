@@ -48,6 +48,7 @@ Vercel project: `ai-portfolio-landing-page` · GitHub: `mhperkins/AI-Portfolio-L
 | [demo/agency-demo.html](demo/agency-demo.html) | **Source of the Virtual Agency panel's screens** (2 slides, transplanted 2026-09-10). Since 2026-09-18 the page shows them as a guided tour (see "The Virtual Agency tour"); this file is still the old pinned carousel, so copy a screen change by hand, pins as highlights. |
 | [demo/dasha-demo.html](demo/dasha-demo.html) | **Iteration source for the TeacherAID tab's carousel** (6 annotated slides, transplanted 2026-09-12). See "The TeacherAID tab" below. |
 | [demo/sprout-crm-demo.html](demo/sprout-crm-demo.html) | **Iteration source for the Sprout CRM panel's carousel** (5 annotated slides; built by a parallel session, committed `6c226cc`, transplanted 2026-09-12). See "The Sprout CRM carousel" below. |
+| [demo/sprout-crm-tour-demo.html](demo/sprout-crm-tour-demo.html) | **The Sprout CRM carousel as a guided tour** (built and transplanted 2026-09-18). Made by script from `sprout-crm-demo.html`: same 5 slides, screens and note text, 20 steps, one highlight at a time, full screen from a Start gate. Prefix `sc-`; on the page it runs on the shared `initTour(root, 'sc')`. The only new copy is a short title per popup (Claude's draft). `sprout-crm-demo.html` stays the source of the screens. |
 | [demo/grant-demo.html](demo/grant-demo.html) | **Iteration source for the Grant Finder panel's carousel** (6 annotated slides, transplanted 2026-09-12). See "The Grant, Social and Campaign carousels" below. |
 | [demo/social-demo.html](demo/social-demo.html) | **Iteration source for the Social Planner panel's carousel** (5 annotated slides, transplanted 2026-09-12). |
 | [demo/campaign-demo.html](demo/campaign-demo.html) | **Iteration source for the Campaign Tracker panel's carousel** (5 annotated slides, transplanted 2026-09-12). |
@@ -702,6 +703,20 @@ clipped at desktop width, zero script errors, no new em dashes. At 390 the Hours
 the dialog's own scroll, and the 36px page overflow is the pre-existing hero H1.
 
 ## The Sprout CRM carousel (transplanted 2026-09-12)
+
+**A guided tour since 2026-09-18, pushed only on Max's word.** Built as `demo/sprout-crm-tour-demo.html`, then
+transplanted: every pin became a highlight (`sc-hl`) and every note its popup (`sc-call`), 20 steps across the tool,
+notes word for word, plus a title per popup. A Start gate opens it full screen; phones run it inline. The notes row
+and hover pops are gone from this carousel. The same session changed the shared `initTour()` for all four tours:
+- **Back across slides:** a slide's first step goes back to the previous slide's last step ("Back: Contacts"),
+  through the carousel's own previous control. Every tour on the page is one tour per slide.
+- **A slide change scrolls to its first step** (strip items, chips, arrow keys, popup buttons; never a tab switch),
+  folding in `alignUnderPin()`'s scroll so the two do not fight. Fixes Career Desk steps 3 and 7 on a phone.
+- **Pinned layers are measured where they rest** (their CSS `top`), because right after a slide change a shorter
+  slide holds the strip higher for a frame.
+- Verified headless at 1280, 960 and 390 on all four tours: 1758 of 1761. The 3 failures are already on the live
+  site and only at 960: TeacherAID step 6's popup covers its highlight, and Career Desk step 1's popup runs 3px
+  past the overlay. Open.
 
 The Sprout CRM panel's Loom and its four-screenshot strip are gone. The panel is now the five-slide
 carousel from `demo/sprout-crm-demo.html`, which a parallel session built (delivery note in

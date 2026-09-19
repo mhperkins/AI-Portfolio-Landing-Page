@@ -3895,6 +3895,64 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
   .dasha-demo .ta-gate { display: none; }
 }
 /* ==========================================================================
+   The guided tour, same logic as career-desk-demo.html and the TeacherAID
+   tour on index.html, in Sprout's palette. Each slide wraps its screen in
+   .sc-tour: a veil dims the screen but for one highlight (.sc-hl, data-hl)
+   with its popup (.sc-call, data-for) open beside it, on the side data-at
+   names (right, left, below, below-end, above).
+
+   The Contacts panel sits above the frame's veil (both z 5, the panel comes
+   later), so it carries a veil of its own. Nothing may clip a highlight's
+   ring or its number, so the panel body no longer clips.
+   ========================================================================== */
+.sprout-demo .sc-tour { position: relative; }
+.sprout-demo .sc-veil { position: absolute; inset: 0; background: rgba(247, 247, 246, 0.74); z-index: 5; border-radius: inherit; pointer-events: none; }
+.sprout-demo .sc-hl { position: relative; }
+.sprout-demo .sc-hl.is-cur { z-index: 6; outline: 2px solid var(--fuchsia); outline-offset: 3px; border-radius: 6px; }
+.sprout-demo :where(.sc-hl.is-cur) { background-color: var(--paper); }
+.sprout-demo .sc-hl:not(.is-cur) > .sc-hl-n, .sprout-demo .sc-call:not(.is-cur) { display: none; }
+.sprout-demo .sc-hl-n { position: absolute; top: -10px; left: -10px; z-index: 7; width: 22px; height: 22px; border-radius: 50%; background: var(--fuchsia); color: #fff; font-size: 11.5px; font-weight: 900; line-height: 22px; text-align: center; box-shadow: 0 0 0 2px #fff; }
+.sprout-demo .sc-hl-n.at-tr { left: auto; right: -10px; }
+.sprout-demo .sc-tour .sp-dp-body { overflow: visible; }
+.sprout-demo .sc-calls { display: contents; }
+.sprout-demo .sc-call { position: absolute; z-index: 8; width: 256px; display: flex; gap: 9px; align-items: flex-start; background: #fff; border: 1.5px solid var(--ink); border-radius: 10px; box-shadow: var(--shadow-lg); padding: 10px 12px 11px; font-size: 12.5px; line-height: 1.45; color: var(--ink); }
+.sprout-demo .sc-call-n { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--fuchsia); color: #fff; font-size: 11.5px; font-weight: 900; line-height: 22px; text-align: center; }
+.sprout-demo .sc-call-body { flex: 1; min-width: 0; }
+.sprout-demo .sc-call-t { font-size: 15px; font-weight: 900; letter-spacing: -0.01em; line-height: 1.2; margin: 2px 0 5px; }
+.sprout-demo .sc-call .demo-bul li::marker { color: var(--fuchsia); }
+.sprout-demo .sc-call-nav { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 9px; }
+.sprout-demo .sc-call-nav button { white-space: nowrap; }
+.sprout-demo .sc-call-next { border: 1px solid var(--ink); background: var(--ink); color: var(--paper); border-radius: 6px; padding: 4px 12px; font-size: 12px; font-weight: 700; }
+.sprout-demo .sc-call-next:hover { background: var(--g800); border-color: var(--g800); }
+.sprout-demo .sc-call-back { border: 1px solid var(--g200); background: #fff; color: var(--ink); border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 700; }
+.sprout-demo .sc-call-back:hover { border-color: var(--cyan); }
+/* Phone and narrow screens: no room beside a highlight, so the popup pins to
+   the bottom of the screen while the tour is in view, and each step scrolls
+   its highlight into view above it. */
+.sprout-demo .sc-tour.is-list .sc-call { position: sticky; bottom: 12px; width: auto; margin-top: 10px; }
+
+/* ==========================================================================
+   Full screen, same as the Career Desk tab (commit aebf85b). The tour shows
+   as a preview under a Start gate; starting opens it over the page at nearly
+   full window size at step 1, and Close, Esc or a click on the backdrop puts
+   it back and restores the page's scroll. Phones skip the gate and run
+   inline, since the page is already full width there.
+   ========================================================================== */
+.sprout-demo { position: relative; }
+.sprout-demo .sc-gate { position: absolute; inset: 0; z-index: 40; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: rgba(247, 247, 246, 0.55); backdrop-filter: blur(1.5px); border-radius: 10px; }
+.sprout-demo .sc-gate-btn { border: 0; background: var(--ink); color: var(--paper); border-radius: 10px; padding: 13px 24px; font-size: 16px; font-weight: 900; box-shadow: var(--shadow-lg); }
+.sprout-demo .sc-gate-btn:hover { background: var(--g800); }
+.sprout-demo .sc-gate-sub { font-size: 12.5px; font-weight: 700; color: var(--ink); background: rgba(255, 255, 255, 0.85); border-radius: 20px; padding: 3px 12px; }
+.sprout-demo .sc-close { display: none; }
+.sprout-demo.is-full { position: fixed; inset: 16px; z-index: 1000; max-width: 1440px; margin: 0 auto; padding: 18px; background: var(--paper); border-radius: 14px; overflow: auto; overscroll-behavior: contain; --demo-pin-top: 0px; box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5); }
+.sprout-demo.is-full .sc-gate { display: none; }
+.sprout-demo.is-full .sc-close { display: inline-flex; margin-left: 10px; align-self: center; border: 1px solid rgba(247, 247, 246, 0.35); background: none; color: var(--paper); border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.sprout-demo.is-full .sc-close:hover { background: rgba(247, 247, 246, 0.12); }
+.sc-backdrop { position: fixed; inset: 0; z-index: 999; background: rgba(3, 0, 0, 0.88); }
+@media (max-width: 760px) {
+  .sprout-demo .sc-gate { display: none; }
+}
+/* ==========================================================================
    Nav-driven carousels and hover notes (2026-09-13).
 
    - The side arrows and the arrow row under each stage are hidden: the strip
@@ -6492,6 +6550,7 @@ Max</textarea>
                   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>
                   Click to step through
                 </span>
+                <button type="button" class="sc-close" data-sc-close aria-label="Close the tour">&#10005; Close</button>
               </div>
 
               <!-- ====================================================================
@@ -6521,16 +6580,10 @@ Max</textarea>
                            data-state-label="State of the day"
                            data-state="Tuesday, September 1 &middot; 3 of 5 tasks done &middot; 1 follow-up carried from Monday &middot; Sprout N Tell Vol. 4 in 10 days."
                            data-title="Dashboard: the day and the week at a glance">
-                    <div class="demo-notes">
-                      <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>The day at a glance: hours of tasks, tasks done, weekly bank left, overdue follow-ups</li> <li>Switches between Day and Week views</li></ul></div></div>
-                      <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Both Google calendars read straight in</li> <li>Time on the shared Sprout calendar keeps its own total, not counted toward your hours</li></ul></div></div>
-                      <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Every CRM follow-up lands as a one-hour task</li> <li>Complete, Push or Follow up; finished tasks stay on the list with Undo</li> <li>Anything not done moves to the next day at midnight</li></ul></div></div>
-                      <div class="demo-note"><span class="demo-pin-n">4</span><div><ul class="demo-bul"><li>The week's hours add up by category, in Google Calendar's colors</li> <li>Shown as done out of what the week asks for, with no targets</li></ul></div></div>
-                      <div class="demo-note"><span class="demo-pin-n">5</span><div><ul class="demo-bul"><li>Follow-ups due this week and anything carried over wait here, ranked</li> <li>They stay until placed on a day</li></ul></div></div>
-                    </div>
-                    <div class="sp-frame">
+                    <div class="sc-tour">
+                    <div class="sp-frame"><div class="sc-veil"></div>
                       <div class="sp-page db">
-                        <header class="db-top demo-pinned"><span class="demo-pin db-pin-tr">1</span>
+                        <header class="db-top sc-hl" data-hl="1"><span class="sc-hl-n at-tr">1</span>
                           <div>
                             <div class="db-eyebrow">Tuesday &middot; Today</div>
                             <h1>September 1</h1>
@@ -6556,7 +6609,7 @@ Max</textarea>
                                 <div style="text-align: right;"><div class="db-eyebrow">Done</div><div class="db-big mono">3 / 5</div></div>
                               </div>
 
-                              <div class="demo-pinned"><span class="demo-pin">2</span>
+                              <div class="sc-hl" data-hl="2"><span class="sc-hl-n">2</span>
                                 <div class="db-group db-eyebrow">On the calendar</div>
                                 <ul class="db-rows">
                                   <li class="db-row cal">
@@ -6580,7 +6633,7 @@ Max</textarea>
                                 </ul>
                               </div>
 
-                              <div class="demo-pinned"><span class="demo-pin">3</span>
+                              <div class="sc-hl" data-hl="3"><span class="sc-hl-n">3</span>
                                 <div class="db-group db-eyebrow">To do today <span>in priority order</span></div>
                                 <ul class="db-rows">
                                   <li class="db-row done">
@@ -6640,7 +6693,7 @@ Max</textarea>
                           </div>
 
                           <div class="db-stack">
-                            <div class="db-card db-pad demo-pinned"><span class="demo-pin">4</span>
+                            <div class="db-card db-pad sc-hl" data-hl="4"><span class="sc-hl-n">4</span>
                               <div class="db-eyebrow">This week so far</div>
                               <div class="db-totline"><span class="db-big mono">6.5 / 21 hrs</span><span class="db-sub">done of what the week asks for</span></div>
                               <div class="db-meters">
@@ -6676,7 +6729,7 @@ Max</textarea>
                               </div>
                             </div>
 
-                            <div class="db-card db-pad demo-pinned"><span class="demo-pin">5</span>
+                            <div class="db-card db-pad sc-hl" data-hl="5"><span class="sc-hl-n">5</span>
                               <div class="db-eyebrow">Weekly bank</div>
                               <div class="db-totline">
                                 <span class="db-big"><span class="mono">4</span> tasks &middot; <span class="mono">5</span> hrs</span>
@@ -6694,6 +6747,14 @@ Max</textarea>
                         </div>
                       </div>
                     </div>
+                    <div class="sc-calls">
+                        <div class="sc-call" data-for="1" data-at="below-end"><span class="sc-call-n">1</span><div class="sc-call-body"><div class="sc-call-t">The day at a glance</div><ul class="demo-bul"><li>The day at a glance: hours of tasks, tasks done, weekly bank left, overdue follow-ups</li> <li>Switches between Day and Week views</li></ul></div></div>
+                        <div class="sc-call" data-for="2" data-at="right"><span class="sc-call-n">2</span><div class="sc-call-body"><div class="sc-call-t">Both calendars, read in</div><ul class="demo-bul"><li>Both Google calendars read straight in</li> <li>Time on the shared Sprout calendar keeps its own total, not counted toward your hours</li></ul></div></div>
+                        <div class="sc-call" data-for="3" data-at="right"><span class="sc-call-n">3</span><div class="sc-call-body"><div class="sc-call-t">Follow-ups become tasks</div><ul class="demo-bul"><li>Every CRM follow-up lands as a one-hour task</li> <li>Complete, Push or Follow up; finished tasks stay on the list with Undo</li> <li>Anything not done moves to the next day at midnight</li></ul></div></div>
+                        <div class="sc-call" data-for="4" data-at="left"><span class="sc-call-n">4</span><div class="sc-call-body"><div class="sc-call-t">The week by category</div><ul class="demo-bul"><li>The week's hours add up by category, in Google Calendar's colors</li> <li>Shown as done out of what the week asks for, with no targets</li></ul></div></div>
+                        <div class="sc-call" data-for="5" data-at="left"><span class="sc-call-n">5</span><div class="sc-call-body"><div class="sc-call-t">The weekly bank</div><ul class="demo-bul"><li>Follow-ups due this week and anything carried over wait here, ranked</li> <li>They stay until placed on a day</li></ul><button class="sc-call-next" data-demo-next>Next: Contacts &#8250;</button></div></div>
+                    </div>
+                    </div><!-- /.sc-tour -->
                   </section>
 
                   <!-- ============ SLIDE 2 · CONTACTS + DETAIL PANEL =================== -->
@@ -6702,11 +6763,8 @@ Max</textarea>
                            data-state-label="State of the relationship"
                            data-state="Maya Chen &middot; Community and a Member &middot; warm &middot; found Sprout through a friend performing at Vol. 3."
                            data-title="Contacts: buckets, types, and the history behind each person">
-                    <div class="demo-notes">
-                      <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Opening a contact shows who they are to Sprout at a glance</li> <li>Relationship warmth, type and bucket</li> <li>How they heard about Sprout</li> <li>Their events and groups</li></ul></div></div>
-                      <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Next actions sit above a dated log of every conversation</li> <li>Each follow-up comes with its history</li></ul></div></div>
-                    </div>
-                    <div class="sp-frame">
+                    <div class="sc-tour">
+                    <div class="sp-frame"><div class="sc-veil"></div>
                       <div class="sp-page" style="min-height: 560px;">
                         <div class="sp-hd">
                           <div>
@@ -6745,7 +6803,7 @@ Max</textarea>
 
                       <!-- ContactDetail panel, open over the list -->
                       <div class="sp-dim"></div>
-                      <div class="sp-panel">
+                      <div class="sp-panel"><div class="sc-veil"></div>
                         <div class="sp-dp-hd">
                           <div>
                             <div class="sp-dp-name">Maya Chen</div>
@@ -6754,7 +6812,7 @@ Max</textarea>
                           <span class="sp-dp-x">&times;</span>
                         </div>
                         <div class="sp-dp-body">
-                          <div class="demo-pinned"><span class="demo-pin" style="left: auto; right: -10px; top: -10px;">1</span>
+                          <div class="sc-hl" data-hl="6"><span class="sc-hl-n at-tr">6</span>
                             <div class="sp-dp-row">
                               <span class="sp-tag t-warm">Warm</span><span class="sp-type">Attendee</span><span class="sp-type">Coworking</span>
                             </div>
@@ -6771,7 +6829,7 @@ Max</textarea>
                               <div class="sp-wrap" style="gap: 5px;"><span class="sp-aff sp-aff-evt">&#128467; Sprout N Tell Vol. 4</span><span class="sp-aff">&#127970; Fern &amp; Fold Collective</span></div>
                             </div>
                           </div>
-                          <div class="demo-pinned"><span class="demo-pin" style="left: auto; right: -10px; top: -10px;">2</span>
+                          <div class="sc-hl" data-hl="7"><span class="sc-hl-n at-tr">7</span>
                             <div class="sp-dp-sec">
                               <div class="sp-dp-lbl">Next Actions</div>
                               <div class="sp-na"><span class="sp-circle"></span><div class="sp-act-main"><div style="font-size: 11.5px; font-weight: 700;">Invite to Vol. 4 as a reader</div><div class="sp-small">Fri, Sep 4</div></div><span class="sp-due due-soon">in 3d</span></div>
@@ -6786,6 +6844,11 @@ Max</textarea>
                         </div>
                       </div>
                     </div>
+                    <div class="sc-calls">
+                        <div class="sc-call" data-for="6" data-at="left"><span class="sc-call-n">6</span><div class="sc-call-body"><div class="sc-call-t">Who they are to Sprout</div><ul class="demo-bul"><li>Opening a contact shows who they are to Sprout at a glance</li> <li>Relationship warmth, type and bucket</li> <li>How they heard about Sprout</li> <li>Their events and groups</li></ul></div></div>
+                        <div class="sc-call" data-for="7" data-at="left"><span class="sc-call-n">7</span><div class="sc-call-body"><div class="sc-call-t">What is next, and what came before</div><ul class="demo-bul"><li>Next actions sit above a dated log of every conversation</li> <li>Each follow-up comes with its history</li></ul><button class="sc-call-next" data-demo-next>Next: Events Portal &#8250;</button></div></div>
+                    </div>
+                    </div><!-- /.sc-tour -->
                   </section>
 
                   <!-- ============ SLIDE 3 · EVENTS PORTAL ============================= -->
@@ -6797,14 +6860,8 @@ Max</textarea>
                            data-state-label="State of the event"
                            data-state="Sprout N Tell Vol. 4 &middot; 10 days out &middot; 8 of 8 acts sent their bios &middot; 1 checklist item overdue."
                            data-title="Events Portal: one page for the whole night">
-                    <div class="demo-notes">
-                      <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>The host gets one private link to fill in the event's details</li> <li>Every answer lands back on this page</li></ul></div></div>
-                      <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Each act sends its bio through one shared form link</li> <li>The submissions build the night's program</li></ul></div></div>
-                      <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>A dated checklist counts down to the night</li> <li>Flags anything overdue, like flyers that should already be up</li></ul></div></div>
-                      <div class="demo-note"><span class="demo-pin-n">4</span><div><ul class="demo-bul"><li>Performers, hosts and attendees link to their contact records</li> <li>A check mark once they confirm</li></ul></div></div>
-                      <div class="demo-note"><span class="demo-pin-n">5</span><div><ul class="demo-bul"><li>Every link the night needs, from sign-in to the lobby slideshow</li> <li>Sits beside the event's media</li> <li>Each flyer and sign ready to download</li></ul></div></div>
-                    </div>
-                    <div class="sp-frame">
+                    <div class="sc-tour">
+                    <div class="sp-frame"><div class="sc-veil"></div>
                       <div class="sp-page">
                         <div class="sp-hd" style="margin-bottom: 6px;">
                           <div>
@@ -6822,7 +6879,7 @@ Max</textarea>
 
                         <div class="sp-evd-grid">
                           <!-- HOST DETAILS -->
-                          <div class="sp-tile sp-span2 demo-pinned"><span class="demo-pin">1</span>
+                          <div class="sp-tile sp-span2 sc-hl" data-hl="8"><span class="sc-hl-n">8</span>
                             <div class="sp-tile-hd"><span class="sp-tile-ttl">Host details</span></div>
                             <div class="sp-tile-b">
                               <div class="sp-linkbox" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
@@ -6842,7 +6899,7 @@ Max</textarea>
                           </div>
 
                           <!-- PROGRAM -->
-                          <div class="sp-tile sp-span2 demo-pinned"><span class="demo-pin">2</span>
+                          <div class="sp-tile sp-span2 sc-hl" data-hl="9"><span class="sc-hl-n">9</span>
                             <div class="sp-tile-hd"><span class="sp-tile-ttl">Program</span><span class="sp-tile-n" style="color: var(--ink);">8 sent</span></div>
                             <div class="sp-tile-b">
                               <div style="display: flex; gap: 6px;"><span class="sp-btn sp-btn-blk sp-btn-sm">Copy form link</span><span class="sp-btn sp-btn-ghost sp-btn-sm">Open &#8599;</span></div>
@@ -6860,7 +6917,7 @@ Max</textarea>
                           </div>
 
                           <!-- CHECKLIST -->
-                          <div class="sp-tile demo-pinned"><span class="demo-pin">3</span>
+                          <div class="sp-tile sc-hl" data-hl="10"><span class="sc-hl-n">10</span>
                             <div class="sp-tile-hd"><span class="sp-tile-ttl">Checklist</span><span class="sp-tile-n" style="color: var(--ink);">8/23 done</span></div>
                             <div class="sp-tile-b" style="gap: 0;">
                               <div class="sp-bar" style="margin-bottom: 6px;"><i style="width: 35%;"></i></div>
@@ -6876,7 +6933,7 @@ Max</textarea>
                           </div>
 
                           <!-- PEOPLE -->
-                          <div class="sp-tile demo-pinned"><span class="demo-pin">4</span>
+                          <div class="sp-tile sc-hl" data-hl="11"><span class="sc-hl-n">11</span>
                             <div class="sp-tile-hd"><span class="sp-tile-ttl">People</span><span class="sp-tile-n" style="color: var(--ink);">13 &middot; 8 confirmed</span></div>
                             <div class="sp-tile-b" style="gap: 0;">
                               <div class="sp-person"><span class="sp-avatar" style="background: #2dd4bf;">JR</span><div class="sp-person-main"><div class="sp-person-name">Jonah Reyes</div><div class="sp-wrap" style="margin-top: 2px;"><span class="sp-type">Art</span><span class="sp-type">Showcase</span></div></div><span class="sp-rsvp on">&#10003; Confirmed</span></div>
@@ -6891,7 +6948,7 @@ Max</textarea>
                           </div>
 
                           <!-- LINKS + MEDIA: pin 5 covers both tiles -->
-                          <div class="sp-span2 sp-evd-grid demo-pinned"><span class="demo-pin">5</span>
+                          <div class="sp-span2 sp-evd-grid sc-hl" data-hl="12"><span class="sc-hl-n">12</span>
                           <div class="sp-tile">
                             <div class="sp-tile-hd"><span class="sp-tile-ttl">Links</span><span class="sp-tile-n" style="color: var(--ink);">3</span></div>
                             <div class="sp-tile-b">
@@ -6941,6 +6998,14 @@ Max</textarea>
                         </div>
                       </div>
                     </div>
+                    <div class="sc-calls">
+                        <div class="sc-call" data-for="8" data-at="below-end"><span class="sc-call-n">8</span><div class="sc-call-body"><div class="sc-call-t">One link for the host</div><ul class="demo-bul"><li>The host gets one private link to fill in the event's details</li> <li>Every answer lands back on this page</li></ul></div></div>
+                        <div class="sc-call" data-for="9" data-at="below-end"><span class="sc-call-n">9</span><div class="sc-call-body"><div class="sc-call-t">The acts build the program</div><ul class="demo-bul"><li>Each act sends its bio through one shared form link</li> <li>The submissions build the night's program</li></ul></div></div>
+                        <div class="sc-call" data-for="10" data-at="right"><span class="sc-call-n">10</span><div class="sc-call-body"><div class="sc-call-t">A countdown to the night</div><ul class="demo-bul"><li>A dated checklist counts down to the night</li> <li>Flags anything overdue, like flyers that should already be up</li></ul></div></div>
+                        <div class="sc-call" data-for="11" data-at="left"><span class="sc-call-n">11</span><div class="sc-call-body"><div class="sc-call-t">The people, linked</div><ul class="demo-bul"><li>Performers, hosts and attendees link to their contact records</li> <li>A check mark once they confirm</li></ul></div></div>
+                        <div class="sc-call" data-for="12" data-at="above"><span class="sc-call-n">12</span><div class="sc-call-body"><div class="sc-call-t">Every link and file</div><ul class="demo-bul"><li>Every link the night needs, from sign-in to the lobby slideshow</li> <li>Sits beside the event's media</li> <li>Each flyer and sign ready to download</li></ul><button class="sc-call-next" data-demo-next>Next: Newsletter &#8250;</button></div></div>
+                    </div>
+                    </div><!-- /.sc-tour -->
                   </section>
 
                   <!-- ============ SLIDE 4 · NEWSLETTER EDITOR ========================= -->
@@ -6949,13 +7014,8 @@ Max</textarea>
                            data-state-label="State of the issue"
                            data-state="Sprout Monthly &middot; September 2026 &middot; headline polished &middot; Vol. 4 being dragged above the announcement."
                            data-title="Newsletter: rough notes in, a branded email out">
-                    <div class="demo-notes">
-                      <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Type rough notes into any field</li> <li>Claude polishes them in Sprout's voice, ready to use or discard</li></ul></div></div>
-                      <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Each part of the email is a draggable block</li> <li>Example: move the Vol. 4 feature above the announcement</li></ul></div></div>
-                      <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>A test copy goes to the team first</li> <li>The issue goes to the chosen lists only once approved</li></ul></div></div>
-                      <div class="demo-note"><span class="demo-pin-n">4</span><div><ul class="demo-bul"><li>Shows the finished email as it is written</li> <li>Follows whichever field is being edited</li></ul></div></div>
-                    </div>
-                    <div class="sp-frame">
+                    <div class="sc-tour">
+                    <div class="sp-frame"><div class="sc-veil"></div>
                       <div class="sp-page">
                         <div class="sp-hd" style="margin-bottom: 12px;">
                           <div>
@@ -6981,7 +7041,7 @@ Max</textarea>
                                   <span class="sp-btn sp-btn-ghost sp-btn-xs">&#10024; Re-polish</span>
                                 </div>
                                 <div class="sp-ta" style="color: var(--g600);">vol 4 is finally happening sept 11 after we pushed it, 8 acts, come thru and bring a friend</div>
-                                <div class="sp-polish demo-pinned"><span class="demo-pin">1</span>
+                                <div class="sp-polish sc-hl" data-hl="13"><span class="sc-hl-n">13</span>
                                   <div class="sp-polish-hd"><span>&#10024; Polished &middot; v1 &middot; latest</span><span class="sp-btn sp-btn-ghost sp-btn-xs">&#10005; Discard</span></div>
                                   <div class="sp-polish-v">
                                     <p>Sprout N Tell Vol. 4 is here: eight artists and musicians, one night, Friday, September 11. Bring a friend.</p>
@@ -6989,7 +7049,7 @@ Max</textarea>
                                   </div>
                                 </div>
 
-                                <div class="demo-pinned"><span class="demo-pin">2</span>
+                                <div class="sc-hl" data-hl="14"><span class="sc-hl-n">14</span>
                                 <div class="sp-order-lbl">&#8597; Sections &middot; drag &#10303; to reorder</div>
                                 <div class="sp-blk is-lift"><span class="sp-handle">&#10303;</span><div><b>Featured event</b><div class="sp-small">Sprout N Tell Vol. 4 &middot; photo, recap, button</div></div></div>
                                 <div class="sp-blk is-drop"><span class="sp-handle">&#10303;</span><div><b>Announcement</b><div class="sp-small">Co-Working, now every Tuesday</div></div></div>
@@ -7002,14 +7062,14 @@ Max</textarea>
                           </div>
 
                           <div class="sp-stack">
-                            <div class="sp-card demo-pinned"><span class="demo-pin">3</span>
+                            <div class="sp-card sc-hl" data-hl="15"><span class="sc-hl-n">15</span>
                               <div class="sp-card-hd"><span class="sp-card-ttl">Send</span><span class="sp-card-meta">Test first, then the list</span></div>
                               <div class="sp-card-bd" style="display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end;">
                                 <div style="flex: 1 1 150px;"><label class="sp-fl">Test send</label><div class="sp-wrap" style="gap: 5px;"><span class="sp-pill on">&#10003; Me</span><span class="sp-pill">Events lead</span><span class="sp-pill">+ Add email</span></div></div>
                                 <div style="flex: 1 1 150px;"><label class="sp-fl">Send to list</label><div class="sp-input" style="font-size: 11px;">Community + Donors &#9662;</div></div>
                               </div>
                             </div>
-                            <div class="sp-card demo-pinned"><span class="demo-pin">4</span>
+                            <div class="sp-card sc-hl" data-hl="16"><span class="sc-hl-n">16</span>
                               <div class="sp-card-hd"><span class="sp-card-ttl">Preview</span><span class="sp-card-meta">live &middot; follows the field you're editing</span></div>
                               <div class="sp-card-bd" style="background: #F7F7F6; padding: 12px;">
                                 <div class="nl">
@@ -7030,6 +7090,13 @@ Max</textarea>
                         </div>
                       </div>
                     </div>
+                    <div class="sc-calls">
+                        <div class="sc-call" data-for="13" data-at="right"><span class="sc-call-n">13</span><div class="sc-call-body"><div class="sc-call-t">Rough notes, polished</div><ul class="demo-bul"><li>Type rough notes into any field</li> <li>Claude polishes them in Sprout's voice, ready to use or discard</li></ul></div></div>
+                        <div class="sc-call" data-for="14" data-at="right"><span class="sc-call-n">14</span><div class="sc-call-body"><div class="sc-call-t">Drag to reorder</div><ul class="demo-bul"><li>Each part of the email is a draggable block</li> <li>Example: move the Vol. 4 feature above the announcement</li></ul></div></div>
+                        <div class="sc-call" data-for="15" data-at="left"><span class="sc-call-n">15</span><div class="sc-call-body"><div class="sc-call-t">Test first, then send</div><ul class="demo-bul"><li>A test copy goes to the team first</li> <li>The issue goes to the chosen lists only once approved</li></ul></div></div>
+                        <div class="sc-call" data-for="16" data-at="left"><span class="sc-call-n">16</span><div class="sc-call-body"><div class="sc-call-t">See it as it is written</div><ul class="demo-bul"><li>Shows the finished email as it is written</li> <li>Follows whichever field is being edited</li></ul><button class="sc-call-next" data-demo-next>Next: Outreach &#8250;</button></div></div>
+                    </div>
+                    </div><!-- /.sc-tour -->
                   </section>
 
                   <!-- ============ SLIDE 5 · OUTREACH + CLAUDE ======================== -->
@@ -7038,21 +7105,16 @@ Max</textarea>
                            data-state-label="State of the relationship"
                            data-state="Low Tide Records &middot; Tier B prospect &middot; the first message rewritten as a Vol. 4 invitation."
                            data-title="Outreach/Claude MCP: Claude finds the people, you make the call">
-                    <div class="demo-notes">
-                      <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Claude works as Sprout's Outreach Manager through a custom MCP server</li> <li>Follows a plain-language protocol</li> <li>Finds people and groups worth knowing: new followers, local collectives, past guests</li></ul></div></div>
-                      <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Overview: counts the work</li> <li>Research Briefs and Sprints: Claude's research and planned campaigns</li> <li>Deliverables: what it has shipped</li> <li>Activity: every touchpoint logged in the CRM</li></ul></div></div>
-                      <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Claude checks the CRM so nobody gets added twice</li> <li>Researches each fit</li> <li>Sorts it into Tier A, B or C with a primary contact</li></ul></div></div>
-                      <div class="demo-note"><span class="demo-pin-n">4</span><div><ul class="demo-bul"><li>Claude drafts the first message in Sprout's voice</li> <li>The team edits it, rewrites it with a prompt, or skips it</li> <li>Nothing sends on its own</li></ul></div></div>
-                    </div>
-                    <div class="sp-frame">
+                    <div class="sc-tour">
+                    <div class="sp-frame"><div class="sc-veil"></div>
                       <div class="sp-page">
                         <div class="sp-hd">
-                          <div class="demo-pinned"><span class="demo-pin">1</span>
+                          <div class="sc-hl" data-hl="17"><span class="sc-hl-n">17</span>
                             <h1 class="sp-ttl">Outreach</h1>
                             <div class="sp-sub">Research briefs, sprints, and deliverables from the Outreach Manager</div>
                           </div>
                         </div>
-                        <div class="sp-tabs demo-pinned"><span class="demo-pin">2</span>
+                        <div class="sp-tabs sc-hl" data-hl="18"><span class="sc-hl-n">18</span>
                           <span class="sp-tab">Overview</span>
                           <span class="sp-tab on">Research Briefs<span class="sp-tab-n">3</span></span>
                           <span class="sp-tab">Sprints<span class="sp-tab-n">1</span></span>
@@ -7063,7 +7125,7 @@ Max</textarea>
                         <div class="sp-doc">
                           <div class="sp-doc-hd"><b>Relationship Research Briefs &middot; September</b><span class="sp-doc-meta">Edited in app</span><span class="sp-btn sp-btn-ghost sp-btn-xs" style="margin-left: auto;">&#8634; Reset to file</span><span class="sp-small">&#9662;</span></div>
                           <div class="sp-doc-bd">
-                            <div class="demo-pinned"><span class="demo-pin" style="left: auto; right: -10px;">3</span>
+                            <div class="sc-hl" data-hl="19"><span class="sc-hl-n at-tr">19</span>
                             <h2 class="md-h2">Low Tide Records</h2>
                             <div class="sp-tbl-scroll" style="box-shadow: none; border-radius: 6px; margin-bottom: 12px;">
                               <table class="sp-tbl md-tbl" style="min-width: 420px;">
@@ -7075,7 +7137,7 @@ Max</textarea>
                               </table>
                             </div>
                             </div><!-- /pin 3 -->
-                            <div class="demo-pinned"><span class="demo-pin" style="left: auto; right: -10px;">4</span>
+                            <div class="sc-hl" data-hl="20"><span class="sc-hl-n at-tr">20</span>
                             <h3 class="md-h3">First-touch message</h3>
                             <div class="sp-edit">Hi Theo, we have loved seeing Low Tide artists on our stage. Sprout N Tell Vol. 4 is Friday, September 11 at Sprout Society, 7 to 10pm: local artists on the walls and short sets all night. We would love to have you there as our guest, and to talk about co-hosting a listening party this fall. Want me to save you a spot?</div>
                             <div class="sp-ai">
@@ -7092,11 +7154,23 @@ Max</textarea>
                         </div>
                       </div>
                     </div>
+                    <div class="sc-calls">
+                        <div class="sc-call" data-for="17" data-at="right"><span class="sc-call-n">17</span><div class="sc-call-body"><div class="sc-call-t">Claude as Outreach Manager</div><ul class="demo-bul"><li>Claude works as Sprout's Outreach Manager through a custom MCP server</li> <li>Follows a plain-language protocol</li> <li>Finds people and groups worth knowing: new followers, local collectives, past guests</li></ul></div></div>
+                        <div class="sc-call" data-for="18" data-at="below-end"><span class="sc-call-n">18</span><div class="sc-call-body"><div class="sc-call-t">Five views of the work</div><ul class="demo-bul"><li>Overview: counts the work</li> <li>Research Briefs and Sprints: Claude's research and planned campaigns</li> <li>Deliverables: what it has shipped</li> <li>Activity: every touchpoint logged in the CRM</li></ul></div></div>
+                        <div class="sc-call" data-for="19" data-at="below-end"><span class="sc-call-n">19</span><div class="sc-call-body"><div class="sc-call-t">Researched and tiered</div><ul class="demo-bul"><li>Claude checks the CRM so nobody gets added twice</li> <li>Researches each fit</li> <li>Sorts it into Tier A, B or C with a primary contact</li></ul></div></div>
+                        <div class="sc-call" data-for="20" data-at="above"><span class="sc-call-n">20</span><div class="sc-call-body"><div class="sc-call-t">A first draft, never sent alone</div><ul class="demo-bul"><li>Claude drafts the first message in Sprout's voice</li> <li>The team edits it, rewrites it with a prompt, or skips it</li> <li>Nothing sends on its own</li></ul><button class="sc-call-next" data-sc-restart>Start over &#8634;</button></div></div>
+                    </div>
+                    </div><!-- /.sc-tour -->
                   </section>
 
                       </div><!-- /.demo-canvas -->
 
               </div><!-- /.demo-stage -->
+
+              <div class="sc-gate">
+                <button type="button" class="sc-gate-btn" data-sc-start>Start the tour &#8250;</button>
+                <span class="sc-gate-sub">20 steps &middot; opens full screen &middot; Esc to close</span>
+              </div>
 
               <div class="demo-controls">
                 <button class="demo-arrow" data-demo-prev aria-label="Previous slide">&#8249;</button>
@@ -10373,8 +10447,9 @@ For six years I have taught theory&hellip;</div>
 })();
   </script>
 
-  <!-- Walkthrough popups: Career Desk (from demo/career-desk-demo.html, prefix cd-)
-       and Virtual Agency (prefix ag-, 2026-09-18) share initTour(). -->
+  <!-- Walkthrough popups: Career Desk (from demo/career-desk-demo.html, prefix cd-),
+       Virtual Agency (ag-), TeacherAID (ta-) and Sprout CRM (sc-, all 2026-09-18)
+       share initTour(). -->
 <script>
 (function () {
   'use strict';
@@ -10437,9 +10512,9 @@ For six years I have taught theory&hellip;</div>
   // One step at a time: only the current highlight and its popup show. Each
   // popup but a slide's last gets Back and Next buttons here; the last keeps
   // its own button, which moves to the next slide.
-  function setStep(tour, k) {
+  function setStep(tour, k, force) {
     var calls = tour.querySelectorAll('.' + p + '-call');
-    var moved = tour._step !== undefined && tour._step !== k;
+    var moved = force || (tour._step !== undefined && tour._step !== k);
     tour._step = k;
     Array.prototype.forEach.call(calls, function (c, n) {
       c.classList.toggle('is-cur', n === k);
@@ -10464,28 +10539,69 @@ For six years I have taught theory&hellip;</div>
     // pinned to the bottom of the screen, so it sets the floor.
     var full = root.classList.contains('is-full');
     var list = tour.classList.contains('is-list');
-    var top = full ? root.getBoundingClientRect().top : 0;
+    // A slide that just came in (force) folds in the scroll alignUnderPin()
+    // started, so one scroll lands the new slide under a pinned strip and
+    // its first highlight in view; two smooth scrolls would fight. A strip
+    // that scrolls with the page is brought back into view instead.
+    // A pinned layer is measured where it rests once stuck (its CSS top),
+    // not where it sits this frame: right after a slide change the shorter
+    // slide can hold it higher for a frame (TeacherAID's Hours on a phone).
+    var base = full ? root.getBoundingClientRect().top + root.clientTop : 0;
+    function pinnedBottom(el) {
+      return Math.max(el.getBoundingClientRect().bottom, base + (parseFloat(getComputedStyle(el).top) || 0) + el.offsetHeight);
+    }
+    var pre = 0, pin = root.querySelector('.demo-nav-wrap');
+    if (force && pin) {
+      if (getComputedStyle(pin).position === 'sticky') {
+        var nx = pin.nextElementSibling;
+        var d = nx ? nx.getBoundingClientRect().top - (pinnedBottom(pin) + (parseFloat(getComputedStyle(pin).marginBottom) || 0)) : 0;
+        if (d < -1) pre = d;
+      } else if (!list) {
+        pre = Math.min(0, pin.getBoundingClientRect().top - 6 - base);
+      }
+    }
+    var top = base;
     root.querySelectorAll('.demo-caption, .demo-nav-wrap').forEach(function (el) {
-      if (getComputedStyle(el).position === 'sticky') top = Math.max(top, el.getBoundingClientRect().bottom);
+      if (getComputedStyle(el).position === 'sticky') top = Math.max(top, pinnedBottom(el));
     });
     top += list ? 14 : 24;
     var call = tour.querySelector('.' + p + '-call.is-cur');
     var cr = call ? call.getBoundingClientRect() : null;
     var bottom = (full ? root.getBoundingClientRect().bottom : window.innerHeight) - (list && cr ? cr.height + 24 : 16);
     var r = cur.getBoundingClientRect();
-    var high = list || !cr ? r.top : Math.min(r.top, cr.top);
-    var low = list || !cr ? r.bottom : Math.max(r.bottom, cr.bottom);
+    var high = (list || !cr ? r.top : Math.min(r.top, cr.top)) - pre;
+    var low = (list || !cr ? r.bottom : Math.max(r.bottom, cr.bottom)) - pre;
     var dy = high < top ? high - top : (low > bottom ? Math.min(low - bottom, high - top) : 0);
-    if (dy) (full ? root : window).scrollBy({ top: dy, behavior: 'smooth' });
+    if (dy + pre) (full ? root : window).scrollBy({ top: dy + pre, behavior: 'smooth' });
   }
+  // A slide's first step goes back to the previous slide, landing on its
+  // last step, so Back walks the whole tour in reverse. Every tour here is
+  // one per slide, so it turns the slide through the carousel's own
+  // previous control.
   var tours = Array.prototype.slice.call(root.querySelectorAll('.' + p + '-tour'));
-  tours.forEach(function (tour) {
+  var slideEls = Array.prototype.slice.call(root.querySelectorAll('.demo-car-slide'));
+  var prevCtl = root.querySelector('[data-demo-prev]');
+  tours.forEach(function (tour, ti) {
     var calls = tour.querySelectorAll('.' + p + '-call');
+    var prevSlide = ti > 0 ? tours[ti - 1].closest('.demo-car-slide') : null;
+    var backAcross = prevCtl && prevSlide && slideEls.indexOf(prevSlide) === slideEls.indexOf(tour.closest('.demo-car-slide')) - 1;
     Array.prototype.forEach.call(calls, function (c, n) {
       var body = c.querySelector('.' + p + '-call-body');
       var own = body.querySelector('.' + p + '-call-next');
       var nav = document.createElement('div');
       nav.className = p + '-call-nav';
+      if (n === 0 && backAcross) {
+        var item = root.querySelector('.demo-nav-item[data-nav="' + prevSlide.getAttribute('data-nav') + '"]');
+        var name = item && item.firstChild ? item.firstChild.textContent.trim() : '';
+        var prev = document.createElement('button');
+        prev.type = 'button'; prev.className = p + '-call-back';
+        prev.innerHTML = '&#8249; Back' + (name ? ': ' + name : '');
+        prev.addEventListener('click', function () {
+          tours[ti - 1]._startAt = 'last';
+          prevCtl.click();
+        });
+        nav.appendChild(prev);
+      }
       if (n > 0) {
         var back = document.createElement('button');
         back.type = 'button'; back.className = p + '-call-back'; back.innerHTML = '&#8249; Back';
@@ -10505,12 +10621,26 @@ For six years I have taught theory&hellip;</div>
     setStep(tour, 0);
   });
   function placeAll() { tours.forEach(place); }
-  // A slide that comes back into view starts again at its first step.
+  // A slide that comes back into view starts again at its first step, or at
+  // its last when a Back button brought it back. When a slide change
+  // brought it (a strip item, a step chip, an arrow key or a popup's
+  // button, never a tab switch), it also scrolls to that step.
+  var turnedAt = -1e9;
+  function markTurn() { turnedAt = Date.now(); }
+  root.addEventListener('click', function (e) {
+    if (e.target.closest('.demo-nav-item, .demo-nav-step, [data-demo-prev], [data-demo-next], [data-' + p + '-restart]')) markTurn();
+  }, true);
+  root.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') markTurn();
+  }, true);
   if (window.ResizeObserver) {
     var ro = new ResizeObserver(function (entries) {
       entries.forEach(function (e) {
         var t = e.target, w = t.offsetWidth;
-        if (w && !t._shown) setStep(t, 0); else place(t);
+        if (w && !t._shown) {
+          setStep(t, t._startAt === 'last' ? t.querySelectorAll('.' + p + '-call').length - 1 : 0, Date.now() - turnedAt < 600);
+          t._startAt = null;
+        } else place(t);
         t._shown = !!w;
       });
     });
@@ -10562,6 +10692,7 @@ For six years I have taught theory&hellip;</div>
   initTour(document.querySelector('.desk-demo[data-demo-panel]'), 'cd');
   initTour(document.querySelector('.agency-demo[data-demo-panel]'), 'ag');
   initTour(document.querySelector('.dasha-demo[data-demo-panel]'), 'ta');
+  initTour(document.querySelector('.sprout-demo[data-demo-panel]'), 'sc');
 })();
 </script>
 
