@@ -2,7 +2,7 @@
 
 Goal (Max, 2026-09-18): every slideshow on the portfolio site works like the Career Desk one, as an
 interactive tutorial that can open full screen. Tick a box when it is true on disk, and add the commit.
-Status as of 2026-09-19.
+Status as of 2026-09-19: all nine slideshows are tours on the site.
 
 ## Done means (the Career Desk standard)
 
@@ -30,8 +30,8 @@ Career Desk tab (commits `c094867` and `aebf85b`).
 | # | Slideshow | Tab | Standalone tutorial | Steps | Full screen | On the site |
 |---|---|---|---|---|---|---|
 | 1 | Career Desk | Career Desk | `demo/career-desk-demo.html` | 12 | Yes | **Yes** (`aebf85b`) |
-| 2 | Composer Compass | Composer Hub | `demo/compass-tutorial-demo.html` | 13 | Yes | No |
-| 3 | Composer CRM | Composer Hub | `demo/crm-tour-demo.html` | 18 | Yes | No |
+| 2 | Composer Compass | Composer Hub | `demo/compass-tutorial-demo.html` | 13 | Yes | **Yes** (see item 2) |
+| 3 | Composer CRM | Composer Hub | `demo/crm-tour-demo.html` | 18 | Yes | **Yes** (see item 3) |
 | 4 | Virtual Agency | Composer Hub | none; built straight on the page (source `demo/agency-demo.html`) | 12 | Yes | Committed (`5c40aed`) |
 | 5 | TeacherAID | TeacherAID | none; built straight on the page (source `demo/dasha-demo.html`) | 18 | Yes | Committed (`5c40aed`) |
 | 6 | Sprout CRM | Sprout Suite | `demo/sprout-crm-tour-demo.html` | 20 | Yes | **Yes** (`7607b3b`) |
@@ -48,13 +48,22 @@ Step counts for rows 4 to 9 are the notes in each standalone; each note becomes 
       standalone `demo/career-desk-demo.html` still lacks it. Also found at 960 wide, already on the
       live site: ~~Career Desk step 1's popup runs 3px past the overlay's bottom~~ (fixed 2026-09-19), and TeacherAID step 6's
       popup covers its highlight
-- [ ] **2. Composer Compass:** standalone done and verified (306 checks). Left: transplant into `index.html`
-      over the current Compass panel, then verify on the page
-- [ ] **3. Composer CRM:** standalone built 2026-09-18, full screen included, and verified at 1280, 1600 and
-      390 with touch (344 checks: all 18 steps in order, popups clear of their highlights, Close, Esc and
-      the backdrop restore the scroll, zero script errors). Prefix `tour-`, root `.crm-tour`. Popup titles
-      are Claude's drafts. A pin on a popup's header now highlights the whole popup. Left: Back across
-      slides (its script predates it), a check at 960, Max's look, then transplant as `initTour()`
+- [x] **2. Composer Compass** (transplanted 2026-09-19): over the Compass panel, prefix renamed `ct-` to `cc-`
+      (Campaign Tracker owns `ct-` on the page). Keeps its own step script, scoped to `#compassDemo`, not
+      `initTour()`: the carousel steps through the rail, and step 9's popup floats above its node. The page's
+      Compass script gained the popups' Next buttons and Start over. In full screen the title card scrolls
+      away; only the rail pins. Left: Max's look and the 13 popup titles
+- [x] **3. Composer CRM** (transplanted 2026-09-19): over the Hub CRM panel on the shared `initTour(root, 'hc')`,
+      so it gains Back across slides there (the standalone still lacks it). **960 fix, page only:** below a
+      1200px window, full screen slides with an app popup open give the frame a 270px right gutter, or every
+      step popup covered its highlight. Title card scrolls away in full screen. Left: Max's look and the 18
+      popup titles
+      - **Verified headless for both (2026-09-19),** 1280 and 960 full screen, 390 with touch: every step
+        forward and back in order, one highlight and one popup each, no popup over its highlight on desktop,
+        popup and highlight top in view, Start over, Esc, Close and the backdrop close with the scroll
+        restored, the other seven tours still initialize, zero script errors, em dash count unchanged. The one
+        failing check is pre-existing: at 390 the page is 415px wide because the fixed top nav is, on the last
+        commit too
 - [ ] **4. Virtual Agency:** on `index.html` through the shared `initTour(root, 'ag')`, built by a parallel
       session and not committed yet. Left: commit it, and add Back across slides to `initTour()` (item 1)
 - [ ] **5. TeacherAID:** on `index.html` through `initTour(root, 'ta')`, verified by that session, not committed

@@ -44,7 +44,8 @@ Vercel project: `ai-portfolio-landing-page` · GitHub: `mhperkins/AI-Portfolio-L
 | [Academic CV - UW Madison.docx](Academic CV - UW Madison.docx) | Source of the CV page; offered as the download on resume.html. Degree line reads Certificate in Business since 2026-09-18 |
 | [demo/compass-demo.html](demo/compass-demo.html) | **Iteration source for the Compass panel's carousel** (built 2026-09-09, transplanted 2026-09-10). Change slides here, then re-transplant. See "The Compass demo carousel" below. |
 | [demo/crm-demo.html](demo/crm-demo.html) | **Iteration source for the CRM panel's carousel** (7 slides, transplanted 2026-09-10). See "The CRM and Agency carousels" below. |
-| [demo/crm-tour-demo.html](demo/crm-tour-demo.html) | **The CRM carousel as a guided tour** (built 2026-09-18, **not transplanted**), on the Career Desk walkthrough pattern: same 7 slides, screens and note text as `crm-demo.html`, but one highlight at a time with its note open beside it, Next and Back, 18 steps numbered across the tool. Made from `crm-demo.html` by script (pins became `tour-hl`, notes became `tour-call` popups); a pin that sat on a popup's header now highlights the whole popup. The only new copy is a short title per popup (Claude's draft). Prefix `tour-`. **Full screen like Career Desk** (Max's call, same day): a "Start the tour" gate over the preview opens it over the page (`.crm-tour.is-full`, same geometry as `.desk-demo.is-full`); Close, Esc or the backdrop closes it and restores the scroll; phones skip the gate. While open, both scroll helpers (`alignUnderPin` and the step scroll) scroll the overlay, not the window. |
+| [demo/crm-tour-demo.html](demo/crm-tour-demo.html) | **The CRM carousel as a guided tour** (built 2026-09-18, **transplanted 2026-09-19** as `initTour(root, 'hc')`), on the Career Desk walkthrough pattern: same 7 slides, screens and note text as `crm-demo.html`, but one highlight at a time with its note open beside it, Next and Back, 18 steps numbered across the tool. Made from `crm-demo.html` by script (pins became `tour-hl`, notes became `tour-call` popups); a pin that sat on a popup's header now highlights the whole popup. The only new copy is a short title per popup (Claude's draft). Prefix `tour-`. **Full screen like Career Desk** (Max's call, same day): a "Start the tour" gate over the preview opens it over the page (`.crm-tour.is-full`, same geometry as `.desk-demo.is-full`); Close, Esc or the backdrop closes it and restores the scroll; phones skip the gate. While open, both scroll helpers (`alignUnderPin` and the step scroll) scroll the overlay, not the window. |
+| [demo/compass-tutorial-demo.html](demo/compass-tutorial-demo.html) | **The Compass carousel as a tutorial** (built 2026-09-18 by another session, transplanted 2026-09-19): 13 steps, full screen from a Start gate, notes word for word plus a popup title (Claude's draft). Prefix `ct-` here, **`cc-` on the page** (Campaign Tracker owns `ct-`). It keeps its own step script (not `initTour()`): the carousel steps through the rail, and step 9's popup floats above its node. `compass-demo.html` stays the source of the screens. |
 | [demo/agency-demo.html](demo/agency-demo.html) | **Source of the Virtual Agency panel's screens** (2 slides, transplanted 2026-09-10). Since 2026-09-18 the page shows them as a guided tour (see "The Virtual Agency tour"); this file is still the old pinned carousel, so copy a screen change by hand, pins as highlights. |
 | [demo/dasha-demo.html](demo/dasha-demo.html) | **Iteration source for the TeacherAID tab's carousel** (6 annotated slides, transplanted 2026-09-12). See "The TeacherAID tab" below. |
 | [demo/sprout-crm-demo.html](demo/sprout-crm-demo.html) | **Iteration source for the Sprout CRM panel's carousel** (5 annotated slides; built by a parallel session, committed `6c226cc`, transplanted 2026-09-12). See "The Sprout CRM carousel" below. |
@@ -846,6 +847,27 @@ then a full-screen pop out like Career Desk's. Built as `demo/crm-tour-demo.html
 check at 960, Max's look and the popup titles, then transplant. Tracked as item 3 of
 `docs/slideshow-tutorial-checklist.md`.
 
+### Session of 2026-09-19, later: Compass and Composer CRM tours live (pushed)
+
+Max's ask: get the Composer Compass and Composer CRM tutorials onto the site. **Every slideshow on the page is
+now a guided tour.** Tracker: `docs/slideshow-tutorial-checklist.md`, items 2 and 3.
+
+- **Composer CRM** replaces the Hub CRM carousel, on the shared `initTour(root, 'hc')`, so it gains Back across
+  slides. At a window under 1200px, full screen slides with an app popup open give the frame a 270px right
+  gutter; without it every step popup at 960 covered its highlight (the standalone was never checked there).
+- **Composer Compass** replaces the Compass carousel with its own step script scoped to `#compassDemo`, prefix
+  `cc-`. The page's Compass carousel script gained the popups' Next buttons and Start over.
+- Both: title cards scroll away in full screen (only the strip or rail pins), and the old pins, notes rows and
+  hover pops are gone from these two carousels.
+- **Verified headless** (1280 and 960 full screen, 390 with touch): 671 checks pass. Every step forward and
+  back, Start over, Esc, Close and backdrop with the scroll restored, the other seven tours still initialize,
+  zero script errors. Screenshots checked by eye.
+- **Found, not fixed:** at 390 the page scrolls sideways to 415px because the fixed top nav is 415px wide. Same
+  on the previous commit.
+
+**Open:** Max reviews both tours and their 31 popup titles. The CRM standalone still lacks Back across slides and
+the 960 gutter; the page has both. TeacherAID step 6 at 960 is still open.
+
 ### Session of 2026-09-19: Grant, Social and Campaign tours (pushed)
 
 Max's ask: the next item on `docs/slideshow-tutorial-checklist.md`, then put them on the site once they pass.
@@ -867,11 +889,9 @@ everything, and a screen change now means editing a `-tour-demo.html` and the pa
 - Max reviews the three tours and their 42 popup titles.
 - TeacherAID step 6 at 960: its popup covers its highlight (already live).
 - `demo/career-desk-demo.html` still lacks Back across slides (the page has it).
-- `demo/compass-tutorial-demo.html` is still untracked, from another session.
 
-**Next:** transplant the last two carousels as tours: Composer Compass (`demo/compass-tutorial-demo.html`,
-done and verified) and Composer CRM (`demo/crm-tour-demo.html`, committed; needs Back across slides and a
-check at 960 first). Tracker: `docs/slideshow-tutorial-checklist.md`.
+~~**Next:** transplant the last two carousels as tours: Composer Compass and Composer CRM.~~ Done and live
+2026-09-19; see the session above.
 
 ### Session of 2026-09-18, final: the Sprout CRM tour (pushed)
 

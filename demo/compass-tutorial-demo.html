@@ -1,0 +1,1978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Composer Compass · Tutorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   Composer Compass tutorial (built 2026-09-18).
+
+   The Compass carousel from compass-demo.html, re-presented the way
+   career-desk-demo.html works: each slide is dimmed except one highlighted
+   node at a time, its blurb open as a popup beside it. Next and Back step
+   within a slide; a slide's last step moves to the next slide. Every node,
+   rule, caption and note from compass-demo.html is kept; the notes rows and
+   pins became the popups and highlights (`ct-` classes), numbered 1 to 13
+   across the whole tour. Popup titles are new.
+
+   Standalone. Nothing here is wired into index.html yet. Every class is
+   prefixed `demo-` or `d` so it cannot collide with the two carousel systems
+   already living in index.html (`.carousel-*` / `initCarousels()` and
+   `[data-hub-carousel]` / `.hub-car-*`).
+
+   Design tokens are lifted verbatim from the app:
+   app-ui/src/styles/tokens.css. Node chrome (white card, 1px border, 8px
+   radius, dark header with amber uppercase type) is lifted from the node CSS
+   modules so the slides read as the real canvas.
+
+   House rule: no em dashes anywhere on this page. The app's own UI labels use
+   them (between "SECTION 1" and "STRUCTURAL MODEL"); they are rendered here with a middot
+   instead so the portfolio's zero-em-dash check keeps passing.
+   ========================================================================== */
+
+:root {
+  --ch:        #1C1917;
+  --ch2:       #28211E;
+  --amber:     #B45309;
+  --amber-lt:  #D97706;
+  --amber-bg:  #FEF3C7;
+  --amber-dim: #92400E;
+  --cream:     #FAF8F5;
+  --warm:      #EDE9E3;
+  --border:    #E2DDD6;
+  --tp:        #1C1917;
+  --ts:        #57534E;
+  --tm:        #A8A29E;
+  --green:     #16A34A;
+  --green-bg:  #F0FDF4;
+  --red:       #DC2626;
+
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-sans:  'DM Sans', sans-serif;
+
+  --shadow:    0 2px 12px rgba(28, 25, 23, 0.08);
+  --shadow-lg: 0 8px 32px rgba(28, 25, 23, 0.14);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 32px 20px 64px;
+  background: var(--cream);
+  color: var(--tp);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.demo-wrap { max-width: 1180px; margin: 0 auto; }
+
+/* --- page heading (scaffolding only; drop this on transplant) ------------- */
+.demo-scaffold {
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.demo-scaffold h1 {
+  font-family: var(--font-serif);
+  font-size: 34px;
+  font-weight: 600;
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
+}
+.demo-scaffold p { margin: 0; color: var(--ts); font-size: 14px; max-width: 62ch; }
+
+/* ==========================================================================
+   The chain rail. Persistent across every slide.
+   The Aesthetic Blueprint is NOT a node here, because it is not one in the
+   app: compileContext.js says it is "standing context injected into every
+   agent call at the single chokepoint". So it renders as the tinted field
+   behind the whole rail, and slide 1 lights the field itself.
+   ========================================================================== */
+.demo-rail-field {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  /* Cream under the tint, so the pinned rail is opaque over the slide. */
+  background:
+    linear-gradient(180deg, rgba(254, 243, 199, 0.35), rgba(254, 243, 199, 0.12)), var(--cream);
+  /* The bottom padding holds the "Click through the process" hint. */
+  padding: 46px 18px 38px;
+  margin-bottom: 14px;
+  transition: box-shadow 0.25s, border-color 0.25s, background 0.25s;
+}
+.demo-rail-field.is-lit {
+  border-color: var(--amber-lt);
+  background: linear-gradient(180deg, rgba(254, 243, 199, 0.85), rgba(254, 243, 199, 0.4)), var(--cream);
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.12);
+}
+
+/* Pinned strips: the rail stays in view while a tall slide scrolls under it.
+   Same block as index.html, where --demo-pin-top clears the page's own
+   pinned bars; here nothing sits above it, so it is 0. */
+.demo-rail-field, .demo-nav-wrap {
+  position: sticky;
+  top: var(--demo-pin-top, 0px);
+  z-index: 20;
+}
+@media (max-width: 640px) {
+  .demo-rail-field { position: relative; top: auto; }
+  .demo-nav-wrap { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .demo-nav-wrap::-webkit-scrollbar { display: none; }
+  .demo-nav-item { flex-shrink: 0; white-space: nowrap; }
+}
+
+.demo-rail-tag {
+  position: absolute;
+  top: 9px;
+  left: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--amber-dim);
+}
+.demo-rail-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.18);
+}
+
+/* The rail is the control, not just a diagram: every group jumps to its
+   slide. Nothing said so, so it read as a static picture. This sits under
+   the first group (Intake), where the walk starts, clear of the back edge,
+   which drops under Constitution and Sketch. pointer-events:none so it can
+   never swallow a click meant for the rail. */
+.demo-rail-hint {
+  position: absolute;
+  bottom: 7px;
+  left: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--amber-dim);
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--amber-lt);
+  border-radius: 20px;
+  padding: 3px 11px;
+  pointer-events: none;
+}
+.demo-rail-hint svg { width: 11px; height: 11px; display: block; flex-shrink: 0; }
+/* Below this the tag and the hint would collide, and a touch user taps the
+   pills without being told to. */
+@media (max-width: 660px) { .demo-rail-hint { display: none; } .demo-rail-field { padding-bottom: 21px; } }
+
+/* The Blueprint has no pill, because it is the field rather than a node, so
+   nothing in the rail went back to slide 1: once you clicked Intake the only
+   way back was the arrows. The tag is that control. It is boxed like the rail
+   groups (2026-09-14, Max's call: bare text did not read as clickable), and
+   the field's top padding grew from 32px to 46px to hold the box. On slide 1
+   it takes the groups' active ring. */
+.demo-rail-tag {
+  cursor: pointer;
+  padding: 5px 11px 5px 9px;
+  border: 1px solid rgba(180, 83, 9, 0.16);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.4);
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, color 0.2s;
+}
+.demo-rail-tag:hover { background: rgba(255, 255, 255, 0.85); border-color: rgba(180, 83, 9, 0.45); color: var(--amber); }
+.demo-rail-tag:focus-visible { outline: 2px solid var(--amber-lt); outline-offset: 2px; }
+.demo-rail-field.is-lit .demo-rail-tag {
+  cursor: default;
+  color: var(--amber-dim);
+  border-color: var(--amber-lt);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.12);
+}
+
+.demo-rail {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 2px 0;
+}
+.demo-rail::-webkit-scrollbar { display: none; }
+
+.demo-rail-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  /* Clipped to the field, so a curve redrawn under a scrolled rail stays inside it. */
+  overflow: hidden;
+}
+
+.demo-node-pill {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 10px 7px 8px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  box-shadow: var(--shadow);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--tm);
+  white-space: nowrap;
+  opacity: 0.55;
+  transition: opacity 0.22s, color 0.22s, border-color 0.22s, transform 0.22s, box-shadow 0.22s;
+  font-family: var(--font-sans);
+}
+.demo-rail-group:hover .demo-node-pill { opacity: 0.85; }
+
+/* Already traversed: solid but quiet. */
+.demo-node-pill.is-past { opacity: 1; color: var(--ts); }
+
+/* Not reached yet: ghosted outline, so there is visibly more to the right. */
+.demo-node-pill.is-future {
+  opacity: 0.42;
+  background: transparent;
+  border-style: solid;
+  box-shadow: none;
+}
+
+/* Current. */
+.demo-node-pill.is-active {
+  opacity: 1;
+  color: var(--tp);
+  border-color: var(--amber-lt);
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.14), var(--shadow);
+  transform: translateY(-1px);
+}
+
+/* The handle dots, colored exactly as the app colors them:
+   grey in on the left, amber out on the right. */
+.demo-h {
+  width: 8px; height: 8px; border-radius: 50%;
+  flex-shrink: 0;
+}
+.demo-h-in  { background: #A8A29E; border: 2px solid #78716C; }
+.demo-h-out { background: #D97706; border: 2px solid #B45309; }
+.demo-node-pill.is-future .demo-h-in,
+.demo-node-pill.is-future .demo-h-out { opacity: 0.5; }
+
+/* Each slide's nodes are boxed together, and the box is the control: click it
+   to jump to that slide. The pills inside are no longer buttons themselves. */
+.demo-rail-group {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 0;
+  padding: 4px 6px;
+  border: 1px solid rgba(180, 83, 9, 0.16);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+.demo-rail-group:hover { background: rgba(255, 255, 255, 0.85); border-color: rgba(180, 83, 9, 0.45); }
+.demo-rail-group:focus-visible { outline: 2px solid var(--amber-lt); outline-offset: 2px; }
+.demo-rail-group.is-active {
+  border-color: var(--amber-lt);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.12);
+}
+
+/* 12px floor, not 18: at 18 the page card's 836px rail overflowed and scrolled, which
+   clipped Score and slid the back edge and the hint off their pills (2026-09-14). */
+.demo-rail-edge {
+  flex: 1 1 22px;
+  min-width: 12px;
+  height: 1px;
+  background: var(--border);
+  position: relative;
+  transition: background 0.25s;
+}
+.demo-rail-edge::after {
+  content: '';
+  position: absolute;
+  right: -1px; top: -3px;
+  border-left: 5px solid var(--border);
+  border-top: 3.5px solid transparent;
+  border-bottom: 3.5px solid transparent;
+  transition: border-left-color 0.25s;
+}
+.demo-rail-edge.is-drawn { background: var(--amber-lt); }
+.demo-rail-edge.is-drawn::after { border-left-color: var(--amber-lt); }
+
+/* ==========================================================================
+   Slide stage
+   ========================================================================== */
+.demo-stage {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: white;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+/* The manuscript canvas the nodes sit on. Same idea as
+   ManuscriptBackground.jsx: faint staff rules, warm ground. */
+.demo-canvas {
+  background-color: var(--warm);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(139, 115, 85, 0.10) 0px,
+    rgba(139, 115, 85, 0.10) 1px,
+    transparent 1px,
+    transparent 10px
+  );
+  background-size: 100% 90px;
+  padding: 30px 26px;
+  min-height: 400px;
+}
+
+/* Side arrows, floating over the canvas edges and centred on the slide rather
+   than on the whole stage (the caption strip is not part of the picture). */
+.demo-canvas { position: relative; }
+.demo-side-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 6;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--ts);
+  font-size: 17px;
+  line-height: 1;
+  box-shadow: var(--shadow-lg);
+  transition: opacity 0.18s, color 0.18s, border-color 0.18s;
+}
+.demo-side-arrow:hover:not(:disabled) { color: var(--amber); border-color: var(--amber-lt); }
+.demo-side-arrow:disabled { opacity: 0.25; cursor: default; }
+.demo-side-prev { left: 6px; }
+.demo-side-next { right: 6px; }
+
+.demo-car-slide { display: none; }
+.demo-car-slide.is-on { display: block; animation: demoFade 220ms ease-out; }
+@keyframes demoFade { from { opacity: 0; } to { opacity: 1; } }
+
+.demo-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  flex-wrap: wrap;
+}
+
+/* The connector drawn between two nodes sitting on the same slide.
+   z-index keeps its label above the node card that follows it in the DOM;
+   without it the card paints over the label and clips the word. */
+.demo-link {
+  flex: 0 0 56px;
+  align-self: center;
+  height: 1px;
+  background: var(--amber-lt);
+  position: relative;
+  margin-top: 8px;
+  z-index: 3;
+}
+.demo-link::after {
+  content: '';
+  position: absolute;
+  right: -1px; top: -4px;
+  border-left: 6px solid var(--amber-lt);
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+.demo-link-label {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 8.5px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--amber-dim);
+  white-space: nowrap;
+  background: var(--warm);
+  padding: 0 3px;
+}
+
+/* ==========================================================================
+   Node card. Lifted from the node CSS modules.
+   ========================================================================== */
+.dnode {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  position: relative;
+  /* The basis is the floor, not the preference: a wrapping flex line breaks on
+     basis, so a larger one wrapped the three-node slides inside the portfolio
+     card's 872px canvas. They grow from here to fill whatever width exists. */
+  flex: 1 1 212px;
+  min-width: 212px;
+}
+.dnode-narrow { flex: 1 1 240px; }
+
+.dnode-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--ch);
+  min-height: 36px;
+}
+.dnode-type {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--amber-lt);
+  flex-shrink: 0;
+}
+.dnode-badge {
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(217, 119, 6, 0.18);
+  color: #F5D9A8;
+  letter-spacing: 0.02em;
+}
+.dnode-meta {
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, 0.45);
+  margin-left: auto;
+}
+.dnode-select {
+  appearance: none;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.75);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  padding: 3px 8px;
+}
+
+.dnode-tabs { display: flex; flex-wrap: nowrap; border-bottom: 1px solid var(--border); }
+.dtab {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  padding: 7px 2px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  color: var(--tm);
+  margin-bottom: -1px;
+  text-align: center;
+}
+.dtab-on { color: var(--tp); border-bottom-color: var(--amber); font-weight: 500; }
+.dtab-dot {
+  display: inline-block;
+  flex: none;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--amber-lt);
+  margin-left: 5px;
+  vertical-align: middle;
+}
+.dtab-import { flex: 0 0 auto; padding: 7px 7px; color: var(--tm); font-size: 11px; }
+
+.dnode-body { padding: 11px 12px 13px; }
+
+/* node port dots pinned to the card edges */
+.dport {
+  position: absolute;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  z-index: 2;
+}
+.dport-in  { left: -6px; background: #A8A29E; border: 2px solid #78716C; }
+.dport-out { right: -6px; background: #D97706; border: 2px solid #B45309; }
+
+/* --- shared small parts -------------------------------------------------- */
+.dlabel {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--tm);
+  margin-bottom: 4px;
+}
+.dfield { margin-bottom: 11px; }
+.dfield:last-child { margin-bottom: 0; }
+.dbox {
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 7px 9px;
+  font-size: 12.5px;
+  color: var(--tp);
+  background: #FCFBF9;
+  line-height: 1.55;
+}
+.dbox-lines { white-space: pre-line; }
+
+.dbtn {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--ts);
+}
+.dbtn-primary {
+  background: var(--ch);
+  border-color: var(--ch);
+  color: var(--amber-lt);
+  font-weight: 500;
+}
+.dbtn-row { display: flex; gap: 7px; margin-top: 11px; align-items: center; }
+
+/* --- dialogue ------------------------------------------------------------ */
+.dturn-agent {
+  background: #FCFBF9;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+.dturn-user {
+  background: var(--ch);
+  color: rgba(255, 255, 255, 0.88);
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  margin-left: 26px;
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+.dseemore {
+  font-size: 11px;
+  color: var(--amber);
+  border: none;
+  background: none;
+  padding: 0;
+  margin-top: 3px;
+}
+.danswer {
+  display: flex;
+  gap: 7px;
+  margin-top: 10px;
+  align-items: stretch;
+}
+.danswer-area {
+  flex: 1;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 7px 9px;
+  font-size: 12px;
+  color: var(--tm);
+  background: white;
+  min-height: 34px;
+}
+
+/* the Proposed decision card inside the Constitution dialogue */
+.ddecision {
+  border: 1px solid var(--amber-lt);
+  background: var(--amber-bg);
+  border-radius: 6px;
+  padding: 9px 10px;
+  margin-bottom: 9px;
+}
+.ddecision-label {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--amber-dim);
+  display: block;
+  margin-bottom: 4px;
+}
+.ddecision-text { font-size: 12.5px; line-height: 1.55; margin: 0 0 8px; color: #4A3410; }
+
+/* --- constitution decisions --------------------------------------------- */
+.dstatus {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--ts);
+  margin-bottom: 8px;
+}
+.dstatus-left { display: flex; align-items: center; gap: 6px; }
+.dstatus-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green);
+}
+.dversionbar {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  padding-bottom: 9px;
+  margin-bottom: 9px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.dversion-btn {
+  font-size: 11px;
+  padding: 4px 9px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--ts);
+}
+.dversion-btn-amber { border-color: var(--amber-lt); color: var(--amber); }
+.dhistory { font-size: 11px; color: var(--tm); margin-left: auto; }
+
+.drule {
+  font-size: 12.5px;
+  line-height: 1.6;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.drule:last-child { border-bottom: none; }
+.drule-n {
+  display: inline-block;
+  min-width: 17px;
+  font-weight: 600;
+  color: var(--amber);
+}
+.drule-src {
+  display: block;
+  font-size: 11px;
+  font-style: italic;
+  color: var(--tm);
+  margin-top: 3px;
+  padding-left: 17px;
+}
+.drule-strike { text-decoration: line-through; color: var(--tm); }
+.drule-new { background: rgba(22, 163, 74, 0.09); border-radius: 3px; }
+
+/* --- analysis one-sheet -------------------------------------------------- */
+.dbucket { margin-bottom: 11px; }
+.dbucket:last-child { margin-bottom: 0; }
+.dbucket ul { margin: 0; padding-left: 16px; }
+.dbucket li { font-size: 12.5px; line-height: 1.55; margin-bottom: 5px; }
+
+/* --- sketch files -------------------------------------------------------- */
+.dfile { border: 1px solid var(--border); border-radius: 6px; margin-bottom: 8px; overflow: hidden; }
+.dfile-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 8px;
+  background: #FCFBF9;
+  border-bottom: 1px solid var(--border);
+  font-size: 11.5px;
+  color: var(--ts);
+}
+.dfile-x { color: var(--tm); font-size: 11px; }
+.dthumb { background: white; padding: 6px 8px; }
+.dthumb svg { display: block; width: 100%; height: auto; }
+.dupload {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 9px;
+  text-align: center;
+  color: var(--tm);
+  font-size: 11.5px;
+}
+.dupload-icon { display: block; font-size: 15px; color: var(--amber-lt); margin-bottom: 2px; }
+
+/* --- checklist ----------------------------------------------------------- */
+.dcheck { font-size: 12.5px; line-height: 1.5; }
+.dcheck-group {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--tm);
+  margin: 11px 0 5px;
+}
+.dcheck-group:first-child { margin-top: 0; }
+.dcheck-item {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 4px 0;
+}
+.dcheck-mark {
+  flex: 0 0 14px;
+  height: 14px;
+  margin-top: 2px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  font-size: 10px;
+  line-height: 12px;
+  text-align: center;
+  color: white;
+}
+.dcheck-done { background: var(--green); border-color: var(--green); }
+.dcheck-flag { border-color: var(--amber-lt); background: var(--amber-bg); }
+.dcheck-body { flex: 1; }
+.dcheck-bar {
+  font-size: 11px;
+  color: var(--amber-dim);
+  background: var(--amber-bg);
+  border-radius: 3px;
+  padding: 0 5px;
+  margin-right: 5px;
+  font-variant-numeric: tabular-nums;
+}
+.dcheck-muted { color: var(--tm); }
+
+/* house style chips */
+.dchips { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 9px; }
+.dchip {
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  color: var(--ts);
+  background: white;
+}
+.dchip-on {
+  border-color: var(--amber-lt);
+  background: var(--amber-bg);
+  color: var(--amber-dim);
+  font-weight: 500;
+}
+
+.dkv { display: flex; justify-content: space-between; font-size: 12px; padding: 3px 0; }
+.dkv-k { color: var(--tm); }
+.dkv-v { font-variant-numeric: tabular-nums; }
+
+/* --- finished piece ------------------------------------------------------ */
+.dpiece {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  flex: 1 1 200px;
+  min-width: 200px;
+}
+.dpiece-img { display: block; width: 100%; height: auto; border-bottom: 1px solid var(--border); }
+.dpiece-img-draft { filter: grayscale(0.6) contrast(0.88) opacity(0.8); }
+/* The draft shows the top of the page only, so it does not read as the same
+   picture as the engraved page two nodes later. */
+.dpiece-crop { position: relative; height: 200px; overflow: hidden; border-bottom: 1px solid var(--border); }
+.dpiece-crop .dpiece-img { border-bottom: none; }
+.dpiece-body { padding: 11px 13px 13px; }
+.dpiece-title {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  font-weight: 600;
+  margin: 0 0 2px;
+  line-height: 1.25;
+}
+.dpiece-meta { font-size: 11.5px; color: var(--tm); margin: 0 0 10px; }
+.dpiece audio { width: 100%; height: 34px; }
+.dstamp {
+  position: absolute;
+  bottom: 8px; left: 8px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: white;
+  background: rgba(28, 25, 23, 0.72);
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+.dpiece-wrap { position: relative; }
+
+/* ==========================================================================
+   The tutorial, same mechanics as career-desk-demo.html's walkthrough.
+   Each slide's nodes sit in a .ct-scene under a veil; the current
+   highlight (.ct-hl.is-cur) rises above the veil with an amber ring, and
+   its popup (.ct-call, data-for = the highlight's data-hl) opens beside it
+   on the side data-at names (right, left, below, below-end, above). The
+   script at the bottom places the popups and adds Back and Next.
+
+   A node card clips anything hanging off its edge (that is what keeps the
+   ports half-sunk), so a whole-node number sits inside the dark header,
+   ahead of the node's label, and a picture's number sits on its corner.
+   The Blueprint's two columns carry theirs top right, over the empty end
+   of the first label. Same placements as the old pins.
+   ========================================================================== */
+.demo-bul { margin: 0; padding-left: 1.05em; list-style: disc; }
+.demo-bul li + li { margin-top: 3px; }
+.demo-bul li::marker { color: var(--amber); }
+
+.ct-tour { position: relative; }
+.ct-scene { position: relative; }
+.ct-veil { position: absolute; inset: -6px; background: rgba(237, 233, 227, 0.72); z-index: 5; border-radius: 10px; pointer-events: none; }
+.ct-hl { position: relative; }
+.ct-hl.is-cur { z-index: 6; outline: 2px solid var(--amber-lt); outline-offset: 3px; box-shadow: 0 0 0 7px rgba(217, 119, 6, 0.14), var(--shadow-lg); }
+:where(.ct-hl.is-cur) { background-color: white; border-radius: 6px; }
+.ct-hl:not(.is-cur) > .ct-hl-n, .ct-call:not(.is-cur) { display: none; }
+.ct-hl-n { position: absolute; top: -10px; left: -10px; z-index: 7; width: 22px; height: 22px; border-radius: 50%; background: var(--amber); color: white; font-size: 11.5px; font-weight: 700; line-height: 22px; text-align: center; box-shadow: 0 0 0 2px white; }
+.dnode.ct-hl > .ct-hl-n { top: 7px; left: 9px; }
+.dnode.ct-hl > .dnode-head { padding-left: 39px; }
+.dpiece.ct-hl > .ct-hl-n { top: 8px; left: 8px; }
+.ct-hl-n.at-tr { left: auto; right: -10px; top: -7px; }
+
+.ct-calls { display: contents; }
+.ct-call { position: absolute; z-index: 8; width: 268px; display: flex; gap: 9px; align-items: flex-start; background: white; border: 1.5px solid var(--ch); border-radius: 10px; box-shadow: var(--shadow-lg); padding: 10px 12px 11px; font-size: 12.5px; line-height: 1.45; color: var(--tp); }
+.ct-call-n { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--amber); color: white; font-size: 11.5px; font-weight: 700; line-height: 22px; text-align: center; }
+.ct-call-body { flex: 1; min-width: 0; }
+.ct-call-t { font-family: var(--font-serif); font-size: 17px; font-weight: 700; line-height: 1.2; margin: 0 0 5px; }
+.ct-call-nav { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 9px; }
+.ct-call-nav button { white-space: nowrap; }
+.ct-call-next { border: 1px solid var(--ch); background: var(--ch); color: var(--amber-lt); border-radius: 6px; padding: 4px 12px; font-size: 12px; font-weight: 600; }
+.ct-call-next:hover { background: var(--ch2); }
+.ct-call-back { border: 1px solid var(--border); background: white; color: var(--ts); border-radius: 6px; padding: 4px 10px; font-size: 12px; }
+.ct-call-back:hover { color: var(--amber); border-color: var(--amber-lt); }
+/* Phone and narrow cards: no room beside a highlight, so the popup pins to
+   the bottom of the screen while the tutorial is in view, and each step
+   scrolls its highlight into view above it. */
+.ct-tour.is-list .ct-call { position: sticky; bottom: 12px; width: auto; margin-top: 12px; }
+/* A popup above its node floats over the page, above the pinned rail (20). */
+.ct-call.is-float { position: fixed; z-index: 30; }
+/* Sticky dies under an overflow: hidden ancestor, so the stage clips with
+   overflow: clip instead (hidden stays as the fallback). */
+.demo-stage { overflow: hidden; overflow: clip; }
+
+/* ==========================================================================
+   Full screen, same as the Career Desk tab on index.html (commit aebf85b).
+   The tutorial shows as a preview under a Start gate; starting opens it over
+   the page at nearly full window size at step 1, and Close, Esc or a click
+   on the backdrop puts it back and restores the page's scroll. Inside, the
+   rail pins to the top of the overlay's own scroll, so --demo-pin-top is 0.
+   Phones skip the gate and run inline, since the page is already full width.
+   ========================================================================== */
+.ct-root { position: relative; }
+.ct-gate { position: absolute; inset: 0; z-index: 40; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: rgba(250, 248, 245, 0.55); backdrop-filter: blur(1.5px); border-radius: 10px; }
+.ct-gate-btn { border: 0; background: var(--ch); color: var(--amber-lt); border-radius: 10px; padding: 13px 24px; font-size: 16px; font-weight: 600; box-shadow: var(--shadow-lg); }
+.ct-gate-btn:hover { background: var(--ch2); }
+.ct-gate-sub { font-size: 12.5px; color: var(--tp); background: rgba(255, 255, 255, 0.85); border-radius: 20px; padding: 3px 12px; }
+.ct-close { display: none; }
+.ct-root.is-full { position: fixed; inset: 16px; z-index: 1000; max-width: 1440px; margin: 0 auto; padding: 18px; background: var(--cream); border-radius: 14px; overflow: auto; overscroll-behavior: contain; --demo-pin-top: 0px; box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5); }
+.ct-root.is-full .ct-gate { display: none; }
+.ct-root.is-full .ct-close { display: inline-flex; position: absolute; top: 9px; right: 14px; z-index: 2; border: 1px solid rgba(180, 83, 9, 0.35); background: rgba(255, 255, 255, 0.85); color: var(--amber-dim); border-radius: 8px; padding: 5px 11px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.ct-root.is-full .ct-close:hover { background: white; border-color: var(--amber-lt); }
+.ct-backdrop { position: fixed; inset: 0; z-index: 999; background: rgba(28, 25, 23, 0.88); }
+@media (max-width: 760px) { .ct-gate { display: none; } }
+
+/* ==========================================================================
+   Caption strip + controls
+   ========================================================================== */
+.demo-caption {
+  border-bottom: 1px solid var(--border);
+  background: white;
+  padding: 18px 22px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+/* The plain-language line for this step, and the largest type in the piece. */
+.demo-slide-title {
+  font-family: var(--font-serif);
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--tp);
+  margin: 0;
+}
+.demo-cap-col { flex: 0 0 auto; min-width: 0; }
+.demo-cap-label {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--tm);
+  margin-bottom: 3px;
+}
+.demo-cap-state {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  line-height: 1.35;
+  color: var(--tp);
+}
+.demo-cap-contrib { font-size: 12.5px; line-height: 1.55; color: var(--ts); }
+
+.demo-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 14px;
+}
+.demo-arrow {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--ts);
+  font-size: 15px;
+  box-shadow: var(--shadow);
+}
+.demo-arrow:disabled { opacity: 0.35; }
+.demo-count {
+  font-size: 12px;
+  color: var(--tm);
+  letter-spacing: 0.1em;
+  font-variant-numeric: tabular-nums;
+}
+.demo-title {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  flex: 1;
+}
+
+button { cursor: pointer; font-family: var(--font-sans); }
+
+@media (max-width: 760px) {
+  .demo-canvas { padding: 20px 14px; }
+  .demo-side-arrow { width: 32px; height: 32px; font-size: 15px; }
+  .demo-side-prev { left: 2px; }
+  .demo-side-next { right: 2px; }
+  .demo-link {
+    flex: 0 0 100%;
+    height: 26px;
+    margin: 4px 0;
+    background: none;
+  }
+  .demo-link::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 6px;
+    width: 1px;
+    background: var(--amber-lt);
+  }
+  .demo-link::after {
+    right: auto;
+    top: auto;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 6px solid var(--amber-lt);
+    border-bottom: none;
+  }
+  .demo-link-label {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--warm);
+  }
+  .dnode-narrow { flex: 1 1 100%; }
+  .demo-title { font-size: 16px; }
+  .demo-slide-title { font-size: 22px; }
+  .demo-caption { padding: 14px 16px 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .demo-car-slide.is-on { animation: none; }
+}
+</style>
+</head>
+<body>
+<div class="demo-wrap">
+
+  <!-- Scaffolding. Not part of the transplant. -->
+  <div class="demo-scaffold">
+    <h1>Composer Compass: one piece, start to finish</h1>
+    <p>A tutorial of the canvas in thirteen steps, one node at a time, following a piece that began as a bass fugue and became <em>Chaconne for Bass and Pedal Board</em>. The chain above every slide is the real graph, drawn from the ports the app actually accepts.</p>
+  </div>
+
+  <!-- ====================================================================
+       THE RAIL
+       ==================================================================== -->
+  <div class="ct-root" tabindex="-1">
+  <div class="demo-rail-field" id="demoField">
+    <button type="button" class="ct-close" data-ct-close aria-label="Close the tutorial">&#10005; Close</button>
+    <span class="demo-rail-tag" role="button" tabindex="0" aria-label="Go to the Aesthetic Blueprint slide"><span class="demo-rail-dot"></span> Aesthetic Blueprint · On</span>
+    <span class="demo-rail-hint">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>
+      Click through the process
+    </span>
+    <svg class="demo-rail-svg" id="demoRailSvg" aria-hidden="true"></svg>
+    <div class="demo-rail" id="demoRail">
+      <div class="demo-rail-group" data-slide="1" role="button" tabindex="0" aria-label="Go to the Intake slide">
+        <span class="demo-node-pill" data-node="intake">
+          <span class="demo-h demo-h-in"></span>Intake<span class="demo-h demo-h-out"></span>
+        </span>
+        <span class="demo-rail-edge"></span>
+        <span class="demo-node-pill" data-node="artifact">
+          <span class="demo-h demo-h-in"></span>Intake artifact<span class="demo-h demo-h-out"></span>
+        </span>
+      </div>
+      <span class="demo-rail-edge"></span>
+      <div class="demo-rail-group" data-slide="2" role="button" tabindex="0" aria-label="Go to the Constitution and Guide slide">
+        <span class="demo-node-pill" data-node="constitution">
+          <span class="demo-h demo-h-in"></span>Constitution<span class="demo-h demo-h-out"></span>
+        </span>
+        <span class="demo-rail-edge"></span>
+        <span class="demo-node-pill" data-node="guide">
+          <span class="demo-h demo-h-in"></span>Guide<span class="demo-h demo-h-out"></span>
+        </span>
+      </div>
+      <span class="demo-rail-edge"></span>
+      <div class="demo-rail-group" data-slide="3" role="button" tabindex="0" aria-label="Go to the Sketch and Draft slide">
+        <span class="demo-node-pill" data-node="sketch">
+          <span class="demo-h demo-h-in"></span>Sketch/Draft<span class="demo-h demo-h-out"></span>
+        </span>
+      </div>
+      <span class="demo-rail-edge"></span>
+      <div class="demo-rail-group" data-slide="4" role="button" tabindex="0" aria-label="Go to the Engraving slide">
+        <span class="demo-node-pill" data-node="engraving">
+          <span class="demo-h demo-h-in"></span>Engraving<span class="demo-h demo-h-out"></span>
+        </span>
+        <span class="demo-rail-edge"></span>
+        <span class="demo-node-pill" data-node="score">
+          <span class="demo-h demo-h-in"></span>Score<span class="demo-h demo-h-out"></span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       THE STAGE
+       ==================================================================== -->
+  <div class="demo-stage">
+    <!-- ================= CAPTION STRIP ============================== -->
+    <div class="demo-caption">
+      <h4 class="demo-slide-title" id="demoSlideTitle"></h4>
+      <div class="demo-cap-col">
+        <div class="demo-cap-label">State of the piece</div>
+        <div class="demo-cap-state" id="demoState"></div>
+      </div>
+    </div>
+
+    <div class="demo-canvas">
+    <button class="demo-side-arrow demo-side-prev" id="demoPrevSide" aria-label="Previous slide">&#8249;</button>
+    <button class="demo-side-arrow demo-side-next" id="demoNextSide" aria-label="Next slide">&#8250;</button>
+
+
+      <!-- ============ SLIDE 1 · AESTHETIC BLUEPRINT ==================== -->
+      <section class="demo-car-slide is-on" data-title="The Aesthetic Blueprint">
+        <div class="ct-tour">
+        <div class="ct-scene">
+        <div class="ct-veil"></div>
+        <div class="demo-row">
+          <div class="dnode" style="flex: 1 1 100%;">
+            <div class="dnode-head">
+              <span class="dnode-type">Aesthetic Blueprint</span>
+              <span class="dnode-meta">Standing context · applied to every session</span>
+            </div>
+            <div class="dnode-body">
+              <div class="demo-row" style="gap: 18px;">
+                <div class="ct-hl ct-col" data-hl="1" style="flex: 1 1 330px; min-width: min(270px, 100%);"><span class="ct-hl-n at-tr">1</span>
+                  <div class="dfield">
+                    <div class="dlabel">Voice</div>
+                    <div class="dbox">Emo and pop punk immediacy, the structural clarity of Beethoven, the harmonic language of bebop. Direct on the surface, layered underneath. Music that communicates without apology.</div>
+                  </div>
+                  <div class="dfield">
+                    <div class="dlabel">Influences</div>
+                    <div class="dbox">Beethoven Op. 132/iii, Brahms Op. 118 No. 2, Debussy, Copland Symphony No. 3</div>
+                  </div>
+                  <div class="dfield">
+                    <div class="dlabel">Tendencies</div>
+                    <div class="dbox dbox-lines">Stepwise counterpoint; every voice stands on its own
+Groove as a compositional spine, not surface texture
+Harmonic shifts by tritone
+Backbeats and syncopation (drummer first)</div>
+                  </div>
+                </div>
+                <div class="ct-hl ct-col" data-hl="2" style="flex: 1 1 330px; min-width: min(270px, 100%);"><span class="ct-hl-n at-tr">2</span>
+                  <div class="dfield">
+                    <div class="dlabel">Parameters</div>
+                    <div class="dbox dbox-lines">Strings over woodwinds and brass
+Antecedent and consequent phrasing
+Exploring: polyrhythm, odd tuplets, rhythm-first construction</div>
+                  </div>
+                  <div class="dfield">
+                    <div class="dlabel">Philosophy</div>
+                    <div class="dbox dbox-lines">Name a divergence from this document. Do not filter it out.
+Jazz harmony is current practice, not aspiration.
+Groove is a spine. Never reduce it to "prefers simple rhythms."</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div><!-- /.ct-scene -->
+        <div class="ct-calls">
+          <div class="ct-call" data-for="1" data-at="right"><span class="ct-call-n">1</span><div class="ct-call-body"><div class="ct-call-t">How you already write</div><ul class="demo-bul"><li>Voice, influences and tendencies: how you already write</li> <li>The assistant carries them into every session, on every piece</li></ul></div></div>
+          <div class="ct-call" data-for="2" data-at="left"><span class="ct-call-n">2</span><div class="ct-call-body"><div class="ct-call-t">What you favor, and the ground rules</div><ul class="demo-bul"><li>Parameters: what you favor and what you are exploring</li> <li>Philosophy: the ground rules</li> <li>Example: name a departure from your aesthetic instead of filtering it out</li></ul><button class="ct-call-next" data-demo-next>Next: Intake &#8250;</button></div></div>
+        </div>
+        </div><!-- /.ct-tour -->
+      </section>
+
+      <!-- ============ SLIDE 2 · INTAKE ================================= -->
+      <section class="demo-car-slide" data-title="Intake: the form and the conversation">
+        <div class="ct-tour">
+        <div class="ct-scene">
+        <div class="ct-veil"></div>
+        <div class="demo-row" style="gap: 16px;">
+
+          <div class="dnode dnode-narrow ct-hl" data-hl="3"><span class="ct-hl-n">3</span>
+            <span class="dport dport-in" style="top: 50%;"></span>
+            <div class="dnode-head">
+              <span class="dnode-type">Intake</span>
+              <span class="dnode-badge">Guide</span>
+            </div>
+            <div class="dnode-tabs">
+              <span class="dtab dtab-on">Dialogue</span>
+              <span class="dtab">Form<span class="dtab-dot"></span></span>
+              <span class="dtab dtab-import">&uarr; Import</span>
+            </div>
+            <div class="dnode-body">
+              <div class="dturn-agent">What is this piece for, and what makes it different from anything you have already written?</div>
+              <div class="dturn-user">Solo bass through a pedal board. Harmonizer and delay. I want a real fugue, not a bass part with effects on it.</div>
+              <div class="dturn-agent">Then the delay has to be doing contrapuntal work. Does a delayed repetition count as an entry, or as accompaniment?</div>
+              <div class="danswer">
+                <div class="danswer-area">Your answer&hellip;</div>
+                <button class="dbtn dbtn-primary">Send</button>
+              </div>
+              <div class="dbtn-row">
+                <button class="dbtn dbtn-primary">Build intake</button>
+                <button class="dbtn">Reset</button>
+              </div>
+            </div>
+            <span class="dport dport-out" style="top: 50%;"></span>
+          </div>
+
+          <div class="dnode dnode-narrow ct-hl" data-hl="4"><span class="ct-hl-n">4</span>
+            <span class="dport dport-in" style="top: 50%;"></span>
+            <div class="dnode-head">
+              <span class="dnode-type">Intake</span>
+              <span class="dnode-badge">Guide</span>
+            </div>
+            <div class="dnode-tabs">
+              <span class="dtab">Dialogue</span>
+              <span class="dtab dtab-on">Form<span class="dtab-dot"></span></span>
+              <span class="dtab dtab-import">&uarr; Import</span>
+            </div>
+            <div class="dnode-body">
+              <div class="dfield">
+                <div class="dlabel">Section 1 · Structural model</div>
+                <div class="dbox">Fugue. Five-module mensuration canon. No single module is a complete subject statement.</div>
+              </div>
+              <div class="dfield">
+                <div class="dlabel">Section 3 · Technical parameters</div>
+                <div class="dbox">Solo electric bass, Boss GT-1. Harmonizer before delay in the chain. E Dorian.</div>
+              </div>
+              <div class="dfield">
+                <div class="dlabel">Section 5 · Reference works</div>
+                <div class="dbox">Bach, Art of Fugue, Contrapunctus VII. Saariaho, Nymph&eacute;a.</div>
+              </div>
+              <div class="dfield">
+                <div class="dlabel">Section 6 · Open questions</div>
+                <div class="dbox">Can four time-shifted voices stay legible over a single bass?</div>
+              </div>
+              <div class="dbtn-row"><button class="dbtn dbtn-primary">Build intake</button></div>
+            </div>
+            <span class="dport dport-out" style="top: 50%;"></span>
+          </div>
+
+          <div class="demo-link"><span class="demo-link-label">compiles to</span></div>
+
+          <div class="dnode ct-hl" data-hl="5" style="flex: 0 1 250px; align-self: center;"><span class="ct-hl-n">5</span>
+            <span class="dport dport-in" style="top: 50%;"></span>
+            <div class="dnode-head">
+              <span class="dnode-type">Intake</span>
+              <span class="dnode-badge">Guide</span>
+              <span class="dnode-meta">May 30</span>
+            </div>
+            <div class="dnode-body">
+              <div class="dlabel">Analytical question</div>
+              <div class="dbox" style="border-color: var(--amber-lt); background: var(--amber-bg);">Can a delay line function as a fugal answer rather than an echo?</div>
+              <div class="dbtn-row">
+                <button class="dbtn">Show schema</button>
+                <button class="dbtn">Export .md</button>
+              </div>
+            </div>
+            <span class="dport dport-out" style="top: 50%;"></span>
+          </div>
+
+        </div>
+        </div><!-- /.ct-scene -->
+        <div class="ct-calls">
+          <div class="ct-call" data-for="3" data-at="right"><span class="ct-call-n">3</span><div class="ct-call-body"><div class="ct-call-t">Talk it through</div><ul class="demo-bul"><li>Dialogue: one question at a time about what the piece is for</li> <li>Each answer shapes the next question</li></ul></div></div>
+          <div class="ct-call" data-for="4" data-at="right"><span class="ct-call-n">4</span><div class="ct-call-body"><div class="ct-call-t">Or fill in the form</div><ul class="demo-bul"><li>Form: the same intake as labeled sections you fill in</li> <li>Import: bring in notes you already wrote</li></ul></div></div>
+          <div class="ct-call" data-for="5" data-at="left"><span class="ct-call-n">5</span><div class="ct-call-body"><div class="ct-call-t">One artifact to work from</div><ul class="demo-bul"><li>Build intake compiles either one into a single artifact</li> <li>Led by the analytical question every later step works from</li></ul><button class="ct-call-next" data-demo-next>Next: Constitution &#8250;</button></div></div>
+        </div>
+        </div><!-- /.ct-tour -->
+      </section>
+
+      <!-- ============ SLIDE 3 · CONSTITUTION TO GUIDE =================== -->
+      <section class="demo-car-slide" data-title="Constitution to Guide">
+        <div class="ct-tour">
+        <div class="ct-scene">
+        <div class="ct-veil"></div>
+        <div class="demo-row" style="gap: 0;">
+
+          <div class="dnode ct-hl" data-hl="6"><span class="ct-hl-n">6</span>
+            <span class="dport dport-in" style="top: 20%;"></span>
+            <span class="dport dport-in" style="top: 50%;"></span>
+            <span class="dport dport-in" style="top: 80%;"></span>
+            <div class="dnode-head">
+              <span class="dnode-type">Constitution</span>
+              <select class="dnode-select"><option>Drafting</option></select>
+            </div>
+            <div class="dnode-tabs">
+              <span class="dtab">Guide</span>
+              <span class="dtab dtab-on">Decisions<span class="dtab-dot"></span></span>
+              <span class="dtab">Dialogue</span>
+              <span class="dtab dtab-import">&uarr; Import</span>
+            </div>
+            <div class="dnode-body">
+              <div class="dstatus">
+                <span class="dstatus-left"><span class="dstatus-dot"></span> Constitution dialogue · updated May 30</span>
+              </div>
+              <div class="dversionbar">
+                <button class="dversion-btn">Save version</button>
+                <button class="dversion-btn dversion-btn-amber">Reconcile</button>
+                <span class="dhistory">&#9656; History (2)</span>
+              </div>
+              <div class="drule">
+                <span class="drule-n">1.</span> The subject is a mensuration canon. Five modules, one mega-subject; it exists complete only when all five sound together.
+              </div>
+              <div class="drule">
+                <span class="drule-n">2.</span> The subject must be sparse. A groove-forward line saturates the delay buffer and the iterations stop reading as separate entries.
+                <span class="drule-src">Overrides the composer's standing groove-as-spine tendency. Source: noAdaptive, Run01.</span>
+              </div>
+              <div class="drule">
+                <span class="drule-n">3.</span> Pitch collection is E Dorian. C sharp is the signature pitch, and the one pitch that behaves specially under the harmonizer.
+              </div>
+              <div class="drule">
+                <span class="drule-n">4.</span> Delay time and subject phrase length are a single coupled decision, not two parameters.
+              </div>
+            </div>
+            <span class="dport dport-out" style="top: 50%;"></span>
+          </div>
+
+          <div class="demo-link"><span class="demo-link-label">binds</span></div>
+
+          <div class="dnode ct-hl" data-hl="7"><span class="ct-hl-n">7</span>
+            <span class="dport dport-in" style="top: 50%;"></span>
+            <div class="dnode-head">
+              <span class="dnode-type">Guide</span>
+              <span class="dnode-meta">One-sheet</span>
+            </div>
+            <div class="dnode-body">
+              <div class="dbucket">
+                <div class="dlabel">General observations</div>
+                <ul>
+                  <li>A mensuration canon narrows the Art of Fugue reference to Contrapunctus VII, augmentation and diminution, rather than subject and answer at the fifth.</li>
+                </ul>
+              </div>
+              <div class="dbucket">
+                <div class="dlabel">Compositional observations and suggestions</div>
+                <ul>
+                  <li>Rules 2 and 4 both describe ostinato behaviour: the pedal returns material on a fixed cycle. <button class="dseemore">see more</button></li>
+                  <li>Every module phrase has to stand alone as a canon subject, which is a harder constraint than a fugue subject usually carries.</li>
+                </ul>
+              </div>
+              <div class="dbucket">
+                <div class="dlabel">Recommended paths</div>
+                <ul>
+                  <li>Sketch the four-voice stack over a sparse subject before committing to the canon.</li>
+                </ul>
+              </div>
+              <div class="dbtn-row">
+                <button class="dbtn">Full guide</button>
+                <button class="dbtn">Export .md</button>
+              </div>
+            </div>
+            <span class="dport dport-out" style="top: 50%;"></span>
+          </div>
+
+        </div>
+        </div><!-- /.ct-scene -->
+        <div class="ct-calls">
+          <div class="ct-call" data-for="6" data-at="right"><span class="ct-call-n">6</span><div class="ct-call-body"><div class="ct-call-t">The constitution</div><ul class="demo-bul"><li>Each decision becomes a numbered rule that cites its source</li> <li>Save version and History keep every earlier draft</li> <li>Reconcile resolves rules that contradict each other</li></ul></div></div>
+          <div class="ct-call" data-for="7" data-at="left"><span class="ct-call-n">7</span><div class="ct-call-body"><div class="ct-call-t">The Guide's one-sheet</div><ul class="demo-bul"><li>The Guide reads the constitution</li> <li>Returns a one-sheet: observations, suggestions, recommended paths</li> <li>The reasoning and full guide are a click away</li></ul><button class="ct-call-next" data-demo-next>Next: Sketch/Draft &#8250;</button></div></div>
+        </div>
+        </div><!-- /.ct-tour -->
+      </section>
+
+      <!-- ============ SLIDE 4 · SKETCHES TO FINAL DRAFT ================= -->
+      <section class="demo-car-slide" data-title="Sketches to final draft">
+        <div class="ct-tour">
+        <div class="ct-scene">
+        <div class="ct-veil"></div>
+        <div class="demo-row" style="gap: 0;">
+
+          <div class="dnode ct-hl" data-hl="8" style="flex: 0 1 250px;"><span class="ct-hl-n">8</span>
+            <span class="dport dport-in" style="top: 50%;"></span>
+            <div class="dnode-head">
+              <span class="dnode-type">Sketch</span>
+              <span class="dnode-meta">2 files</span>
+            </div>
+            <div class="dnode-body">
+              <div class="dfile">
+                <div class="dfile-head"><span>module-stack-v1.musicxml</span><span class="dfile-x">&#10005;</span></div>
+                <div class="dthumb">
+                  <svg viewBox="0 0 200 46" role="img" aria-label="Sketch: four stacked entries">
+                    <g stroke="#1C1917" stroke-width="0.6" opacity="0.5">
+                      <line x1="4" y1="8" x2="196" y2="8"/><line x1="4" y1="14" x2="196" y2="14"/>
+                      <line x1="4" y1="20" x2="196" y2="20"/><line x1="4" y1="26" x2="196" y2="26"/>
+                      <line x1="4" y1="32" x2="196" y2="32"/>
+                    </g>
+                    <g fill="#1C1917">
+                      <ellipse cx="24" cy="26" rx="3.2" ry="2.4"/><rect x="26.6" y="14" width="0.8" height="12"/>
+                      <ellipse cx="46" cy="20" rx="3.2" ry="2.4"/><rect x="48.6" y="8" width="0.8" height="12"/>
+                      <ellipse cx="72" cy="23" rx="3.2" ry="2.4"/><rect x="74.6" y="11" width="0.8" height="12"/>
+                      <ellipse cx="98" cy="17" rx="3.2" ry="2.4"/><rect x="100.6" y="5" width="0.8" height="12"/>
+                      <ellipse cx="124" cy="26" rx="3.2" ry="2.4"/><rect x="126.6" y="14" width="0.8" height="12"/>
+                      <ellipse cx="150" cy="20" rx="3.2" ry="2.4"/><rect x="152.6" y="8" width="0.8" height="12"/>
+                      <ellipse cx="176" cy="23" rx="3.2" ry="2.4"/><rect x="178.6" y="11" width="0.8" height="12"/>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+              <div class="dfile">
+                <div class="dfile-head"><span>delay-cycle-test.musicxml</span><span class="dfile-x">&#10005;</span></div>
+                <div class="dthumb">
+                  <svg viewBox="0 0 200 46" role="img" aria-label="Sketch: the stack collapsing into one repeating cycle">
+                    <g stroke="#1C1917" stroke-width="0.6" opacity="0.5">
+                      <line x1="4" y1="8" x2="196" y2="8"/><line x1="4" y1="14" x2="196" y2="14"/>
+                      <line x1="4" y1="20" x2="196" y2="20"/><line x1="4" y1="26" x2="196" y2="26"/>
+                      <line x1="4" y1="32" x2="196" y2="32"/>
+                    </g>
+                    <g fill="#1C1917">
+                      <ellipse cx="20" cy="29" rx="3.2" ry="2.4"/><rect x="22.6" y="17" width="0.8" height="12"/>
+                      <ellipse cx="38" cy="23" rx="3.2" ry="2.4"/><rect x="40.6" y="11" width="0.8" height="12"/>
+                      <ellipse cx="56" cy="29" rx="3.2" ry="2.4"/><rect x="58.6" y="17" width="0.8" height="12"/>
+                      <ellipse cx="80" cy="29" rx="3.2" ry="2.4"/><rect x="82.6" y="17" width="0.8" height="12"/>
+                      <ellipse cx="98" cy="23" rx="3.2" ry="2.4"/><rect x="100.6" y="11" width="0.8" height="12"/>
+                      <ellipse cx="116" cy="29" rx="3.2" ry="2.4"/><rect x="118.6" y="17" width="0.8" height="12"/>
+                      <ellipse cx="140" cy="29" rx="3.2" ry="2.4"/><rect x="142.6" y="17" width="0.8" height="12"/>
+                      <ellipse cx="158" cy="23" rx="3.2" ry="2.4"/><rect x="160.6" y="11" width="0.8" height="12"/>
+                      <ellipse cx="176" cy="29" rx="3.2" ry="2.4"/><rect x="178.6" y="17" width="0.8" height="12"/>
+                    </g>
+                    <g stroke="#B45309" stroke-width="0.8" fill="none" opacity="0.85">
+                      <path d="M14 38 h48" /><path d="M74 38 h48" /><path d="M134 38 h48" />
+                    </g>
+                    <g fill="#B45309" font-size="5" font-family="DM Sans, sans-serif">
+                      <text x="30" y="44">cycle</text><text x="90" y="44">cycle</text><text x="150" y="44">cycle</text>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+              <div class="dupload">
+                <span class="dupload-icon">&#9833;</span>
+                Add more sketches
+              </div>
+            </div>
+            <span class="dport dport-out" style="top: 50%;"></span>
+          </div>
+
+          <div style="flex: 0 0 56px;"></div>
+
+          <div class="dnode ct-hl" data-hl="9"><span class="ct-hl-n">9</span>
+            <span class="dport dport-in" style="top: 50%;"></span>
+            <div class="dnode-head">
+              <span class="dnode-type">Constitution</span>
+              <select class="dnode-select"><option>Revising</option></select>
+            </div>
+            <div class="dnode-tabs">
+              <span class="dtab">Guide</span>
+              <span class="dtab">Decisions<span class="dtab-dot"></span></span>
+              <span class="dtab dtab-on">Dialogue</span>
+              <span class="dtab dtab-import">&uarr; Import</span>
+            </div>
+            <div class="dnode-body">
+              <div class="dversionbar">
+                <button class="dversion-btn">Save version</button>
+                <button class="dversion-btn dversion-btn-amber">Reconcile</button>
+                <span class="dhistory">&#9662; History (3)</span>
+              </div>
+              <div class="dturn-agent">Sketch 2 shows the four-voice stack collapsing into one repeating cycle rather than four legible entries. Do you hear that as a failed canon, or as a ground?</div>
+              <div class="dturn-user">As a ground. It is the best thing in either sketch.</div>
+              <div class="ddecision">
+                <span class="ddecision-label">Proposed decision</span>
+                <p class="ddecision-text">The delay is a ground, not a set of fugal entries. Rule 1 is retired: the form becomes a chaconne, a repeating bass the pedal generates live with variations flowing over it. Rules 2, 3 and 4 survive unchanged, because a sparse subject locked to the delay cycle is what a ground needs.</p>
+                <button class="dbtn dbtn-primary">Commit</button>
+              </div>
+              <div class="drule">
+                <span class="drule-n">1.</span> <span class="drule-strike">The subject is a mensuration canon.</span>
+                <span class="drule-src">Superseded. The May 30 version is kept in History.</span>
+              </div>
+              <div class="drule drule-new">
+                <span class="drule-n">1.</span> The delay generates the ground. The form is a chaconne: variations flow over a repeating bass the performer creates live.
+              </div>
+            </div>
+            <span class="dport dport-out" style="top: 50%;"></span>
+          </div>
+
+          <div style="flex: 0 0 56px;"></div>
+
+          <div class="dpiece dpiece-wrap ct-hl" data-hl="10" style="flex: 0 1 210px;"><span class="ct-hl-n">10</span>
+            <div class="dpiece-crop">
+              <img class="dpiece-img dpiece-img-draft" src="assets/chaconne-p1.webp" alt="Draft page of Chaconne for Bass and Pedal Board">
+              <span class="dstamp">Draft</span>
+            </div>
+            <div class="dpiece-body">
+              <p class="dpiece-title" style="font-size: 16px;">Chaconne for Bass and Pedal Board</p>
+              <p class="dpiece-meta" style="margin: 0;">Full draft · one page · unengraved</p>
+            </div>
+          </div>
+
+        </div>
+        </div><!-- /.ct-scene -->
+        <div class="ct-calls">
+          <div class="ct-call" data-for="8" data-at="right"><span class="ct-call-n">8</span><div class="ct-call-body"><div class="ct-call-t">Upload your sketches</div><ul class="demo-bul"><li>Sketches upload as MusicXML</li> <li>They render as readable score on the canvas</li> <li>The assistant weighs them against the constitution</li></ul></div></div>
+          <div class="ct-call" data-for="9" data-at="above-start"><span class="ct-call-n">9</span><div class="ct-call-body"><div class="ct-call-t">A sketch can change the rules</div><ul class="demo-bul"><li>A sketch pushes against a rule: the assistant raises it in Dialogue</li> <li>It proposes a decision; nothing changes until you commit it</li> <li>The old rule stays in History</li></ul></div></div>
+          <div class="ct-call" data-for="10" data-at="left"><span class="ct-call-n">10</span><div class="ct-call-body"><div class="ct-call-t">The full draft</div><ul class="demo-bul"><li>Upload a full draft as XML for a complete analysis</li> <li>Read section by section, so even a long score fits</li></ul><button class="ct-call-next" data-demo-next>Next: Engraving &#8250;</button></div></div>
+        </div>
+        </div><!-- /.ct-tour -->
+      </section>
+
+      <!-- ============ SLIDE 5 · ENGRAVING ASSISTANT ==================== -->
+      <section class="demo-car-slide" data-title="The engraving assistant">
+        <div class="ct-tour">
+        <div class="ct-scene">
+        <div class="ct-veil"></div>
+        <div class="demo-row" style="gap: 0;">
+
+          <div class="dnode ct-hl" data-hl="11"><span class="ct-hl-n">11</span>
+            <span class="dport dport-in" style="top: 35%;"></span>
+            <span class="dport dport-in" style="top: 65%;"></span>
+            <div class="dnode-head">
+              <span class="dnode-type">Engraving</span>
+              <span class="dnode-badge">House style</span>
+            </div>
+            <div class="dnode-tabs">
+              <span class="dtab dtab-on">House style</span>
+              <span class="dtab">Checklist<span class="dtab-dot"></span></span>
+              <span class="dtab dtab-import">&uarr; Import</span>
+            </div>
+            <div class="dnode-body">
+              <div class="dlabel">Base it on a publisher, or on your own</div>
+              <div class="dchips">
+                <span class="dchip">Henle</span>
+                <span class="dchip dchip-on">B&auml;renreiter</span>
+                <span class="dchip">Universal</span>
+                <span class="dchip">Boosey</span>
+                <span class="dchip">Peters</span>
+                <span class="dchip">Faber</span>
+                <span class="dchip">Chester</span>
+                <span class="dchip">Yours</span>
+              </div>
+              <div class="dkv"><span class="dkv-k">Music font</span><span class="dkv-v">Leland</span></div>
+              <div class="dkv"><span class="dkv-k">Staff size</span><span class="dkv-v">6.8 mm</span></div>
+              <div class="dkv"><span class="dkv-k">Systems per page</span><span class="dkv-v">5</span></div>
+              <div class="dkv"><span class="dkv-k">Cautionary accidentals</span><span class="dkv-v">bracketed</span></div>
+              <div class="dkv"><span class="dkv-k">Courtesy clefs at breaks</span><span class="dkv-v">off</span></div>
+              <div class="dkv"><span class="dkv-k">Pedal notation</span><span class="dkv-v">boxed text, above staff</span></div>
+              <div class="dbox" style="margin-top: 11px; font-size: 12px; color: var(--ts);">The same profile drives the live preview on the canvas and the exported PDF, so the screen and the page read the same.</div>
+            </div>
+            <span class="dport dport-out" style="top: 50%;"></span>
+          </div>
+
+          <div class="demo-link"><span class="demo-link-label">returns</span></div>
+
+          <div class="dnode ct-hl" data-hl="12"><span class="ct-hl-n">12</span>
+            <span class="dport dport-in" style="top: 50%;"></span>
+            <div class="dnode-head">
+              <span class="dnode-type">Engraving</span>
+              <span class="dnode-badge">Checklist</span>
+              <span class="dnode-meta">4 of 10 clear</span>
+            </div>
+            <div class="dnode-tabs">
+              <span class="dtab">House style</span>
+              <span class="dtab dtab-on">Checklist<span class="dtab-dot"></span></span>
+              <span class="dtab dtab-import">&uarr; Import</span>
+            </div>
+            <div class="dnode-body dcheck">
+              <div class="dcheck-group">Layout</div>
+              <div class="dcheck-item"><span class="dcheck-mark dcheck-done">&#10003;</span><span class="dcheck-body dcheck-muted">Page layout and staff size match the profile.</span></div>
+              <div class="dcheck-item"><span class="dcheck-mark dcheck-done">&#10003;</span><span class="dcheck-body dcheck-muted">Title page, instrument name, performer credit.</span></div>
+              <div class="dcheck-item"><span class="dcheck-mark dcheck-flag"></span><span class="dcheck-body"><span class="dcheck-bar">b. 52</span>Page turn falls mid-cycle. Move the break to b. 56 so the ground stays intact across the turn.</span></div>
+
+              <div class="dcheck-group">Notation</div>
+              <div class="dcheck-item"><span class="dcheck-mark dcheck-done">&#10003;</span><span class="dcheck-body dcheck-muted">Clef, key and time conventions.</span></div>
+              <div class="dcheck-item"><span class="dcheck-mark dcheck-flag"></span><span class="dcheck-body"><span class="dcheck-bar">b. 41</span>Bracket the cautionary C sharp. It is the signature pitch and the harmonizer depends on it.</span></div>
+              <div class="dcheck-item"><span class="dcheck-mark dcheck-flag"></span><span class="dcheck-body"><span class="dcheck-bar">bb. 9, 33</span>Beaming groups across the delay cycle rather than the barline. Correct unless it is deliberate.</span></div>
+              <div class="dcheck-item"><span class="dcheck-mark dcheck-done">&#10003;</span><span class="dcheck-body dcheck-muted">Stem directions and slur or tie placement.</span></div>
+
+              <div class="dcheck-group">Marking</div>
+              <div class="dcheck-item"><span class="dcheck-mark dcheck-flag"></span><span class="dcheck-body"><span class="dcheck-bar">bb. 17 to 24</span>Hairpins collide with the ledger lines. Move them below the staff.</span></div>
+              <div class="dcheck-item"><span class="dcheck-mark dcheck-flag"></span><span class="dcheck-body">Rehearsal marks are absent. One per variation would match the chaconne's form.</span></div>
+              <div class="dcheck-item"><span class="dcheck-mark dcheck-flag"></span><span class="dcheck-body">Final proofread pass not yet run.</span></div>
+
+              <div class="dbtn-row">
+                <button class="dbtn dbtn-primary">Save checklist</button>
+                <button class="dbtn">Export .md</button>
+              </div>
+            </div>
+            <span class="dport dport-out" style="top: 50%;"></span>
+          </div>
+
+          <div style="flex: 0 0 56px;"></div>
+
+          <div class="dpiece ct-hl" data-hl="13" style="flex: 0 1 235px;"><span class="ct-hl-n">13</span>
+            <img class="dpiece-img" src="assets/chaconne-p1.webp" alt="Engraved first page of Chaconne for Bass and Pedal Board">
+            <div class="dpiece-body">
+              <p class="dpiece-title">Chaconne for Bass and Pedal Board</p>
+              <p class="dpiece-meta">2026 · for bass and delay pedal · with Jared Cavazos · 12&prime;39&Prime;</p>
+              <audio controls preload="none" src="assets/chaconne-excerpt.mp3"></audio>
+            </div>
+          </div>
+
+        </div>
+        </div><!-- /.ct-scene -->
+        <div class="ct-calls">
+          <div class="ct-call" data-for="11" data-at="right"><span class="ct-call-n">11</span><div class="ct-call-body"><div class="ct-call-t">Set the house style</div><ul class="demo-bul"><li>House style starts from a publisher's conventions or your own</li> <li>One profile drives both the canvas preview and the exported PDF</li></ul></div></div>
+          <div class="ct-call" data-for="12" data-at="right"><span class="ct-call-n">12</span><div class="ct-call-body"><div class="ct-call-t">The engraving checklist</div><ul class="demo-bul"><li>The assistant checks the draft against the house style</li> <li>Returns a checklist: each issue flagged by bar number, with its fix</li></ul></div></div>
+          <div class="ct-call" data-for="13" data-at="left"><span class="ct-call-n">13</span><div class="ct-call-body"><div class="ct-call-t">The finished piece</div><ul class="demo-bul"><li>The engraved score and its recording close the chain</li> <li>Kept on the canvas with every decision that shaped the piece</li></ul><button class="ct-call-next" data-ct-restart>Start over &#8634;</button></div></div>
+        </div>
+        </div><!-- /.ct-tour -->
+      </section>
+
+    </div><!-- /.demo-canvas -->
+
+  </div><!-- /.demo-stage -->
+
+  <div class="demo-controls">
+    <button class="demo-arrow" id="demoPrev" aria-label="Previous slide">&#8249;</button>
+    <div class="demo-title" id="demoTitle"></div>
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <span class="demo-count" id="demoCount"></span>
+      <button class="demo-arrow" id="demoNext" aria-label="Next slide">&#8250;</button>
+    </div>
+  </div>
+
+  <div class="ct-gate">
+    <button type="button" class="ct-gate-btn" data-ct-start>Start the tutorial &#8250;</button>
+    <span class="ct-gate-sub">13 steps &middot; opens full screen &middot; Esc to close</span>
+  </div>
+  </div><!-- /.ct-root -->
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // Per-slide caption text. Index matches the slide order in the DOM.
+  var CAPTIONS = [
+    {
+      state: 'This information allows your assistant to make better observations and suggestions.',
+      contrib: 'Teach your assistant about your musical aesthetics.'
+    },
+    {
+      state: 'Initial idea: Bass fugue: five modules, one mega-subject.',
+      contrib: 'Discuss the goals and identity of your piece.'
+    },
+    {
+      state: "Decide what the piece is and what it isn't (this can always be edited).",
+      contrib: "Settle on your piece's constitution and receive feedback."
+    },
+    {
+      state: 'Refined and pivoted to a chaconne after discussion with assistant.',
+      contrib: 'Share musical ideas, refine your constitution, upload full drafts via XML for full musical analysis.'
+    },
+    {
+      state: '',
+      contrib: 'Let your assistant be your engraving guide.'
+    }
+  ];
+
+  // Which rail edges are drawn by the time you reach each slide.
+  // Edge i sits between pill i and pill i+1.
+  var EDGES_BY_SLIDE = [0, 1, 3, 4, 6];
+
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.demo-car-slide'));
+  var pills  = Array.prototype.slice.call(document.querySelectorAll('.demo-node-pill'));
+  var groups = Array.prototype.slice.call(document.querySelectorAll('.demo-rail-group'));
+  var edges  = Array.prototype.slice.call(document.querySelectorAll('.demo-rail-edge'));
+  var field  = document.getElementById('demoField');
+  var svg    = document.getElementById('demoRailSvg');
+  var elState = document.getElementById('demoState');
+  var elSlideTitle = document.getElementById('demoSlideTitle');
+  var elTitle = document.getElementById('demoTitle');
+  var elCount = document.getElementById('demoCount');
+  // Two sets of arrows: the pair under the stage and the pair floating over
+  // the slide. They are the same control, so they are driven together.
+  var prevBtns = ['demoPrev', 'demoPrevSide'].map(function (id) {
+    return document.getElementById(id);
+  }).filter(Boolean);
+  var nextBtns = ['demoNext', 'demoNextSide'].map(function (id) {
+    return document.getElementById(id);
+  }).filter(Boolean);
+  // Each slide's last popup carries a "Next: <slide>" button.
+  var popNext = Array.prototype.slice.call(document.querySelectorAll('.ct-call [data-demo-next]'));
+
+  var current = 0;
+
+  // The back edge: Sketch feeds the Constitution's score-in port. It is the one
+  // arrow that runs right to left, and it is the whole reason the rail exists,
+  // so it is drawn as a real curve under the pills rather than faked with CSS.
+  function drawBackEdge(lit) {
+    var from = document.querySelector('[data-node="sketch"]');
+    var to   = document.querySelector('[data-node="constitution"]');
+    if (!field || !from || !to) return;
+
+    var r = field.getBoundingClientRect();
+    var f = from.getBoundingClientRect();
+    var t = to.getBoundingClientRect();
+
+    var x1 = f.left - r.left + f.width / 2;
+    var x2 = t.left - r.left + t.width / 2;
+    var y  = f.bottom - r.top + 1;
+    var drop = 14;
+
+    var color = lit ? '#B45309' : '#E2DDD6';
+    var path = 'M ' + x1 + ' ' + y +
+               ' C ' + x1 + ' ' + (y + drop) + ', ' + x2 + ' ' + (y + drop) + ', ' + x2 + ' ' + y;
+
+    var label = lit
+      ? '<text x="' + ((x1 + x2) / 2) + '" y="' + (y + drop - 1) + '" fill="#92400E" ' +
+        'font-size="9" font-family="DM Sans, sans-serif" letter-spacing="0.08em" ' +
+        'text-anchor="middle" dominant-baseline="middle" ' +
+        'stroke="#FAF7EE" stroke-width="4" paint-order="stroke">AMENDS</text>'
+      : '';
+
+    svg.innerHTML =
+      '<path d="' + path + '" fill="none" stroke="' + color + '" stroke-width="' + (lit ? 1.6 : 1) + '" ' +
+      'stroke-dasharray="' + '0' + '"/>' +
+      '<polygon points="' + x2 + ',' + (y + 1) + ' ' + (x2 - 3.5) + ',' + (y + 6) +
+      ' ' + (x2 + 3.5) + ',' + (y + 6) + '" fill="' + color + '"/>' + label;
+  }
+
+  // The rail scrolls sideways when it overflows (a phone, a narrow card), and
+  // show() scrolls the active group into view after drawing, so the curve is
+  // redrawn off the pills' new positions whenever the rail moves.
+  var railEl = document.getElementById("demoRail") || document.querySelector(".demo-rail");
+  var edgeRaf = 0;
+  if (railEl) railEl.addEventListener("scroll", function () {
+    if (edgeRaf) return;
+    edgeRaf = requestAnimationFrame(function () { edgeRaf = 0; drawBackEdge(current === 3); });
+  }, { passive: true });
+
+  function show(i) {
+    if (i < 0 || i >= slides.length) return;
+    current = i;
+
+    slides.forEach(function (s, n) { s.classList.toggle('is-on', n === i); });
+
+    // Slide 1 lights the Blueprint field itself, because the Blueprint is the
+    // field, not a node.
+    field.classList.toggle('is-lit', i === 0);
+
+    groups.forEach(function (g) {
+      var n = parseInt(g.getAttribute('data-slide'), 10);
+      g.classList.toggle('is-active', n === i);
+      g.querySelectorAll('.demo-node-pill').forEach(function (p) {
+        p.classList.remove('is-active', 'is-past', 'is-future');
+        if (n === i) p.classList.add('is-active');
+        else if (n < i) p.classList.add('is-past');
+        else p.classList.add('is-future');
+      });
+    });
+
+    var drawn = EDGES_BY_SLIDE[i];
+    edges.forEach(function (e, n) { e.classList.toggle('is-drawn', n < drawn); });
+
+    drawBackEdge(i === 3);
+
+    // Keep the active pill in view on a narrow screen.
+    var active = document.querySelector('.demo-rail-group.is-active');
+    if (active && active.scrollIntoView) {
+      active.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+    }
+
+    elState.textContent = CAPTIONS[i].state;
+    var stateCol = elState.closest('.demo-cap-col');
+    if (stateCol) stateCol.hidden = !CAPTIONS[i].state;
+    elSlideTitle.textContent = CAPTIONS[i].contrib;
+    elTitle.textContent = slides[i].getAttribute('data-title');
+    elCount.textContent = String(i + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+    prevBtns.forEach(function (el) { el.disabled = (i === 0); });
+    nextBtns.forEach(function (el) { el.disabled = (i === slides.length - 1); });
+  }
+
+  // The rail stays pinned while a tall slide scrolls under it. Changing slides
+  // from down there would land partway into the next slide, so this brings
+  // the new slide's top back up under the rail. Same as index.html.
+  function alignUnderPin(pin) {
+    var next = pin && pin.nextElementSibling;
+    if (!next) return;
+    var gap = parseFloat(getComputedStyle(pin).marginBottom) || 0;
+    var delta = next.getBoundingClientRect().top - (pin.getBoundingClientRect().bottom + gap);
+    if (delta < -1) window.scrollBy({ top: delta, behavior: 'smooth' });
+  }
+  function turn(i) {
+    if (i < 0 || i >= slides.length) return;
+    show(i);
+    alignUnderPin(field);
+  }
+
+  groups.forEach(function (g) {
+    function go() { turn(parseInt(g.getAttribute('data-slide'), 10)); }
+    g.addEventListener('click', go);
+    g.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); }
+    });
+  });
+
+  // Slide 1's control. The Blueprint has no rail group to click (it is the
+  // field, not a node), so without this the rail could never return to it.
+  var blueprintTag = document.querySelector('.demo-rail-tag');
+  if (blueprintTag) {
+    blueprintTag.addEventListener('click', function () { turn(0); });
+    blueprintTag.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); turn(0); }
+    });
+  }
+
+  prevBtns.forEach(function (el) {
+    el.addEventListener('click', function () { turn(current - 1); });
+  });
+  nextBtns.concat(popNext).forEach(function (el) {
+    el.addEventListener('click', function () { turn(current + 1); });
+  });
+
+  // The last popup's button goes back to step 1.
+  Array.prototype.slice.call(document.querySelectorAll('[data-ct-restart]')).forEach(function (b) {
+    b.addEventListener('click', function () { turn(0); });
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft')  turn(current - 1);
+    if (e.key === 'ArrowRight') turn(current + 1);
+  });
+
+  window.addEventListener('resize', function () { drawBackEdge(current === 3); });
+
+  // Fonts change the pill widths, so redraw once they land.
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { drawBackEdge(current === 3); });
+  }
+
+  show(0);
+})();
+</script>
+
+<script>
+(function () {
+  'use strict';
+
+  // The tutorial popups, same logic as career-desk-demo.html. Each .ct-call
+  // names its highlight (data-for, the highlight's data-hl) and a side
+  // (data-at: right, left, below, below-end, above). It sits 14px off that
+  // side, clamped inside the tour. Below 700px of tour width the popup pins
+  // to the bottom of the screen instead. A ResizeObserver re-places it
+  // whenever a slide shows (display: none to block is a resize), the window
+  // resizes, or fonts land.
+  var GAP = 14, LIST_BELOW = 700;
+
+  function place(tour) {
+    if (!tour.offsetWidth) return;
+    var list = tour.offsetWidth < LIST_BELOW;
+    tour.classList.toggle('is-list', list);
+    var c = tour.querySelector('.ct-call.is-cur');
+    if (!c) return;
+    c.classList.remove('is-float');
+    if (list) { c.style.left = c.style.top = ''; return; }
+    var t = tour.querySelector('[data-hl="' + c.getAttribute('data-for') + '"]');
+    if (!t) return;
+    // A popup above a node floats over the page instead (Max's call: the
+    // nodes never move), fixed to the window so the stage cannot clip it,
+    // and over the title card and the rail if it reaches them.
+    // above-start lines its left edge up with the node's, over the node's
+    // title; above centers it.
+    var at = c.getAttribute('data-at');
+    if (at === 'above' || at === 'above-start') {
+      c.classList.add('is-float');
+      var fr = t.getBoundingClientRect(), tb = tour.getBoundingClientRect();
+      var fw = c.offsetWidth, fh = c.offsetHeight;
+      var want = at === 'above-start' ? fr.left : fr.left + fr.width / 2 - fw / 2;
+      var fx = Math.max(tb.left, Math.min(want, tb.right - fw));
+      c.style.left = fx + 'px'; c.style.top = (fr.top - fh - GAP) + 'px';
+      return;
+    }
+    var box = tour.getBoundingClientRect(), r = t.getBoundingClientRect();
+    var tl = r.left - box.left, tt = r.top - box.top, tw = r.width, th = r.height;
+    var W = tour.offsetWidth, w = c.offsetWidth, h = c.offsetHeight, x, y;
+    switch (c.getAttribute('data-at')) {
+      case 'left':      x = tl - w - GAP; y = tt; break;
+      case 'below':     x = tl; y = tt + th + GAP; break;
+      case 'below-end': x = tl + tw - w; y = tt + th + GAP; break;
+      case 'above':     x = tl + tw / 2 - w / 2; y = tt - h - GAP; break;
+      default:          x = tl + tw + GAP; y = tt;
+    }
+    // A wide highlight leaves no room beside it: the popup then overlaps its
+    // far edge rather than leaving the tour.
+    x = Math.max(0, Math.min(x, W - w));
+    y = Math.max(0, y);
+    c.style.left = x + 'px'; c.style.top = y + 'px';
+  }
+
+  // One step at a time: only the current highlight and its popup show. Each
+  // popup but a slide's last gets Back and Next here; the last keeps its own
+  // button, which moves to the next slide (or starts over).
+  function setStep(tour, k) {
+    var calls = tour.querySelectorAll('.ct-call');
+    var moved = tour._step !== undefined && tour._step !== k;
+    tour._step = k;
+    Array.prototype.forEach.call(calls, function (c, n) {
+      c.classList.toggle('is-cur', n === k);
+      var t = tour.querySelector('[data-hl="' + c.getAttribute('data-for') + '"]');
+      if (t) t.classList.toggle('is-cur', n === k);
+    });
+    place(tour);
+    if (moved && tour.classList.contains('is-list')) {
+      var cur = tour.querySelector('.ct-hl.is-cur');
+      if (cur) cur.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    } else if (moved) {
+      // A popup above its node can open off the top of the screen: scroll
+      // it into view, inside the full-screen overlay when it is open.
+      var call = tour.querySelector('.ct-call.is-cur');
+      var full = document.querySelector('.ct-root.is-full');
+      if (call) {
+        var over = (full ? full.getBoundingClientRect().top : 0) + 12 - call.getBoundingClientRect().top;
+        if (over > 0) {
+          var sc = document.querySelector('.ct-root.is-full');
+          if (sc) sc.scrollBy({ top: -over, behavior: 'smooth' });
+          else window.scrollBy({ top: -over, behavior: 'smooth' });
+        }
+      }
+    }
+  }
+
+  // A slide's first step goes back to the previous slide, landing on its
+  // last step, so Back walks the whole tour in reverse. It turns the slide
+  // through the side arrow, the slide script's own control.
+  var PREV_NAMES = ['', 'Blueprint', 'Intake', 'Constitution', 'Sketch/Draft'];
+  var prevSide = document.getElementById('demoPrevSide');
+
+  var tours = Array.prototype.slice.call(document.querySelectorAll('.ct-tour'));
+  tours.forEach(function (tour, ti) {
+    var calls = tour.querySelectorAll('.ct-call');
+    Array.prototype.forEach.call(calls, function (c, n) {
+      var body = c.querySelector('.ct-call-body');
+      var own = body.querySelector('.ct-call-next');
+      var nav = document.createElement('div');
+      nav.className = 'ct-call-nav';
+      if (n === 0 && ti > 0 && prevSide) {
+        var prev = document.createElement('button');
+        prev.type = 'button'; prev.className = 'ct-call-back'; prev.innerHTML = '&#8249; Back: ' + PREV_NAMES[ti];
+        prev.addEventListener('click', function () {
+          tours[ti - 1]._startAt = 'last';
+          prevSide.click();
+        });
+        nav.appendChild(prev);
+      }
+      if (n > 0) {
+        var back = document.createElement('button');
+        back.type = 'button'; back.className = 'ct-call-back'; back.innerHTML = '&#8249; Back';
+        back.addEventListener('click', function () { setStep(tour, n - 1); });
+        nav.appendChild(back);
+      }
+      if (n < calls.length - 1) {
+        var next = document.createElement('button');
+        next.type = 'button'; next.className = 'ct-call-next'; next.innerHTML = 'Next &#8250;';
+        next.addEventListener('click', function () { setStep(tour, n + 1); });
+        nav.appendChild(next);
+      } else if (own) {
+        nav.appendChild(own);
+      }
+      if (nav.children.length) body.appendChild(nav);
+    });
+    setStep(tour, 0);
+  });
+
+  function placeAll() { tours.forEach(place); }
+  // A slide that comes back into view starts again at its first step, or at
+  // its last when a Back button brought it back.
+  if (window.ResizeObserver) {
+    var ro = new ResizeObserver(function (entries) {
+      entries.forEach(function (e) {
+        var t = e.target, w = t.offsetWidth;
+        if (w && !t._shown) {
+          setStep(t, t._startAt === 'last' ? t.querySelectorAll('.ct-call').length - 1 : 0);
+          t._startAt = null;
+        } else place(t);
+        t._shown = !!w;
+      });
+    });
+    tours.forEach(function (t) { ro.observe(t); });
+  }
+  window.addEventListener('resize', placeAll);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeAll);
+  placeAll();
+
+  // A floating popup is fixed to the window, so it follows every scroll,
+  // the page's and the full-screen overlay's.
+  var floatRaf = 0;
+  function onScroll() {
+    if (floatRaf || !document.querySelector('.ct-call.is-cur.is-float')) return;
+    floatRaf = requestAnimationFrame(function () { floatRaf = 0; placeAll(); });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  document.querySelector('.ct-root').addEventListener('scroll', onScroll, { passive: true });
+
+  // Full screen: the gate's button opens the tutorial over the page at step
+  // 1; Close, Esc or a click on the backdrop puts it back and restores the
+  // page's scroll, so the reader lands where they left. Same as the Career
+  // Desk tab. Slide 1 is reached through the Blueprint tag, its own control.
+  var root = document.querySelector('.ct-root');
+  var backdrop = null, savedY = 0;
+  function openFull() {
+    savedY = window.scrollY;
+    backdrop = document.createElement('div');
+    backdrop.className = 'ct-backdrop';
+    backdrop.addEventListener('click', closeFull);
+    document.body.appendChild(backdrop);
+    document.documentElement.style.overflow = 'hidden';
+    root.classList.add('is-full');
+    root.scrollTop = 0;
+    var tag = root.querySelector('.demo-rail-tag');
+    if (tag) tag.click();
+    tours.forEach(function (t) { setStep(t, 0); });
+    root.focus({ preventScroll: true });
+    window.dispatchEvent(new Event('resize'));
+  }
+  function closeFull() {
+    if (!root.classList.contains('is-full')) return;
+    root.classList.remove('is-full');
+    if (backdrop) { backdrop.remove(); backdrop = null; }
+    document.documentElement.style.overflow = '';
+    window.scrollTo(0, savedY);
+    window.dispatchEvent(new Event('resize'));
+  }
+  Array.prototype.slice.call(root.querySelectorAll('[data-ct-start]')).forEach(function (b) { b.addEventListener('click', openFull); });
+  Array.prototype.slice.call(root.querySelectorAll('[data-ct-close]')).forEach(function (b) { b.addEventListener('click', closeFull); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeFull(); });
+})();
+</script>
+</body>
+</html>
