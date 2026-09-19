@@ -217,6 +217,11 @@ hover notes".
 
 ### The Compass demo carousel (built 2026-09-09, transplanted 2026-09-10)
 
+**A guided tour since 2026-09-19.** The page's Compass panel is now `demo/compass-tutorial-demo.html`'s tutorial
+(prefix `cc-`, its own step script scoped to `#compassDemo`); see "Session of 2026-09-19, later". The screens,
+rail and back edge below are unchanged; the pins and hover notes are gone from the page. `compass-demo.html`
+stays the source of the screens.
+
 **It is now the Compass panel.** The annotated-screenshot carousel it replaced is gone from
 `index.html`; `images/Hub_Compass_Canvas.png` is unreferenced as a result, and
 `images/Hub_Chaconne_Score.webp` is still used (the carousel reuses it for the draft and the
@@ -338,6 +343,9 @@ The heading "A visualized creative process, not a chat window" sits above it; th
 three benefit cards sit below it (moved there 2026-09-13).
 
 ### The CRM and Agency carousels (built and transplanted 2026-09-10)
+
+**Both are guided tours now:** Agency since 2026-09-18 (see "The Virtual Agency tour"), the CRM since
+2026-09-19 (`demo/crm-tour-demo.html` on `initTour(root, 'hc')`). The screens below are unchanged.
 
 Same treatment as Compass, same workflow: built standalone in `demo/crm-demo.html` and
 `demo/agency-demo.html`, settled with Max slide by slide, then transplanted over the annotated
@@ -472,7 +480,7 @@ At Max's ask, on all eight carousels. Page only; the `demo/` standalones are unc
   errors, em dash count unchanged. Test note: the page's smooth scrolling moves targets under a
   parked cursor, so hover checks need `scroll-behavior: auto` and a wait after a slide jump.
 
-### Compass pins and notes (2026-09-13, pushed)
+### Compass pins and notes (2026-09-13, pushed; superseded by the tutorial 2026-09-19)
 
 At Max's ask, the Compass carousel gets numbered blurbs like the other carousels, in both copies.
 On the page they are hover and tap popovers; the standalone shows them as a notes row.
@@ -511,7 +519,7 @@ below, the standalone and these docs followed in their own commit.
   popovers still work through the shared function, and the standalone shows its notes row with
   unclipped pins. Screenshots checked by eye.
 
-### CRM and Agency pins (2026-09-13, pushed)
+### CRM and Agency pins (2026-09-13, pushed; superseded by the tours 2026-09-18 and 2026-09-19)
 
 At Max's ask, the rest of the Composer Hub gets numbered blurbs too, in `index.html`,
 `demo/crm-demo.html` and `demo/agency-demo.html`. The page needed no script change: the
@@ -821,7 +829,19 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
-### Session of 2026-09-18: the Composer CRM tour (standalone, not transplanted)
+**Where things stand (2026-09-19, end of session):** all nine slideshows on `index.html` are guided tours
+(Compass, Composer CRM, Agency, TeacherAID, Sprout CRM, Grant, Social, Campaign, Career Desk), each with a
+full screen Start gate, Next and Back on every step but step 1, and an inline mode on phones. Live as of `aa67d1e`.
+
+**Next session (Max's call):** review the popup titles on every tour. All of them are Claude's drafts.
+
+**Other open items:**
+- TeacherAID step 6 at 960: its popup covers its highlight.
+- At 390 the page scrolls sideways to 415px: the fixed top nav is 415px wide.
+- `demo/crm-tour-demo.html` lacks the page's 960 gutter; `demo/agency-demo.html` is still the pinned carousel.
+- `teaching.html` (branch `teaching-page`): decide whether it gets the tour treatment before it merges.
+
+### Session of 2026-09-18: the Composer CRM tour (standalone; transplanted 2026-09-19)
 
 Max's ask: the Composer CRM slideshow as a one-at-a-time tutorial like Career Desk, all information kept,
 then a full-screen pop out like Career Desk's. Built as `demo/crm-tour-demo.html`; `demo/crm-demo.html` and
@@ -843,9 +863,8 @@ then a full-screen pop out like Career Desk's. Built as `demo/crm-tour-demo.html
   the strip, Start over, all three closes restore the scroll, no sideways scroll, zero script errors, zero
   em dashes. Screenshots checked by eye.
 
-**Open:** Back across slides (the page's shared `initTour()` has it; this file's script predates it), a
-check at 960, Max's look and the popup titles, then transplant. Tracked as item 3 of
-`docs/slideshow-tutorial-checklist.md`.
+~~**Open:** Back across slides, a check at 960, then transplant.~~ All done 2026-09-19; see the sessions
+below. Max's look at the popup titles is still open.
 
 ### Session of 2026-09-19, later: Compass and Composer CRM tours live (pushed)
 
@@ -915,8 +934,6 @@ is the tracker for the tour rollout**; start there.
 - Max reviews the Sprout CRM tour and its 20 popup titles.
 - At 960 wide, already live: TeacherAID step 6's popup covers its highlight. ~~Career Desk step 1's popup
   runs 3px past the overlay.~~ Fixed 2026-09-19.
-- Still untracked from another session: `demo/compass-tutorial-demo.html` (done, not transplanted).
-  `demo/crm-tour-demo.html` is committed now; see the Composer CRM tour session above.
 
 ~~**Next:** build Grant Finder, Social Planner and Campaign Tracker as standalone tours.~~ Done and live
 2026-09-19; see the session above.
@@ -944,7 +961,7 @@ screen pop out. Page only; details under "The Virtual Agency tour".
 - Max reviews the Agency tour and its 12 popup titles and bullets.
 - `demo/agency-demo.html` is still the pinned carousel; the tour exists on the page only.
 - ~~Untracked from other sessions~~ The Sprout CRM tour and the checklist are committed since `7607b3b`; see the
-  session above. The Compass and Hub CRM carousels are not tours on the page yet.
+  session above. The Compass and Hub CRM carousels became tours on 2026-09-19.
 
 ### Session of 2026-09-18, latest: TeacherAID as a guided tour (pushed)
 
