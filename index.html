@@ -3888,6 +3888,12 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
 .dasha-demo .ta-close { display: none; }
 .dasha-demo.is-full { position: fixed; inset: 16px; z-index: 1000; max-width: 1440px; margin: 0 auto; padding: 18px; background: var(--cream); border-radius: 14px; overflow: auto; overscroll-behavior: contain; --demo-pin-top: 0px; box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5); }
 .dasha-demo.is-full .ta-gate { display: none; }
+/* Below about 1200px of window, the centered Hours dialog leaves no room
+   beside it for the step popup, so the frame gives up a right gutter for it,
+   as the Composer CRM tour does. Only the slide with a dialog open needs it. */
+@media (max-width: 1199px) {
+  .dasha-demo.is-full .ta-tour:not(.is-list) > .ds-frame:has(> .ds-overlay) { margin-right: 270px; }
+}
 .dasha-demo.is-full .ta-close { display: inline-flex; margin-left: auto; align-self: center; border: 1px solid rgba(250, 248, 245, 0.35); background: none; color: var(--cream); border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 600; white-space: nowrap; }
 .dasha-demo.is-full .ta-close:hover { background: rgba(250, 248, 245, 0.12); }
 .ta-backdrop { position: fixed; inset: 0; z-index: 999; background: rgba(8, 13, 8, 0.9); }

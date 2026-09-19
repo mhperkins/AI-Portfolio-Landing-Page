@@ -835,10 +835,14 @@ full screen Start gate, Next and Back on every step but step 1, and an inline mo
 
 **Next session (Max's call):** review the popup titles on every tour. All of them are Claude's drafts.
 
+**960 fixes (2026-09-19, last):** TeacherAID step 6 and the CRM standalone now use the 270px right
+gutter the page's Composer CRM tour uses (full screen, window under 1200px, only on slides with an app
+dialog open). Verified headless: TeacherAID 18 of 18 steps clear at 960, 1100 and 1280; CRM standalone
+no overlaps at 960 and 1280 (15 without the fix); zero script errors.
+
 **Other open items:**
-- TeacherAID step 6 at 960: its popup covers its highlight.
 - At 390 the page scrolls sideways to 415px: the fixed top nav is 415px wide.
-- `demo/crm-tour-demo.html` lacks the page's 960 gutter; `demo/agency-demo.html` is still the pinned carousel.
+- `demo/agency-demo.html` is still the pinned carousel.
 - `teaching.html` (branch `teaching-page`): decide whether it gets the tour treatment before it merges.
 
 ### Session of 2026-09-18: the Composer CRM tour (standalone; transplanted 2026-09-19)

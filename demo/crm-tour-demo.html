@@ -645,6 +645,12 @@ button { cursor: pointer; font-family: var(--font-sans); }
 .crm-tour .tour-close { display: none; }
 .crm-tour.is-full { position: fixed; inset: 16px; z-index: 1000; max-width: 1440px; margin: 0 auto; padding: 18px; background: var(--cream); border-radius: 14px; overflow: auto; overscroll-behavior: contain; --demo-pin-top: 0px; box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5); }
 .crm-tour.is-full .tour-gate { display: none; }
+/* Below about 1200px of window, a centered app popup leaves no room beside it
+   for the step popup, so the frame gives up a right gutter for it, as the
+   page does. Only slides with an app popup open need it. */
+@media (max-width: 1199px) {
+  .crm-tour.is-full .tour:not(.is-list) > .cframe:has(> .coverlay) { margin-left: 0; margin-right: 270px; }
+}
 .crm-tour.is-full .tour-close { display: inline-flex; margin-left: auto; align-self: center; border: 1px solid rgba(250, 248, 245, 0.35); background: none; color: var(--cream); border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 600; white-space: nowrap; }
 .crm-tour.is-full .tour-close:hover { background: rgba(250, 248, 245, 0.12); }
 .tour-backdrop { position: fixed; inset: 0; z-index: 999; background: rgba(28, 25, 23, 0.9); }
