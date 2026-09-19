@@ -813,6 +813,32 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
+### Session of 2026-09-18: the Composer CRM tour (standalone, not transplanted)
+
+Max's ask: the Composer CRM slideshow as a one-at-a-time tutorial like Career Desk, all information kept,
+then a full-screen pop out like Career Desk's. Built as `demo/crm-tour-demo.html`; `demo/crm-demo.html` and
+`index.html` are untouched.
+
+- **Made from `crm-demo.html` by script:** 7 slides, same screens and captions, the 18 notes word for word
+  as popups numbered across the tool, plus a short title per popup (Claude's draft; Max has not called
+  them). A pin on a popup's header (Outreach, Booking portal, Checklist, People, Communications) now
+  highlights the whole popup, since that note was about the popup as a whole. Priya's inline RSVP pin
+  highlights her whole row.
+- **Veil placement:** a slide with a popup open has the veil inside the popup (the overlay already dims the
+  page behind); the Newsletter slide has it on the frame. The frame, popup and popup body no longer clip,
+  so outlines and number badges stay whole.
+- **Full screen:** same as Career Desk. A "Start the tour" gate, `.crm-tour.is-full`, Close in the strip,
+  Esc or the backdrop, scroll restored, phones skip the gate. While open, `alignUnderPin()` and the step
+  scroll move the overlay, not the window.
+- **Verified headless (1280, 1600, 390 with touch): 344 of 344.** Steps 1 to 18 in order, one highlight
+  and one popup each, popups inside the window and clear of their highlights, highlights in view under
+  the strip, Start over, all three closes restore the scroll, no sideways scroll, zero script errors, zero
+  em dashes. Screenshots checked by eye.
+
+**Open:** Back across slides (the page's shared `initTour()` has it; this file's script predates it), a
+check at 960, Max's look and the popup titles, then transplant. Tracked as item 3 of
+`docs/slideshow-tutorial-checklist.md`.
+
 ### Session of 2026-09-18, final: the Sprout CRM tour (pushed)
 
 Max's ask: work through `docs/slideshow-tutorial-checklist.md` one slideshow at a time. **That checklist
@@ -833,8 +859,8 @@ is the tracker for the tour rollout**; start there.
 - At 960 wide, already live: TeacherAID step 6's popup covers its highlight; Career Desk step 1's popup
   runs 3px past the overlay.
 - `demo/career-desk-demo.html` still lacks Back across slides (the page has it).
-- Still untracked from other sessions: `demo/compass-tutorial-demo.html` (done, not transplanted) and
-  `demo/crm-tour-demo.html` (in progress).
+- Still untracked from another session: `demo/compass-tutorial-demo.html` (done, not transplanted).
+  `demo/crm-tour-demo.html` is committed now; see the Composer CRM tour session above.
 
 **Next:** build Grant Finder, Social Planner and Campaign Tracker as standalone tours
 (`demo/<name>-tour-demo.html`, prefixes free to pick), then transplant the three together. Grant's

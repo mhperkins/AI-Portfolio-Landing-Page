@@ -31,7 +31,7 @@ Career Desk tab (commits `c094867` and `aebf85b`).
 |---|---|---|---|---|---|---|
 | 1 | Career Desk | Career Desk | `demo/career-desk-demo.html` | 12 | Yes | **Yes** (`aebf85b`) |
 | 2 | Composer Compass | Composer Hub | `demo/compass-tutorial-demo.html` | 13 | Yes | No |
-| 3 | Composer CRM | Composer Hub | `demo/crm-tour-demo.html` (another session, in progress) | 18 | Yes | No |
+| 3 | Composer CRM | Composer Hub | `demo/crm-tour-demo.html` | 18 | Yes | No |
 | 4 | Virtual Agency | Composer Hub | none; built straight on the page (source `demo/agency-demo.html`) | 12 | Yes | Committed (`5c40aed`) |
 | 5 | TeacherAID | TeacherAID | none; built straight on the page (source `demo/dasha-demo.html`) | 18 | Yes | Committed (`5c40aed`) |
 | 6 | Sprout CRM | Sprout Suite | `demo/sprout-crm-tour-demo.html` | 20 | Yes | Committed, not pushed |
@@ -50,8 +50,11 @@ Step counts for rows 4 to 9 are the notes in each standalone; each note becomes 
       popup covers its highlight
 - [ ] **2. Composer Compass:** standalone done and verified (306 checks). Left: transplant into `index.html`
       over the current Compass panel, then verify on the page
-- [ ] **3. Composer CRM:** standalone built by a parallel session. Left: that session finishes it, then
-      transplant
+- [ ] **3. Composer CRM:** standalone built 2026-09-18, full screen included, and verified at 1280, 1600 and
+      390 with touch (344 checks: all 18 steps in order, popups clear of their highlights, Close, Esc and
+      the backdrop restore the scroll, zero script errors). Prefix `tour-`, root `.crm-tour`. Popup titles
+      are Claude's drafts. A pin on a popup's header now highlights the whole popup. Left: Back across
+      slides (its script predates it), a check at 960, Max's look, then transplant as `initTour()`
 - [ ] **4. Virtual Agency:** on `index.html` through the shared `initTour(root, 'ag')`, built by a parallel
       session and not committed yet. Left: commit it, and add Back across slides to `initTour()` (item 1)
 - [ ] **5. TeacherAID:** on `index.html` through `initTour(root, 'ta')`, verified by that session, not committed
