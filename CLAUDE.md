@@ -815,6 +815,14 @@ screen pop out. Page only; details under "The Virtual Agency tour".
   popup over its highlight at 1280, Start over returns to step 1, Esc closes and restores the page,
   Career Desk still opens full screen, zero script errors. Screenshots checked by eye. On a phone a
   tall highlight (steps 5 and 12) runs under the pinned popup, as on Career Desk.
+- Pushed as `5c40aed`, together with the TeacherAID tour below.
+
+**Open:**
+- Max reviews the Agency tour and its 12 popup titles and bullets.
+- `demo/agency-demo.html` is still the pinned carousel; the tour exists on the page only.
+- Untracked, from other sessions, not committed: `demo/compass-tutorial-demo.html`,
+  `demo/crm-tour-demo.html`, `demo/sprout-crm-tour-demo.html` and `docs/slideshow-tutorial-checklist.md`.
+  The Compass, Hub CRM and Sprout CRM carousels are not tours on the page yet.
 
 ### Session of 2026-09-18, latest: TeacherAID as a guided tour (pushed)
 
