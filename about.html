@@ -1,6 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Owner opt-out: ?me=1 stops GA in this browser, ?me=0 turns it back on -->
+  <script>
+    (function () {
+      var key = 'ga-optout', id = 'G-ENBE32TRFZ';
+      try {
+        var url = new URL(location.href), me = url.searchParams.get('me');
+        if (me === '1') localStorage.setItem(key, '1');
+        if (me === '0') localStorage.removeItem(key);
+        if (me !== null) {
+          url.searchParams.delete('me');
+          history.replaceState(null, '', url.pathname + url.search + url.hash);
+        }
+        if (localStorage.getItem(key) === '1') window['ga-disable-' + id] = true;
+      } catch (e) {}
+    })();
+  </script>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-ENBE32TRFZ"></script>
   <script>

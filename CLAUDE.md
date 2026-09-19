@@ -1689,6 +1689,13 @@ session shipped the GA and About work below at the same time.
 twice), the `demo/` standalones (unlinked iteration sources) and `Curriculum - UW Madison.html`. A
 new public page needs the same snippet.
 
+**Owner opt-out (2026-09-19).** A small script just before the Google tag on all three pages:
+`?me=1` saves `ga-optout` in localStorage and `?me=0` clears it; while it is set, the page sets
+`window['ga-disable-G-ENBE32TRFZ']`, so GA sends nothing from that browser. The script strips `me`
+from the URL. It works per browser: Max sets it once on each device. Data before Sept 19 still
+includes his visits (a returning New York desktop Chrome user on every day, Sept 14 to 19). A new
+public page needs this snippet too, above its Google tag.
+
 **Click tracking (added 2026-09-14, Max: "the only thing that matters").** GA only counts page
 views, and the portfolio is one page, so `index.html` sends events through `trackEvent()` in the
 main script:
