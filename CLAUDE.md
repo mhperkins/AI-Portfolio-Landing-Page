@@ -840,8 +840,18 @@ gutter the page's Composer CRM tour uses (full screen, window under 1200px, only
 dialog open). Verified headless: TeacherAID 18 of 18 steps clear at 960, 1100 and 1280; CRM standalone
 no overlaps at 960 and 1280 (15 without the fix); zero script errors.
 
+**Full-site check (2026-09-19, last), headless at 1280, 960 and 390:** all nine tours walk every step
+forward (one highlight, one popup, in order), Back walks to step 1, Start opens full screen, Esc closes
+and restores the scroll, no popup covers its highlight on desktop; index, about and resume load with zero
+script errors, no failed requests, no broken images, no sideways scroll (the 390 nav overflow no longer
+reproduces: nav 390px at 390); every local link resolves; all 16 old hashes and `composer-hub.html`
+land right; `#contact` lands clear. Fixed in the same pass on `resume.html`: five job titles used em
+dashes (now middots) and the "See the Composer Hub" button opened in the same tab.
+
 **Other open items:**
-- At 390 the page scrolls sideways to 415px: the fixed top nav is 415px wide.
+- `Academic CV - UW Madison.docx` (the CV page's download) still has 7 em dashes. It is the submitted
+  CV's source, so it waits for Max's call.
+- At 1280x900 the Social tour's Start button sits just below the fold (954px); the reader scrolls to it.
 - `demo/agency-demo.html` is still the pinned carousel.
 - `teaching.html` (branch `teaching-page`): decide whether it gets the tour treatment before it merges.
 
