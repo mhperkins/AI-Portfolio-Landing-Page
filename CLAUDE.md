@@ -865,8 +865,12 @@ now a guided tour.** Tracker: `docs/slideshow-tutorial-checklist.md`, items 2 an
 - **Found, not fixed:** at 390 the page scrolls sideways to 415px because the fixed top nav is 415px wide. Same
   on the previous commit.
 
-**Open:** Max reviews both tours and their 31 popup titles. The CRM standalone still lacks Back across slides and
-the 960 gutter; the page has both. TeacherAID step 6 at 960 is still open.
+**Open:** Max reviews the popup titles on every tour next session (Max's call). The CRM standalone lacks the 960
+gutter; the page has it. TeacherAID step 6 at 960 is still open.
+
+**Back on every step (2026-09-19, Max's ask):** `demo/crm-tour-demo.html` and `demo/career-desk-demo.html` gained
+Back across slides, the last two tours without it. Verified headless: both standalones and all nine page tours walk
+every step forward, then Back from the last step to step 1 in order; only step 1 has no Back; zero script errors.
 
 ### Session of 2026-09-19: Grant, Social and Campaign tours (pushed)
 
@@ -888,7 +892,6 @@ everything, and a screen change now means editing a `-tour-demo.html` and the pa
 **Open:**
 - Max reviews the three tours and their 42 popup titles.
 - TeacherAID step 6 at 960: its popup covers its highlight (already live).
-- `demo/career-desk-demo.html` still lacks Back across slides (the page has it).
 
 ~~**Next:** transplant the last two carousels as tours: Composer Compass and Composer CRM.~~ Done and live
 2026-09-19; see the session above.
@@ -912,7 +915,6 @@ is the tracker for the tour rollout**; start there.
 - Max reviews the Sprout CRM tour and its 20 popup titles.
 - At 960 wide, already live: TeacherAID step 6's popup covers its highlight. ~~Career Desk step 1's popup
   runs 3px past the overlay.~~ Fixed 2026-09-19.
-- `demo/career-desk-demo.html` still lacks Back across slides (the page has it).
 - Still untracked from another session: `demo/compass-tutorial-demo.html` (done, not transplanted).
   `demo/crm-tour-demo.html` is committed now; see the Composer CRM tour session above.
 

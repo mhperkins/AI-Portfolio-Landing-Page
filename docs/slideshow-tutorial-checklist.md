@@ -44,8 +44,8 @@ Step counts for rows 4 to 9 are the notes in each standalone; each note becomes 
 ## Per slideshow
 
 - [ ] **1. Career Desk:** Back across slides is now in the shared `initTour()` on the page (2026-09-18, with
-      the Sprout CRM transplant), so Career Desk, Agency, TeacherAID and Sprout CRM all have it. Left: the
-      standalone `demo/career-desk-demo.html` still lacks it. Also found at 960 wide, already on the
+      the Sprout CRM transplant), so Career Desk, Agency, TeacherAID and Sprout CRM all have it. The
+      standalone `demo/career-desk-demo.html` has it too since 2026-09-19. Also found at 960 wide, already on the
       live site: ~~Career Desk step 1's popup runs 3px past the overlay's bottom~~ (fixed 2026-09-19), and TeacherAID step 6's
       popup covers its highlight
 - [x] **2. Composer Compass** (transplanted 2026-09-19): over the Compass panel, prefix renamed `ct-` to `cc-`
@@ -54,7 +54,7 @@ Step counts for rows 4 to 9 are the notes in each standalone; each note becomes 
       Compass script gained the popups' Next buttons and Start over. In full screen the title card scrolls
       away; only the rail pins. Left: Max's look and the 13 popup titles
 - [x] **3. Composer CRM** (transplanted 2026-09-19): over the Hub CRM panel on the shared `initTour(root, 'hc')`,
-      so it gains Back across slides there (the standalone still lacks it). **960 fix, page only:** below a
+      so it gains Back across slides there (the standalone has it too since 2026-09-19). **960 fix, page only:** below a
       1200px window, full screen slides with an app popup open give the frame a 270px right gutter, or every
       step popup covered its highlight. Title card scrolls away in full screen. Left: Max's look and the 18
       popup titles

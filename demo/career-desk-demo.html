@@ -1012,14 +1012,31 @@ For six years I have taught theory&hellip;</div>
       if (cur) cur.scrollIntoView({ block: 'center', behavior: 'smooth' });
     }
   }
+  // A slide's first step goes back to the previous slide, landing on its
+  // last step, so Back walks the whole tour in reverse. It turns the slide
+  // through the carousel's own previous control.
+  var prevCtl = root.querySelector('[data-demo-prev]');
   var tours = Array.prototype.slice.call(root.querySelectorAll('.cd-tour'));
-  tours.forEach(function (tour) {
+  tours.forEach(function (tour, ti) {
     var calls = tour.querySelectorAll('.cd-call');
     Array.prototype.forEach.call(calls, function (c, n) {
       var body = c.querySelector('.cd-call-body');
       var own = body.querySelector('.cd-call-next');
       var nav = document.createElement('div');
       nav.className = 'cd-call-nav';
+      if (n === 0 && ti > 0 && prevCtl) {
+        var name = tours[ti - 1].closest('.demo-car-slide').getAttribute('data-nav');
+        var item = root.querySelector('.demo-nav-item[data-nav="' + name + '"]');
+        var label = item ? Array.prototype.filter.call(item.childNodes, function (x) { return x.nodeType === 3; }).map(function (x) { return x.textContent; }).join('').trim() : '';
+        var prev = document.createElement('button');
+        prev.type = 'button'; prev.className = 'cd-call-back';
+        prev.innerHTML = '&#8249; Back' + (label ? ': ' + label : '');
+        prev.addEventListener('click', function () {
+          tours[ti - 1]._startAt = 'last';
+          prevCtl.click();
+        });
+        nav.appendChild(prev);
+      }
       if (n > 0) {
         var back = document.createElement('button');
         back.type = 'button'; back.className = 'cd-call-back'; back.innerHTML = '&#8249; Back';
@@ -1039,12 +1056,16 @@ For six years I have taught theory&hellip;</div>
     setStep(tour, 0);
   });
   function placeAll() { tours.forEach(place); }
-  // A slide that comes back into view starts again at its first step.
+  // A slide that comes back into view starts again at its first step, or at
+  // its last when a Back button brought it back.
   if (window.ResizeObserver) {
     var ro = new ResizeObserver(function (entries) {
       entries.forEach(function (e) {
         var t = e.target, w = t.offsetWidth;
-        if (w && !t._shown) setStep(t, 0); else place(t);
+        if (w && !t._shown) {
+          setStep(t, t._startAt === 'last' ? t.querySelectorAll('.cd-call').length - 1 : 0);
+          t._startAt = null;
+        } else place(t);
         t._shown = !!w;
       });
     });
