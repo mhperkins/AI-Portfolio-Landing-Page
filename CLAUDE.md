@@ -44,7 +44,8 @@ Vercel project: `ai-portfolio-landing-page` · GitHub: `mhperkins/AI-Portfolio-L
 | [Academic CV - UW Madison.docx](Academic CV - UW Madison.docx) | Source of the CV page; offered as the download on resume.html. Degree line reads Certificate in Business since 2026-09-18 |
 | [demo/compass-demo.html](demo/compass-demo.html) | **Iteration source for the Compass panel's carousel** (built 2026-09-09, transplanted 2026-09-10). Change slides here, then re-transplant. See "The Compass demo carousel" below. |
 | [demo/crm-demo.html](demo/crm-demo.html) | **Iteration source for the CRM panel's carousel** (7 slides, transplanted 2026-09-10). See "The CRM and Agency carousels" below. |
-| [demo/agency-demo.html](demo/agency-demo.html) | **Iteration source for the Virtual Agency panel's carousel** (2 slides, transplanted 2026-09-10). |
+| [demo/crm-tour-demo.html](demo/crm-tour-demo.html) | **The CRM carousel as a guided tour** (built 2026-09-18, **not transplanted**), on the Career Desk walkthrough pattern: same 7 slides, screens and note text as `crm-demo.html`, but one highlight at a time with its note open beside it, Next and Back, 18 steps numbered across the tool. Made from `crm-demo.html` by script (pins became `tour-hl`, notes became `tour-call` popups); a pin that sat on a popup's header now highlights the whole popup. The only new copy is a short title per popup (Claude's draft). Prefix `tour-`. **Full screen like Career Desk** (Max's call, same day): a "Start the tour" gate over the preview opens it over the page (`.crm-tour.is-full`, same geometry as `.desk-demo.is-full`); Close, Esc or the backdrop closes it and restores the scroll; phones skip the gate. While open, both scroll helpers (`alignUnderPin` and the step scroll) scroll the overlay, not the window. |
+| [demo/agency-demo.html](demo/agency-demo.html) | **Source of the Virtual Agency panel's screens** (2 slides, transplanted 2026-09-10). Since 2026-09-18 the page shows them as a guided tour (see "The Virtual Agency tour"); this file is still the old pinned carousel, so copy a screen change by hand, pins as highlights. |
 | [demo/dasha-demo.html](demo/dasha-demo.html) | **Iteration source for the TeacherAID tab's carousel** (6 annotated slides, transplanted 2026-09-12). See "The TeacherAID tab" below. |
 | [demo/sprout-crm-demo.html](demo/sprout-crm-demo.html) | **Iteration source for the Sprout CRM panel's carousel** (5 annotated slides; built by a parallel session, committed `6c226cc`, transplanted 2026-09-12). See "The Sprout CRM carousel" below. |
 | [demo/grant-demo.html](demo/grant-demo.html) | **Iteration source for the Grant Finder panel's carousel** (6 annotated slides, transplanted 2026-09-12). See "The Grant, Social and Campaign carousels" below. |
@@ -395,6 +396,20 @@ card cut off mid-list (the document cards now fade at the bottom).
 left), the `.annot` / `.pin` / `.hub-shot` rules, and `images/Hub_CRM_*.png` plus
 `images/Hub_Agency_Roster.png`.
 
+### The Virtual Agency tour (2026-09-18)
+
+At Max's ask the Agency carousel works like Career Desk. On the page only: `demo/agency-demo.html`
+still has the pinned version.
+
+- **Markup:** each slide wraps its screen in `.ag-tour` > `.ag-body` (with an `.ag-veil`), highlights
+  are `.ag-hl[data-hl]` with an `.ag-hl-n` badge, popups are `.ag-call[data-for]` in `.ag-calls`. A
+  slide's last popup keeps its own button (`data-demo-next`, or `data-ag-restart` on the last).
+- **Layout:** when the tour is 700px or wider, `.ag-body` keeps a 290px right gutter and every popup
+  uses `data-at="end"`, level with its highlight. The documents no longer scroll inside their cards
+  (no max-height, no fade), so every section can be highlighted.
+- **The strip reads 1 · Create, 2 · Example**, then the two Soon entries.
+- Only document sections get a white fill when lit; the chat bubbles and steps box keep their colors.
+
 ### Pinned tool tabs (2026-09-10)
 
 Both tool rows, Hub and Sprout, are `.tool-tabs`: sticky directly under the main tab bar, which is
@@ -635,6 +650,23 @@ on purpose, and the `#teacherade` id and hash keep the earlier spelling) as its 
 Sprout. Built standalone in `demo/dasha-demo.html`, settled with Max, then transplanted by
 script. **That file stays the iteration source**; change slides there, then re-copy.
 
+**A guided tour since 2026-09-18 (Max's call: work like Career Desk), page only.** A "Start the tour"
+gate over the preview opens it full screen; Close, Esc or the backdrop closes it and restores the
+scroll; phones skip the gate and run inline with the popup pinned to the screen bottom. Every pin
+became a highlight (`ta-hl`, `data-hl`) and every note that step's popup (`ta-call`, `data-for`,
+`data-at` picks the side), numbered 1 to 18 across the tool; the notes rows and hover pops are gone
+from this carousel. The only new copy is a short title per popup (Claude's draft). It runs on the
+shared `initTour(root, 'ta')` at the end of the page, the Career Desk engine a parallel session
+generalized the same day (`cd` Career Desk, `ag` Agency). Two fixes to that shared `setStep`: the
+scroll ceiling is the lowest pinned layer (TeacherAID's strip sits under its title card), and a
+highlight inside its own scroll box (the Hours dialog on a phone) is scrolled into that box first.
+`demo/dasha-demo.html` stays the source of the screens, not of the tour: copy a screen change by
+hand, pins as highlights. Verified headless at 1440, 1280 and 390: all 18 steps show one highlight
+and one popup, no popup covers its highlight on desktop, each popup and highlight top sit in view,
+Start over and Esc work, zero script errors; the Career Desk and Agency tours still step through.
+**Known, not mine to fix:** on a phone, Career Desk steps 3 and 7 (a slide's first step) can leave the
+highlight below the screen, because `setStep` only scrolls between steps within a slide.
+
 **Six slides, nav strip in the app's tab order:** Schedule (logging today), Hours (review and
 submit), Students (roster and profile), Booking (teacher's side), Booking (family's side),
 Business. Max cut the week, month, hours sheet, Add Student and Ask slides; **Ask stays out
@@ -765,6 +797,49 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 ## Current Portfolio State (September 2026)
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
+
+### Session of 2026-09-18, latest: the Virtual Agency tour (pushed)
+
+Max's ask: the Virtual Agency slideshow should work like Career Desk, an interactive tour with a full
+screen pop out. Page only; details under "The Virtual Agency tour".
+
+- **Start the walkthrough** gate over the preview opens it full screen; Close, Esc or the backdrop
+  closes it and restores the scroll. Phones skip the gate and run inline.
+- **12 steps, one at a time:** the 2 old pins became 12 highlights (the four chat turns, the steps box,
+  five job description sections, the sprint header, the tiered copy). Popup titles and bullets are
+  Claude's drafts, split from the old notes; Max has not called them.
+- **The Career Desk script became the shared `initTour(root, prefix)`** (`cd`, `ag`, and TeacherAID's
+  `ta`). It gained an `end` side and a step scroll for tall slides, and `alignUnderPin()` now scrolls an
+  open full screen overlay instead of the window.
+- **Verified headless (1280, and 390 with touch):** all 12 steps show one highlight and one popup, no
+  popup over its highlight at 1280, Start over returns to step 1, Esc closes and restores the page,
+  Career Desk still opens full screen, zero script errors. Screenshots checked by eye. On a phone a
+  tall highlight (steps 5 and 12) runs under the pinned popup, as on Career Desk.
+
+### Session of 2026-09-18, latest: TeacherAID as a guided tour (pushed)
+
+Max's ask: the TeacherAID slideshow should work like Career Desk, as an interactive tour that opens
+full screen. Built in `index.html` only; details under "The TeacherAID tab".
+
+- **Start the tour** gate over the preview opens it full screen. Close, Esc or the backdrop closes it
+  and restores the scroll. Phones skip the gate and run inline.
+- The 18 notes became 18 steps (`ta-hl` highlights, `ta-call` popups), one at a time with Next and
+  Back. Each slide's last step moves on; the final one offers Start over. Popup titles are Claude's
+  draft; the note text is unchanged.
+- It runs on the shared `initTour(root, 'ta')`, which a parallel session generalized from Career Desk
+  the same day for its Agency tour. Two fixes to that shared `setStep`: the scroll ceiling is the
+  lowest pinned layer, and a highlight inside its own scroll box is scrolled into it first.
+- **Verified headless (1440, 1280, 390):** all 18 steps pass (one highlight and one popup each, no
+  popup over its highlight on desktop, popup and highlight in view), Start over and Esc work, zero
+  script errors. The Career Desk and Agency tours still step through.
+
+**Committed and pushed together with the Agency tour** (see the session below), since both depend on
+the shared `initTour`.
+
+**Open:**
+- Max reviews the tour and the 18 popup titles.
+- On a phone, Career Desk steps 3 and 7 (a slide's first step) can leave the highlight below the
+  screen: `setStep` only scrolls between steps within a slide. Predates this session.
 
 ### Session of 2026-09-18, last: the Career Desk tab (pushed)
 

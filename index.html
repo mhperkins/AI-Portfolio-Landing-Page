@@ -3850,6 +3850,50 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
   .desk-demo .demo-nav-wrap::-webkit-scrollbar { display: none; }
   .desk-demo .demo-nav-item { flex-shrink: 0; white-space: nowrap; }
 }
+
+/* ==========================================================================
+   TeacherAID as a guided tour (2026-09-18, Max's call), on the Career Desk
+   pattern and run by the same initTour() with the prefix ta. Each slide
+   wraps its screen in .ta-tour: a veil dims the screen but for one highlight
+   (.ta-hl, data-hl) with its popup (.ta-call, data-for) open beside it. A
+   gate over the preview opens it full screen; phones skip the gate and run
+   inline, with the popup pinned to the bottom of the screen.
+   ========================================================================== */
+.dasha-demo { position: relative; }
+.dasha-demo .ta-tour { position: relative; }
+.dasha-demo .ta-veil { position: absolute; inset: 0; background: rgba(238, 240, 243, 0.72); z-index: 5; border-radius: inherit; pointer-events: none; }
+.dasha-demo .ta-hl.is-cur { z-index: 6; outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 6px; }
+.dasha-demo :where(.ta-hl.is-cur) { background-color: var(--ds-card); }
+.dasha-demo .ta-hl:not(.is-cur) > .ta-hl-n, .dasha-demo .ta-call:not(.is-cur) { display: none; }
+.dasha-demo .ta-hl-n { position: absolute; top: -14px; left: -14px; z-index: 7; width: 22px; height: 22px; border-radius: 50%; background: var(--amber); color: #fff; font-family: var(--font-sans); font-size: 11.5px; font-weight: 700; line-height: 22px; text-align: center; box-shadow: 0 0 0 2px #fff; }
+.dasha-demo .ds-blk > .ta-hl-n { left: -4px; top: -4px; }
+.dasha-demo .ta-calls { display: contents; }
+.dasha-demo .ta-call { position: absolute; z-index: 8; width: 256px; display: flex; gap: 9px; align-items: flex-start; background: #fff; border: 1.5px solid var(--amber); border-radius: 10px; box-shadow: var(--shadow-lg); padding: 10px 12px 11px; font-family: var(--ds-sans); font-size: 12.5px; line-height: 1.45; color: var(--ds-ink); }
+.dasha-demo .ta-call-n { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--amber); color: #fff; font-size: 11.5px; font-weight: 700; line-height: 22px; text-align: center; }
+.dasha-demo .ta-call-body { flex: 1; min-width: 0; }
+.dasha-demo .ta-call-t { font-family: var(--ds-serif); font-size: 16px; font-weight: 600; line-height: 1.2; margin: 1px 0 5px; }
+.dasha-demo .ta-call .demo-bul { margin: 0; padding-left: 1.05em; list-style: disc; }
+.dasha-demo .ta-call .demo-bul li + li { margin-top: 3px; }
+.dasha-demo .ta-call .demo-bul li::marker { color: var(--amber); }
+.dasha-demo .ta-call-nav { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 9px; }
+.dasha-demo .ta-call-nav button { white-space: nowrap; }
+.dasha-demo .ta-call-next { border: 1px solid var(--amber); background: var(--amber); color: #fff; border-radius: 6px; padding: 4px 12px; font-size: 12px; font-weight: 600; }
+.dasha-demo .ta-call-next:hover { background: var(--amber-dim); border-color: var(--amber-dim); }
+.dasha-demo .ta-call-back { border: 1px solid var(--ds-hair); background: #fff; color: var(--ds-ink); border-radius: 6px; padding: 4px 10px; font-size: 12px; }
+.dasha-demo .ta-tour.is-list .ta-call { position: sticky; bottom: 12px; width: auto; margin-top: 10px; }
+.dasha-demo .ta-gate { position: absolute; inset: 0; z-index: 40; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: rgba(250, 248, 245, 0.55); backdrop-filter: blur(1.5px); border-radius: inherit; }
+.dasha-demo .ta-gate-btn { border: 0; background: var(--amber); color: #fff; border-radius: 10px; padding: 13px 24px; font-size: 16px; font-weight: 700; box-shadow: var(--shadow-lg); }
+.dasha-demo .ta-gate-btn:hover { background: var(--amber-dim); }
+.dasha-demo .ta-gate-sub { font-size: 12.5px; color: var(--tp); background: rgba(255, 255, 255, 0.85); border-radius: 20px; padding: 3px 12px; }
+.dasha-demo .ta-close { display: none; }
+.dasha-demo.is-full { position: fixed; inset: 16px; z-index: 1000; max-width: 1440px; margin: 0 auto; padding: 18px; background: var(--cream); border-radius: 14px; overflow: auto; overscroll-behavior: contain; --demo-pin-top: 0px; box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5); }
+.dasha-demo.is-full .ta-gate { display: none; }
+.dasha-demo.is-full .ta-close { display: inline-flex; margin-left: auto; align-self: center; border: 1px solid rgba(250, 248, 245, 0.35); background: none; color: var(--cream); border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.dasha-demo.is-full .ta-close:hover { background: rgba(250, 248, 245, 0.12); }
+.ta-backdrop { position: fixed; inset: 0; z-index: 999; background: rgba(8, 13, 8, 0.9); }
+@media (max-width: 760px) {
+  .dasha-demo .ta-gate { display: none; }
+}
 /* ==========================================================================
    Nav-driven carousels and hover notes (2026-09-13).
 
@@ -3964,10 +4008,64 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
 .crm-demo .coverlay { position: relative; inset: auto; }
 .crm-demo .cmodal { max-height: none; }
 .crm-demo .cmbody > .demo-pinned:not(:last-child) { margin-bottom: 11px; }
-/* Agency pins. The chat card clips its corners, so its pin sits in the dark
-   title bar, ahead of the window dots. */
-.agency-demo .aterm.demo-pinned > .aterm-head { padding-left: 44px; }
-.agency-demo .aterm.demo-pinned > .demo-pin { top: 8px; left: 12px; }
+/* ==========================================================================
+   Virtual Agency walkthrough (Max's ask, 2026-09-18): the Career Desk pattern.
+   One highlight at a time with its popup open beside it, Next and Back, 12
+   steps across the two slides, a gate over the preview that opens it full
+   screen. Prefix `ag-`; the script is initTour() at the end of the page,
+   shared with Career Desk. When the tour is wide, the content keeps a right
+   gutter and every popup (data-at="end") sits in it, level with its
+   highlight. Below 700px of tour width the popup pins to the screen bottom.
+   The job description no longer scrolls inside its card, so every section
+   can be highlighted.
+   ========================================================================== */
+.agency-demo { position: relative; }
+.agency-demo .ag-tour { position: relative; }
+.agency-demo .ag-body { position: relative; }
+.agency-demo .ag-tour:not(.is-list) > .ag-body { margin-right: 290px; }
+.agency-demo .ag-veil { position: absolute; inset: -6px; background: rgba(250, 248, 245, 0.7); z-index: 5; border-radius: 8px; pointer-events: none; }
+.agency-demo .ag-hl { position: relative; }
+.agency-demo .ag-hl.is-cur { z-index: 6; outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 6px; }
+/* Only the transparent document sections need a fill to lift off the veil;
+   the chat bubbles and the steps box keep their own colors. */
+:where(.agency-demo .adoc-sec.ag-hl.is-cur, .agency-demo .adoc-head.ag-hl.is-cur) { background-color: #fff; }
+.agency-demo .ag-hl:not(.is-cur) > .ag-hl-n, .agency-demo .ag-call:not(.is-cur) { display: none; }
+.agency-demo .ag-hl-n { position: absolute; top: -12px; left: -12px; z-index: 7; width: 22px; height: 22px; border-radius: 50%; background: var(--amber); color: #fff; font-family: var(--font-sans); font-size: 11.5px; font-weight: 700; line-height: 22px; text-align: center; box-shadow: 0 0 0 2px #fff; }
+.agency-demo .ag-hl-n.at-tr { left: auto; right: -12px; }
+.agency-demo .ag-calls { display: contents; }
+.agency-demo .ag-call { position: absolute; z-index: 8; width: 270px; display: flex; gap: 9px; align-items: flex-start; background: #fff; border: 1.5px solid var(--amber); border-radius: 10px; box-shadow: var(--shadow-lg); padding: 10px 12px 11px; font-size: 12.5px; line-height: 1.45; color: var(--tp); }
+.agency-demo .ag-call-n { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--amber); color: #fff; font-size: 11.5px; font-weight: 700; line-height: 22px; text-align: center; }
+.agency-demo .ag-call-body { flex: 1; min-width: 0; }
+.agency-demo .ag-call-t { font-family: var(--font-serif); font-size: 16px; font-weight: 700; line-height: 1.2; margin: 1px 0 5px; }
+.agency-demo .ag-call .demo-bul { margin: 0; padding-left: 1.05em; list-style: disc; }
+.agency-demo .ag-call .demo-bul li + li { margin-top: 3px; }
+.agency-demo .ag-call .demo-bul li::marker { color: var(--amber); }
+.agency-demo .ag-call-nav { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 9px; }
+.agency-demo .ag-call-nav button { white-space: nowrap; }
+.agency-demo .ag-call-next { border: 1px solid var(--amber); background: var(--amber); color: var(--cream); border-radius: 6px; padding: 4px 12px; font-size: 12px; font-weight: 600; }
+.agency-demo .ag-call-next:hover { background: var(--amber-dim); border-color: var(--amber-dim); }
+.agency-demo .ag-call-back { border: 1px solid var(--border); background: #fff; color: var(--tp); border-radius: 6px; padding: 4px 10px; font-size: 12px; }
+.agency-demo .ag-tour.is-list .ag-call { position: sticky; bottom: 12px; width: auto; margin-top: 10px; }
+/* The documents show whole, so a highlighted section is never scrolled away. */
+.agency-demo .ag-tour .adoc, .agency-demo .ag-tour .aterm { overflow: visible; }
+.agency-demo .ag-tour .adoc-body { max-height: none; overflow: visible; }
+.agency-demo .ag-tour .adoc::after { display: none; }
+.agency-demo .ag-tour .aterm-head { border-radius: 7px 7px 0 0; }
+.agency-demo .ag-tour .adoc-sec.ag-hl { padding: 2px 4px; margin-left: -4px; margin-right: -4px; }
+/* Full screen, same as Career Desk. */
+.agency-demo .ag-gate { position: absolute; inset: 0; z-index: 40; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: rgba(250, 248, 245, 0.55); backdrop-filter: blur(1.5px); border-radius: inherit; }
+.agency-demo .ag-gate-btn { border: 0; background: var(--amber); color: var(--cream); border-radius: 10px; padding: 13px 24px; font-size: 16px; font-weight: 700; box-shadow: var(--shadow-lg); cursor: pointer; }
+.agency-demo .ag-gate-btn:hover { background: var(--amber-dim); }
+.agency-demo .ag-gate-sub { font-size: 12.5px; color: var(--tp); background: rgba(255, 255, 255, 0.85); border-radius: 20px; padding: 3px 12px; }
+.agency-demo .ag-close { display: none; }
+.agency-demo.is-full { position: fixed; inset: 16px; z-index: 1000; max-width: 1440px; margin: 0 auto; padding: 18px; background: var(--cream); border-radius: 14px; overflow: auto; overscroll-behavior: contain; --demo-pin-top: 0px; box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5); }
+.agency-demo.is-full .ag-gate { display: none; }
+.agency-demo.is-full .ag-close { display: inline-flex; margin-left: 10px; align-self: center; border: 1px solid rgba(250, 248, 245, 0.35); background: none; color: var(--cream); border-radius: 6px; padding: 4px 10px; font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer; }
+.agency-demo.is-full .ag-close:hover { background: rgba(250, 248, 245, 0.12); }
+.ag-backdrop { position: fixed; inset: 0; z-index: 999; background: rgba(8, 13, 8, 0.9); }
+@media (max-width: 760px) {
+  .agency-demo .ag-gate { display: none; }
+}
   </style>
 </head>
 <body class="font-sans antialiased" style="color: #c4d4de; background: radial-gradient(ellipse 120% 60% at 50% 0%, #0f1f10 0%, #080d08 65%) #080d08;">
@@ -5465,14 +5563,15 @@ Max</textarea>
             <div class="agency-demo mb-10" data-demo-panel tabindex="-1">
 
               <div class="demo-nav-wrap">
-                <button class="demo-nav-item is-active" data-nav="create" data-slide="0">Create</button>
-                <button class="demo-nav-item" data-nav="example" data-slide="1">Example</button>
+                <button class="demo-nav-item is-active" data-nav="create" data-slide="0">1 &middot; Create</button>
+                <button class="demo-nav-item" data-nav="example" data-slide="1">2 &middot; Example</button>
                 <button class="demo-nav-item" disabled>Web Design <span class="demo-nav-soon">Soon</span></button>
                 <button class="demo-nav-item" disabled>Social Media <span class="demo-nav-soon">Soon</span></button>
                 <span class="demo-nav-hint">
                   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>
                   Click to step through
                 </span>
+                <button type="button" class="ag-close" data-ag-close aria-label="Close the walkthrough">&#10005; Close</button>
               </div>
 
               <div class="demo-stage">
@@ -5494,31 +5593,39 @@ Max</textarea>
                            data-contrib="Every employee starts as a conversation: what it owns, what it does not touch, who signs off."
                            data-state-label="What gets created"
                            data-state="Music Marketing &middot; job description, system prompt, and empty sprints and deliverables folders.">
-                    <div class="demo-notes">
-                      <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Describe the job in plain language</li> <li>Claude Code asks what the employee must not touch and who signs off</li> <li>Then it writes the job description, system prompt and folders</li></ul></div></div>
-                      <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>One request names the employee and the job</li> <li>Nothing it produces sends without your sign-off</li></ul></div></div>
-                    </div>
-                    <div class="aterm demo-pinned"><span class="demo-pin">1</span>
-                      <div class="aterm-head">
-                        <div class="aterm-dots"><span class="aterm-dot"></span><span class="aterm-dot"></span><span class="aterm-dot"></span></div>
-                        <span class="aterm-label">Claude Code</span>
-                        <span class="aterm-pill">virtual-agency/</span>
-                      </div>
-                      <div class="aterm-body">
-                        <div class="aturn-user">I need someone to handle outreach and campaign copy for my concerts. Set up a Music Marketing employee.</div>
-                        <div class="aturn-agent">Three questions first. What is it explicitly not allowed to touch? Who has to sign off before anything sends? And does it hand off to any peer agent?</div>
-                        <div class="aturn-user">Not social media posts, not design, not booking. I sign off on everything myself, nothing sends without me. It hands social copy briefs to the Social Media agent.</div>
-                        <div class="aturn-agent">Writing <span class="aterm-code">employees/Music/Marketing/</span> now: a job description with those boundaries, a system prompt in its voice, and empty sprints and deliverables folders for what it ships. The job description says outright that nothing goes out without your sign-off.</div>
-                      </div>
-                    </div>
+                    <div class="ag-tour">
+                      <div class="ag-body">
+                        <div class="ag-veil"></div>
+                        <div class="aterm">
+                          <div class="aterm-head">
+                            <div class="aterm-dots"><span class="aterm-dot"></span><span class="aterm-dot"></span><span class="aterm-dot"></span></div>
+                            <span class="aterm-label">Claude Code</span>
+                            <span class="aterm-pill">virtual-agency/</span>
+                          </div>
+                          <div class="aterm-body">
+                            <div class="aturn-user ag-hl" data-hl="1"><span class="ag-hl-n">1</span>I need someone to handle outreach and campaign copy for my concerts. Set up a Music Marketing employee.</div>
+                            <div class="aturn-agent ag-hl" data-hl="2"><span class="ag-hl-n">2</span>Three questions first. What is it explicitly not allowed to touch? Who has to sign off before anything sends? And does it hand off to any peer agent?</div>
+                            <div class="aturn-user ag-hl" data-hl="3"><span class="ag-hl-n">3</span>Not social media posts, not design, not booking. I sign off on everything myself, nothing sends without me. It hands social copy briefs to the Social Media agent.</div>
+                            <div class="aturn-agent ag-hl" data-hl="4"><span class="ag-hl-n">4</span>Writing <span class="aterm-code">employees/Music/Marketing/</span> now: a job description with those boundaries, a system prompt in its voice, and empty sprints and deliverables folders for what it ships. The job description says outright that nothing goes out without your sign-off.</div>
+                          </div>
+                        </div>
 
-                    <div class="astepbox demo-pinned"><span class="demo-pin">2</span>
-                      <h5>Putting one to work</h5>
-                      <div class="astep"><span class="astep-n">1.</span><span>Open the <code>virtual-agency</code> folder in Claude Code (it is its own project, beside this one).</span></div>
-                      <div class="astep"><span class="astep-n">2.</span><span>Name the employee and the job: "run the Music Marketing agent on a Groove Theory follow-up wave."</span></div>
-                      <div class="astep"><span class="astep-n">3.</span><span>It reads its own system prompt and job description, then works to the brief.</span></div>
-                      <div class="astep"><span class="astep-n">4.</span><span>Output lands in that employee's <code>deliverables/</code>, with a dated sprint file recording what shipped.</span></div>
-                      <div class="astep"><span class="astep-n">5.</span><span>Nothing sends or goes live without your sign-off. Every agent's job description says so.</span></div>
+                        <div class="astepbox ag-hl" data-hl="5"><span class="ag-hl-n">5</span>
+                          <h5>Putting one to work</h5>
+                          <div class="astep"><span class="astep-n">1.</span><span>Open the <code>virtual-agency</code> folder in Claude Code (it is its own project, beside this one).</span></div>
+                          <div class="astep"><span class="astep-n">2.</span><span>Name the employee and the job: "run the Music Marketing agent on a Groove Theory follow-up wave."</span></div>
+                          <div class="astep"><span class="astep-n">3.</span><span>It reads its own system prompt and job description, then works to the brief.</span></div>
+                          <div class="astep"><span class="astep-n">4.</span><span>Output lands in that employee's <code>deliverables/</code>, with a dated sprint file recording what shipped.</span></div>
+                          <div class="astep"><span class="astep-n">5.</span><span>Nothing sends or goes live without your sign-off. Every agent's job description says so.</span></div>
+                        </div>
+                      </div>
+                      <div class="ag-calls">
+                        <div class="ag-call" data-for="1" data-at="end"><span class="ag-call-n">1</span><div class="ag-call-body"><div class="ag-call-t">Describe the job</div><ul class="demo-bul"><li>Ask in plain language, in Claude Code</li> <li>One request names the employee and the job</li></ul></div></div>
+                        <div class="ag-call" data-for="2" data-at="end"><span class="ag-call-n">2</span><div class="ag-call-body"><div class="ag-call-t">It asks for the boundaries</div><ul class="demo-bul"><li>What the employee must not touch</li> <li>Who signs off before anything sends</li> <li>Whether it hands work to a peer agent</li></ul></div></div>
+                        <div class="ag-call" data-for="3" data-at="end"><span class="ag-call-n">3</span><div class="ag-call-body"><div class="ag-call-t">Your answers become its rules</div><ul class="demo-bul"><li>Out of scope: social posts, design, booking</li> <li>You sign off on everything</li> <li>Social copy goes to the Social Media agent as a brief</li></ul></div></div>
+                        <div class="ag-call" data-for="4" data-at="end"><span class="ag-call-n">4</span><div class="ag-call-body"><div class="ag-call-t">It writes the employee</div><ul class="demo-bul"><li>A job description with those boundaries</li> <li>A system prompt in its voice</li> <li>Empty sprints and deliverables folders</li></ul></div></div>
+                        <div class="ag-call" data-for="5" data-at="end"><span class="ag-call-n">5</span><div class="ag-call-body"><div class="ag-call-t">Put it to work</div><ul class="demo-bul"><li>Name the employee and the job</li> <li>It reads its own job description, then works to the brief</li> <li>Output lands in its deliverables, with a dated sprint file</li></ul><button class="ag-call-next" data-demo-next>Next: an example &#8250;</button></div></div>
+                      </div>
                     </div>
                   </section>
 
@@ -5528,96 +5635,111 @@ Max</textarea>
                            data-contrib="The job description is the contract. The sprint is the record of what it actually shipped."
                            data-state-label="State of the sprint"
                            data-state="Sprint 01, Groove Theory &middot; complete, pending Maxwell&rsquo;s sends.">
-                    <div class="demo-notes">
-                      <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>The job description is the contract</li> <li>What the employee owns and its writing rules</li> <li>What is out of scope and which tools it may use</li></ul></div></div>
-                      <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Each sprint file records one campaign's work</li> <li>Here: three tiers of outreach copy</li> <li>Tracks status until you send</li></ul></div></div>
-                    </div>
-                    <div class="adoc-grid">
+                    <div class="ag-tour">
+                      <div class="ag-body">
+                        <div class="ag-veil"></div>
+                        <div class="adoc-grid">
 
-                      <div class="adoc-col demo-pinned"><span class="demo-pin">1</span>
-                        <div class="adoc">
-                          <div class="adoc-head">
-                            <span class="afolderpill">employees/Music/Marketing/marketing-music-jobDescription.md</span>
-                            <h3 class="adoc-title">Music Marketing Agent</h3>
-                            <p class="adoc-meta">Department: Music &middot; Reports to: Maxwell Henry &middot; Peer: Social Media Agent</p>
+                          <div class="adoc-col">
+                            <div class="adoc">
+                              <div class="adoc-head">
+                                <span class="afolderpill">employees/Music/Marketing/marketing-music-jobDescription.md</span>
+                                <h3 class="adoc-title">Music Marketing Agent</h3>
+                                <p class="adoc-meta">Department: Music &middot; Reports to: Maxwell Henry &middot; Peer: Social Media Agent</p>
+                              </div>
+                              <div class="adoc-body">
+                                <div class="adoc-sec ag-hl" data-hl="6"><span class="ag-hl-n at-tr">6</span>
+                                  <div class="adoc-label">Role summary</div>
+                                  <p class="adoc-text">Drives attendance, press coverage, and audience development for Maxwell's concerts and projects. It owns outcomes, not content. It produces strategy and outreach materials. Maxwell reviews and approves everything before it sends. Nothing goes out without his sign-off.</p>
+                                </div>
+                                <div class="adoc-sec ag-hl" data-hl="7"><span class="ag-hl-n at-tr">7</span>
+                                  <div class="adoc-label">Writing rules</div>
+                                  <ul class="adoc-list">
+                                    <li>Never use em dashes. Restructure with a colon, a period, or reorder the clause.</li>
+                                    <li>Active voice. Flip "X was done by Y" to "Y did X."</li>
+                                    <li>Short, direct sentences. One idea per sentence.</li>
+                                    <li>The ask is warm and friendly, not transactional. Invite, do not solicit.</li>
+                                  </ul>
+                                </div>
+                                <div class="adoc-sec ag-hl" data-hl="8"><span class="ag-hl-n at-tr">8</span>
+                                  <div class="adoc-label">Core responsibilities</div>
+                                  <ul class="adoc-list">
+                                    <li>Outreach strategy: who to contact, in what order, through what channel</li>
+                                    <li>Tiered outreach copy: close contacts, peers, and cold contacts each get a different version</li>
+                                    <li>Email campaigns for alumni networks, venue lists, and mailing lists</li>
+                                    <li>Performer and collaborator coordination materials</li>
+                                    <li>Series and brand framing, positioning recurring events as an ongoing series</li>
+                                  </ul>
+                                </div>
+                                <div class="adoc-sec ag-hl" data-hl="9"><span class="ag-hl-n at-tr">9</span>
+                                  <div class="adoc-label">Out of scope</div>
+                                  <ul class="adoc-list">
+                                    <li>Social media posts (briefs the Social Media agent instead)</li>
+                                    <li>Design (flags for Canva or a designer)</li>
+                                    <li>Booking and contracting, entirely</li>
+                                  </ul>
+                                </div>
+                                <div class="adoc-sec ag-hl" data-hl="10"><span class="ag-hl-n at-tr">10</span>
+                                  <div class="adoc-label">Tools</div>
+                                  <table class="adoc-tbl">
+                                    <tr><td>Gmail MCP</td><td>Draft and stage outreach emails. Stage only, Maxwell sends.</td></tr>
+                                    <tr><td>Composer Assistant MCP</td><td>Reads Maxwell's aesthetic identity for press and institutional copy.</td></tr>
+                                    <tr><td>WebSearch</td><td>Research composition department contacts, venue emails, press targets.</td></tr>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                          <div class="adoc-body">
-                            <div class="adoc-sec">
-                              <div class="adoc-label">Role summary</div>
-                              <p class="adoc-text">Drives attendance, press coverage, and audience development for Maxwell's concerts and projects. It owns outcomes, not content. It produces strategy and outreach materials. Maxwell reviews and approves everything before it sends. Nothing goes out without his sign-off.</p>
-                            </div>
-                            <div class="adoc-sec">
-                              <div class="adoc-label">Writing rules</div>
-                              <ul class="adoc-list">
-                                <li>Never use em dashes. Restructure with a colon, a period, or reorder the clause.</li>
-                                <li>Active voice. Flip "X was done by Y" to "Y did X."</li>
-                                <li>Short, direct sentences. One idea per sentence.</li>
-                                <li>The ask is warm and friendly, not transactional. Invite, do not solicit.</li>
-                              </ul>
-                            </div>
-                            <div class="adoc-sec">
-                              <div class="adoc-label">Core responsibilities</div>
-                              <ul class="adoc-list">
-                                <li>Outreach strategy: who to contact, in what order, through what channel</li>
-                                <li>Tiered outreach copy: close contacts, peers, and cold contacts each get a different version</li>
-                                <li>Email campaigns for alumni networks, venue lists, and mailing lists</li>
-                                <li>Performer and collaborator coordination materials</li>
-                                <li>Series and brand framing, positioning recurring events as an ongoing series</li>
-                              </ul>
-                            </div>
-                            <div class="adoc-sec">
-                              <div class="adoc-label">Out of scope</div>
-                              <ul class="adoc-list">
-                                <li>Social media posts (briefs the Social Media agent instead)</li>
-                                <li>Design (flags for Canva or a designer)</li>
-                                <li>Booking and contracting, entirely</li>
-                              </ul>
-                            </div>
-                            <div class="adoc-sec">
-                              <div class="adoc-label">Tools</div>
-                              <table class="adoc-tbl">
-                                <tr><td>Gmail MCP</td><td>Draft and stage outreach emails. Stage only, Maxwell sends.</td></tr>
-                                <tr><td>Composer Assistant MCP</td><td>Reads Maxwell's aesthetic identity for press and institutional copy.</td></tr>
-                                <tr><td>WebSearch</td><td>Research composition department contacts, venue emails, press targets.</td></tr>
-                              </table>
+
+                          <div class="adoc-col">
+                            <div class="adoc">
+                              <div class="adoc-head ag-hl" data-hl="11"><span class="ag-hl-n at-tr">11</span>
+                                <span class="afolderpill">employees/Music/Marketing/sprints/sprint-01-groove-theory.md</span>
+                                <h3 class="adoc-title">Sprint 01: Groove Theory Deliverables</h3>
+                                <p class="adoc-meta">Agent: Music Marketing &middot; Campaign: Groove Theory, Classical Music with a Pulse<br>Sprint date: 2026-05-28 &middot; Status: Complete, pending Maxwell's sends</p>
+                              </div>
+                              <div class="adoc-body">
+                                <div class="adoc-sec ag-hl" data-hl="12"><span class="ag-hl-n at-tr">12</span>
+                                  <div class="adoc-label">Deliverable: personal outreach templates, 3 tiers</div>
+                                  <p class="adoc-text" style="margin-bottom: 10px; color: var(--ts); font-size: 11px;">Ready to send. Performers swap in their own name where relevant.</p>
+                                  <div class="adoc-tier">
+                                    <div class="adoc-tier-label">Tier A &middot; close friend</div>
+                                    <div class="adoc-tier-text">Hey, I'm performing in a concert in Brooklyn on June 14 and I really want you there. It's a new composer showcase at Scholes Street Studio, groove-based contemporary classical music. Legit venue, serious performers, new works. Suggested donation $15. Come? RSVP here.</div>
+                                  </div>
+                                  <div class="adoc-tier">
+                                    <div class="adoc-tier-label">Tier B &middot; music community peer</div>
+                                    <div class="adoc-tier-text">Hey [name], I'm performing at a new concert series launch in Brooklyn on June 14. Called Groove Theory: new works by Maxwell Henry, Julie Kim, and Jude Duane, all centering groove as a compositional idea. Scholes Street Studio, 2pm, $15 suggested. Would love to have you in the room.</div>
+                                  </div>
+                                  <div class="adoc-tier">
+                                    <div class="adoc-tier-label">Tier C &middot; acquaintance</div>
+                                    <div class="adoc-tier-text">Hey [name], hope you're doing well. I'm performing in Brooklyn on June 14 at a contemporary classical concert called Groove Theory at Scholes Street Studio. New music, great performers, $15 suggested donation. If you're around it'd be great to see you.</div>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                           </div>
+
                         </div>
                       </div>
-
-                      <div class="adoc-col demo-pinned"><span class="demo-pin">2</span>
-                        <div class="adoc">
-                          <div class="adoc-head">
-                            <span class="afolderpill">employees/Music/Marketing/sprints/sprint-01-groove-theory.md</span>
-                            <h3 class="adoc-title">Sprint 01: Groove Theory Deliverables</h3>
-                            <p class="adoc-meta">Agent: Music Marketing &middot; Campaign: Groove Theory, Classical Music with a Pulse<br>Sprint date: 2026-05-28 &middot; Status: Complete, pending Maxwell's sends</p>
-                          </div>
-                          <div class="adoc-body">
-                            <div class="adoc-sec">
-                              <div class="adoc-label">Deliverable: personal outreach templates, 3 tiers</div>
-                              <p class="adoc-text" style="margin-bottom: 10px; color: var(--ts); font-size: 11px;">Ready to send. Performers swap in their own name where relevant.</p>
-                              <div class="adoc-tier">
-                                <div class="adoc-tier-label">Tier A &middot; close friend</div>
-                                <div class="adoc-tier-text">Hey, I'm performing in a concert in Brooklyn on June 14 and I really want you there. It's a new composer showcase at Scholes Street Studio, groove-based contemporary classical music. Legit venue, serious performers, new works. Suggested donation $15. Come? RSVP here.</div>
-                              </div>
-                              <div class="adoc-tier">
-                                <div class="adoc-tier-label">Tier B &middot; music community peer</div>
-                                <div class="adoc-tier-text">Hey [name], I'm performing at a new concert series launch in Brooklyn on June 14. Called Groove Theory: new works by Maxwell Henry, Julie Kim, and Jude Duane, all centering groove as a compositional idea. Scholes Street Studio, 2pm, $15 suggested. Would love to have you in the room.</div>
-                              </div>
-                              <div class="adoc-tier">
-                                <div class="adoc-tier-label">Tier C &middot; acquaintance</div>
-                                <div class="adoc-tier-text">Hey [name], hope you're doing well. I'm performing in Brooklyn on June 14 at a contemporary classical concert called Groove Theory at Scholes Street Studio. New music, great performers, $15 suggested donation. If you're around it'd be great to see you.</div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                      <div class="ag-calls">
+                        <div class="ag-call" data-for="6" data-at="end"><span class="ag-call-n">6</span><div class="ag-call-body"><div class="ag-call-t">The job description is the contract</div><ul class="demo-bul"><li>What the employee owns: outcomes, not content</li> <li>Nothing goes out without your sign-off</li></ul></div></div>
+                        <div class="ag-call" data-for="7" data-at="end"><span class="ag-call-n">7</span><div class="ag-call-body"><div class="ag-call-t">Its writing rules</div><ul class="demo-bul"><li>The house style every draft follows</li> <li>Your voice, written down once</li></ul></div></div>
+                        <div class="ag-call" data-for="8" data-at="end"><span class="ag-call-n">8</span><div class="ag-call-body"><div class="ag-call-t">What it owns</div><ul class="demo-bul"><li>Outreach strategy and tiered copy</li> <li>Email campaigns and coordination materials</li></ul></div></div>
+                        <div class="ag-call" data-for="9" data-at="end"><span class="ag-call-n">9</span><div class="ag-call-body"><div class="ag-call-t">What it does not touch</div><ul class="demo-bul"><li>The boundaries from the first conversation</li> <li>Social posts go to the Social Media agent as a brief</li></ul></div></div>
+                        <div class="ag-call" data-for="10" data-at="end"><span class="ag-call-n">10</span><div class="ag-call-body"><div class="ag-call-t">Which tools it may use</div><ul class="demo-bul"><li>Gmail: it stages drafts, you send</li> <li>Your aesthetic profile for press copy</li> <li>Web search for contacts and press</li></ul></div></div>
+                        <div class="ag-call" data-for="11" data-at="end"><span class="ag-call-n">11</span><div class="ag-call-body"><div class="ag-call-t">The sprint record</div><ul class="demo-bul"><li>Each sprint file records one campaign's work</li> <li>Tracks status until you send</li></ul></div></div>
+                        <div class="ag-call" data-for="12" data-at="end"><span class="ag-call-n">12</span><div class="ag-call-body"><div class="ag-call-t">Copy in three tiers</div><ul class="demo-bul"><li>Close friends, peers and acquaintances each get their own version</li> <li>Ready to send once you sign off</li></ul><button class="ag-call-next" data-ag-restart>Start over &#8634;</button></div></div>
                       </div>
-
                     </div>
                   </section>
 
                 </div><!-- /.demo-canvas -->
               </div><!-- /.demo-stage -->
+
+              <div class="ag-gate">
+                <button type="button" class="ag-gate-btn" data-ag-start>Start the walkthrough &#8250;</button>
+                <span class="ag-gate-sub">12 steps &middot; opens full screen &middot; Esc to close</span>
+              </div>
 
               <div class="demo-controls">
                 <button class="demo-arrow" data-demo-prev aria-label="Previous slide">&#8249;</button>
@@ -5706,8 +5828,11 @@ Max</textarea>
           <h4 class="tool-h mb-6">One ledger for the lessons, the pay, and the plan</h4>
           <!-- TeacherAID demo carousel, transplanted from demo/dasha-demo.html
                on 2026-09-12. Same [data-demo-panel] initializer as the CRM and
-               Agency carousels; numbered pins inside each screen match the
-               one-sentence notes above it. -->
+               Agency carousels. Since 2026-09-18 it is a guided tour like
+               Career Desk: every pin became a highlight (ta-hl, data-hl) and
+               every note that step's popup (ta-call, data-for), 18 steps,
+               opened full screen from the gate. initTour(..., 'ta') at the
+               end of the page runs it. -->
           <div class="dasha-demo mb-10" data-demo-panel tabindex="-1">
             <!-- ====================================================================
                  THE STAGE: title header, then the nav strip, then the slide
@@ -5732,6 +5857,7 @@ Max</textarea>
                   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>
                   Click to step through
                 </span>
+                <button type="button" class="ta-close" data-ta-close aria-label="Close the tour">&#10005; Close</button>
               </div>
 
               <div class="demo-canvas">
@@ -5744,14 +5870,8 @@ Max</textarea>
                          data-state-label="State of the day"
                          data-state="Tuesday, Sep 15 &middot; 3 of 5 lessons logged &middot; Monday still has lessons to catch up on."
                          data-title="Schedule: logging today">
-                  <div class="demo-notes">
-                    <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>+ Add puts anything on the calendar: practice time, the gym, a one-off lesson, a new student</li> <li>Works from the Day, Week or Month view</li></ul></div></div>
-                    <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Lessons left unlogged in the last two weeks collect here by day</li> <li>Continue opens a day as one short review</li> <li>Catching up takes a few taps; a half-finished day picks up where it stopped</li></ul></div></div>
-                    <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Every tap feeds the week's running hour totals</li> <li>Measured against the teacher's own limits for teaching, university work and study</li></ul></div></div>
-                    <div class="demo-note"><span class="demo-pin-n">4</span><div><ul class="demo-bul"><li>After each lesson, one tap: Completed, Late cancel, No-show or Excused</li> <li>That tap decides whether the hour gets paid</li></ul></div></div>
-                    <div class="demo-note"><span class="demo-pin-n">5</span><div><ul class="demo-bul"><li>The &#8943; opens everything for a lesson in one place</li> <li>What happened, the progress note, a follow-up</li> <li>Reschedule a lesson that has not happened yet</li> <li>Email or text the family with a message ready, or open the student's profile</li></ul></div></div>
-                  </div>
-                  <div class="ds-frame">
+                  <div class="ta-tour">
+                  <div class="ds-frame"><div class="ta-veil"></div>
                     <div class="ds-page">
                       <div class="ds-pagehead">
                         <div>
@@ -5759,7 +5879,7 @@ Max</textarea>
                           <div class="ds-sub">Tap once per lesson. Everything else is calculated from that tap.</div>
                         </div>
                         <div class="ds-headctl">
-                          <span class="ds-act pri demo-pinned"><span class="demo-pin">1</span>+ Add</span>
+                          <span class="ds-act pri demo-pinned ta-hl" data-hl="1"><span class="ta-hl-n">1</span>+ Add</span>
                           <div class="ds-scale"><span class="on">Day</span><span>Week</span><span>Month</span></div>
                           <span class="ds-navbtn">&lsaquo;</span><span class="ds-navbtn">&rsaquo;</span><span class="ds-navbtn">Today</span>
                         </div>
@@ -5767,7 +5887,7 @@ Max</textarea>
 
                       <div class="ds-grid2">
                         <div class="ds-col">
-                          <div class="ds-card demo-pinned"><span class="demo-pin">2</span>
+                          <div class="ds-card demo-pinned ta-hl" data-hl="2"><span class="ta-hl-n">2</span>
                             <div class="ds-chhead">
                               <b>One day behind</b>
                               <span class="ds-undo">Skip, catch up later</span>
@@ -5784,7 +5904,7 @@ Max</textarea>
                               <div style="text-align: right;"><div class="ds-eyebrow">Logged</div><div class="ds-big">3 / 5</div></div>
                             </div>
                             <ul class="ds-blocks">
-                              <li class="ds-blk has-menu demo-pinned"><span class="demo-pin" style="left: auto; right: 54px; top: 8px;">4</span>
+                              <li class="ds-blk has-menu demo-pinned ta-hl" data-hl="4"><span class="ta-hl-n">4</span>
                                 <div class="t">8:00&ndash;9:00</div><div class="ds-rail r-private"></div>
                                 <div>
                                   <div class="name">MIRA OKONKWO</div><div class="meta">60 min &middot; Private</div>
@@ -5810,7 +5930,7 @@ Max</textarea>
                                     <span class="ds-act pri">&#10003; Completed</span><span class="ds-act">Late cancel</span><span class="ds-act">No-show</span><span class="ds-act">Excused</span>
                                   </div>
                                   <!-- The lesson menu, drawn open beside the ⋯ that opened it -->
-                                  <div class="ds-popmenu demo-pinned"><span class="demo-pin">5</span>
+                                  <div class="ds-popmenu demo-pinned ta-hl" data-hl="5"><span class="ta-hl-n">5</span>
                                     <div class="ds-pmhead">
                                       <div>
                                         <div class="ds-eyebrow">Tuesday, September 15, 3:30&ndash;4:15 PM</div>
@@ -5868,7 +5988,7 @@ Max</textarea>
                         </div>
 
                         <div class="ds-col">
-                          <div class="ds-card ds-card-pad demo-pinned"><span class="demo-pin">3</span>
+                          <div class="ds-card ds-card-pad demo-pinned ta-hl" data-hl="3"><span class="ta-hl-n">3</span>
                             <div class="ds-eyebrow">This week so far</div>
                             <div class="ds-meterstack">
                               <div class="ds-meter">
@@ -5892,6 +6012,14 @@ Max</textarea>
                       </div>
                     </div>
                   </div>
+                  <div class="ta-calls">
+                    <div class="ta-call" data-for="1" data-at="right"><span class="ta-call-n">1</span><div class="ta-call-body"><div class="ta-call-t">Anything onto the calendar</div><ul class="demo-bul"><li>+ Add puts anything on the calendar: practice time, the gym, a one-off lesson, a new student</li> <li>Works from the Day, Week or Month view</li></ul></div></div>
+                    <div class="ta-call" data-for="2" data-at="right"><span class="ta-call-n">2</span><div class="ta-call-body"><div class="ta-call-t">Catch up on missed days</div><ul class="demo-bul"><li>Lessons left unlogged in the last two weeks collect here by day</li> <li>Continue opens a day as one short review</li> <li>Catching up takes a few taps; a half-finished day picks up where it stopped</li></ul></div></div>
+                    <div class="ta-call" data-for="3" data-at="left"><span class="ta-call-n">3</span><div class="ta-call-body"><div class="ta-call-t">The week adds itself up</div><ul class="demo-bul"><li>Every tap feeds the week's running hour totals</li> <li>Measured against the teacher's own limits for teaching, university work and study</li></ul></div></div>
+                    <div class="ta-call" data-for="4" data-at="right"><span class="ta-call-n">4</span><div class="ta-call-body"><div class="ta-call-t">One tap per lesson</div><ul class="demo-bul"><li>After each lesson, one tap: Completed, Late cancel, No-show or Excused</li> <li>That tap decides whether the hour gets paid</li></ul></div></div>
+                    <div class="ta-call" data-for="5" data-at="left"><span class="ta-call-n">5</span><div class="ta-call-body"><div class="ta-call-t">Everything for a lesson in one place</div><ul class="demo-bul"><li>The &#8943; opens everything for a lesson in one place</li> <li>What happened, the progress note, a follow-up</li> <li>Reschedule a lesson that has not happened yet</li> <li>Email or text the family with a message ready, or open the student's profile</li></ul><button class="ta-call-next" data-demo-next>Next: Hours &#8250;</button></div></div>
+                  </div>
+                  </div>
                 </section>
 
                 <!-- ============ SLIDE 2 · HOURS: REVIEW & SUBMIT ==================== -->
@@ -5900,11 +6028,8 @@ Max</textarea>
                          data-state-label="State of the pay period"
                          data-state="13 lessons &middot; $416.25 &middot; frozen the moment it is submitted."
                          data-title="Hours: review and submit">
-                  <div class="demo-notes">
-                    <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Before submitting, see the exact sheet the employer receives</li> <li>Date by date, with an X for any student with no lesson</li></ul></div></div>
-                    <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Submitting locks the pay period for good</li> <li>A later correction becomes an adjustment in the next period</li></ul></div></div>
-                  </div>
-                  <div class="ds-frame" style="min-height: 670px;">
+                  <div class="ta-tour">
+                  <div class="ds-frame" style="min-height: 670px;"><div class="ta-veil"></div>
                     <div class="ds-page">
                       <div class="ds-pagehead">
                         <div>
@@ -5948,7 +6073,7 @@ Max</textarea>
                         </div>
                         <div class="ds-dmbody">
                           <div class="ds-lock"><b>Submitting freezes this period permanently.</b> These 13 lessons lock exactly as shown. Nothing here can be edited, deleted or reopened afterwards, by this app or by anyone: a correction found later posts as an adjustment to a future period instead.</div>
-                          <div class="demo-pinned" style="margin-top: 12px;"><span class="demo-pin">1</span>
+                          <div class="demo-pinned ta-hl" data-hl="6" style="margin-top: 12px;"><span class="ta-hl-n">6</span>
                           <div style="overflow-x: auto;">
                           <table class="ds-tbl">
                             <thead><tr><th>Student</th><th>Dates</th><th>Lesson length</th><th class="num">Total</th></tr></thead>
@@ -5968,11 +6093,16 @@ Max</textarea>
                           </div>
                           </div>
                           <div class="ds-acts" style="margin-top: 14px; justify-content: flex-end;">
-                            <span class="ds-act">Cancel</span><span class="ds-act pri demo-pinned">Submit and lock 9.25 hrs<span class="demo-pin" style="top: -12px; left: -12px;">2</span></span>
+                            <span class="ds-act">Cancel</span><span class="ds-act pri demo-pinned ta-hl" data-hl="7">Submit and lock 9.25 hrs<span class="ta-hl-n">7</span></span>
                           </div>
                         </div>
                       </div>
                     </div>
+                  </div>
+                  <div class="ta-calls">
+                    <div class="ta-call" data-for="6" data-at="right"><span class="ta-call-n">6</span><div class="ta-call-body"><div class="ta-call-t">See the sheet first</div><ul class="demo-bul"><li>Before submitting, see the exact sheet the employer receives</li> <li>Date by date, with an X for any student with no lesson</li></ul></div></div>
+                    <div class="ta-call" data-for="7" data-at="above"><span class="ta-call-n">7</span><div class="ta-call-body"><div class="ta-call-t">Submit and lock</div><ul class="demo-bul"><li>Submitting locks the pay period for good</li> <li>A later correction becomes an adjustment in the next period</li></ul><button class="ta-call-next" data-demo-next>Next: Students &#8250;</button></div></div>
+                  </div>
                   </div>
                 </section>
 
@@ -5982,11 +6112,8 @@ Max</textarea>
                          data-state-label="State of the student"
                          data-state="Nora Castellanos &middot; Harbor Piano &middot; 1.5 hours logged this pay period, recital piece nearly ready."
                          data-title="Students: roster and profile">
-                  <div class="demo-notes">
-                    <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Students grouped by who pays: the private studio or each employer</li> <li>Flags anyone going idle or cancelling often</li></ul></div></div>
-                    <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Each profile builds itself from logged lessons</li> <li>Level, hours this pay period, repertoire progress, lesson notes</li></ul></div></div>
-                  </div>
-                  <div class="ds-frame">
+                  <div class="ta-tour">
+                  <div class="ds-frame"><div class="ta-veil"></div>
                     <div class="ds-page">
                       <div class="ds-pagehead">
                         <div>
@@ -5997,7 +6124,7 @@ Max</textarea>
                       </div>
 
                       <div class="ds-stwrap">
-                        <div class="ds-card demo-pinned"><span class="demo-pin">1</span>
+                        <div class="ds-card demo-pinned ta-hl" data-hl="8"><span class="ta-hl-n">8</span>
                           <ul class="ds-stlist">
                             <li class="ds-stbucket-head">Private</li>
                             <li class="ds-st"><span class="ds-dot" style="background: var(--ds-private);"></span><span class="nm">Ada Kim</span><span class="rt">$65/hr</span></li>
@@ -6023,7 +6150,7 @@ Max</textarea>
                           </ul>
                         </div>
 
-                        <div class="ds-card ds-card-pad demo-pinned"><span class="demo-pin">2</span>
+                        <div class="ds-card ds-card-pad demo-pinned ta-hl" data-hl="9"><span class="ta-hl-n">9</span>
                           <div class="ds-pagehead" style="margin-bottom: 0;">
                             <div>
                               <h3 class="ds-h3" style="font-size: 20px;">Nora Castellanos</h3>
@@ -6065,6 +6192,11 @@ Max</textarea>
                       </div>
                     </div>
                   </div>
+                  <div class="ta-calls">
+                    <div class="ta-call" data-for="8" data-at="right"><span class="ta-call-n">8</span><div class="ta-call-body"><div class="ta-call-t">Grouped by who pays</div><ul class="demo-bul"><li>Students grouped by who pays: the private studio or each employer</li> <li>Flags anyone going idle or cancelling often</li></ul></div></div>
+                    <div class="ta-call" data-for="9" data-at="left"><span class="ta-call-n">9</span><div class="ta-call-body"><div class="ta-call-t">Profiles that build themselves</div><ul class="demo-bul"><li>Each profile builds itself from logged lessons</li> <li>Level, hours this pay period, repertoire progress, lesson notes</li></ul><button class="ta-call-next" data-demo-next>Next: Booking &#8250;</button></div></div>
+                  </div>
+                  </div>
                 </section>
 
                 <!-- ============ SLIDE 4 · BOOKING: THE TEACHER'S SIDE ================ -->
@@ -6073,11 +6205,8 @@ Max</textarea>
                          data-state-label="State of the booking page"
                          data-state="Wednesday, Thursday and Friday afternoons open &middot; existing lessons blocked out automatically."
                          data-title="Booking: the teacher's side">
-                  <div class="demo-notes">
-                    <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>One private link lets families book themselves in</li> <li>The teacher decides whether they can also claim a regular weekly time</li></ul></div></div>
-                    <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Tap the half hours open for lessons</li> <li>Existing lessons are already blocked out, so nothing double-books</li></ul></div></div>
-                  </div>
-                  <div class="ds-frame">
+                  <div class="ta-tour">
+                  <div class="ds-frame"><div class="ta-veil"></div>
                     <div class="ds-page">
                       <div class="ds-pagehead">
                         <div>
@@ -6086,7 +6215,7 @@ Max</textarea>
                         </div>
                       </div>
 
-                      <div class="ds-card ds-card-pad demo-pinned"><span class="demo-pin">1</span>
+                      <div class="ds-card ds-card-pad demo-pinned ta-hl" data-hl="10"><span class="ta-hl-n">10</span>
                         <div class="ds-eyebrow">Your link</div>
                         <div class="ds-linkrow">
                           <code class="ds-booklink">https://&hellip;/book/lessons-7f3a2c</code>
@@ -6099,7 +6228,7 @@ Max</textarea>
                         </div>
                       </div>
 
-                      <div class="ds-card ds-card-pad demo-pinned" style="margin-top: 12px;"><span class="demo-pin">2</span>
+                      <div class="ds-card ds-card-pad demo-pinned ta-hl" data-hl="11" style="margin-top: 12px;"><span class="ta-hl-n">11</span>
                         <div class="ds-eyebrow">Your week</div>
                         <p class="ds-sub" style="margin: 4px 0 10px;">Tap the half-hours you are happy to teach in. Your recurring lessons are already blocked out, so what is left is genuinely free.</p>
 
@@ -6135,6 +6264,11 @@ Max</textarea>
                       </div>
                     </div>
                   </div>
+                  <div class="ta-calls">
+                    <div class="ta-call" data-for="10" data-at="below"><span class="ta-call-n">10</span><div class="ta-call-body"><div class="ta-call-t">One private booking link</div><ul class="demo-bul"><li>One private link lets families book themselves in</li> <li>The teacher decides whether they can also claim a regular weekly time</li></ul></div></div>
+                    <div class="ta-call" data-for="11" data-at="above"><span class="ta-call-n">11</span><div class="ta-call-body"><div class="ta-call-t">Open the hours you teach</div><ul class="demo-bul"><li>Tap the half hours open for lessons</li> <li>Existing lessons are already blocked out, so nothing double-books</li></ul><button class="ta-call-next" data-demo-next>Next: the family's side &#8250;</button></div></div>
+                  </div>
+                  </div>
                 </section>
 
                 <!-- ============ SLIDE 5 · BOOKING: THE FAMILY'S SIDE ================ -->
@@ -6143,12 +6277,8 @@ Max</textarea>
                          data-state-label="State of the booking"
                          data-state="Arlo Bennett &middot; Thursdays at 5:00 &middot; 7 of the next 8 weeks free, the taken week named up front."
                          data-title="Booking: the family's side">
-                  <div class="demo-notes">
-                    <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>The family picks a lesson length first</li> <li>The grid shows only start times that length fits</li></ul></div></div>
-                    <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>The week shows open times and nothing else</li> <li>The teacher's own calendar is never public</li></ul></div></div>
-                    <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>Choose a one-off lesson or a regular weekly time</li> <li>Any week already taken is named before booking</li></ul></div></div>
-                  </div>
-                  <div class="ds-frame">
+                  <div class="ta-tour">
+                  <div class="ds-frame"><div class="ta-veil"></div>
                     <div class="ds-urlbar"><i></i><i></i><i></i><span>https://&hellip;/book/lessons-7f3a2c</span></div>
                     <div class="ds-page">
                       <h2 class="ds-h2">Book a piano lesson</h2>
@@ -6157,13 +6287,13 @@ Max</textarea>
                       <div class="ds-bookpair">
                         <div class="ds-card" style="padding: 15px 16px;">
                           <div class="ds-eyebrow">How long a lesson?</div>
-                          <div class="ds-durpick demo-pinned"><span class="demo-pin">1</span>
+                          <div class="ds-durpick demo-pinned ta-hl" data-hl="12"><span class="ta-hl-n">12</span>
                             <span class="ds-durbtn"><b>30</b><span>minutes</span></span>
                             <span class="ds-durbtn on"><b>45</b><span>minutes</span></span>
                             <span class="ds-durbtn"><b>60</b><span>minutes</span></span>
                           </div>
                           <div class="ds-weeknav"><span class="ds-act">&lsaquo;</span><b>Sep 20 &ndash; Sep 26</b><span class="ds-act">&rsaquo;</span></div>
-                          <div class="demo-pinned"><span class="demo-pin">2</span>
+                          <div class="demo-pinned ta-hl" data-hl="13"><span class="ta-hl-n">13</span>
                           <div class="ds-scroll" style="box-shadow: none;">
                             <div class="ds-pubgrid">
                               <div class="ds-pubhead"></div>
@@ -6189,7 +6319,7 @@ Max</textarea>
                             <div class="ds-mono" style="font-size: 18px; font-weight: 600; margin: 3px 0 1px;">5:00&ndash;5:45 PM</div>
                             <div class="ds-sub" style="margin: 0;">45 minutes</div>
                           </div>
-                          <div class="demo-pinned" style="display: flex; flex-direction: column; gap: 7px;"><span class="demo-pin">3</span>
+                          <div class="demo-pinned ta-hl" data-hl="14" style="display: flex; flex-direction: column; gap: 7px;"><span class="ta-hl-n">14</span>
                             <div class="ds-repopt"><b>Just this week</b><span>One lesson, on Sep 24.</span></div>
                             <div class="ds-repopt on"><b>Make this our regular time</b><span>Thursdays at 5:00&ndash;5:45 PM, from this one on.</span></div>
                           </div>
@@ -6204,6 +6334,12 @@ Max</textarea>
                       </div>
                     </div>
                   </div>
+                  <div class="ta-calls">
+                    <div class="ta-call" data-for="12" data-at="right"><span class="ta-call-n">12</span><div class="ta-call-body"><div class="ta-call-t">Pick a length first</div><ul class="demo-bul"><li>The family picks a lesson length first</li> <li>The grid shows only start times that length fits</li></ul></div></div>
+                    <div class="ta-call" data-for="13" data-at="right"><span class="ta-call-n">13</span><div class="ta-call-body"><div class="ta-call-t">Only open times show</div><ul class="demo-bul"><li>The week shows open times and nothing else</li> <li>The teacher's own calendar is never public</li></ul></div></div>
+                    <div class="ta-call" data-for="14" data-at="left"><span class="ta-call-n">14</span><div class="ta-call-body"><div class="ta-call-t">Once, or every week</div><ul class="demo-bul"><li>Choose a one-off lesson or a regular weekly time</li> <li>Any week already taken is named before booking</li></ul><button class="ta-call-next" data-demo-next>Next: Business &#8250;</button></div></div>
+                  </div>
+                  </div>
                 </section>
 
                 <!-- ============ SLIDE 6 · BUSINESS ================================== -->
@@ -6212,13 +6348,8 @@ Max</textarea>
                          data-state-label="State of the semester"
                          data-state="$4,000 to $5,000 a month &middot; the TA stipend covers most of it &middot; 4 to 6 teaching hours a week close the gap."
                          data-title="Business: what the semester has to earn">
-                  <div class="demo-notes">
-                    <div class="demo-note"><span class="demo-pin-n">1</span><div><ul class="demo-bul"><li>Set a monthly income range</li> <li>Any stipend comes off the top</li> <li>Shows what teaching still has to earn</li></ul></div></div>
-                    <div class="demo-note"><span class="demo-pin-n">2</span><div><ul class="demo-bul"><li>Each scenario turns that amount into weekly teaching hours</li> <li>At private rates, contract rates, or a mix</li></ul></div></div>
-                    <div class="demo-note"><span class="demo-pin-n">3</span><div><ul class="demo-bul"><li>The income floor restates the target as a number of students</li> <li>A thinning roster shows up before a short month does</li></ul></div></div>
-                    <div class="demo-note"><span class="demo-pin-n">4</span><div><ul class="demo-bul"><li>Hours each week already fixed</li> <li>Time left for practice</li></ul></div></div>
-                  </div>
-                  <div class="ds-frame">
+                  <div class="ta-tour">
+                  <div class="ds-frame"><div class="ta-veil"></div>
                     <div class="ds-page">
                       <div class="ds-pagehead">
                         <div>
@@ -6228,7 +6359,7 @@ Max</textarea>
                       </div>
 
                       <div class="ds-grid2 biz">
-                        <div class="ds-card ds-card-pad demo-pinned"><span class="demo-pin">1</span>
+                        <div class="ds-card ds-card-pad demo-pinned ta-hl" data-hl="15"><span class="ta-hl-n">15</span>
                           <div class="ds-eyebrow">Monthly net target</div>
                           <div class="ds-mono" style="font-size: 27px; font-weight: 600; letter-spacing: -.02em; margin-top: 6px;">$4,000 &ndash; $5,000</div>
                           <div class="ds-bandwrap">
@@ -6247,7 +6378,7 @@ Max</textarea>
                           </table>
                         </div>
 
-                        <div class="ds-card ds-card-pad demo-pinned"><span class="demo-pin">2</span>
+                        <div class="ds-card ds-card-pad demo-pinned ta-hl" data-hl="16"><span class="ta-hl-n">16</span>
                           <div class="ds-eyebrow" style="margin-bottom: 10px;">What $1,239 a month costs in chair time</div>
                           <div class="ds-scen">
                             <div class="s"><div class="h">All private &middot; $66/hr</div><div class="b">4 hrs</div><div class="c">per week. Fits comfortably around the degree.</div></div>
@@ -6261,7 +6392,7 @@ Max</textarea>
                         </div>
                       </div>
 
-                      <div class="ds-card ds-card-pad demo-pinned" style="margin-top: 14px;"><span class="demo-pin">3</span>
+                      <div class="ds-card ds-card-pad demo-pinned ta-hl" data-hl="17" style="margin-top: 14px;"><span class="ta-hl-n">17</span>
                         <div class="ds-eyebrow">Income floor</div>
                         <h3 class="ds-h3">How many students the floor actually needs</h3>
                         <div class="ds-sub">The dollar target restated as a roster: the number the teacher can watch move week to week. Current load: 13.8 hrs a week across 18 students.</div>
@@ -6271,7 +6402,7 @@ Max</textarea>
                         </div>
                       </div>
 
-                      <div class="ds-stats demo-pinned" style="margin-top: 14px;"><span class="demo-pin">4</span>
+                      <div class="ds-stats demo-pinned ta-hl" data-hl="18" style="margin-top: 14px;"><span class="ta-hl-n">18</span>
                         <div class="ds-card ds-stat"><div class="k">Fixed obligations</div><div class="v">16.5 hrs</div><div class="d">per week, university and degree combined</div></div>
                         <div class="ds-card ds-stat"><div class="k">Teaching needed</div><div class="v">4&ndash;6 hrs</div><div class="d">per week to hold the target band</div></div>
                         <div class="ds-card ds-stat"><div class="k">Left for practice</div><div class="v">~14 hrs</div><div class="d">on a 36-hour committed week</div></div>
@@ -6279,10 +6410,22 @@ Max</textarea>
                       </div>
                     </div>
                   </div>
+                  <div class="ta-calls">
+                    <div class="ta-call" data-for="15" data-at="right"><span class="ta-call-n">15</span><div class="ta-call-body"><div class="ta-call-t">Set the income target</div><ul class="demo-bul"><li>Set a monthly income range</li> <li>Any stipend comes off the top</li> <li>Shows what teaching still has to earn</li></ul></div></div>
+                    <div class="ta-call" data-for="16" data-at="left"><span class="ta-call-n">16</span><div class="ta-call-body"><div class="ta-call-t">Turn it into teaching hours</div><ul class="demo-bul"><li>Each scenario turns that amount into weekly teaching hours</li> <li>At private rates, contract rates, or a mix</li></ul></div></div>
+                    <div class="ta-call" data-for="17" data-at="above"><span class="ta-call-n">17</span><div class="ta-call-body"><div class="ta-call-t">The floor, in students</div><ul class="demo-bul"><li>The income floor restates the target as a number of students</li> <li>A thinning roster shows up before a short month does</li></ul></div></div>
+                    <div class="ta-call" data-for="18" data-at="above"><span class="ta-call-n">18</span><div class="ta-call-body"><div class="ta-call-t">Fixed hours and practice time</div><ul class="demo-bul"><li>Hours each week already fixed</li> <li>Time left for practice</li></ul><button class="ta-call-next" data-ta-restart>Start over &#8634;</button></div></div>
+                  </div>
+                  </div>
                 </section>
 
               </div><!-- /.demo-canvas -->
             </div><!-- /.demo-stage -->
+
+            <div class="ta-gate">
+              <button type="button" class="ta-gate-btn" data-ta-start>Start the tour &#8250;</button>
+              <span class="ta-gate-sub">18 steps &middot; opens full screen &middot; Esc to close</span>
+            </div>
 
             <div class="demo-controls">
               <button class="demo-arrow" data-demo-prev aria-label="Previous slide">&#8249;</button>
@@ -9276,7 +9419,8 @@ For six years I have taught theory&hellip;</div>
       if (!next) return;
       var gap = parseFloat(getComputedStyle(pin).marginBottom) || 0;
       var delta = next.getBoundingClientRect().top - (pin.getBoundingClientRect().bottom + gap);
-      if (delta < -1) window.scrollBy({ top: delta, behavior: 'smooth' });
+      // A walkthrough open full screen scrolls itself, not the page.
+      if (delta < -1) (pin.closest('.is-full') || window).scrollBy({ top: delta, behavior: 'smooth' });
     }
 
     // ── Analytics ───────────────────────────────────────────────────────────
@@ -10229,7 +10373,8 @@ For six years I have taught theory&hellip;</div>
 })();
   </script>
 
-  <!-- Career Desk walkthrough popups, transplanted from demo/career-desk-demo.html -->
+  <!-- Walkthrough popups: Career Desk (from demo/career-desk-demo.html, prefix cd-)
+       and Virtual Agency (prefix ag-, 2026-09-18) share initTour(). -->
 <script>
 (function () {
   'use strict';
@@ -10242,13 +10387,16 @@ For six years I have taught theory&hellip;</div>
   // 700px of tour width the popups become a list under the screen instead.
   // A ResizeObserver re-places them whenever a slide shows (display: none to
   // block is a resize), the window resizes, or fonts land.
-  var root = document.querySelector('.desk-demo[data-demo-panel]');
-  if (!root) return;
+  // p is the class prefix: cd for Career Desk, ag for Virtual Agency. The
+  // `end` side puts a popup at the tour's right edge, in the gutter the
+  // Agency slides keep free, level with its highlight.
   var GAP = 14, LIST_BELOW = 700;
+  function initTour(root, p) {
+  if (!root) return;
 
   function place(tour) {
     if (!tour.offsetWidth) return;
-    var calls = Array.prototype.slice.call(tour.querySelectorAll('.cd-call.is-cur'));
+    var calls = Array.prototype.slice.call(tour.querySelectorAll('.' + p + '-call.is-cur'));
     var list = tour.offsetWidth < LIST_BELOW;
     tour.classList.toggle('is-list', list);
     if (list) { calls.forEach(function (c) { c.style.left = c.style.top = ''; }); return; }
@@ -10265,6 +10413,7 @@ For six years I have taught theory&hellip;</div>
         case 'below':     x = tl; y = tt + th + GAP; break;
         case 'below-end': x = tl + tw - w; y = tt + th + GAP; break;
         case 'above':     x = tl + tw / 2 - w / 2; y = tt - h - GAP; break;
+        case 'end':       x = W - w; y = tt; break;
         case 'free':      // centered in the slide's unhighlighted column, level with its highlight
           var f = tour.querySelector('[data-free]');
           var fr = f ? f.getBoundingClientRect() : r;
@@ -10276,8 +10425,8 @@ For six years I have taught theory&hellip;</div>
       var moved = true;
       while (moved) {
         moved = false;
-        placed.forEach(function (p) {
-          if (x < p.x + p.w && x + w > p.x && y < p.y + p.h + 10 && y + h + 10 > p.y) { y = p.y + p.h + 10; moved = true; }
+        placed.forEach(function (q) {
+          if (x < q.x + q.w && x + w > q.x && y < q.y + q.h + 10 && y + h + 10 > q.y) { y = q.y + q.h + 10; moved = true; }
         });
       }
       c.style.left = x + 'px'; c.style.top = y + 'px';
@@ -10289,7 +10438,7 @@ For six years I have taught theory&hellip;</div>
   // popup but a slide's last gets Back and Next buttons here; the last keeps
   // its own button, which moves to the next slide.
   function setStep(tour, k) {
-    var calls = tour.querySelectorAll('.cd-call');
+    var calls = tour.querySelectorAll('.' + p + '-call');
     var moved = tour._step !== undefined && tour._step !== k;
     tour._step = k;
     Array.prototype.forEach.call(calls, function (c, n) {
@@ -10298,28 +10447,54 @@ For six years I have taught theory&hellip;</div>
       if (t) t.classList.toggle('is-cur', n === k);
     });
     place(tour);
-    if (moved && tour.classList.contains('is-list')) {
-      var cur = tour.querySelector('.cd-hl.is-cur');
-      if (cur) cur.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    var cur = tour.querySelector('.' + p + '-hl.is-cur');
+    if (!moved || !cur) return;
+    // A highlight inside a scroll box of its own (TeacherAID's Hours dialog on
+    // a phone) is first scrolled into that box.
+    for (var a = cur.parentElement; a && a !== tour; a = a.parentElement) {
+      if (a.scrollHeight > a.clientHeight + 1 && /auto|scroll/.test(getComputedStyle(a).overflowY)) {
+        var ar = a.getBoundingClientRect(), hr = cur.getBoundingClientRect();
+        if (hr.bottom > ar.bottom || hr.top < ar.top) a.scrollTop += hr.top - ar.top - 12;
+      }
     }
+    // Tall slides (the Agency job description, TeacherAID's Schedule): bring
+    // the highlight and its popup into view, clear of whichever pinned layer
+    // sits lowest (TeacherAID pins its strip under the title card). Full
+    // screen scrolls the overlay, not the page. On a phone the popup is
+    // pinned to the bottom of the screen, so it sets the floor.
+    var full = root.classList.contains('is-full');
+    var list = tour.classList.contains('is-list');
+    var top = full ? root.getBoundingClientRect().top : 0;
+    root.querySelectorAll('.demo-caption, .demo-nav-wrap').forEach(function (el) {
+      if (getComputedStyle(el).position === 'sticky') top = Math.max(top, el.getBoundingClientRect().bottom);
+    });
+    top += list ? 14 : 24;
+    var call = tour.querySelector('.' + p + '-call.is-cur');
+    var cr = call ? call.getBoundingClientRect() : null;
+    var bottom = (full ? root.getBoundingClientRect().bottom : window.innerHeight) - (list && cr ? cr.height + 24 : 16);
+    var r = cur.getBoundingClientRect();
+    var high = list || !cr ? r.top : Math.min(r.top, cr.top);
+    var low = list || !cr ? r.bottom : Math.max(r.bottom, cr.bottom);
+    var dy = high < top ? high - top : (low > bottom ? Math.min(low - bottom, high - top) : 0);
+    if (dy) (full ? root : window).scrollBy({ top: dy, behavior: 'smooth' });
   }
-  var tours = Array.prototype.slice.call(root.querySelectorAll('.cd-tour'));
+  var tours = Array.prototype.slice.call(root.querySelectorAll('.' + p + '-tour'));
   tours.forEach(function (tour) {
-    var calls = tour.querySelectorAll('.cd-call');
+    var calls = tour.querySelectorAll('.' + p + '-call');
     Array.prototype.forEach.call(calls, function (c, n) {
-      var body = c.querySelector('.cd-call-body');
-      var own = body.querySelector('.cd-call-next');
+      var body = c.querySelector('.' + p + '-call-body');
+      var own = body.querySelector('.' + p + '-call-next');
       var nav = document.createElement('div');
-      nav.className = 'cd-call-nav';
+      nav.className = p + '-call-nav';
       if (n > 0) {
         var back = document.createElement('button');
-        back.type = 'button'; back.className = 'cd-call-back'; back.innerHTML = '&#8249; Back';
+        back.type = 'button'; back.className = p + '-call-back'; back.innerHTML = '&#8249; Back';
         back.addEventListener('click', function () { setStep(tour, n - 1); });
         nav.appendChild(back);
       }
       if (n < calls.length - 1) {
         var next = document.createElement('button');
-        next.type = 'button'; next.className = 'cd-call-next'; next.innerHTML = 'Next &#8250;';
+        next.type = 'button'; next.className = p + '-call-next'; next.innerHTML = 'Next &#8250;';
         next.addEventListener('click', function () { setStep(tour, n + 1); });
         nav.appendChild(next);
       } else if (own) {
@@ -10352,7 +10527,7 @@ For six years I have taught theory&hellip;</div>
   function openFull() {
     savedY = window.scrollY;
     backdrop = document.createElement('div');
-    backdrop.className = 'cd-backdrop';
+    backdrop.className = p + '-backdrop';
     backdrop.addEventListener('click', closeFull);
     document.body.appendChild(backdrop);
     document.documentElement.style.overflow = 'hidden';
@@ -10372,17 +10547,21 @@ For six years I have taught theory&hellip;</div>
     window.scrollTo(0, savedY);
     window.dispatchEvent(new Event('resize'));
   }
-  Array.prototype.slice.call(root.querySelectorAll('[data-cd-start]')).forEach(function (b) { b.addEventListener('click', openFull); });
-  Array.prototype.slice.call(root.querySelectorAll('[data-cd-close]')).forEach(function (b) { b.addEventListener('click', closeFull); });
+  Array.prototype.slice.call(root.querySelectorAll('[data-' + p + '-start]')).forEach(function (b) { b.addEventListener('click', openFull); });
+  Array.prototype.slice.call(root.querySelectorAll('[data-' + p + '-close]')).forEach(function (b) { b.addEventListener('click', closeFull); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeFull(); });
 
   // The last popup's button goes back to step 1 through the first strip item.
-  Array.prototype.slice.call(root.querySelectorAll('[data-cd-restart]')).forEach(function (b) {
+  Array.prototype.slice.call(root.querySelectorAll('[data-' + p + '-restart]')).forEach(function (b) {
     b.addEventListener('click', function () {
       var first = root.querySelector('.demo-nav-item[data-slide="0"]');
       if (first) first.click();
     });
   });
+  }
+  initTour(document.querySelector('.desk-demo[data-demo-panel]'), 'cd');
+  initTour(document.querySelector('.agency-demo[data-demo-panel]'), 'ag');
+  initTour(document.querySelector('.dasha-demo[data-demo-panel]'), 'ta');
 })();
 </script>
 
