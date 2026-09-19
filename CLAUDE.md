@@ -704,7 +704,7 @@ the dialog's own scroll, and the 36px page overflow is the pre-existing hero H1.
 
 ## The Sprout CRM carousel (transplanted 2026-09-12)
 
-**A guided tour since 2026-09-18, pushed only on Max's word.** Built as `demo/sprout-crm-tour-demo.html`, then
+**A guided tour since 2026-09-18.** Built as `demo/sprout-crm-tour-demo.html`, then
 transplanted: every pin became a highlight (`sc-hl`) and every note its popup (`sc-call`), 20 steps across the tool,
 notes word for word, plus a title per popup. A Start gate opens it full screen; phones run it inline. The notes row
 and hover pops are gone from this carousel. The same session changed the shared `initTour()` for all four tours:
@@ -813,6 +813,33 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
+### Session of 2026-09-18, final: the Sprout CRM tour (pushed)
+
+Max's ask: work through `docs/slideshow-tutorial-checklist.md` one slideshow at a time. **That checklist
+is the tracker for the tour rollout**; start there.
+
+- **Sprout CRM is a guided tour** (`7607b3b`). Built standalone as `demo/sprout-crm-tour-demo.html`, then
+  transplanted over the Sprout CRM panel: 20 steps, notes word for word, a title per popup (Claude's
+  draft), full screen from a Start gate, inline on phones. Details under "The Sprout CRM carousel".
+- **The shared `initTour()` changed for all four tours:** Back from a slide's first step to the previous
+  slide's last step (checklist item 1), and a slide change scrolls to its first step in one scroll with
+  `alignUnderPin()`. That fixes the Career Desk phone issue listed under the TeacherAID session below.
+- **Build order Max agreed:** each slideshow as a standalone in `demo/` first, then transplant. Sprout CRM
+  was the pilot; the next three Sprout tours get built standalone, then transplanted together.
+- **Verified headless (1280, 960, 390) on all four tours:** 1758 of 1761. Sprout CRM passes everything.
+
+**Open:**
+- Max reviews the Sprout CRM tour and its 20 popup titles.
+- At 960 wide, already live: TeacherAID step 6's popup covers its highlight; Career Desk step 1's popup
+  runs 3px past the overlay.
+- `demo/career-desk-demo.html` still lacks Back across slides (the page has it).
+- Still untracked from other sessions: `demo/compass-tutorial-demo.html` (done, not transplanted) and
+  `demo/crm-tour-demo.html` (in progress).
+
+**Next:** build Grant Finder, Social Planner and Campaign Tracker as standalone tours
+(`demo/<name>-tour-demo.html`, prefixes free to pick), then transplant the three together. Grant's
+Pipeline column highlights (`.demo-col` overlays) need care.
+
 ### Session of 2026-09-18, latest: the Virtual Agency tour (pushed)
 
 Max's ask: the Virtual Agency slideshow should work like Career Desk, an interactive tour with a full
@@ -835,9 +862,8 @@ screen pop out. Page only; details under "The Virtual Agency tour".
 **Open:**
 - Max reviews the Agency tour and its 12 popup titles and bullets.
 - `demo/agency-demo.html` is still the pinned carousel; the tour exists on the page only.
-- Untracked, from other sessions, not committed: `demo/compass-tutorial-demo.html`,
-  `demo/crm-tour-demo.html`, `demo/sprout-crm-tour-demo.html` and `docs/slideshow-tutorial-checklist.md`.
-  The Compass, Hub CRM and Sprout CRM carousels are not tours on the page yet.
+- ~~Untracked from other sessions~~ The Sprout CRM tour and the checklist are committed since `7607b3b`; see the
+  session above. The Compass and Hub CRM carousels are not tours on the page yet.
 
 ### Session of 2026-09-18, latest: TeacherAID as a guided tour (pushed)
 
@@ -861,8 +887,8 @@ the shared `initTour`.
 
 **Open:**
 - Max reviews the tour and the 18 popup titles.
-- On a phone, Career Desk steps 3 and 7 (a slide's first step) can leave the highlight below the
-  screen: `setStep` only scrolls between steps within a slide. Predates this session.
+- ~~On a phone, Career Desk steps 3 and 7 (a slide's first step) can leave the highlight below the
+  screen.~~ Fixed in `initTour()` with the Sprout CRM tour.
 
 ### Session of 2026-09-18, last: the Career Desk tab (pushed)
 
