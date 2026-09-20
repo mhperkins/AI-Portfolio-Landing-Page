@@ -829,11 +829,24 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
-**Where things stand (2026-09-19, end of session):** all nine slideshows on `index.html` are guided tours
-(Compass, Composer CRM, Agency, TeacherAID, Sprout CRM, Grant, Social, Campaign, Career Desk), each with a
-full screen Start gate, Next and Back on every step but step 1, and an inline mode on phones. Live as of `aa67d1e`.
+**Where things stand (2026-09-19, end of the last session):** all nine slideshows on `index.html` are guided
+tours (Compass, Composer CRM, Agency, TeacherAID, Sprout CRM, Grant, Social, Campaign, Career Desk), each with
+a full screen Start gate, Next and Back on every step but step 1, and an inline mode on phones. Live as of
+`8c2f86b`; the site itself is unchanged since `baaa05f`.
+
+**The last session (2026-09-19, late) touched no site files.** It was career work plus tooling in two sibling
+projects: the Deepgram application drafted in `career/`, a low-code AI role sweep logged in
+`tracks/career-search-master.md`, and Desktop launchers for Career Desk and the Composer Hub (their own
+`CLAUDE.md` files carry that). The only commit here is `8c2f86b`, this file.
 
 **Next session (Max's call):** review the popup titles on every tour. All of them are Claude's drafts.
+
+**Also open, from the last session:** whether to build the design-engineer track. The portfolio proves
+interface work in code (nine hand-built tours, eight design-token systems that do not leak, 390px responsive
+work, keyboard-reachable controls, the wireframe protocol, GA note and slide events), but it has no Figma, no
+research artifacts and no written case study, so it does not answer a UX Designer screen. The nearest real
+titles are Design Engineer, UX Engineer and Front-end Product Engineer. Building that track means a CV variant
+and one written case study, most likely the Career Desk walkthrough with the GA data as its outcome.
 
 **960 fixes (2026-09-19, last):** TeacherAID step 6 and the CRM standalone now use the 270px right
 gutter the page's Composer CRM tour uses (full screen, window under 1200px, only on slides with an app
