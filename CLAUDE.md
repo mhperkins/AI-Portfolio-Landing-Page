@@ -834,12 +834,13 @@ tours (Compass, Composer CRM, Agency, TeacherAID, Sprout CRM, Grant, Social, Cam
 a full screen Start gate, Next and Back on every step but step 1, and an inline mode on phones. Live as of
 `8c2f86b`; the site itself is unchanged since `baaa05f`.
 
-**The last session (2026-09-19, late) touched no site files.** It was career work plus tooling in two sibling
-projects: the Deepgram application drafted in `career/`, a low-code AI role sweep logged in
-`tracks/career-search-master.md`, and Desktop launchers for Career Desk and the Composer Hub (their own
-`CLAUDE.md` files carry that). The only commit here is `8c2f86b`, this file.
+**The last session (2026-09-20) touched no site files.** It built the job search loop in Career Desk
+(`../career-desk/`, whose `CLAUDE.md` is the current state). The only thing that lands in this repo is
+`career/leads/`, which is gitignored like the rest of `career/`. See the session note below.
 
 **Next session (Max's call):** review the popup titles on every tour. All of them are Claude's drafts.
+Also open, on Career Desk's Leads screen: the watchlist is 20 employers and needs a sweep to 200 to 300
+before it is a daily feed.
 
 **Also open, from the last session:** whether to build the design-engineer track. The portfolio proves
 interface work in code (nine hand-built tours, eight design-token systems that do not leak, 390px responsive
@@ -877,6 +878,44 @@ Social's button stays in view 500px into the card; then the full suite again, 0 
   CV's source, so it waits for Max's call.
 - `demo/agency-demo.html` is still the pinned carousel.
 - `teaching.html` (branch `teaching-page`): decide whether it gets the tour treatment before it merges.
+
+### Session of 2026-09-20: the job search loop in Career Desk (no site changes)
+
+Max's ask: a job search function for Career Desk that is faster than asking Claude in a conversation.
+Everything below is in `../career-desk/` and `career/leads/`; **that project's `CLAUDE.md` is the current
+state and the place to start.** No file in this repo changed except this one.
+
+**Why a conversation is slow, which is what the design answers:** it rediscovers everything each session
+(the Sept 15 audit re-confirmed that Careerswift, Noodle, CIMA, NewRocket and Pearson were dead), it
+searches instead of subscribing, and its output is a table Max has to re-read before asking for a folder.
+
+**The design call, and the question not to re-litigate: poll applicant tracking systems, do not search job
+boards.** Ashby, Greenhouse, Lever, Workable and Workday are the software a company runs its hiring in, so
+one unauthenticated call returns that employer's whole board with full description text, and a closed req
+vanishes the moment it closes. Six free aggregators were tested the same day and all were structurally
+noisy, because staffing shops pay to list and real employers have no reason to: The Muse "Entry Level"
+returned Wait Staff and a Solar Sales Rep, Himalayas returned Bright Vision Technologies twice, Arbeitnow
+was almost all German. **Aggregators are a source of employer names, never the feed.** That is Grant
+Finder's own rule ("never trust a link Claude generates from memory") one layer up, and it is why the
+architecture inverts Grant Finder's rather than copying it: grants have no per-funder feed, jobs do.
+
+- **Four layers, one of which costs tokens:** poll the watchlist, cull on title and location from
+  `rules.json`, judge the survivors in one batched Claude call, then decide. **First run: 20 employers,
+  2,043 open roles, 1,522 culled for free, 26 judged in five calls.**
+- **The watchlist was seeded from Max's own docs,** every ATS link in `tracks/`, the application folders
+  and `career/README.md`, each validated against its live API so no invented slug could be stored.
+- **The compounding part:** a dismissal carries a reason, and the reasons go into the next judge call.
+  Verified: after dismissing a Weekday voice-cloning gig, the next voice-cloning gig came back "Same
+  Weekday 1 voice-cloning gig shape Max already dismissed (CX Agent Voice Cloning, Standard French)".
+- **Calibration:** Deepgram 89 and Brady Martz 89, the two he actually pursued; Boulevard GTM Engineer 10,
+  citing the GTM shape he ruled out Sept 19; the Innodata $15/hr duplicates 25 or under.
+- `career/leads/` holds `watchlist.json`, `rules.json`, `targeting.md` (**the file to edit when the search
+  changes**) and `leads.json`. It sits outside `applications/`, so `build.py check --all` is unaffected and
+  still OK on all 15 folders.
+
+**Open:** the Angle line switches between first and third person and should always be first person; the
+watchlist needs a sweep from 20 to 200 or 300 employers before it is a daily feed; card density, Re-judge
+and the tab order are Claude's calls. Full list in `../career-desk/CLAUDE.md`.
 
 ### Session of 2026-09-19: low-code AI role sweep, the UI/UX question, Deepgram drafted
 
