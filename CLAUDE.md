@@ -829,10 +829,12 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
-**Where things stand (2026-09-19, end of the last session):** all nine slideshows on `index.html` are guided
+**Where things stand (2026-09-22, end of the last session):** all nine slideshows on `index.html` are guided
 tours (Compass, Composer CRM, Agency, TeacherAID, Sprout CRM, Grant, Social, Campaign, Career Desk), each with
 a full screen Start gate, Next and Back on every step but step 1, and an inline mode on phones. Live as of
-`8c2f86b`; the site itself is unchanged since `baaa05f`.
+`cb761f1`. Today's two site changes: the GitHub link in the hero band and on the CV header (`00dc7b8`), and
+the Start gates dropped under the tab bars so the tool tabs are clickable again (`cb761f1`). Career work is
+in `../career-desk/`, not here.
 
 **Start gates no longer cover the tab bars (2026-09-22).** Every tour's Start gate sat at
 `z-index: 40`, the same as the main tab bar, and came later in the DOM, so once the page scrolled
@@ -844,7 +846,9 @@ pinned strip (27) and title card (25) and under both bars. Do not raise them aga
 headless at 1280x900 and 1440x820: 158 of 158 (every main tab and visible tool tab hit-tests to
 itself with a gate scrolled under the bars, every gate button is clickable, each gate opens full
 screen and Esc closes it, zero script errors). The `demo/` standalones have no page chrome, so
-they are unchanged.
+they are unchanged. The gates have carried `z-index: 40` since the first one shipped on 2026-09-18
+(`5c40aed`), so the overlap is not new; the 2026-09-19 change that sticks the button to the top of the
+preview is what made the blocked tab bar easy to land on.
 
 **GitHub link (2026-09-22).** `github.com/mhperkins` was already in the Contact block on all three
 pages. It is now also in the **hero band** under "AI Developer" (`.hero-gh`, the GitHub mark plus the
@@ -897,7 +901,10 @@ land right; `#contact` lands clear. Fixed in the same pass on `resume.html`: fiv
 dashes (now middots) and the "See the Composer Hub" button opened in the same tab.
 
 **Start buttons always in view (2026-09-19, last).** A tall preview centred its gate button below the
-screen (Social sat at 954px in a 900px window). One shared rule now tops every gate instead of centring
+screen (Social sat at 954px in a 900px window). **The gate has covered the bars since the first gate
+shipped on 2026-09-18** (`z-index: 40` from `5c40aed` on), but a centred button rarely sat beside them;
+sticking it to the top of the preview is what made the blocked tab bar easy to land on. Fixed 2026-09-22,
+see "Start gates no longer cover the tab bars" above. One shared rule now tops every gate instead of centring
 it (`padding: clamp(28px, 11vh, 120px) 16px 24px`, listed per root so it beats each gate's own
 `justify-content`), and each gate's two children sit in a new `.demo-gate-in` wrapper that is
 `position: sticky` at `--demo-pin-top + 16px`, so the button follows the scroll under the pinned bars
