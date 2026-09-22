@@ -831,10 +831,11 @@ This site is served from its Vercel default domain (ai-portfolio-landing-page.ve
 
 **Where things stand (2026-09-22, end of the last session):** all nine slideshows on `index.html` are guided
 tours (Compass, Composer CRM, Agency, TeacherAID, Sprout CRM, Grant, Social, Campaign, Career Desk), each with
-a full screen Start gate, Next and Back on every step but step 1, and an inline mode on phones. Live as of
-`cb761f1`. Today's two site changes: the GitHub link in the hero band and on the CV header (`00dc7b8`), and
-the Start gates dropped under the tab bars so the tool tabs are clickable again (`cb761f1`). Career work is
-in `../career-desk/`, not here.
+a full screen Start gate, Next and Back on every step but step 1, and an inline mode on phones. Every popup
+on every tour is now **one title and one subtitle**, not a bullet list. Live as of
+`cb761f1`. Today's three site changes: the GitHub link in the hero band and on the CV header (`00dc7b8`),
+the Start gates dropped under the tab bars so the tool tabs are clickable again (`cb761f1`), and the popup
+rewrite below. Career work is in `../career-desk/`, not here.
 
 **Start gates no longer cover the tab bars (2026-09-22).** Every tour's Start gate sat at
 `z-index: 40`, the same as the main tab bar, and came later in the DOM, so once the page scrolled
@@ -876,7 +877,8 @@ per-tool link ships**, and the repo is worth addressing on its own regardless of
 (`../career-desk/`, whose `CLAUDE.md` is the current state). The only thing that lands in this repo is
 `career/leads/`, which is gitignored like the rest of `career/`. See the session note below.
 
-**Next session (Max's call):** review the popup titles on every tour. All of them are Claude's drafts.
+**Next session (Max's call):** review the popup titles and subtitles on every tour. All of them are Claude's
+drafts.
 Also open, on Career Desk's Leads screen: the watchlist is 20 employers and needs a sweep to 200 to 300
 before it is a daily feed.
 
@@ -919,6 +921,33 @@ Social's button stays in view 500px into the card; then the full suite again, 0 
   CV's source, so it waits for Max's call.
 - `demo/agency-demo.html` is still the pinned carousel.
 - `teaching.html` (branch `teaching-page`): decide whether it gets the tour treatment before it merges.
+
+### Session of 2026-09-22, later: every tour popup is one title and one subtitle
+
+Max's ask: the popup blurbs should carry one title and one subtitle conveying the information already there,
+on all nine tools. The bullet lists the 2026-09-16 session created are gone from every tour.
+
+- **Markup:** a popup body is now `<div class="XX-call-t">Title</div><div class="XX-call-s">Subtitle</div>`.
+  The `<ul class="demo-bul">` is gone from every `-call`, and a new `.XX-call-s { margin: 0; }` rule sits
+  beside each `.XX-call-t` rule, so the subtitle inherits the popup's 12.5px / 1.45 body type. **A new tour
+  popup uses this shape, not `demo-bul`.** The `.XX-call .demo-bul` rules are unused now, left in place.
+- **135 popups on `index.html`** (Compass 13, Composer CRM 18, Agency 12, TeacherAID 18, Sprout CRM 20,
+  Grant 17, Social 15, Campaign 10, Career Desk 12) and the same notes in the **seven tour standalones**
+  (`compass-tutorial-demo`, `crm-tour-demo`, `sprout-crm-tour-demo`, `grant-tour-demo`, `social-tour-demo`,
+  `campaign-tour-demo`, `career-desk-demo`), 105 of them, so the iteration sources stay in sync.
+- **The facts are unchanged.** Each subtitle folds that popup's 2 to 4 bullets into one sentence, Oxford
+  commas and no em dashes. Titles are the same wording as before. All of it is still Claude's draft.
+- **The standalones were keyed by prefix and step number,** then checked against the page: all 105 held
+  exactly the title and bullets the page held for that key, 0 mismatches, so none was mapped to the wrong
+  note. Note the prefixes differ from the page's: `compass-tutorial-demo` uses `ct-` where the page uses
+  `cc-`, and `crm-tour-demo` uses `tour-` where the page uses `hc-`.
+- **The `demo/` pinned carousels keep their bullet notes** (`agency-demo`, `dasha-demo`, `compass-demo`,
+  `crm-demo`, `sprout-crm-demo`, `grant-demo`, `social-demo`, `campaign-demo`), because they still show a
+  notes row rather than tour popups. So does `teaching.html` on the `teaching-page` branch.
+- **Verified headless at 1280, 960 and 390 (touch): 4299 checks, 0 failures.** Every step of all nine tours:
+  one popup and one highlight lit, exactly one title and one subtitle in the popup, zero bullet lists left,
+  the popup inside the window sideways and never covering its highlight at desktop widths, no sideways page
+  scroll, zero script errors, em dash counts unchanged. Screenshots checked by eye.
 
 ### Session of 2026-09-20: the job search loop in Career Desk (no site changes)
 
@@ -1421,7 +1450,12 @@ Career work only; no site changes. Everything below lives in `career/`, which is
 - **Confirm the PMP is still in progress** before an interview. It is listed on this resume.
 - **Next:** the Savanna Institute application (Oct 4). Max hasn't proofread it yet.
 
-### Session of 2026-09-16: every numbered note is a bullet list (pushed)
+### Session of 2026-09-16: every numbered note is a bullet list (pushed; superseded for tours 2026-09-22)
+
+> **Superseded on the tours.** Every tour popup became one title and one subtitle on 2026-09-22, so
+> `demo-bul` is gone from all nine tours on the page and from the seven tour standalones. This section still
+> describes the `demo/` pinned carousels and `teaching.html`, which keep their bullet notes rows.
+
 
 Max's ask: same info, faster to read. All 115 notes on `index.html` and the same 115 in the eight
 `demo/` standalones are now 2 to 4 short bullets each, no end periods. Claude did the split; the

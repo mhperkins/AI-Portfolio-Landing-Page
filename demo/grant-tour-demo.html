@@ -482,6 +482,7 @@ body {
 .grant-demo .gt-call-n { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--fuchsia); color: #fff; font-size: 11.5px; font-weight: 900; line-height: 22px; text-align: center; }
 .grant-demo .gt-call-body { flex: 1; min-width: 0; }
 .grant-demo .gt-call-t { font-size: 15px; font-weight: 900; letter-spacing: -0.01em; line-height: 1.2; margin: 2px 0 5px; }
+.grant-demo .gt-call-s { margin: 0; }
 .grant-demo .gt-call .demo-bul li::marker { color: var(--fuchsia); }
 .grant-demo .gt-call-nav { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 9px; }
 .grant-demo .gt-call-nav button { white-space: nowrap; }
@@ -685,10 +686,10 @@ body {
           </div>
         </div>
         <div class="gt-calls">
-            <div class="gt-call" data-for="1" data-at="below-end"><span class="gt-call-n">1</span><div class="gt-call-body"><div class="gt-call-t">The pipeline at a glance</div><ul class="demo-bul"><li>Grants active or being written</li> <li>Total asked across every funder</li> <li>Grants due within 30 days</li></ul></div></div>
-            <div class="gt-call" data-for="2" data-at="right"><span class="gt-call-n">2</span><div class="gt-call-body"><div class="gt-call-t">Days left on every deadline</div><ul class="demo-bul"><li>Each deadline shows the days left</li> <li>Color shifts as it gets closer; the most urgent is red</li></ul></div></div>
-            <div class="gt-call" data-for="3" data-at="right"><span class="gt-call-n">3</span><div class="gt-call-body"><div class="gt-call-t">How far along each one is</div><ul class="demo-bul"><li>A progress bar counts each application's answered questions</li> <li>Flags any that still have gaps</li></ul></div></div>
-            <div class="gt-call" data-for="4" data-at="left"><span class="gt-call-n">4</span><div class="gt-call-body"><div class="gt-call-t">One next step per grant</div><ul class="demo-bul"><li>Every grant carries its one next step</li> <li>From emailing a program officer to sending the impact report after an award</li></ul><button class="gt-call-next" data-demo-next>Next: Import from Claude &#8250;</button></div></div>
+            <div class="gt-call" data-for="1" data-at="below-end"><span class="gt-call-n">1</span><div class="gt-call-body"><div class="gt-call-t">The pipeline at a glance</div><div class="gt-call-s">Grants active or being written, the total asked across every funder, and the grants due within 30 days.</div></div></div>
+            <div class="gt-call" data-for="2" data-at="right"><span class="gt-call-n">2</span><div class="gt-call-body"><div class="gt-call-t">Days left on every deadline</div><div class="gt-call-s">Each deadline shows the days left, and its color shifts as it gets closer, with the most urgent in red.</div></div></div>
+            <div class="gt-call" data-for="3" data-at="right"><span class="gt-call-n">3</span><div class="gt-call-body"><div class="gt-call-t">How far along each one is</div><div class="gt-call-s">A progress bar counts each application's answered questions and flags any that still have gaps.</div></div></div>
+            <div class="gt-call" data-for="4" data-at="left"><span class="gt-call-n">4</span><div class="gt-call-body"><div class="gt-call-t">One next step per grant</div><div class="gt-call-s">Every grant carries its one next step, from emailing a program officer to sending the impact report after an award.</div><button class="gt-call-next" data-demo-next>Next: Import from Claude &#8250;</button></div></div>
         </div>
         </div><!-- /.gt-tour -->
       </section>
@@ -770,10 +771,10 @@ body {
           </div>
         </div>
         <div class="gt-calls">
-            <div class="gt-call" data-for="5" data-at="below-end"><span class="gt-call-n">5</span><div class="gt-call-body"><div class="gt-call-t">Claude does the research</div><ul class="demo-bul"><li>In its own conversation, Claude follows plain-language research protocols</li> <li>Finds grants with live web search</li> <li>Checks every link, deadline and eligibility rule on the funder's own page</li></ul></div></div>
-            <div class="gt-call" data-for="6" data-at="below-end"><span class="gt-call-n">6</span><div class="gt-call-body"><div class="gt-call-t">The grant profile as JSON</div><ul class="demo-bul"><li>Claude hands back the whole grant profile as JSON</li> <li>Every question with its character limit, the tasks, the framing notes</li> <li>Ready to paste in</li></ul></div></div>
-            <div class="gt-call" data-for="7" data-at="above"><span class="gt-call-n">7</span><div class="gt-call-body"><div class="gt-call-t">Check it before it lands</div><ul class="demo-bul"><li>Preview before import: the ask, the deadline, the framing note</li> <li>Past grantees from public tax filings</li> <li>The words reviewers respond to</li> <li>A clear go or no-go</li></ul></div></div>
-            <div class="gt-call" data-for="8" data-at="above"><span class="gt-call-n">8</span><div class="gt-call-body"><div class="gt-call-t">A workspace in one click</div><ul class="demo-bul"><li>One click builds a full grant workspace</li> <li>Questions, tasks and framing notes already in place</li></ul><button class="gt-call-next" data-demo-next>Next: Research Brief &#8250;</button></div></div>
+            <div class="gt-call" data-for="5" data-at="below-end"><span class="gt-call-n">5</span><div class="gt-call-body"><div class="gt-call-t">Claude does the research</div><div class="gt-call-s">In its own conversation Claude follows plain-language research protocols, finds grants with live web search, and checks every link, deadline, and eligibility rule on the funder's own page.</div></div></div>
+            <div class="gt-call" data-for="6" data-at="below-end"><span class="gt-call-n">6</span><div class="gt-call-body"><div class="gt-call-t">The grant profile as JSON</div><div class="gt-call-s">Claude hands back the whole profile as JSON, every question with its character limit, the tasks, and the framing notes, ready to paste in.</div></div></div>
+            <div class="gt-call" data-for="7" data-at="above"><span class="gt-call-n">7</span><div class="gt-call-body"><div class="gt-call-t">Check it before it lands</div><div class="gt-call-s">Preview the ask, the deadline, and the framing note, with past grantees from public tax filings, the words reviewers respond to, and a clear go or no-go.</div></div></div>
+            <div class="gt-call" data-for="8" data-at="above"><span class="gt-call-n">8</span><div class="gt-call-body"><div class="gt-call-t">A workspace in one click</div><div class="gt-call-s">One click builds a full grant workspace with questions, tasks, and framing notes already in place.</div><button class="gt-call-next" data-demo-next>Next: Research Brief &#8250;</button></div></div>
         </div>
         </div><!-- /.gt-tour -->
       </section>
@@ -859,8 +860,8 @@ One question only: does peer connection fit Civic Life or Health and Wellbeing?<
           </div>
         </div>
         <div class="gt-calls">
-            <div class="gt-call" data-for="9" data-at="below-end"><span class="gt-call-n">9</span><div class="gt-call-body"><div class="gt-call-t">Framing that stays in view</div><ul class="demo-bul"><li>Framing notes from the research stay pinned above every tab</li> <li>Every answer starts from the same angle</li></ul></div></div>
-            <div class="gt-call" data-for="10" data-at="above"><span class="gt-call-n">10</span><div class="gt-call-body"><div class="gt-call-t">The funder research brief</div><ul class="demo-bul"><li>Who the funder is, and whether Sprout fits and should apply</li> <li>What past grantees from public tax filings have in common</li> <li>Words to use and avoid, and how the application gets scored</li> <li>The one question worth asking the program officer</li></ul><button class="gt-call-next" data-demo-next>Next: Questions &#8250;</button></div></div>
+            <div class="gt-call" data-for="9" data-at="below-end"><span class="gt-call-n">9</span><div class="gt-call-body"><div class="gt-call-t">Framing that stays in view</div><div class="gt-call-s">Framing notes from the research stay pinned above every tab, so every answer starts from the same angle.</div></div></div>
+            <div class="gt-call" data-for="10" data-at="above"><span class="gt-call-n">10</span><div class="gt-call-body"><div class="gt-call-t">The funder research brief</div><div class="gt-call-s">Who the funder is and whether Sprout fits, what past grantees from public tax filings have in common, the words to use and avoid, how the application gets scored, and the one question worth asking the program officer.</div><button class="gt-call-next" data-demo-next>Next: Questions &#8250;</button></div></div>
         </div>
         </div><!-- /.gt-tour -->
       </section>
@@ -986,10 +987,10 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
           </div>
         </div>
         <div class="gt-calls">
-            <div class="gt-call" data-for="11" data-at="below-end"><span class="gt-call-n">11</span><div class="gt-call-body"><div class="gt-call-t">Where the application stands</div><ul class="demo-bul"><li>Questions answered</li> <li>How complete the application is</li> <li>Gaps left to fill</li></ul></div></div>
-            <div class="gt-call" data-for="12" data-at="below-end"><span class="gt-call-n">12</span><div class="gt-call-body"><div class="gt-call-t">The standard org details</div><ul class="demo-bul"><li>Every application opens with the standard org details: name, website, founding year</li> <li>Kept consistent with Sprout's org profile</li> <li>They go into any grant as written</li></ul></div></div>
-            <div class="gt-call" data-for="13" data-at="below-end"><span class="gt-call-n">13</span><div class="gt-call-body"><div class="gt-call-t">Draft against the limit</div><ul class="demo-bul"><li>The funder's prompt with a writing hint</li> <li>A draft box that counts characters against the limit</li> <li>Edit and delete; History brings back any earlier version</li> <li>Paste drops in a new draft from Claude</li></ul></div></div>
-            <div class="gt-call" data-for="14" data-at="above"><span class="gt-call-n">14</span><div class="gt-call-body"><div class="gt-call-t">Gaps stay visible</div><ul class="demo-bul"><li>Anything unconfirmed stays in the draft as highlighted, bracketed text, like these attendance totals</li> <li>Each card counts its gaps</li> <li>None slip into the submitted application</li></ul><button class="gt-call-next" data-demo-next>Next: Tasks &#8250;</button></div></div>
+            <div class="gt-call" data-for="11" data-at="below-end"><span class="gt-call-n">11</span><div class="gt-call-body"><div class="gt-call-t">Where the application stands</div><div class="gt-call-s">Questions answered, how complete the application is, and the gaps left to fill.</div></div></div>
+            <div class="gt-call" data-for="12" data-at="below-end"><span class="gt-call-n">12</span><div class="gt-call-body"><div class="gt-call-t">The standard org details</div><div class="gt-call-s">Every application opens with name, website, and founding year, kept consistent with Sprout's org profile and used as written.</div></div></div>
+            <div class="gt-call" data-for="13" data-at="below-end"><span class="gt-call-n">13</span><div class="gt-call-body"><div class="gt-call-t">Draft against the limit</div><div class="gt-call-s">The funder's prompt with a writing hint, a draft box counting characters against the limit, edit and delete, History to bring back any earlier version, and Paste to drop in a new draft from Claude.</div></div></div>
+            <div class="gt-call" data-for="14" data-at="above"><span class="gt-call-n">14</span><div class="gt-call-body"><div class="gt-call-t">Gaps stay visible</div><div class="gt-call-s">Anything unconfirmed stays in the draft as highlighted, bracketed text, like these attendance totals, and each card counts its gaps so none slip into the submitted application.</div><button class="gt-call-next" data-demo-next>Next: Tasks &#8250;</button></div></div>
         </div>
         </div><!-- /.gt-tour -->
       </section>
@@ -1110,7 +1111,7 @@ Founded in Brooklyn in 2019 as a free community space where neighbors meet up, w
           </div>
         </div>
         <div class="gt-calls">
-            <div class="gt-call" data-for="15" data-at="end"><span class="gt-call-n">15</span><div class="gt-call-body"><div class="gt-call-t">Every step to submission</div><ul class="demo-bul"><li>Every step between draft and submit becomes a task</li> <li>Each has a priority and a due date ahead of the deadline</li> <li>Add Task drops in a new one</li> <li>Checked-off steps stay, crossed out, as a record</li></ul><button class="gt-call-next" data-demo-next>Next: Export &#8250;</button></div></div>
+            <div class="gt-call" data-for="15" data-at="end"><span class="gt-call-n">15</span><div class="gt-call-body"><div class="gt-call-t">Every step to submission</div><div class="gt-call-s">Every step between draft and submit becomes a task with a priority and a due date ahead of the deadline, and checked-off steps stay, crossed out, as a record.</div><button class="gt-call-next" data-demo-next>Next: Export &#8250;</button></div></div>
         </div>
         </div><!-- /.gt-tour -->
       </section>
@@ -1195,8 +1196,8 @@ Last year, 312 neighbors came to Sprout N Tell, and 41 of them now come back eve
           <div class="gf-toast" role="status">Copied to clipboard &#10003;</div>
         </div>
         <div class="gt-calls">
-            <div class="gt-call" data-for="16" data-at="below-end"><span class="gt-call-n">16</span><div class="gt-call-body"><div class="gt-call-t">The essentials in one header</div><ul class="demo-bul"><li>The grant's essentials in one header: name, funder, status, ask</li> <li>The deadline with days left</li> <li>A link straight to the funder's portal, so submitting is one click once answers are copied</li></ul></div></div>
-            <div class="gt-call" data-for="17" data-at="above"><span class="gt-call-n">17</span><div class="gt-call-body"><div class="gt-call-t">Copy the whole application</div><ul class="demo-bul"><li>Every answer in the portal's question order</li> <li>Under a header with grant, funder, amount and deadline</li> <li>Copy All puts the whole application on the clipboard, ready to paste</li></ul><button class="gt-call-next" data-gt-restart>Start over &#8634;</button></div></div>
+            <div class="gt-call" data-for="16" data-at="below-end"><span class="gt-call-n">16</span><div class="gt-call-body"><div class="gt-call-t">The essentials in one header</div><div class="gt-call-s">Name, funder, status, ask, and the deadline with days left, beside a link straight to the funder's portal, so submitting is one click once the answers are copied.</div></div></div>
+            <div class="gt-call" data-for="17" data-at="above"><span class="gt-call-n">17</span><div class="gt-call-body"><div class="gt-call-t">Copy the whole application</div><div class="gt-call-s">Every answer in the portal's question order, under a header with grant, funder, amount, and deadline, and Copy All puts the whole thing on the clipboard.</div><button class="gt-call-next" data-gt-restart>Start over &#8634;</button></div></div>
         </div>
         </div><!-- /.gt-tour -->
       </section>

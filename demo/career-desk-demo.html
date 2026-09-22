@@ -217,6 +217,7 @@ body {
 .desk-demo .cd-call-n { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--cd-ink); color: #fff; font-size: 11.5px; font-weight: 700; line-height: 22px; text-align: center; }
 .desk-demo .cd-call-body { flex: 1; min-width: 0; }
 .desk-demo .cd-call-t { font-weight: 700; margin: 1px 0 4px; }
+.desk-demo .cd-call-s { margin: 0; }
 .desk-demo .cd-call .demo-bul { margin: 0; padding-left: 1.05em; list-style: disc; }
 .desk-demo .cd-call .demo-bul li + li { margin-top: 3px; }
 .desk-demo .cd-call .demo-bul li::marker { color: var(--cd-ink); }
@@ -538,8 +539,8 @@ body {
             </div>
           </div>
           <div class="cd-calls">
-            <div class="cd-call" data-for="1" data-at="below"><span class="cd-call-n">1</span><div class="cd-call-body"><div class="cd-call-t">Paste the posting link</div><ul class="demo-bul"><li>Claude reads the posting and writes up the job</li> <li>Pay, deadline, and what the job asks for</li> <li>Works with the big job boards, or paste the text</li></ul></div></div>
-            <div class="cd-call" data-for="2" data-at="below"><span class="cd-call-n">2</span><div class="cd-call-body"><div class="cd-call-t">Pick a starting point</div><ul class="demo-bul"><li>An earlier application that fits this kind of job</li> <li>Its resume and letter become version 1</li></ul><button class="cd-call-next" data-demo-next>Next: the job card &#8250;</button></div></div>
+            <div class="cd-call" data-for="1" data-at="below"><span class="cd-call-n">1</span><div class="cd-call-body"><div class="cd-call-t">Paste the posting link</div><div class="cd-call-s">Claude reads the posting and writes up the pay, the deadline, and what the job asks for, from the big job boards or from pasted text.</div></div></div>
+            <div class="cd-call" data-for="2" data-at="below"><span class="cd-call-n">2</span><div class="cd-call-body"><div class="cd-call-t">Pick a starting point</div><div class="cd-call-s">An earlier application that fits this kind of job, whose resume and letter become version 1.</div><button class="cd-call-next" data-demo-next>Next: the job card &#8250;</button></div></div>
           </div>
         </div>
       </section>
@@ -600,7 +601,7 @@ body {
             </div>
           </div>
           <div class="cd-calls">
-            <div class="cd-call" data-for="3" data-at="right"><span class="cd-call-n">3</span><div class="cd-call-body"><div class="cd-call-t">Everything about the job, in one card</div><ul class="demo-bul"><li>Where, pay and deadline, read from the posting</li> <li>A short summary of what the job asks for</li> <li>The posting link, one click away</li> <li>Draft with Claude starts from your template</li></ul><button class="cd-call-next" data-demo-next>Next: Draft &#8250;</button></div></div>
+            <div class="cd-call" data-for="3" data-at="right"><span class="cd-call-n">3</span><div class="cd-call-body"><div class="cd-call-t">Everything about the job, in one card</div><div class="cd-call-s">Where, pay, and deadline read from the posting, a short summary of what the job asks for, the posting link one click away, and Draft with Claude starting from your template.</div><button class="cd-call-next" data-demo-next>Next: Draft &#8250;</button></div></div>
           </div>
         </div>
       </section>
@@ -680,9 +681,9 @@ Riley Chen</div>
             </div>
           </div>
           <div class="cd-calls">
-            <div class="cd-call" data-for="4" data-at="right"><span class="cd-call-n">4</span><div class="cd-call-body"><div class="cd-call-t">Claude drafts</div><ul class="demo-bul"><li>It already knows the job, your notes, and your standing facts</li> <li>Ask for changes in plain words</li> <li>Every full draft it writes saves as a new version</li></ul></div></div>
-            <div class="cd-call" data-for="5" data-at="right"><span class="cd-call-n">5</span><div class="cd-call-body"><div class="cd-call-t">Make it yours</div><ul class="demo-bul"><li>Edit the text yourself, any time</li> <li>Save version keeps every step</li></ul></div></div>
-            <div class="cd-call" data-for="6" data-at="right"><span class="cd-call-n">6</span><div class="cd-call-body"><div class="cd-call-t">Ask for a review</div><ul class="demo-bul"><li>One click for the common asks</li> <li>Review, proofread, check against the posting, fit to one page</li></ul><button class="cd-call-next" data-demo-next>Next: Review &#8250;</button></div></div>
+            <div class="cd-call" data-for="4" data-at="right"><span class="cd-call-n">4</span><div class="cd-call-body"><div class="cd-call-t">Claude drafts</div><div class="cd-call-s">It already knows the job, your notes, and your standing facts, takes changes in plain words, and saves every full draft as a new version.</div></div></div>
+            <div class="cd-call" data-for="5" data-at="right"><span class="cd-call-n">5</span><div class="cd-call-body"><div class="cd-call-t">Make it yours</div><div class="cd-call-s">Edit the text yourself at any time, and Save version keeps every step.</div></div></div>
+            <div class="cd-call" data-for="6" data-at="right"><span class="cd-call-n">6</span><div class="cd-call-body"><div class="cd-call-t">Ask for a review</div><div class="cd-call-s">One click for the common asks: review, proofread, check against the posting, or fit to one page.</div><button class="cd-call-next" data-demo-next>Next: Review &#8250;</button></div></div>
           </div>
         </div>
       </section>
@@ -761,9 +762,9 @@ Adults who come back to music bring questions a textbook never answers, and thos
             </div>
           </div>
           <div class="cd-calls">
-            <div class="cd-call" data-for="7" data-at="left"><span class="cd-call-n">7</span><div class="cd-call-body"><div class="cd-call-t">Claude marks the page</div><ul class="demo-bul"><li>The preview is laid out like the final file</li> <li>Red for grammar, blue for a rewrite</li> <li>Amber for a claim your profile can't back up</li></ul></div></div>
-            <div class="cd-call" data-for="8" data-at="right"><span class="cd-call-n">8</span><div class="cd-call-body"><div class="cd-call-t">Keep what you agree with</div><ul class="demo-bul"><li>A check or an X on each mark</li> <li>Push back in the chat when you disagree</li> <li>Apply saves the kept marks as the next version</li></ul></div></div>
-            <div class="cd-call" data-for="9" data-at="below-end"><span class="cd-call-n">9</span><div class="cd-call-body"><div class="cd-call-t">Nothing is lost</div><ul class="demo-bul"><li>Every version, newest first</li> <li>Compare any two, or restore an old one</li></ul><button class="cd-call-next" data-demo-next>Next: Sign off and send &#8250;</button></div></div>
+            <div class="cd-call" data-for="7" data-at="left"><span class="cd-call-n">7</span><div class="cd-call-body"><div class="cd-call-t">Claude marks the page</div><div class="cd-call-s">The preview is laid out like the final file, marked red for grammar, blue for a rewrite, and amber for a claim your profile cannot back up.</div></div></div>
+            <div class="cd-call" data-for="8" data-at="right"><span class="cd-call-n">8</span><div class="cd-call-body"><div class="cd-call-t">Keep what you agree with</div><div class="cd-call-s">A check or an X on each mark, pushback in the chat when you disagree, and Apply saves the kept marks as the next version.</div></div></div>
+            <div class="cd-call" data-for="9" data-at="below-end"><span class="cd-call-n">9</span><div class="cd-call-body"><div class="cd-call-t">Nothing is lost</div><div class="cd-call-s">Every version, newest first, ready to compare any two or restore an old one.</div><button class="cd-call-next" data-demo-next>Next: Sign off and send &#8250;</button></div></div>
           </div>
         </div>
       </section>
@@ -833,9 +834,9 @@ For six years I have taught theory&hellip;</div>
             </div>
           </div>
           <div class="cd-calls">
-            <div class="cd-call" data-for="10" data-at="below-end"><span class="cd-call-n">10</span><div class="cd-call-body"><div class="cd-call-t">Sign off</div><ul class="demo-bul"><li>Builds the Word file and the PDF</li> <li>Checks both match the text word for word</li> <li>Warns if the page count runs over</li></ul></div></div>
-            <div class="cd-call" data-for="11" data-at="above"><span class="cd-call-n">11</span><div class="cd-call-body"><div class="cd-call-t">It remembers</div><ul class="demo-bul"><li>Claude rereads the chat and the changes</li> <li>Calls for this job go into its notes</li> <li>Facts true for every job go into your profile, for the next application</li></ul></div></div>
-            <div class="cd-call" data-for="12" data-at="below-end"><span class="cd-call-n">12</span><div class="cd-call-body"><div class="cd-call-t">Submit and mark it sent</div><ul class="demo-bul"><li>Send the PDFs, then click Mark as sent</li> <li>A read-only copy of exactly what went out is kept</li> <li>The card moves to Sent</li></ul><button class="cd-call-next" data-cd-restart>Start over &#8634;</button></div></div>
+            <div class="cd-call" data-for="10" data-at="below-end"><span class="cd-call-n">10</span><div class="cd-call-body"><div class="cd-call-t">Sign off</div><div class="cd-call-s">Builds the Word file and the PDF, checks both match the text word for word, and warns if the page count runs over.</div></div></div>
+            <div class="cd-call" data-for="11" data-at="above"><span class="cd-call-n">11</span><div class="cd-call-body"><div class="cd-call-t">It remembers</div><div class="cd-call-s">Claude rereads the chat and the changes, putting calls for this job into its notes and facts true for every job into your profile.</div></div></div>
+            <div class="cd-call" data-for="12" data-at="below-end"><span class="cd-call-n">12</span><div class="cd-call-body"><div class="cd-call-t">Submit and mark it sent</div><div class="cd-call-s">Send the PDFs, then click Mark as sent: a read-only copy of exactly what went out is kept, and the card moves to Sent.</div><button class="cd-call-next" data-cd-restart>Start over &#8634;</button></div></div>
           </div>
         </div>
       </section>
