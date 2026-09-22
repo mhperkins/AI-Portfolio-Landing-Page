@@ -834,7 +834,29 @@ tours (Compass, Composer CRM, Agency, TeacherAID, Sprout CRM, Grant, Social, Cam
 a full screen Start gate, Next and Back on every step but step 1, and an inline mode on phones. Live as of
 `8c2f86b`; the site itself is unchanged since `baaa05f`.
 
-**The last session (2026-09-20) touched no site files.** It built the job search loop in Career Desk
+**GitHub link (2026-09-22).** `github.com/mhperkins` was already in the Contact block on all three
+pages. It is now also in the **hero band** under "AI Developer" (`.hero-gh`, the GitHub mark plus the
+URL in JetBrains Mono) and on the **CV header line**, which now reads Portfolio · LinkedIn · GitHub.
+The hero line costs 44px: the tab bar sits at 258px instead of 214px at 1280. Verified headless at
+1280 and 390 on index, about and CV: 64 of 64 (every link new-tab with `noopener` and inside the
+screen, the hero link visible and uncovered, no sideways scroll, zero script errors, zero em dashes).
+
+**Per-tool repo links are NOT built, and here is why (2026-09-22).** Max asked whether each tool
+should link to its own repo. Checked live against the GitHub API:
+
+| Repo | State |
+|---|---|
+| `Sprout-CRM-tool-Next.js`, `sprout-grant-tool`, `sprout-social-tool`, `qr-tracker` | **Public** |
+| `composers-compass`, `dasha-board`, `career-desk` | **Private** (a link would 404 for a reader) |
+| virtual-agency | No remote at all |
+
+So only the Sprout suite could be linked, and **the public Sprout CRM repo has real contacts' Gmail
+addresses committed** in `docs/deliveries/**` (brookelynnflores@, kyrabowie@, sydneyfox55@,
+tarinis224@, yin_kelly@ and others, alongside test addresses). That is the same exposure the page's
+own rule guards against ("Never screenshot the real CRM"), one layer down. **Max's call before any
+per-tool link ships**, and the repo is worth addressing on its own regardless of the portfolio.
+
+**The session before (2026-09-20) touched no site files.** It built the job search loop in Career Desk
 (`../career-desk/`, whose `CLAUDE.md` is the current state). The only thing that lands in this repo is
 `career/leads/`, which is gitignored like the rest of `career/`. See the session note below.
 
