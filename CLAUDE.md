@@ -834,6 +834,18 @@ tours (Compass, Composer CRM, Agency, TeacherAID, Sprout CRM, Grant, Social, Cam
 a full screen Start gate, Next and Back on every step but step 1, and an inline mode on phones. Live as of
 `8c2f86b`; the site itself is unchanged since `baaa05f`.
 
+**Start gates no longer cover the tab bars (2026-09-22).** Every tour's Start gate sat at
+`z-index: 40`, the same as the main tab bar, and came later in the DOM, so once the page scrolled
+the gate's translucent panel painted across the sticky tab bar and the tool row (z 30) and
+swallowed their clicks: the tool tabs were unclickable while a gate was on screen. A demo root is
+`position: relative` with no `z-index`, so it makes no stacking context and its gate competes
+directly with the page chrome. **All nine gates are `z-index: 28` now**, above the carousel's own
+pinned strip (27) and title card (25) and under both bars. Do not raise them again. Verified
+headless at 1280x900 and 1440x820: 158 of 158 (every main tab and visible tool tab hit-tests to
+itself with a gate scrolled under the bars, every gate button is clickable, each gate opens full
+screen and Esc closes it, zero script errors). The `demo/` standalones have no page chrome, so
+they are unchanged.
+
 **GitHub link (2026-09-22).** `github.com/mhperkins` was already in the Contact block on all three
 pages. It is now also in the **hero band** under "AI Developer" (`.hero-gh`, the GitHub mark plus the
 URL in JetBrains Mono) and on the **CV header line**, which now reads Portfolio · LinkedIn · GitHub.
