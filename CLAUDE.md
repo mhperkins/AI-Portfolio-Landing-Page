@@ -879,8 +879,9 @@ per-tool link ships**, and the repo is worth addressing on its own regardless of
 
 **Next session (Max's call):** review the popup titles and subtitles on every tour. All of them are Claude's
 drafts.
-Also open, on Career Desk's Leads screen: the watchlist is 20 employers and needs a sweep to 200 to 300
-before it is a daily feed.
+~~Also open, on Career Desk's Leads screen: the watchlist is 20 employers~~ **Addressed 2026-09-22:
+the sourcing problem is solved and the watchlist is 35 employers over ten systems.** See the session
+note below; the current state is `../career-desk/CLAUDE.md`.
 
 **Also open, from the last session:** whether to build the design-engineer track. The portfolio proves
 interface work in code (nine hand-built tours, eight design-token systems that do not leak, 390px responsive
@@ -948,6 +949,43 @@ on all nine tools. The bullet lists the 2026-09-16 session created are gone from
   one popup and one highlight lit, exactly one title and one subtitle in the popup, zero bullet lists left,
   the popup inside the window sideways and never covering its highlight at desktop widths, no sideways page
   scroll, zero script errors, em dash counts unchanged. Screenshots checked by eye.
+
+### Session of 2026-09-22: the workflow lane's sourcing problem, in Career Desk (no site changes)
+
+Max's ask: fix the sourcing problem the workflow lane was blocked on. The lane looks for ops, program
+and coordinator roles at small companies and nonprofits whose postings describe AI tools and process
+work, and it could not see them, because the five applicant tracking systems Career Desk polled run
+startups. **Everything is in `../career-desk/`; that project's `CLAUDE.md` is the current state.** The
+only thing in this repo is `career/leads/`, which is gitignored.
+
+**Max's two calls, both taken before any code:** Idealist becomes a real feed rather than only a source
+of employer names, scoped to Madison and remote; and employers get onto the watchlist by resolving
+themselves, continuously, rather than in one manual sweep.
+
+- **Seven more readers, from twelve to zero guesswork:** BambooHR, JazzHR, Paylocity, Pinpoint,
+  SmartRecruiters, Rippling and Breezy, each checked against its live API before it was written. That
+  is where a twelve person nonprofit actually runs its hiring.
+- **Idealist as a scoped feed.** Only its server rendered landing pages carry listings, so the feed is
+  Madison, Wisconsin, Milwaukee and the national newest page, about 30 postings. Its search is a
+  JavaScript app and its Open Network API is partner gated and volunteer only; both were checked, so
+  they do not need checking again.
+- **The watchlist grows itself.** Every Idealist posting names an organisation, and the tool walks to
+  that organisation's own board, which it then polls directly forever. "Add employer" takes a website
+  now, not just a board link.
+- **Two bugs worth the session on their own.** Paylocity's list description is a 110 character teaser
+  against 2,628 on the job page, so reading it would have silently culled every Paylocity board as "not
+  about this work". And resolving an employer can land on a real board belonging to someone else:
+  Baltimore's Promise reached an unrelated Ashby board, Fast Forward reached New America's JazzHR. A
+  name guard now refuses both.
+- **The honest number: 8 of 63 organisations in the sweep had a findable board.** Three are Madison
+  nonprofits on Paylocity and BambooHR. The rest have no applicant tracking system at all, which is
+  exactly why the Idealist feed had to exist.
+- **Verified live:** all twelve readers and their detail fetches, the link parser, the name guard on
+  both real false positives, then a full scan on a scratch copy of `career/` and a second on the real
+  one. 33 employers, 2,045 postings, zero errors, two boards discovered mid-scan.
+
+**Open:** judging has not been run since the sweep, because it spends API credit. Open Leads and press
+Judge. 35 employers is still not 200, and growth now comes from discovery and from pasting websites in.
 
 ### Session of 2026-09-20: the job search loop in Career Desk (no site changes)
 
