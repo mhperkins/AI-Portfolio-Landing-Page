@@ -77,9 +77,10 @@ Vercel project: `ai-portfolio-landing-page` · GitHub: `mhperkins/AI-Portfolio-L
 
 ## Deployment
 
-**End-of-session protocol (Max's rule): update Current State, then commit and push to `main`
-without waiting to be asked.** Vercel only builds production on a push, so a session that ends
-on preview deploys leaves the live site behind. Stage named files, never `-A`.
+> 🚨 **End-of-session protocol: FOUR steps, not two.** Current State, changelog, commit and push,
+> delivery slide. The full text is under "End-of-Session Protocol" at the bottom of this file. Vercel
+> only builds production on a push, so a session that ends on preview deploys leaves the live site
+> behind. Stage named files, never `-A`.
 
 Push to main. Vercel picks it up automatically. No build command, no output directory to configure — Vercel serves the files directly.
 
@@ -2564,3 +2565,41 @@ The MCP server and The Composer Compass training protocol are the strongest tech
 The Workflow tab is the section most worth investing in. The current copy is solid. The Loom is the weak link — it needs to show intentional methodology, not blind Claude use.
 
 The Composer Compass has grown beyond a portfolio project: it is now also the centerpiece of the academic track's application materials, framed there as an independent research/evaluation project rather than a dev-portfolio tool.
+
+---
+
+## End-of-Session Protocol
+
+> 🚨 **"update current state" = FOUR steps, ALWAYS. Not two.** Docs alone is an incomplete response.
+> Steps **3 (commit and push)** and **4 (delivery slide)** are **NON-NEGOTIABLE** and the most often
+> forgotten. If you are about to reply after only steps 1 and 2, STOP. You are not done.
+
+This file carried only steps 1 and 3 until 2026-09-22, which is why sessions here shipped without a
+slide while Dasha-Board and the Sprout repos did not.
+
+When Max says "update current state", do all four automatically, with no separate prompt. Do not stop,
+do not ask, do not report back until all four are complete.
+
+1. **Rewrite the Current Portfolio State section**, and add a dated session entry under it. Prune
+   finished items, add new ones. Overwrite the state, append the session entry.
+2. **Add a changelog entry.** This repo has **no root `CHANGELOG.md`**. Career and Career Compass work
+   logs to `career/training/CHANGELOG.md`, newest at the top. For site work the dated session entry
+   from step 1 **is** the changelog, so make it complete rather than terse.
+3. **➡️ COMMIT AND PUSH (do not skip).** Use the **PowerShell tool** for all git. Stage the session's
+   work **by name, never `-A`**: two commits here (`f81c79a` and `0b73ae2`) already swept in a parallel
+   session's uncommitted work under messages that do not mention it. Commit on **`main`** with a clear
+   message ending in the `Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>` line,
+   then `git push origin main`. `CLAUDE.md` **is tracked here**, so the rewritten Current State goes
+   into the commit. **Pushing deploys production**, so verify the site before pushing site changes.
+4. **➡️ BUILD THE DELIVERY SLIDE (do not skip).** One self-contained HTML slide detailing what was
+   committed and pushed: cards, badges, icons, the commit hash and the branch, built fresh. Save it to
+   `docs/deliveries/<YYYY-MM>/<YYYY-MM-DD>/` (create the month folder on the month's first delivery,
+   the date folder on the day's first) with a date-prefixed filename, and name the path in the reply.
+   `.vercelignore` excludes `docs/`, so slides are never served publicly.
+
+**Self-check before replying:** Did I commit? Did I push? Did I write the slide? If any answer is no,
+the protocol is unfinished.
+
+**The canonical version is in `~/.claude/CLAUDE.md`** under "End-of-Session Protocol (every project)".
+This copy carries it in full on purpose, so this project never depends on that file being loaded. Where
+the two differ, **this file wins**, because the values above are this project's.
