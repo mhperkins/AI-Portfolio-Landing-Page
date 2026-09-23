@@ -997,6 +997,46 @@ queued, where before it only applied to postings not yet seen.
 **Open:** judging has not been run since the sweep, because it spends API credit. Open Leads and press
 Judge. 36 employers is still not 200, and growth now comes from discovery and from pasting websites in.
 
+### Session of 2026-09-22: Career Compass stage 1, and Leads favorites (no site changes)
+
+Two pieces of work, neither touching the site. **Start at `career/training/runs/FINDINGS-typeB-v0.1.md`.**
+
+**The design call (Max's, Sept 22): rebuild Career Desk's drafting side on the Composer Compass
+pattern.** Blueprint, Intake, Constitution, Draft, Proof, with one node doing one job instead of one
+Claude call doing five. `career-desk/ai.py`'s single `ROLE` prompt currently does chat reply, review
+marks, full drafts, claim tracing, and voice and page enforcement at once. Max's calls: a rail rather
+than a freeform canvas, two tracks to start, stay inside Career Desk, and run the back-catalog
+experiment first.
+
+**Stage 1 shipped: the training harness and the first Type B experiment.** Six cold Strategy runs
+(Clasp, Deepgram, Makai Labs, Savanna, River Alliance and MEA, WFAA) against the completed record.
+Everything lives in `career/training/` and `career/constitutions/`, both gitignored with the rest of
+`career/`.
+
+- **The headline: the agent reaches Max's calls on the employer and misses them on the voice.** Every
+  run found the deciding requirement. Two reached his exact reframe near-verbatim. Every arts-track
+  run built the letter around evidence, when Max builds it around why he cares.
+- **One invention in six runs, and it was true:** "Next.js" on a skills line with no source. The same
+  prompt refused to name a framework elsewhere, so the discipline is inconsistent, and it fails inside
+  a list. The fix is structural: every technical term carries its source or the line is not written.
+- **`profile.md` now has a Stack and tools section**, repo-checked, with three claim limits. Three
+  runs found that gap independently, and it is the same hole the invention filled.
+- **Two constitutions written**, `ai-builder` (13 rules) and `nonprofit-arts-admin` (12), each rule
+  sourced to a Max decision or to the experiment. `career/README.md` explains where they sit.
+- Two method problems found and fixed: the unredacted `README.md` leaked the answer, and `max_tokens`
+  counts thinking, which silently truncated four runs.
+- **Max's calls this session:** NYU above UW on every application; address a named person only when
+  the posting or the organization's website names one, never guess; the LinkedIn headline is fixed and
+  the link is safe everywhere.
+- `build.py check --all`: OK on all 15 folders.
+
+**Career Desk's Leads screen gained favorites, search and filters** (`career-desk` commit `a528d10`,
+pushed). A star that is not a decision, search that reads the posting body, and filters on lane, fit
+and sort. Details in that project's `CLAUDE.md`.
+
+**Next: stage 2.** Prompt v0.2 from `career/training/evaluation/strategy-rules.md`, then re-run the
+same six and compare v0.1 against v0.2. That is a Type A experiment and the corpus exists for it.
+
 ### Session of 2026-09-20: the job search loop in Career Desk (no site changes)
 
 Max's ask: a job search function for Career Desk that is faster than asking Claude in a conversation.
