@@ -837,6 +837,13 @@ on every tour is now **one title and one subtitle**, not a bullet list. Live as 
 the Start gates dropped under the tab bars so the tool tabs are clickable again (`cb761f1`), and the popup
 rewrite below. Career work is in `../career-desk/`, not here.
 
+**Career Desk's Leads screen, same day, a separate session (no site files touched):** the workflow lane's
+sourcing problem is fixed. Twelve hiring systems instead of five, Idealist as a feed scoped to Madison and
+remote, a watchlist that grows itself, and a seniority filter holding the search to entry and mid level.
+**36 employers, 2,060 postings, zero errors, 35 open leads and 53 waiting on the judge.** Judging has not
+been run since, because it spends API credit. **`../career-desk/CLAUDE.md` is the current state**; the two
+session notes below record how it was built.
+
 **Start gates no longer cover the tab bars (2026-09-22).** Every tour's Start gate sat at
 `z-index: 40`, the same as the main tab bar, and came later in the DOM, so once the page scrolled
 the gate's translucent panel painted across the sticky tab bar and the tool row (z 30) and
