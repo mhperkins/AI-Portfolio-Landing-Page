@@ -984,8 +984,18 @@ themselves, continuously, rather than in one manual sweep.
   both real false positives, then a full scan on a scratch copy of `career/` and a second on the real
   one. 33 employers, 2,045 postings, zero errors, two boards discovered mid-scan.
 
+**Then, the same session, a seniority filter (Max's ask): entry to mid level only.** Four or more years
+culls, reading the bottom of a range, and ignoring a company describing its own age ("With 16 years'
+experience" and "serving the community for over 40 years" were both in the real data). Three years is
+deliberately kept, because the Savanna Institute role Max applied to asks 3+. An explicitly senior
+posting culls, as does a demanded PhD, MBA, JD, CPA or CFA, but never a preferred one. **Managing
+people is a badge on the card, not a cull** (Max's call), since a small organisation often calls one
+person a manager with nobody reporting to them. It took back 36 postings, all of which the judge had
+already scored 38 or below. A rule edit now cuts both ways: tightening one takes back what is already
+queued, where before it only applied to postings not yet seen.
+
 **Open:** judging has not been run since the sweep, because it spends API credit. Open Leads and press
-Judge. 35 employers is still not 200, and growth now comes from discovery and from pasting websites in.
+Judge. 36 employers is still not 200, and growth now comes from discovery and from pasting websites in.
 
 ### Session of 2026-09-20: the job search loop in Career Desk (no site changes)
 
