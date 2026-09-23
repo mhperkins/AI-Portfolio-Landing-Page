@@ -838,6 +838,13 @@ on every tour is now **one title and one subtitle**, not a bullet list. Live as 
 the Start gates dropped under the tab bars so the tool tabs are clickable again (`cb761f1`), and the popup
 rewrite below. Career work is in `../career-desk/`, not here.
 
+**Career Compass stage 3 shipped, 2026-09-22, latest (no site files touched).** The constitutions are
+production context in Career Desk and `ai.py`'s single prompt became one node per turn. **No agent had
+ever been given a constitution before this.** The experiment that validated it is
+`career/training/runs/FINDINGS-typeA-v0.2-constitution.md`; the current state is
+`../career-desk/CLAUDE.md`, pushed as `279da94`. **Next is stage 4**, the Intake form and the strategy
+one-sheet, which is the first thing Max sees in the app and **needs a wireframe before any code**.
+
 **Career Desk's Leads screen, same day, a separate session (no site files touched):** the workflow lane's
 sourcing problem is fixed. Twelve hiring systems instead of five, Idealist as a feed scoped to Madison and
 remote, a watchlist that grows itself, and a seniority filter holding the search to entry and mid level.
@@ -931,6 +938,57 @@ Social's button stays in view 500px into the card; then the full suite again, 0 
 - `demo/agency-demo.html` is still the pinned carousel.
 - `teaching.html` (branch `teaching-page`): decide whether it gets the tour treatment before it merges.
 
+### Session of 2026-09-22, latest: Career Compass stage 3, constitutions and the node split (no site changes)
+
+Effort: high. The production half of what stage 2 researched. Everything is in `../career-desk/`
+(pushed as `279da94`; **that project's `CLAUDE.md` is the current state**) and in `career/training/`,
+which is gitignored. **Start at `career/training/runs/FINDINGS-typeA-v0.2-constitution.md`.**
+
+- **The two docs number this stage differently and mean the same work.** This file called it stage 3;
+  `career-desk/CLAUDE.md` called it the production half of stage 2. Both named it as the next thing to
+  build, and it is built. **Stage 4 is the Intake form and the strategy one-sheet**, and that one needs
+  a wireframe before any code, because it is the first thing Max sees in the app.
+- **A constitution reached an agent for the first time.** `store.track_of()` resolves a
+  `- **Track:** <name>` line in `job.md`, falling back to the template's track. All 17 application
+  folders were given one; new applications get one automatically. `ai.py` sends the matching
+  `career/constitutions/<track>.md` beside README and profile, with the precedence stated. A track with
+  no file, such as `academic-teaching`, contributes nothing and says nothing.
+- **One node per turn.** The single `ROLE` prompt that did five jobs at once became `CORE` plus exactly
+  one `NODES` entry: `partner` (free text), `review` (marks only), `draft` (the whole file, no marks),
+  and `advise` (reply only, which exists because "Prep for an interview" used to come back with marks on
+  a document nobody asked about). The workspace chips name a node; free text gets `partner`, so nothing
+  regresses.
+- **The node instruction goes in `messages`, never in the top-level `system`.** Putting it in `system`
+  would rewrite the cached prefix on every mode switch and invalidate the conversation cache behind it.
+  It is a mid-conversation system message on the Opus 5 family, the last text block of the user turn on
+  anything else, and both sit after the cached history breakpoint. **Verified live: a second node's turn
+  read 15,341 cached tokens.**
+- **Each node's output surface is enforced in code**, not trusted to the prompt, so a turn asked only for
+  marks can never come back with a draft that overwrites the document.
+- **The experiment, eight applications, one variable.** Six are contaminated, because both constitutions
+  were extracted from them, so they measure uptake. **Brady Martz and Estrada are held out** and carry
+  every transfer claim, n=2.
+  - **The pre-registered prediction held.** WFAA's 2014 Big Ten rugby title, the fact stage 1 named and
+    stage 2's prompt rule could not reach, appears only in the constitution arm. Personal facts reached:
+    WFAA 4 to 7, Savanna 2 to 3, River Alliance 6 to 6 (the honest negative: v0.2 had already closed
+    River's half).
+  - **The arts-track opening inverts** from capability-first to Max's own identity-first shape,
+    unprompted.
+  - **A rule the agent used to break becomes an explicit prohibition on the held-out applications too.**
+    "Paid to find where models fail" is absent from every v0.2 run, which means the Draft node was never
+    warned about it; every constitution run refuses it by name.
+  - **Regression, reported and acted on: source labels fell 22%** at unchanged length while constitution
+    references went from 0 to 34. `CORE` now says a fact traces to `profile.md`, `notes.md` or the
+    posting, and that a constitution is not a source for one.
+- **Verified:** 70 offline checks (`career/training/evaluation/verify_nodes.py`, kept) plus one live call
+  per node. `build.py check --all`: OK on all 15 folders, no FAIL and no NOTE.
+- **Three method incidents, all declared in the FINDINGS.** The one worth carrying: a patch applied its
+  signature and not its body, so a `--constitution` run added no constitution and wrote to the plain
+  output name, **destroying one stage 2 output** (Clasp) before it was caught. Same arm and same inputs,
+  so it is a second sample rather than a lost measurement. `run_strategy.py` now archives an existing
+  output before writing. **The lesson generalizes: a silent string-replace patch that misses reports
+  success. Patch with a tool that fails loudly on a missed match, and check a probe afterwards.**
+
 ### Session of 2026-09-22, last: Career Compass stage 2, the research half (no site changes)
 
 Max's call when asked which stage 2 to run: **research first, then ship.** So this session hardened the
@@ -966,8 +1024,8 @@ Strategy prompt and shipped nothing into the app. Everything is in `career/train
   unrunnable.
 - `build.py check --all`: OK on all 15 folders, no FAIL and no NOTE.
 
-**Next: stage 3**, the constitutions and the prompt split in `ai.py`, per the agreed stage order in
-`../career-desk/CLAUDE.md`. **No agent has ever been given a constitution.**
+~~**Next: stage 3**, the constitutions and the prompt split in `ai.py`.~~ **Done 2026-09-22**; see the
+session note above. A constitution has now been given to an agent, and measured.
 
 ### Session of 2026-09-22, later: every tour popup is one title and one subtitle
 
