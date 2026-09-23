@@ -930,6 +930,44 @@ Social's button stays in view 500px into the card; then the full suite again, 0 
 - `demo/agency-demo.html` is still the pinned carousel.
 - `teaching.html` (branch `teaching-page`): decide whether it gets the tour treatment before it merges.
 
+### Session of 2026-09-22, last: Career Compass stage 2, the research half (no site changes)
+
+Max's call when asked which stage 2 to run: **research first, then ship.** So this session hardened the
+Strategy prompt and shipped nothing into the app. Everything is in `career/training/`, gitignored.
+**Start at `career/training/runs/FINDINGS-typeA-v0.2.md`.**
+
+- **Prompt v0.2 written from the rules bank**, nine rules promoted and two carried. The sourcing rule
+  got its own top-level section rather than another bullet, because stage 1 showed the discipline
+  already existed in v0.1 and failed anyway. No constitution was given to either arm, which is what
+  keeps it a one-variable test.
+- **Two things caught before they cost anything.** `run_strategy.py` overwrites
+  `strategy_v{version}.md` and `career/` is gitignored, so re-running the control would have destroyed
+  the six stage 1 outputs that every stage 1 document is written from; they are archived, hashes
+  verified. And `profile.md` was rewritten at 21:05 after the stage 1 runs finished at 19:58 to 20:33,
+  so those outputs differ by two variables and are not a valid control. The control was re-run on the
+  current `profile.md`: **twelve runs, three arms**, zero truncations.
+- **The invention gate cannot discriminate, which is itself the finding.** `profile.md` now lists
+  Next.js, so stage 1's decisive failure is no longer reproducible and the control uses the term
+  legitimately. Zero inventions in all three arms. **The fix was the missing fact, not the missing
+  rule.**
+- **A refusal is not an invention.** A first scan reported four unsourced terms and every one sat in
+  "Cut and never claim" or "Open questions", prohibiting the term rather than claiming it. Counting a
+  refusal as a claim inverts the measurement.
+- **The testable rules fired:** source labels 38 to 90 across six runs in documents 20% shorter, mean
+  length 1,638 to 1,311 with 6 of 6 under target against 0 of 6, and the unconfirmed-qualification rule
+  generalized unprompted to Slack on Deepgram.
+- **The arts-track voice moved and did not close.** Both arts angles went from capability-first to
+  identity-first, but personal facts reached one of three: Salt + Charcoal found at River Alliance, the
+  rugby title still missed at WFAA. That is stage 1's prediction holding, and it is the argument for
+  stage 3.
+- **Verdict: v0.2 is the active Strategy prompt.** v0.1 stays in `system-prompts/` rather than moving to
+  `archive/`, because `run_strategy.py` resolves the version by path and archiving it makes the control
+  unrunnable.
+- `build.py check --all`: OK on all 15 folders, no FAIL and no NOTE.
+
+**Next: stage 3**, the constitutions and the prompt split in `ai.py`, per the agreed stage order in
+`../career-desk/CLAUDE.md`. **No agent has ever been given a constitution.**
+
 ### Session of 2026-09-22, later: every tour popup is one title and one subtitle
 
 Max's ask: the popup blurbs should carry one title and one subtitle conveying the information already there,
@@ -1041,8 +1079,8 @@ Everything lives in `career/training/` and `career/constitutions/`, both gitigno
 pushed). A star that is not a decision, search that reads the posting body, and filters on lane, fit
 and sort. Details in that project's `CLAUDE.md`.
 
-**Next: stage 2.** Prompt v0.2 from `career/training/evaluation/strategy-rules.md`, then re-run the
-same six and compare v0.1 against v0.2. That is a Type A experiment and the corpus exists for it.
+~~**Next: stage 2.**~~ **Done 2026-09-22**, the research half: prompt v0.2 written, the six re-run, and
+the Type A comparison in `career/training/runs/FINDINGS-typeA-v0.2.md`. See the session note above.
 
 ### Session of 2026-09-20: the job search loop in Career Desk (no site changes)
 
