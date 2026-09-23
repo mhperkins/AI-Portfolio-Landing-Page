@@ -830,13 +830,17 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
-**Where things stand (2026-09-22, end of the last session):** all nine slideshows on `index.html` are guided
+**Where things stand (2026-09-22, end of the last session).** The last session was Career Compass stage 3,
+which touched no site file; the site paragraph below it is unchanged from the session before. Both are
+current, and the stage 3 note is the newer of the two.
+
+**The site:** all nine slideshows on `index.html` are guided
 tours (Compass, Composer CRM, Agency, TeacherAID, Sprout CRM, Grant, Social, Campaign, Career Desk), each with
 a full screen Start gate, Next and Back on every step but step 1, and an inline mode on phones. Every popup
 on every tour is now **one title and one subtitle**, not a bullet list. Live as of
-`cb761f1`. Today's three site changes: the GitHub link in the hero band and on the CV header (`00dc7b8`),
-the Start gates dropped under the tab bars so the tool tabs are clickable again (`cb761f1`), and the popup
-rewrite below. Career work is in `../career-desk/`, not here.
+`cb761f1`, and **nothing has changed on the site since**. The three site changes that day: the GitHub link in
+the hero band and on the CV header (`00dc7b8`), the Start gates dropped under the tab bars so the tool tabs are
+clickable again (`cb761f1`), and the popup rewrite below. Career work is in `../career-desk/`, not here.
 
 **Career Compass stage 3 shipped, 2026-09-22, latest (no site files touched).** The constitutions are
 production context in Career Desk and `ai.py`'s single prompt became one node per turn. **No agent had
