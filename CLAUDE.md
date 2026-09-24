@@ -830,8 +830,18 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
-**Where things stand (2026-09-23, end of the last session).** The last session was Career Compass stage 4,
-which touched no site file; the site paragraph below is unchanged since Sept 22.
+**Where things stand (2026-09-23, end of the last session).** The last two sessions were Career Desk work
+and touched no site file; the site paragraph below is unchanged since Sept 22.
+
+**Career Desk's Leads screen, 2026-09-23, latest (no site files touched).** The STEM cull Max asked for
+is live and the judge's Waiting tab is fixed. A job that **requires being** a coder, computer scientist,
+data scientist or STEM professional is now culled rather than scored low, on the title, on a demanded
+degree in those fields, or on a demanded professional software background; building AI tools is not
+coding for this purpose, so the AI builder lane survives intact. Then "Judged 0 with 3 waiting" turned
+out to be three pre-existing defects in `scan()`, chief among them a board listing **one posting id
+twice**, once per location. Pushed in `../career-desk/` as `5c6bb8a` and `5fb63fc`; **that project's
+`CLAUDE.md` is the current state.** Leads now reads **54 open, 0 waiting, 1,832 culled**, and a scan
+polls **1,623 real postings** rather than 2,054 rows. See the session note below.
 
 **Career Compass stage 4 shipped, 2026-09-23, latest (no site files touched).** Career Desk has a step
 strip (Intake → Strategy → documents → Sent), an Intake node that fills `intake.md` from the posting, and
@@ -859,8 +869,9 @@ one-sheet.~~ **Done 2026-09-23**; see the note above.
 **Career Desk's Leads screen, same day, a separate session (no site files touched):** the workflow lane's
 sourcing problem is fixed. Twelve hiring systems instead of five, Idealist as a feed scoped to Madison and
 remote, a watchlist that grows itself, and a seniority filter holding the search to entry and mid level.
-**36 employers, 2,060 postings, zero errors, 35 open leads and 53 waiting on the judge.** Judging has not
-been run since, because it spends API credit. **`../career-desk/CLAUDE.md` is the current state**; the two
+**36 employers, 2,060 postings, zero errors, 35 open leads and 53 waiting on the judge.** ~~Judging has not
+been run since~~ **superseded 2026-09-23:** the numbers above are the current ones, and the 2,060 was
+inflated by duplicate rows. **`../career-desk/CLAUDE.md` is the current state**; the two
 session notes below record how it was built.
 
 **Start gates no longer cover the tab bars (2026-09-22).** Every tour's Start gate sat at
@@ -948,6 +959,45 @@ Social's button stays in view 500px into the card; then the full suite again, 0 
   CV's source, so it waits for Max's call.
 - `demo/agency-demo.html` is still the pinned carousel.
 - `teaching.html` (branch `teaching-page`): decide whether it gets the tour treatment before it merges.
+
+### Session of 2026-09-23: the STEM cull, and the Waiting tab that could not drain (no site changes)
+
+Effort: medium, then diagnose medium / fix low on the bug. Career Desk only; **`../career-desk/CLAUDE.md`
+is the current state.** Nothing in this repo changed except this file: `career/leads/` is gitignored, so
+`rules.json`, `targeting.md` and `leads.json` live only on disk and in OneDrive.
+
+**Max's rule: "any jobs requiring actual coding, computer science, data science, STEM etc. should be
+automatically rejected."** Asked where the line sits, he chose **stated requirement or core duty**, not
+the whole technical category, so the AI builder lane stays open.
+
+- **Three requirement-scoped gates in `rules.json` and `leads.py`:** `stem_title` culls on the title
+  alone before any description is fetched; `stem_degree` culls a demanded degree in those fields, only
+  where the field is named as a degree and no "or equivalent experience" clause sits beside it; and
+  `stem_text` culls a demanded professional software background.
+- **Two precision fixes found by testing, both kept.** A degree list that also offers Finance, Business
+  or Communications is not a STEM gate, so `stem_degree_alt` spares it: that came from a real posting
+  asking for "Finance, Economics, Engineering, Data Science, or a related field". And `years of
+  software` was tried and dropped, because "2 years of software implementation experience" is a SaaS
+  implementation role, which is the lane.
+- **Measured before it was applied:** of 88 live leads, **27 fall to these rules** and everything at fit
+  50 or more survives. **Regression on the 17 postings Max actually pursued: 16 pass**, and the one cull
+  is Ease Health's Software Engineer, which is the rule working as asked.
+- **Then "Judged 0" with 3 waiting.** Judging was never broken: the three already carried verdicts, and
+  `judge_queue()` only takes a lead with no verdict. Underneath were three pre-existing defects, none of
+  them the new rules. **Weekday lists one req twice under a single posting id**, "India (remote)" and
+  "United States (remote)", so the same lead was culled on one row and revived on the other **every
+  scan, forever**; a revive never refreshed the board's own fields, so the card read India while the copy
+  that let it through said United States; and a revived lead kept its verdict in `state="new"`, a row
+  nothing could drain. `one_per_id()`, `refresh()` and an Open-not-Waiting revive fix all three.
+- **Verified with a real scan** (`judge=False`, no API credit): 36 employers, **0 revived, 0 unkept, 0
+  closed, 0 errors**, where every scan before it flip-flopped 3. The poll fell from 2,054 rows to
+  **1,623 real postings**. The server was restarted on the new code both times, since it only picks up
+  changes on restart.
+- **The lesson worth carrying: an id is not a row.** Any feed that repeats an id must be collapsed
+  before the loop writes records, or the last row processed silently wins.
+
+**Open:** Max has not reviewed the Leads screen since any of this, and nothing is waiting on the judge,
+so pressing Judge returns 0 and that is now correct.
 
 ### Session of 2026-09-22, latest: Career Compass stage 3, constitutions and the node split (no site changes)
 
