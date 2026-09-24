@@ -830,9 +830,16 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
-**Where things stand (2026-09-22, end of the last session).** The last session was Career Compass stage 3,
-which touched no site file; the site paragraph below it is unchanged from the session before. Both are
-current, and the stage 3 note is the newer of the two.
+**Where things stand (2026-09-23, end of the last session).** The last session was Career Compass stage 4,
+which touched no site file; the site paragraph below is unchanged since Sept 22.
+
+**Career Compass stage 4 shipped, 2026-09-23, latest (no site files touched).** Career Desk has a step
+strip (Intake → Strategy → documents → Sent), an Intake node that fills `intake.md` from the posting, and
+the Strategy one-sheet in `strategy.md`, which Max amends, answers, and approves. The Draft node now takes
+every call from an approved plan. Pushed in `../career-desk/` as `e291a2d` and `cf15f2e`; **that project's
+`CLAUDE.md` ("Stage 4") is the current state.** Wireframe:
+`../career-desk/docs/wireframes/2026-09-23_intake-strategy.html`. **Next:** run the plan on a real
+application, then stage 5 (the rail, the block library, and the amendment loop), wireframe first.
 
 **The site:** all nine slideshows on `index.html` are guided
 tours (Compass, Composer CRM, Agency, TeacherAID, Sprout CRM, Grant, Social, Campaign, Career Desk), each with
@@ -842,12 +849,12 @@ on every tour is now **one title and one subtitle**, not a bullet list. Live as 
 the hero band and on the CV header (`00dc7b8`), the Start gates dropped under the tab bars so the tool tabs are
 clickable again (`cb761f1`), and the popup rewrite below. Career work is in `../career-desk/`, not here.
 
-**Career Compass stage 3 shipped, 2026-09-22, latest (no site files touched).** The constitutions are
+**Career Compass stage 3 shipped, 2026-09-22 (no site files touched).** The constitutions are
 production context in Career Desk and `ai.py`'s single prompt became one node per turn. **No agent had
 ever been given a constitution before this.** The experiment that validated it is
 `career/training/runs/FINDINGS-typeA-v0.2-constitution.md`; the current state is
-`../career-desk/CLAUDE.md`, pushed as `279da94`. **Next is stage 4**, the Intake form and the strategy
-one-sheet, which is the first thing Max sees in the app and **needs a wireframe before any code**.
+`../career-desk/CLAUDE.md`, pushed as `279da94`. ~~**Next is stage 4**, the Intake form and the strategy
+one-sheet.~~ **Done 2026-09-23**; see the note above.
 
 **Career Desk's Leads screen, same day, a separate session (no site files touched):** the workflow lane's
 sourcing problem is fixed. Twelve hiring systems instead of five, Idealist as a feed scoped to Madison and
