@@ -833,7 +833,14 @@ This site is served from its Vercel default domain (ai-portfolio-landing-page.ve
 **Where things stand (2026-09-23, end of the last session).** The last two sessions were Career Desk work
 and touched no site file; the site paragraph below is unchanged since Sept 22.
 
-**Career Desk's Leads screen, 2026-09-23, latest (no site files touched).** The STEM cull Max asked for
+**Career Desk Stage 5, More like this, 2026-09-28, latest (no site files touched).** Leads now matches
+every open posting against the applications Max sent, and a batch starts up to 5 applications from one
+sent application: a pre-flight over its proofread history, then Intake and a Strategy that works as a
+difference, stopping each copy at approval. The broad judge is retired; `career/leads/targeting.md` is
+now a saved search. Pushed in `../career-desk/` as `d191f55`; **that project's `CLAUDE.md` ("Stage 5")
+is the current state**, and the session is logged in `career/training/CHANGELOG.md`, Session 8.
+
+**Career Desk's Leads screen, 2026-09-23 (no site files touched).** The STEM cull Max asked for
 is live and the judge's Waiting tab is fixed. A job that **requires being** a coder, computer scientist,
 data scientist or STEM professional is now culled rather than scored low, on the title, on a demanded
 degree in those fields, or on a demanded professional software background; building AI tools is not
