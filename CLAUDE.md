@@ -830,10 +830,16 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
-**Where things stand (2026-09-23, end of the last session).** The last two sessions were Career Desk work
+**Where things stand (2026-09-29, end of the last session).** The last three sessions were career work
 and touched no site file; the site paragraph below is unchanged since Sept 22.
 
-**Career Desk Stage 5, More like this, 2026-09-28, latest (no site files touched).** Leads now matches
+**Hired at Innodata, 2026-09-29, latest (no site files touched).** Max got the Generative AI Associate
+role: part-time contract, 15 to 30 hours a week, starting September 2026. He keeps applying for full-time
+AI developer roles. **Max's call: it goes on the AI roles CV, and stays off the arts and nonprofit ops
+resumes.** Innodata sits in Career Desk's Closed column. Savanna's letter is rebuilt from the Sept 28
+draft and **still needs Max's proofread before Oct 4.** See the session note below.
+
+**Career Desk Stage 5, More like this, 2026-09-28 (no site files touched).** Leads now matches
 every open posting against the applications Max sent, and a batch starts up to 5 applications from one
 sent application: a pre-flight over its proofread history, then Intake and a Strategy that works as a
 difference, stopping each copy at approval. The broad judge is retired; `career/leads/targeting.md` is
@@ -966,6 +972,34 @@ Social's button stays in view 500px into the card; then the full suite again, 0 
   CV's source, so it waits for Max's call.
 - `demo/agency-demo.html` is still the pinned carousel.
 - `teaching.html` (branch `teaching-page`): decide whether it gets the tour treatment before it merges.
+
+### Session of 2026-09-29: hired at Innodata, the AI roles CV, Savanna rebuilt (no site changes)
+
+Effort: low. Career work only; everything below is in `career/`, which is gitignored. Logged in
+`career/training/CHANGELOG.md`, Session 9.
+
+- **Innodata hired Max** (Generative AI Associate, applied Sept 17): part-time contract, 15 to 30 hours
+  a week, starting September 2026.
+- **Max's call: list it on the AI roles CV.** It is current AI work beside Handshake AI, full-time
+  employers read part-time contract work as a bridge, and leaving it off opens a gap an interviewer
+  would find anyway. **No hours or pay on the page**; never let the $15/hr anchor a salary talk.
+  Leave it off the arts and nonprofit ops resumes.
+  - `career/base/ai-roles/resume.md`: a new entry under Sprout Society, "Generative AI Associate
+    (Contract), Innodata | Remote | Sep 2026-Present", with one bullet from the posting's duties.
+  - The new line pushed the CV to two pages. The `Format:` line brought it back to one (top margin 20,
+    heading gap 4, spacing 0.97, `last_after=0`), with no content cut. PDF checked by eye.
+- **Innodata's `job.md`** reads hired, and carries `- **Board:** Closed`. Without that override the
+  card stayed in Sent: Career Desk's `infer_column()` only closes on rejected, withdrew or posting
+  closed, and "Applied Sept 17" in the status matched Sent. **A future hire needs the same `Board:`
+  line**, or a `hired` pattern added to `infer_column()` in `../career-desk/store.py`.
+- **Savanna rebuilt.** `letter.md` held the Sept 28 Career Desk draft (founder paragraph moved last, a
+  tool list, the Salt + Charcoal close, dated Sept 28), but the built letter was still Sept 16's. Built
+  at Max's call: one page, check OK.
+
+**Open:**
+- **Savanna, due Oct 4:** Max proofreads the rebuilt letter, then sends and runs `build.py sent`.
+- `check --all` fails only on `2026-09-nimble`, which has never been built.
+- The confirmed Innodata start date, if it slips into October.
 
 ### Session of 2026-09-23: the STEM cull, and the Waiting tab that could not drain (no site changes)
 
