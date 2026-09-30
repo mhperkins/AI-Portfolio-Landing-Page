@@ -55,7 +55,8 @@ Vercel project: `ai-portfolio-landing-page` · GitHub: `mhperkins/AI-Portfolio-L
 | [demo/social-demo.html](demo/social-demo.html) | **Iteration source for the Social Planner panel's carousel** (5 annotated slides, transplanted 2026-09-12). |
 | [demo/campaign-demo.html](demo/campaign-demo.html) | **Iteration source for the Campaign Tracker panel's carousel** (5 annotated slides, transplanted 2026-09-12). |
 | [demo/grant-tour-demo.html](demo/grant-tour-demo.html), [demo/social-tour-demo.html](demo/social-tour-demo.html), [demo/campaign-tour-demo.html](demo/campaign-tour-demo.html) | **The three carousels above as guided tours** (built and transplanted 2026-09-19), 17, 15 and 10 steps, prefixes `gt`, `st`, `ct`. Made by script from their `-demo.html` sources, which stay the source of the screens. See "The Grant, Social and Campaign carousels". |
-| [demo/career-desk-demo.html](demo/career-desk-demo.html) | **Iteration source for the Career Desk tab's walkthrough** (built and transplanted 2026-09-18; re-transplant its CSS, MARKUP and SCRIPT blocks). A tutorial, not a feature tour (Max's call): 5 slides over the app's two screens (Board twice, then the Workspace three times), each dimmed except **one highlighted step at a time, its blurb open as a popup beside it** (Max's calls: 3 at once was too much, and the job card is its own click). Next and Back step within a slide; a slide's last step moves to the next slide. On a phone the popup pins to the screen bottom and each step scrolls its highlight into view, 12 steps in the order of the work, from a posting link to Mark as sent. A first 7-slide feature version was too much at once; do not go back to it. Root `.desk-demo`, prefix `cd-`; a transplant also copies the TRANSPLANT SCRIPT block, which places the popups (`data-at`), runs the steps, and switches to the pinned phone popup below 700px. Placeholder world only: applicant Riley Chen, invented employers. Copy is Claude's draft. |
+| [demo/career-desk-demo-v2.html](demo/career-desk-demo-v2.html) | **Iteration source for the Career Desk tab's walkthrough since 2026-09-30** (built and transplanted that day). 24 steps over nine screens in the order of the work: Add the job (2 slides), Plan (Intake, Strategy), Draft, Review, Send, Find more (Leads, the batch). Same root `.desk-demo` and prefix `cd-` as v1. On the page its CSS sits **after** v1's Career Desk block (the "v2 additions" rules), its markup replaced v1's, the tour runs on the shared `initTour(root, 'cd')`, and a separate script after `initTour()` runs the three live controls (intake call buttons, mark accept and reject, Leads tick boxes). The standalone's own tour script differs from `initTour()` in two ways that stay standalone only: the arrow keys step (on the page they turn slides, as on every tour) and Back labels drop the strip's "N ·". Placeholder world: Riley Chen, Harbor Point Music School, invented employers. Copy is Claude's draft. |
+| [demo/career-desk-demo.html](demo/career-desk-demo.html) | **Superseded on the page 2026-09-30 by v2 above; kept as the record of the first tour.** The Career Desk tab's first walkthrough (built and transplanted 2026-09-18; re-transplant its CSS, MARKUP and SCRIPT blocks). A tutorial, not a feature tour (Max's call): 5 slides over the app's two screens (Board twice, then the Workspace three times), each dimmed except **one highlighted step at a time, its blurb open as a popup beside it** (Max's calls: 3 at once was too much, and the job card is its own click). Next and Back step within a slide; a slide's last step moves to the next slide. On a phone the popup pins to the screen bottom and each step scrolls its highlight into view, 12 steps in the order of the work, from a posting link to Mark as sent. A first 7-slide feature version was too much at once; do not go back to it. Root `.desk-demo`, prefix `cd-`; a transplant also copies the TRANSPLANT SCRIPT block, which places the popups (`data-at`), runs the steps, and switches to the pinned phone popup below 700px. Placeholder world only: applicant Riley Chen, invented employers. Copy is Claude's draft. |
 | [demo/assets/](demo/assets/) | Carousel assets: `chaconne-p1.webp` (copied from the composer portfolio's score previews) and `chaconne-excerpt.mp3`, the 45-second cut from 8:25 of the Chaconne recording that slide 5 plays in both copies. |
 | [images/](images/) | Screenshots and assets. `maxwell-portrait-500/800.webp` is the color on-stage portrait from the composer portfolio's About section (copied 2026-09-14 from `composers-compass/portfolio/site/assets/portfolio/maxwell-about-portrait-*`), shown beside the About text on `about.html` and the home page. Not the black and white piano hero photo. |
 | [career/](career/README.md) | **Everything for the job search** (moved here 2026-09-16): `tracks/` (the five career-search docs), `base/` (AI roles CV and base letter, ops resume), `applications/<YYYY-MM-org>/` (one folder per application: `job.md` with the posting link and a short job summary, `resume.md`, `letter.md`, `notes.md`, built `.docx` and `.pdf`), and `build.py`, which builds them all. **Start at `career/README.md`**: the application index, the source format and the build rules. `.gitignore` keeps it out of git (OneDrive is its only backup) and `.vercelignore` keeps it off the site. |
@@ -831,10 +832,18 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
-**Where things stand (2026-09-29, latest).** A new Compass demo exists as a standalone and is **not on
+**Where things stand (2026-09-30).** **The Career Desk tab runs the v2 walkthrough, pushed and live.**
+It has 24 steps over the app as it is now: add the job, plan it (Intake, then Strategy), draft, review,
+send, then find more like it (Leads and the batch). Three steps answer a click. The Sept 18 twelve-step
+tour is gone from the page. The tab heading and all three cards were rewritten, and the cards now run
+in Max's order: finding jobs, then the plan, then draft to send. See the session entry below.
+**Next (Max's call):** review the v2 popup copy and the three cards, all Claude's drafts.
+
+**Also standing, from 2026-09-29:** a new Compass demo exists as a standalone and is **not on
 `index.html`**: `demo/compass-desk-demo.html`, built because the Compass redesign (pieces open on the
 Desk, App Sessions 121 to 133) made the page's Compass tour show an app that no longer exists. Max: "a
-great start; we will have to edit the content and flow a bit." The live site is unchanged since Sept 22.
+great start; we will have to edit the content and flow a bit." **Another session has uncommitted edits
+to that file** (left out of every commit on 2026-09-30).
 
 **The Compass Desk demo (2026-09-29, standalone, not transplanted).** Six slides over two real pieces,
 all content from Max's own data (`composers-compass/backups/compass-backup-2026-09-29.json`):
@@ -880,7 +889,7 @@ application, then stage 5 (the rail, the block library, and the amendment loop),
 tours (Compass, Composer CRM, Agency, TeacherAID, Sprout CRM, Grant, Social, Campaign, Career Desk), each with
 a full screen Start gate, Next and Back on every step but step 1, and an inline mode on phones. Every popup
 on every tour is now **one title and one subtitle**, not a bullet list. Live as of
-`cb761f1`, and **nothing has changed on the site since**. The three site changes that day: the GitHub link in
+`cb761f1`; **the only site change since is the Career Desk v2 walkthrough and its cards (2026-09-30)**. The three site changes that day: the GitHub link in
 the hero band and on the CV header (`00dc7b8`), the Start gates dropped under the tab bars so the tool tabs are
 clickable again (`cb761f1`), and the popup rewrite below. Career work is in `../career-desk/`, not here.
 
@@ -984,6 +993,42 @@ Social's button stays in view 500px into the card; then the full suite again, 0 
   CV's source, so it waits for Max's call.
 - `demo/agency-demo.html` is still the pinned carousel.
 - `teaching.html` (branch `teaching-page`): decide whether it gets the tour treatment before it merges.
+
+### Session of 2026-09-30: the Career Desk v2 walkthrough (pushed, live)
+
+Effort: medium. Max's ask: an interactive walkthrough of Career Desk for the site. The tab's tour
+showed the app of Sept 18 (board, draft, review, send, and a "Career search, Soon" placeholder), before
+Intake, Strategy, plan suggestion cards and Leads existed. Max: "build it separately right now and we
+will merge it once it's ready", then "this is awesome, let's merge it into the site".
+
+- **Built standalone first:** `demo/career-desk-demo-v2.html`, assembled from v1's CSS plus new chrome
+  lifted from `career-desk/public/style.css` and `app.js` (the step strip, Intake's requirement table and
+  call buttons, the Strategy one-sheet and intake summary, the pinned plan, a suggestion card, Leads'
+  match rows, dismiss box and selection bar, the batch table with its rails). No wireframe: Max asked for
+  the build directly, and the structure was stated in chat first.
+- **The 24 steps**, one title and one subtitle each: link (1), start from (2), job card (3); requirements
+  with sources (4), the three-way call (5), "In your words" (6); the angle (7), open questions (8),
+  Approve and draft (9); pinned plan (10), your edits (11), suggestion card (12); marked preview (13),
+  keep or reject marks (14), versions (15); sign off (16), notes write-back (17), Mark as sent (18);
+  employer boards (19), scored against what you sent (20), dismissal reasons (21), start several (22);
+  each copy planned (23), where it stops (24).
+- **Narrative:** Riley Chen applies to Harbor Point Music School, the plan refuses the master's degree
+  and sources six years; Riley's own edit says ten and the review catches it; after sending, Leads
+  scores three new teaching jobs against Harbor Point and a batch starts them.
+- **Merged** as `913d9f3`: v2 CSS appended after the v1 block, markup swapped (the page's
+  `.demo-gate-in` gate wrapper kept, now "24 steps"), the live-controls script added after `initTour()`,
+  heading "From a job posting to the next ones like it". The shared `initTour()` was not touched.
+- **Cards** (`4eeea9e`, then reordered at Max's call in `5e0ab40`): "A job search with standing
+  rules", "A plan before a word is drafted", "From draft to sent".
+- **Verified headless:** standalone 1,832 of 1,832 at 1280, 960 and 1440 full screen and 390 with touch
+  (every step forward and back, one popup and one highlight, no popup over its highlight, popup inside
+  the window and the stage, highlight and popup in view, the three live controls, Start over, Esc, Close,
+  backdrop, zero script errors, no sideways scroll on the phone, zero em dashes). The page: 1,826 of
+  1,832; the 6 failures are the arrow-key checks, which on the page turn slides as on every tour.
+  The six-stage strip fits the 874px card on one line (47px). Screenshots checked by eye.
+
+**Open:** Max's review of the 24 popups and the three cards. The phone layout of the intake table
+scrolls sideways inside its box, as the app's does.
 
 ### Session of 2026-09-29, latest: the Compass Desk demo (standalone, not on the page)
 
