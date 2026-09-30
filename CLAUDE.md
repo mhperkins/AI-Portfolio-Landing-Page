@@ -46,7 +46,7 @@ Vercel project: `ai-portfolio-landing-page` · GitHub: `mhperkins/AI-Portfolio-L
 | [demo/crm-demo.html](demo/crm-demo.html) | **Iteration source for the CRM panel's carousel** (7 slides, transplanted 2026-09-10). See "The CRM and Agency carousels" below. |
 | [demo/crm-tour-demo.html](demo/crm-tour-demo.html) | **The CRM carousel as a guided tour** (built 2026-09-18, **transplanted 2026-09-19** as `initTour(root, 'hc')`), on the Career Desk walkthrough pattern: same 7 slides, screens and note text as `crm-demo.html`, but one highlight at a time with its note open beside it, Next and Back, 18 steps numbered across the tool. Made from `crm-demo.html` by script (pins became `tour-hl`, notes became `tour-call` popups); a pin that sat on a popup's header now highlights the whole popup. The only new copy is a short title per popup (Claude's draft). Prefix `tour-`. **Full screen like Career Desk** (Max's call, same day): a "Start the tour" gate over the preview opens it over the page (`.crm-tour.is-full`, same geometry as `.desk-demo.is-full`); Close, Esc or the backdrop closes it and restores the scroll; phones skip the gate. While open, both scroll helpers (`alignUnderPin` and the step scroll) scroll the overlay, not the window. |
 | [demo/compass-tutorial-demo.html](demo/compass-tutorial-demo.html) | **The Compass carousel as a tutorial** (built 2026-09-18 by another session, transplanted 2026-09-19): 13 steps, full screen from a Start gate, notes word for word plus a popup title (Claude's draft). Prefix `ct-` here, **`cc-` on the page** (Campaign Tracker owns `ct-`). It keeps its own step script (not `initTour()`): the carousel steps through the rail, and step 9's popup floats above its node. `compass-demo.html` stays the source of the screens. |
-| [demo/compass-desk-demo.html](demo/compass-desk-demo.html) | **The Compass Desk demo** (built 2026-09-29, **standalone, not on the page**): six explorable slides over the redesigned Desk, the Clarinet Concerto and Piano Sonata mvt 2, clickable hotspots with title-plus-subtitle popups, prefix `dk`. See "Session of 2026-09-29, latest". |
+| [demo/compass-desk-demo.html](demo/compass-desk-demo.html) | **The Compass Desk demo** (built 2026-09-29, **standalone, not on the page**): two full-Desk click-through slides over the redesigned Desk, the Clarinet Concerto and Piano Sonata mvt 2, numbered hotspots whose popups are a title plus one sentence, prefix `dk`. See "Session of 2026-09-30, latest". |
 | [demo/agency-demo.html](demo/agency-demo.html) | **Source of the Virtual Agency panel's screens** (2 slides, transplanted 2026-09-10). Since 2026-09-18 the page shows them as a guided tour (see "The Virtual Agency tour"); this file is still the old pinned carousel, so copy a screen change by hand, pins as highlights. |
 | [demo/dasha-demo.html](demo/dasha-demo.html) | **Iteration source for the TeacherAID tab's carousel** (6 annotated slides, transplanted 2026-09-12). See "The TeacherAID tab" below. |
 | [demo/sprout-crm-demo.html](demo/sprout-crm-demo.html) | **Iteration source for the Sprout CRM panel's carousel** (5 annotated slides; built by a parallel session, committed `6c226cc`, transplanted 2026-09-12). See "The Sprout CRM carousel" below. |
@@ -839,20 +839,23 @@ tour is gone from the page. The tab heading and all three cards were rewritten, 
 in Max's order: finding jobs, then the plan, then draft to send. See the session entry below.
 **Next (Max's call):** review the v2 popup copy and the three cards, all Claude's drafts.
 
-**Also standing, from 2026-09-29:** a new Compass demo exists as a standalone and is **not on
-`index.html`**: `demo/compass-desk-demo.html`, built because the Compass redesign (pieces open on the
-Desk, App Sessions 121 to 133) made the page's Compass tour show an app that no longer exists. Max: "a
-great start; we will have to edit the content and flow a bit." **Another session has uncommitted edits
-to that file** (left out of every commit on 2026-09-30).
+**The Compass Desk demo (standalone, not on `index.html`), reshaped 2026-09-30 and committed.**
+`demo/compass-desk-demo.html` exists because the Compass redesign (pieces open on the Desk, App
+Sessions 121 to 133) made the page's Compass tour show an app that no longer exists. It is now **two
+slides, each the whole Desk worked as if live**, all content from Max's own data
+(`composers-compass/backups/compass-backup-2026-09-29.json`):
+- **Clarinet Concerto, from scratch, 9 steps:** Intake, Guide, Constitution, the add-tile buttons (one
+  target), load the hexachord into the set builder, circles, Place as new (Chord A appears), Rotate,
+  Chord A's takes.
+- **Piano Sonata mvt 2, from a draft, 10 steps:** Thread, Intake, Constitution, PDF / Measures,
+  recording, keypad, open the Workshop, See more, Put on page, Add a decision.
 
-**The Compass Desk demo (2026-09-29, standalone, not transplanted).** Six slides over two real pieces,
-all content from Max's own data (`composers-compass/backups/compass-backup-2026-09-29.json`):
-Plan and Sketch (Clarinet Concerto from scratch), From a draft and Takes (Piano Sonata mvt 2), Set
-builder (Concerto), Workshop (mvt 2). **Max's call on the shape: not a sequence.** Each slide has a
-title and blurb over a rebuilt Desk; clickable parts pulse with a dashed amber outline, and a click runs
-the real action and opens one title-plus-subtitle popup. Details in the session entry below.
-**Next session (Max's call):** edit its content and flow, then decide whether it replaces the page's
-Compass tour (`cc-`, from `compass-tutorial-demo.html`).
+Every step carries a number (amber, green once seen; the order lives in `ORDER`), and each popup is the
+number, a title and one sentence on that part's role in the process. Controls outside the steps are
+plain UI. **Chord A's second take (first inversion) is the demo's, not Max's data.** Private artifact:
+https://claude.ai/artifact/SnPzvrvyGCS7zmVB2u9Mp6 (version 7). See the session entry below.
+**Next (Max's call):** decide whether it replaces the page's Compass tour (`cc-`, from
+`compass-tutorial-demo.html`), and whether the intake names (Anthony Kalanick, Daria) can go public.
 
 **Hired at Innodata, 2026-09-29, latest (no site files touched).** Max got the Generative AI Associate
 role: part-time contract, 15 to 30 hours a week, starting September 2026. He keeps applying for full-time
@@ -994,6 +997,33 @@ Social's button stays in view 500px into the card; then the full suite again, 0 
 - `demo/agency-demo.html` is still the pinned carousel.
 - `teaching.html` (branch `teaching-page`): decide whether it gets the tour treatment before it merges.
 
+### Session of 2026-09-30, latest: the Compass Desk demo becomes a two-slide click-through (standalone)
+
+Effort: low to medium, on Opus 5.5. One file, `demo/compass-desk-demo.html`; the live site is untouched
+(the demo is not linked from `index.html`). Two wireframe calls went to Max through AskUserQuestion.
+
+- **Numbered steps and one-sentence popups (Max's calls, in order):** the Concerto's sketch tiles on the
+  first slide; a number on every clickable part, repeated in its popup, amber then green once seen
+  (`.hs-n`, mounted from `ORDER`); every popup cut to a title plus one sentence on the part's role.
+  The hint reads "Click the numbers in order."
+- **Sketch material shown being made:** Max asked for the sketch slide to combine the set builder and
+  takes, and chose the full merge from a wireframe. Chord A now appears only on Place as new, and its
+  takes switch between root position and a first inversion **made for the demo**.
+- **Two slides (Max's call):** the whole Desk per piece, worked as if live. Max chose the trimmed step
+  list (9 + 10) over keeping all 29. Dropped steps (Blueprint, mod 12, numerals, why four staves, Play,
+  Expand, Sees, Voices, History) became plain UI; Expand and the Var. 4 play button still work.
+- **Small calls after publishing:** the whole sketch group as one target (then superseded by the
+  rebuild), the four add-tile buttons as one target, and Place as new before Rotate.
+- **Layout:** the Concerto's joined tiles use a two-column grid to fit beside the set builder; on the
+  Sonata slide the score tile caps at 400px and Var. 4 at 300px so they sit side by side, and the
+  Workshop and its button open at the top of the page (desktop only).
+- **Verified headless (1280 and 390):** a Playwright pass clicks every step in order and checks its
+  number, its popup and a one-sentence body; zero script errors, no sideways scroll, zero em dashes.
+  Screenshots checked by eye.
+- **Artifact:** republished in place to https://claude.ai/artifact/SnPzvrvyGCS7zmVB2u9Mp6 (private).
+
+**Open:** transplant onto `index.html` or keep the tutorial; public names in the intake and thread.
+
 ### Session of 2026-09-30: the Career Desk v2 walkthrough (pushed, live)
 
 Effort: medium. Max's ask: an interactive walkthrough of Career Desk for the site. The tab's tour
@@ -1030,7 +1060,7 @@ will merge it once it's ready", then "this is awesome, let's merge it into the s
 **Open:** Max's review of the 24 popups and the three cards. The phone layout of the intake table
 scrolls sideways inside its box, as the app's does.
 
-### Session of 2026-09-29, latest: the Compass Desk demo (standalone, not on the page)
+### Session of 2026-09-29: the Compass Desk demo (standalone, not on the page)
 
 Effort: medium, on Opus 5.5. Max asked to redo the Compass slideshow because the app's layout and
 workflow changed completely: pieces now open on the Desk (three zones, no wires, a tile canvas, a

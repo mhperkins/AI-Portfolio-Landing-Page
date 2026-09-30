@@ -12,15 +12,21 @@
    Composer's Compass: the Desk, explorable (built 2026-09-29).
 
    Replaces the node-chain carousel (compass-demo.html) now that pieces open
-   on the Desk (App Sessions 121 to 133). Six slides, two real pieces:
+   on the Desk (App Sessions 121 to 133). Two slides, two real pieces:
    the Clarinet Concerto from scratch, Piano Sonata mvt 2 from a draft.
    Every piece of content is Max's own data from backups/compass-backup-
    2026-09-29.json (intake, guide, constitution, tiles, takes, Workshop).
 
-   Max's call: not a sequence. Each slide marks what can be clicked
-   (.hs, a pulsing dashed ring); a click runs the real action (a node drops
-   open, a take switches, the Workshop expands) and opens one popup with a
-   title and a subtitle, the portfolio's tour popup shape.
+   Max's call (2026-09-30): a click-through. Each slide marks what can be
+   clicked (.hs, a pulsing dashed ring) and numbers it (.hs-n, from ORDER)
+   in the order to click. A click runs the real action (a node drops open,
+   a take switches, the Workshop expands) and opens one popup: the number,
+   a title, and one sentence on what that part does in the process.
+   Two slides (Max, 2026-09-30), each the whole Desk worked as if live:
+   the Concerto from scratch (plan, then tile, set builder, Place as new,
+   takes: 9 steps) and Sonata mvt 2 from a draft (thread, score, recording,
+   keypad, Workshop: 10 steps). Other controls are plain UI.
+   Chord A's second take (first inversion) is the demo's, not Max's data.
 
    Prefix `dk` on every class so a transplant into index.html cannot collide
    with `cc-`, `ct-`, `demo-` or `hub-car-`. Single light look on purpose:
@@ -87,8 +93,22 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--amber-
 .hs:hover { outline-color: var(--amber-lt); }
 @keyframes hs-pulse { 0%,100% { outline-color: rgba(217,119,6,.85); box-shadow: 0 0 0 0 rgba(217,119,6,0); } 50% { outline-color: rgba(217,119,6,.35); box-shadow: 0 0 0 4px rgba(217,119,6,.12); } }
 
+/* the step number on each hotspot (and in the popup title); `.dk` lifts it over the `b` rules of its hosts */
+.dk .hs-n { display: inline-grid; place-items: center; width: 17px; height: 17px; min-width: 17px; padding: 0; border: 0; border-radius: 50%; background: var(--amber); color: #fff; font: 600 10.5px/1 var(--font-sans); letter-spacing: 0; text-decoration: none; writing-mode: horizontal-tb; margin: 0 6px 0 0; flex-shrink: 0; vertical-align: -3px; font-variant-numeric: lining-nums; }
+.dk .hs.is-seen .hs-n { background: var(--green); }
+.dk .hs-n.corner { position: absolute; margin: 0; box-shadow: 0 0 0 2px var(--surface); }
+.dk .dk-pdfw > .hs-n { top: 8px; left: 8px; }
+.dk .dk-fab > .hs-n { top: -3px; right: -3px; }
+.dk .z-spine > .hs-n { align-self: center; margin: 8px 0 0; }
+.dk .dk-staves > .hs-n { top: 4px; right: 4px; }
+.dk-staves.hs, .dk-chips.hs { position: relative; }
+.dk .dk-chips > .hs-n { top: -8px; left: -8px; }
+.dk-right.is-idle { opacity: .45; }
+.dk-right { transition: opacity .3s; }
+#dkChordTile:not([hidden]) { animation: dk-drop .3s ease-out; }
+
 .dk-pop { position: absolute; z-index: 30; width: 296px; background: var(--surface); border: 1.5px solid var(--ch); border-radius: 10px; box-shadow: var(--shadow-lg); padding: 11px 12px 12px 14px; font-size: 12.5px; line-height: 1.45; color: var(--tp); animation: dk-drop .22s ease-out; }
-.dk-pop-t { font: 700 17px/1.2 var(--font-serif); margin: 0 22px 5px 0; }
+.dk-pop-t { font: 700 17px/1.2 var(--font-serif); margin: 0 22px 5px 0; display: flex; align-items: center; }
 .dk-pop-s { margin: 0; }
 .dk-pop-x { position: absolute; top: 6px; right: 6px; width: 24px; height: 24px; border: 0; border-radius: 50%; background: transparent; color: var(--tm); font-size: 16px; line-height: 1; }
 .dk-pop-x:hover { background: var(--warm); color: var(--tp); }
@@ -155,11 +175,10 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--amber-
 .dk-rstate { margin-left: auto; font-size: 11px; color: var(--tm); white-space: nowrap; padding-left: 12px; }
 .dk-rtools { display: flex; align-items: center; gap: 6px; padding: 6px 10px; overflow-x: auto; border-top: 1px solid var(--warm); }
 .dk-rtools > * { flex-shrink: 0; }
+.dk-addset { display: inline-flex; align-items: center; gap: 6px; padding: 2px 3px; }
 .dk-sep { width: 1px; height: 16px; background: var(--border); }
 .dk-dgrid { display: flex; gap: 10px; padding: 10px; flex: 1; min-height: 0; }
 .dk-canvas { position: relative; flex: 1; min-width: 0; min-height: 440px; border-radius: 6px; background: rgba(255,255,255,.38); border: 1px dashed rgba(139,115,85,.25); padding: 16px; display: flex; flex-wrap: wrap; align-content: flex-start; align-items: flex-start; gap: 18px 22px; overflow: auto; }
-.dk-blank { width: 100%; display: flex; flex-direction: column; gap: 26px; padding: 18px 6px; }
-.dk-blank i { display: block; height: 33px; background: repeating-linear-gradient(to bottom, rgba(139,115,85,.28) 0 1px, transparent 1px 8px); }
 
 /* tiles */
 .dk-tile { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; box-shadow: var(--shadow); max-width: 100%; min-width: 0; }
@@ -179,13 +198,18 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--amber-
 .dk-grphead b { font: 600 14px var(--font-serif); color: var(--tp); }
 .dk-grid { display: grid; grid-template-columns: repeat(3, auto); gap: 8px; align-items: start; }
 .dk-grid > .c3 { grid-column: 3; }
+.dk-grid.two { grid-template-columns: repeat(2, auto); }
 .dk-grid .dk-ttext { max-width: 190px; }
 
 /* score tile */
-.dk-score { flex: 1 1 340px; max-width: 470px; }
+.dk-score { flex: 1 1 340px; max-width: 400px; }
+#dkVar4 { max-width: 300px; }
+/* the Workshop and its button sit at the top of the page so they open in view */
+@media (min-width: 761px) { #dkWs { top: 12px; bottom: auto; } #dkFab { top: 16px; bottom: auto; } }
 .dk-seg { display: flex; gap: 2px; margin-left: auto; padding: 1px; }
 .dk-seg button { font-size: 10.5px; padding: 1px 8px; border-radius: 3px; color: var(--ts); border: 0; background: transparent; }
 .dk-seg button.is-on { background: var(--ch); color: #fff; }
+.dk-pdfw { position: relative; }
 .dk-pdf { display: block; width: 100%; height: 300px; object-fit: cover; object-position: 50% 12%; border-bottom: 1px solid var(--warm); background: #fff; }
 .dk-measures { height: 300px; overflow: auto; padding: 10px 12px; font-size: 12px; color: var(--tp); border-bottom: 1px solid var(--warm); display: flex; flex-direction: column; gap: 8px; }
 .dk-measures h4 { margin: 0; font: 600 14px var(--font-serif); }
@@ -327,20 +351,20 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--amber-
     <nav class="dk-nav" id="dkNav" aria-label="Slides"></nav>
   </div>
 
-  <!-- ===================== SLIDE 1: plan (Clarinet Concerto) ===================== -->
+  <!-- ===================== SLIDE 1: Clarinet Concerto, from scratch (plan, sketch, set builder, takes) ===================== -->
   <section class="sl" data-slide="1">
     <div class="sl-head">
       <div>
         <div class="sl-kicker"><b>Clarinet Concerto</b> · starting from scratch</div>
-        <h3 class="sl-title">Plan the piece before a note exists</h3>
-        <p class="sl-blurb">A new piece opens on the Desk with nothing written. Pre-comp holds the planning chain: the Guide Intake records what you are writing and for whom, the Guide reads it back as a one-sheet, and the Constitution keeps the decisions you settle. Open each node.</p>
+        <h3 class="sl-title">Plan it, then make the material</h3>
+        <p class="sl-blurb">A new piece with nothing written: the plan on the left, the sketch page in the middle, the set builder on the right. Follow the numbers to open the plan, then turn it into the concerto's first chord.</p>
       </div>
-      <div class="sl-meta"><div class="sl-count"></div><div class="sl-hint"><span></span>Click anything outlined</div></div>
+      <div class="sl-meta"><div class="sl-count"></div><div class="sl-hint"><span></span>Click the numbers in order</div></div>
     </div>
     <div class="dk-app">
       <header class="dk-hdr">
-        <span class="dk-hbtn">&larr; Pieces</span><span class="dk-htitle">Clarinet Concerto</span><span class="dk-instr">Clarinet and Logic Orchestra</span><span class="dk-status">Idea</span>
-        <span class="dk-spacer"></span><span class="dk-hbtn is-on hs" data-hs="blueprint">Blueprint On</span><span class="dk-hbtn">View Blueprint</span><span class="dk-hbtn">Canvas view</span>
+        <span class="dk-hbtn">&larr; Pieces</span><span class="dk-htitle">Clarinet Concerto</span><span class="dk-instr">Clarinet and Logic Orchestra</span><span class="dk-status">Sketching</span>
+        <span class="dk-spacer"></span><span class="dk-hbtn is-on">Blueprint On</span><span class="dk-hbtn">View Blueprint</span><span class="dk-hbtn">Canvas view</span>
       </header>
       <div class="dk-desk">
         <section class="dk-zone z-pre" aria-label="Pre-comp">
@@ -390,10 +414,42 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--amber-
           </div>
         </section>
         <section class="dk-zone z-draft" aria-label="Sketch and draft">
-          <div class="dk-zhead"><span class="dk-ztitle">Sketch / Draft</span><span class="dk-zcount">0 systems</span><span class="dk-zadd">+ Node</span></div>
+          <div class="dk-zhead"><span class="dk-ztitle">Sketch / Draft</span><span class="dk-zcount">4 systems</span><span class="dk-zadd">+ Node</span></div>
           <div class="dk-zbody">
-            <div class="dk-ribbon"><div class="dk-rtabs"><span class="dk-rtab">Note Input</span><span class="dk-rtab">Notations</span><span class="dk-rtab">Text</span><span class="dk-rtab">Play</span><span class="dk-rtab is-on">Page</span><span class="dk-rstate">Saved · 100% · Ideas Library</span></div></div>
-            <div class="dk-dgrid"><div class="dk-canvas"><div class="dk-blank hs" data-hs="blank"><i></i><i></i><i></i><i></i></div></div></div>
+            <div class="dk-ribbon">
+              <div class="dk-rtabs"><span class="dk-rtab">Note Input</span><span class="dk-rtab">Notations</span><span class="dk-rtab">Text</span><span class="dk-rtab">Play</span><span class="dk-rtab is-on">Page</span><span class="dk-rstate">Saved just now · 100% · Ideas Library</span></div>
+              <div class="dk-rtools"><span class="dk-btn">‹</span><span class="dk-chip">Page 1</span><span class="dk-btn">›</span><span class="dk-sep"></span><span class="dk-addset hs" data-hs="addscale"><span class="dk-btn">+ Chord</span><span class="dk-btn">+ Scale</span><span class="dk-btn">+ Motive</span><span class="dk-btn">+ Score</span></span></div>
+            </div>
+            <div class="dk-dgrid">
+              <div class="dk-canvas">
+                <div class="dk-grp">
+                  <div class="dk-grphead"><b>Scale A + Scale B</b><span>joined · 4 tiles</span><span class="dk-btn" style="margin-left:auto">▶ Play all</span></div>
+                  <div class="dk-grid two">
+                    <div class="dk-tile"><div class="dk-thead"><span class="dk-tname">Scale A</span><span class="dk-tkind">Scale</span></div><div class="dk-staves" data-tile="scaleA"></div><div class="dk-ttext">Tonic Global Tonal Center</div></div>
+                    <div class="dk-tile"><div class="dk-thead"><span class="dk-tname">Scale B</span><span class="dk-tkind">Scale</span></div><div class="dk-staves" data-tile="scaleB"></div><div class="dk-ttext">Dominant Global Tonal Center</div></div>
+                    <div class="dk-tile hs" data-hs="hexload" id="dkHexTile"><div class="dk-thead"><span class="dk-tname">Scale · [0 1 3 6 7 9]</span><span class="dk-tkind">Scale</span></div><div class="dk-staves" data-tile="hex"></div><div class="dk-ttext">[0 1 3 6 7 9] Tonic + Dom tonal centers + 2 tritones on D and G</div></div>
+                    <div class="dk-tile" id="dkChordTile" hidden><div class="dk-thead"><span class="dk-tname">Chord A</span><span class="dk-tkind">Chord</span><span class="dk-tright"><button class="dk-takes hs" data-hs="ctakes" id="dkCTakeBtn"></button></span></div><div class="dk-staves" id="dkChordStaves"></div></div>
+                  </div>
+                </div>
+              </div>
+              <aside class="dk-right is-idle" id="dkBuilder">
+                <div class="dk-selp">
+                  <div class="dk-selp-row"><span class="dk-sub">Selection</span><span>Scale · 6 notes</span></div>
+                  <div class="dk-selp-row"><span>Notes</span><span>D♭ D E G A♭ B♭</span></div>
+                  <div class="dk-selp-row"><span>Mod 12</span><span class="dk-pcs">1 2 4 7 8 10</span></div>
+                  <div class="dk-selp-row"><span>Prime form</span><span class="dk-pcs">[0 1 3 6 7 9]</span><span class="dk-chip">2 tritones</span></div>
+                </div>
+                <div class="dk-seg2"><span class="is-on">Set builder</span><span>Notes</span><span>Nodes</span><span>Versions</span></div>
+                <div class="dk-rbody">
+                  <div class="dk-chips"><span class="dk-chip">Chord</span><span class="dk-chip is-on">Scale</span><span class="dk-chip">Motive</span></div>
+                  <div class="dk-chips hs" data-hs="circles" id="dkCircles">
+                    <button class="dk-chip is-on" data-circ="chrom">Chromatic</button><button class="dk-chip" data-circ="fifths">5ths</button><button class="dk-chip" data-circ="fourths">4ths</button><button class="dk-chip" data-circ="ngon">Scale n-gon</button>
+                  </div>
+                  <svg class="dk-clock" id="dkClock" viewBox="0 0 220 220" role="img" aria-label="Pitch-class clock"></svg>
+                  <div class="dk-btnrow"><button class="dk-btn hs" data-hs="rotate" id="dkRotate">Rotate ↻</button><span class="dk-btn">Update tile</span><button class="dk-btn pri hs" data-hs="place" id="dkPlace">Place as new</button></div>
+                </div>
+              </aside>
+            </div>
           </div>
         </section>
         <section class="dk-zone z-spine" aria-label="Engraving"><div class="dk-spine">Engraving <span>later</span></div></section>
@@ -401,60 +457,21 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--amber-
     </div>
   </section>
 
-  <!-- ===================== SLIDE 2: sketch from scratch (Concerto) ===================== -->
+  <!-- ===================== SLIDE 2: Piano Sonata mvt 2, from a draft (thread, score, score editor, Workshop) ===================== -->
   <section class="sl" data-slide="2" hidden>
     <div class="sl-head">
       <div>
-        <div class="sl-kicker"><b>Clarinet Concerto</b> · the sketch page</div>
-        <h3 class="sl-title">First ideas go down as tiles</h3>
-        <p class="sl-blurb">The page is an open canvas of small tiles: chords, scales and motives. Nothing needs a meter or a bar line yet. These are the concerto's first sketches, built straight from decision 10: the tonal centers, the hexachord that holds both, and the chords inside it.</p>
-      </div>
-      <div class="sl-meta"><div class="sl-count"></div><div class="sl-hint"><span></span>Click anything outlined</div></div>
-    </div>
-    <div class="dk-app">
-      <header class="dk-hdr"><span class="dk-hbtn">&larr; Pieces</span><span class="dk-htitle">Clarinet Concerto</span><span class="dk-instr">Clarinet and Logic Orchestra</span><span class="dk-status">Sketching</span><span class="dk-spacer"></span><span class="dk-hbtn is-on">Blueprint On</span><span class="dk-hbtn">View Blueprint</span><span class="dk-hbtn">Canvas view</span></header>
-      <div class="dk-desk">
-        <section class="dk-zone z-spine hs" data-hs="spine"><div class="dk-spine">Pre-comp <span>3 nodes</span></div></section>
-        <section class="dk-zone z-draft">
-          <div class="dk-zhead"><span class="dk-ztitle">Sketch / Draft</span><span class="dk-zcount">4 systems</span><span class="dk-zadd">+ Node</span></div>
-          <div class="dk-zbody">
-            <div class="dk-ribbon">
-              <div class="dk-rtabs"><span class="dk-rtab">Note Input</span><span class="dk-rtab">Notations</span><span class="dk-rtab">Text</span><span class="dk-rtab">Play</span><span class="dk-rtab is-on">Page</span><span class="dk-rstate">Saved just now · 100% · Fit · <span class="hs" data-hs="library">Ideas Library</span></span></div>
-              <div class="dk-rtools"><span class="dk-btn">‹</span><span class="dk-chip">Page 1</span><span class="dk-btn">›</span><span class="dk-sep"></span><span class="dk-btn">+ Chord</span><span class="dk-btn hs" data-hs="addscale">+ Scale</span><span class="dk-btn">+ Motive</span><span class="dk-btn">+ Score</span></div>
-            </div>
-            <div class="dk-dgrid"><div class="dk-canvas">
-              <div class="dk-grp">
-                <div class="dk-grphead hs" data-hs="group"><b>Scale A + Scale B</b><span>joined · 4 tiles</span><span class="dk-btn" style="margin-left:auto">▶ Play all</span></div>
-                <div class="dk-grid">
-                  <div class="dk-tile"><div class="dk-thead"><span class="dk-tname">Scale A</span><span class="dk-tkind">Scale</span></div><div class="dk-staves" data-tile="scaleA"></div><div class="dk-ttext hs" data-hs="text">Tonic Global Tonal Center</div></div>
-                  <div class="dk-tile"><div class="dk-thead"><span class="dk-tname">Scale B</span><span class="dk-tkind">Scale</span></div><div class="dk-staves" data-tile="scaleB"></div><div class="dk-ttext">Dominant Global Tonal Center</div></div>
-                  <div class="dk-tile"><div class="dk-thead"><span class="dk-tname">Scale · [0 1 3 6 7 9]</span><span class="dk-tkind">Scale</span></div><div class="dk-staves" data-tile="hex"></div><div class="dk-ttext">[0 1 3 6 7 9] Tonic + Dom tonal centers + 2 tritones on D and G</div></div>
-                  <div class="dk-tile c3"><div class="dk-thead"><span class="dk-tname">Chord A</span><span class="dk-tkind">Chord</span></div><div class="dk-staves hs" data-hs="numerals" data-tile="chordA"></div></div>
-                </div>
-              </div>
-            </div></div>
-          </div>
-        </section>
-        <section class="dk-zone z-spine"><div class="dk-spine">Engraving <span>later</span></div></section>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== SLIDE 3: start from a draft (Sonata mvt 2) ===================== -->
-  <section class="sl" data-slide="3" hidden>
-    <div class="sl-head">
-      <div>
         <div class="sl-kicker"><b>Piano Sonata, mvt 2</b> · starting from a draft</div>
-        <h3 class="sl-title">Bring the draft to the desk</h3>
-        <p class="sl-blurb">This movement already exists: an engraved score, a recording and a Discord thread where it took shape. They sit on the desk as nodes, so every conversation starts from the real music. The last variation is still unwritten.</p>
+        <h3 class="sl-title">Finish a movement from its draft</h3>
+        <p class="sl-blurb">The movement exists as a score, a recording and the Discord thread where it took shape. The last variation is unwritten: sketch it on four staves, then work it through with the Workshop.</p>
       </div>
-      <div class="sl-meta"><div class="sl-count"></div><div class="sl-hint"><span></span>Click anything outlined</div></div>
+      <div class="sl-meta"><div class="sl-count"></div><div class="sl-hint"><span></span>Click the numbers in order</div></div>
     </div>
     <div class="dk-app">
       <header class="dk-hdr"><span class="dk-hbtn">&larr; Pieces</span><span class="dk-htitle">Piano Sonata 1 mvt 2</span><span class="dk-instr">Piano</span><span class="dk-status">Drafting</span><span class="dk-spacer"></span><span class="dk-hbtn is-on">Blueprint On</span><span class="dk-hbtn">View Blueprint</span><span class="dk-hbtn">Canvas view</span></header>
-      <div class="dk-desk">
+      <div class="dk-desk" style="min-height:700px">
         <section class="dk-zone z-pre">
-          <div class="dk-zhead"><span class="dk-ztitle">Pre-comp</span><span class="dk-zcount">4 nodes</span><span class="dk-zadd">+ Node</span></div>
+          <div class="dk-zhead"><span class="dk-ztitle">Pre-comp</span><span class="dk-zcount">3 nodes</span><span class="dk-zadd">+ Node</span></div>
           <div class="dk-zbody">
             <article class="dk-card is-closed hs" data-hs="thread">
               <div class="dk-chead"><span class="dk-ctype">Thread</span><span class="dk-cname">Piano Sonata mvt 2</span><span class="dk-chev">▼</span></div>
@@ -494,11 +511,14 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--amber-
         <section class="dk-zone z-draft">
           <div class="dk-zhead"><span class="dk-ztitle">Sketch / Draft</span><span class="dk-zcount">1 score · 1 system</span><span class="dk-zadd">+ Node</span></div>
           <div class="dk-zbody">
-            <div class="dk-ribbon"><div class="dk-rtabs"><span class="dk-rtab">Note Input</span><span class="dk-rtab">Notations</span><span class="dk-rtab">Text</span><span class="dk-rtab is-on">Play</span><span class="dk-rtab">Page</span><span class="dk-rstate">Saved · 100% · Ideas Library</span></div></div>
-            <div class="dk-dgrid"><div class="dk-canvas">
+            <div class="dk-ribbon">
+              <div class="dk-rtabs"><span class="dk-rtab is-on">Note Input</span><span class="dk-rtab">Notations</span><span class="dk-rtab">Text</span><span class="dk-rtab">Play</span><span class="dk-rtab">Page</span><span class="dk-rstate">Saved just now · 100% · Fit</span></div>
+              <div class="dk-rtools"><span class="dk-btn">Keypad</span><span class="dk-chip" id="dkDurChip">No value</span><span class="dk-sep"></span><span class="dk-chip" id="dkKeyChip">Key: none</span><span class="dk-chip" id="dkMeterChip">Meter: none</span><span class="dk-sep"></span><span class="dk-btn">Take+</span><span class="dk-btn">S Slur</span><span class="dk-btn">Export MusicXML</span></div>
+            </div>
+            <div class="dk-dgrid"><div class="dk-canvas" id="dkWsCanvas">
               <div class="dk-tile dk-score">
                 <div class="dk-thead"><span class="dk-tname">Score · Piano Sonata mvt 2 v5</span><span class="dk-seg hs" data-hs="measures"><button class="is-on" data-view="pdf">PDF</button><button data-view="measures">Measures</button></span></div>
-                <img class="dk-pdf hs" data-hs="pdf" src="assets/sonata-mvt2-p1.webp" alt="Page 1 of Piano Sonata mvt 2, the theme, Lento e maestoso">
+                <div class="dk-pdfw"><img class="dk-pdf" src="assets/sonata-mvt2-p1.webp" alt="Page 1 of Piano Sonata mvt 2, the theme, Lento e maestoso"></div>
                 <div class="dk-measures" hidden>
                   <span class="dk-cover">Notes cover pp. 1-13, mm. 1-185 · read Sep 28</span>
                   <div><h4>mm. 1-4 (p. 1): Opening, Lento e maestoso ♩ = 50</h4><ul><li>Long slurs in the upper staff across mm. 1-2 and 3-4</li><li>"p" at m. 1; wide spacing, mostly half notes; melody in parallel motion over harmonic support</li><li>Lower staff moves from bass to treble clef in m. 4</li></ul></div>
@@ -513,45 +533,11 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--amber-
                 <div class="dk-sendpdf"><i></i>Send the score PDF to Claude</div>
                 <audio id="dkAudio" preload="none" src="assets/sonata-mvt2-excerpt.mp3"></audio>
               </div>
-            </div></div>
-          </div>
-        </section>
-        <section class="dk-zone z-spine"><div class="dk-spine">Engraving <span>1 node</span></div></section>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== SLIDE 4: takes + score editor (Sonata mvt 2) ===================== -->
-  <section class="sl" data-slide="4" hidden>
-    <div class="sl-head">
-      <div>
-        <div class="sl-kicker"><b>Piano Sonata, mvt 2</b> · takes and the score editor</div>
-        <h3 class="sl-title">Sketch the missing variation</h3>
-        <p class="sl-blurb">Variation 4 has to pull the theme and three variations into one texture. Its sketch is a single tile on four staves, the theme above and the variations' fragments below, and every attempt stays on the tile as a take.</p>
-      </div>
-      <div class="sl-meta"><div class="sl-count"></div><div class="sl-hint"><span></span>Click anything outlined</div></div>
-    </div>
-    <div class="dk-app">
-      <header class="dk-hdr"><span class="dk-hbtn">&larr; Pieces</span><span class="dk-htitle">Piano Sonata 1 mvt 2</span><span class="dk-instr">Piano</span><span class="dk-status">Drafting</span><span class="dk-spacer"></span><span class="dk-hbtn is-on">Blueprint On</span><span class="dk-hbtn">View Blueprint</span><span class="dk-hbtn">Canvas view</span></header>
-      <div class="dk-desk">
-        <section class="dk-zone z-spine"><div class="dk-spine">Pre-comp <span>4 nodes</span></div></section>
-        <section class="dk-zone z-draft">
-          <div class="dk-zhead"><span class="dk-ztitle">Sketch / Draft</span><span class="dk-zcount">1 score · 1 system</span><span class="dk-zadd">+ Node</span></div>
-          <div class="dk-zbody">
-            <div class="dk-ribbon">
-              <div class="dk-rtabs"><span class="dk-rtab is-on">Note Input</span><span class="dk-rtab">Notations</span><span class="dk-rtab">Text</span><span class="dk-rtab">Play</span><span class="dk-rtab">Page</span><span class="dk-rstate">Saved just now · 100% · Fit</span></div>
-              <div class="dk-rtools"><span class="dk-btn">Keypad</span><span class="dk-chip" id="dkDurChip">No value</span><span class="dk-sep"></span><span class="dk-chip" id="dkKeyChip">Key: none</span><span class="dk-chip" id="dkMeterChip">Meter: none</span><span class="dk-sep"></span><span class="dk-btn">Take+</span><span class="dk-btn">S Slur</span><span class="dk-btn">Export MusicXML</span></div>
-            </div>
-            <div class="dk-dgrid"><div class="dk-canvas">
               <div class="dk-tile" id="dkVar4">
                 <div class="dk-thead"><span class="dk-tname">Theme and Variations · Var. 4</span><span class="dk-tkind">4 staves</span>
-                  <span class="dk-tright"><button class="dk-btn hs" data-hs="viewall">View all</button><button class="dk-btn hs" data-hs="play" aria-label="Play the tile">▶</button><button class="dk-takes hs" data-hs="takes" id="dkTakeBtn"></button></span></div>
+                  <span class="dk-tright"><button class="dk-btn" id="dkVar4Play" aria-label="Play the tile">▶</button><span class="dk-takes">‹ <em>2</em>/2 › var 4 skeleton v2</span></span></div>
                 <div class="dk-staves multi" id="dkVar4Staves"></div>
-                <div class="dk-ttext hs" data-hs="why4">Staff 1 theme melody (right hand, upper) · Staff 2 theme accompaniment (right hand, inner) · Staff 3 Var. 2 eighth-note figure (left hand) · Staff 4 sostenuto anchor, Var. 3 space. Re-registered from v1: theme split across the top two staves.</div>
-              </div>
-              <div class="dk-tile" id="dkVar4Other" hidden>
-                <div class="dk-thead"><span class="dk-tname" id="dkOtherName"></span><span class="dk-tkind">take</span></div>
-                <div class="dk-staves multi" id="dkVar4OtherStaves"></div>
+                <div class="dk-ttext">Staff 1 theme melody (right hand, upper) · Staff 2 theme accompaniment (right hand, inner) · Staff 3 Var. 2 eighth-note figure (left hand) · Staff 4 sostenuto anchor, Var. 3 space.</div>
               </div>
               <div class="dk-keypad hs" data-hs="keypad" aria-label="Keypad">
                 <div class="dk-keypad-h">Keypad · first layout</div>
@@ -560,96 +546,20 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--amber-
                 <div class="dk-key"><i data-ki="f1"></i><small>3</small></div><div class="dk-key"><i data-ki="f2"></i><small>2</small></div><div class="dk-key"><i data-ki="f3"></i><small>1</small></div>
                 <div class="dk-key"><i data-ki="rest"></i><small>0</small></div><div class="dk-key"><i data-ki="dot"></i><small>.</small></div><div class="dk-key"><i data-ki="tie"></i><small>Ent</small></div>
               </div>
-            </div></div>
-          </div>
-        </section>
-        <section class="dk-zone z-spine"><div class="dk-spine">Engraving <span>1 node</span></div></section>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== SLIDE 5: set builder (Concerto) ===================== -->
-  <section class="sl" data-slide="5" hidden>
-    <div class="sl-head">
-      <div>
-        <div class="sl-kicker"><b>Clarinet Concerto</b> · the set builder</div>
-        <h3 class="sl-title">Work the pitch material in mod 12</h3>
-        <p class="sl-blurb">Click a tile and its notes load into the set builder. The clock reads them as pitch classes, and 0 is always C. The same collection redraws on the circle of fifths or fourths, or as a shape inside its own scale, where a chord can rotate one step at a time.</p>
-      </div>
-      <div class="sl-meta"><div class="sl-count"></div><div class="sl-hint"><span></span>Click anything outlined</div></div>
-    </div>
-    <div class="dk-app">
-      <header class="dk-hdr"><span class="dk-hbtn">&larr; Pieces</span><span class="dk-htitle">Clarinet Concerto</span><span class="dk-instr">Clarinet and Logic Orchestra</span><span class="dk-status">Sketching</span><span class="dk-spacer"></span><span class="dk-hbtn is-on">Blueprint On</span><span class="dk-hbtn">View Blueprint</span><span class="dk-hbtn">Canvas view</span></header>
-      <div class="dk-desk">
-        <section class="dk-zone z-spine"><div class="dk-spine">Pre-comp <span>3 nodes</span></div></section>
-        <section class="dk-zone z-draft">
-          <div class="dk-zhead"><span class="dk-ztitle">Sketch / Draft</span><span class="dk-zcount">4 systems</span><span class="dk-zadd">+ Node</span></div>
-          <div class="dk-zbody">
-            <div class="dk-ribbon"><div class="dk-rtabs"><span class="dk-rtab is-on">Note Input</span><span class="dk-rtab">Notations</span><span class="dk-rtab">Text</span><span class="dk-rtab">Play</span><span class="dk-rtab">Page</span><span class="dk-rstate">Saved · 100% · Ideas Library</span></div></div>
-            <div class="dk-dgrid">
-              <div class="dk-canvas">
-                <div class="dk-tile hs" data-hs="hexload" id="dkHexTile"><div class="dk-thead"><span class="dk-tname">Scale · [0 1 3 6 7 9]</span><span class="dk-tkind">Scale</span></div><div class="dk-staves" data-tile="hex"></div></div>
-                <div class="dk-tile" id="dkChordTile"><div class="dk-thead"><span class="dk-tname">Chord A</span><span class="dk-tkind">Chord</span></div><div class="dk-staves" id="dkChordStaves"></div></div>
-              </div>
-              <aside class="dk-right">
-                <div class="dk-selp hs" data-hs="modread">
-                  <div class="dk-selp-row"><span class="dk-sub">Selection</span><span>Scale · 6 notes</span></div>
-                  <div class="dk-selp-row"><span>Notes</span><span>D♭ D E G A♭ B♭</span></div>
-                  <div class="dk-selp-row"><span>Mod 12</span><span class="dk-pcs">1 2 4 7 8 10</span></div>
-                  <div class="dk-selp-row"><span>Prime form</span><span class="dk-pcs">[0 1 3 6 7 9]</span><span class="dk-chip">2 tritones</span></div>
-                </div>
-                <div class="dk-seg2"><span class="is-on">Set builder</span><span>Notes</span><span>Nodes</span><span>Versions</span></div>
-                <div class="dk-rbody">
-                  <div class="dk-chips"><span class="dk-chip">Chord</span><span class="dk-chip is-on">Scale</span><span class="dk-chip">Motive</span></div>
-                  <div class="dk-chips hs" data-hs="circles" id="dkCircles">
-                    <button class="dk-chip is-on" data-circ="chrom">Chromatic</button><button class="dk-chip" data-circ="fifths">5ths</button><button class="dk-chip" data-circ="fourths">4ths</button><button class="dk-chip" data-circ="ngon">Scale n-gon</button>
-                  </div>
-                  <svg class="dk-clock" id="dkClock" viewBox="0 0 220 220" role="img" aria-label="Pitch-class clock"></svg>
-                  <div class="dk-btnrow"><button class="dk-btn hs" data-hs="rotate" id="dkRotate">Rotate ↻</button><span class="dk-btn pri">Update tile</span><span class="dk-btn">Place as new</span></div>
-                </div>
-              </aside>
-            </div>
-          </div>
-        </section>
-        <section class="dk-zone z-spine"><div class="dk-spine">Engraving <span>later</span></div></section>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== SLIDE 6: the Workshop (Sonata mvt 2) ===================== -->
-  <section class="sl" data-slide="6" hidden>
-    <div class="sl-head">
-      <div>
-        <div class="sl-kicker"><b>Piano Sonata, mvt 2</b> · the Workshop</div>
-        <h3 class="sl-title">Talk it through with the table</h3>
-        <p class="sl-blurb">The Workshop is a table of voices you write, each with its own aesthetic and expertise, and it reads everything on the desk. Open it from the round button, then read part of the real conversation that designed Variation 4.</p>
-      </div>
-      <div class="sl-meta"><div class="sl-count"></div><div class="sl-hint"><span></span>Click anything outlined</div></div>
-    </div>
-    <div class="dk-app">
-      <header class="dk-hdr"><span class="dk-hbtn">&larr; Pieces</span><span class="dk-htitle">Piano Sonata 1 mvt 2</span><span class="dk-instr">Piano</span><span class="dk-status">Drafting</span><span class="dk-spacer"></span><span class="dk-hbtn is-on">Blueprint On</span><span class="dk-hbtn">View Blueprint</span><span class="dk-hbtn">Canvas view</span></header>
-      <div class="dk-desk" style="min-height:660px">
-        <section class="dk-zone z-spine"><div class="dk-spine">Pre-comp <span>4 nodes</span></div></section>
-        <section class="dk-zone z-draft">
-          <div class="dk-zhead"><span class="dk-ztitle">Sketch / Draft</span><span class="dk-zcount">1 score · 1 system</span><span class="dk-zadd">+ Node</span></div>
-          <div class="dk-zbody">
-            <div class="dk-ribbon"><div class="dk-rtabs"><span class="dk-rtab is-on">Note Input</span><span class="dk-rtab">Notations</span><span class="dk-rtab">Text</span><span class="dk-rtab">Play</span><span class="dk-rtab">Page</span><span class="dk-rstate">Saved · 100% · Ideas Library</span></div></div>
-            <div class="dk-dgrid"><div class="dk-canvas" id="dkWsCanvas">
-              <div class="dk-tile"><div class="dk-thead"><span class="dk-tname">Theme and Variations · Var. 4</span><span class="dk-tkind">4 staves</span><span class="dk-tright"><span class="dk-takes" id="dkWsTakes">‹ <em>1</em>/1 ›</span></span></div><div class="dk-staves multi" id="dkWsStaves"></div></div>
 
               <button class="dk-fab hs" data-hs="fab" id="dkFab" aria-label="Open the Workshop"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v10H9l-5 4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></button>
 
               <div class="dk-ws" id="dkWs" role="dialog" aria-label="Workshop" hidden>
-                <div class="dk-wshead"><b>Workshop</b><span class="dk-spacer"></span><button class="dk-hbtn hs" data-hs="expand" id="dkExpand">Expand</button><button class="dk-hbtn" id="dkMin" aria-label="Minimize">&minus;</button></div>
-                <div class="dk-wstabs"><span class="is-on" data-wt="chat">Chat</span><span class="hs" data-hs="history" data-wt="history">History</span><span data-wt="voices">Voices</span></div>
-                <div class="dk-wsctx hs" data-hs="sees">Sees: Guide Intake, Constitution, Thread, Score and its notes, Aesthetic Blueprint, your selection</div>
-                <div class="dk-seated hs" data-hs="voices">Seated
+                <div class="dk-wshead"><b>Workshop</b><span class="dk-spacer"></span><button class="dk-hbtn" id="dkExpand">Expand</button><button class="dk-hbtn" id="dkMin" aria-label="Minimize">&minus;</button></div>
+                <div class="dk-wstabs"><span class="is-on">Chat</span><span>History</span><span>Voices</span></div>
+                <div class="dk-wsctx">Sees: Guide Intake, Constitution, Thread, Score and its notes, Aesthetic Blueprint, your selection</div>
+                <div class="dk-seated">Seated
                   <span class="dk-vchip"><i style="background:var(--v-tv)">TV</i>Theme and Variations</span>
                   <span class="dk-vchip"><i style="background:var(--v-pn)">TP</i>The Pianist</span>
                   <span class="dk-vchip off"><i style="background:var(--v-pn)">HB</i>The Harmonist (Bartók)</span>
                   <span class="dk-vchip off"><i style="background:var(--amber)">TR</i>The Rhythmist</span>
                 </div>
-                <div class="dk-wsbody" data-wpanel="chat">
+                <div class="dk-wsbody">
                   <div class="dk-divider">Sep 28 · Theme and Variations</div>
                   <div class="dk-msg-u">what are your thoughts on this theme and variations. the 4th variation is not written. I want it to be an amalgamation of the theme and first 3 variations. This is not a classical theme and variations. the variations are more abstract than just a re-writing of the theme. … I'm thinking about doing a double grand staff, with the theme in the upper register of the piano, and the variations below.</div>
                   <div class="dk-voice"><span class="dk-av" style="background:var(--v-tv)">TV</span><div class="dk-vbody"><span class="dk-vname">Theme and Variations</span>
@@ -678,7 +588,7 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--amber-
                   <div class="dk-voice"><span class="dk-av" style="background:var(--v-tv)">TV</span><div class="dk-vbody"><span class="dk-vname">Theme and Variations</span>
                     <div class="dk-props">
                       <span class="dk-sub">Proposed for the constitution</span>
-                      <div class="dk-prow"><p>Variation 4 uses a four-staff layout: theme melody, theme accompaniment, the Variation 2 eighth-note figure, and the sostenuto anchor with the Variation 3 hemiola.</p><span class="dk-btnrow" id="dkAddRow"><span class="dk-btn">Edit</span><button class="dk-btn pri hs" data-hs="add" id="dkAdd">Add</button></span></div>
+                      <div class="dk-prow"><p>Variation 4 uses a four-staff layout: theme melody, theme accompaniment, the Variation 2 eighth-note figure, and the sostenuto anchor with the Variation 3 hemiola.</p><span class="dk-btnrow"><span class="dk-btn">Edit</span><button class="dk-btn pri hs" data-hs="add" id="dkAdd">Add</button></span></div>
                       <div class="dk-prow"><p>Variation 4 is in G♭ major throughout.</p><span class="st">✓ Added</span></div>
                       <div class="dk-prow"><p>Staff 1 is the theme's exact pitches from mm. 1-16.</p><span class="st">✓ Added</span></div>
                       <div class="dk-prow"><p>A four-phrase accumulation: theme, then the Variation 2 figure, then the Variation 3 hemiola, then full density.</p><span class="dk-btnrow"><span class="dk-btn">Edit</span><span class="dk-btn">Add</span></span></div>
@@ -691,12 +601,6 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--amber-
                   <div class="dk-voice"><span class="dk-av" style="background:var(--v-pn)">TP</span><div class="dk-vbody"><span class="dk-vname">The Pianist</span>
                     <p>The Rachmaninoff precedent is worth being precise about. He uses four staves not to imply four hands but to separate voices that would be unreadable on two. The notation is a reading aid, not a density claim. Your constitution already gives each staff its own identity, which is exactly when four staves justify themselves.</p>
                   </div></div>
-                </div>
-                <div class="dk-wsbody" data-wpanel="history" hidden>
-                  <div class="dk-hist">
-                    <div><b>Variation 4: the amalgamation</b><span>Sep 28, 11:58 PM · Theme and Variations · 9 turns · 6 proposals, 4 added</span></div>
-                    <div><b>Current dialogue</b><span>Today · The Pianist · 1 turn</span></div>
-                  </div>
                 </div>
                 <div class="dk-wsin"><span>Ask the table…</span><span class="dk-btn">Photo</span><span class="dk-btn pri">Send</span></div>
               </div>
@@ -716,7 +620,7 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--amber-
 
   <div class="dk-pop" id="dkPop" role="dialog" aria-live="polite" hidden>
     <button class="dk-pop-x" id="dkPopX" aria-label="Close">×</button>
-    <div class="dk-pop-t" id="dkPopT"></div>
+    <div class="dk-pop-t"><b class="hs-n" id="dkPopN"></b><span id="dkPopT"></span></div>
     <p class="dk-pop-s" id="dkPopS"></p>
   </div>
 </div>
@@ -827,26 +731,23 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--amber-
   }
 
   // ---------------- slide 4: takes, view all, score editor ----------------
-  var takeNames = ['Take 1', 'var 4 skeleton v2'], takeIdx = 1, rhythm = false, viewAll = false;
+  var rhythm = false, V4 = VAR4['var 4 skeleton v2'];
   function drawVar4() {
     var o = rhythm ? { key: 'Gb', meter: '4/2', dur: 'h', colW: 30 } : { colW: 30 };
-    document.getElementById('dkVar4Staves').innerHTML = tileHTML(VAR4[takeNames[takeIdx]], o);
-    document.getElementById('dkTakeBtn').innerHTML = '‹ <em>' + (takeIdx + 1) + '</em>/2 › ' + takeNames[takeIdx];
-    var other = document.getElementById('dkVar4Other');
-    other.hidden = !viewAll;
-    if (viewAll) { var oi = 1 - takeIdx; document.getElementById('dkOtherName').textContent = (oi + 1) + ' · ' + takeNames[oi]; document.getElementById('dkVar4OtherStaves').innerHTML = tileHTML(VAR4[takeNames[oi]], o); }
+    document.getElementById('dkVar4Staves').innerHTML = tileHTML(V4, o);
     var dc = document.getElementById('dkDurChip'); dc.textContent = rhythm ? 'Half note' : 'No value'; dc.classList.toggle('is-on', rhythm);
     document.getElementById('dkKeyChip').textContent = rhythm ? 'Key: G♭ major' : 'Key: none';
     document.getElementById('dkMeterChip').textContent = rhythm ? 'Meter: 4/2' : 'Meter: none';
     document.getElementById('dkKey5').classList.toggle('is-on', rhythm);
   }
   drawVar4();
-  document.getElementById('dkWsStaves').innerHTML = tileHTML(VAR4['var 4 skeleton v2'], { colW: 26 });
   document.getElementById('dkOfferStaves').innerHTML = tileHTML(VAR4['Take 1'], { colW: 24 });
 
   // ---------------- slide 5: the clock ----------------
   var HEX = [1, 2, 4, 7, 8, 10], CHORD_A = [[1, 4, 8], [2, 7, 10], [4, 8, 10], [7, 10, 1], [8, 1, 2]], ROMAN = ['I', 'II', 'III', 'IV', 'V'];
   var circ = 'chrom', tri = [0, 2, 4];
+  // Chord A's takes: take 1 is Max's tile; take 2 (first inversion) is made for the demo.
+  var CHORD_TAKES = [TILES.chordA, [{ clef: 'treble', ev: ['E4+G#4+C#5', 'G4+Bb4+D5', 'G#4+A#4+E5', 'Bb4+Db5+G5', 'C#5+D5+G#5'] }]], TAKE_NAMES = ['root', '1st inv.'], cTake = 0;
   function slot(pc) { return circ === 'fifths' ? (pc * 7) % 12 : circ === 'fourths' ? (pc * 5) % 12 : pc; }
   function xy(i, n, r) { var a = (i / n) * Math.PI * 2 - Math.PI / 2; return [110 + r * Math.cos(a), 110 + r * Math.sin(a)]; }
   function sortStr(a) { return a.slice().sort(function (x, y) { return x - y; }).join(','); }
@@ -869,7 +770,8 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--amber-
     }
     document.getElementById('dkClock').innerHTML = o.join('');
     var rb = document.getElementById('dkRotate'); rb.style.opacity = circ === 'ngon' ? 1 : .6;
-    document.getElementById('dkChordStaves').innerHTML = tileHTML(TILES.chordA, { colW: 30, num: ROMAN, sel: circ === 'ngon' && match > -1 ? [match] : null });
+    setTxt(document.getElementById('dkChordStaves'), tileHTML(CHORD_TAKES[cTake], { colW: 30, num: ROMAN, sel: circ === 'ngon' && match > -1 ? [match] : null }));
+    setTxt(document.getElementById('dkCTakeBtn'), '‹ <em>' + (cTake + 1) + '</em>/2 › ' + TAKE_NAMES[cTake]);
   }
   function setCirc(c) { circ = c; document.querySelectorAll('#dkCircles button').forEach(function (x) { x.classList.toggle('is-on', x.dataset.circ === c); }); drawClock(); }
   drawClock();
@@ -884,47 +786,49 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--amber-
   audio.addEventListener('timeupdate', function () { var t = audio.currentTime; prog.style.width = (100 * t / (audio.duration || 45)).toFixed(1) + '%'; time.textContent = '0:' + String(Math.floor(t)).padStart(2, '0'); });
   function setScoreView(v) {
     document.querySelectorAll('[data-view]').forEach(function (b) { b.classList.toggle('is-on', b.dataset.view === v); });
-    document.querySelector('.dk-pdf').hidden = v !== 'pdf'; document.querySelector('.dk-measures').hidden = v !== 'measures';
+    document.querySelector('.dk-pdfw').hidden = v !== 'pdf'; document.querySelector('.dk-measures').hidden = v !== 'measures';
   }
 
   // ---------------- hotspots: [title, subtitle, action] ----------------
   function card(el) { el.classList.toggle('is-closed'); }
+  // Relabel a hotspot without losing its step number.
+  function setTxt(el, html) { var n = el.querySelector(':scope > .hs-n'); el.innerHTML = html; if (n) el.insertBefore(n, el.firstChild); }
   var HS = {
-    blueprint: ['Aesthetic Blueprint', 'Your voice, influences and tendencies as a composer, sent with every call on every piece. The header switch turns it off for one piece.'],
-    intake: ['Guide Intake', 'Eight sections record the piece before it exists: form, intention, forces, references, open questions and who it is for. The concerto starts from one question: how a pre-recorded orchestra of processed clarinets can carry a concerto.', card],
-    guide: ['The Guide', 'It reads the intake the way a teacher would and writes a one-sheet: what makes this piece unusual, what is still unexplored, and which path to try first.', card],
-    'const': ['Constitution', 'Decisions settle here, numbered, through a dialogue with Claude, and every other node reads them. The concerto has 12 settled and 7 still open.', card],
-    blank: ['An empty page', 'The sketch page shows blank staves until something is written on it. The next slide fills it.'],
-    spine: ['Pre-comp, folded', 'A zone folds to a spine when the page needs the room. The intake, guide and constitution are still on the desk, so Claude still reads them.'],
-    library: ['Ideas Library', 'Any tile saves to the piece\'s library, filed by category: chords, progressions, scales, motives and phrases.'],
-    addscale: ['Add a tile', '+ Chord, + Scale and + Motive each start a small system of its own. Notes go in by click, by letters A to G, or from the set builder.'],
-    group: ['Joined tiles', 'Drop a tile against any side of another and they join into a small score that moves, plays and saves together. Chord A hangs under the hexachord it came from.'],
-    text: ['Notes on the page', 'T adds a text to a tile or to selected notes. Each scale here carries its role in decision 10: the B♭ to D axis and its dominant.'],
-    numerals: ['Your own numerals', 'The Roman numerals under Chord A are typed, not computed. The analysis is the composer\'s reading, drawn under the staff in serif.'],
-    thread: ['The Discord thread', 'Paste a thread link and Refresh pulls the messages in, dated. This is where the movement took shape, including Daria hearing bells in the improvisation.', card],
-    intake2: ['An intake from the thread', 'No pre-composition document existed, so the intake was written from the thread: a theme and variations with a very short memory, modeled on Copland.', card],
-    const2: ['What is settled', 'Five decisions so far. Four came out of one Workshop dialogue about Variation 4, shown on the last slide.', card],
-    pdf: ['The engraved score', '+ Score imports the MusicXML as a tile and the PDF attaches beside it. Claude gets the PDF only when Send the score PDF is ticked.'],
-    measures: ['Read measure by measure', 'Read into notes turns the PDF into notes per passage, with a page map from the printed measure numbers. Claude reads these first and opens a page only when its notes do not cover the question.', function () { setScoreView(document.querySelector('.dk-pdf').hidden ? 'pdf' : 'measures'); }],
-    audio: ['Recordings', 'Audio files attach to the score and play under it. Claude never receives the audio. This is the opening: the theme, Lento e maestoso.', toggleAudio],
-    takes: ['Takes', 'A tile keeps up to ten named takes and ‹ › cycles them. This one holds the first draft and a re-registered skeleton that splits the theme across the top two staves.', function () { takeIdx = 1 - takeIdx; drawVar4(); }],
-    viewall: ['View all', 'Spreads every take side by side as cards you can play, rename and drag to reorder.', function () { viewAll = !viewAll; drawVar4(); }],
-    play: ['Play the tile', 'Tiles play at their values and tempo through the built-in synth, or MIDI out to a Kontakt library. This plays the four columns of the take showing.', function () { playCols(VAR4[takeNames[takeIdx]], 0.9); }],
-    keypad: ['The score editor', 'Select, then press 5 on the keypad: half notes. The tile now draws stems, the G♭ key signature and 4/2, the theme\'s own meter. Keys follow Sibelius\'s first keypad layout.', function () { rhythm = !rhythm; drawVar4(); }],
-    why4: ['Why four staves', 'The top two staves carry the theme and its accompaniment, the lower two the fragments from Variations 2 and 3. The Workshop helped settle that layout on the last slide.'],
-    hexload: ['Load a tile', 'A click on a tile\'s title bar loads its notes into the set builder. Update rewrites the tile in place; Place as new adds another.', function () { document.getElementById('dkHexTile').classList.add('is-sel'); }],
-    modread: ['Mod 12', 'The selection reads as pitch classes with its prime form. [0 1 3 6 7 9] holds both tonal centers and two tritones, on D and on G.'],
-    circles: ['Four circles', 'Chromatic, fifths, fourths or a custom order redraw the same set. Scale n-gon turns the hexachord into a hexagon with a chord drawn inside it. Try each.'],
-    rotate: ['Rotate', 'In the scale n-gon, Rotate moves the chord one step through the hexachord. Every triad of Chord A turns out to live inside this one six-note set.', function () { if (circ !== 'ngon') setCirc('ngon'); else { tri = tri.map(function (k) { return (k + 1) % 6; }); drawClock(); } }],
-    fab: ['The Workshop', 'A round button on the page opens the table in the corner. It stays mounted while closed, so a reply in progress keeps its turns.', function () { document.getElementById('dkWs').hidden = false; document.getElementById('dkFab').hidden = true; }],
-    expand: ['Expand and Dock', 'Expand moves the Workshop to a larger centered window without dimming the page. Dock puts it back in the corner.', function () { var w = document.getElementById('dkWs'); w.classList.toggle('is-center'); document.getElementById('dkExpand').textContent = w.classList.contains('is-center') ? 'Dock' : 'Expand'; }],
-    sees: ['What it reads', 'Every node on the desk with content goes to the table: intake, constitution, thread, the score\'s measure notes and your selection. Turn a node off and it drops out.'],
-    voices: ['Voices you write', 'Each voice has an aesthetic and an expertise. Theme and Variations, The Pianist and The Harmonist are voices Max wrote; five presets ship with the app. Seat any mix.'],
-    seemore: ['Short, then full', 'Every voice answers in two lengths. See more opens the full reply: here, its read of what each variation takes from the theme.', function () { var f = document.getElementById('dkFull'); f.hidden = !f.hidden; document.getElementById('dkMore').textContent = f.hidden ? 'See more' : 'See less'; }],
-    puton: ['Put on page', 'When a voice writes notes, they arrive as staves with this button. Nothing reaches the page until you click; this sketch became the Variation 4 tile, then Max wrote a second take.', function () { var b = document.getElementById('dkPutOn'); b.textContent = 'Place again'; b.classList.remove('pri'); document.getElementById('dkWsTakes').innerHTML = '‹ <em>2</em>/2 ›'; }],
-    add: ['Decisions from the dialogue', 'Ask the table for decisions and each returns as a row to edit, then Add. Added rows land at the end of the constitution\'s settled list with the next number.', function () { document.getElementById('dkAdd').textContent = '✓ Added as 6'; document.getElementById('dkAdd').classList.remove('pri'); }],
-    history: ['History', 'Ending a dialogue archives it with its proposals and what was added, so a later session can pick it back up.', function () { var h = document.querySelector('[data-wpanel="history"]'), c = document.querySelector('[data-wpanel="chat"]'), showH = h.hidden; h.hidden = !showH; c.hidden = showH; document.querySelectorAll('[data-wt]').forEach(function (t) { t.classList.toggle('is-on', t.dataset.wt === (showH ? 'history' : 'chat')); }); }]
+    intake: ['Guide Intake', 'The Guide Intake records what the piece is, who it is for and the question it has to answer, before any planning starts.', card],
+    guide: ['The Guide', 'The Guide reads the intake back as a one-sheet that names what is unusual, what is unexplored and which path to try first.', card],
+    'const': ['Constitution', 'The Constitution keeps each decision you settle as a numbered rule that every later step reads.', card],
+    addscale: ['Start a tile', 'Each idea starts as its own small tile (a chord, a scale, a motive or an imported score), here the hexachord that holds both tonal centers of decision 10.'],
+    hexload: ['Load it', 'A click on the tile loads its notes into the set builder, which reads them in mod 12.', function () { document.getElementById('dkHexTile').classList.add('is-sel'); document.getElementById('dkBuilder').classList.remove('is-idle'); }],
+    circles: ['Four circles', 'The same set redraws on the circle of fifths, on fourths or as its own scale, so you can see its shape.'],
+    rotate: ['Rotate', 'Rotate steps a chord through the scale, showing that every triad of Chord A lives inside this one hexachord.', function () { if (circ !== 'ngon') setCirc('ngon'); else { tri = tri.map(function (k) { return (k + 1) % 6; }); drawClock(); } }],
+    place: ['Place as new', 'Place as new writes the chords from the set builder onto the page as a new tile, Chord A.', function () { var t = document.getElementById('dkChordTile'); t.hidden = false; t.classList.add('is-sel'); document.getElementById('dkHexTile').classList.remove('is-sel'); setTxt(document.getElementById('dkPlace'), 'Placed'); document.getElementById('dkPlace').classList.remove('pri'); }],
+    ctakes: ['Takes', 'Each attempt at a tile stays on it as a take, and the arrows switch between them.', function () { cTake = 1 - cTake; drawClock(); }],
+    thread: ['The Discord thread', 'The Thread node pulls in the Discord conversation where the movement took shape, so Claude starts from its history.', card],
+    intake2: ['An intake from the thread', 'The intake, written from that thread, states the one question the missing variation has to answer.', card],
+    const2: ['What is settled', 'The Constitution holds the five decisions that bind the variation still to be written.', card],
+    measures: ['The score, read', 'The engraved score sits on the page, and Measures turns it into notes per passage that Claude reads first.', function () { setScoreView(document.querySelector('.dk-pdfw').hidden ? 'pdf' : 'measures'); }],
+    audio: ['Recordings', 'The recording plays under the score for your own reference, and Claude never receives it.', toggleAudio],
+    keypad: ['The score editor', 'The keypad gives the selected notes a rhythm, and the Variation 4 sketch gains stems, a key signature and a meter.', function () { rhythm = !rhythm; drawVar4(); }],
+    fab: ['The Workshop', 'The round button opens the Workshop, a table of voices that reads everything on the desk and answers questions about the piece.', function () { document.getElementById('dkWs').hidden = false; document.getElementById('dkFab').hidden = true; }],
+    seemore: ['Short, then full', 'Each voice answers short first, and See more opens its full reasoning.', function () { var f = document.getElementById('dkFull'); f.hidden = !f.hidden; setTxt(document.getElementById('dkMore'), f.hidden ? 'See more' : 'See less'); }],
+    puton: ['Put on page', 'When a voice writes notes, Put on page places them as a tile, and nothing reaches the page until you click.', function () { var b = document.getElementById('dkPutOn'); setTxt(b, 'Place again'); b.classList.remove('pri'); document.getElementById('dkVar4').classList.add('is-sel'); }],
+    add: ['Decisions from the dialogue', 'Decisions the table proposes go into the Constitution only when you click Add.', function () { setTxt(document.getElementById('dkAdd'), '✓ Added as 6'); document.getElementById('dkAdd').classList.remove('pri'); }]
   };
+
+  // The click-through order on each slide. Every hotspot carries its step number.
+  var ORDER = [
+    ['intake', 'guide', 'const', 'addscale', 'hexload', 'circles', 'place', 'rotate', 'ctakes'],
+    ['thread', 'intake2', 'const2', 'measures', 'audio', 'keypad', 'fab', 'seemore', 'puton', 'add']
+  ];
+  ORDER.forEach(function (keys) {
+    keys.forEach(function (k, i) {
+      var el = document.querySelector('[data-hs="' + k + '"]'), n = document.createElement('b');
+      n.className = 'hs-n'; n.textContent = i + 1; el.dataset.n = i + 1;
+      if (el.matches('.dk-fab, .dk-pdfw, .dk-staves, .dk-chips')) n.classList.add('corner');
+      var host = el.querySelector(':scope > .dk-chead, :scope > .dk-thead, :scope > .dk-keypad-h, :scope > .dk-selp-row, :scope > .dk-grphead') || el;
+      host.insertBefore(n, host.firstChild);
+    });
+  });
 
   var dk = document.getElementById('dk'), pop = document.getElementById('dkPop'), openEl = null;
   function place(el) {
@@ -941,7 +845,7 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--amber-
     var d = HS[el.dataset.hs];
     if (openEl) openEl.classList.remove('is-open');
     openEl = el; el.classList.add('is-open', 'is-seen');
-    document.getElementById('dkPopT').textContent = d[0]; document.getElementById('dkPopS').textContent = d[1];
+    document.getElementById('dkPopN').textContent = el.dataset.n; document.getElementById('dkPopT').textContent = d[0]; document.getElementById('dkPopS').textContent = d[1];
     pop.hidden = false; place(el); count();
   }
   document.querySelectorAll('.hs').forEach(function (el) {
@@ -958,6 +862,8 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--amber-
   document.querySelectorAll('[data-view]').forEach(function (b) { b.addEventListener('click', function (e) { e.stopPropagation(); setScoreView(b.dataset.view); openPop(b.closest('.hs')); }); });
   document.querySelectorAll('#dkCircles button').forEach(function (b) { b.addEventListener('click', function (e) { e.stopPropagation(); setCirc(b.dataset.circ); openPop(b.closest('.hs')); }); });
   document.getElementById('dkPlay').addEventListener('click', function (e) { e.stopPropagation(); toggleAudio(); openPop(e.currentTarget.closest('.hs')); });
+  document.getElementById('dkVar4Play').addEventListener('click', function () { playCols(V4, 0.9); });
+  document.getElementById('dkExpand').addEventListener('click', function () { var w = document.getElementById('dkWs'); w.classList.toggle('is-center'); setTxt(this, w.classList.contains('is-center') ? 'Dock' : 'Expand'); });
   document.getElementById('dkMin').addEventListener('click', function () { document.getElementById('dkWs').hidden = true; document.getElementById('dkFab').hidden = false; closePop(); });
   document.getElementById('dkPopX').addEventListener('click', closePop);
   document.addEventListener('click', function (e) { if (!pop.hidden && !pop.contains(e.target) && !e.target.closest('.hs')) closePop(); });
@@ -967,7 +873,7 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--amber-
 
   // ---------------- slides ----------------
   var slides = [].slice.call(document.querySelectorAll('.sl')), cur = 0, nav = document.getElementById('dkNav');
-  var NAMES = ['Plan', 'Sketch', 'From a draft', 'Takes', 'Set builder', 'Workshop'];
+  var NAMES = ['Clarinet Concerto', 'Piano Sonata mvt 2'];
   slides.forEach(function (s, i) { var b = document.createElement('button'); b.innerHTML = '<b>' + (i + 1) + '</b>' + NAMES[i]; b.addEventListener('click', function () { go(i); }); nav.appendChild(b); });
   function count() {
     slides.forEach(function (s) {
