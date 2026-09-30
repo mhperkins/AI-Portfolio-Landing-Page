@@ -3561,7 +3561,7 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
 }
 /* ==========================================================================
    Career Desk walkthrough, transplanted from demo/career-desk-demo.html
-   (2026-09-18). Everything is scoped under .desk-demo. It is a tutorial, not
+   (2026-09-18), replaced by demo/career-desk-demo-v2.html (2026-09-30). Everything is scoped under .desk-demo. It is a tutorial, not
    a hover-note carousel: one highlight and its open popup per click, placed
    by the script at the end of the page. Change it in the standalone, then
    re-transplant the CSS, markup and script blocks.
@@ -3881,6 +3881,129 @@ div.dasha-demo .demo-stage .demo-nav-wrap { top: calc(var(--demo-pin-top, 0px) +
   .desk-demo .demo-nav-wrap { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
   .desk-demo .demo-nav-wrap::-webkit-scrollbar { display: none; }
   .desk-demo .demo-nav-item { flex-shrink: 0; white-space: nowrap; }
+}
+/* ==========================================================================
+   v2 additions (2026-09-30): the app's newer screens, from
+   career-desk/public/style.css. The top bar's Board and Leads nav, the step
+   strip that replaced the document tabs, Intake and Strategy (the plan), the
+   pinned plan and the suggestion card in the chat, Leads ("Like what you
+   sent") and the batch screen.
+   ========================================================================== */
+.desk-demo .cd-nav { display: flex; gap: 2px; margin-left: 6px; }
+.desk-demo .cd-navlink { padding: 3px 10px; border-radius: 7px; font-size: 12.5px; font-weight: 600; color: var(--cd-dim); }
+.desk-demo .cd-navlink.on { background: var(--cd-ink); color: var(--cd-bg); }
+.desk-demo .cd-boardarea.is-card { min-height: 480px; }
+
+/* step strip */
+.desk-demo .cd-steps { display: flex; gap: 5px; align-items: center; flex-wrap: wrap; }
+.desk-demo .cd-st { font-size: 12px; padding: 2px 10px; border-radius: 99px; border: 1px solid var(--cd-line); background: var(--cd-box); color: var(--cd-dim); white-space: nowrap; }
+.desk-demo .cd-st.done { color: var(--cd-ok); }
+.desk-demo .cd-st.on { background: var(--cd-ink); color: var(--cd-bg); border-color: var(--cd-ink); }
+.desk-demo .cd-st.end { background: transparent; }
+.desk-demo .cd-st.add { border-color: transparent; background: transparent; color: var(--cd-acc); }
+.desk-demo .cd-arr { color: var(--cd-line); font-size: 12px; }
+
+/* the plan: Intake and Strategy */
+.desk-demo .cd-wcol.planmain { flex: 2 1 0; }
+.desk-demo .cd-wcol.planside { flex: 0 0 300px; }
+.desk-demo .cd-colhead .cd-ttl { font-weight: 700; font-size: 13px; }
+.desk-demo .cd-planbody { display: grid; gap: 12px; }
+.desk-demo .cd-sec { border: 1px solid var(--cd-line); border-radius: 8px; padding: 10px 12px; display: grid; gap: 8px; background: var(--cd-box); }
+.desk-demo .cd-sec.quiet { background: #ECEEF0; }
+.desk-demo .cd-sec h3 { margin: 0; font-size: 13px; font-weight: 600; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.desk-demo .cd-sec h3 .cd-hint { font-weight: 400; }
+.desk-demo .cd-fld { display: grid; gap: 3px; }
+.desk-demo .cd-fld > label { font-size: 11.5px; color: var(--cd-dim); }
+.desk-demo .cd-chk { display: inline-flex; gap: 5px; align-items: center; font-size: 12px; }
+.desk-demo .cd-box { width: 12px; height: 12px; border-radius: 3px; border: 1.5px solid var(--cd-line); background: var(--cd-box); display: inline-block; position: relative; flex: none; }
+.desk-demo .cd-box.on { background: var(--cd-ink); border-color: var(--cd-ink); }
+.desk-demo .cd-box.on::after { content: ""; position: absolute; left: 2.5px; top: -0.5px; width: 3px; height: 6px; border: solid #fff; border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); }
+.desk-demo .cd-req { border-collapse: collapse; width: 100%; font-size: 12px; }
+.desk-demo .cd-req th, .desk-demo .cd-req td { text-align: left; padding: 6px; border-bottom: 1px solid var(--cd-fill); vertical-align: top; }
+.desk-demo .cd-req tr:last-child td { border-bottom: 0; }
+.desk-demo .cd-req th { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--cd-dim); font-weight: 600; }
+.desk-demo .cd-req .src { font: 11px var(--cd-mono); color: var(--cd-dim); }
+.desk-demo .cd-callbox { display: grid; gap: 4px; min-width: 190px; padding: 3px; background: var(--cd-box); }
+.desk-demo .cd-callbox .cd-row { gap: 4px; flex-wrap: nowrap; }
+.desk-demo .cd-callbox .cd-tog { padding: 2px 7px; white-space: nowrap; }
+.desk-demo .cd-callbox .cd-input { padding: 4px 7px; font-size: 11.5px; }
+.desk-demo .cd-callnote { font-size: 11px; color: var(--cd-dim); display: grid; gap: 3px; }
+.desk-demo [hidden] { display: none !important; }
+.desk-demo .cd-words { border: 1px solid var(--cd-line); border-radius: 6px; padding: 7px 9px; background: var(--cd-box); font-size: 12.5px; min-height: 34px; }
+.desk-demo .cd-words.ph { color: var(--cd-dim); }
+.desk-demo .cd-planfoot { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; padding: 2px 0 4px; }
+.desk-demo .cd-os { display: grid; gap: 10px; }
+.desk-demo .cd-blk { border: 1px solid var(--cd-line); border-radius: 8px; padding: 9px 12px; background: var(--cd-box); display: grid; gap: 5px; font-size: 12.5px; }
+.desk-demo .cd-blk h4 { margin: 0; font-size: 13px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.desk-demo .cd-blk p { margin: 0; }
+.desk-demo .cd-blk ul, .desk-demo .cd-blk ol { margin: 0; padding-left: 18px; }
+.desk-demo .cd-blk ul { list-style: disc; }
+.desk-demo .cd-blk ol { list-style: decimal; }
+.desk-demo .cd-blk.angle { border-color: var(--cd-ink); }
+.desk-demo .cd-blk.angle p { font-size: 14px; }
+.desk-demo .cd-srcl { font: 11px var(--cd-mono); color: var(--cd-dim); }
+.desk-demo .cd-side { font-size: 12px; display: grid; gap: 6px; }
+.desk-demo .cd-side h4 { margin: 6px 0 0; font-size: 12px; }
+.desk-demo .cd-side p { margin: 0; }
+.desk-demo .cd-side ul { margin: 0; padding-left: 18px; list-style: disc; }
+.desk-demo .cd-counts { display: flex; gap: 5px; flex-wrap: wrap; }
+
+/* the approved plan pinned over the chat, and a suggestion card under a reply */
+.desk-demo .cd-turngroup { display: flex; flex-direction: column; gap: 8px; }
+.desk-demo .cd-planpin { border: 1px solid var(--cd-ink); border-radius: 8px; padding: 7px 9px; font-size: 12px; display: grid; gap: 3px; background: var(--cd-box); }
+.desk-demo .cd-sug { border: 1px solid #A9B7CD; border-left: 3px solid var(--cd-acc); border-radius: 8px; padding: 7px 9px; font-size: 12px; display: flex; flex-direction: column; gap: 5px; background: var(--cd-box); }
+.desk-demo .cd-sug-h { font-size: 10px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--cd-acc); }
+.desk-demo .cd-sug-l { font-weight: 600; }
+.desk-demo .cd-sug .new { color: var(--cd-ok); background: rgba(47, 122, 75, 0.12); padding: 2px 6px; border-radius: 4px; }
+.desk-demo .cd-mk-row .cd-tog { line-height: 1.5; }
+
+/* Leads: Like what you sent */
+.desk-demo .cd-leadbar { padding: 14px 14px 0; display: grid; gap: 10px; }
+.desk-demo .cd-leadtabs { display: flex; gap: 4px; flex-wrap: wrap; }
+.desk-demo .cd-ltab { border: 1px solid var(--cd-line); border-radius: 8px 8px 0 0; border-bottom-color: transparent; padding: 5px 11px; font-size: 12px; background: var(--cd-box); white-space: nowrap; }
+.desk-demo .cd-ltab small { color: var(--cd-dim); margin-left: 4px; }
+.desk-demo .cd-ltab.on { background: var(--cd-ink); color: var(--cd-bg); border-color: var(--cd-ink); }
+.desk-demo .cd-ltab.on small { color: var(--cd-bg); opacity: .75; }
+.desk-demo .cd-leadlist { padding: 12px 14px 14px; display: grid; gap: 10px; }
+.desk-demo .cd-seg { display: inline-flex; border: 1px solid var(--cd-line); border-radius: 6px; overflow: hidden; justify-self: start; font-size: 12px; }
+.desk-demo .cd-seg span { padding: 4px 11px; background: var(--cd-box); }
+.desk-demo .cd-seg span.on { background: var(--cd-fill); font-weight: 600; }
+.desk-demo .cd-mgroup { border: 1px solid var(--cd-line); border-radius: 10px; background: var(--cd-box); padding: 4px 14px 8px; }
+.desk-demo .cd-mgroup > h3 { font-size: 13.5px; margin: 10px 0 6px; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+.desk-demo .cd-mgroup > h3 .cd-hint { font-weight: 400; }
+.desk-demo .cd-mrow { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 10px; align-items: start; padding: 9px 6px; border-top: 1px solid var(--cd-fill); font-size: 12.5px; background: var(--cd-box); }
+.desk-demo .cd-mrow.picked { background: #EEF1F6; }
+.desk-demo .cd-mbox { width: 18px; height: 18px; margin-top: 2px; border: 1.5px solid var(--cd-line); border-radius: 4px; background: var(--cd-box); display: grid; place-items: center; font-size: 12px; font-weight: 700; padding: 0; color: var(--cd-bg); line-height: 1; }
+.desk-demo .cd-mbox[aria-checked=true] { background: var(--cd-ink); border-color: var(--cd-ink); }
+.desk-demo .cd-mtitle { font-weight: 600; }
+.desk-demo .cd-mmeta { color: var(--cd-dim); font-size: 11.5px; margin-top: 1px; }
+.desk-demo .cd-mdiff { font-size: 12px; margin-top: 3px; color: var(--cd-dim); }
+.desk-demo .cd-mdiff b { color: var(--cd-ink); font-weight: 600; }
+.desk-demo .cd-mdismiss { display: flex; gap: 6px; margin-top: 7px; padding: 3px; align-items: center; flex-wrap: wrap; background: var(--cd-box); }
+.desk-demo .cd-mdismiss .cd-input { flex: 1 1 220px; padding: 4px 8px; }
+.desk-demo .cd-mside { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+.desk-demo .cd-score { font: 600 12px/1 var(--cd-mono); border: 1px solid var(--cd-line); border-radius: 4px; padding: 3px 6px; }
+.desk-demo .cd-score.hot { color: var(--cd-ok); border-color: var(--cd-ok); }
+.desk-demo .cd-score.warm { color: var(--cd-warn); border-color: var(--cd-warn); }
+.desk-demo .cd-star { color: var(--cd-dim); font-size: 15px; line-height: 1; }
+.desk-demo .cd-mfoot { display: flex; gap: 8px; align-items: center; padding-top: 8px; border-top: 1px solid var(--cd-fill); }
+.desk-demo .cd-selbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; border: 1px solid var(--cd-ink); border-radius: 8px; padding: 8px 12px; background: var(--cd-box); box-shadow: 0 -4px 16px rgba(0, 0, 0, .08); font-size: 12.5px; }
+.desk-demo .cd-btn.off { opacity: .45; }
+
+/* the batch */
+.desk-demo .cd-batchbody { padding: 14px; display: grid; gap: 12px; }
+.desk-demo .cd-btable td { vertical-align: middle; }
+.desk-demo .cd-rail { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; padding: 4px; background: var(--cd-box); }
+.desk-demo .cd-rail .cd-st { padding: 1px 8px; font-size: 11.5px; background: none; }
+.desk-demo .cd-rail .cd-st.on { background: none; color: var(--cd-ink); border-color: var(--cd-ink); font-weight: 600; }
+.desk-demo .cd-needs { display: flex; gap: 4px; flex-wrap: wrap; }
+
+@media (max-width: 760px) {
+  .desk-demo .cd-wcol.planmain, .desk-demo .cd-wcol.planside { flex: 0 0 auto; }
+  .desk-demo .cd-reqw { overflow-x: auto; }
+  .desk-demo .cd-req { min-width: 560px; }
+  .desk-demo .cd-mrow { grid-template-columns: 22px minmax(0, 1fr); }
+  .desk-demo .cd-mside { grid-column: 2; justify-content: flex-start; }
 }
 
 /* ==========================================================================
@@ -9409,23 +9532,24 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
            Tab: Career Desk
            Added 2026-09-18. One tool, so no sub-tabs, like TeacherAID: one
            card, then the walkthrough transplanted from
-           demo/career-desk-demo.html. All data in it is placeholder, never
+           demo/career-desk-demo-v2.html (2026-09-30; v1 was demo/career-desk-demo.html). All data in it is placeholder, never
            the real career/ folder.
       ═══════════════════════════════════════════════════ -->
       <div id="tab-career" class="tab-panel pb-24" style="display:none">
 
         <div id="career-desk" class="border border-white/8 rounded-xl p-6 sm:p-8 bg-white/[0.02]">
-          <h4 class="tool-h mb-6">From a job posting to a sent application</h4>
+          <h4 class="tool-h mb-6">From a job posting to the next ones like it</h4>
           <div class="desk-demo mb-10" data-demo-panel tabindex="-1">
 
 
   <div class="demo-nav-wrap">
     <div class="cd-navbrand">Career Desk</div>
     <button class="demo-nav-item is-active" data-nav="add" data-slide="0">1 &middot; Add the job</button>
-    <button class="demo-nav-item" data-nav="draft" data-slide="2">2 &middot; Draft</button>
-    <button class="demo-nav-item" data-nav="review" data-slide="3">3 &middot; Review</button>
-    <button class="demo-nav-item" data-nav="send" data-slide="4">4 &middot; Sign off and send</button>
-    <button class="demo-nav-item" disabled>5 &middot; Career search <span class="demo-nav-soon">Soon</span></button>
+    <button class="demo-nav-item" data-nav="plan" data-slide="2">2 &middot; Plan</button>
+    <button class="demo-nav-item" data-nav="draft" data-slide="4">3 &middot; Draft</button>
+    <button class="demo-nav-item" data-nav="review" data-slide="5">4 &middot; Review</button>
+    <button class="demo-nav-item" data-nav="send" data-slide="6">5 &middot; Send</button>
+    <button class="demo-nav-item" data-nav="more" data-slide="7">6 &middot; Find more</button>
     <span class="demo-nav-hint">
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>
       Click to step through
@@ -9450,12 +9574,12 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
       <section class="demo-car-slide is-on" data-nav="add"
                data-contrib="Add a job in one step: paste the link, pick a starting point."
                data-state-label="State of the application"
-               data-state="Harbor Point Music School &middot; Part-time Theory Instructor &middot; due October 2 &middot; added to Not started."
+               data-state="Harbor Point Music School &middot; Part-time Theory Instructor &middot; due October 9 &middot; added to Not started."
                data-title="Step 1: add the job">
         <div class="cd-tour">
           <div class="cd-frame">
             <div class="cd-veil"></div>
-            <div class="cd-top"><span class="cd-brand">Career Desk</span><span class="cd-grow"></span><span class="cd-btn pri">+ New application</span></div>
+            <div class="cd-top"><span class="cd-brand">Career Desk</span><span class="cd-nav"><span class="cd-navlink on">Board</span><span class="cd-navlink">Leads</span></span><span class="cd-grow"></span><span class="cd-btn pri">+ New application</span></div>
             <div class="cd-newpanel">
               <div class="cd-lbl">New application</div>
               <div class="cd-newgrid">
@@ -9477,7 +9601,7 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
               </div>
               <div class="cd-row">
                 <span class="cd-btn pri">Add to Not started</span>
-                <span class="cd-btn">Add and draft now</span>
+                <span class="cd-btn">Add and plan now</span>
                 <span class="cd-btn ghost">Cancel</span>
                 <span class="cd-status ok">Added Harbor Point Music School to Not started &#10003;</span>
               </div>
@@ -9487,22 +9611,22 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                 <div class="cd-board">
                   <section class="cd-col">
                     <h2>Not started <small>2</small></h2>
-                    <div class="cd-card"><div class="cd-org">Northfield Library Foundation</div><div class="cd-role">Development Associate</div><div class="cd-meta"><span class="cd-pill warn">Due Sep 29</span><span class="cd-pill">no drafts yet</span></div></div>
-                    <div class="cd-card act"><div class="cd-org">Harbor Point Music School</div><div class="cd-role">Part-time Theory Instructor</div><div class="cd-meta"><span class="cd-pill warn">Due Oct 2</span><span class="cd-pill">no drafts yet</span></div></div>
+                    <div class="cd-card"><div class="cd-org">Northfield Library Foundation</div><div class="cd-role">Development Associate</div><div class="cd-meta"><span class="cd-pill warn">Due Oct 6</span><span class="cd-pill">no drafts yet</span></div></div>
+                    <div class="cd-card act"><div class="cd-org">Harbor Point Music School</div><div class="cd-role">Part-time Theory Instructor</div><div class="cd-meta"><span class="cd-pill warn">Due Oct 9</span><span class="cd-pill">no drafts yet</span></div></div>
                   </section>
                   <section class="cd-col">
                     <h2>Drafted <small>2</small></h2>
-                    <div class="cd-card"><div class="cd-org">Lakeshore Arts Council</div><div class="cd-role">Program Coordinator</div><div class="cd-meta"><span class="cd-pill">Due Oct 9</span><span class="cd-pill">resume + letter</span></div></div>
+                    <div class="cd-card"><div class="cd-org">Lakeshore Arts Council</div><div class="cd-role">Program Coordinator</div><div class="cd-meta"><span class="cd-pill">Due Oct 16</span><span class="cd-pill">resume + letter</span></div></div>
                     <div class="cd-card"><div class="cd-org">Brightline Labs</div><div class="cd-role">AI Workflow Engineer</div><div class="cd-meta"><span class="cd-pill">resume</span></div></div>
                   </section>
                   <section class="cd-col">
                     <h2>Sent <small>2</small></h2>
-                    <div class="cd-card"><div class="cd-org">Quillworks</div><div class="cd-role">Content Evaluator</div><div class="cd-meta"><span class="cd-pill ok">Sent Sep 17</span></div></div>
-                    <div class="cd-card"><div class="cd-org">Cedar Valley Youth Orchestra</div><div class="cd-role">Education Associate</div><div class="cd-meta"><span class="cd-pill ok">Sent Sep 16</span></div></div>
+                    <div class="cd-card"><div class="cd-org">Quillworks</div><div class="cd-role">Content Evaluator</div><div class="cd-meta"><span class="cd-pill ok">Sent Sep 24</span></div></div>
+                    <div class="cd-card"><div class="cd-org">Cedar Valley Youth Orchestra</div><div class="cd-role">Education Associate</div><div class="cd-meta"><span class="cd-pill ok">Sent Sep 22</span></div></div>
                   </section>
                   <section class="cd-col">
                     <h2>Interview <small>1</small></h2>
-                    <div class="cd-card"><div class="cd-org">Maple Street Theater</div><div class="cd-role">Operations Manager</div><div class="cd-meta"><span class="cd-pill ok">Sent Sep 4</span></div></div>
+                    <div class="cd-card"><div class="cd-org">Maple Street Theater</div><div class="cd-role">Operations Manager</div><div class="cd-meta"><span class="cd-pill ok">Sent Sep 11</span></div></div>
                   </section>
                   <section class="cd-col">
                     <h2>Closed <small>1</small></h2>
@@ -9523,33 +9647,33 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
       <section class="demo-car-slide" data-nav="add"
                data-contrib="Every job gets one card that carries everything about it."
                data-state-label="State of the application"
-               data-state="Harbor Point Music School &middot; Not started &middot; due October 2 &middot; written up from the posting."
+               data-state="Harbor Point Music School &middot; Not started &middot; due October 9 &middot; written up from the posting."
                data-title="Step 1: the job card">
         <div class="cd-tour">
           <div class="cd-frame">
             <div class="cd-veil"></div>
-            <div class="cd-top"><span class="cd-brand">Career Desk</span><span class="cd-grow"></span><span class="cd-btn pri">+ New application</span></div>
+            <div class="cd-top"><span class="cd-brand">Career Desk</span><span class="cd-nav"><span class="cd-navlink on">Board</span><span class="cd-navlink">Leads</span></span><span class="cd-grow"></span><span class="cd-btn pri">+ New application</span></div>
             <div class="cd-boardarea is-card">
               <div class="cd-board-scroll">
                 <div class="cd-board">
                   <section class="cd-col">
                     <h2>Not started <small>2</small></h2>
-                    <div class="cd-card"><div class="cd-org">Northfield Library Foundation</div><div class="cd-role">Development Associate</div><div class="cd-meta"><span class="cd-pill warn">Due Sep 29</span><span class="cd-pill">no drafts yet</span></div></div>
-                    <div class="cd-card act"><div class="cd-org">Harbor Point Music School</div><div class="cd-role">Part-time Theory Instructor</div><div class="cd-meta"><span class="cd-pill warn">Due Oct 2</span><span class="cd-pill">no drafts yet</span></div></div>
+                    <div class="cd-card"><div class="cd-org">Northfield Library Foundation</div><div class="cd-role">Development Associate</div><div class="cd-meta"><span class="cd-pill warn">Due Oct 6</span><span class="cd-pill">no drafts yet</span></div></div>
+                    <div class="cd-card act"><div class="cd-org">Harbor Point Music School</div><div class="cd-role">Part-time Theory Instructor</div><div class="cd-meta"><span class="cd-pill warn">Due Oct 9</span><span class="cd-pill">no drafts yet</span></div></div>
                   </section>
                   <section class="cd-col">
                     <h2>Drafted <small>2</small></h2>
-                    <div class="cd-card"><div class="cd-org">Lakeshore Arts Council</div><div class="cd-role">Program Coordinator</div><div class="cd-meta"><span class="cd-pill">Due Oct 9</span><span class="cd-pill">resume + letter</span></div></div>
+                    <div class="cd-card"><div class="cd-org">Lakeshore Arts Council</div><div class="cd-role">Program Coordinator</div><div class="cd-meta"><span class="cd-pill">Due Oct 16</span><span class="cd-pill">resume + letter</span></div></div>
                     <div class="cd-card"><div class="cd-org">Brightline Labs</div><div class="cd-role">AI Workflow Engineer</div><div class="cd-meta"><span class="cd-pill">resume</span></div></div>
                   </section>
                   <section class="cd-col">
                     <h2>Sent <small>2</small></h2>
-                    <div class="cd-card"><div class="cd-org">Quillworks</div><div class="cd-role">Content Evaluator</div><div class="cd-meta"><span class="cd-pill ok">Sent Sep 17</span></div></div>
-                    <div class="cd-card"><div class="cd-org">Cedar Valley Youth Orchestra</div><div class="cd-role">Education Associate</div><div class="cd-meta"><span class="cd-pill ok">Sent Sep 16</span></div></div>
+                    <div class="cd-card"><div class="cd-org">Quillworks</div><div class="cd-role">Content Evaluator</div><div class="cd-meta"><span class="cd-pill ok">Sent Sep 24</span></div></div>
+                    <div class="cd-card"><div class="cd-org">Cedar Valley Youth Orchestra</div><div class="cd-role">Education Associate</div><div class="cd-meta"><span class="cd-pill ok">Sent Sep 22</span></div></div>
                   </section>
                   <section class="cd-col">
                     <h2>Interview <small>1</small></h2>
-                    <div class="cd-card"><div class="cd-org">Maple Street Theater</div><div class="cd-role">Operations Manager</div><div class="cd-meta"><span class="cd-pill ok">Sent Sep 4</span></div></div>
+                    <div class="cd-card"><div class="cd-org">Maple Street Theater</div><div class="cd-role">Operations Manager</div><div class="cd-meta"><span class="cd-pill ok">Sent Sep 11</span></div></div>
                   </section>
                   <section class="cd-col">
                     <h2>Closed <small>1</small></h2>
@@ -9562,12 +9686,13 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
                 <div class="cd-pop-facts">
                   <p>Portland, OR &middot; in person, two evenings a week</p>
                   <p>Pay: $38 to $44 an hour</p>
-                  <p>Deadline: October 2, 2026</p>
+                  <p>Deadline: October 9, 2026</p>
                   <div class="cd-pop-sum"><p>Teaches Music Theory I and II in the evening program for adult learners.</p></div>
-                  <p><span class="cd-link">Job posting &#8599;</span></p>
+                  <p><span class="cd-link">Job posting</span></p>
                 </div>
                 <div class="cd-pop-acts">
-                  <div class="cd-act pri">Draft with Claude <small>Starts from the template, then Claude tailors it</small></div>
+                  <div class="cd-act pri">Plan with Claude <small>Reads the posting against your profile first</small></div>
+                  <div class="cd-act">Draft from the template</div>
                   <div class="cd-act">Open posting</div>
                   <div class="cd-act">Move to Closed <small>Not applying</small></div>
                 </div>
@@ -9575,17 +9700,212 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
             </div>
           </div>
           <div class="cd-calls">
-            <div class="cd-call" data-for="3" data-at="right"><span class="cd-call-n">3</span><div class="cd-call-body"><div class="cd-call-t">How the whole job fits on one card</div><div class="cd-call-s">Where it is, what it pays, when it closes, and the button that starts the draft.</div><button class="cd-call-next" data-demo-next>Next: Draft &#8250;</button></div></div>
+            <div class="cd-call" data-for="3" data-at="right"><span class="cd-call-n">3</span><div class="cd-call-body"><div class="cd-call-t">How the whole job fits on one card</div><div class="cd-call-s">Where it is, what it pays, when it closes, and the button that starts the plan.</div><button class="cd-call-next" data-demo-next>Next: Plan &#8250;</button></div></div>
           </div>
         </div>
       </section>
 
-      <!-- ============ SLIDE 3 · DRAFT (the workspace) ==================== -->
+      <!-- ============ SLIDE 3 · INTAKE (the plan) ======================== -->
+      <section class="demo-car-slide" data-nav="plan"
+               data-contrib="Plan before you draft: Claude reads the posting against your record."
+               data-state-label="State of the plan"
+               data-state="Harbor Point &middot; intake v1 &middot; 5 requirements: 3 met, 1 unconfirmed, 1 gap."
+               data-title="Step 2: the intake">
+        <div class="cd-tour">
+          <div class="cd-frame">
+            <div class="cd-veil"></div>
+            <div class="cd-appbar">
+              <span class="cd-btn">&#8592; Board</span>
+              <span class="t">Harbor Point Music School</span>
+              <span class="cd-btn">Job facts &#9662;</span>
+              <span class="cd-pill">Not started</span>
+            </div>
+            <div class="cd-vstrip">
+              <div class="cd-steps" role="tablist"><span class="cd-st on">&#10003; Intake</span><span class="cd-arr">&rarr;</span><span class="cd-st">Strategy</span><span class="cd-arr">&rarr;</span><span class="cd-st end">Drafts</span><span class="cd-arr">&rarr;</span><span class="cd-st end">Sent</span></div>
+            </div>
+            <div class="cd-ws">
+              <section class="cd-wcol planmain">
+                <div class="cd-colhead"><span class="cd-ttl">Intake</span><span class="cd-pill">intake.md &middot; v1</span><span class="cd-grow"></span><span class="cd-btn sm">Save</span><span class="cd-btn sm">Refill from the posting</span></div>
+                <div class="cd-colbody">
+                  <div class="cd-planbody">
+                    <div class="cd-sec"><h3>What the application asks for</h3>
+                      <div class="cd-row" style="gap: 14px;">
+                        <span class="cd-chk"><i class="cd-box on"></i> Asks for a resume or CV</span>
+                        <span class="cd-chk"><i class="cd-box"></i> Asks for a portfolio or work samples</span>
+                        <span class="cd-chk">Cover letter asked for <span class="cd-select" style="margin-left: 2px;">Required &#9662;</span></span>
+                      </div>
+                    </div>
+                    <div class="cd-sec cd-hl" data-hl="4"><span class="cd-hl-n">4</span>
+                      <h3>Requirements <span class="cd-grow"></span><span class="cd-pill ok">3 met</span><span class="cd-pill warn">1 unconfirmed</span><span class="cd-pill bad">1 gap</span></h3>
+                      <div class="cd-reqw"><table class="cd-req">
+                        <thead><tr><th>Requirement</th><th>Kind</th><th>Read</th><th>Source</th><th>Your call</th></tr></thead>
+                        <tbody>
+                          <tr><td>Teaches Music Theory I and II to adult learners</td><td>must</td><td><span class="cd-pill ok">met</span></td><td class="src">profile.md: Teaching</td><td><span class="cd-hint">n/a</span></td></tr>
+                          <tr><td>Three or more years of classroom or studio teaching</td><td>must</td><td><span class="cd-pill ok">met</span></td><td class="src">profile.md: Work history</td><td><span class="cd-hint">n/a</span></td></tr>
+                          <tr><td>Available two evenings a week, in person</td><td>must</td><td><span class="cd-pill ok">met</span></td><td class="src">notes.md</td><td><span class="cd-hint">n/a</span></td></tr>
+                          <tr><td>Experience with a learning management system</td><td>preferred</td><td><span class="cd-pill warn">unconfirmed</span></td><td class="src">not in profile.md</td>
+                            <td><div class="cd-callbox cd-hl" data-hl="5" data-cd-calls><span class="cd-hl-n at-tr">5</span>
+                              <div class="cd-row">
+                                <button type="button" class="cd-tog on" data-call="have" aria-pressed="true">I have it</button>
+                                <button type="button" class="cd-tog" data-call="dont" aria-pressed="false">I don't</button>
+                                <button type="button" class="cd-tog" data-call="unsure" aria-pressed="false">I don't know</button>
+                              </div>
+                              <div class="cd-callnote" data-note="have"><div class="cd-input">Ran Canvas for two community classes, 2024 to 2025</div><span class="cd-link">Also save to profile.md</span></div>
+                              <div class="cd-callnote" data-note="dont" hidden>Strategy will refuse to claim this.</div>
+                              <div class="cd-callnote" data-note="unsure" hidden>Kept off the documents, and asked as an open question.</div>
+                            </div></td></tr>
+                          <tr><td>Master's degree in music theory or composition</td><td>preferred</td><td><span class="cd-pill bad">gap</span></td><td class="src">profile.md: Education</td>
+                            <td><div class="cd-callbox" data-cd-calls>
+                              <div class="cd-row">
+                                <button type="button" class="cd-tog" data-call="have" aria-pressed="false">I have it</button>
+                                <button type="button" class="cd-tog on" data-call="dont" aria-pressed="true">I don't</button>
+                                <button type="button" class="cd-tog" data-call="unsure" aria-pressed="false">I don't know</button>
+                              </div>
+                              <div class="cd-callnote" data-note="have" hidden><div class="cd-input" style="color: var(--cd-dim);">The fact, with where it comes from</div></div>
+                              <div class="cd-callnote" data-note="dont">Strategy will refuse to claim this.</div>
+                              <div class="cd-callnote" data-note="unsure" hidden>Kept off the documents, and asked as an open question.</div>
+                            </div></td></tr>
+                        </tbody>
+                      </table></div>
+                    </div>
+                    <div class="cd-sec cd-hl" data-hl="6"><span class="cd-hl-n">6</span>
+                      <h3>In your words <span class="cd-hint">Claude never fills this</span></h3>
+                      <div class="cd-fld"><label>Why this one</label><div class="cd-words">I came back to music as an adult, and an evening theory class is the one I wish I had found. I want to teach it.</div></div>
+                      <div class="cd-fld"><label>A fact this needs that profile.md lacks</label><div class="cd-words ph">None yet</div></div>
+                    </div>
+                    <div class="cd-planfoot"><span class="cd-btn pri">Run Strategy</span><span class="cd-hint">Reads this intake, your profile, and the rules for this kind of job. About a minute.</span></div>
+                  </div>
+                </div>
+              </section>
+              <section class="cd-wcol planside">
+                <div class="cd-colhead"><span class="cd-lbl">Posting &middot; job.md</span><span class="cd-cbtn">&#187;</span></div>
+                <div class="cd-colbody">
+                  <div class="cd-side">
+                    <p><b>Harbor Point Music School</b><br>Part-time Theory Instructor</p>
+                    <ul>
+                      <li>Portland, OR, in person</li>
+                      <li>Two evenings a week</li>
+                      <li>$38 to $44 an hour</li>
+                      <li>Deadline: October 9, 2026</li>
+                    </ul>
+                    <h4>The job</h4>
+                    <p>Teaches Music Theory I and II in the evening program for adult learners. The posting asks for a resume, a cover letter, and ideas for the curriculum.</p>
+                    <h4>Qualifications</h4>
+                    <ul>
+                      <li>Three or more years of teaching</li>
+                      <li>Learning management system experience preferred</li>
+                      <li>Master's degree preferred</li>
+                    </ul>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+          <div class="cd-calls">
+            <div class="cd-call" data-for="4" data-at="right"><span class="cd-call-n">4</span><div class="cd-call-body"><div class="cd-call-t">How Claude reads the posting for you</div><div class="cd-call-s">Every requirement is listed with its source and checked against your profile.</div></div></div>
+            <div class="cd-call" data-for="5" data-at="right"><span class="cd-call-n">5</span><div class="cd-call-body"><div class="cd-call-t">Why it never claims what you cannot back</div><div class="cd-call-s">Say you have it, you don't, or you don't know, and the plan cites it, refuses it, or asks. Try the buttons.</div></div></div>
+            <div class="cd-call" data-for="6" data-at="right"><span class="cd-call-n">6</span><div class="cd-call-body"><div class="cd-call-t">Why the angle starts with you</div><div class="cd-call-s">Claude fills the rest of the form, but why you want this job is only ever yours to write.</div><button class="cd-call-next" data-demo-next>Next: the strategy &#8250;</button></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 4 · STRATEGY (the plan) ====================== -->
+      <section class="demo-car-slide" data-nav="plan"
+               data-contrib="Agree on the plan: one sheet of calls, approved before a word is drafted."
+               data-state-label="State of the plan"
+               data-state="Harbor Point &middot; strategy v2 &middot; 1 section amended &middot; every question answered &middot; not approved yet."
+               data-title="Step 2: the strategy">
+        <div class="cd-tour">
+          <div class="cd-frame">
+            <div class="cd-veil"></div>
+            <div class="cd-appbar">
+              <span class="cd-btn">&#8592; Board</span>
+              <span class="t">Harbor Point Music School</span>
+              <span class="cd-btn">Job facts &#9662;</span>
+              <span class="cd-pill">Not started</span>
+            </div>
+            <div class="cd-vstrip">
+              <div class="cd-steps" role="tablist"><span class="cd-st done">&#10003; Intake</span><span class="cd-arr">&rarr;</span><span class="cd-st on">Strategy</span><span class="cd-arr">&rarr;</span><span class="cd-st end">Drafts</span><span class="cd-arr">&rarr;</span><span class="cd-st end">Sent</span></div>
+            </div>
+            <div class="cd-ws">
+              <section class="cd-wcol planmain">
+                <div class="cd-colhead"><span class="cd-ttl">Strategy</span><span class="cd-pill">strategy.md &middot; v2</span><span class="cd-hint">from intake v1 &middot; academic-teaching</span><span class="cd-grow"></span><span class="cd-btn sm">Rerun</span><span class="cd-chk"><i class="cd-box on"></i> keep my 1 amended</span></div>
+                <div class="cd-colbody">
+                  <div class="cd-planbody">
+                    <div class="cd-os">
+                      <div class="cd-blk angle cd-hl" data-hl="7"><span class="cd-hl-n">7</span>
+                        <h4>The angle<span class="cd-grow"></span><span class="cd-btn sm">Amend</span></h4>
+                        <p>Lead with adult learners. Riley teaches the students this program exists for, so the letter opens there and the teaching record backs it up.</p>
+                      </div>
+                      <div class="cd-blk">
+                        <h4>Lead order <span class="cd-pill">yours</span><span class="cd-grow"></span><span class="cd-btn sm">Amend</span></h4>
+                        <ol>
+                          <li>The evening program and the adults it serves</li>
+                          <li>Six years of studio and community teaching</li>
+                          <li>A listening-first unit plan for Theory I and II</li>
+                        </ol>
+                      </div>
+                      <div class="cd-blk">
+                        <h4>Claims and their sources<span class="cd-grow"></span><span class="cd-btn sm">Amend</span></h4>
+                        <ul>
+                          <li>Six years of teaching <span class="cd-srcl">(profile.md: Work history)</span></li>
+                          <li>Theory, ear training, and composition <span class="cd-srcl">(profile.md: Teaching)</span></li>
+                          <li>Canvas for two community classes <span class="cd-srcl">(intake: your fact)</span></li>
+                        </ul>
+                      </div>
+                      <div class="cd-blk">
+                        <h4>What stays out<span class="cd-grow"></span><span class="cd-btn sm">Amend</span></h4>
+                        <p>The master's degree: never claimed, and never apologized for. Performance credits, which this job does not ask about.</p>
+                      </div>
+                      <div class="cd-blk cd-hl" data-hl="8"><span class="cd-hl-n">8</span>
+                        <h4>Open questions for Riley<span class="cd-grow"></span><span class="cd-pill ok">0 open</span></h4>
+                        <p>The posting asks for curriculum ideas. Is there a unit you have actually taught that the letter can name?</p>
+                        <div class="cd-words">Yes. A listening-first unit on cadences, taught in spring 2025.</div>
+                        <span class="cd-chk"><i class="cd-box on"></i> Also save to profile.md</span>
+                      </div>
+                    </div>
+                    <div class="cd-planfoot"><span class="cd-btn pri cd-hl" data-hl="9"><span class="cd-hl-n">9</span>Approve and draft</span><span class="cd-hint">Approving stamps this version. The draft then takes every call from it.</span></div>
+                  </div>
+                </div>
+              </section>
+              <section class="cd-wcol planside">
+                <div class="cd-colhead"><span class="cd-lbl">Intake summary</span><span class="cd-cbtn">&#187;</span></div>
+                <div class="cd-colbody">
+                  <div class="cd-side">
+                    <div class="cd-counts"><span class="cd-pill ok">3 met</span><span class="cd-pill warn">1 unconfirmed</span><span class="cd-pill bad">1 gap</span></div>
+                    <p><b>Refused:</b> Master's degree in music theory or composition</p>
+                    <p><b>You confirmed:</b> Experience with a learning management system</p>
+                    <h4>Calls</h4>
+                    <ul>
+                      <li>Header: Portland, OR</li>
+                      <li>Move: no</li>
+                      <li>Salutation: Dear Hiring Committee</li>
+                      <li>Salary: <span class="cd-hint">not set</span></li>
+                    </ul>
+                    <h4>Asks for</h4>
+                    <p>resume or CV, letter: required</p>
+                    <h4>Why this one</h4>
+                    <p>I came back to music as an adult, and an evening theory class is the one I wish I had found.</p>
+                    <span class="cd-link">Edit the intake</span>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+          <div class="cd-calls">
+            <div class="cd-call" data-for="7" data-at="right"><span class="cd-call-n">7</span><div class="cd-call-body"><div class="cd-call-t">How every call is made before a word is drafted</div><div class="cd-call-s">One sheet sets the angle, the order, the claims and their sources, and what stays out.</div></div></div>
+            <div class="cd-call" data-for="8" data-at="right"><span class="cd-call-n">8</span><div class="cd-call-body"><div class="cd-call-t">How a gap becomes a question, not a guess</div><div class="cd-call-s">Claude asks for what it cannot source, and your answer can be saved as a standing fact.</div></div></div>
+            <div class="cd-call" data-for="9" data-at="right"><span class="cd-call-n">9</span><div class="cd-call-body"><div class="cd-call-t">Why nothing drafts until you agree</div><div class="cd-call-s">Amend any section, then approve, and the draft takes every call from that version.</div><button class="cd-call-next" data-demo-next>Next: Draft &#8250;</button></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 5 · DRAFT (the workspace) ==================== -->
       <section class="demo-car-slide" data-nav="draft"
-               data-contrib="Draft with Claude beside you, in a chat that already knows the job."
+               data-contrib="Draft with Claude beside you, working from the plan you approved."
                data-state-label="State of the letter"
-               data-state="Harbor Point &middot; letter v5 &middot; Claude's tailored draft, then your own edits."
-               data-title="Step 2: draft">
+               data-state="Harbor Point &middot; letter v2 &middot; Claude's draft from the plan, then your own edits."
+               data-title="Step 3: draft">
         <div class="cd-tour">
           <div class="cd-frame">
             <div class="cd-veil"></div>
@@ -9600,30 +9920,41 @@ Sprout N Tell Vol. 4 is Friday, September 11, 7 to 10pm. Music, art, and a room 
               <span class="cd-btn pri">Sign off</span>
             </div>
             <div class="cd-vstrip">
-              <div class="cd-tabs" role="tablist"><span class="cd-tab">Resume</span><span class="cd-tab on">Letter</span><span class="cd-tab">+ Form answers</span></div>
+              <div class="cd-steps" role="tablist"><span class="cd-st done">&#10003; Intake</span><span class="cd-arr">&rarr;</span><span class="cd-st done">&#10003; Strategy</span><span class="cd-arr">&rarr;</span><span class="cd-st">Resume</span><span class="cd-arr">&rarr;</span><span class="cd-st on">Letter</span><span class="cd-st add">+ Form answers</span><span class="cd-arr">&rarr;</span><span class="cd-st end">Sent</span></div>
               <span class="cd-grow"></span>
-              <span class="cd-status">v5 &middot; saved 2:20 PM</span>
+              <span class="cd-status">v2 &middot; saved 2:20 PM</span>
             </div>
             <div class="cd-ws">
               <section class="cd-wcol chat">
                 <div class="cd-colhead"><span class="cd-lbl">Claude</span><span class="cd-cbtn">&#171;</span></div>
-                <div class="cd-turns cd-hl" data-hl="4"><span class="cd-hl-n">4</span>
-                  <div class="cd-msg user"><span class="cd-tag">You &middot; Letter &middot; 2:02 PM</span>Tailor the letter to this posting. Keep it to one page.</div>
-                  <div class="cd-msg assistant"><span class="cd-tag">Claude &middot; Letter &middot; 2:03 PM</span>Done. It now leads with the evening program for adult learners, names Theory I and II, and gives your curriculum ideas their own paragraph, since the posting asks for them.</div>
-                  <div class="cd-sys">Saved Claude's draft as v4</div>
+                <div class="cd-turns">
+                  <div class="cd-turngroup cd-hl" data-hl="10"><span class="cd-hl-n">10</span>
+                    <div class="cd-planpin"><b>Plan: strategy v2, approved Sep 30</b><span>Lead with adult learners. Riley teaches the students this program exists for.</span><span class="cd-link">Open Strategy</span></div>
+                    <div class="cd-msg user"><span class="cd-tag">You &middot; Letter &middot; 2:02 PM</span>Draft from the plan.</div>
+                    <div class="cd-msg assistant"><span class="cd-tag">Claude &middot; Letter &middot; 2:03 PM</span>Done. It opens on adult learners, as the angle says, gives the unit plan its own paragraph, and leaves the master's degree out.</div>
+                    <div class="cd-sys">Saved Claude's draft as v1</div>
+                  </div>
+                  <div class="cd-msg user"><span class="cd-tag">You &middot; Letter &middot; 2:22 PM</span>The form also asks why I want to teach evenings.</div>
+                  <div class="cd-msg assistant"><span class="cd-tag">Claude &middot; Letter &middot; 2:22 PM</span>That belongs in the plan first. One change, below. Nothing moves until you apply it.</div>
+                  <div class="cd-sug cd-hl" data-hl="12"><span class="cd-hl-n">12</span>
+                    <div class="cd-sug-h">Suggested change &middot; Intake</div>
+                    <div class="cd-sug-l">Form question</div>
+                    <div class="new">Why do you want to teach in the evening program?</div>
+                    <div class="cd-row"><span class="cd-btn sm pri">Apply</span><span class="cd-btn sm">Edit</span><span class="cd-btn sm ghost">Dismiss</span></div>
+                  </div>
                 </div>
                 <div class="cd-composer">
-                  <div class="cd-quick cd-hl" data-hl="6"><span class="cd-hl-n">6</span><span>Review this version</span><span>Proofread only</span><span>Check against the posting</span><span>Fit to one page</span><span>Tailor to the posting</span></div>
+                  <div class="cd-quick"><span>Draft from the plan</span><span>Review this version</span><span>Proofread only</span><span>Fit to one page</span></div>
                   <div class="cd-textarea">Ask for a review, push back on a mark, or say what to change&hellip;</div>
-                  <div class="cd-row"><span class="cd-btn pri">Send</span></div>
+                  <div class="cd-row"><span class="cd-btn pri">Send</span><span class="cd-btn">Attach image</span></div>
                 </div>
               </section>
-              <section class="cd-wcol cd-hl" data-hl="5"><span class="cd-hl-n">5</span>
+              <section class="cd-wcol cd-hl" data-hl="11"><span class="cd-hl-n">11</span>
                 <div class="cd-colhead"><span class="cd-lbl" style="padding-left: 12px;">Your text</span><span class="cd-btn sm">Save version</span><span class="cd-cbtn">&#171;</span></div>
                 <div class="cd-colbody">
 <div class="cd-editor"><span class="dim">Output: Riley Chen Cover Letter - Harbor Point
 Contact: Portland, OR | riley.chen@example.com | 555-0142
-Date: September 18, 2026</span>
+Date: September 30, 2026</span>
 
 Dear Hiring Committee,
 
@@ -9644,7 +9975,7 @@ Riley Chen</div>
                     <div class="cd-sheet">
                       <div class="nm">Riley Chen</div>
                       <div class="hd">Portland, OR &nbsp;|&nbsp; riley.chen@example.com &nbsp;|&nbsp; 555-0142</div>
-                      <p>September 18, 2026</p>
+                      <p>September 30, 2026</p>
                       <p>Dear Hiring Committee,</p>
                       <p>Adults who come back to music bring questions a textbook never answers, and those questions are why I teach. I am applying for the Part-time Theory Instructor position in Harbor Point Music School's evening program.</p>
                       <p>For ten years I have taught theory, ear training and composition in private studios and community classes, to students from eight to seventy&hellip;</p>
@@ -9655,19 +9986,19 @@ Riley Chen</div>
             </div>
           </div>
           <div class="cd-calls">
-            <div class="cd-call" data-for="4" data-at="right"><span class="cd-call-n">4</span><div class="cd-call-body"><div class="cd-call-t">Why Claude already knows your background</div><div class="cd-call-s">It has the job, your notes, and your standing facts. Ask for changes in plain words.</div></div></div>
-            <div class="cd-call" data-for="5" data-at="right"><span class="cd-call-n">5</span><div class="cd-call-body"><div class="cd-call-t">How your own edits stay safe</div><div class="cd-call-s">Write over anything you like. Save version keeps every step.</div></div></div>
-            <div class="cd-call" data-for="6" data-at="right"><span class="cd-call-n">6</span><div class="cd-call-body"><div class="cd-call-t">Why a review is one click</div><div class="cd-call-s">Proofread it, check it against the posting, or squeeze it onto one page.</div><button class="cd-call-next" data-demo-next>Next: Review &#8250;</button></div></div>
+            <div class="cd-call" data-for="10" data-at="right"><span class="cd-call-n">10</span><div class="cd-call-body"><div class="cd-call-t">Why the draft follows the plan</div><div class="cd-call-s">The approved angle stays pinned over the chat, and Claude writes the letter from it.</div></div></div>
+            <div class="cd-call" data-for="11" data-at="left"><span class="cd-call-n">11</span><div class="cd-call-body"><div class="cd-call-t">How your own edits stay safe</div><div class="cd-call-s">Write over anything you like. Save version keeps every step.</div></div></div>
+            <div class="cd-call" data-for="12" data-at="right"><span class="cd-call-n">12</span><div class="cd-call-body"><div class="cd-call-t">How the chat changes the plan</div><div class="cd-call-s">Claude proposes a change as a card, and nothing moves until you apply, edit, or dismiss it.</div><button class="cd-call-next" data-demo-next>Next: Review &#8250;</button></div></div>
           </div>
         </div>
       </section>
 
-      <!-- ============ SLIDE 4 · REVIEW (the workspace) =================== -->
+      <!-- ============ SLIDE 6 · REVIEW (the workspace) =================== -->
       <section class="demo-car-slide" data-nav="review"
                data-contrib="Ask for a review, then keep only the marks you agree with."
                data-state-label="State of the review"
-               data-state="Letter v5 &middot; 3 marks &middot; 2 kept, 1 rejected &middot; about 1 page."
-               data-title="Step 3: review">
+               data-state="Letter v2 &middot; 3 marks &middot; 2 kept, 1 rejected &middot; about 1 page."
+               data-title="Step 4: review">
         <div class="cd-tour">
           <div class="cd-frame">
             <div class="cd-veil"></div>
@@ -9677,28 +10008,28 @@ Riley Chen</div>
               <span class="cd-btn">Job facts &#9662;</span>
               <span class="cd-pill">Drafted</span>
               <span class="cd-grow"></span>
-              <span class="cd-btn cd-hl" data-hl="9"><span class="cd-hl-n">9</span>Versions &#9656;</span>
+              <span class="cd-btn cd-hl" data-hl="15"><span class="cd-hl-n">15</span>Versions &#9656;</span>
               <span class="cd-btn">Mark as sent</span>
               <span class="cd-btn pri">Sign off</span>
             </div>
             <div class="cd-vstrip">
-              <div class="cd-tabs" role="tablist"><span class="cd-tab">Resume</span><span class="cd-tab on">Letter</span><span class="cd-tab">+ Form answers</span></div>
+              <div class="cd-steps" role="tablist"><span class="cd-st done">&#10003; Intake</span><span class="cd-arr">&rarr;</span><span class="cd-st done">&#10003; Strategy</span><span class="cd-arr">&rarr;</span><span class="cd-st">Resume</span><span class="cd-arr">&rarr;</span><span class="cd-st on">Letter</span><span class="cd-st add">+ Form answers</span><span class="cd-arr">&rarr;</span><span class="cd-st end">Sent</span></div>
               <span class="cd-grow"></span>
-              <span class="cd-status">v5 &middot; 3 marks</span>
+              <span class="cd-status">v2 &middot; 3 marks</span>
             </div>
             <div class="cd-ws">
               <section class="cd-wcol chat">
                 <div class="cd-colhead"><span class="cd-lbl">Claude</span><span class="cd-cbtn">&#171;</span></div>
                 <div class="cd-turns">
                   <div class="cd-msg user"><span class="cd-tag">You &middot; Letter &middot; 2:24 PM</span>Review this letter against the posting and my rules. Mark what should change.</div>
-                  <div class="cd-msg assistant"><span class="cd-tag">Claude &middot; Letter &middot; 2:25 PM</span>Three marks: a grammar fix, an optional rewrite of the opening, and a claim. Your profile lists six years of teaching, and the letter says ten.</div>
+                  <div class="cd-msg assistant"><span class="cd-tag">Claude &middot; Letter &middot; 2:25 PM</span>Three marks: a grammar fix, an optional rewrite of the opening, and a claim. Your edit says ten years of teaching, and the plan sources six.</div>
                 </div>
-                <div class="cd-marksbox cd-hl" data-hl="8"><span class="cd-hl-n">8</span>
+                <div class="cd-marksbox cd-hl" data-hl="14"><span class="cd-hl-n">14</span>
                   <div class="cd-row"><span class="cd-lbl" style="padding-left: 10px;">3 marks on the letter</span><span class="cd-grow"></span><span class="cd-link">Clear marks</span></div>
                   <div class="cd-marks">
-                    <div class="cd-mk-row"><span class="cd-n g">1</span><span class="txt">The verb must agree with &ldquo;every rule&rdquo;<small>&#8594; every rule arrives</small></span><span class="cd-tog on">&#10003;</span><span class="cd-tog">&#10005;</span></div>
-                    <div class="cd-mk-row rejected"><span class="cd-n r">2</span><span class="txt">Lead with the program, then the reason<small>&#8594; I am applying to teach Theory I and II&hellip;</small></span><span class="cd-tog">&#10003;</span><span class="cd-tog on">&#10005;</span></div>
-                    <div class="cd-mk-row"><span class="cd-n c">3</span><span class="txt">Profile says six years of teaching<small>&#8594; For six years</small></span><span class="cd-tog on">&#10003;</span><span class="cd-tog">&#10005;</span></div>
+                    <div class="cd-mk-row" data-mark="1"><span class="cd-n g">1</span><span class="txt">The verb must agree with &ldquo;every rule&rdquo;<small>&rarr; every rule arrives</small></span><span class="cd-tog" aria-hidden="true">&#9998;</span><button type="button" class="cd-tog on" data-mk="yes" aria-label="Accept mark 1">&#10003;</button><button type="button" class="cd-tog" data-mk="no" aria-label="Reject mark 1">&#10005;</button></div>
+                    <div class="cd-mk-row rejected" data-mark="2"><span class="cd-n r">2</span><span class="txt">Lead with the program, then the reason<small>&rarr; I am applying to teach Theory I and II&hellip;</small></span><span class="cd-tog" aria-hidden="true">&#9998;</span><button type="button" class="cd-tog" data-mk="yes" aria-label="Accept mark 2">&#10003;</button><button type="button" class="cd-tog on" data-mk="no" aria-label="Reject mark 2">&#10005;</button></div>
+                    <div class="cd-mk-row" data-mark="3"><span class="cd-n c">3</span><span class="txt">The plan sources six years of teaching<small>&rarr; For six years</small></span><span class="cd-tog" aria-hidden="true">&#9998;</span><button type="button" class="cd-tog on" data-mk="yes" aria-label="Accept mark 3">&#10003;</button><button type="button" class="cd-tog" data-mk="no" aria-label="Reject mark 3">&#10005;</button></div>
                   </div>
                   <span class="cd-btn pri" style="justify-self: start;">Apply</span>
                 </div>
@@ -9708,24 +10039,24 @@ Riley Chen</div>
                 <div class="cd-colbody">
 <div class="cd-editor"><span class="dim">Output: Riley Chen Cover Letter - Harbor Point
 Contact: Portland, OR | riley.chen@example.com | 555-0142
-Date: September 18, 2026</span>
+Date: September 30, 2026</span>
 
 Dear Hiring Committee,
 
 Adults who come back to music bring questions a textbook never answers, and those questions are why I teach&hellip;</div>
                 </div>
               </section>
-              <section class="cd-wcol cd-hl" data-hl="7"><span class="cd-hl-n at-tr">7</span>
+              <section class="cd-wcol cd-hl" data-hl="13"><span class="cd-hl-n at-tr">13</span>
                 <div class="cd-colhead"><span class="cd-lbl">Preview</span><span class="cd-pill ok">about 1 page</span><span class="cd-legend"><span class="cd-k g">grammar</span><span class="cd-k r">rewrite</span><span class="cd-k c">claim</span></span></div>
                 <div class="cd-colbody">
                   <div class="cd-pagewrap">
                     <div class="cd-sheet">
                       <div class="nm">Riley Chen</div>
                       <div class="hd">Portland, OR &nbsp;|&nbsp; riley.chen@example.com &nbsp;|&nbsp; 555-0142</div>
-                      <p>September 18, 2026</p>
+                      <p>September 30, 2026</p>
                       <p>Dear Hiring Committee,</p>
-                      <p><span class="cd-mk cd-mk-r rej"><del>Adults who come back to music bring questions a textbook never answers, and those questions are why I teach.</del><ins> I am applying to teach Theory I and II&hellip;</ins><sup>2</sup></span> I am applying for the Part-time Theory Instructor position in Harbor Point Music School's evening program.</p>
-                      <p><span class="cd-mk cd-mk-c"><del>For ten years</del><ins>For six years</ins><sup>3</sup></span> I have taught theory, ear training and composition in private studios and community classes, to students from eight to seventy. I build each lesson around music my students already love, so every rule <span class="cd-mk cd-mk-g"><del>arrive</del><ins>arrives</ins><sup>1</sup></span> with a sound attached.</p>
+                      <p><span class="cd-mk cd-mk-r rej" data-mark="2"><del>Adults who come back to music bring questions a textbook never answers, and those questions are why I teach.</del><ins> I am applying to teach Theory I and II&hellip;</ins><sup>2</sup></span> I am applying for the Part-time Theory Instructor position in Harbor Point Music School's evening program.</p>
+                      <p><span class="cd-mk cd-mk-c" data-mark="3"><del>For ten years</del><ins>For six years</ins><sup>3</sup></span> I have taught theory, ear training and composition in private studios and community classes, to students from eight to seventy. I build each lesson around music my students already love, so every rule <span class="cd-mk cd-mk-g" data-mark="1"><del>arrive</del><ins>arrives</ins><sup>1</sup></span> with a sound attached.</p>
                       <p>For Theory I and II, I would open each unit with a listening session and close it with a short composition, so students hear a concept before they name it.</p>
                       <p style="margin: 0;">Thank you for your time and consideration,</p>
                       <p style="font-weight: 700; margin: 0;">Riley Chen</p>
@@ -9736,19 +10067,19 @@ Adults who come back to music bring questions a textbook never answers, and thos
             </div>
           </div>
           <div class="cd-calls">
-            <div class="cd-call" data-for="7" data-at="left"><span class="cd-call-n">7</span><div class="cd-call-body"><div class="cd-call-t">How you see problems before a recruiter does</div><div class="cd-call-s">Laid out like the real file, marked red for grammar, blue for rewrites, amber for claims.</div></div></div>
-            <div class="cd-call" data-for="8" data-at="right"><span class="cd-call-n">8</span><div class="cd-call-body"><div class="cd-call-t">Why you keep the last word</div><div class="cd-call-s">Take the marks you agree with, argue with the rest, apply the ones that stick.</div></div></div>
-            <div class="cd-call" data-for="9" data-at="below-end"><span class="cd-call-n">9</span><div class="cd-call-body"><div class="cd-call-t">How you undo a week of edits</div><div class="cd-call-s">Every version, newest first, ready to compare or bring back.</div><button class="cd-call-next" data-demo-next>Next: Sign off and send &#8250;</button></div></div>
+            <div class="cd-call" data-for="13" data-at="left"><span class="cd-call-n">13</span><div class="cd-call-body"><div class="cd-call-t">How you see problems before a recruiter does</div><div class="cd-call-s">Laid out like the real file, marked red for grammar, blue for rewrites, amber for claims.</div></div></div>
+            <div class="cd-call" data-for="14" data-at="right"><span class="cd-call-n">14</span><div class="cd-call-body"><div class="cd-call-t">Why you keep the last word</div><div class="cd-call-s">Take a mark, edit it, or reject it, and a rejected mark is never raised again on this application. Try the buttons.</div></div></div>
+            <div class="cd-call" data-for="15" data-at="below-end"><span class="cd-call-n">15</span><div class="cd-call-body"><div class="cd-call-t">How you undo a week of edits</div><div class="cd-call-s">Every version, newest first, ready to compare or bring back.</div><button class="cd-call-next" data-demo-next>Next: Send &#8250;</button></div></div>
           </div>
         </div>
       </section>
 
-      <!-- ============ SLIDE 5 · SIGN OFF AND SEND (the workspace) ======== -->
+      <!-- ============ SLIDE 7 · SIGN OFF AND SEND (the workspace) ======== -->
       <section class="demo-car-slide" data-nav="send"
                data-contrib="Sign off, submit, and mark it sent."
                data-state-label="State of the application"
-               data-state="Letter v6 &middot; signed off at one page &middot; sent September 18."
-               data-title="Step 4: sign off and send">
+               data-state="Letter v3 &middot; signed off at one page &middot; sent September 30."
+               data-title="Step 5: sign off and send">
         <div class="cd-tour">
           <div class="cd-frame">
             <div class="cd-veil"></div>
@@ -9759,20 +10090,20 @@ Adults who come back to music bring questions a textbook never answers, and thos
               <span class="cd-pill">Drafted</span>
               <span class="cd-grow"></span>
               <span class="cd-btn">Versions &#9656;</span>
-              <span class="cd-btn cd-hl" data-hl="12"><span class="cd-hl-n">12</span>Mark as sent</span>
-              <span class="cd-btn pri cd-hl" data-hl="10"><span class="cd-hl-n at-tr">10</span>Signed off v6 &#10003;</span>
+              <span class="cd-btn cd-hl" data-hl="18"><span class="cd-hl-n">18</span>Mark as sent</span>
+              <span class="cd-btn pri cd-hl" data-hl="16"><span class="cd-hl-n at-tr">16</span>Signed off v3 &#10003;</span>
             </div>
             <div class="cd-vstrip">
-              <div class="cd-tabs" role="tablist"><span class="cd-tab">Resume &#10003;</span><span class="cd-tab on">Letter &#10003;</span><span class="cd-tab">+ Form answers</span></div>
+              <div class="cd-steps" role="tablist"><span class="cd-st done">&#10003; Intake</span><span class="cd-arr">&rarr;</span><span class="cd-st done">&#10003; Strategy</span><span class="cd-arr">&rarr;</span><span class="cd-st done">&#10003; Resume</span><span class="cd-arr">&rarr;</span><span class="cd-st on">&#10003; Letter</span><span class="cd-arr">&rarr;</span><span class="cd-st end">Sent</span></div>
               <span class="cd-grow"></span>
-              <span class="cd-status">v6 &middot; signed off</span>
+              <span class="cd-status">v3 &middot; signed off</span>
             </div>
             <div class="cd-ws">
               <section class="cd-wcol chat">
                 <div class="cd-colhead"><span class="cd-lbl">Claude</span><span class="cd-cbtn">&#171;</span></div>
                 <div class="cd-turns">
                   <div class="cd-msg user"><span class="cd-tag">You &middot; Letter &middot; 2:26 PM</span>Keeping my opening. Applying 1 and 3.</div>
-                  <div class="cd-sys">Applied 2 marks as v6</div>
+                  <div class="cd-sys">Applied 2 marks as v3</div>
                 </div>
               </section>
               <section class="cd-wcol">
@@ -9780,7 +10111,7 @@ Adults who come back to music bring questions a textbook never answers, and thos
                 <div class="cd-colbody">
 <div class="cd-editor"><span class="dim">Output: Riley Chen Cover Letter - Harbor Point
 Contact: Portland, OR | riley.chen@example.com | 555-0142
-Date: September 18, 2026</span>
+Date: September 30, 2026</span>
 
 Dear Hiring Committee,
 
@@ -9796,7 +10127,7 @@ For six years I have taught theory&hellip;</div>
                     <div class="cd-sheet">
                       <div class="nm">Riley Chen</div>
                       <div class="hd">Portland, OR &nbsp;|&nbsp; riley.chen@example.com &nbsp;|&nbsp; 555-0142</div>
-                      <p>September 18, 2026</p>
+                      <p>September 30, 2026</p>
                       <p>Dear Hiring Committee,</p>
                       <p>Adults who come back to music bring questions a textbook never answers, and those questions are why I teach. I am applying for the Part-time Theory Instructor position in Harbor Point Music School's evening program.</p>
                       <p>For six years I have taught theory, ear training and composition&hellip;</p>
@@ -9804,13 +10135,143 @@ For six years I have taught theory&hellip;</div>
                   </div>
                 </div>
               </section>
-              <div class="cd-toast cd-hl" data-hl="11" role="status"><span class="cd-hl-n">11</span>Notes updated: 2 notes for this job, 1 profile fact</div>
+              <div class="cd-toast cd-hl" data-hl="17" role="status"><span class="cd-hl-n">17</span>Notes updated: 2 notes for this job, 1 profile fact</div>
             </div>
           </div>
           <div class="cd-calls">
-            <div class="cd-call" data-for="10" data-at="below-end"><span class="cd-call-n">10</span><div class="cd-call-body"><div class="cd-call-t">Why the file matches what you approved</div><div class="cd-call-s">It builds the Word file and the PDF, then checks both word for word.</div></div></div>
-            <div class="cd-call" data-for="11" data-at="above"><span class="cd-call-n">11</span><div class="cd-call-body"><div class="cd-call-t">How the next application gets easier</div><div class="cd-call-s">What you decided here goes into its notes, and what is always true goes into your profile.</div></div></div>
-            <div class="cd-call" data-for="12" data-at="below-end"><span class="cd-call-n">12</span><div class="cd-call-body"><div class="cd-call-t">Why you can prove what you sent</div><div class="cd-call-s">Mark as sent freezes a read-only copy of exactly what went out.</div><button class="cd-call-next" data-cd-restart>Start over &#8634;</button></div></div>
+            <div class="cd-call" data-for="16" data-at="below-end"><span class="cd-call-n">16</span><div class="cd-call-body"><div class="cd-call-t">Why the file matches what you approved</div><div class="cd-call-s">It builds the Word file and the PDF, then checks both word for word.</div></div></div>
+            <div class="cd-call" data-for="17" data-at="above"><span class="cd-call-n">17</span><div class="cd-call-body"><div class="cd-call-t">How the next application gets easier</div><div class="cd-call-s">What you decided here goes into its notes, and what is always true goes into your profile.</div></div></div>
+            <div class="cd-call" data-for="18" data-at="below-end"><span class="cd-call-n">18</span><div class="cd-call-body"><div class="cd-call-t">Why you can prove what you sent</div><div class="cd-call-s">Mark as sent freezes a read-only copy of exactly what went out.</div><button class="cd-call-next" data-demo-next>Next: Find more &#8250;</button></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 8 · FIND MORE (Leads) ======================== -->
+      <section class="demo-car-slide" data-nav="more"
+               data-contrib="Find more like it: new jobs, scored against what you already sent."
+               data-state-label="State of the search"
+               data-state="42 employers watched &middot; 3 new matches for Harbor Point since the last scan."
+               data-title="Step 6: find more like it">
+        <div class="cd-tour">
+          <div class="cd-frame">
+            <div class="cd-veil"></div>
+            <div class="cd-top"><span class="cd-brand">Career Desk</span><span class="cd-nav"><span class="cd-navlink">Board</span><span class="cd-navlink on">Leads</span></span><span class="cd-grow"></span></div>
+            <div class="cd-leadbar">
+              <div class="cd-row cd-hl" data-hl="19"><span class="cd-hl-n">19</span>
+                <span class="cd-btn pri">Scan</span>
+                <span class="cd-btn">Watchlist</span>
+                <span class="cd-hint">42 employers &middot; 1,870 open postings &middot; 1,792 culled by rule &middot; scanned today, 8:02 AM</span>
+                <span class="cd-grow"></span>
+                <span class="cd-btn">Add employer</span>
+              </div>
+              <div class="cd-leadtabs">
+                <span class="cd-ltab on">Like what you sent <small>9</small></span>
+                <span class="cd-ltab">Searches <small>2</small></span>
+                <span class="cd-ltab">&#9733; Favorites <small>1</small></span>
+                <span class="cd-ltab">Started <small>3</small></span>
+                <span class="cd-ltab">Dismissed <small>14</small></span>
+                <span class="cd-ltab">Culled by rule <small>1,792</small></span>
+                <span class="cd-ltab">Closed <small>41</small></span>
+              </div>
+            </div>
+            <div class="cd-leadlist">
+              <div class="cd-seg"><span class="on">By sent application</span><span>Ranked</span></div>
+              <section class="cd-mgroup">
+                <h3>Like Harbor Point Music School <span class="cd-hint">Part-time Theory Instructor &middot; sent Sep 30</span><span class="cd-grow"></span><span class="cd-pill ok">3 new since last scan</span></h3>
+                <div class="cd-mrow picked cd-hl" data-hl="20"><span class="cd-hl-n">20</span>
+                  <button type="button" class="cd-mbox" role="checkbox" aria-checked="true" aria-label="Pick Evening Theory and Musicianship Instructor">&#10003;</button>
+                  <div><div class="cd-mtitle">Evening Theory and Musicianship Instructor</div>
+                    <div class="cd-mmeta">Westbrook Community Music Center &middot; Portland, OR &middot; $40 to $46 an hour &middot; posted Sep 29</div>
+                    <div class="cd-mdiff"><b>Differs:</b> adds a group ear-training class, and asks for a sample syllabus.</div></div>
+                  <div class="cd-mside"><span class="cd-score hot">88</span><span class="cd-star">&#9734;</span><span class="cd-btn sm">Posting</span><span class="cd-btn sm ghost">Dismiss</span></div>
+                </div>
+                <div class="cd-mrow picked">
+                  <button type="button" class="cd-mbox" role="checkbox" aria-checked="true" aria-label="Pick Adult Education Music Instructor">&#10003;</button>
+                  <div><div class="cd-mtitle">Adult Education Music Instructor</div>
+                    <div class="cd-mmeta">Tilikum Arts Collective &middot; Portland, OR &middot; posted Sep 27</div>
+                    <div class="cd-mdiff"><b>Differs:</b> teaches piano basics as well as theory, with one weekend class.</div></div>
+                  <div class="cd-mside"><span class="cd-score hot">81</span><span class="cd-star">&#9734;</span><span class="cd-btn sm">Posting</span><span class="cd-btn sm ghost">Dismiss</span></div>
+                </div>
+                <div class="cd-mrow picked">
+                  <button type="button" class="cd-mbox" role="checkbox" aria-checked="true" aria-label="Pick Music Theory Adjunct">&#10003;</button>
+                  <div><div class="cd-mtitle">Music Theory Adjunct</div>
+                    <div class="cd-mmeta">Alder Creek Community College &middot; Gresham, OR &middot; posted Sep 25</div>
+                    <div class="cd-mdiff"><b>Differs:</b> credit courses with grading, and asks for a teaching statement.</div></div>
+                  <div class="cd-mside"><span class="cd-score warm">74</span><span class="cd-star">&#9734;</span><span class="cd-btn sm">Posting</span><span class="cd-btn sm ghost">Dismiss</span></div>
+                </div>
+                <div class="cd-mrow">
+                  <button type="button" class="cd-mbox" role="checkbox" aria-checked="false" aria-label="Pick Teaching Artist, Songwriting"></button>
+                  <div><div class="cd-mtitle">Teaching Artist, Songwriting</div>
+                    <div class="cd-mmeta">Bridgetown Youth Studio &middot; Portland, OR &middot; posted Sep 24</div>
+                    <div class="cd-mdiff"><b>Differs:</b> a youth program with daytime hours, and songwriting rather than theory.</div>
+                    <div class="cd-mdismiss cd-hl" data-hl="21"><span class="cd-hl-n">21</span><div class="cd-input">Daytime hours clash with my studio teaching.</div><span class="cd-btn sm">Dismiss</span><span class="cd-btn sm ghost">Cancel</span></div></div>
+                  <div class="cd-mside"><span class="cd-score warm">58</span><span class="cd-star">&#9734;</span><span class="cd-btn sm">Posting</span><span class="cd-btn sm ghost">Dismiss</span></div>
+                </div>
+                <div class="cd-mfoot"><span class="cd-link">Show 5 more below 55</span><span class="cd-grow"></span><span class="cd-btn sm">Find more like Harbor Point Music School</span></div>
+              </section>
+              <div class="cd-selbar cd-hl" data-hl="22" data-cd-selbar><span class="cd-hl-n">22</span>
+                <b><span data-cd-seln>3</span> selected</b><span class="cd-hint">all like Harbor Point Music School</span>
+                <span class="cd-grow"></span>
+                <span class="cd-btn sm ghost">Clear</span><span class="cd-btn">Add to board only</span>
+                <span class="cd-btn pri" data-cd-selstart><span>Start <span data-cd-seln>3</span> from Harbor Point Music School</span></span>
+              </div>
+            </div>
+          </div>
+          <div class="cd-calls">
+            <div class="cd-call" data-for="19" data-at="below"><span class="cd-call-n">19</span><div class="cd-call-body"><div class="cd-call-t">Why no listing here is stale</div><div class="cd-call-s">It reads each employer's own job board, so a closed job is gone the moment it closes.</div></div></div>
+            <div class="cd-call" data-for="20" data-at="below-end"><span class="cd-call-n">20</span><div class="cd-call-body"><div class="cd-call-t">How new jobs are scored against what you sent</div><div class="cd-call-s">Each posting is matched to the application it most resembles, with what differs spelled out.</div></div></div>
+            <div class="cd-call" data-for="21" data-at="below"><span class="cd-call-n">21</span><div class="cd-call-body"><div class="cd-call-t">Why the search sharpens every week</div><div class="cd-call-s">Every dismissal takes a reason, and the matcher reads those reasons the next time.</div></div></div>
+            <div class="cd-call" data-for="22" data-at="above"><span class="cd-call-n">22</span><div class="cd-call-body"><div class="cd-call-t">How one sent application starts several</div><div class="cd-call-s">Tick the close matches and start them all from the documents you already sent. Try the boxes.</div><button class="cd-call-next" data-demo-next>Next: the batch &#8250;</button></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SLIDE 9 · THE BATCH ================================ -->
+      <section class="demo-car-slide" data-nav="more"
+               data-contrib="Start several at once, each planned for its own posting."
+               data-state-label="State of the batch"
+               data-state="3 applications from Harbor Point &middot; 2 waiting on your approval &middot; 1 still running."
+               data-title="Step 6: the batch">
+        <div class="cd-tour">
+          <div class="cd-frame">
+            <div class="cd-veil"></div>
+            <div class="cd-top"><span class="cd-brand">Career Desk</span><span class="cd-nav"><span class="cd-navlink">Board</span><span class="cd-navlink on">Leads</span></span><span class="cd-grow"></span></div>
+            <div class="cd-appbar">
+              <span class="cd-btn">&#8592; Leads</span>
+              <span class="t">Batch from Harbor Point Music School</span>
+              <span class="cd-pill">2 of 3 ready for you</span>
+              <span class="cd-grow"></span>
+              <span class="cd-btn">Stop after the current one</span>
+            </div>
+            <div class="cd-batchbody">
+              <div class="cd-sec">
+                <div class="cd-reqw"><table class="cd-req cd-btable">
+                  <thead><tr><th>Application</th><th>Steps</th><th>Needs you</th><th></th></tr></thead>
+                  <tbody>
+                    <tr><td><b>Westbrook Community Music Center</b><br><span class="cd-hint">Evening Theory and Musicianship Instructor</span></td>
+                      <td><div class="cd-rail cd-hl" data-hl="23"><span class="cd-hl-n">23</span><span class="cd-st done">&#10003; Folder</span><span class="cd-arr">&rarr;</span><span class="cd-st done">&#10003; Copy</span><span class="cd-arr">&rarr;</span><span class="cd-st done">&#10003; Intake</span><span class="cd-arr">&rarr;</span><span class="cd-st done">&#10003; Strategy</span><span class="cd-arr">&rarr;</span><span class="cd-st on">Approve the strategy</span><span class="cd-arr">&rarr;</span><span class="cd-st">CV</span><span class="cd-arr">&rarr;</span><span class="cd-st">Letter</span></div></td>
+                      <td><div class="cd-needs"><span class="cd-pill warn">2 changed sections to read</span><span class="cd-pill warn">1 open question</span></div></td>
+                      <td><span class="cd-btn sm pri">Open</span></td></tr>
+                    <tr><td><b>Tilikum Arts Collective</b><br><span class="cd-hint">Adult Education Music Instructor</span></td>
+                      <td><div class="cd-rail"><span class="cd-st done">&#10003; Folder</span><span class="cd-arr">&rarr;</span><span class="cd-st done">&#10003; Copy</span><span class="cd-arr">&rarr;</span><span class="cd-st done">&#10003; Intake</span><span class="cd-arr">&rarr;</span><span class="cd-st done">&#10003; Strategy</span><span class="cd-arr">&rarr;</span><span class="cd-st on">Approve the strategy</span><span class="cd-arr">&rarr;</span><span class="cd-st">CV</span><span class="cd-arr">&rarr;</span><span class="cd-st">Letter</span></div></td>
+                      <td><div class="cd-needs"><span class="cd-pill warn">1 changed section to read</span><span class="cd-pill warn">1 unconfirmed: Piano instruction</span></div></td>
+                      <td><span class="cd-btn sm pri">Open</span></td></tr>
+                    <tr><td><b>Alder Creek Community College</b><br><span class="cd-hint">Music Theory Adjunct</span></td>
+                      <td><div class="cd-rail"><span class="cd-st done">&#10003; Folder</span><span class="cd-arr">&rarr;</span><span class="cd-st done">&#10003; Copy</span><span class="cd-arr">&rarr;</span><span class="cd-st on">Intake&hellip;</span><span class="cd-arr">&rarr;</span><span class="cd-st">Strategy</span><span class="cd-arr">&rarr;</span><span class="cd-st">Approve</span></div></td>
+                      <td><span class="cd-hint">nothing yet</span></td>
+                      <td><span class="cd-btn sm">Open</span></td></tr>
+                  </tbody>
+                </table></div>
+              </div>
+              <div class="cd-sec quiet cd-hl" data-hl="24"><span class="cd-hl-n">24</span>
+                <h3>Where it stops</h3>
+                <p class="cd-hint">Each application runs Intake and Strategy, then waits for you to approve its strategy. Approving drafts from the plan, the same as any application. Nothing is signed off or sent without you. The others keep running while you work on the first one.</p>
+              </div>
+            </div>
+          </div>
+          <div class="cd-calls">
+            <div class="cd-call" data-for="23" data-at="below"><span class="cd-call-n">23</span><div class="cd-call-body"><div class="cd-call-t">How each copy is planned for its own job</div><div class="cd-call-s">Every job gets a fresh intake and a strategy written as a difference from the one you approved.</div></div></div>
+            <div class="cd-call" data-for="24" data-at="above"><span class="cd-call-n">24</span><div class="cd-call-body"><div class="cd-call-t">Why nothing goes out without you</div><div class="cd-call-s">Each copy stops at its strategy for your approval, and you still sign off and send every one.</div><button class="cd-call-next" data-cd-restart>Start over &#8634;</button></div></div>
           </div>
         </div>
       </section>
@@ -9820,7 +10281,7 @@ For six years I have taught theory&hellip;</div>
 
   <div class="cd-gate"><div class="demo-gate-in">
       <button type="button" class="cd-gate-btn" data-cd-start>Start the walkthrough &#8250;</button>
-      <span class="cd-gate-sub">12 steps &middot; opens full screen &middot; Esc to close</span>
+      <span class="cd-gate-sub">24 steps &middot; opens full screen &middot; Esc to close</span>
     </div></div>
 
   <div class="demo-controls">
@@ -11204,6 +11665,71 @@ For six years I have taught theory&hellip;</div>
   initTour(document.querySelector('.grant-demo[data-demo-panel]'), 'gt');
   initTour(document.querySelector('.social-demo[data-demo-panel]'), 'st');
   initTour(document.querySelector('.campaign-demo[data-demo-panel]'), 'ct');
+})();
+</script>
+  <!-- Career Desk: the three screens that answer a click (from demo/career-desk-demo-v2.html). -->
+<script>
+(function () {
+  'use strict';
+
+  // The parts of the screens that answer a click, so three steps can be tried
+  // rather than only read: the "Your call" buttons on an intake requirement,
+  // accept and reject on a review mark, and the tick boxes on Leads. Nothing
+  // here touches the tour; a transplant copies this block as is.
+  var root = document.querySelector('.desk-demo[data-demo-panel]');
+  if (!root) return;
+  var all = function (el, sel) { return Array.prototype.slice.call(el.querySelectorAll(sel)); };
+
+  // Intake: one call per requirement, and the line under it says what the
+  // plan does with that call.
+  all(root, '[data-cd-calls]').forEach(function (box) {
+    all(box, '[data-call]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var pick = b.getAttribute('data-call');
+        all(box, '[data-call]').forEach(function (x) {
+          var on = x === b;
+          x.classList.toggle('on', on);
+          x.setAttribute('aria-pressed', String(on));
+        });
+        all(box, '[data-note]').forEach(function (n) { n.hidden = n.getAttribute('data-note') !== pick; });
+      });
+    });
+  });
+
+  // Review: accepting or rejecting a mark restyles its row and the same mark
+  // on the preview.
+  all(root, '.cd-mk-row[data-mark]').forEach(function (row) {
+    var slide = row.closest('.demo-car-slide');
+    var mark = slide.querySelector('.cd-mk[data-mark="' + row.getAttribute('data-mark') + '"]');
+    all(row, '[data-mk]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var rejected = b.getAttribute('data-mk') === 'no';
+        row.classList.toggle('rejected', rejected);
+        if (mark) mark.classList.toggle('rej', rejected);
+        all(row, '[data-mk]').forEach(function (x) { x.classList.toggle('on', x === b); });
+      });
+    });
+  });
+
+  // Leads: ticking rows counts them into the selection bar.
+  all(root, '.cd-mgroup').forEach(function (group) {
+    var slide = group.closest('.demo-car-slide');
+    function count() {
+      var n = all(slide, '.cd-mbox[aria-checked="true"]').length;
+      all(slide, '[data-cd-seln]').forEach(function (el) { el.textContent = String(n); });
+      var start = slide.querySelector('[data-cd-selstart]');
+      if (start) start.classList.toggle('off', n === 0);
+    }
+    all(group, '.cd-mbox').forEach(function (box) {
+      box.addEventListener('click', function () {
+        var on = box.getAttribute('aria-checked') !== 'true';
+        box.setAttribute('aria-checked', String(on));
+        box.innerHTML = on ? '&#10003;' : '';
+        box.closest('.cd-mrow').classList.toggle('picked', on);
+        count();
+      });
+    });
+  });
 })();
 </script>
 
