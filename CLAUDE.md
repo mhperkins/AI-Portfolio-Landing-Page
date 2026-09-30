@@ -854,8 +854,9 @@ Every step carries a number (amber, green once seen; the order lives in `ORDER`)
 number, a title and one sentence on that part's role in the process. Controls outside the steps are
 plain UI. **Chord A's second take (first inversion) is the demo's, not Max's data.** Private artifact:
 https://claude.ai/artifact/SnPzvrvyGCS7zmVB2u9Mp6 (version 7). See the session entry below.
-**Next (Max's call):** decide whether it replaces the page's Compass tour (`cc-`, from
-`compass-tutorial-demo.html`), and whether the intake names (Anthony Kalanick, Daria) can go public.
+**Names are placeholders** (Max, 2026-09-30): `[Soloist]` in the intake, `[Pianist]` in the thread;
+keep real performer names out of this demo. **Not going on the portfolio yet** (Max, 2026-09-30); the
+page keeps its Compass tour (`cc-`) until he says otherwise.
 
 **Hired at Innodata, 2026-09-29, latest (no site files touched).** Max got the Generative AI Associate
 role: part-time contract, 15 to 30 hours a week, starting September 2026. He keeps applying for full-time
@@ -1022,7 +1023,8 @@ Effort: low to medium, on Opus 5.5. One file, `demo/compass-desk-demo.html`; the
   Screenshots checked by eye.
 - **Artifact:** republished in place to https://claude.ai/artifact/SnPzvrvyGCS7zmVB2u9Mp6 (private).
 
-**Open:** transplant onto `index.html` or keep the tutorial; public names in the intake and thread.
+**Settled after the commit:** names became placeholders (`[Soloist]`, `[Pianist]`), and the demo stays
+off `index.html` for now (both Max's calls).
 
 ### Session of 2026-09-30: the Career Desk v2 walkthrough (pushed, live)
 
