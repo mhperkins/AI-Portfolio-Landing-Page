@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Career Desk Walkthrough v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Barlow+Condensed:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#0b0f0d; --box:#141a17; --line:#243029; --line2:#2f3d34; --ink:#e9efea; --dim:#93a09a;
+    --faint:#6d7a74; --brand:#348a58; --brand-dim:#2d7a4f; --warn:#c8922f; }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:44px 16px 72px; background:var(--bg); color:var(--ink);
+    font:14px/1.5 Inter, system-ui, sans-serif; }
+  .slide { max-width:1080px; margin:0 auto; }
+  .kicker { font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--brand); }
+  h1 { font-family:"Barlow Condensed",sans-serif; font-size:52px; margin:8px 0 10px; line-height:1.02; }
+  .sub { color:var(--dim); font-size:15.5px; margin:0 0 24px; max-width:790px; }
+  .badges { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:28px; }
+  .badge { font-size:12px; font-weight:500; padding:4px 11px; border-radius:999px; border:1px solid var(--line2); background:var(--box); color:var(--dim); }
+  .ok { color:#7fd3a0; border-color:var(--brand-dim); background:rgba(52,138,88,.12); }
+  .warn { color:#e6c078; border-color:#6b5420; background:rgba(200,146,47,.10); }
+  .mono { font-family:"JetBrains Mono",monospace; font-size:11.5px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:14px; }
+  .card { background:var(--box); border:1px solid var(--line); border-radius:12px; padding:18px 20px; }
+  .card h2 { display:flex; align-items:center; gap:10px; font-size:15px; font-weight:600; margin:0 0 10px; }
+  .card h2 svg { flex:none; color:var(--brand); }
+  .card ul { margin:0; padding-left:18px; color:var(--dim); }
+  .card li { margin:4px 0; }
+  .card b { color:var(--ink); font-weight:500; }
+  .open { border-color:#6b5420; } .open h2 svg { color:var(--warn); }
+  footer { margin-top:28px; color:var(--faint); font-size:12px; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="kicker">Delivery · 2026-09-30 · AI Tool Portfolio</div>
+  <h1>Career Desk walkthrough, version 2</h1>
+  <p class="sub">The Career Desk tab showed the app as it stood on Sept 18. It now walks the app as it is: add a job, plan it, draft, review, send, then find more like it. Built standalone, then merged into the site and pushed.</p>
+  <div class="badges">
+    <span class="badge ok mono">913d9f3</span>
+    <span class="badge ok mono">4eeea9e</span>
+    <span class="badge ok mono">5e0ab40</span>
+    <span class="badge ok mono">72a51f5</span>
+    <span class="badge mono">main</span>
+    <span class="badge ok">Pushed, live</span>
+    <span class="badge">Effort: medium</span>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg>24 steps, six stages</h2>
+      <ul>
+        <li><b>Add the job</b>: link, start from, the job card</li>
+        <li><b>Plan</b>: Intake requirements with sources, then the Strategy sheet</li>
+        <li><b>Draft, Review, Send</b>: pinned plan, suggestion card, marks, sign off</li>
+        <li><b>Find more</b>: Leads scored against what you sent, then the batch</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 2l7.5 18 2.5-7 7-2.5z"/></svg>Three steps you can try</h2>
+      <ul>
+        <li><b>I have it / I don't / I don't know</b> on an intake requirement</li>
+        <li><b>Accept or reject</b> a review mark, and the preview follows</li>
+        <li><b>Tick boxes</b> on Leads recount "Start N from Harbor Point"</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/></svg>On the page</h2>
+      <ul>
+        <li>Heading: <b>From a job posting to the next ones like it</b></li>
+        <li>Cards in Max's order: <b>job search</b>, <b>the plan</b>, <b>draft to sent</b></li>
+        <li>Runs on the shared initTour(); the shared script was not touched</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/></svg>Committed</h2>
+      <ul>
+        <li><b>demo/career-desk-demo-v2.html</b>, the new iteration source</li>
+        <li><b>index.html</b>: CSS, markup, live script, heading, cards</li>
+        <li><b>CLAUDE.md</b>: Current State, the session entry, the Files row</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>Verified headless</h2>
+      <ul>
+        <li>Standalone: <b>1,832 of 1,832</b> at 1280, 960, 1440 and 390 touch</li>
+        <li>Page: <b>1,826 of 1,832</b>; the 6 are arrow keys, which turn slides on every tour</li>
+        <li>No popup over its highlight, zero script errors, zero em dashes</li>
+      </ul>
+    </div>
+    <div class="card open">
+      <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>Open</h2>
+      <ul>
+        <li>Max reviews the <b>24 popups</b> and the <b>three cards</b> (Claude's drafts)</li>
+        <li>Another session's edits to compass-desk-demo.html stay uncommitted</li>
+      </ul>
+    </div>
+  </div>
+  <footer>Commits 913d9f3, 4eeea9e, 5e0ab40, 72a51f5 on main · ai-portfolio-landing-page.vercel.app/#career-desk</footer>
+</div>
+</body>
+</html>
