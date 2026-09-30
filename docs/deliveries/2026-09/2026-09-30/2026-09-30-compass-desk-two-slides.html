@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compass Desk Click-Through</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Barlow+Condensed:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#0b0f0d; --box:#141a17; --line:#243029; --line2:#2f3d34; --ink:#e9efea; --dim:#93a09a;
+    --faint:#6d7a74; --brand:#348a58; --brand-dim:#2d7a4f; --warn:#c8922f; --amber:#d97706; }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:44px 16px 72px; background:var(--bg); color:var(--ink); font:14px/1.5 Inter, system-ui, sans-serif; }
+  .slide { max-width:1080px; margin:0 auto; }
+  .kicker { font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--brand); }
+  h1 { font-family:"Barlow Condensed",sans-serif; font-size:52px; margin:8px 0 10px; line-height:1.02; }
+  .sub { color:var(--dim); font-size:15.5px; margin:0 0 24px; max-width:790px; }
+  .badges { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:28px; }
+  .badge { font-size:12px; font-weight:500; padding:4px 11px; border-radius:999px; border:1px solid var(--line2); background:var(--box); color:var(--dim); }
+  .ok { color:#7fd3a0; border-color:var(--brand-dim); background:rgba(52,138,88,.12); }
+  .warn { color:#e6c078; border-color:#6b5420; background:rgba(200,146,47,.10); }
+  .mono { font-family:"JetBrains Mono",monospace; font-size:11.5px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:14px; }
+  .card { background:var(--box); border:1px solid var(--line); border-radius:12px; padding:18px 20px; }
+  .card h2 { display:flex; align-items:center; gap:10px; font-size:15px; font-weight:600; margin:0 0 10px; }
+  .card h2 svg { flex:none; color:var(--brand); }
+  .card ul { margin:0; padding-left:18px; color:var(--dim); }
+  .card li { margin:4px 0; }
+  .card b { color:var(--ink); font-weight:500; }
+  .steps { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+  .step { display:inline-flex; align-items:center; gap:6px; font-size:12px; color:var(--dim); border:1px solid var(--line2); border-radius:999px; padding:2px 10px 2px 3px; }
+  .step i { font-style:normal; width:18px; height:18px; border-radius:50%; display:grid; place-items:center; background:var(--amber); color:#fff; font-size:10.5px; font-weight:600; }
+  .open { border-color:#6b5420; } .open h2 svg { color:var(--warn); }
+  footer { margin-top:28px; color:var(--faint); font-size:12px; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="kicker">Delivery · 2026-09-30 · AI Tool Portfolio</div>
+  <h1>Compass Desk demo: two slides you work through</h1>
+  <p class="sub">The Compass demo was six slides of loose hotspots. It is now two full Desks, one per piece, clicked through in numbered order, each popup one sentence on what that part does in the process. Standalone: not linked from the site.</p>
+  <div class="badges">
+    <span class="badge ok mono">1878cee</span>
+    <span class="badge ok mono">main · pushed</span>
+    <span class="badge ok">19 steps verified at 1280 and 390</span>
+    <span class="badge">demo/compass-desk-demo.html</span>
+    <span class="badge warn">Not on index.html yet</span>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>Clarinet Concerto, from scratch</h2>
+      <ul><li>The plan, then the first material made from it.</li><li><b>Chord A appears on Place as new</b>; its second take is the demo's.</li></ul>
+      <div class="steps"><span class="step"><i>1</i>Intake</span><span class="step"><i>2</i>Guide</span><span class="step"><i>3</i>Constitution</span><span class="step"><i>4</i>Add a tile</span><span class="step"><i>5</i>Load</span><span class="step"><i>6</i>Circles</span><span class="step"><i>7</i>Place as new</span><span class="step"><i>8</i>Rotate</span><span class="step"><i>9</i>Takes</span></div>
+    </div>
+    <div class="card">
+      <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v10M11 4v10M15 4v10M19 4v10"/></svg>Piano Sonata mvt 2, from a draft</h2>
+      <ul><li>Thread, score and recording on the desk.</li><li>The missing variation sketched, then worked through with the Workshop.</li></ul>
+      <div class="steps"><span class="step"><i>1</i>Thread</span><span class="step"><i>2</i>Intake</span><span class="step"><i>3</i>Constitution</span><span class="step"><i>4</i>PDF / Measures</span><span class="step"><i>5</i>Recording</span><span class="step"><i>6</i>Keypad</span><span class="step"><i>7</i>Workshop</span><span class="step"><i>8</i>See more</span><span class="step"><i>9</i>Put on page</span><span class="step"><i>10</i>Add</span></div>
+    </div>
+    <div class="card">
+      <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>Max's calls this session</h2>
+      <ul><li>Sketch material on screen from the start.</li><li>A number on every clickable part; <b>one-sentence popups</b>.</li><li>Set builder and takes merged into the sketch (full merge, chosen from a wireframe).</li><li><b>Two slides</b>, trimmed to 9 + 10 steps.</li><li>Add-tile buttons as one target; Place as new before Rotate.</li></ul>
+    </div>
+    <div class="card open">
+      <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Open</h2>
+      <ul><li>Replace the page's Compass tour with this, or keep the tutorial.</li><li>Public names: the intake names Anthony Kalanick, the thread names Daria.</li><li>Private artifact, version 7, for review.</li></ul>
+    </div>
+  </div>
+  <footer>Branch main · commit 1878cee · docs/ is excluded from the Vercel deploy.</footer>
+</div>
+</body>
+</html>
