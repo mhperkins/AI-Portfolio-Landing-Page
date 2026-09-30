@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compass Desk Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Barlow+Condensed:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#0b0f0d; --box:#141a17; --line:#243029; --line2:#2f3d34; --ink:#e9efea; --dim:#93a09a;
+    --faint:#6d7a74; --brand:#348a58; --brand-dim:#2d7a4f; --warn:#c8922f; }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:44px 16px 72px; background:var(--bg); color:var(--ink);
+    font:14px/1.5 Inter, system-ui, sans-serif; }
+  .slide { max-width:1080px; margin:0 auto; }
+  .kicker { font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--brand); }
+  h1 { font-family:"Barlow Condensed",sans-serif; font-size:52px; margin:8px 0 10px; line-height:1.02; }
+  .sub { color:var(--dim); font-size:15.5px; margin:0 0 24px; max-width:790px; }
+  .badges { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:28px; }
+  .badge { font-size:12px; font-weight:500; padding:4px 11px; border-radius:999px; border:1px solid var(--line2); background:var(--box); color:var(--dim); }
+  .ok { color:#7fd3a0; border-color:var(--brand-dim); background:rgba(52,138,88,.12); }
+  .warn { color:#e6c078; border-color:#6b5420; background:rgba(200,146,47,.10); }
+  .mono { font-family:"JetBrains Mono",monospace; font-size:11.5px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:14px; }
+  .card { background:var(--box); border:1px solid var(--line); border-radius:12px; padding:18px 20px; }
+  .card h2 { display:flex; align-items:center; gap:10px; font-size:15px; font-weight:600; margin:0 0 10px; }
+  .card h2 svg { flex:none; color:var(--brand); }
+  .card ul { margin:0; padding-left:18px; color:var(--dim); }
+  .card li { margin:4px 0; }
+  .card b { color:var(--ink); font-weight:500; }
+  .open { border-color:#6b5420; } .open h2 svg { color:var(--warn); }
+  footer { margin-top:28px; color:var(--faint); font-size:12px; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="kicker">Delivery · 2026-09-29 · AI Tool Portfolio</div>
+  <h1>The Compass Desk demo</h1>
+  <p class="sub">The Compass redesign made the page's Compass tour show an app that no longer exists. A new standalone demo explores the Desk through two real pieces: click what glows, and each part acts and explains itself.</p>
+  <div class="badges">
+    <span class="badge ok mono">44a1143</span>
+    <span class="badge mono">main</span>
+    <span class="badge ok">Pushed</span>
+    <span class="badge">Effort: medium</span>
+    <span class="badge warn">Standalone, not on index.html</span>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M15 4v16"/></svg>Six slides, two pieces</h2>
+      <ul>
+        <li><b>Clarinet Concerto</b> from scratch: Plan, Sketch, Set builder</li>
+        <li><b>Piano Sonata mvt 2</b> from a draft: From a draft, Takes, Workshop</li>
+        <li>All content from Max's own Compass backup of Sep 29</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8" stroke-dasharray="3 3"/></svg>Explore, not a sequence</h2>
+      <ul>
+        <li><b>34 hotspots</b> pulse with a dashed amber outline</li>
+        <li>A click runs the real action: nodes drop open, takes switch, the Workshop expands</li>
+        <li>One <b>title and subtitle</b> popup per hotspot, an Explored counter per slide</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>Music that works</h2>
+      <ul>
+        <li>Notation drawn in SVG: four-staff Var. 4 tile, <b>G♭ and 4/2</b> from the keypad</li>
+        <li>The set builder clock in four circles; <b>Rotate</b> walks Chord A inside the hexachord</li>
+        <li>The mvt 2 recording plays; tiles play through Web Audio</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/></svg>Committed</h2>
+      <ul>
+        <li><b>demo/compass-desk-demo.html</b> (prefix dk)</li>
+        <li><b>demo/assets/</b>: sonata-mvt2-p1 and p2 webp, a 45-second excerpt mp3</li>
+        <li><b>CLAUDE.md</b>: Current State, the session entry, the Files row</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>Verified headless</h2>
+      <ul>
+        <li>Every hotspot opens its popup at 1280</li>
+        <li>No sideways scroll at 390 on any slide</li>
+        <li>Zero script errors, zero em dashes</li>
+      </ul>
+    </div>
+    <div class="card open">
+      <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>Open</h2>
+      <ul>
+        <li>Max edits the <b>content and flow</b></li>
+        <li>Public names: Anthony Kalanick and Daria appear in the content</li>
+        <li>Replace the page's Compass tour, or keep the tutorial</li>
+      </ul>
+    </div>
+  </div>
+  <footer>Commit 44a1143 on main · ai-portfolio-landing-page · artifact claude.ai/artifact/SnPzvrvyGCS7zmVB2u9Mp6</footer>
+</div>
+</body>
+</html>
