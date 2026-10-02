@@ -790,7 +790,11 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--amber-
   }
 
   // ---------------- hotspots: [title, subtitle, action] ----------------
-  function card(el) { el.classList.toggle('is-closed'); }
+  // Accordion: opening a card closes any other open card in the same zone.
+  function card(el) {
+    if (el.classList.contains('is-closed')) el.closest('.dk-zbody').querySelectorAll('.dk-card:not(.is-closed)').forEach(function (c) { c.classList.add('is-closed'); });
+    el.classList.toggle('is-closed');
+  }
   // Relabel a hotspot without losing its step number.
   function setTxt(el, html) { var n = el.querySelector(':scope > .hs-n'); el.innerHTML = html; if (n) el.insertBefore(n, el.firstChild); }
   var HS = {
