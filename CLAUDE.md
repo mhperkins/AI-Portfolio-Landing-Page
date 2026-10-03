@@ -832,7 +832,7 @@ horizontal scrollers (reachable by swiping); the 36px page overflow is the pre-e
 
 This site is served from its Vercel default domain (ai-portfolio-landing-page.vercel.app). No custom domain is attached to it.
 
-**Where things stand (2026-09-30).** **The Career Desk tab runs the v2 walkthrough, pushed and live.**
+**Where things stand (2026-10-02).** **The Career Desk tab runs the v2 walkthrough, pushed and live.**
 It has 24 steps over the app as it is now: add the job, plan it (Intake, then Strategy), draft, review,
 send, then find more like it (Leads and the batch). Three steps answer a click. The Sept 18 twelve-step
 tour is gone from the page. The tab heading and all three cards were rewritten, and the cards now run
@@ -852,8 +852,10 @@ slides, each the whole Desk worked as if live**, all content from Max's own data
 
 Every step carries a number (amber, green once seen; the order lives in `ORDER`), and each popup is the
 number, a title and one sentence on that part's role in the process. Controls outside the steps are
-plain UI. **Chord A's second take (first inversion) is the demo's, not Max's data.** Private artifact:
-https://claude.ai/artifact/SnPzvrvyGCS7zmVB2u9Mp6 (version 7). See the session entry below.
+plain UI. **Pre-comp cards open as an accordion** (2026-10-02): opening one closes the other open
+card in its zone. **Chord A's second take (first inversion) is the demo's, not Max's data.** Private
+artifact: https://claude.ai/artifact/SnPzvrvyGCS7zmVB2u9Mp6 (version 7, predates the accordion). See
+the session entries below.
 **Names are placeholders** (Max, 2026-09-30): `[Soloist]` in the intake, `[Pianist]` in the thread;
 keep real performer names out of this demo. **Not going on the portfolio yet** (Max, 2026-09-30); the
 page keeps its Compass tour (`cc-`) until he says otherwise.
@@ -998,7 +1000,19 @@ Social's button stays in view 500px into the card; then the full suite again, 0 
 - `demo/agency-demo.html` is still the pinned carousel.
 - `teaching.html` (branch `teaching-page`): decide whether it gets the tour treatment before it merges.
 
-### Session of 2026-09-30, latest: the Compass Desk demo becomes a two-slide click-through (standalone)
+### Session of 2026-10-02: Pre-comp cards open as an accordion (standalone demo)
+
+Effort: low. One function in `demo/compass-desk-demo.html` (`card()`); not linked from `index.html`.
+
+- **Max's call:** clicking a Pre-comp card closes the one already open. `card()` now closes every other
+  open `.dk-card` in the same `.dk-zbody` before opening the clicked one; clicking the open card still
+  closes it. Both Pre-comp zones (Concerto and Sonata) use it.
+- **Process:** built on branch `desk-accordion` in a worktree, fast-forwarded into `main` as `270e4d8`,
+  pushed, worktree and branch removed.
+- **Not verified in a browser.** The check was that all six card hotspots route through `card()`.
+- **The private artifact (version 7) predates this change**; republish if it is still the review copy.
+
+### Session of 2026-09-30: the Compass Desk demo becomes a two-slide click-through (standalone)
 
 Effort: low to medium, on Opus 5.5. One file, `demo/compass-desk-demo.html`; the live site is untouched
 (the demo is not linked from `index.html`). Two wireframe calls went to Max through AskUserQuestion.

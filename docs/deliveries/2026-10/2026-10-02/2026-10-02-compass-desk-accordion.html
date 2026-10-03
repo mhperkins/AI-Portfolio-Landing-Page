@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pre-comp Accordion</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Barlow+Condensed:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#0b0f0d; --box:#141a17; --line:#243029; --line2:#2f3d34; --ink:#e9efea; --dim:#93a09a;
+    --faint:#6d7a74; --brand:#348a58; --brand-dim:#2d7a4f; --warn:#c8922f; }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:44px 16px 72px; background:var(--bg); color:var(--ink); font:14px/1.5 Inter, system-ui, sans-serif; }
+  .slide { max-width:1080px; margin:0 auto; }
+  .kicker { font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--brand); }
+  h1 { font-family:"Barlow Condensed",sans-serif; font-size:52px; margin:8px 0 10px; line-height:1.02; }
+  .sub { color:var(--dim); font-size:15.5px; margin:0 0 24px; max-width:790px; }
+  .badges { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:28px; }
+  .badge { font-size:12px; font-weight:500; padding:4px 11px; border-radius:999px; border:1px solid var(--line2); background:var(--box); color:var(--dim); }
+  .ok { color:#7fd3a0; border-color:var(--brand-dim); background:rgba(52,138,88,.12); }
+  .warn { color:#e6c078; border-color:#6b5420; background:rgba(200,146,47,.10); }
+  .mono { font-family:"JetBrains Mono",monospace; font-size:11.5px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:14px; }
+  .card { background:var(--box); border:1px solid var(--line); border-radius:12px; padding:18px 20px; }
+  .card h2 { display:flex; align-items:center; gap:10px; font-size:15px; font-weight:600; margin:0 0 10px; }
+  .card h2 svg { flex:none; color:var(--brand); }
+  .card ul { margin:0; padding-left:18px; color:var(--dim); }
+  .card li { margin:4px 0; }
+  .card b { color:var(--ink); font-weight:500; }
+  pre { margin:10px 0 0; padding:10px 12px; background:var(--bg); border:1px solid var(--line); border-radius:8px; overflow-x:auto; font:11.5px/1.5 "JetBrains Mono",monospace; color:var(--dim); }
+  .open { border-color:#6b5420; } .open h2 svg { color:var(--warn); }
+  footer { margin-top:28px; color:var(--faint); font-size:12px; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="kicker">Delivery · 2026-10-02 · AI Tool Portfolio</div>
+  <h1>Pre-comp cards open one at a time</h1>
+  <p class="sub">In the Compass Desk demo, opening a Pre-comp card now closes the one already open, so a zone never stacks two long cards. The demo is standalone: the site does not link to it.</p>
+  <div class="badges">
+    <span class="badge ok mono">270e4d8</span>
+    <span class="badge ok mono">main · pushed</span>
+    <span class="badge">demo/compass-desk-demo.html</span>
+    <span class="badge warn">Not browser-verified</span>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>The change</h2>
+      <ul><li><code>card()</code> closes every other open card in the zone, then opens the clicked one.</li><li>Clicking the open card still closes it.</li><li>Applies to <b>both Pre-comp zones</b>: Concerto and Sonata.</li></ul>
+      <pre>if (el.classList.contains('is-closed'))
+  el.closest('.dk-zbody')
+    .querySelectorAll('.dk-card:not(.is-closed)')
+    .forEach(c =&gt; c.classList.add('is-closed'));
+el.classList.toggle('is-closed');</pre>
+    </div>
+    <div class="card">
+      <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="12" r="2"/><path d="M6 8v8M8 6c6 0 8 2 8 4"/></svg>How it shipped</h2>
+      <ul><li>Branch <b>desk-accordion</b> in its own worktree.</li><li>Fast-forwarded into <b>main</b> as <span class="mono">270e4d8</span> and pushed.</li><li>Worktree and branch removed.</li></ul>
+    </div>
+    <div class="card open">
+      <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>Open</h2>
+      <ul><li>Click through it once in a browser.</li><li>The private artifact (version 7) predates this change: republish it if it is still the review copy.</li><li>The demo stays off index.html for now.</li></ul>
+    </div>
+  </div>
+  <footer>Branch main · code commit 270e4d8 · docs/ is excluded from the Vercel deploy.</footer>
+</div>
+</body>
+</html>
